@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4E6A7A0E-DDD8-4BAA-8B22-C964069364ED}</ProjectGuid>
+    <ProjectName>Kurumi</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\cocos2d-x\cocos\2d\cocos2dx.props" />
+    <Import Project="..\..\cocos2d-x\cocos\2d\cocos2d_headers.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\cocos2d-x\cocos\2d\cocos2dx.props" />
+    <Import Project="..\..\cocos2d-x\cocos\2d\cocos2d_headers.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir>$(Configuration).win32\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath);</SourcePath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir>$(Configuration).win32\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes;$(ProjectDir)..\Classes\runtime;$(ProjectDir)..\Classes\protobuf-lite;$(ProjectDir)..\Classes\deps\libuv\src;$(ProjectDir)..\Classes\lua-modules\pbc\src;$(ProjectDir)..\Classes\lua-modules\pbc;$(ProjectDir)..\Classes\lua-modules\pbc\binding;$(ProjectDir)..\Classes\deps\libuv\include;$(ProjectDir)..\Classes\lua-modules\net\tcpSocket;$(EngineRoot)external\win32-specific\zlib\include;$(EngineRoot)cocos\scripting\lua-bindings\auto;$(EngineRoot)cocos\scripting\lua-bindings\manual;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\lua\lua;$(EngineRoot)external\lua\tolua;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)external\curl\include\win32;$(EngineRoot)extensions;$(EngineRoot)tools\simulator\libsimulator\lib;$(EngineRoot)tools\simulator\libsimulator\lib\protobuf-lite;$(EngineRoot);%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;COCOS2D_DEBUG=1;GLFW_EXPOSE_NATIVE_WIN32;GLFW_EXPOSE_NATIVE_WGL;_USRLUASTATIC;_USRLIBSIMSTATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+      <ProgramDatabaseFile>$(ProjectDir)../../../simulator/win32/$(TargetName).pdb</ProgramDatabaseFile>
+      <OutputFile>$(ProjectDir)../../../simulator/win32/$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\include;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <HeaderFileName>Kurumi.h</HeaderFileName>
+      <InterfaceIdentifierFileName>Kurumi_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>Kurumi_p.c</ProxyFileName>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)/Kurumi.tlb</TypeLibraryName>
+      <DllDataFileName>
+      </DllDataFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <CustomBuildStep>
+      <Command>if not exist "$(LocalDebuggerWorkingDirectory)" mkdir "$(LocalDebuggerWorkingDirectory)"
+xcopy /Y /Q "$(OutDir)*.dll" "$(LocalDebuggerWorkingDirectory)"
+xcopy /Y /Q "$(ProjectDir)..\Classes\ide-support\lang" "$(LocalDebuggerWorkingDirectory)"
+xcopy "$(ProjectDir)..\..\..\res" "$(LocalDebuggerWorkingDirectory)\res" /D /E /I /F /Y
+xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /I /F /Y</Command>
+      <Outputs>$(TargetName).cab</Outputs>
+      <Inputs>$(TargetFileName)</Inputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes;$(EngineRoot)external\win32-specific\zlib\include;$(EngineRoot)cocos\scripting\lua-bindings\auto;$(EngineRoot)cocos\scripting\lua-bindings\manual;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\lua\lua;$(EngineRoot)external\lua\tolua;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;$(EngineRoot)external\curl\include\win32;$(EngineRoot);$(EngineRoot)tools\simulator\libsimulator\lib;$(EngineRoot)tools\simulator\libsimulator\lib\protobuf-lite;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGSNDEBUG;GLFW_EXPOSE_NATIVE_WIN32;GLFW_EXPOSE_NATIVE_WGL;_USRLUASTATIC;_USRLIBSIMSTATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <ForcedIncludeFiles>algorithm</ForcedIncludeFiles>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\include;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <HeaderFileName>Kurumi.h</HeaderFileName>
+      <InterfaceIdentifierFileName>Kurumi_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>Kurumi_p.c</ProxyFileName>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)/Kurumi.tlb</TypeLibraryName>
+      <DllDataFileName>
+      </DllDataFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\android-ifaddrs.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\pthread-barrier.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\stdint-msvc2008.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\tree.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-aix.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-bsd.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-darwin.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-errno.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-linux.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-os390.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-posix.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-sunos.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-threadpool.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-unix.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-version.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv-win.h" />
+    <ClInclude Include="..\Classes\deps\libuv\include\uv.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\heap-inl.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\queue.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\uv-common.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\atomicops-inl.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\handle-inl.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\internal.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\req-inl.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\stream-inl.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\winapi.h" />
+    <ClInclude Include="..\Classes\deps\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
+    <ClInclude Include="..\Classes\ide-support\lua_debugger.h" />
+    <ClInclude Include="..\Classes\ide-support\RuntimeLuaImpl.h" />
+    <ClInclude Include="..\Classes\lua-modules\cjson\fpconv.h" />
+    <ClInclude Include="..\Classes\lua-modules\cjson\lua_cjson.h" />
+    <ClInclude Include="..\Classes\lua-modules\cjson\strbuf.h" />
+    <ClInclude Include="..\Classes\lua-modules\gamecore\FSM.h" />
+    <ClInclude Include="..\Classes\lua-modules\gamecore\GameActor.h" />
+    <ClInclude Include="..\Classes\lua-modules\gamecore\GameAttribute.h" />
+    <ClInclude Include="..\Classes\lua-modules\gamecore\GameMath.h" />
+    <ClInclude Include="..\Classes\lua-modules\gamecore\GameWord.h" />
+    <ClInclude Include="..\Classes\lua-modules\gamecore\lua_gamecore.h" />
+    <ClInclude Include="..\Classes\lua-modules\lfs\lfs.h" />
+    <ClInclude Include="..\Classes\lua-modules\LuaFunction.hpp" />
+    <ClInclude Include="..\Classes\lua-modules\lua_modules.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\Client.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\lua_net.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\md5.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPBuffer.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPClient.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPCommon.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPServer.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPSocket.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPUtils.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\ThreadMsg.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\alloc.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\array.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\bootstrap.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\context.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\descriptor.pbc.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\map.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\pattern.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\proto.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\stringpool.h" />
+    <ClInclude Include="..\Classes\lua-modules\pbc\src\varint.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SimulatorWin.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\deps\libuv\src\fs-poll.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\inet.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\threadpool.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\uv-common.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\uv-data-getter-setters.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\version.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\async.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\core.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\detect-wakeup.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\dl.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\error.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\fs-event.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\fs.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\getaddrinfo.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\getnameinfo.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\handle.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\loop-watcher.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\pipe.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\poll.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\process-stdio.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\process.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\req.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\signal.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\snprintf.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\stream.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\tcp.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\thread.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\timer.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\tty.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\udp.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\util.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\winapi.c" />
+    <ClCompile Include="..\Classes\deps\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
+    <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\bit\bit.c" />
+    <ClCompile Include="..\Classes\lua-modules\cjson\fpconv.c" />
+    <ClCompile Include="..\Classes\lua-modules\cjson\lua_cjson.c" />
+    <ClCompile Include="..\Classes\lua-modules\cjson\strbuf.c" />
+    <ClCompile Include="..\Classes\lua-modules\gamecore\GameActor.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\gamecore\GameMath.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\gamecore\GameWord.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\gamecore\lua_gamecore.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\lfs\lfs.c" />
+    <ClCompile Include="..\Classes\lua-modules\LuaFunction.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\lua_modules.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\Client.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\lua_net.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\tcpSocket\md5.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\tcpSocket\TCPClient.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\tcpSocket\TCPCommon.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\tcpSocket\TCPServer.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\tcpSocket\TCPSocket.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\tcpSocket\TCPUtils.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\binding\lua\pbc-lua.c" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\alloc.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\array.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\bootstrap.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\context.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\decode.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\map.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\pattern.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\proto.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\register.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\rmessage.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\stringpool.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\varint.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\pbc\src\wmessage.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="SimulatorWin.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\game.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\cocos2d-x\cocos\2d\libcocos2d.vcxproj">
+      <Project>{98a51ba8-fc3a-415b-ac8f-8c7bd464e93e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\cocos2d-x\cocos\scripting\lua-bindings\proj.win32\libluacocos2d.vcxproj">
+      <Project>{9f2d6ce6-c893-4400-b50c-6db70cc2562f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\cocos2d-x\tools\simulator\libsimulator\proj.win32\libsimulator.vcxproj">
+      <Project>{001b324a-bb91-4e83-875c-c92f75c40857}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Classes\lua-modules\pbc\pbc\pbc-Prefix.pch" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
