@@ -14,9 +14,18 @@ LOCAL_SRC_FILES := \
 ../../../Classes/ide-support/SimpleConfigParser.cpp \
 ../../../Classes/ide-support/RuntimeLuaImpl.cpp \
 ../../../Classes/ide-support/lua_debugger.c \
+../../../Classes/net/Client.cpp \
+../../../Classes/gamecore/GameActor.cpp \
+../../../Classes/gamecore/GameMath.cpp \
+../../../Classes/gamecore/GameWord.cpp \
+../../../Classes/lua_game.cpp \
 hellolua/main.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
+					$(LOCAL_PATH)/../../../Classes/lua-modules/net \
+					$(LOCAL_PATH)/../../../Classes/lua-modules/net/libuv/include \
+					$(LOCAL_PATH)/../../../Classes/lua-modules
+
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END

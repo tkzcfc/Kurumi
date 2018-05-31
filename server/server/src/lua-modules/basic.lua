@@ -1,5 +1,5 @@
 -- usage: (use instead of ant)
--- tolua++ "-L" "basic.lua" "-o" "../../scripting/lua/cocos2dx_support/LuaCocos2d.cpp" "Cocos2d.pkg"
+-- tolua++ -L basic.lua -o lua_dubase.cpp dubase.pkg
 
 _is_functions = _is_functions or {}
 _to_functions = _to_functions or {}

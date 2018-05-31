@@ -6,23 +6,20 @@
 extern "C" {
 #endif
 
-	// cjson
+// cjson
 #include "cjson/lua_cjson.h"
-
-	//lfs
+//lfs
 #include "lfs/lfs.h"
+//bit
+extern int luaopen_bit(lua_State *L);
+//pbc
+extern int luaopen_protobuf_c(lua_State *L);
 
-	//bit
-	extern int luaopen_bit(lua_State *L);
-
-	//pbc
-	extern int luaopen_protobuf_c(lua_State *L);
 #if __cplusplus
 } /// extern "C"
 #endif
 
 #include "net/lua_net.h"
-#include "gamecore/lua_gamecore.h"
 
 
 static luaL_Reg modules[] = {
@@ -31,17 +28,13 @@ static luaL_Reg modules[] = {
     { NULL, NULL }
 };
 
-
 void preload_lua_modules(lua_State *L)
 {
 	// load tolua...
 	tolua_net_open(L);
-
-	tolua_gamecore_open(L);
-
 	//load pbc
 	luaopen_protobuf_c(L);
-
+	//lfs
 	luaopen_lfs(L);
 
     // load extensions

@@ -1,4 +1,0 @@
-$pfile "FSM.pkg"
-$pfile "GameActor.pkg"
-$pfile "GameAttribute.pkg"
-$pfile "GameWord.pkg"

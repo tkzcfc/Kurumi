@@ -1,6 +1,6 @@
 /*
 ** Lua binding: dubase
-** Generated automatically by tolua++-1.0.92 on 05/04/18 16:31:43.
+** Generated automatically by tolua++-1.0.92 on 05/31/18 22:09:14.
 */
 
 #include "tolua_fix.h"
@@ -13,7 +13,7 @@ TOLUA_API int  tolua_dubase_open (lua_State* tolua_S);
 
 #include "DUObject.h"
 #include "DUScheduler.h"
-#include "DUServer.h"
+#include "net/DUServer.h"
 
 /* function to release collected object via destructor */
 #ifdef __cplusplus

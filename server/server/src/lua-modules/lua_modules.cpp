@@ -14,7 +14,7 @@ extern "C" {
 #endif
 
 #include "tolua_fix.h"
-#include "uvtcp/lua_uvtcp.h"
+#include "lua_net.h"
 #include "lua_dubase.h"
 
 
@@ -33,7 +33,7 @@ extern "C" {
 void preload_lua_modules(lua_State *L)
 {
 	toluafix_open(L);
-	tolua_uvtcp_open(L);
+	tolua_net_open(L);
 	tolua_dubase_open(L);
 	// load pbc
 	luaopen_protobuf_c(L);

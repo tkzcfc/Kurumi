@@ -12,41 +12,8 @@
     <Filter Include="module">
       <UniqueIdentifier>{0c64a86f-856b-4c80-8bd5-c092733ade66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="module\lfs">
-      <UniqueIdentifier>{1bc33916-1d4b-4afd-9b0d-9ab5d2823205}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\libuv">
-      <UniqueIdentifier>{1d35e7ee-e67a-4836-a945-07823d74c045}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\libuv\include">
-      <UniqueIdentifier>{4b47bb64-61e2-450f-9406-4fe5f35c0163}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\libuv\uvtcp">
-      <UniqueIdentifier>{0c3f9db3-c8d4-457b-87e9-41104427d51d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\libuv\src">
-      <UniqueIdentifier>{b80932fb-4b92-4221-8c32-28daa8d484f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\libuv\src\win">
-      <UniqueIdentifier>{0016cfd5-2169-4125-9a9d-bede20090aef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="module\lua">
       <UniqueIdentifier>{c7877628-4a6d-461e-b330-b1835f2ab48f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\pbc">
-      <UniqueIdentifier>{ae7151a3-8e58-4ecc-9e1b-baed73134147}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\pbc\binding">
-      <UniqueIdentifier>{25883045-b2ed-4bb7-a01c-3ae1a62dccc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\pbc\binding\lua">
-      <UniqueIdentifier>{54627491-6a46-467d-b544-7ce772cfcbbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\pbc\binding\pbc">
-      <UniqueIdentifier>{52fedf33-e8a0-4c77-9290-c98c370dd9c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\pbc\binding\src">
-      <UniqueIdentifier>{f5ebeafd-6c33-4f00-aa33-587d4d02faeb}</UniqueIdentifier>
     </Filter>
     <Filter Include="lua-modules">
       <UniqueIdentifier>{fec36dac-6ebd-42b0-b73d-1658850abfa6}</UniqueIdentifier>
@@ -60,127 +27,46 @@
     <Filter Include="net">
       <UniqueIdentifier>{8ee391cd-5100-4617-8b6f-c1804b09645c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lua-modules\net">
+      <UniqueIdentifier>{c0267b87-320e-4581-a1f3-366196de096e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\libuv">
+      <UniqueIdentifier>{a211c89c-c513-4a40-8ecc-736778f1e474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\libuv\include">
+      <UniqueIdentifier>{7d56ff97-0af0-43ae-ae1d-bda925480320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\libuv\src">
+      <UniqueIdentifier>{7181845b-ea63-4c71-9a69-674b28f1c253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\libuv\src\win">
+      <UniqueIdentifier>{084e309f-ad0b-434f-96e7-e2beb757807b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\tcpSocket">
+      <UniqueIdentifier>{8689a14a-1388-42d5-9537-64b6c5130c00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\lfs">
+      <UniqueIdentifier>{1bc33916-1d4b-4afd-9b0d-9ab5d2823205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\pbc">
+      <UniqueIdentifier>{07bf1188-0344-47f2-a3a8-8eb6ddd5906c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\pbc\binding">
+      <UniqueIdentifier>{4ada0b01-17dc-4c1c-83dc-af5d2c0a8ee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\pbc\binding\lua">
+      <UniqueIdentifier>{7f8b4f9b-2f14-456b-a579-b208dc36bcdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\pbc\pbc">
+      <UniqueIdentifier>{5f213155-15c0-4ca6-b1ca-a68921651c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\pbc\src">
+      <UniqueIdentifier>{71a331a1-fb55-4a49-8601-c00ffbeb21c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\external\libuv\uvtcp\TCPServer.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\uvtcp\TCPSocket.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\uvtcp\TCPClient.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\uvtcp\TCPCommon.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\threadpool.c">
-      <Filter>module\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\uv-common.c">
-      <Filter>module\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\uv-data-getter-setters.c">
-      <Filter>module\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\version.c">
-      <Filter>module\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\fs-poll.c">
-      <Filter>module\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\inet.c">
-      <Filter>module\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\fs.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\fs-event.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\getaddrinfo.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\getnameinfo.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\handle.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\loop-watcher.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\pipe.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\poll.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\process.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\process-stdio.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\req.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\signal.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\snprintf.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\stream.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\tcp.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\thread.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\timer.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\tty.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\udp.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\util.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\winapi.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\winsock.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\async.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\core.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\detect-wakeup.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\dl.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\src\win\error.c">
-      <Filter>module\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\uvtcp\md5.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\uvtcp\TCPUtils.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClCompile>
     <ClCompile Include="..\external\lfs\lfs.c">
-      <Filter>module\lfs</Filter>
+      <Filter>lua-modules\lfs</Filter>
     </ClCompile>
     <ClCompile Include="..\external\lua\ldblib.c">
       <Filter>module\lua</Filter>
@@ -275,56 +161,8 @@
     <ClCompile Include="..\external\lua\lcode.c">
       <Filter>module\lua</Filter>
     </ClCompile>
-    <ClCompile Include="..\external\pbc\binding\lua\pbc-lua.c">
-      <Filter>module\pbc\binding\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\alloc.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\array.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\bootstrap.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\context.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\decode.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\map.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\pattern.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\proto.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\register.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\rmessage.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\stringpool.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\varint.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\pbc\src\wmessage.cpp">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua-modules\LuaFunction.cpp">
-      <Filter>lua-modules</Filter>
-    </ClCompile>
     <ClCompile Include="src\lua-modules\lua_modules.cpp">
       <Filter>lua-modules</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\libuv\uvtcp\lua_uvtcp.cpp">
-      <Filter>module\libuv\uvtcp</Filter>
     </ClCompile>
     <ClCompile Include="..\external\tolua\tolua_push.c">
       <Filter>module\tolua</Filter>
@@ -365,112 +203,175 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\binding\lua\pbc-lua.c">
+      <Filter>lua-modules\pbc\binding\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\pattern.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\proto.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\register.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\rmessage.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\stringpool.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\varint.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\wmessage.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\alloc.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\array.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\bootstrap.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\context.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\decode.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\map.cpp">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\inet.c">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\threadpool.c">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\uv-common.c">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\uv-data-getter-setters.c">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\version.c">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\fs-poll.c">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\error.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\fs.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\fs-event.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\getaddrinfo.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\getnameinfo.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\handle.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\loop-watcher.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\pipe.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\poll.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\process.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\process-stdio.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\req.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\signal.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\snprintf.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\stream.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\tcp.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\thread.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\timer.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\tty.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\udp.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\util.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winapi.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winsock.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\async.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\core.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\detect-wakeup.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\dl.c">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\md5.cpp">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPClient.cpp">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPCommon.cpp">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPServer.cpp">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPSocket.cpp">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPUtils.cpp">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\LuaFunction.cpp">
+      <Filter>lua-modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.cpp">
+      <Filter>lua-modules\net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\external\libuv\uvtcp\TCPServer.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\TCPSocket.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\ThreadMsg.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\TCPClient.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\TCPCommon.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\queue.h">
-      <Filter>module\libuv\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\uv-common.h">
-      <Filter>module\libuv\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\heap-inl.h">
-      <Filter>module\libuv\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\handle-inl.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\internal.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\req-inl.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\stream-inl.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\winapi.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\winsock.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\src\win\atomicops-inl.h">
-      <Filter>module\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-darwin.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-errno.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-linux.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-os390.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-posix.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-sunos.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-threadpool.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-unix.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-version.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-win.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\android-ifaddrs.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\pthread-barrier.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\stdint-msvc2008.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\tree.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-aix.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\include\uv-bsd.h">
-      <Filter>module\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\md5.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\TCPUtils.h">
-      <Filter>module\libuv\uvtcp</Filter>
-    </ClInclude>
     <ClInclude Include="..\external\lfs\lfs.h">
-      <Filter>module\lfs</Filter>
+      <Filter>lua-modules\lfs</Filter>
     </ClInclude>
     <ClInclude Include="..\external\lua\lcode.h">
       <Filter>module\lua</Filter>
@@ -544,40 +445,7 @@
     <ClInclude Include="..\external\lua\lauxlib.h">
       <Filter>module\lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\external\pbc\src\stringpool.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\varint.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\alloc.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\array.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\bootstrap.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\context.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\descriptor.pbc.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\map.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\pattern.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\pbc\src\proto.h">
-      <Filter>module\pbc\binding\src</Filter>
-    </ClInclude>
     <ClInclude Include="src\lua-modules\lua_modules.h">
-      <Filter>lua-modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua-modules\LuaFunction.hpp">
       <Filter>lua-modules</Filter>
     </ClInclude>
     <ClInclude Include="..\external\tolua\tolua++.h">
@@ -585,9 +453,6 @@
     </ClInclude>
     <ClInclude Include="..\external\tolua\tolua_event.h">
       <Filter>module\tolua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\external\libuv\uvtcp\lua_uvtcp.h">
-      <Filter>module\libuv\uvtcp</Filter>
     </ClInclude>
     <ClInclude Include="src\net\DUServer.h">
       <Filter>net</Filter>
@@ -616,13 +481,154 @@
     <ClInclude Include="src\DUGame.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\map.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\pattern.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\proto.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\stringpool.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\varint.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\alloc.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\array.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\bootstrap.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\context.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\descriptor.pbc.h">
+      <Filter>lua-modules\pbc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-os390.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-posix.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-sunos.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-threadpool.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-unix.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-version.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-win.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\android-ifaddrs.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\pthread-barrier.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\stdint-msvc2008.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\tree.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-aix.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-bsd.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-darwin.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-errno.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-linux.h">
+      <Filter>lua-modules\net\libuv\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\heap-inl.h">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\queue.h">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\uv-common.h">
+      <Filter>lua-modules\net\libuv\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\handle-inl.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\internal.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\req-inl.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\stream-inl.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winapi.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winsock.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\atomicops-inl.h">
+      <Filter>lua-modules\net\libuv\src\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\md5.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPBuffer.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPClient.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPCommon.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPServer.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPSocket.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPUtils.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\ThreadMsg.h">
+      <Filter>lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\LuaFunction.hpp">
+      <Filter>lua-modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.h">
+      <Filter>lua-modules\net</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\external\lua\Makefile">
       <Filter>module\lua</Filter>
     </None>
-    <None Include="..\external\pbc\pbc\pbc-Prefix.pch">
-      <Filter>module\pbc\binding\pbc</Filter>
+    <None Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\pbc\pbc-Prefix.pch">
+      <Filter>lua-modules\pbc\pbc</Filter>
     </None>
   </ItemGroup>
 </Project>

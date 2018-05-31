@@ -10,12 +10,34 @@
 #include "DUScheduler.h"
 #include <stdarg.h>
 
+std::string getTime_Base()
+{
+	time_t timep;
+	time(&timep);
+	char tmp[64];
+	strftime(tmp, sizeof(tmp), "%Y-%m-%d %H:%M:%S", localtime(&timep));
+	return tmp;
+}
+
 void MyLog(const char* format, ...)
 {
-    va_list list;
-    va_start(list, format);
-    vprintf(format, list);
-    va_end(list);
+	va_list args;
+	char buf[2048];
+
+	va_start(args, format);
+	vsnprintf(buf, sizeof(buf), format, args);
+	va_end(args);
+
+	std::string str = getTime_Base();
+	str.append("[DU-BASE]: ");
+	str.append(buf);
+	str.append("\n");
+	printf("%s", str.c_str());
+
+    //va_list list;
+    //va_start(list, format);
+    //vprintf(format, list);
+    //va_end(list);
 }
 
 static unsigned int __objectCount = 0;

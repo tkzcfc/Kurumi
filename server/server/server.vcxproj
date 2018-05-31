@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../external/libuv/src;../external/libuv/include;../external/lua;../external/pbc/binding/lua;../external/tolua;../external/pbc/pbc;../external/pbc/src;../external/pbc;../external/lfs;src;src/base;../external/libuv;src/lua-modules;src/net;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../external/libuv/src;../external/libuv/include;../external/lua;../external/pbc/binding/lua;../external/pbc/pbc;../external/pbc/src;../external/pbc;../external/lfs;src;src/base;../external/libuv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,47 +147,62 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\LuaFunction.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\fs-poll.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\inet.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\threadpool.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\uv-common.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\uv-data-getter-setters.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\version.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\async.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\core.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\detect-wakeup.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\dl.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\error.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\fs-event.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\fs.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\getaddrinfo.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\getnameinfo.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\handle.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\loop-watcher.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\pipe.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\poll.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\process-stdio.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\process.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\req.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\signal.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\snprintf.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\stream.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\tcp.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\thread.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\timer.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\tty.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\udp.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\util.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winapi.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\md5.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPClient.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPCommon.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPServer.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPSocket.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPUtils.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\binding\lua\pbc-lua.c" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\alloc.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\array.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\bootstrap.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\context.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\decode.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\map.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\pattern.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\proto.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\register.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\rmessage.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\stringpool.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\varint.cpp" />
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\wmessage.cpp" />
     <ClCompile Include="..\external\lfs\lfs.c" />
-    <ClCompile Include="..\external\libuv\src\fs-poll.c" />
-    <ClCompile Include="..\external\libuv\src\inet.c" />
-    <ClCompile Include="..\external\libuv\src\threadpool.c" />
-    <ClCompile Include="..\external\libuv\src\uv-common.c" />
-    <ClCompile Include="..\external\libuv\src\uv-data-getter-setters.c" />
-    <ClCompile Include="..\external\libuv\src\version.c" />
-    <ClCompile Include="..\external\libuv\src\win\async.c" />
-    <ClCompile Include="..\external\libuv\src\win\core.c" />
-    <ClCompile Include="..\external\libuv\src\win\detect-wakeup.c" />
-    <ClCompile Include="..\external\libuv\src\win\dl.c" />
-    <ClCompile Include="..\external\libuv\src\win\error.c" />
-    <ClCompile Include="..\external\libuv\src\win\fs-event.c" />
-    <ClCompile Include="..\external\libuv\src\win\fs.c" />
-    <ClCompile Include="..\external\libuv\src\win\getaddrinfo.c" />
-    <ClCompile Include="..\external\libuv\src\win\getnameinfo.c" />
-    <ClCompile Include="..\external\libuv\src\win\handle.c" />
-    <ClCompile Include="..\external\libuv\src\win\loop-watcher.c" />
-    <ClCompile Include="..\external\libuv\src\win\pipe.c" />
-    <ClCompile Include="..\external\libuv\src\win\poll.c" />
-    <ClCompile Include="..\external\libuv\src\win\process-stdio.c" />
-    <ClCompile Include="..\external\libuv\src\win\process.c" />
-    <ClCompile Include="..\external\libuv\src\win\req.c" />
-    <ClCompile Include="..\external\libuv\src\win\signal.c" />
-    <ClCompile Include="..\external\libuv\src\win\snprintf.c" />
-    <ClCompile Include="..\external\libuv\src\win\stream.c" />
-    <ClCompile Include="..\external\libuv\src\win\tcp.c" />
-    <ClCompile Include="..\external\libuv\src\win\thread.c" />
-    <ClCompile Include="..\external\libuv\src\win\timer.c" />
-    <ClCompile Include="..\external\libuv\src\win\tty.c" />
-    <ClCompile Include="..\external\libuv\src\win\udp.c" />
-    <ClCompile Include="..\external\libuv\src\win\util.c" />
-    <ClCompile Include="..\external\libuv\src\win\winapi.c" />
-    <ClCompile Include="..\external\libuv\src\win\winsock.c" />
-    <ClCompile Include="..\external\libuv\uvtcp\lua_uvtcp.cpp" />
-    <ClCompile Include="..\external\libuv\uvtcp\md5.cpp" />
-    <ClCompile Include="..\external\libuv\uvtcp\TCPClient.cpp" />
-    <ClCompile Include="..\external\libuv\uvtcp\TCPCommon.cpp" />
-    <ClCompile Include="..\external\libuv\uvtcp\TCPServer.cpp" />
-    <ClCompile Include="..\external\libuv\uvtcp\TCPSocket.cpp" />
-    <ClCompile Include="..\external\libuv\uvtcp\TCPUtils.cpp" />
     <ClCompile Include="..\external\lua\lapi.c" />
     <ClCompile Include="..\external\lua\lauxlib.c" />
     <ClCompile Include="..\external\lua\lbaselib.c" />
@@ -219,20 +234,6 @@
     <ClCompile Include="..\external\lua\lvm.c" />
     <ClCompile Include="..\external\lua\lzio.c" />
     <ClCompile Include="..\external\lua\print.c" />
-    <ClCompile Include="..\external\pbc\binding\lua\pbc-lua.c" />
-    <ClCompile Include="..\external\pbc\src\alloc.cpp" />
-    <ClCompile Include="..\external\pbc\src\array.cpp" />
-    <ClCompile Include="..\external\pbc\src\bootstrap.cpp" />
-    <ClCompile Include="..\external\pbc\src\context.cpp" />
-    <ClCompile Include="..\external\pbc\src\decode.cpp" />
-    <ClCompile Include="..\external\pbc\src\map.cpp" />
-    <ClCompile Include="..\external\pbc\src\pattern.cpp" />
-    <ClCompile Include="..\external\pbc\src\proto.cpp" />
-    <ClCompile Include="..\external\pbc\src\register.cpp" />
-    <ClCompile Include="..\external\pbc\src\rmessage.cpp" />
-    <ClCompile Include="..\external\pbc\src\stringpool.cpp" />
-    <ClCompile Include="..\external\pbc\src\varint.cpp" />
-    <ClCompile Include="..\external\pbc\src\wmessage.cpp" />
     <ClCompile Include="..\external\tolua\tolua_event.c" />
     <ClCompile Include="..\external\tolua\tolua_fix.cpp" />
     <ClCompile Include="..\external\tolua\tolua_is.c" />
@@ -244,48 +245,59 @@
     <ClCompile Include="src\base\DUScheduler.cpp" />
     <ClCompile Include="src\base\DUSchedulerTimer.cpp" />
     <ClCompile Include="src\DUGame.cpp" />
-    <ClCompile Include="src\lua-modules\LuaFunction.cpp" />
     <ClCompile Include="src\lua-modules\lua_dubase.cpp" />
     <ClCompile Include="src\lua-modules\lua_modules.cpp" />
     <ClCompile Include="src\net\DUServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\LuaFunction.hpp" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\android-ifaddrs.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\pthread-barrier.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\stdint-msvc2008.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\tree.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-aix.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-bsd.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-darwin.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-errno.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-linux.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-os390.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-posix.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-sunos.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-threadpool.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-unix.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-version.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv-win.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\include\uv.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\heap-inl.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\queue.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\uv-common.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\atomicops-inl.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\handle-inl.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\internal.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\req-inl.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\stream-inl.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winapi.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\md5.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPBuffer.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPClient.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPCommon.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPServer.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPSocket.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPUtils.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\ThreadMsg.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\alloc.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\array.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\bootstrap.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\context.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\descriptor.pbc.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\map.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\pattern.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\proto.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\stringpool.h" />
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\src\varint.h" />
     <ClInclude Include="..\external\lfs\lfs.h" />
-    <ClInclude Include="..\external\libuv\include\android-ifaddrs.h" />
-    <ClInclude Include="..\external\libuv\include\pthread-barrier.h" />
-    <ClInclude Include="..\external\libuv\include\stdint-msvc2008.h" />
-    <ClInclude Include="..\external\libuv\include\tree.h" />
-    <ClInclude Include="..\external\libuv\include\uv-aix.h" />
-    <ClInclude Include="..\external\libuv\include\uv-bsd.h" />
-    <ClInclude Include="..\external\libuv\include\uv-darwin.h" />
-    <ClInclude Include="..\external\libuv\include\uv-errno.h" />
-    <ClInclude Include="..\external\libuv\include\uv-linux.h" />
-    <ClInclude Include="..\external\libuv\include\uv-os390.h" />
-    <ClInclude Include="..\external\libuv\include\uv-posix.h" />
-    <ClInclude Include="..\external\libuv\include\uv-sunos.h" />
-    <ClInclude Include="..\external\libuv\include\uv-threadpool.h" />
-    <ClInclude Include="..\external\libuv\include\uv-unix.h" />
-    <ClInclude Include="..\external\libuv\include\uv-version.h" />
-    <ClInclude Include="..\external\libuv\include\uv-win.h" />
-    <ClInclude Include="..\external\libuv\include\uv.h" />
-    <ClInclude Include="..\external\libuv\src\heap-inl.h" />
-    <ClInclude Include="..\external\libuv\src\queue.h" />
-    <ClInclude Include="..\external\libuv\src\uv-common.h" />
-    <ClInclude Include="..\external\libuv\src\win\atomicops-inl.h" />
-    <ClInclude Include="..\external\libuv\src\win\handle-inl.h" />
-    <ClInclude Include="..\external\libuv\src\win\internal.h" />
-    <ClInclude Include="..\external\libuv\src\win\req-inl.h" />
-    <ClInclude Include="..\external\libuv\src\win\stream-inl.h" />
-    <ClInclude Include="..\external\libuv\src\win\winapi.h" />
-    <ClInclude Include="..\external\libuv\src\win\winsock.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\lua_uvtcp.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\md5.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\TCPClient.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\TCPCommon.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\TCPServer.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\TCPSocket.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\TCPUtils.h" />
-    <ClInclude Include="..\external\libuv\uvtcp\ThreadMsg.h" />
     <ClInclude Include="..\external\lua\lapi.h" />
     <ClInclude Include="..\external\lua\lauxlib.h" />
     <ClInclude Include="..\external\lua\lcode.h" />
@@ -310,16 +322,6 @@
     <ClInclude Include="..\external\lua\lundump.h" />
     <ClInclude Include="..\external\lua\lvm.h" />
     <ClInclude Include="..\external\lua\lzio.h" />
-    <ClInclude Include="..\external\pbc\src\alloc.h" />
-    <ClInclude Include="..\external\pbc\src\array.h" />
-    <ClInclude Include="..\external\pbc\src\bootstrap.h" />
-    <ClInclude Include="..\external\pbc\src\context.h" />
-    <ClInclude Include="..\external\pbc\src\descriptor.pbc.h" />
-    <ClInclude Include="..\external\pbc\src\map.h" />
-    <ClInclude Include="..\external\pbc\src\pattern.h" />
-    <ClInclude Include="..\external\pbc\src\proto.h" />
-    <ClInclude Include="..\external\pbc\src\stringpool.h" />
-    <ClInclude Include="..\external\pbc\src\varint.h" />
     <ClInclude Include="..\external\tolua\tolua++.h" />
     <ClInclude Include="..\external\tolua\tolua_event.h" />
     <ClInclude Include="..\external\tolua\tolua_fix.h" />
@@ -329,14 +331,13 @@
     <ClInclude Include="src\base\DUSmartPtr.h" />
     <ClInclude Include="src\base\uthash.h" />
     <ClInclude Include="src\DUGame.h" />
-    <ClInclude Include="src\lua-modules\LuaFunction.hpp" />
     <ClInclude Include="src\lua-modules\lua_dubase.h" />
     <ClInclude Include="src\lua-modules\lua_modules.h" />
     <ClInclude Include="src\net\DUServer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\pbc\pbc\pbc-Prefix.pch" />
     <None Include="..\external\lua\Makefile" />
-    <None Include="..\external\pbc\pbc\pbc-Prefix.pch" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

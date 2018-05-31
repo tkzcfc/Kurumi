@@ -3,7 +3,7 @@
 
 $#include "DUObject.h"
 $#include "DUScheduler.h"
-$#include "DUServer.h"
+$#include "net/DUServer.h"
 
 class DUObject
 {
