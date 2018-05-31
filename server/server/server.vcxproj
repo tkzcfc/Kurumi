@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{32EC5964-F224-420C-86DD-16D5EAA77381}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>server</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>server</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../external/libuv/src;../external/libuv/include;../external/lua;../external/pbc/binding/lua;../external/tolua;../external/pbc/pbc;../external/pbc/src;../external/pbc;../external/lfs;src;src/base;../external/libuv;src/lua-modules;src/net;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\OpenSSL-Win64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../external/libuv/src;../external/libuv/include;../external/lua;../external/pbc/binding/lua;../external/pbc/pbc;../external/pbc/src;../external/pbc;../external/lfs;src;src/base;../external/libuv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\external\lfs\lfs.c" />
+    <ClCompile Include="..\external\libuv\src\fs-poll.c" />
+    <ClCompile Include="..\external\libuv\src\inet.c" />
+    <ClCompile Include="..\external\libuv\src\threadpool.c" />
+    <ClCompile Include="..\external\libuv\src\uv-common.c" />
+    <ClCompile Include="..\external\libuv\src\uv-data-getter-setters.c" />
+    <ClCompile Include="..\external\libuv\src\version.c" />
+    <ClCompile Include="..\external\libuv\src\win\async.c" />
+    <ClCompile Include="..\external\libuv\src\win\core.c" />
+    <ClCompile Include="..\external\libuv\src\win\detect-wakeup.c" />
+    <ClCompile Include="..\external\libuv\src\win\dl.c" />
+    <ClCompile Include="..\external\libuv\src\win\error.c" />
+    <ClCompile Include="..\external\libuv\src\win\fs-event.c" />
+    <ClCompile Include="..\external\libuv\src\win\fs.c" />
+    <ClCompile Include="..\external\libuv\src\win\getaddrinfo.c" />
+    <ClCompile Include="..\external\libuv\src\win\getnameinfo.c" />
+    <ClCompile Include="..\external\libuv\src\win\handle.c" />
+    <ClCompile Include="..\external\libuv\src\win\loop-watcher.c" />
+    <ClCompile Include="..\external\libuv\src\win\pipe.c" />
+    <ClCompile Include="..\external\libuv\src\win\poll.c" />
+    <ClCompile Include="..\external\libuv\src\win\process-stdio.c" />
+    <ClCompile Include="..\external\libuv\src\win\process.c" />
+    <ClCompile Include="..\external\libuv\src\win\req.c" />
+    <ClCompile Include="..\external\libuv\src\win\signal.c" />
+    <ClCompile Include="..\external\libuv\src\win\snprintf.c" />
+    <ClCompile Include="..\external\libuv\src\win\stream.c" />
+    <ClCompile Include="..\external\libuv\src\win\tcp.c" />
+    <ClCompile Include="..\external\libuv\src\win\thread.c" />
+    <ClCompile Include="..\external\libuv\src\win\timer.c" />
+    <ClCompile Include="..\external\libuv\src\win\tty.c" />
+    <ClCompile Include="..\external\libuv\src\win\udp.c" />
+    <ClCompile Include="..\external\libuv\src\win\util.c" />
+    <ClCompile Include="..\external\libuv\src\win\winapi.c" />
+    <ClCompile Include="..\external\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\external\libuv\uvtcp\lua_uvtcp.cpp" />
+    <ClCompile Include="..\external\libuv\uvtcp\md5.cpp" />
+    <ClCompile Include="..\external\libuv\uvtcp\TCPClient.cpp" />
+    <ClCompile Include="..\external\libuv\uvtcp\TCPCommon.cpp" />
+    <ClCompile Include="..\external\libuv\uvtcp\TCPServer.cpp" />
+    <ClCompile Include="..\external\libuv\uvtcp\TCPSocket.cpp" />
+    <ClCompile Include="..\external\libuv\uvtcp\TCPUtils.cpp" />
+    <ClCompile Include="..\external\lua\lapi.c" />
+    <ClCompile Include="..\external\lua\lauxlib.c" />
+    <ClCompile Include="..\external\lua\lbaselib.c" />
+    <ClCompile Include="..\external\lua\lcode.c" />
+    <ClCompile Include="..\external\lua\ldblib.c" />
+    <ClCompile Include="..\external\lua\ldebug.c" />
+    <ClCompile Include="..\external\lua\ldo.c" />
+    <ClCompile Include="..\external\lua\ldump.c" />
+    <ClCompile Include="..\external\lua\lfunc.c" />
+    <ClCompile Include="..\external\lua\lgc.c" />
+    <ClCompile Include="..\external\lua\linit.c" />
+    <ClCompile Include="..\external\lua\liolib.c" />
+    <ClCompile Include="..\external\lua\llex.c" />
+    <ClCompile Include="..\external\lua\lmathlib.c" />
+    <ClCompile Include="..\external\lua\lmem.c" />
+    <ClCompile Include="..\external\lua\loadlib.c" />
+    <ClCompile Include="..\external\lua\lobject.c" />
+    <ClCompile Include="..\external\lua\lopcodes.c" />
+    <ClCompile Include="..\external\lua\loslib.c" />
+    <ClCompile Include="..\external\lua\lparser.c" />
+    <ClCompile Include="..\external\lua\lstate.c" />
+    <ClCompile Include="..\external\lua\lstring.c" />
+    <ClCompile Include="..\external\lua\lstrlib.c" />
+    <ClCompile Include="..\external\lua\ltable.c" />
+    <ClCompile Include="..\external\lua\ltablib.c" />
+    <ClCompile Include="..\external\lua\ltm.c" />
+    <ClCompile Include="..\external\lua\lua.c" />
+    <ClCompile Include="..\external\lua\lundump.c" />
+    <ClCompile Include="..\external\lua\lvm.c" />
+    <ClCompile Include="..\external\lua\lzio.c" />
+    <ClCompile Include="..\external\lua\print.c" />
+    <ClCompile Include="..\external\pbc\binding\lua\pbc-lua.c" />
+    <ClCompile Include="..\external\pbc\src\alloc.cpp" />
+    <ClCompile Include="..\external\pbc\src\array.cpp" />
+    <ClCompile Include="..\external\pbc\src\bootstrap.cpp" />
+    <ClCompile Include="..\external\pbc\src\context.cpp" />
+    <ClCompile Include="..\external\pbc\src\decode.cpp" />
+    <ClCompile Include="..\external\pbc\src\map.cpp" />
+    <ClCompile Include="..\external\pbc\src\pattern.cpp" />
+    <ClCompile Include="..\external\pbc\src\proto.cpp" />
+    <ClCompile Include="..\external\pbc\src\register.cpp" />
+    <ClCompile Include="..\external\pbc\src\rmessage.cpp" />
+    <ClCompile Include="..\external\pbc\src\stringpool.cpp" />
+    <ClCompile Include="..\external\pbc\src\varint.cpp" />
+    <ClCompile Include="..\external\pbc\src\wmessage.cpp" />
+    <ClCompile Include="..\external\tolua\tolua_event.c" />
+    <ClCompile Include="..\external\tolua\tolua_fix.cpp" />
+    <ClCompile Include="..\external\tolua\tolua_is.c" />
+    <ClCompile Include="..\external\tolua\tolua_map.c" />
+    <ClCompile Include="..\external\tolua\tolua_push.c" />
+    <ClCompile Include="..\external\tolua\tolua_to.c" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\base\DUObject.cpp" />
+    <ClCompile Include="src\base\DUScheduler.cpp" />
+    <ClCompile Include="src\base\DUSchedulerTimer.cpp" />
+    <ClCompile Include="src\DUGame.cpp" />
+    <ClCompile Include="src\lua-modules\LuaFunction.cpp" />
+    <ClCompile Include="src\lua-modules\lua_dubase.cpp" />
+    <ClCompile Include="src\lua-modules\lua_modules.cpp" />
+    <ClCompile Include="src\net\DUServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\external\lfs\lfs.h" />
+    <ClInclude Include="..\external\libuv\include\android-ifaddrs.h" />
+    <ClInclude Include="..\external\libuv\include\pthread-barrier.h" />
+    <ClInclude Include="..\external\libuv\include\stdint-msvc2008.h" />
+    <ClInclude Include="..\external\libuv\include\tree.h" />
+    <ClInclude Include="..\external\libuv\include\uv-aix.h" />
+    <ClInclude Include="..\external\libuv\include\uv-bsd.h" />
+    <ClInclude Include="..\external\libuv\include\uv-darwin.h" />
+    <ClInclude Include="..\external\libuv\include\uv-errno.h" />
+    <ClInclude Include="..\external\libuv\include\uv-linux.h" />
+    <ClInclude Include="..\external\libuv\include\uv-os390.h" />
+    <ClInclude Include="..\external\libuv\include\uv-posix.h" />
+    <ClInclude Include="..\external\libuv\include\uv-sunos.h" />
+    <ClInclude Include="..\external\libuv\include\uv-threadpool.h" />
+    <ClInclude Include="..\external\libuv\include\uv-unix.h" />
+    <ClInclude Include="..\external\libuv\include\uv-version.h" />
+    <ClInclude Include="..\external\libuv\include\uv-win.h" />
+    <ClInclude Include="..\external\libuv\include\uv.h" />
+    <ClInclude Include="..\external\libuv\src\heap-inl.h" />
+    <ClInclude Include="..\external\libuv\src\queue.h" />
+    <ClInclude Include="..\external\libuv\src\uv-common.h" />
+    <ClInclude Include="..\external\libuv\src\win\atomicops-inl.h" />
+    <ClInclude Include="..\external\libuv\src\win\handle-inl.h" />
+    <ClInclude Include="..\external\libuv\src\win\internal.h" />
+    <ClInclude Include="..\external\libuv\src\win\req-inl.h" />
+    <ClInclude Include="..\external\libuv\src\win\stream-inl.h" />
+    <ClInclude Include="..\external\libuv\src\win\winapi.h" />
+    <ClInclude Include="..\external\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\lua_uvtcp.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\md5.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\TCPClient.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\TCPCommon.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\TCPServer.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\TCPSocket.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\TCPUtils.h" />
+    <ClInclude Include="..\external\libuv\uvtcp\ThreadMsg.h" />
+    <ClInclude Include="..\external\lua\lapi.h" />
+    <ClInclude Include="..\external\lua\lauxlib.h" />
+    <ClInclude Include="..\external\lua\lcode.h" />
+    <ClInclude Include="..\external\lua\ldebug.h" />
+    <ClInclude Include="..\external\lua\ldo.h" />
+    <ClInclude Include="..\external\lua\lfunc.h" />
+    <ClInclude Include="..\external\lua\lgc.h" />
+    <ClInclude Include="..\external\lua\llex.h" />
+    <ClInclude Include="..\external\lua\llimits.h" />
+    <ClInclude Include="..\external\lua\lmem.h" />
+    <ClInclude Include="..\external\lua\lobject.h" />
+    <ClInclude Include="..\external\lua\lopcodes.h" />
+    <ClInclude Include="..\external\lua\lparser.h" />
+    <ClInclude Include="..\external\lua\lstate.h" />
+    <ClInclude Include="..\external\lua\lstring.h" />
+    <ClInclude Include="..\external\lua\ltable.h" />
+    <ClInclude Include="..\external\lua\ltm.h" />
+    <ClInclude Include="..\external\lua\lua.h" />
+    <ClInclude Include="..\external\lua\lua.hpp" />
+    <ClInclude Include="..\external\lua\luaconf.h" />
+    <ClInclude Include="..\external\lua\lualib.h" />
+    <ClInclude Include="..\external\lua\lundump.h" />
+    <ClInclude Include="..\external\lua\lvm.h" />
+    <ClInclude Include="..\external\lua\lzio.h" />
+    <ClInclude Include="..\external\pbc\src\alloc.h" />
+    <ClInclude Include="..\external\pbc\src\array.h" />
+    <ClInclude Include="..\external\pbc\src\bootstrap.h" />
+    <ClInclude Include="..\external\pbc\src\context.h" />
+    <ClInclude Include="..\external\pbc\src\descriptor.pbc.h" />
+    <ClInclude Include="..\external\pbc\src\map.h" />
+    <ClInclude Include="..\external\pbc\src\pattern.h" />
+    <ClInclude Include="..\external\pbc\src\proto.h" />
+    <ClInclude Include="..\external\pbc\src\stringpool.h" />
+    <ClInclude Include="..\external\pbc\src\varint.h" />
+    <ClInclude Include="..\external\tolua\tolua++.h" />
+    <ClInclude Include="..\external\tolua\tolua_event.h" />
+    <ClInclude Include="..\external\tolua\tolua_fix.h" />
+    <ClInclude Include="src\base\DUObject.h" />
+    <ClInclude Include="src\base\DUScheduler.h" />
+    <ClInclude Include="src\base\DUSchedulerTimer.h" />
+    <ClInclude Include="src\base\DUSmartPtr.h" />
+    <ClInclude Include="src\base\uthash.h" />
+    <ClInclude Include="src\DUGame.h" />
+    <ClInclude Include="src\lua-modules\LuaFunction.hpp" />
+    <ClInclude Include="src\lua-modules\lua_dubase.h" />
+    <ClInclude Include="src\lua-modules\lua_modules.h" />
+    <ClInclude Include="src\net\DUServer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\external\lua\Makefile" />
+    <None Include="..\external\pbc\pbc\pbc-Prefix.pch" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
