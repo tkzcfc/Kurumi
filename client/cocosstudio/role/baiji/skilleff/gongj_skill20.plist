@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>gongj_skill2_dm.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{28,31}}</string>
+                <key>offset</key>
+                <string>{-35,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{1,0},{28,31}}</string>
+                <key>sourceSize</key>
+                <string>{100,31}</string>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>2</integer>
+            <key>realTextureFileName</key>
+            <string>gongj_skill20.png</string>
+            <key>size</key>
+            <string>{32,64}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:d8e7f883afdf8d7b0fcd7cfb037ddd96$</string>
+            <key>textureFileName</key>
+            <string>gongj_skill20.png</string>
+        </dict>
+    </dict>
+</plist>

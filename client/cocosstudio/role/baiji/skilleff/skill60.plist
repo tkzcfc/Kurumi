@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>skill6_guangzhu.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{203,122}}</string>
+                <key>offset</key>
+                <string>{2,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{4,0},{203,122}}</string>
+                <key>sourceSize</key>
+                <string>{207,122}</string>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>2</integer>
+            <key>realTextureFileName</key>
+            <string>skill60.pvr.ccz</string>
+            <key>size</key>
+            <string>{208,126}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:5e303d896e4825a8d1b8d823d91beb31:83a61a76125b2a3b3a09635333913a68:789303ac70898965aeb72bc2b66fc204$</string>
+            <key>textureFileName</key>
+            <string>skill60.pvr.ccz</string>
+        </dict>
+    </dict>
+</plist>
