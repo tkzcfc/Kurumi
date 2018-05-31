@@ -2,4 +2,8 @@
 server/server/Debug/
 client/simulator/
 client/runtime/
-client/frameworks/
+client/frameworks/cocos2d-x/
+client/frameworks/runtime-src/proj.android-studio/
+client/frameworks/runtime-src/proj.ios_mac/
+client/frameworks/runtime-src/proj.linux/
+client/frameworks/runtime-src/proj.win32/

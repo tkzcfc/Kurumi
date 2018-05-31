@@ -1,0 +1,49 @@
+$#include "Client.h"
+
+class TCPClient
+{
+	enum CONNECTSTATE
+	{
+		CONNECT,	//已连接
+		CONNECTING,	//正在连接
+		DISCONNECTING,//正在断开
+		DISCONNECT,//已断开
+	};
+};
+
+class Client
+{
+	static Client* getInstance();
+
+	static void destroy();
+
+	void setCallFunc(LuaFunction handle);
+
+	bool connect(const char* ip, int port, unsigned int key);
+
+	void disconnect(unsigned int key);
+
+	void closeClient();
+	
+	bool isCloseFinish();
+
+	bool send(unsigned int key, char* data, unsigned int len);
+
+	bool send(unsigned int key, char* data);
+
+	bool setNoDelay(bool enable);
+	
+	bool setKeepAlive(int enable, unsigned int delay);
+
+	TCPClient::CONNECTSTATE checkState(unsigned int key);
+
+	TCPClient::CONNECTSTATE checkState(const char* ip, unsigned int port);
+	
+	void setAutoReconnect(bool isAuto);
+	
+	void setAutoReconnectTime(float time);
+	
+	void setAutoReconnectByKey(unsigned int key, bool isAuto);
+	
+	void setAutoReconnectTimeByKey(unsigned int key, float time);
+};

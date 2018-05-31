@@ -1,0 +1,75 @@
+$#include "GameActor.h"
+
+
+enum GameActorType
+{
+	AT_MONSTER,
+	AT_NPC,
+	AT_PLAYER,
+	AT_NONE
+};
+
+class GameActor : public cc.Node
+{
+public:
+	static GameActor* create();
+
+	GameActor();
+
+	virtual ~GameActor();
+
+	GameAttribute* getGameAttribute();
+
+	QFSM* getFSM();
+	
+	ccs.Armature* getArmature();
+	
+	GameWord* getGameWord();
+
+	virtual bool init();
+
+	virtual void resetMoveSpeed(float x, float y);
+
+	// 附加移动属性
+	virtual void appendMoveSpeed(float x, float y);
+
+	// 逻辑更新
+	virtual void logicUpdate(float d);
+
+	// 是否可以移动
+	virtual bool isCanMove();
+
+	// 设置角色方向
+	virtual void setOrientation(short ori);
+
+	// 
+	virtual void loadArmature(const std::string& filepath);
+
+	virtual GameActorType getActorType();
+
+	virtual void setActorType(GameActorType type);
+
+	/// 位置相关
+	virtual const Vec2& getActorPosition();
+
+	virtual float getActorPositionX();
+
+	virtual float getActorPositionY();
+
+	virtual void setActorPosition(float x, float y);
+
+	virtual bool isRunAABB(GameActor* other);
+
+	// 攻击等级测试
+	/// true 大于传入actor
+	virtual bool attLevelTest(GameActor* other);
+
+	virtual void AABBCallback(GameActor* other);
+
+	// 攻击其他角色
+	virtual bool attOtherActorCallback(GameActor* other);
+
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
+
+	void unregisterLuaHandle(const std::string& name);
+};

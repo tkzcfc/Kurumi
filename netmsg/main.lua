@@ -64,6 +64,7 @@ deldir(pbDir)
 mkdir(pbDir)
 
 pbDir = check(pbDir)
+workRootPath = check(workRootPath)
 
 
 --get filename  

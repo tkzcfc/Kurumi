@@ -1,0 +1,104 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "TCPServer.h"
+$#include "TCPSocket.h"
+$#include "TCPClient.h"
+
+
+enum tcpSocketState
+{
+	tcps_dis_connect,
+	tcps_connecting,
+	tcps_connect
+};
+
+
+class TCPSocket
+{
+public:
+	
+	virtual ~TCPSocket();
+
+	void listen(const char* ip, unsigned int port);
+	
+	void connect(const char* ip, unsigned int port, unsigned int timeout);
+
+	bool reconnect();
+
+	bool isConnect();
+
+	void disconnect();
+
+	bool send(const char* data, unsigned int len);
+	
+	std::string getIp();
+	
+	unsigned int getPort();
+
+	tcpSocketState getState();
+
+	bool setNoDelay(bool enable);
+
+	bool setKeepAlive(int enable, unsigned int delay);
+
+};
+
+
+
+class TCPClient
+{
+public:
+	enum CONNECTSTATE
+	{
+		CONNECT,	//已连接
+		CONNECTING,	//正在连接
+		DISCONNECTING,//正在断开
+		DISCONNECT,//已断开
+	};
+public:
+
+	TCPClient();
+	~TCPClient();
+
+	//开始连接
+	bool connect(const char* ip, int port, unsigned int key, unsigned int timeout = 3000U);
+
+	void disconnect(unsigned int key);
+
+	//关闭客户端，调用此函数之后客户端将准备退出线程，该类其他方法将统统无法调用
+	void closeClient();
+	//查询客户端是否已经关闭完毕
+	//如果返回true，则可以进行该类的内存释放
+	//若返回false就进行内存释放时，该类将阻塞至线程完全退出
+	bool isCloseFinish();
+
+	bool send(unsigned int key, char* data, unsigned int len);
+
+	//是否启用TCP_NODELAY
+	bool setSocketNoDelay(bool enable);
+
+	//设置心跳
+	bool setSocketKeepAlive(int enable, unsigned int delay);
+
+	bool getAllThreadMsg(std::vector<ThreadMsg_C>* v);
+
+	TCPSocket* getSocketByKey(unsigned int key);
+
+	TCPClient::CONNECTSTATE checkState(unsigned int key);
+
+	TCPClient::CONNECTSTATE checkState(const char* ip, unsigned int port);
+
+	//设置所有socket是否自动重连
+	void setAutoReconnect(bool isAuto);
+
+	//设置所有socket自动重连时间(单位：S)
+	void setAutoReconnectTime(float time);
+
+	//是否自动重连
+	void setAutoReconnectByKey(unsigned int key, bool isAuto);
+
+	//自动重连时间(单位：S)
+	void setAutoReconnectTimeByKey(unsigned int key, float time);
+};
+
