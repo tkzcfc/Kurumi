@@ -1,0 +1,10 @@
+
+server/server/Debug/
+client/simulator/
+client/runtime/
+client/frameworks/cocos2d-x/
+client/frameworks/CMakeLists.txt
+client/frameworks/cocos2d-x/runtime-src/proj.android-studio/
+client/frameworks/cocos2d-x/runtime-src/proj.ios_mac/
+client/frameworks/cocos2d-x/runtime-src/proj.linux/
+client/frameworks/cocos2d-x/runtime-src/proj.win32/
