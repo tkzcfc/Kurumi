@@ -162,7 +162,7 @@ bool TCPClient::connect(const char* ip, int port, unsigned int key, unsigned int
 		cs->connectState = CONNECTSTATE::CONNECTING;
 #if OPEN_UV_THREAD_HEARTBEAT == 1
 		cs->curHeartCount = 0;
-		cs->curHeartTime = 0;
+		cs->curHeartTime = HEARTBEAT_COUNT_RESET_VALUE_CLIENT;
 #endif
 
 		uv_mutex_lock(&m_socketMutex);
@@ -342,7 +342,7 @@ void TCPClient::pushThreadMsg(ThreadMsgType type, unsigned int key, void* data, 
 		if (it != m_allSocketMap.end())
 		{
 			auto clientdata = it->second;
-			clientdata->curHeartCount = -1;
+			clientdata->curHeartCount = HEARTBEAT_COUNT_RESET_VALUE_CLIENT;
 			clientdata->curHeartTime = 0;
 			if (tag == TCPMsgTag::MT_HEARTBEAT)
 			{

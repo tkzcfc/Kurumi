@@ -58,8 +58,6 @@ public:
 
 	bool send(const char* data, unsigned int len, TCPMsgTag msgTag = TCPMsgTag::MT_DEFAULT);
 
-	bool send(const char* data);
-
 	uv_tcp_t* getTcp();
 	
 	std::string getIp();

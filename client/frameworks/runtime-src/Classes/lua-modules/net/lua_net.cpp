@@ -1,6 +1,6 @@
 /*
 ** Lua binding: net
-** Generated automatically by tolua++-1.0.92 on 05/31/18 22:20:05.
+** Generated automatically by tolua++-1.0.92 on 06/01/18 22:18:18.
 */
 
 #include "tolua_fix.h"
@@ -248,7 +248,8 @@ static int tolua_net_TCPSocket_send00(lua_State* tolua_S)
      !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -257,11 +258,12 @@ static int tolua_net_TCPSocket_send00(lua_State* tolua_S)
   TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
   const char* data = ((const char*)  tolua_tostring(tolua_S,2,0));
   unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  TCPMsgTag msgTag = ((TCPMsgTag) (int)  tolua_tonumber(tolua_S,4,TCPMsgTag::MT_DEFAULT));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->send(data,len);
+   bool tolua_ret = (bool)  self->send(data,len,msgTag);
    tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
@@ -673,7 +675,8 @@ static int tolua_net_TCPClient_send00(lua_State* tolua_S)
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isstring(tolua_S,3,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,5,&tolua_err)
+     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -683,11 +686,12 @@ static int tolua_net_TCPClient_send00(lua_State* tolua_S)
   unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
   char* data = ((char*)  tolua_tostring(tolua_S,3,0));
   unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+  TCPMsgTag tag = ((TCPMsgTag) (int)  tolua_tonumber(tolua_S,5,TCPMsgTag::MT_DEFAULT));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->send(key,data,len);
+   bool tolua_ret = (bool)  self->send(key,data,len,tag);
    tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
@@ -1046,6 +1050,8 @@ TOLUA_API int tolua_net_open (lua_State* tolua_S)
  tolua_reg_types(tolua_S);
  tolua_module(tolua_S,NULL,0);
  tolua_beginmodule(tolua_S,NULL);
+  tolua_constant(tolua_S,"MT_HEARTBEAT",MT_HEARTBEAT);
+  tolua_constant(tolua_S,"MT_DEFAULT",MT_DEFAULT);
   tolua_constant(tolua_S,"tcps_dis_connect",tcps_dis_connect);
   tolua_constant(tolua_S,"tcps_connecting",tcps_connecting);
   tolua_constant(tolua_S,"tcps_connect",tcps_connect);

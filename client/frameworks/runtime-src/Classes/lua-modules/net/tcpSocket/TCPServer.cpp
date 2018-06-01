@@ -214,7 +214,7 @@ void TCPServer::pushThreadMsg(ThreadMsgType type, void* psocket, void* data, con
 		{
 			if (it->s == (TCPSocket*)psocket)
 			{
-				it->curHeartCount = -2;
+				it->curHeartCount = HEARTBEAT_COUNT_RESET_VALUE_SERVER;
 				it->curHeartTime = 0;
 				if (tag == TCPMsgTag::MT_HEARTBEAT)
 				{
@@ -277,7 +277,7 @@ void TCPServer::addNewSocket(TCPSocket* s)
 		data.isInvalid = false;
 		data.releaseCount = TCP_SOCKET_DATD_RELEASE_COUNT;
 #if OPEN_UV_THREAD_HEARTBEAT == 1
-		data.curHeartCount = -2;
+		data.curHeartCount = HEARTBEAT_COUNT_RESET_VALUE_SERVER;
 		data.curHeartTime = 0;
 #endif
 		allSocket.push_back(data);

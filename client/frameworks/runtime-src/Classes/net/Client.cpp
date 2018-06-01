@@ -191,7 +191,6 @@ void Client::update(float)
 					//UV_LOG("uv RECV_DATA");
 					if (msg.tag == TCPMsgTag::MT_DEFAULT)
 					{
-
 						m_luaHandle.ppush();
 						m_luaHandle.pusharg("recv");
 						m_luaHandle.pushlstring((const char*)msg.data, (unsigned int)msg.dataLen);

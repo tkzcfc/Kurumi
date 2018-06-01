@@ -130,7 +130,7 @@ void printMemInfo()
 void tcp_uvLog(const char* format, ...)
 {
 	va_list args;
-	char buf[16386];
+	char buf[1024];
 
 	va_start(args, format);
 	vsnprintf(buf, sizeof(buf), format, args);
@@ -157,8 +157,6 @@ void tcp_uvLog(const char* format, ...)
 }
 
 #else
-
-
 #endif
 
 

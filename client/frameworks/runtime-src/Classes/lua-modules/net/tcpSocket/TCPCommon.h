@@ -33,8 +33,8 @@
 // 大消息最大发送大小
 // 如果消息头的长度字段大于该值
 // 则直接认定为该客户端发送的消息为非法消息
-// (10MB)
-#define TCP_BIG_MSG_MAX_LEN (1024 * 1024 * 10)
+// (4MB)
+#define TCP_BIG_MSG_MAX_LEN (1024 * 1024 * 4)
 
 // 单次消息发送最大字节
 // 若超过该长度，则进行分片发送
@@ -98,10 +98,16 @@ void tcp_uvLog(const char* format, ...);
 #define OPEN_UV_THREAD_HEARTBEAT 1
 
 #if OPEN_UV_THREAD_HEARTBEAT == 1
-#define HEARTBEAT_TIMER_DELAY (100)		// 心跳检测定时器间隔
+#define HEARTBEAT_TIMER_DELAY (200)		// 心跳检测定时器间隔
 #define HEARTBEAT_CHECK_DELAY (1000)	// 心跳检测时间
-#define HEARTBEAT_MAX_COUNT_SERVER 5	// 心跳不回复最大次数(服务端)
-#define HEARTBEAT_MAX_COUNT_CLIENT 5	// 心跳不回复最大次数(客户端)
+#define HEARTBEAT_MAX_COUNT_SERVER 3	// 心跳不回复最大次数(服务端)
+#define HEARTBEAT_MAX_COUNT_CLIENT 3	// 心跳不回复最大次数(客户端)
+
+// 心跳次数计数重置值(服务端) 小于0 
+// 当服务端该值比客户端小时，心跳请求一般由客户端发送，服务端进行回复
+#define HEARTBEAT_COUNT_RESET_VALUE_SERVER (-2) 
+// 心跳次数计数重置值(客户端) 小于0
+#define HEARTBEAT_COUNT_RESET_VALUE_CLIENT (-1)	
 #endif
 
 #define HEARTBEAT_MSG_C2S ((char)0)		// 客户端->服务器心跳探测消息

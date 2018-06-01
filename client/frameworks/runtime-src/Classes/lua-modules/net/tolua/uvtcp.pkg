@@ -6,6 +6,12 @@ $#include "TCPSocket.h"
 $#include "TCPClient.h"
 
 
+enum TCPMsgTag
+{
+	MT_HEARTBEAT,	// 心跳消息
+	MT_DEFAULT
+};
+
 enum tcpSocketState
 {
 	tcps_dis_connect,
@@ -30,7 +36,7 @@ public:
 
 	void disconnect();
 
-	bool send(const char* data, unsigned int len);
+	bool send(const char* data, unsigned int len, TCPMsgTag msgTag = TCPMsgTag::MT_DEFAULT);
 	
 	std::string getIp();
 	
@@ -73,7 +79,7 @@ public:
 	//若返回false就进行内存释放时，该类将阻塞至线程完全退出
 	bool isCloseFinish();
 
-	bool send(unsigned int key, char* data, unsigned int len);
+	bool send(unsigned int key, char* data, unsigned int len, TCPMsgTag tag = TCPMsgTag::MT_DEFAULT);
 
 	//是否启用TCP_NODELAY
 	bool setSocketNoDelay(bool enable);

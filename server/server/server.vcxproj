@@ -88,7 +88,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CONSOLE;COCOS2D_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -121,6 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +139,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

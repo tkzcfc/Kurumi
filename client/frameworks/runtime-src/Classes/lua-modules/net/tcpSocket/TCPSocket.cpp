@@ -423,11 +423,6 @@ bool TCPSocket::send(const char* data, unsigned int len, TCPMsgTag msgTag)
 	return true;
 }
 
-bool TCPSocket::send(const char* data)
-{
-	return send(data, strlen(data), TCPMsgTag::MT_DEFAULT);
-}
-
 uv_tcp_t* TCPSocket::getTcp() 
 {
 	uv_mutex_lock(&m_basedataMutex);
