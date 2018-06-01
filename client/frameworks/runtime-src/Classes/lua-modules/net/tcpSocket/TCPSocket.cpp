@@ -315,7 +315,7 @@ void TCPSocket::shutdownSocket()
 	uv_mutex_unlock(&m_basedataMutex);
 }
 
-bool TCPSocket::send(const char* data, unsigned int len)
+bool TCPSocket::send(const char* data, unsigned int len, TCPMsgTag msgTag)
 {
 	if (data == NULL || len <= 0)
 	{
@@ -340,7 +340,7 @@ bool TCPSocket::send(const char* data, unsigned int len)
 	if (getState() != tcpSocketState::tcps_connect)
 		return false;
 
-	const unsigned int headlen = sizeof(TCPMsgHead);
+	const static unsigned int headlen = sizeof(TCPMsgHead);
 
 #if OPEN_TCP_UV_MD5_CHECK == 1
 
@@ -356,6 +356,7 @@ bool TCPSocket::send(const char* data, unsigned int len)
 
 	TCPMsgHead* h = (TCPMsgHead*)p;
 	h->len = encodelen;
+	h->tag = msgTag;
 	memcpy(p + headlen, encodedata, encodelen);
 
 	fc_free(encodedata);
@@ -367,6 +368,7 @@ bool TCPSocket::send(const char* data, unsigned int len)
 	char* p = (char*)fc_malloc(headlen + len);
 	TCPMsgHead* h = (TCPMsgHead*)p;
 	h->len = len;
+	h->tag = msgTag;
 	memcpy(p + headlen, data, len);
 
 	blockdata block;
@@ -419,6 +421,11 @@ bool TCPSocket::send(const char* data, unsigned int len)
 	uv_async_send(m_writeAsync);
 
 	return true;
+}
+
+bool TCPSocket::send(const char* data)
+{
+	return send(data, strlen(data), TCPMsgTag::MT_DEFAULT);
 }
 
 uv_tcp_t* TCPSocket::getTcp() 
@@ -577,12 +584,20 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 	{
 		TCPMsgHead* h = (TCPMsgHead*)m_recvBuffer->getHeadBlockData();
 
-		//不合法客户端
+		//长度大于最大包长，不合法客户端
 		if (h->len > TCP_BIG_MSG_MAX_LEN)
 		{
 			this->resetReadBuffer();
 			this->disconnect();
 			UV_LOG("data is wrongful (1)!!!!");
+			break;
+		}
+		// 消息内容标记不合法
+		if (h->tag > TCPMsgTag::MT_DEFAULT)
+		{
+			this->resetReadBuffer();
+			this->disconnect();
+			UV_LOG("data is wrongful (2)!!!!");
 			break;
 		}
 
@@ -600,6 +615,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 
 			blockdata block;
 			block.data = tcp_uv_decode(src, h->len, block.len);
+			block.tag = h->tag;
 
 			if (block.data != NULL && block.len > 0)
 			{
@@ -607,7 +623,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 			}
 			else//数据不合法
 			{
-				UV_LOG("data is wrongful (2)!!!!");
+				UV_LOG("data is wrongful (3)!!!!");
 			}
 #else
 			char* pdata = (char*)fc_malloc(h->len + 1);
@@ -617,6 +633,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 			blockdata block;
 			block.data = pdata;
 			block.len = h->len;
+			block.tag = h->tag;
 
 			this->pushReadData(block);
 #endif

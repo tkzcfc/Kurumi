@@ -34,7 +34,7 @@ public:
 	//若返回false就进行内存释放时，该类将阻塞至线程完全退出
 	bool isCloseFinish();
 
-	bool send(unsigned int key, char* data, unsigned int len);
+	bool send(unsigned int key, char* data, unsigned int len, TCPMsgTag tag = TCPMsgTag::MT_DEFAULT);
 
 	//是否启用TCP_NODELAY
 	bool setSocketNoDelay(bool enable);
@@ -66,12 +66,16 @@ protected:
 	
 	void run();
 
-	void pushThreadMsg(ThreadMsgType type, unsigned int key, void* data = NULL, int len = 0);
+	void pushThreadMsg(ThreadMsgType type, unsigned int key, void* data = NULL, int len = 0, TCPMsgTag tag = TCPMsgTag::MT_DEFAULT);
 
 	void socketIsConnect(unsigned int key, CONNECTSTATE state);
 
 	struct clientsocketdata;
 	TCPClient::clientsocketdata* getClientSocketDataByKey(unsigned int key);
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	void heartRun();
+#endif
 
 protected:
 	uv_loop_t m_loop;
@@ -79,6 +83,10 @@ protected:
 	uv_async_t* m_exitAsync;
 	uv_idle_t m_idle;
 	uv_timer_t m_timer;
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	uv_timer_t m_heartTimer;
+#endif
 
 	bool m_reconnect;
 	float m_totalTime;
@@ -98,6 +106,10 @@ protected:
 		char ip[TCP_IP_ADDR_LEN];
 		unsigned int port;
 		TCPSocket* s;
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+		int curHeartTime;
+		int curHeartCount;
+#endif
 	};
 
 	//已经连接的socket
@@ -127,6 +139,9 @@ protected:
 	static void uv_exit_async_callback(uv_async_t* handle);
 	static void uv_exit_async_closehandle_callback(uv_handle_t* handle);
 	static void uv_on_idle_run(uv_idle_t* handle);
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	static void uv_heart_timer_callback(uv_timer_t* handle);
+#endif
 };
 
 

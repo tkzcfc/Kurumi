@@ -15,7 +15,7 @@ _MyG.loadStudioFile = function(fileName, target)
     return root
 end
 
-local LOCAL_SERVER = false
+local LOCAL_SERVER = true
 
 if LOCAL_SERVER then
     _MyG.GAME_IP = "127.0.0.1"

@@ -14,37 +14,37 @@
 #pragma comment(lib,"Psapi.lib")
 #pragma comment(lib, "Userenv.lib")
 
-//睡眠ms毫秒
+// 睡眠ms毫秒
 #define ThreadSleep(ms) Sleep(ms);
 
 #elif defined __linux__
 
 #include <unistd.h>
-//睡眠ms毫秒
+// 睡眠ms毫秒
 #define ThreadSleep(ms) usleep((ms) * 1000)
 
 #endif
 
-//套接字最小接收缓存大小
+// 套接字最小接收缓存大小
 #define TCP_UV_SOCKET_RECV_BUF_LEN (1024 * 8)
-//套接字最小发送缓存大小
+// 套接字最小发送缓存大小
 #define TCP_UV_SOCKET_SEND_BUF_LEN (1024 * 8)
 
-//大消息最大发送大小
-//如果消息头的长度字段大于该值
-//则直接认定为该客户端发送的消息为非法消息
-//(10MB)
+// 大消息最大发送大小
+// 如果消息头的长度字段大于该值
+// 则直接认定为该客户端发送的消息为非法消息
+// (10MB)
 #define TCP_BIG_MSG_MAX_LEN (1024 * 1024 * 10)
 
-//单次消息发送最大字节
-//若超过该长度，则进行分片发送
-//(4K)
+// 单次消息发送最大字节
+// 若超过该长度，则进行分片发送
+// (4K)
 #define TCP_WRITE_MAX_LEN (1024 * 4)
 
-//IP地址长度
+// IP地址长度
 #define TCP_IP_ADDR_LEN (32)
 
-//最大连接数
+// 最大连接数
 #define TCP_MAX_CONNECT (0xFFFF)
 
 
@@ -56,13 +56,13 @@
 std::string getUVError(int errcode);
 
 
-//开启md5校验
+// 消息开启md5校验
 #define OPEN_TCP_UV_MD5_CHECK 1
-//校验密码
+// 校验密码
 #define TCP_UV_ENCODE_KEY "123456789"
 
 
-//开启调试模式
+// 开启调试模式
 #define OPEN_TCP_UV_DEBUG 1
 
 
@@ -93,9 +93,34 @@ void tcp_uvLog(const char* format, ...);
 #endif // !OPEN_TCP_UV_DEBUG
 
 
+// 开启在UV线程进行心跳校验
+// 如果关闭该选项，则需要在应用层自己做心跳校验
+#define OPEN_UV_THREAD_HEARTBEAT 1
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+#define HEARTBEAT_TIMER_DELAY (100)		// 心跳检测定时器间隔
+#define HEARTBEAT_CHECK_DELAY (1000)	// 心跳检测时间
+#define HEARTBEAT_MAX_COUNT_SERVER 5	// 心跳不回复最大次数(服务端)
+#define HEARTBEAT_MAX_COUNT_CLIENT 5	// 心跳不回复最大次数(客户端)
+#endif
+
+#define HEARTBEAT_MSG_C2S ((char)0)		// 客户端->服务器心跳探测消息
+#define HEARTBEAT_MSG_S2C ((char)1)		// 服务器->客户端心跳探测消息
+#define HEARTBEAT_RET_MSG_C2S ((char)2) // 客户端->服务器心跳回复消息
+#define HEARTBEAT_RET_MSG_S2C ((char)3) // 服务器->客户端心跳回复消息
+#define HEARTBEAT_MSG_SIZE sizeof(char)	// 心跳消息大小
+
+// 消息内容标记
+enum TCPMsgTag : unsigned char
+{
+	MT_HEARTBEAT,	// 心跳消息
+	MT_DEFAULT
+};
+
 struct TCPMsgHead
 {
-	unsigned int len;//消息长度，不包括本结构体
+	unsigned int len;// 消息长度，不包括本结构体
+	TCPMsgTag tag;// 消息标记
 };
 
 

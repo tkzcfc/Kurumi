@@ -79,11 +79,14 @@ void DUServer::update(float d)
 				}break;
 				case RECV_DATA:
 				{
-					m_luaHandle.ppush();
-					m_luaHandle.pusharg("recv");
-					m_luaHandle.pushusertype(msg.pSocket, "TCPSocket");
-					m_luaHandle.pusharg((const char*)msg.data);
-					m_luaHandle.pcall();
+					if (msg.tag == TCPMsgTag::MT_DEFAULT)
+					{
+						m_luaHandle.ppush();
+						m_luaHandle.pusharg("recv");
+						m_luaHandle.pushusertype(msg.pSocket, "TCPSocket");
+						m_luaHandle.pusharg((const char*)msg.data);
+						m_luaHandle.pcall();
+					}
 				}break;
 				default:
 					break;

@@ -68,6 +68,12 @@ TCPClient::TCPClient()
 	m_timer.data = this;
 	uv_timer_start(&m_timer, uv_timer_run, (uint64_t)(CLIENT_TIMER_DELAY * 1000), (uint64_t)(CLIENT_TIMER_DELAY * 1000));
 
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	m_heartTimer.data = this;
+	uv_timer_init(&m_loop, &m_heartTimer);
+	uv_timer_start(&m_heartTimer, TCPClient::uv_heart_timer_callback, HEARTBEAT_TIMER_DELAY, HEARTBEAT_TIMER_DELAY);
+#endif
+
 	uv_thread_create(&m_thread, onThreadRun, this);
 }
 
@@ -154,6 +160,10 @@ bool TCPClient::connect(const char* ip, int port, unsigned int key, unsigned int
 		cs->reconnect = m_reconnect;
 		cs->totaltime = m_totalTime;
 		cs->connectState = CONNECTSTATE::CONNECTING;
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+		cs->curHeartCount = 0;
+		cs->curHeartTime = 0;
+#endif
 
 		uv_mutex_lock(&m_socketMutex);
 		m_allSocketMap.insert(std::make_pair(key, cs));
@@ -199,14 +209,11 @@ void TCPClient::closeClient()
 	}
 	uv_mutex_unlock(&m_socketMutex);
 
+	assert(m_exitAsync != NULL);
 	if (m_exitAsync)
 	{
 		uv_async_send(m_exitAsync);
 		m_exitAsync = NULL;
-	}
-	else
-	{
-		assert(0);
 	}
 
 	m_clientStage = clientStage::shall_deleteSocket;
@@ -217,7 +224,7 @@ bool TCPClient::isCloseFinish()
 	return (m_clientStage == clientStage::exit);
 }
 
-bool TCPClient::send(unsigned int key, char* data, unsigned int len)
+bool TCPClient::send(unsigned int key, char* data, unsigned int len, TCPMsgTag tag)
 {
 	if (m_clientStage != clientStage::start)
 		return false;
@@ -238,7 +245,7 @@ bool TCPClient::send(unsigned int key, char* data, unsigned int len)
 	uv_mutex_unlock(&m_socketMutex);
 
 	if(s->connectState == CONNECTSTATE::CONNECT)
-		return s->s->send(data, len);
+		return s->s->send(data, len, tag);
 
 	return false;
 }
@@ -326,13 +333,44 @@ bool TCPClient::getAllThreadMsg(std::vector<ThreadMsg_C>* v)
 	return true;
 }
 
-void TCPClient::pushThreadMsg(ThreadMsgType type, unsigned int key, void* data, int len)
+void TCPClient::pushThreadMsg(ThreadMsgType type, unsigned int key, void* data, int len, TCPMsgTag tag)
 {
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	if (type == ThreadMsgType::RECV_DATA)
+	{
+		auto it = m_allSocketMap.find(key);
+		if (it != m_allSocketMap.end())
+		{
+			auto clientdata = it->second;
+			clientdata->curHeartCount = -1;
+			clientdata->curHeartTime = 0;
+			if (tag == TCPMsgTag::MT_HEARTBEAT)
+			{
+				if (len == HEARTBEAT_MSG_SIZE)
+				{
+					if (*((char*)data) == HEARTBEAT_MSG_S2C)
+					{
+						UV_LOG("recv heart s->c");
+						char senddata = HEARTBEAT_RET_MSG_C2S;
+						clientdata->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
+					}
+				}
+				else// 不合法心跳
+				{
+					clientdata->s->disconnect();
+				}
+				return;
+			}
+		}
+	}
+#endif
+
 	ThreadMsg_C msg;
 	msg.msgType = type;
 	msg.data = data;
 	msg.dataLen = len;
 	msg.key = key;
+	msg.tag = tag;
 
 	uv_mutex_lock(&m_msgMutex);
 	m_msgQue.push(msg);
@@ -432,6 +470,40 @@ TCPClient::clientsocketdata* TCPClient::getClientSocketDataByKey(unsigned int ke
 	uv_mutex_unlock(&m_socketMutex);
 	return r;
 }
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+void TCPClient::heartRun()
+{
+	for (auto &it : m_allSocketMap)
+	{
+		auto clientdata = it.second;
+
+		if(clientdata->connectState != CONNECT)
+			continue;
+
+		clientdata->curHeartTime += HEARTBEAT_TIMER_DELAY;
+		if (clientdata->curHeartTime > HEARTBEAT_CHECK_DELAY)
+		{
+			clientdata->curHeartTime = 0;
+			clientdata->curHeartCount++;
+			if (clientdata->curHeartCount > 0)
+			{
+				if (clientdata->curHeartCount > HEARTBEAT_MAX_COUNT_CLIENT)
+				{
+					clientdata->curHeartCount = 0;
+					clientdata->s->disconnect();
+				}
+				else
+				{
+					char senddata = HEARTBEAT_MSG_C2S;
+					clientdata->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
+					UV_LOG("send heart c->s");
+				}
+			}
+		}
+	}
+}
+#endif
 
 void TCPClient::setAutoReconnect(bool isAuto)
 {
@@ -579,6 +651,9 @@ void TCPClient::uv_exit_async_callback(uv_async_t* handle)
 {
 	auto c = (TCPClient*)handle->data;
 
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	uv_timer_stop(&c->m_heartTimer);
+#endif
 	uv_timer_stop(&c->m_timer);
 
 	uv_timer_start(&c->m_timer, uv_timer_run, 1000, 1000);
@@ -609,7 +684,7 @@ void TCPClient::uv_on_idle_run(uv_idle_t* handle)
 		{
 			for (auto & d : list)
 			{
-				c->pushThreadMsg(ThreadMsgType::RECV_DATA, it->first, d.data, d.len);
+				c->pushThreadMsg(ThreadMsgType::RECV_DATA, it->first, d.data, d.len, d.tag);
 			}
 		}
 	}
@@ -617,3 +692,11 @@ void TCPClient::uv_on_idle_run(uv_idle_t* handle)
 	uv_mutex_unlock(&c->m_socketMutex);
 	ThreadSleep(2);
 }
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+void TCPClient::uv_heart_timer_callback(uv_timer_t* handle)
+{
+	TCPClient* s = (TCPClient*)handle->data;
+	s->heartRun();
+}
+#endif

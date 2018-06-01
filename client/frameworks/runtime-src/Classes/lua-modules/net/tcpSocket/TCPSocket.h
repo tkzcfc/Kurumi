@@ -27,6 +27,7 @@ struct blockdata
 {
 	char* data;
 	unsigned int len;
+	TCPMsgTag tag;
 };
 
 enum tcpSocketState
@@ -55,7 +56,9 @@ public:
 
 	void disconnect();
 
-	bool send(const char* data, unsigned int len);
+	bool send(const char* data, unsigned int len, TCPMsgTag msgTag = TCPMsgTag::MT_DEFAULT);
+
+	bool send(const char* data);
 
 	uv_tcp_t* getTcp();
 	

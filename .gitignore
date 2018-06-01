@@ -1,4 +1,6 @@
 
+server/.vs/
+server/Debug/
 server/server/Debug/
 client/simulator/
 client/runtime/
@@ -17,3 +19,5 @@ client/frameworks/runtime-src/proj.android-studio/app/assets/
 client/frameworks/runtime-src/proj.android-studio/app/build/
 client/frameworks/runtime-src/proj.android-studio/app/obj/
 
+client/frameworks/runtime-src/proj.win32/Kurumi.VC.VC.opendb
+server/Debug/server.exe

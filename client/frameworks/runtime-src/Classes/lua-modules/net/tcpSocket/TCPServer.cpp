@@ -56,6 +56,10 @@ TCPServer::TCPServer()
 	m_eixtAsync = (uv_async_t*)fc_malloc(sizeof(uv_async_t));
 	m_exitTimer = (uv_timer_t*)fc_malloc(sizeof(uv_timer_t));
 
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	m_heartTimer = (uv_timer_t*)fc_malloc(sizeof(uv_timer_t));
+#endif
+
 	UV_LOG("alloc server");
 }
 
@@ -73,6 +77,10 @@ TCPServer::~TCPServer()
 	fc_free(m_eixtAsync);
 	fc_free(m_idle);
 	fc_free(m_exitTimer);
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	fc_free(m_heartTimer);
+#endif
 
 	uv_mutex_destroy(&m_msgMutex);
 	UV_LOG("destroy server");
@@ -99,6 +107,12 @@ bool TCPServer::startServer(const char* ip, int port)
 
 	m_exitTimer->data = this;
 	uv_timer_init(&m_loop, m_exitTimer);
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1 
+	m_heartTimer->data = this;
+	uv_timer_init(&m_loop, m_heartTimer);
+	uv_timer_start(m_heartTimer, TCPServer::uv_heart_timer_callback, HEARTBEAT_TIMER_DELAY, HEARTBEAT_TIMER_DELAY);
+#endif
 
 #if OPEN_TCP_UV_DEBUG == 1
 	m_server = (TCPSocket*)fc_malloc(sizeof(TCPSocket));
@@ -191,13 +205,45 @@ bool TCPServer::getAllThreadMsg(std::vector<ThreadMsg_S>* v)
 	return true;
 }
 
-void TCPServer::pushThreadMsg(ThreadMsgType type, void* psocket, void* data, int len)
+void TCPServer::pushThreadMsg(ThreadMsgType type, void* psocket, void* data, const int& len, const TCPMsgTag& tag)
 {
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	if (type == ThreadMsgType::RECV_DATA)
+	{
+		for (auto it = allSocket.begin(); it != allSocket.end(); ++it)
+		{
+			if (it->s == (TCPSocket*)psocket)
+			{
+				it->curHeartCount = -2;
+				it->curHeartTime = 0;
+				if (tag == TCPMsgTag::MT_HEARTBEAT)
+				{
+					if (len == HEARTBEAT_MSG_SIZE)
+					{
+						if (*((char*)data) == HEARTBEAT_MSG_C2S)
+						{
+							UV_LOG("recv heart c->s");
+							char senddata = HEARTBEAT_RET_MSG_S2C;
+							it->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
+						}
+					}
+					else// 不合法心跳
+					{
+						it->s->disconnect();
+					}
+					return;
+				}
+			}
+		}
+	}
+#endif
+
 	ThreadMsg_S msg;
 	msg.msgType = type;
 	msg.data = data;
 	msg.dataLen = len;
 	msg.pSocket = psocket;
+	msg.tag = tag;
 
 	uv_mutex_lock(&m_msgMutex);
 	m_msgQue.push(msg);
@@ -230,6 +276,10 @@ void TCPServer::addNewSocket(TCPSocket* s)
 		data.s = s;
 		data.isInvalid = false;
 		data.releaseCount = TCP_SOCKET_DATD_RELEASE_COUNT;
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+		data.curHeartCount = -2;
+		data.curHeartTime = 0;
+#endif
 		allSocket.push_back(data);
 	}
 }
@@ -268,7 +318,7 @@ void TCPServer::idleRun()
 			{
 				for (auto & d : list)
 				{
-					pushThreadMsg(ThreadMsgType::RECV_DATA, it->s, d.data, d.len);
+					pushThreadMsg(ThreadMsgType::RECV_DATA, it->s, d.data, d.len, d.tag);
 				}
 			}
 			it++;
@@ -299,6 +349,9 @@ void TCPServer::idleRun()
 
 void TCPServer::exitStart()
 {
+#if OPEN_UV_THREAD_HEARTBEAT == 1 
+	uv_timer_stop(m_heartTimer);
+#endif
 	auto it = allSocket.begin();
 	for (; it != allSocket.end(); ++it)
 	{
@@ -354,6 +407,38 @@ void TCPServer::exitStep()
 	}
 }
 
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+void TCPServer::heartRun()
+{
+	for (auto it = allSocket.begin(); it != allSocket.end(); ++it)
+	{
+		if (!it->isInvalid)
+		{
+			it->curHeartTime += HEARTBEAT_TIMER_DELAY;
+			if (it->curHeartTime >= HEARTBEAT_CHECK_DELAY)
+			{
+				it->curHeartTime = 0;
+				it->curHeartCount++;
+				if (it->curHeartCount > 0)
+				{
+					if (it->curHeartCount > HEARTBEAT_MAX_COUNT_SERVER)
+					{
+						it->curHeartCount = 0;
+						it->s->disconnect();
+					}
+					else
+					{
+						char senddata = HEARTBEAT_MSG_S2C;
+						it->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
+						UV_LOG("send heart s->c");
+					}
+				}
+			}
+		}
+	}
+}
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TCPServer::thread_run(void* data)
 {
@@ -384,3 +469,11 @@ void TCPServer::uv_exit_timer_callback(uv_timer_t* handle)
 	TCPServer* s = (TCPServer*)handle->data;
 	s->exitStep();
 }
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+void TCPServer::uv_heart_timer_callback(uv_timer_t* handle)
+{
+	TCPServer* s = (TCPServer*)handle->data;
+	s->heartRun();
+}
+#endif

@@ -82,12 +82,12 @@ bool Client::isCloseFinish()
 
 bool Client::send(unsigned int key, char* data, unsigned int len)
 {
-	return m_client->send(key, data, len);
+	return m_client->send(key, data, len, TCPMsgTag::MT_DEFAULT);
 }
 
 bool Client::send(unsigned int key, char* data)
 {
-	return m_client->send(key, data, strlen(data));
+	return m_client->send(key, data, strlen(data), TCPMsgTag::MT_DEFAULT);
 }
 
 //是否启用TCP_NODELAY
@@ -189,11 +189,14 @@ void Client::update(float)
 				case RECV_DATA:		//收到消息
 				{
 					//UV_LOG("uv RECV_DATA");
+					if (msg.tag == TCPMsgTag::MT_DEFAULT)
+					{
 
-					m_luaHandle.ppush();
-					m_luaHandle.pusharg("recv");
-					m_luaHandle.pushlstring((const char*)msg.data, (unsigned int)msg.dataLen);
-					m_luaHandle.pcall();
+						m_luaHandle.ppush();
+						m_luaHandle.pusharg("recv");
+						m_luaHandle.pushlstring((const char*)msg.data, (unsigned int)msg.dataLen);
+						m_luaHandle.pcall();
+					}
 				}break;
 				default:
 					break;

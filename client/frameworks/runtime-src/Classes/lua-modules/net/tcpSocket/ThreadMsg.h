@@ -22,6 +22,7 @@ public:
 	void* pSocket;//tcpsocket指针
 	void* data;
 	int dataLen;
+	TCPMsgTag tag;
 };
 
 struct ThreadMsg_C
@@ -31,5 +32,6 @@ public:
 	unsigned int key;
 	void* data;
 	int dataLen;
+	TCPMsgTag tag;
 };
 

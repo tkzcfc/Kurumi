@@ -43,7 +43,7 @@ public:
 
 protected:
 
-	void pushThreadMsg(ThreadMsgType type, void* psocket, void* data = NULL, int len = 0);
+	void pushThreadMsg(ThreadMsgType type, void* psocket, void* data = NULL, const int& len = 0, const TCPMsgTag& tag = TCPMsgTag::MT_DEFAULT);
 
 	void addNewSocket(TCPSocket* s);
 
@@ -54,6 +54,10 @@ protected:
 	void exitStart();
 
 	void exitStep();
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	void heartRun();
+#endif
 
 protected:
 	bool m_start;
@@ -74,12 +78,29 @@ protected:
 
 	ServerStage m_serverStage;
 
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	uv_timer_t* m_heartTimer;
+#endif
 
 	struct tcpSocketData
 	{
+		tcpSocketData()
+		{
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+			curHeartTime = 0;
+			curHeartCount = 0;
+#endif
+			isInvalid = false;
+			releaseCount = 0;
+			s = NULL;
+		}
 		TCPSocket* s;
 		bool isInvalid;
 		int releaseCount;
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+		int curHeartTime;
+		int curHeartCount;
+#endif
 	};
 
 	std::list<tcpSocketData> allSocket;
@@ -94,4 +115,8 @@ protected:
 	static void uv_exit_async_callback(uv_async_t* handle);
 
 	static void uv_exit_timer_callback(uv_timer_t* handle);
+
+#if OPEN_UV_THREAD_HEARTBEAT == 1
+	static void uv_heart_timer_callback(uv_timer_t* handle);
+#endif
 };
