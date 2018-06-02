@@ -113,9 +113,7 @@ void TCPSocket::listen(const char* ip, unsigned int port)
 
 	CHECK_UV_ASSERT(r);
 
-#if OPEN_TCP_UV_DEBUG == 1
-	UV_LOG("listen [%p][%s]:[%d]...", this, ip, port);
-#endif
+	UV_LOG(UV_L_INFO, "listen [%p][%s]:[%d]...", this, ip, port);
 }
 
 void TCPSocket::connect(const char* ip, unsigned int port, unsigned int timeout)
@@ -133,9 +131,7 @@ void TCPSocket::connect(const char* ip, unsigned int port, unsigned int timeout)
 
 	CHECK_UV_ASSERT(r);
 
-#if OPEN_TCP_UV_DEBUG == 1
-	UV_LOG("connect [%p][%s]:[%d]...", this, ip, port);
-#endif
+	UV_LOG(UV_L_INFO, "connect [%p][%s]:[%d]...", this, ip, port);
 }
 
 bool TCPSocket::reconnect()
@@ -147,9 +143,7 @@ bool TCPSocket::reconnect()
 
 	CHECK_UV_ASSERT(r);
 
-#if OPEN_TCP_UV_DEBUG == 1
-	UV_LOG("reconnect [%p][%s]:[%d]...", this, m_ip.c_str(), m_port);
-#endif
+	UV_LOG(UV_L_INFO, "reconnect [%p][%s]:[%d]...", this, m_ip.c_str(), m_port);
 	return true;
 }
 
@@ -196,32 +190,24 @@ void TCPSocket::invokeCallback(socket_call_type type, void* data)
 		this->clearWriteCache();
 		this->resetReadBuffer();
 
-#if OPEN_TCP_UV_DEBUG == 1
-		UV_LOG("connect suc [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
-#endif
+		UV_LOG(UV_L_INFO, "connect suc [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
 	}
 		break;
 	case connect_fail:
 		this->setState(tcpSocketState::tcps_dis_connect);
 		this->resetReadBuffer();
 
-#if OPEN_TCP_UV_DEBUG == 1
-		UV_LOG("connect fail [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
-#endif
+		UV_LOG(UV_L_INFO, "connect fail [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
 		break;
 	case connect_ing:
 		this->setState(tcpSocketState::tcps_connecting);
 
-#if OPEN_TCP_UV_DEBUG == 1
-		UV_LOG("connecting [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
-#endif
+		UV_LOG(UV_L_INFO, "connecting [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
 		break;
 	case connect_timeout:
 		this->setState(tcpSocketState::tcps_dis_connect);
 
-#if OPEN_TCP_UV_DEBUG == 1
-		UV_LOG("connect timeout [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
-#endif
+		UV_LOG(UV_L_INFO, "connect timeout [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
 		break;
 	case connect_close:
 		this->setTcp(NULL);
@@ -230,9 +216,7 @@ void TCPSocket::invokeCallback(socket_call_type type, void* data)
 		this->clearWriteCache();
 		this->resetReadBuffer();
 
-#if OPEN_TCP_UV_DEBUG == 1
-		UV_LOG("connect close [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
-#endif
+		UV_LOG(UV_L_INFO, "connect close [%p][%s]:[%d]", this, m_ip.c_str(), m_port);
 		break;
 	default:
 		break;
@@ -304,9 +288,7 @@ void TCPSocket::shutdownSocket()
 		return;
 	}
 
-#if OPEN_TCP_UV_DEBUG == 1
-	UV_LOG("shutdown [%p][%s]:[%d]...", this, m_ip.c_str(), m_port);
-#endif
+	UV_LOG(UV_L_INFO, "shutdown [%p][%s]:[%d]...", this, m_ip.c_str(), m_port);
 
 	closeHandle((uv_handle_t*)m_tcp, uv_on_close_socket);
 
@@ -319,15 +301,13 @@ bool TCPSocket::send(const char* data, unsigned int len, TCPMsgTag msgTag)
 {
 	if (data == NULL || len <= 0)
 	{
-#if OPEN_TCP_UV_DEBUG == 1
-		UV_LOG("warning: The msg is nil");
-#endif
-		//assert(0);		
+		UV_LOG(UV_L_ERROR, "[%s][%d] send msg is nil", getIp().c_str(), getPort());
 		return false;
 	}
 
 	if (len > TCP_BIG_MSG_MAX_LEN)
 	{
+		UV_LOG(UV_L_ERROR, "[%s][%d] msg is too big!!!", getIp().c_str(), getPort());
 #if defined (WIN32) || defined(_WIN32)
 		MessageBox(NULL, TEXT("The msg is too big!!!"), TEXT("ERROR"), MB_OK);
 #else
@@ -584,7 +564,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 		{
 			this->resetReadBuffer();
 			this->disconnect();
-			UV_LOG("data is wrongful (1)!!!!");
+			UV_LOG(UV_L_WARNING, "data is wrongful (1)!!!!");
 			break;
 		}
 		// 消息内容标记不合法
@@ -592,7 +572,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 		{
 			this->resetReadBuffer();
 			this->disconnect();
-			UV_LOG("data is wrongful (2)!!!!");
+			UV_LOG(UV_L_WARNING, "data is wrongful (2)!!!!");
 			break;
 		}
 
@@ -618,7 +598,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 			}
 			else//数据不合法
 			{
-				UV_LOG("data is wrongful (3)!!!!");
+				UV_LOG(UV_L_WARNING, "data is wrongful (3)!!!!");
 			}
 #else
 			char* pdata = (char*)fc_malloc(h->len + 1);
@@ -778,10 +758,7 @@ void TCPSocket::uv_connect_async_callback(uv_async_t* handle)
 	}
 	else
 	{
-#if OPEN_TCP_UV_DEBUG == 1
-		static char* err = "get addr info fail!!!";
-		UV_LOG("error : %s\n", err);
-#endif
+		UV_LOG(UV_L_ERROR, "get addr info fail!!!");
 
 		s->invokeCallback(socket_call_type::connect_fail, NULL);
 	}
@@ -896,9 +873,7 @@ void TCPSocket::server_on_after_new_connection(uv_stream_t *server, int status)
 	client->data = news;
 	s->invokeCallback(socket_call_type::connect_new, (void*)news);
 
-#if OPEN_TCP_UV_DEBUG == 1 
-	UV_LOG("accept [%p][%s]", news, szIp);
-#endif
+	UV_LOG(UV_L_INFO, "accept [%p][%s]", news, szIp);
 
 	fc_free(szIp);
 

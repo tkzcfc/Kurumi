@@ -25,6 +25,71 @@
 
 #endif
 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 调试相关
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 开启调试模式
+#define OPEN_TCP_UV_DEBUG 1
+
+
+#if OPEN_TCP_UV_DEBUG == 1
+
+#define fc_malloc(len) fc_malloc_s(len, __FILE__, __LINE__)
+
+void* fc_malloc_s(unsigned int len, const char* file, int line);
+void fc_free(void* p);
+
+//打印内存信息
+void printMemInfo();
+
+#define UV_LOG(level, format, ...) tcp_uvLog(level, format, ##__VA_ARGS__)
+
+#else
+
+#define fc_malloc malloc
+
+#define fc_free free
+
+#define printMemInfo() ((void) 0) 
+
+#define UV_LOG(level, format, ...) ((void) 0) 
+
+#endif // !OPEN_TCP_UV_DEBUG
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 日志输出
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 日志等级
+#define UV_L_INFO	 (0)
+#define UV_L_WARNING (1)
+#define UV_L_ERROR	 (2)
+#define UV_L_FATAL	 (3)
+
+// log输出最低等级
+#define UV_L_MIN_LEVEL UV_L_INFO
+
+#define CHECK_UV_ERROR(r) if(r) { getUVError(r); return false; }
+
+#define CHECK_UV_ASSERT(r) if(r) { auto str = getUVError(r); UV_LOG(UV_L_ERROR, str.c_str()); assert(0); }
+
+std::string getUVError(int errcode);
+
+//日志输出
+void tcp_uvLog(int level, const char* format, ...);
+
+//设置日志输出函数
+extern void setUVLogPrintFunc(void(*func)(int, const char*));
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // 套接字最小接收缓存大小
 #define TCP_UV_SOCKET_RECV_BUF_LEN (1024 * 8)
 // 套接字最小发送缓存大小
@@ -47,51 +112,15 @@
 // 最大连接数
 #define TCP_MAX_CONNECT (0xFFFF)
 
-
-#define CHECK_UV_ERROR(r) if(r) { getUVError(r); return false; }
-
-#define CHECK_UV_ASSERT(r) if(r) { auto str = getUVError(r); UV_LOG("uv error : %s\n", str.c_str()); assert(0); }
-
-
-std::string getUVError(int errcode);
-
-
 // 消息开启md5校验
 #define OPEN_TCP_UV_MD5_CHECK 1
 // 校验密码
 #define TCP_UV_ENCODE_KEY "123456789"
 
 
-// 开启调试模式
-#define OPEN_TCP_UV_DEBUG 1
-
-
-#if OPEN_TCP_UV_DEBUG == 1
-
-#define fc_malloc(len) fc_malloc_s(len, __FILE__, __LINE__)
-
-void* fc_malloc_s(unsigned int len, const char* file, int line);
-void fc_free(void* p);
-
-//打印内存信息
-void printMemInfo();
-//日志输出
-void tcp_uvLog(const char* format, ...);
-
-#define UV_LOG(format, ...) tcp_uvLog(format, ##__VA_ARGS__)
-
-#else
-
-#define fc_malloc malloc
-
-#define fc_free free
-
-#define printMemInfo() ((void) 0) 
-
-#define UV_LOG(format, ...) ((void) 0) 
-
-#endif // !OPEN_TCP_UV_DEBUG
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 心跳相关
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // 开启在UV线程进行心跳校验
 // 如果关闭该选项，则需要在应用层自己做心跳校验
@@ -116,6 +145,10 @@ void tcp_uvLog(const char* format, ...);
 #define HEARTBEAT_RET_MSG_S2C ((char)3) // 服务器->客户端心跳回复消息
 #define HEARTBEAT_MSG_SIZE sizeof(char)	// 心跳消息大小
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// 消息包头
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // 消息内容标记
 enum TCPMsgTag : unsigned char
 {
@@ -129,7 +162,4 @@ struct TCPMsgHead
 	TCPMsgTag tag;// 消息标记
 };
 
-
-//设置日志输出函数
-extern void setUVLogPrintFunc(void(*func)(const char*));
 

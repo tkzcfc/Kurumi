@@ -6,7 +6,7 @@
 #include<mutex>
 #endif
 
-typedef void(*uvOutputLoggerType)(const char*);
+typedef void(*uvOutputLoggerType)(int, const char*);
 uvOutputLoggerType uvOutputLogger = 0;
 
 
@@ -47,8 +47,59 @@ string getTime_UV()
     return tmp;
 }
 
+static const char* tcp_uv_log_name[UV_L_FATAL + 1] =
+{
+	"INFO",
+	"WARNING",
+	"ERROR",
+	"FATAL"
+};
+
+void tcp_uvLog(int level, const char* format, ...)
+{
+	if (level < UV_L_MIN_LEVEL)
+	{
+		return;
+	}
+
+	va_list args;
+	char buf[1024];
+
+	va_start(args, format);
+	vsnprintf(buf, sizeof(buf), format, args);
+	va_end(args);
+
+	std::string str = getTime_UV();
+	str.append("[TCP-UV]-[");
+	str.append(tcp_uv_log_name[level]);
+	str.append("] ");
+	str.append(buf);
+	str.append("\n");
+	if (uvOutputLogger == NULL)
+	{
+		printf("%s", str.c_str());
+	}
+	else
+	{
+		uvOutputLogger(level, buf);
+	}
+
+	//va_list list;
+	//va_start(list, format);
+	//vprintf(format, list);
+	//va_end(list);
+	//printf("\n");
+}
+
+void setUVLogPrintFunc(void(*func)(int, const char*))
+{
+	uvOutputLogger = func;
+}
 
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #if OPEN_TCP_UV_DEBUG == 1
 struct mallocBlockInfo
 {
@@ -74,6 +125,7 @@ void* fc_malloc_s(unsigned int len, const char* file, int line)
 
 	if (p == NULL)
 	{
+		UV_LOG(UV_L_FATAL, "Allocated memory failure!!!");
 #if defined (WIN32) || defined(_WIN32)
 		MessageBox(NULL, TEXT("Allocated memory failure!!!"), TEXT("ERROR"), MB_OK);
 		assert(0);
@@ -101,7 +153,7 @@ void fc_free(void* p)
 	if (it == block_map.end())
 	{
 		assert(p == NULL);
-		UV_LOG("fc_free warning : [%p] not find", p);
+		UV_LOG(UV_L_WARNING, "fc_free: [%p] not find", p);
 	}
 	else
 	{
@@ -118,52 +170,18 @@ void fc_free(void* p)
 void printMemInfo()
 {
 	block_mutex.lock();
-	UV_LOG("block size = %d\n", block_size);
+	UV_LOG(UV_L_INFO, "block size = %d\n", block_size);
 	auto it = block_map.begin();
 	for (; it != block_map.end(); ++it)
 	{
-		UV_LOG("[%p] : [%d] [%s  %d]\n", it->first, it->second.len, it->second.file.c_str(), it->second.line);
+		UV_LOG(UV_L_INFO, "[%p] : [%d] [%s  %d]\n", it->first, it->second.len, it->second.file.c_str(), it->second.line);
 	}
 	block_mutex.unlock();
-}
-
-void tcp_uvLog(const char* format, ...)
-{
-	va_list args;
-	char buf[1024];
-
-	va_start(args, format);
-	vsnprintf(buf, sizeof(buf), format, args);
-	va_end(args);
-
-	std::string str = getTime_UV();
-	str.append("[TCP-UV]: ");
-	str.append(buf);
-	str.append("\n");
-	if (uvOutputLogger == NULL)
-	{
-		printf("%s", str.c_str());
-	}
-	else
-	{
-		uvOutputLogger(str.c_str());
-	}
-
-	//va_list list;
-	//va_start(list, format);
-	//vprintf(format, list);
-	//va_end(list);
-	//printf("\n");
 }
 
 #else
 #endif
 
-
-void setUVLogPrintFunc(void(*func)(const char*))
-{
-	uvOutputLogger = func;
-}
 
 
 

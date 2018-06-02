@@ -350,7 +350,7 @@ void TCPClient::pushThreadMsg(ThreadMsgType type, unsigned int key, void* data, 
 				{
 					if (*((char*)data) == HEARTBEAT_MSG_S2C)
 					{
-						UV_LOG("recv heart s->c");
+						UV_LOG(UV_L_INFO, "recv heart s->c");
 						char senddata = HEARTBEAT_RET_MSG_C2S;
 						clientdata->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
 					}
@@ -497,7 +497,7 @@ void TCPClient::heartRun()
 				{
 					char senddata = HEARTBEAT_MSG_C2S;
 					clientdata->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
-					UV_LOG("send heart c->s");
+					UV_LOG(UV_L_INFO, "send heart c->s");
 				}
 			}
 		}

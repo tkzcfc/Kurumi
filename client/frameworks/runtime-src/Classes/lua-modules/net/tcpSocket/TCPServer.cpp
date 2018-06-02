@@ -60,7 +60,7 @@ TCPServer::TCPServer()
 	m_heartTimer = (uv_timer_t*)fc_malloc(sizeof(uv_timer_t));
 #endif
 
-	UV_LOG("alloc server");
+	UV_LOG(UV_L_INFO, "alloc server");
 }
 
 TCPServer::~TCPServer()
@@ -83,7 +83,7 @@ TCPServer::~TCPServer()
 #endif
 
 	uv_mutex_destroy(&m_msgMutex);
-	UV_LOG("destroy server");
+	UV_LOG(UV_L_INFO, "destroy server");
 }
 
 bool TCPServer::startServer(const char* ip, int port)
@@ -131,7 +131,7 @@ bool TCPServer::startServer(const char* ip, int port)
 	m_start = true;
 	m_serverStage = ServerStage::listen;
 
-	UV_LOG("satrt...");
+	UV_LOG(UV_L_INFO, "satrt...");
 	return true;
 }
 
@@ -148,7 +148,7 @@ bool TCPServer::closeServer()
 
 	m_serverStage = ServerStage::shall_disconnect;
 
-	UV_LOG("close...");
+	UV_LOG(UV_L_INFO, "close...");
 	return true;
 }
 
@@ -222,7 +222,7 @@ void TCPServer::pushThreadMsg(ThreadMsgType type, void* psocket, void* data, con
 					{
 						if (*((char*)data) == HEARTBEAT_MSG_C2S)
 						{
-							UV_LOG("recv heart c->s");
+							UV_LOG(UV_L_INFO, "recv heart c->s");
 							char senddata = HEARTBEAT_RET_MSG_S2C;
 							it->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
 						}
@@ -258,7 +258,7 @@ void TCPServer::addNewSocket(TCPSocket* s)
 		return;
 	}
 
-	UV_LOG("insert [%p]:[%p] ip = [%s]", s, s->getTcp(), s->getIp().c_str());
+	UV_LOG(UV_L_INFO, "insert [%p]:[%p] ip = [%s]", s, s->getTcp(), s->getIp().c_str());
 
 	bool find = false;
 	for (auto it = allSocket.begin(); it != allSocket.end(); ++it)
@@ -295,7 +295,7 @@ void TCPServer::removeSocket(TCPSocket* s)
 	{
 		if (it->s == s)
 		{
-			UV_LOG("delete [%p]: ip = [%s]", s, s->getIp().c_str());
+			UV_LOG(UV_L_INFO, "delete [%p]: ip = [%s]", s, s->getIp().c_str());
 			it->isInvalid = true;
 			return;
 		}
@@ -374,7 +374,7 @@ void TCPServer::exitStep()
 	{
 		if (allSocket.size() <= 0)
 		{
-			UV_LOG("disconnect finish");
+			UV_LOG(UV_L_WARNING, "disconnect finish");
 			m_serverStage = ServerStage::shall_deleteSocket;
 		}
 	}break;
@@ -391,13 +391,13 @@ void TCPServer::exitStep()
 #endif
 			m_server = NULL;
 		}
-		UV_LOG("delete server socekt finish");
+		UV_LOG(UV_L_WARNING, "delete server socekt finish");
 		m_serverStage = ServerStage::shall_exit;
 	}break;
 
 	case ServerStage::shall_exit:
 	{
-		UV_LOG("loop stop finish");
+		UV_LOG(UV_L_WARNING, "loop stop finish");
 		uv_stop(&m_loop);
 		m_serverStage = ServerStage::exit;
 	}break;
@@ -430,7 +430,7 @@ void TCPServer::heartRun()
 					{
 						char senddata = HEARTBEAT_MSG_S2C;
 						it->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
-						UV_LOG("send heart s->c");
+						UV_LOG(UV_L_INFO, "send heart s->c");
 					}
 				}
 			}
@@ -448,7 +448,7 @@ void TCPServer::thread_run(void* data)
 
 	uv_loop_close(&pServer->m_loop);
 
-	UV_LOG("exit loop");
+	UV_LOG(UV_L_WARNING, "exit loop");
 	pServer->pushThreadMsg(ThreadMsgType::EXIT_LOOP, NULL);
 }
 

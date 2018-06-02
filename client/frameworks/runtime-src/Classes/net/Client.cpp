@@ -3,7 +3,7 @@
 
 Client* Client::Instance = NULL;
 
-void tcp_com_log_func(const char* log)
+void tcp_com_log_func(int level, const char* log)
 {
 	CCLOG("%s", log);
 }
@@ -12,7 +12,7 @@ Client* Client::getInstance()
 {
 	if (Instance == NULL)
 	{
-		setUVLogPrintFunc(tcp_com_log_func);
+		//setUVLogPrintFunc(tcp_com_log_func);
 		Instance = new Client();
 	}
 	return Instance;
@@ -163,27 +163,27 @@ void Client::update(float)
 				{
 				case CONNECT_FAIL:	//连接失败
 				{
-					UV_LOG("uv CONNECT_FAIL");
+					UV_LOG(UV_L_INFO, "CONNECT_FAIL");
 					m_luaHandle("fail", msg.key);
 				}break;
 				case CONNECT_ING:	//正在连接
 				{
-					UV_LOG("uv CONNECT_ING");
+					UV_LOG(UV_L_INFO, "CONNECT_ING");
 					m_luaHandle("connecting", msg.key);
 				}break;
 				case CONNECT:		//连接成功
 				{
-					UV_LOG("uv CONNECT");
+					UV_LOG(UV_L_INFO, "CONNECT");
 					m_luaHandle("connect", msg.key);
 				}break;
 				case DIS_CONNECT:	//断开连接
 				{
-					UV_LOG("uv DIS_CONNECT");
+					UV_LOG(UV_L_INFO, "DIS_CONNECT");
 					m_luaHandle("disconnect", msg.key);
 				}break;
 				case EXIT_LOOP:		//退出loop
 				{
-					UV_LOG("uv EXIT_LOOP");
+					UV_LOG(UV_L_INFO, "EXIT_LOOP");
 					m_luaHandle("loop exit");
 				}break;
 				case RECV_DATA:		//收到消息
