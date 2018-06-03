@@ -1,7 +1,5 @@
 
 server/.vs/
-server/Debug/
-server/server/Debug/
 client/simulator/
 client/runtime/
 client/frameworks/cocos2d-x/
@@ -20,5 +18,12 @@ client/frameworks/runtime-src/proj.android-studio/app/build/
 client/frameworks/runtime-src/proj.android-studio/app/obj/
 
 client/frameworks/runtime-src/proj.win32/Kurumi.VC.VC.opendb
-server/Debug/server.exe
+
 server/server.VC.db
+server/Debug/
+server/server/Debug/
+server/thirdparty/pro/glog/Debug
+
+server/Release/
+server/server/Release/
+server/thirdparty/pro/glog/Release

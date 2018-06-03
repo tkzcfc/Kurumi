@@ -570,17 +570,17 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 		//长度大于最大包长，不合法客户端
 		if (h->len > TCP_BIG_MSG_MAX_LEN)
 		{
+			UV_LOG(UV_L_ERROR, "[%s]data is wrongful (1)!!!!", m_ip.c_str());
 			this->resetReadBuffer();
 			this->disconnect();
-			UV_LOG(UV_L_WARNING, "data is wrongful (1)!!!!");
 			break;
 		}
 		// 消息内容标记不合法
-		if (h->tag > TCPMsgTag::MT_DEFAULT)
+		if (h->tag < 0 || h->tag > TCPMsgTag::MT_DEFAULT)
 		{
+			UV_LOG(UV_L_ERROR, "[%s]data is wrongful (2)!!!!", m_ip.c_str());
 			this->resetReadBuffer();
 			this->disconnect();
-			UV_LOG(UV_L_WARNING, "data is wrongful (2)!!!!");
 			break;
 		}
 
@@ -606,7 +606,7 @@ void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 			}
 			else//数据不合法
 			{
-				UV_LOG(UV_L_WARNING, "data is wrongful (3)!!!!");
+				UV_LOG(UV_L_ERROR, "[%s]data is wrongful (3)!!!!", m_ip.c_str());
 			}
 #else
 			char* pdata = (char*)fc_malloc(h->len + 1);

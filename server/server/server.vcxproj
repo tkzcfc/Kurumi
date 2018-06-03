@@ -94,9 +94,22 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\OpenSSL-Win64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>if not exist "$(SolutionDir)$(Configuration)" mkdir "$(SolutionDir)$(Configuration)"
+xcopy /Y /Q "$(SolutionDir)thirdparty\bin\$(Configuration)\*.dll" "$(SolutionDir)$(Configuration)"</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>del "$(SolutionDir)$(Configuration)\*.exp"
+del "$(SolutionDir)$(Configuration)\*.ilk"
+del "$(SolutionDir)$(Configuration)\*.pdb"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -128,7 +141,21 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>if not exist "$(SolutionDir)$(Configuration)" mkdir "$(SolutionDir)$(Configuration)"
+xcopy /Y /Q "$(SolutionDir)thirdparty\bin\$(Configuration)\*.dll" "$(SolutionDir)$(Configuration)"</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>del "$(SolutionDir)$(Configuration)\*.exp"
+del "$(SolutionDir)$(Configuration)\*.ilk"
+del "$(SolutionDir)$(Configuration)\*.pdb" 
+del "$(SolutionDir)$(Configuration)\*.iobj" 
+del "$(SolutionDir)$(Configuration)\*.ipdb" 
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
