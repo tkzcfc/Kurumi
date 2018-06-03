@@ -1,9 +1,9 @@
 ﻿#include "TCPSocket.h"
 #include "TCPUtils.h"
 
-#define TC_SOCKET_TIMER_DELAY (500U)
+#define TC_SOCKET_TIMER_DELAY (100U)
 
-//调整socket接收发送缓存大小
+// 调整socket接收发送缓存大小
 void adjustBuffSize(uv_handle_t* handle)
 {
 	int len = 0;
@@ -35,9 +35,10 @@ TCPSocket::TCPSocket(uv_loop_t* loop, uv_tcp_t* tcp)
 	m_loop = loop;
 	m_tcp = tcp;
 	m_port = 80;
-	m_timeout = 10000;/// 10S
+	m_timeout = 2000;/// 2S
 	m_curTime = 0;
 	m_initConnectInfo = false;
+	m_isReadTag = false;
 	
 	uv_mutex_init(&m_writeMutex);
 	uv_mutex_init(&m_readMutex);
@@ -317,7 +318,7 @@ bool TCPSocket::send(const char* data, unsigned int len, TCPMsgTag msgTag)
 		return false;
 	}
 
-	if (getState() != tcpSocketState::tcps_connect)
+	if (m_state != tcpSocketState::tcps_connect)
 		return false;
 
 	const static unsigned int headlen = sizeof(TCPMsgHead);
@@ -420,17 +421,17 @@ void TCPSocket::setTcp(uv_tcp_t* tcp)
 
 std::string TCPSocket::getIp()
 {
-	//uv_mutex_lock(&m_basedataMutex);
+	uv_mutex_lock(&m_basedataMutex);
 	auto r = m_ip;
-	//uv_mutex_unlock(&m_basedataMutex);
+	uv_mutex_unlock(&m_basedataMutex);
 	return r;
 }
 
 void TCPSocket::setIp(const std::string ip)
 {
-	//uv_mutex_lock(&m_basedataMutex);
+	uv_mutex_lock(&m_basedataMutex);
 	m_ip = ip;
-	//uv_mutex_unlock(&m_basedataMutex);
+	uv_mutex_unlock(&m_basedataMutex);
 }
 
 unsigned int TCPSocket::getPort()
@@ -461,6 +462,10 @@ void TCPSocket::setState(tcpSocketState state)
 	uv_mutex_lock(&m_basedataMutex);
 	m_state = state;
 	uv_mutex_unlock(&m_basedataMutex);
+	if (state == tcps_dis_connect || state == tcps_connect)
+	{
+		this->setReadTag(false);
+	}
 }
 
 void TCPSocket::pushWriteData(const blockdata& data)
@@ -501,7 +506,7 @@ void TCPSocket::clearReadCache()
 
 void TCPSocket::write()
 {
-	if (getState() != tcpSocketState::tcps_connect)
+	if (m_state != tcpSocketState::tcps_connect)
 		return;
 
 	if (uv_mutex_trylock(&m_writeMutex) != 0)
@@ -530,7 +535,7 @@ void TCPSocket::write()
 	uv_write_t *req = (uv_write_t*)fc_malloc(sizeof(uv_write_t));
 	req->data = buf;
 
-	int r = uv_write(req, (uv_stream_t*)getTcp(), buf, 1, uv_on_after_write);
+	int r = uv_write(req, (uv_stream_t*)m_tcp, buf, 1, uv_on_after_write);
 	if (r)//if (r && r != UV__EINVAL)
 	{
 		shutdownSocket();
@@ -546,10 +551,13 @@ void TCPSocket::write()
 
 void TCPSocket::read(ssize_t nread, const uv_buf_t *buf)
 {
-	if (getState() != tcpSocketState::tcps_connect)
+	if (m_state != tcpSocketState::tcps_connect)
 	{
+		this->setReadTag(false);
 		return;
 	}
+
+	this->setReadTag(true);
 
 	m_recvBuffer->add(buf->base, nread);
 
@@ -685,7 +693,7 @@ void TCPSocket::uv_connect_async_callback(uv_async_t* handle)
 {
 	TCPSocket* s = (TCPSocket*)handle->data;
 
-	if (s->getState() != tcpSocketState::tcps_dis_connect)
+	if (s->m_state != tcpSocketState::tcps_dis_connect)
 		return;
 
 	s->stopConnectTimer();
@@ -727,7 +735,7 @@ void TCPSocket::uv_connect_async_callback(uv_async_t* handle)
 			}
 		}
 
-		auto tcp = s->getTcp();
+		auto tcp = s->m_tcp;
 		if (tcp == NULL)
 		{
 			tcp = (uv_tcp_t*)fc_malloc(sizeof(uv_tcp_t));
@@ -795,7 +803,7 @@ void TCPSocket::uv_listen_async_callback(uv_async_t* handle)
 {
 	TCPSocket* s = (TCPSocket*)handle->data;
 
-	auto tcp = s->getTcp();
+	auto tcp = s->m_tcp;
 	assert(tcp == NULL);
 
 	tcp = (uv_tcp_t*)fc_malloc(sizeof(uv_tcp_t));

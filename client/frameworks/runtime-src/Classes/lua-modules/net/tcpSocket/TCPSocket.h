@@ -43,11 +43,11 @@ public:
 	TCPSocket() = delete;
 	TCPSocket(const TCPSocket&) = delete;
 	TCPSocket(uv_loop_t* loop, uv_tcp_t* tcp = NULL);
-	
+
 	virtual ~TCPSocket();
 
 	void listen(const char* ip, unsigned int port);
-	
+
 	void connect(const char* ip, unsigned int port, unsigned int timeout);
 
 	bool reconnect();
@@ -59,19 +59,19 @@ public:
 	bool send(const char* data, unsigned int len, TCPMsgTag msgTag = TCPMsgTag::MT_DEFAULT);
 
 	uv_tcp_t* getTcp();
-	
+
 	std::string getIp();
-	
+
 	unsigned int getPort();
 
 	tcpSocketState getState();
-	
+
 	void setCallback(socket_call call, void* userdata);
 
 	void* getCallbackUserdata();
-	
+
 	bool getAllRecvData(std::list<blockdata>* list);
-	
+
 	bool getRecvData(blockdata* data);
 
 	bool setNoDelay(bool enable);
@@ -96,7 +96,7 @@ protected:
 	void clearWriteCache();
 
 	void pushWriteData(const blockdata& data);
-	
+
 	void clearReadCache();
 
 	void pushReadData(const blockdata& data);
@@ -109,7 +109,14 @@ protected:
 
 	void stopConnectTimer();
 
+	inline void setReadTag(bool isRead) { m_isReadTag = isRead; }
+
+	inline bool isReadTag() { return m_isReadTag; }
+
 protected:
+
+	friend class TCPClient;
+	friend class TCPServer;
 
 	uv_loop_t* m_loop;
 	uv_tcp_t* m_tcp;
@@ -119,6 +126,8 @@ protected:
 	unsigned int m_port;
 
 	bool m_initConnectInfo;
+
+	bool m_isReadTag;
 
 	/// timeout
 	unsigned int m_timeout;

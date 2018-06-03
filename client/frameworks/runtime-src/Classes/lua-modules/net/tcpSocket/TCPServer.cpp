@@ -258,7 +258,7 @@ void TCPServer::addNewSocket(TCPSocket* s)
 		return;
 	}
 
-	UV_LOG(UV_L_INFO, "insert [%p]:[%p] ip = [%s]", s, s->getTcp(), s->getIp().c_str());
+	UV_LOG(UV_L_WARNING, "insert [%p]:[%p] ip = [%s]", s, s->getTcp(), s->getIp().c_str());
 
 	bool find = false;
 	for (auto it = allSocket.begin(); it != allSocket.end(); ++it)
@@ -295,7 +295,7 @@ void TCPServer::removeSocket(TCPSocket* s)
 	{
 		if (it->s == s)
 		{
-			UV_LOG(UV_L_INFO, "delete [%p]: ip = [%s]", s, s->getIp().c_str());
+			UV_LOG(UV_L_WARNING, "delete [%p]: ip = [%s]", s, s->getIp().c_str());
 			it->isInvalid = true;
 			return;
 		}
@@ -414,6 +414,13 @@ void TCPServer::heartRun()
 	{
 		if (!it->isInvalid)
 		{
+			if (it->s->isReadTag())
+			{
+				it->s->setReadTag(false);
+				it->curHeartTime = 0;
+				continue;
+			}
+
 			it->curHeartTime += HEARTBEAT_TIMER_DELAY;
 			if (it->curHeartTime >= HEARTBEAT_CHECK_DELAY)
 			{

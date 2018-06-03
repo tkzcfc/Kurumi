@@ -481,6 +481,13 @@ void TCPClient::heartRun()
 		if(clientdata->connectState != CONNECT)
 			continue;
 
+		if (clientdata->s->isReadTag())
+		{
+			clientdata->s->setReadTag(false);
+			clientdata->curHeartTime = 0;
+			continue;
+		}
+
 		clientdata->curHeartTime += HEARTBEAT_TIMER_DELAY;
 		if (clientdata->curHeartTime > HEARTBEAT_CHECK_DELAY)
 		{

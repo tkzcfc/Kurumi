@@ -2124,6 +2124,7 @@
         <Project Name="taohua2.csd" Type="Node" />
         <Project Name="Yun.csd" Type="Node" />
         <Project Name="zhucheng.csd" Type="Scene" />
+        <Project Name="MessageBox.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>

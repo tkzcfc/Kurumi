@@ -21,3 +21,4 @@ client/frameworks/runtime-src/proj.android-studio/app/obj/
 
 client/frameworks/runtime-src/proj.win32/Kurumi.VC.VC.opendb
 server/Debug/server.exe
+server/server.VC.db

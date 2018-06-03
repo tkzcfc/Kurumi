@@ -127,8 +127,8 @@ extern void setUVLogPrintFunc(void(*func)(int, const char*));
 #define OPEN_UV_THREAD_HEARTBEAT 1
 
 #if OPEN_UV_THREAD_HEARTBEAT == 1
-#define HEARTBEAT_TIMER_DELAY (200)		// 心跳检测定时器间隔
-#define HEARTBEAT_CHECK_DELAY (1000)	// 心跳检测时间
+#define HEARTBEAT_TIMER_DELAY (400)		// 心跳检测定时器间隔
+#define HEARTBEAT_CHECK_DELAY (1200)	// 心跳检测时间
 #define HEARTBEAT_MAX_COUNT_SERVER 3	// 心跳不回复最大次数(服务端)
 #define HEARTBEAT_MAX_COUNT_CLIENT 3	// 心跳不回复最大次数(客户端)
 
