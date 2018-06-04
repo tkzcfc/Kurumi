@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_CONSOLE;COCOS2D_DEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../client/frameworks/runtime-src/Classes/lua-modules/net/tcpSocket;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/src;../../client/frameworks/runtime-src/Classes/lua-modules/net;../../client/frameworks/runtime-src/Classes/lua-modules/net/libuv/include;../external/tolua;../external/lua;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/pbc/src;../../client/frameworks/runtime-src/Classes/lua-modules/pbc;../../client/frameworks/runtime-src/Classes/lua-modules/lfs;src;../../client/frameworks/runtime-src/Classes/lua-modules;src/base;$(SolutionDir)thirdparty\code\glog\src;$(SolutionDir)thirdparty\code\glog\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,9 +106,8 @@
 xcopy /Y /Q "$(SolutionDir)thirdparty\bin\$(Configuration)\*.dll" "$(SolutionDir)$(Configuration)"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>del "$(SolutionDir)$(Configuration)\*.exp"
-del "$(SolutionDir)$(Configuration)\*.ilk"
-del "$(SolutionDir)$(Configuration)\*.pdb"</Command>
+      <Command>xcopy "$(ProjectDir)lua_code" "$(SolutionDir)$(Configuration)\lua_code" /D /E /I /F /Y
+xcopy "$(ProjectDir)netmsg" "$(SolutionDir)$(Configuration)\netmsg" /D /E /I /F /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,10 +150,9 @@ xcopy /Y /Q "$(SolutionDir)thirdparty\bin\$(Configuration)\*.dll" "$(SolutionDir
     <PostBuildEvent>
       <Command>del "$(SolutionDir)$(Configuration)\*.exp"
 del "$(SolutionDir)$(Configuration)\*.ilk"
-del "$(SolutionDir)$(Configuration)\*.pdb" 
-del "$(SolutionDir)$(Configuration)\*.iobj" 
-del "$(SolutionDir)$(Configuration)\*.ipdb" 
-</Command>
+del "$(SolutionDir)$(Configuration)\*.pdb"
+xcopy "$(ProjectDir)lua_code" "$(SolutionDir)$(Configuration)\lua_code" /D /E /I /F /Y
+xcopy "$(ProjectDir)netmsg" "$(SolutionDir)$(Configuration)\netmsg" /D /E /I /F /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -274,7 +272,9 @@ del "$(SolutionDir)$(Configuration)\*.ipdb"
     <ClCompile Include="src\base\DUScheduler.cpp" />
     <ClCompile Include="src\base\DUSchedulerTimer.cpp" />
     <ClCompile Include="src\DUGame.cpp" />
+    <ClCompile Include="src\DULuaprint.cpp" />
     <ClCompile Include="src\lua-modules\lua_dubase.cpp" />
+    <ClCompile Include="src\lua-modules\lua_glog.cpp" />
     <ClCompile Include="src\lua-modules\lua_modules.cpp" />
     <ClCompile Include="src\net\DUServer.cpp" />
   </ItemGroup>
@@ -360,7 +360,9 @@ del "$(SolutionDir)$(Configuration)\*.ipdb"
     <ClInclude Include="src\base\DUSmartPtr.h" />
     <ClInclude Include="src\base\uthash.h" />
     <ClInclude Include="src\DUGame.h" />
+    <ClInclude Include="src\DULuaprint.h" />
     <ClInclude Include="src\lua-modules\lua_dubase.h" />
+    <ClInclude Include="src\lua-modules\lua_glog.h" />
     <ClInclude Include="src\lua-modules\lua_modules.h" />
     <ClInclude Include="src\net\DUServer.h" />
   </ItemGroup>

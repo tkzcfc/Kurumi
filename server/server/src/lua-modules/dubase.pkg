@@ -1,9 +1,9 @@
 //tolua++ -L basic.lua -o lua_dubase.cpp dubase.pkg
 
-
 $#include "DUObject.h"
 $#include "DUScheduler.h"
 $#include "net/DUServer.h"
+$#include "DUGame.h"
 
 class DUObject
 {
@@ -70,4 +70,14 @@ public:
 };
 
 
+class DUGame
+{
+public:
+	static DUGame* getInstance();
+	static void destroy();
+
+	void setInterval(float interval);
+
+	bool isFileExist(const char* filename);
+};
 

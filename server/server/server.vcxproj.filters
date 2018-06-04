@@ -63,6 +63,9 @@
     <Filter Include="lua-modules\pbc\src">
       <UniqueIdentifier>{71a331a1-fb55-4a49-8601-c00ffbeb21c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lua-modules\glog">
+      <UniqueIdentifier>{b8bec90c-7d48-40f2-a19e-0c049126b06b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\lfs\lfs.c">
@@ -368,6 +371,12 @@
     <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.cpp">
       <Filter>lua-modules\net</Filter>
     </ClCompile>
+    <ClCompile Include="src\DULuaprint.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua-modules\lua_glog.cpp">
+      <Filter>lua-modules\glog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\lfs\lfs.h">
@@ -621,6 +630,12 @@
     </ClInclude>
     <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.h">
       <Filter>lua-modules\net</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DULuaprint.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua-modules\lua_glog.h">
+      <Filter>lua-modules\glog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

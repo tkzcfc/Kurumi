@@ -1,6 +1,6 @@
 /*
 ** Lua binding: dubase
-** Generated automatically by tolua++-1.0.92 on 05/31/18 22:09:14.
+** Generated automatically by tolua++-1.0.92 on 06/03/18 22:42:06.
 */
 
 #include "tolua_fix.h"
@@ -11,9 +11,12 @@
 /* Exported function */
 TOLUA_API int  tolua_dubase_open (lua_State* tolua_S);
 
+#define GLOG_NO_ABBREVIATED_SEVERITIES 
+#include "glog/logging.h"
 #include "DUObject.h"
 #include "DUScheduler.h"
 #include "net/DUServer.h"
+#include "DUGame.h"
 
 /* function to release collected object via destructor */
 #ifdef __cplusplus
@@ -38,8 +41,9 @@ static int tolua_collect_DUObject (lua_State* tolua_S)
 static void tolua_reg_types (lua_State* tolua_S)
 {
  tolua_usertype(tolua_S,"DUScheduler");
- tolua_usertype(tolua_S,"DUObject");
  
+ tolua_usertype(tolua_S,"DUObject");
+ tolua_usertype(tolua_S,"DUGame");
  tolua_usertype(tolua_S,"DUServer");
 }
 
@@ -818,6 +822,128 @@ static int tolua_dubase_DUServer_setCallFunc00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getInstance of class  DUGame */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUGame_getInstance00
+static int tolua_dubase_DUGame_getInstance00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"DUGame",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   DUGame* tolua_ret = (DUGame*)  DUGame::getInstance();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"DUGame");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getInstance'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: destroy of class  DUGame */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUGame_destroy00
+static int tolua_dubase_DUGame_destroy00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"DUGame",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   DUGame::destroy();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'destroy'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setInterval of class  DUGame */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUGame_setInterval00
+static int tolua_dubase_DUGame_setInterval00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUGame",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUGame* self = (DUGame*)  tolua_tousertype(tolua_S,1,0);
+  float interval = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setInterval'", NULL);
+#endif
+  {
+   self->setInterval(interval);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setInterval'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isFileExist of class  DUGame */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUGame_isFileExist00
+static int tolua_dubase_DUGame_isFileExist00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUGame",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUGame* self = (DUGame*)  tolua_tousertype(tolua_S,1,0);
+  const char* filename = ((const char*)  tolua_tostring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isFileExist'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isFileExist(filename);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isFileExist'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_dubase_open (lua_State* tolua_S)
 {
@@ -868,6 +994,13 @@ TOLUA_API int tolua_dubase_open (lua_State* tolua_S)
    tolua_function(tolua_S,"closeServer",tolua_dubase_DUServer_closeServer00);
    tolua_function(tolua_S,"isCloseFinish",tolua_dubase_DUServer_isCloseFinish00);
    tolua_function(tolua_S,"setCallFunc",tolua_dubase_DUServer_setCallFunc00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"DUGame","DUGame","",NULL);
+  tolua_beginmodule(tolua_S,"DUGame");
+   tolua_function(tolua_S,"getInstance",tolua_dubase_DUGame_getInstance00);
+   tolua_function(tolua_S,"destroy",tolua_dubase_DUGame_destroy00);
+   tolua_function(tolua_S,"setInterval",tolua_dubase_DUGame_setInterval00);
+   tolua_function(tolua_S,"isFileExist",tolua_dubase_DUGame_isFileExist00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;
