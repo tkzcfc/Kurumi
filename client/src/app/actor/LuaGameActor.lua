@@ -172,7 +172,7 @@ function LuaGameActor:addState(stateName)
 end
 
 function LuaGameActor:handle(evenName)
-	print("handle", evenName)
+	--print("handle", evenName)
 	return self.FSM:handle(evenName)
 end
 

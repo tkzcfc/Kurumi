@@ -12,6 +12,9 @@ function LoginScene:onCreate()
     	_MyG.Loading:showLoading(nil, self)
     end
 
+    self.ui.TextField_Account:setString(cc.UserDefault:getInstance():getStringForKey("key-gameaccount"))
+    self.ui.TextField_Password:setString(cc.UserDefault:getInstance():getStringForKey("key-gamepassword"))
+
     self:register("login.S2C_login_ret", function(...) self:dis_login_ret(...) end)
     self:register("login.S2C_register_ret", function(...) self:dis_register_ret(...) end)
 end
@@ -21,7 +24,7 @@ function LoginScene:onClickStart(sender)
 	local password = self.ui.TextField_Password:getString()
 
 	if account == "" or password == "" then
-		print("账号或密码不能为空")
+		_MyG.MessageBox:showBox("账号或密码不能为空")
 		return
 	end
 
@@ -33,7 +36,7 @@ function LoginScene:registerAccount()
 	local password = self.ui.TextField_Password:getString()
 
 	if account == "" or password == "" then
-		print("账号或密码不能为空")
+		_MyG.MessageBox:showBox("账号或密码不能为空")
 		return
 	end
 
@@ -55,11 +58,17 @@ end
 function LoginScene:dis_login_ret(data)
 	_MyG.Loading:hideLoding()
 	if data.code == 0 then
+		local account = self.ui.TextField_Account:getString()
+		local password = self.ui.TextField_Password:getString()
+		cc.UserDefault:getInstance():setStringForKey("key-gameaccount", account)
+		cc.UserDefault:getInstance():setStringForKey("key-gamepassword", password)
 		_MyG.APP:run("CreateScene")
 	elseif data.code == 1 then
-		self:registerAccount()
+		_MyG.MessageBox:showBox("账号不存在是否注册？", function() 
+			self:registerAccount()
+		end, function() end)
 	else
-		print(data.msg)
+		_MyG.MessageBox:showBox(data.msg)
 	end
 end
 
@@ -68,7 +77,7 @@ function LoginScene:dis_register_ret(data)
 	if data.code == 0 then
 		self:onClickStart(nil)
 	else
-		print(data.msg)
+		_MyG.MessageBox:showBox(data.msg)
 	end
 end
 

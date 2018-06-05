@@ -27,3 +27,5 @@ server/thirdparty/pro/glog/Debug
 server/Release/
 server/server/Release/
 server/thirdparty/pro/glog/Release
+server/server.VC.VC.opendb
+client/UserDefault.xml

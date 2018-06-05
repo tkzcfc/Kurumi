@@ -23,11 +23,13 @@ function GameMain:onCreate()
     local uiPage = _MyG.loadStudioFile("HomeSceneUI", self)
     self:addChild(uiPage.root)
 
-    local scheduler = cc.Director:getInstance():getScheduler()  
-    local schedulerID = nil  
-    schedulerID = scheduler:scheduleScriptFunc(function(d)  
-        self:updateLogin(d)
-    end,0,false)    
+    -- local scheduler = cc.Director:getInstance():getScheduler()  
+    -- local schedulerID = nil  
+    -- schedulerID = scheduler:scheduleScriptFunc(function(d)  
+    --     self:updateLogin(d)
+    -- end,0,false)    
+
+    self:onClickLoad(nil)
 end
 
 function GameMain:loadFinish()
@@ -56,7 +58,7 @@ end
 
 function GameMain:onClickLoad(sender)
 
-    _MyG.Loading:showLoading()
+    _MyG.Loading:showLoading(nil, self)
 
     print(cc.TextureCache:getInstance():getDescription())
 

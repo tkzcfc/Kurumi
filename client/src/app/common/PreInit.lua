@@ -51,3 +51,6 @@ _MyG.PlayerController = require("app.actor.role.PlayerController"):new()
 
 _MyG.Loading = require("app.ui.LoadingUI"):new()
 _MyG.Loading:retain()
+
+_MyG.MessageBox = require("app.ui.MessageBoxUI"):new()
+_MyG.MessageBox:retain()

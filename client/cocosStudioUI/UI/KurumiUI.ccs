@@ -152,6 +152,12 @@
           <Project Name="map1_f2.csd" Type="Node" />
           <Project Name="map1_node.csd" Type="Node" />
         </Folder>
+        <Folder Name="messagebox">
+          <Image Name="button_no.png" />
+          <Image Name="button_yes.png" />
+          <Project Name="MessageBox.csd" Type="Scene" />
+          <Image Name="ti_bg.png" />
+        </Folder>
         <Folder Name="npc">
           <ExportJsonFile Name="zhucheng_nvzhu.ExportJson" />
           <ExportJsonFile Name="zhucheng_nvzhu2.ExportJson" />
@@ -2118,13 +2124,13 @@
         <Project Name="LoadingScene.csd" Type="Scene" />
         <Project Name="LoginScene.csd" Type="Scene" />
         <Project Name="MainScene.csd" Type="Scene" />
+        <Project Name="MessageBox.csd" Type="Scene" />
         <Project Name="playerControlUI.csd" Type="Scene" />
         <Project Name="PreScene.csd" Type="Scene" />
         <Project Name="taohua1.csd" Type="Node" />
         <Project Name="taohua2.csd" Type="Node" />
         <Project Name="Yun.csd" Type="Node" />
         <Project Name="zhucheng.csd" Type="Scene" />
-        <Project Name="MessageBox.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>

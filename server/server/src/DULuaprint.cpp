@@ -41,7 +41,8 @@ int lua_print(lua_State * luastate)
 			t += "\t";
 	}
 	//DU_LOG("[LUA-print] %s", t.c_str());
-	LOG(INFO) << "[LUA-print]" << t;
+	//LOG(INFO) << "[LUA-print]" << t;
+	printf("[LUA-print] %s\n", t.c_str());
 
 	return 0;
 }

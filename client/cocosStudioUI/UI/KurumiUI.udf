@@ -32,8 +32,13 @@
       <Value ctype="TabsInfo">
         <OpenedDocuments>
           <FilePathData Path="MessageBox.csd" />
+          <FilePathData Path="messagebox/MessageBox.csd" />
+          <FilePathData Path="LoginScene.csd" />
+          <FilePathData Path="MainScene.csd" />
+          <FilePathData Path="HomeSceneUI.csd" />
+          <FilePathData Path="CreateScene.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="MessageBox.csd" />
+        <ActiveDocument Path="HomeSceneUI.csd" />
       </Value>
     </Item>
   </Properties>
