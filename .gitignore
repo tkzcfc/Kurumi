@@ -29,3 +29,4 @@ server/server/Release/
 server/thirdparty/pro/glog/Release
 server/server.VC.VC.opendb
 client/UserDefault.xml
+client/frameworks/runtime-src/proj.android-studio/app/libs/armeabi/libcocos2dlua.so
