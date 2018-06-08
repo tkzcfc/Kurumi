@@ -2,6 +2,7 @@
 
 #include "GameAttribute.h"
 #include "FSM.h"
+#include "SpeedController.h"
 #include "cocostudio/CocoStudio.h"
 
 using namespace cocostudio;
@@ -40,16 +41,8 @@ public:
 
 	inline GameWord* getGameWord() { return m_word; }
 
-	virtual void resetMoveSpeed(float x, float y);
-
-	// 附加移动属性
-	virtual void appendMoveSpeed(float x, float y);
-
 	// 逻辑更新
 	virtual void logicUpdate(float d);
-
-	// 是否可以移动
-	virtual bool isCanMove();
 	
 	// 设置角色方向
 	virtual void setOrientation(short ori);
@@ -98,9 +91,17 @@ public:
 
 	const Vec2& getMapMovePos();
 
-protected:
+	inline SpeedController* getActorSpeedController() { return m_actorSpeedController ;}
 
-	void updateMoveLogic(float d);
+	inline SpeedController* getArmatureSpeedController() { return m_armatureSpeedController; }
+
+	inline void lockOrientation() { m_isLockOrientation = true; }
+
+	inline void unLockOrientation() { m_isLockOrientation = false; }
+
+	inline bool isLockOrientation() { return m_isLockOrientation; }
+
+protected:
 
 	void updateArmatureInfo();
 
@@ -119,4 +120,9 @@ protected:
 	GameActorType	m_actorType;
 
 	std::map<std::string, LuaFunction*> m_luaHandleMap;
+
+	SpeedController* m_actorSpeedController;
+	SpeedController* m_armatureSpeedController;
+
+	bool m_isLockOrientation;
 };

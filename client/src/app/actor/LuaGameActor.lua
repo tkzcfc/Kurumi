@@ -2,13 +2,7 @@ local LuaGameActor = class("LuaGameActor", GameActor)
 
 function LuaGameActor:ctor()
 
-	self:registerLuaHandle("resetMoveSpeed", function(...) return self:override_resetMoveSpeed(...) end)
-
-	self:registerLuaHandle("appendMoveSpeed", function(...) return self:override_appendMoveSpeed(...) end)
-
 	self:registerLuaHandle("logicUpdate", function(...) return self:override_logicUpdate(...) end)
-
-	self:registerLuaHandle("isCanMove", function(...) return self:override_isCanMove(...) end)
 
 	self:registerLuaHandle("updateArmatureInfo", function(...) return self:override_updateArmatureInfo(...) end)
 
@@ -27,6 +21,9 @@ function LuaGameActor:ctor()
 	self.FSM = self:getFSM()
 	self.gameAttribute = self:getGameAttribute()
 
+	self.actorSpeedController = self:getActorSpeedController()
+	self.armatureSpeedController = self:getArmatureSpeedController()
+
 	self.totalStateName = {}
 	self.stateConfig = {}
 
@@ -34,23 +31,21 @@ function LuaGameActor:ctor()
 	self.allMovePower = {}
 end
 
-function LuaGameActor:override_resetMoveSpeed(x, y)
-end
-
-function LuaGameActor:override_appendMoveSpeed(x, y)
-end
-
 function LuaGameActor:override_logicUpdate(time)
-	if not self.isLockOrientation then
-		self:updateOrientation()
-	end
-end
-
-function LuaGameActor:override_isCanMove()
-	return true
+	self:updateMovePower(time)
 end
 
 function LuaGameActor:override_updateArmatureInfo()
+
+	if self.gameAttribute:getCurOrientation() == GAME_ORI_LEFT then
+		local x = self.actorSpeedController:getGravityX()
+		local y = self.actorSpeedController:getGravityY()
+		self.actorSpeedController:setGravity(-math.abs(x), y)
+	else
+		local x = self.actorSpeedController:getGravityX()
+		local y = self.actorSpeedController:getGravityY()
+		self.actorSpeedController:setGravity(math.abs(x), y)
+	end
 end
 
 function LuaGameActor:override_loadArmature(filePath)
@@ -135,16 +130,6 @@ function LuaGameActor:loadConfig(config)
 	self:getArmature():getAnimation():setMovementEventCallFunc(function(...) self:override_movementEventCallFunc(...) end)
 end
 
-
-function LuaGameActor:updateOrientation()
-
-	if self.selfMovePower.x > 0.0 then
-		self:setOrientation(GAME_ORI_RIGHT)
-	elseif self.selfMovePower.x < 0.0 then
-		self:setOrientation(GAME_ORI_LEFT)
-	end
-end
-
 function LuaGameActor:addState(stateName)
 
 	self.totalStateName[stateName] = true
@@ -188,27 +173,7 @@ function LuaGameActor:playAnimationByState(state)
 	local armature = self:getArmature()
 	armature:getAnimation():play(m[1])
 end
-
-function LuaGameActor:lockOrientation()
-	self.isLockOrientation = true
-end
-
-function LuaGameActor:unLockOrientation()
-	self.isLockOrientation = false
-end
-
 ----------------------move power begin-----------------------------
-
-function LuaGameActor:setSelfMovePower(power)
-	self:clearSelfMovePower()
-	self.selfMovePower = power
-	self:appendMoveSpeed(power.x, power.y)
-end
-
-function LuaGameActor:clearSelfMovePower()
-	self:appendMoveSpeed(-self.selfMovePower.x, -self.selfMovePower.y)
-	self.selfMovePower = {x = 0, y = 0}
-end
 
 function LuaGameActor:setMovePower(powerName, power)
 	--print(powerName, power.x, power.y)
@@ -216,9 +181,6 @@ function LuaGameActor:setMovePower(powerName, power)
 	if ptab then
 		ptab.power.x = power.x
 		ptab.power.y = power.y
-		if ptab.enable then
-			self:updateMovePower()
-		end
 	end
 end
 
@@ -226,21 +188,22 @@ function LuaGameActor:getMovePower(powerName)
 	return self.allMovePower[powerName]
 end
 
-function LuaGameActor:addMovePower(powerName)
+function LuaGameActor:addMovePower(powerName, func)
 	if self.allMovePower[powerName] == nil then
-		self.allMovePower[powerName] = {power = {x = 0, y = 0}, enable = true}
+		self.allMovePower[powerName] = {power = {x = 0, y = 0}, enable = true, func = func}
 	end
 end
 
 function LuaGameActor:removeMovePower(powerName)
 	self.allMovePower[powerName] = nil
-	self:updateMovePower()
 end
 
-function LuaGameActor:setMovePowerEnable(powerName, enable)
+function LuaGameActor:setMovePowerEnable(powerName, enable, clearfunc)
 	if self.allMovePower[powerName] ~= nil then
 		self.allMovePower[powerName].enable = enable
-		self:updateMovePower()
+		if clearfunc then
+			self.allMovePower[powerName].func = nil
+		end
 	end
 end
 
@@ -250,7 +213,6 @@ function LuaGameActor:setAllMovePowerEnable(enable)
 			v.enable = enable
 		end
 	end
-	self:updateMovePower()
 end
 
 function LuaGameActor:getAllMovePowerEnableState()
@@ -273,18 +235,34 @@ function LuaGameActor:setAllMovePowerEnableState(allEnableState)
 			self.allMovePower[k].enable = v
 		end
 	end
-	self:updateMovePower()
 end
 
-function LuaGameActor:updateMovePower()
+function LuaGameActor:updateMovePower(time)
 	local power = {x = 0.0, y = 0.0}
 	for k,v in pairs(self.allMovePower) do
 		if v and v.enable then
-			power.x = power.x + v.power.x
-			power.y = power.y + v.power.y
+			if v.func then
+				local p = v.func(v.power, time)
+				if p then
+					power.x = power.x + p.x
+					power.y = power.y + p.y
+				end
+			else
+				power.x = power.x + v.power.x
+				power.y = power.y + v.power.y
+			end
 		end
 	end
 	self:setSelfMovePower(power)
+end
+
+function LuaGameActor:setSelfMovePower(power)
+	self:clearSelfMovePower()
+	self.selfMovePower = power
+end
+
+function LuaGameActor:clearSelfMovePower()
+	self.selfMovePower = {x = 0, y = 0}
 end
 
 ----------------------------move power end---------------------------------

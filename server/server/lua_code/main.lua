@@ -37,7 +37,7 @@ end
 __G__TRACKBACK__ = function(msg)
     local msg = debug.traceback(msg, 3)
     local logmsg = os.date() .. ":"..msg
-    print(msg)
+    print(logmsg)
     return msg
 end
 

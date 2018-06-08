@@ -2124,7 +2124,6 @@
         <Project Name="LoadingScene.csd" Type="Scene" />
         <Project Name="LoginScene.csd" Type="Scene" />
         <Project Name="MainScene.csd" Type="Scene" />
-        <Project Name="MessageBox.csd" Type="Scene" />
         <Project Name="playerControlUI.csd" Type="Scene" />
         <Project Name="PreScene.csd" Type="Scene" />
         <Project Name="taohua1.csd" Type="Node" />

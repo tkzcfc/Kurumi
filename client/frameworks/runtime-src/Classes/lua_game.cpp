@@ -1,10 +1,11 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 05/31/18 22:32:53.
+** Generated automatically by tolua++-1.0.92 on 06/08/18 13:28:06.
 */
 
 #include "tolua_fix.h"
 #include "tolua++.h"
+#include "LuaBasicConversions.h"
 #include <string>
 
 
@@ -15,6 +16,7 @@
 #include "gamecore/GameAttribute.h"
 #include "gamecore/GameWord.h"
 #include "net/Client.h"
+#include "gamecore/SpeedController.h"
 
 /* function to release collected object via destructor */
 #ifdef __cplusplus
@@ -54,6 +56,13 @@ static int tolua_collect_QFSMState (lua_State* tolua_S)
     return 0;
 }
 
+static int tolua_collect_SpeedController (lua_State* tolua_S)
+{
+ SpeedController* self = (SpeedController*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
 static int tolua_collect_Size (lua_State* tolua_S)
 {
  Size* self = (Size*) tolua_tousertype(tolua_S,1,0);
@@ -69,6 +78,8 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"GameAttribute");
  tolua_usertype(tolua_S,"QFSMState");
  
+ tolua_usertype(tolua_S,"Node");
+ tolua_usertype(tolua_S,"SpeedController");
  tolua_usertype(tolua_S,"Vec2");
  tolua_usertype(tolua_S,"ccs.Armature");
  tolua_usertype(tolua_S,"TCPClient");
@@ -783,6 +794,38 @@ static int tolua_game_GameActor_delete00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: init of class  GameActor */
+#ifndef TOLUA_DISABLE_tolua_game_GameActor_init00
+static int tolua_game_GameActor_init00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'init'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->init();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'init'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: getGameAttribute of class  GameActor */
 #ifndef TOLUA_DISABLE_tolua_game_GameActor_getGameAttribute00
 static int tolua_game_GameActor_getGameAttribute00(lua_State* tolua_S)
@@ -906,173 +949,6 @@ static int tolua_game_GameActor_getGameWord00(lua_State* tolua_S)
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getGameWord'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: init of class  GameActor */
-#ifndef TOLUA_DISABLE_tolua_game_GameActor_init00
-static int tolua_game_GameActor_init00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'init'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->init();
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'init'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: resetMoveSpeed of class  GameActor */
-#ifndef TOLUA_DISABLE_tolua_game_GameActor_resetMoveSpeed00
-static int tolua_game_GameActor_resetMoveSpeed00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
-  float x = ((float)  tolua_tonumber(tolua_S,2,0));
-  float y = ((float)  tolua_tonumber(tolua_S,3,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'resetMoveSpeed'", NULL);
-#endif
-  {
-   self->resetMoveSpeed(x,y);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'resetMoveSpeed'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: appendMoveSpeed of class  GameActor */
-#ifndef TOLUA_DISABLE_tolua_game_GameActor_appendMoveSpeed00
-static int tolua_game_GameActor_appendMoveSpeed00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
-  float x = ((float)  tolua_tonumber(tolua_S,2,0));
-  float y = ((float)  tolua_tonumber(tolua_S,3,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'appendMoveSpeed'", NULL);
-#endif
-  {
-   self->appendMoveSpeed(x,y);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'appendMoveSpeed'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: logicUpdate of class  GameActor */
-#ifndef TOLUA_DISABLE_tolua_game_GameActor_logicUpdate00
-static int tolua_game_GameActor_logicUpdate00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
-  float d = ((float)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'logicUpdate'", NULL);
-#endif
-  {
-   self->logicUpdate(d);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'logicUpdate'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: isCanMove of class  GameActor */
-#ifndef TOLUA_DISABLE_tolua_game_GameActor_isCanMove00
-static int tolua_game_GameActor_isCanMove00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isCanMove'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->isCanMove();
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'isCanMove'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1541,6 +1417,164 @@ static int tolua_game_GameActor_unregisterLuaHandle00(lua_State* tolua_S)
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'unregisterLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getActorSpeedController of class  GameActor */
+#ifndef TOLUA_DISABLE_tolua_game_GameActor_getActorSpeedController00
+static int tolua_game_GameActor_getActorSpeedController00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getActorSpeedController'", NULL);
+#endif
+  {
+   SpeedController* tolua_ret = (SpeedController*)  self->getActorSpeedController();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"SpeedController");
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getActorSpeedController'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getArmatureSpeedController of class  GameActor */
+#ifndef TOLUA_DISABLE_tolua_game_GameActor_getArmatureSpeedController00
+static int tolua_game_GameActor_getArmatureSpeedController00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getArmatureSpeedController'", NULL);
+#endif
+  {
+   SpeedController* tolua_ret = (SpeedController*)  self->getArmatureSpeedController();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"SpeedController");
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getArmatureSpeedController'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: lockOrientation of class  GameActor */
+#ifndef TOLUA_DISABLE_tolua_game_GameActor_lockOrientation00
+static int tolua_game_GameActor_lockOrientation00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'lockOrientation'", NULL);
+#endif
+  {
+   self->lockOrientation();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'lockOrientation'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: unLockOrientation of class  GameActor */
+#ifndef TOLUA_DISABLE_tolua_game_GameActor_unLockOrientation00
+static int tolua_game_GameActor_unLockOrientation00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'unLockOrientation'", NULL);
+#endif
+  {
+   self->unLockOrientation();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'unLockOrientation'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isLockOrientation of class  GameActor */
+#ifndef TOLUA_DISABLE_tolua_game_GameActor_isLockOrientation00
+static int tolua_game_GameActor_isLockOrientation00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isLockOrientation'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isLockOrientation();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isLockOrientation'.",&tolua_err);
  return 0;
 #endif
 }
@@ -2948,23 +2982,40 @@ static int tolua_game_GameWord_getMapSize00(lua_State* tolua_S)
 #endif
   {
    Size tolua_ret = (Size)  self->getMapSize();
-   {
-#ifdef __cplusplus
-    void* tolua_obj = Mtolua_new((Size)(tolua_ret));
-     tolua_pushusertype(tolua_S,tolua_obj,"Size");
-    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
-#else
-    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(Size));
-     tolua_pushusertype(tolua_S,tolua_obj,"Size");
-    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
-#endif
-   }
+size_to_luaval(tolua_S, tolua_ret);
   }
  }
  return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getMapSize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: getGameWord */
+#ifndef TOLUA_DISABLE_tolua_game_getGameWord00
+static int tolua_game_getGameWord00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   GameWord* tolua_ret = (GameWord*)  getGameWord();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"GameWord");
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getGameWord'.",&tolua_err);
  return 0;
 #endif
 }
@@ -3532,6 +3583,1204 @@ static int tolua_game_Client_setAutoReconnectTimeByKey00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: new of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_new00
+static int tolua_game_SpeedController_new00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   SpeedController* tolua_ret = (SpeedController*)  Mtolua_new((SpeedController)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"SpeedController");
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_new00_local
+static int tolua_game_SpeedController_new00_local(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   SpeedController* tolua_ret = (SpeedController*)  Mtolua_new((SpeedController)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"SpeedController");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: delete of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_delete00
+static int tolua_game_SpeedController_delete00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'delete'", NULL);
+#endif
+  Mtolua_delete(self);
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'delete'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setEventCall of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setEventCall00
+static int tolua_game_SpeedController_setEventCall00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  LuaFunction luaCall = (  LuaFunction(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setEventCall'", NULL);
+#endif
+  {
+   self->setEventCall(luaCall);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setEventCall'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: resetCallForceZero of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_resetCallForceZero00
+static int tolua_game_SpeedController_resetCallForceZero00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'resetCallForceZero'", NULL);
+#endif
+  {
+   self->resetCallForceZero();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'resetCallForceZero'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setTarget of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setTarget00
+static int tolua_game_SpeedController_setTarget00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Node",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  Node* target = ((Node*)  tolua_tousertype(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTarget'", NULL);
+#endif
+  {
+   self->setTarget(target);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setTarget'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setStopCondition of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setStopCondition00
+static int tolua_game_SpeedController_setStopCondition00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  SpeedControllerStopCondi condi = ((SpeedControllerStopCondi) (int)  tolua_tonumber(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setStopCondition'", NULL);
+#endif
+  {
+   self->setStopCondition(condi);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setStopCondition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getStopCondition of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getStopCondition00
+static int tolua_game_SpeedController_getStopCondition00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getStopCondition'", NULL);
+#endif
+  {
+   SpeedControllerStopCondi tolua_ret = (SpeedControllerStopCondi)  self->getStopCondition();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getStopCondition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setGravity of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setGravity00
+static int tolua_game_SpeedController_setGravity00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setGravity'", NULL);
+#endif
+  {
+   self->setGravity(x,y);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setGravity'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getGravityX of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getGravityX00
+static int tolua_game_SpeedController_getGravityX00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getGravityX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getGravityX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getGravityX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getGravityY of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getGravityY00
+static int tolua_game_SpeedController_getGravityY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getGravityY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getGravityY();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getGravityY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setGravityEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setGravityEnable00
+static int tolua_game_SpeedController_setGravityEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setGravityEnable'", NULL);
+#endif
+  {
+   self->setGravityEnable(enable);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setGravityEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isGravityEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_isGravityEnable00
+static int tolua_game_SpeedController_isGravityEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isGravityEnable'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isGravityEnable();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isGravityEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setForce of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setForce00
+static int tolua_game_SpeedController_setForce00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setForce'", NULL);
+#endif
+  {
+   self->setForce(x,y);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setForce'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getForceX of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getForceX00
+static int tolua_game_SpeedController_getForceX00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getForceX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getForceX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getForceX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getForceY of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getForceY00
+static int tolua_game_SpeedController_getForceY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getForceY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getForceY();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getForceY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setForceEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setForceEnable00
+static int tolua_game_SpeedController_setForceEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setForceEnable'", NULL);
+#endif
+  {
+   self->setForceEnable(enable);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setForceEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isForceEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_isForceEnable00
+static int tolua_game_SpeedController_isForceEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isForceEnable'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isForceEnable();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isForceEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setForceMinValue of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setForceMinValue00
+static int tolua_game_SpeedController_setForceMinValue00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setForceMinValue'", NULL);
+#endif
+  {
+   self->setForceMinValue(x,y);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setForceMinValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getForceMinValueX of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getForceMinValueX00
+static int tolua_game_SpeedController_getForceMinValueX00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getForceMinValueX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getForceMinValueX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getForceMinValueX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getForceMinValueY of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getForceMinValueY00
+static int tolua_game_SpeedController_getForceMinValueY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getForceMinValueY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getForceMinValueY();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getForceMinValueY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setForceMinValueEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setForceMinValueEnable00
+static int tolua_game_SpeedController_setForceMinValueEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setForceMinValueEnable'", NULL);
+#endif
+  {
+   self->setForceMinValueEnable(enable);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setForceMinValueEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isForceMinValueEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_isForceMinValueEnable00
+static int tolua_game_SpeedController_isForceMinValueEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isForceMinValueEnable'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isForceMinValueEnable();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isForceMinValueEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setFriction of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setFriction00
+static int tolua_game_SpeedController_setFriction00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  float friction = ((float)  tolua_tonumber(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setFriction'", NULL);
+#endif
+  {
+   self->setFriction(friction);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setFriction'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getFriction of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getFriction00
+static int tolua_game_SpeedController_getFriction00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getFriction'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getFriction();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getFriction'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setFrictionEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setFrictionEnable00
+static int tolua_game_SpeedController_setFrictionEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setFrictionEnable'", NULL);
+#endif
+  {
+   self->setFrictionEnable(enable);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setFrictionEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isFrictionEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_isFrictionEnable00
+static int tolua_game_SpeedController_isFrictionEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isFrictionEnable'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isFrictionEnable();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isFrictionEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMaxValue of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setMaxValue00
+static int tolua_game_SpeedController_setMaxValue00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMaxValue'", NULL);
+#endif
+  {
+   self->setMaxValue(x,y);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMaxValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMaxValueX of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getMaxValueX00
+static int tolua_game_SpeedController_getMaxValueX00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMaxValueX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMaxValueX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMaxValueX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMaxValueY of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getMaxValueY00
+static int tolua_game_SpeedController_getMaxValueY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMaxValueY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMaxValueY();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMaxValueY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMaxValueEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setMaxValueEnable00
+static int tolua_game_SpeedController_setMaxValueEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMaxValueEnable'", NULL);
+#endif
+  {
+   self->setMaxValueEnable(enable);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMaxValueEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isMaxValueEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_isMaxValueEnable00
+static int tolua_game_SpeedController_isMaxValueEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isMaxValueEnable'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isMaxValueEnable();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isMaxValueEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMinValue of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setMinValue00
+static int tolua_game_SpeedController_setMinValue00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMinValue'", NULL);
+#endif
+  {
+   self->setMinValue(x,y);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMinValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMinValueX of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getMinValueX00
+static int tolua_game_SpeedController_getMinValueX00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMinValueX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMinValueX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMinValueX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMinValueY of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_getMinValueY00
+static int tolua_game_SpeedController_getMinValueY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMinValueY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMinValueY();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMinValueY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMinValueEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_setMinValueEnable00
+static int tolua_game_SpeedController_setMinValueEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMinValueEnable'", NULL);
+#endif
+  {
+   self->setMinValueEnable(enable);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMinValueEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isMinValueEnable of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_isMinValueEnable00
+static int tolua_game_SpeedController_isMinValueEnable00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isMinValueEnable'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isMinValueEnable();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isMinValueEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_game_open (lua_State* tolua_S)
 {
@@ -3588,15 +4837,11 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"new_local",tolua_game_GameActor_new00_local);
    tolua_function(tolua_S,".call",tolua_game_GameActor_new00_local);
    tolua_function(tolua_S,"delete",tolua_game_GameActor_delete00);
+   tolua_function(tolua_S,"init",tolua_game_GameActor_init00);
    tolua_function(tolua_S,"getGameAttribute",tolua_game_GameActor_getGameAttribute00);
    tolua_function(tolua_S,"getFSM",tolua_game_GameActor_getFSM00);
    tolua_function(tolua_S,"getArmature",tolua_game_GameActor_getArmature00);
    tolua_function(tolua_S,"getGameWord",tolua_game_GameActor_getGameWord00);
-   tolua_function(tolua_S,"init",tolua_game_GameActor_init00);
-   tolua_function(tolua_S,"resetMoveSpeed",tolua_game_GameActor_resetMoveSpeed00);
-   tolua_function(tolua_S,"appendMoveSpeed",tolua_game_GameActor_appendMoveSpeed00);
-   tolua_function(tolua_S,"logicUpdate",tolua_game_GameActor_logicUpdate00);
-   tolua_function(tolua_S,"isCanMove",tolua_game_GameActor_isCanMove00);
    tolua_function(tolua_S,"setOrientation",tolua_game_GameActor_setOrientation00);
    tolua_function(tolua_S,"loadArmature",tolua_game_GameActor_loadArmature00);
    tolua_function(tolua_S,"getActorType",tolua_game_GameActor_getActorType00);
@@ -3611,6 +4856,11 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"attOtherActorCallback",tolua_game_GameActor_attOtherActorCallback00);
    tolua_function(tolua_S,"registerLuaHandle",tolua_game_GameActor_registerLuaHandle00);
    tolua_function(tolua_S,"unregisterLuaHandle",tolua_game_GameActor_unregisterLuaHandle00);
+   tolua_function(tolua_S,"getActorSpeedController",tolua_game_GameActor_getActorSpeedController00);
+   tolua_function(tolua_S,"getArmatureSpeedController",tolua_game_GameActor_getArmatureSpeedController00);
+   tolua_function(tolua_S,"lockOrientation",tolua_game_GameActor_lockOrientation00);
+   tolua_function(tolua_S,"unLockOrientation",tolua_game_GameActor_unLockOrientation00);
+   tolua_function(tolua_S,"isLockOrientation",tolua_game_GameActor_isLockOrientation00);
   tolua_endmodule(tolua_S);
   tolua_constant(tolua_S,"GAME_ORI_LEFT",GAME_ORI_LEFT);
   tolua_constant(tolua_S,"GAME_ORI_RIGHT",GAME_ORI_RIGHT);
@@ -3674,6 +4924,7 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getChildNode",tolua_game_GameWord_getChildNode00);
    tolua_function(tolua_S,"getMapSize",tolua_game_GameWord_getMapSize00);
   tolua_endmodule(tolua_S);
+  tolua_function(tolua_S,"getGameWord",tolua_game_getGameWord00);
   tolua_cclass(tolua_S,"TCPClient","TCPClient","",NULL);
   tolua_beginmodule(tolua_S,"TCPClient");
    tolua_constant(tolua_S,"CONNECT",TCPClient::CONNECT);
@@ -3700,6 +4951,57 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setAutoReconnectTime",tolua_game_Client_setAutoReconnectTime00);
    tolua_function(tolua_S,"setAutoReconnectByKey",tolua_game_Client_setAutoReconnectByKey00);
    tolua_function(tolua_S,"setAutoReconnectTimeByKey",tolua_game_Client_setAutoReconnectTimeByKey00);
+  tolua_endmodule(tolua_S);
+  tolua_constant(tolua_S,"SC_CD_FORCE_EQ_ZERO",SC_CD_FORCE_EQ_ZERO);
+  tolua_constant(tolua_S,"SC_CD_FORCE_EQ_MIN",SC_CD_FORCE_EQ_MIN);
+  tolua_constant(tolua_S,"SC_CD_FORCE_X_EQ_MIN",SC_CD_FORCE_X_EQ_MIN);
+  tolua_constant(tolua_S,"SC_CD_FORCE_Y_EQ_MIN",SC_CD_FORCE_Y_EQ_MIN);
+  tolua_constant(tolua_S,"SC_CD_ALL",SC_CD_ALL);
+  tolua_constant(tolua_S,"SC_CD_NONE",SC_CD_NONE);
+  #ifdef __cplusplus
+  tolua_cclass(tolua_S,"SpeedController","SpeedController","",tolua_collect_SpeedController);
+  #else
+  tolua_cclass(tolua_S,"SpeedController","SpeedController","",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"SpeedController");
+   tolua_function(tolua_S,"new",tolua_game_SpeedController_new00);
+   tolua_function(tolua_S,"new_local",tolua_game_SpeedController_new00_local);
+   tolua_function(tolua_S,".call",tolua_game_SpeedController_new00_local);
+   tolua_function(tolua_S,"delete",tolua_game_SpeedController_delete00);
+   tolua_function(tolua_S,"setEventCall",tolua_game_SpeedController_setEventCall00);
+   tolua_function(tolua_S,"resetCallForceZero",tolua_game_SpeedController_resetCallForceZero00);
+   tolua_function(tolua_S,"setTarget",tolua_game_SpeedController_setTarget00);
+   tolua_function(tolua_S,"setStopCondition",tolua_game_SpeedController_setStopCondition00);
+   tolua_function(tolua_S,"getStopCondition",tolua_game_SpeedController_getStopCondition00);
+   tolua_function(tolua_S,"setGravity",tolua_game_SpeedController_setGravity00);
+   tolua_function(tolua_S,"getGravityX",tolua_game_SpeedController_getGravityX00);
+   tolua_function(tolua_S,"getGravityY",tolua_game_SpeedController_getGravityY00);
+   tolua_function(tolua_S,"setGravityEnable",tolua_game_SpeedController_setGravityEnable00);
+   tolua_function(tolua_S,"isGravityEnable",tolua_game_SpeedController_isGravityEnable00);
+   tolua_function(tolua_S,"setForce",tolua_game_SpeedController_setForce00);
+   tolua_function(tolua_S,"getForceX",tolua_game_SpeedController_getForceX00);
+   tolua_function(tolua_S,"getForceY",tolua_game_SpeedController_getForceY00);
+   tolua_function(tolua_S,"setForceEnable",tolua_game_SpeedController_setForceEnable00);
+   tolua_function(tolua_S,"isForceEnable",tolua_game_SpeedController_isForceEnable00);
+   tolua_function(tolua_S,"setForceMinValue",tolua_game_SpeedController_setForceMinValue00);
+   tolua_function(tolua_S,"getForceMinValueX",tolua_game_SpeedController_getForceMinValueX00);
+   tolua_function(tolua_S,"getForceMinValueY",tolua_game_SpeedController_getForceMinValueY00);
+   tolua_function(tolua_S,"setForceMinValueEnable",tolua_game_SpeedController_setForceMinValueEnable00);
+   tolua_function(tolua_S,"isForceMinValueEnable",tolua_game_SpeedController_isForceMinValueEnable00);
+   tolua_function(tolua_S,"setFriction",tolua_game_SpeedController_setFriction00);
+   tolua_function(tolua_S,"getFriction",tolua_game_SpeedController_getFriction00);
+   tolua_function(tolua_S,"setFrictionEnable",tolua_game_SpeedController_setFrictionEnable00);
+   tolua_function(tolua_S,"isFrictionEnable",tolua_game_SpeedController_isFrictionEnable00);
+   tolua_function(tolua_S,"setMaxValue",tolua_game_SpeedController_setMaxValue00);
+   tolua_function(tolua_S,"getMaxValueX",tolua_game_SpeedController_getMaxValueX00);
+   tolua_function(tolua_S,"getMaxValueY",tolua_game_SpeedController_getMaxValueY00);
+   tolua_function(tolua_S,"setMaxValueEnable",tolua_game_SpeedController_setMaxValueEnable00);
+   tolua_function(tolua_S,"isMaxValueEnable",tolua_game_SpeedController_isMaxValueEnable00);
+   tolua_function(tolua_S,"setMinValue",tolua_game_SpeedController_setMinValue00);
+   tolua_function(tolua_S,"getMinValueX",tolua_game_SpeedController_getMinValueX00);
+   tolua_function(tolua_S,"getMinValueY",tolua_game_SpeedController_getMinValueY00);
+   tolua_function(tolua_S,"setMinValueEnable",tolua_game_SpeedController_setMinValueEnable00);
+   tolua_function(tolua_S,"isMinValueEnable",tolua_game_SpeedController_isMinValueEnable00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

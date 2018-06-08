@@ -60,11 +60,16 @@ end
 
 function PlayerController:dis_control_stop(actor)
 	if actor ~= self.player then return end
+	self.player:setMoveStop()
 	self.player:handle("CMD_MoveStand")
 end
 
 function PlayerController:dis_control_jump(actor)
 	if actor ~= self.player then return end
+
+	if not self.player:jump() then
+		return
+	end
 
 	if self.player:handle("CMD_JumpUpStart") then
 
@@ -80,18 +85,26 @@ function PlayerController:dis_control_jump(actor)
 			self.isJumpAttack = false
 		end)
 		local call2 = cc.CallFunc:create(function()
-			self.player:handle("CMD_JumpDownEnd")
-			-- local movePower = self.player:getMovePower("PowerName_ControlMove")
-			-- print("movePower.enable", movePower.enable)
-			-- print("movePower.power.x", movePower.power.x)
-			-- if movePower and movePower.enable and math.abs(movePower.power.x) > 0.1 then
-			-- 	self.player:handle("CMD_JumpTo_MoveStart")
-			-- else
-			-- 	self.player:handle("CMD_JumpDownEnd")
-			-- end
+			local movePower = self.player:getMovePower("PowerName_ControlMove")
+			if movePower and math.abs(movePower.power.x) > 0.1 then
+				self.player:handle("CMD_JumpTo_MoveStart")
+			else
+				self.player:handle("CMD_JumpDownEnd")
+			end
 		end)
 		local q = cc.Sequence:create(move, call1, move:reverse(), call2)
 		self.player:getArmature():runAction(q)
+
+		local word = getGameWord()
+		if word ~= nil then
+			local winSize = cc.Director:getInstance():getVisibleSize()
+			local subheight = winSize.height - word:getMapSize().height
+			subheight = subheight * 0.5
+			subheight = math.max(subheight, -JumpHeight)
+
+			local mapMove = cc.MoveBy:create(JumpUpTime, {x = 0, y = subheight})
+			word:getRootNode():runAction(cc.Sequence:create(mapMove, mapMove:reverse()))
+		end
 	end
 end
 
@@ -136,6 +149,7 @@ function PlayerController:dis_State_Attack3_stop(actor)
 	if self.toNextAttack then
 		self.toNextAttack = false
 		self.player:handle("CMD_To_Attack4")
+		print("CMD_To_Attack4")
 	end
 end
 

@@ -31,14 +31,13 @@
     <Item Key="TabsParamsKey">
       <Value ctype="TabsInfo">
         <OpenedDocuments>
-          <FilePathData Path="MessageBox.csd" />
-          <FilePathData Path="messagebox/MessageBox.csd" />
-          <FilePathData Path="LoginScene.csd" />
-          <FilePathData Path="MainScene.csd" />
-          <FilePathData Path="HomeSceneUI.csd" />
-          <FilePathData Path="CreateScene.csd" />
+          <FilePathData Path="taohua2.csd" />
+          <FilePathData Path="Yun.csd" />
+          <FilePathData Path="zhucheng.csd" />
+          <FilePathData Path="PreScene.csd" />
+          <FilePathData Path="playerControlUI.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="HomeSceneUI.csd" />
+        <ActiveDocument Path="playerControlUI.csd" />
       </Value>
     </Item>
   </Properties>

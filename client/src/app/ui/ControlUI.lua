@@ -17,6 +17,8 @@ function ControlUI:ctor()
 
     self:initTouch()
     self:initKeyboard()
+
+    self:onClickOpenDebug(nil)
 end
 
 function ControlUI:onEnter()
@@ -164,6 +166,13 @@ end
 function ControlUI:onClickAttack(sender)
 	local player = _MyG.PlayerController:getPlayer()
 	_MyG.PlayerDispatcher:call("control_attack", player) 
+end
+
+function ControlUI:onClickOpenDebug(sender)
+	local gameword = getGameWord()
+	if gameword ~= nil then
+		gameword:openDebugDraw(not gameword:isOpenDebugDraw())
+	end
 end
 
 

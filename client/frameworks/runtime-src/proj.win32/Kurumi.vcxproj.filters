@@ -263,6 +263,9 @@
     <ClInclude Include="..\Classes\lua_game.h">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\gamecore\SpeedController.h">
+      <Filter>Classes\gamecore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -478,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_game.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\gamecore\SpeedController.cpp">
+      <Filter>Classes\gamecore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

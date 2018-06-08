@@ -65,7 +65,7 @@ bool GameWord::init()
 		this->schedule(schedule_selector(GameWord::logicUpdate), 1 / 60.0f);
 
 
-		const auto& size = Director::getInstance()->getWinSize();
+		const auto& size = Director::getInstance()->getVisibleSize();
 
 		m_mapSize = size;
 		m_enableRectMap.size = size;
@@ -98,7 +98,7 @@ void GameWord::addBackgroundMap(Node* map)
 	{
 		const auto& size = node->getContentSize();
 		m_mapSize.width = MAX(m_mapSize.width, size.width);
-		m_mapSize.height = MAX(m_mapSize.height, m_mapSize.height);
+		m_mapSize.height = MAX(m_mapSize.height, size.height);
 	}
 }
 
@@ -113,7 +113,7 @@ void GameWord::addForegroundMap(Node* map)
 	{
 		const auto& size = node->getContentSize();
 		m_mapSize.width = MAX(m_mapSize.width, size.width);
-		m_mapSize.height = MAX(m_mapSize.height, m_mapSize.height);
+		m_mapSize.height = MAX(m_mapSize.height, size.height);
 	}
 }
 
@@ -222,9 +222,9 @@ void GameWord::updateMapMoveLogic()
 	// µØÍ¼¸úËæÍæ¼ÒÒÆ¶¯
 	if (m_player)
 	{
-		Vec2 curpos = m_player->getMapMovePos();
+		const Vec2& curpos = m_player->getMapMovePos();
 
-		Size winSize = Director::getInstance()->getWinSize();
+		Size winSize = Director::getInstance()->getVisibleSize();
 
 		// XÖá¸úËæÍæ¼ÒÒÆ¶¯
 		if (m_mapSize.width > winSize.width)
@@ -243,23 +243,22 @@ void GameWord::updateMapMoveLogic()
 				m_rootNode->setPositionX(halfWidth - curpos.x);
 			}
 		}
-		// YÖá¸úËæÍæ¼ÒÒÆ¶¯
-		if (m_mapSize.height > winSize.height)
-		{
-			float halfHeight = winSize.height * 0.5f;
-			if (curpos.x <= halfHeight)
-			{
-				m_rootNode->setPositionY(0.0f);
-			}
-			else if (curpos.x >= m_mapSize.height - halfHeight)
-			{
-				m_rootNode->setPositionY(winSize.height - m_mapSize.height);
-			}
-			else
-			{
-				m_rootNode->setPositionY(halfHeight - curpos.x);
-			}
-		}
+		//// YÖá¸úËæÍæ¼ÒÒÆ¶¯
+		//float subHeight = winSize.height - m_mapSize.height;
+		//if (subHeight < 0.0f)
+		//{
+		//	float actorposY = m_player->getActorPositionY();
+		//	float subposY = actorposY - curpos.y;
+		//	if (subposY < 0.0f)
+		//	{
+		//		subposY = MAX(subposY, subHeight * 0.5f);
+		//		m_rootNode->setPositionY(subposY);
+		//	}
+		//	else
+		//	{
+		//		m_rootNode->setPositionY(0.0f);
+		//	}
+		//}
 	}
 }
 
@@ -278,8 +277,8 @@ void GameWord::updateMapCorrectActor()
 		tmp = m_enableRectMap.getMinX() + halfWidth;
 		v.x = MAX(v.x, tmp);
 
-		//tmp = m_enableRectMap.getMaxY();
-		//v.y = MIN(v.y, tmp);
+		tmp = m_enableRectMap.getMaxY();
+		v.y = MIN(v.y, tmp);
 
 		tmp = m_enableRectMap.getMinY();
 		v.y = MAX(v.y, tmp);

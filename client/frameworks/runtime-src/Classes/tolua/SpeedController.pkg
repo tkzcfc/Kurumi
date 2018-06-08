@@ -1,0 +1,79 @@
+$#include "gamecore/SpeedController.h"
+
+
+// 停止条件
+enum SpeedControllerStopCondi
+{
+	SC_CD_FORCE_EQ_ZERO,	// 力为0时终止更新
+	SC_CD_FORCE_EQ_MIN,		// 力等于最小值时
+	SC_CD_FORCE_X_EQ_MIN,	// 力X等于最小值时
+	SC_CD_FORCE_Y_EQ_MIN,	// 力Y等于最小值时
+	SC_CD_ALL,				// 终止更新
+	SC_CD_NONE				// 没有任何限制
+};
+
+class SpeedController
+{
+public:
+
+	SpeedController();
+
+	~SpeedController();
+
+	void setEventCall(LuaFunction luaCall);
+
+	inline void resetCallForceZero();
+
+	inline void setTarget(Node* target);
+
+	inline void setStopCondition(SpeedControllerStopCondi condi);
+
+	inline SpeedControllerStopCondi getStopCondition();
+
+	// 重力设置
+	inline void setGravity(float x, float y);
+	inline float getGravityX();
+	inline float getGravityY();
+	// 是否启用重力
+	inline void setGravityEnable(bool enable);
+	inline bool isGravityEnable();
+
+	// 力设置
+	inline void setForce(float x, float y);
+	inline float getForceX();
+	inline float getForceY();
+	// 是否启用力
+	inline void setForceEnable(bool enable);
+	inline bool isForceEnable();
+
+	// 力的最小值
+	inline void setForceMinValue(float x, float y);
+	inline float getForceMinValueX();
+	inline float getForceMinValueY();
+	// 是否启用力最小值
+	inline void setForceMinValueEnable(bool enable);
+	inline bool isForceMinValueEnable();
+
+	// 摩擦力设置
+	inline void setFriction(float friction);
+	inline float getFriction();
+	// 是否启用摩擦力
+	inline void setFrictionEnable(bool enable);
+	inline bool isFrictionEnable();
+
+	// 设置最大值
+	inline void setMaxValue(float x, float y);
+	inline float getMaxValueX();
+	inline float getMaxValueY();
+	// 是否启用最大值
+	inline void setMaxValueEnable(bool enable);
+	inline bool isMaxValueEnable();
+
+	// 设置最小值
+	inline void setMinValue(float x, float y);
+	inline float getMinValueX();
+	inline float getMinValueY();
+	// 是否启用最大值
+	inline void setMinValueEnable(bool enable);
+	inline bool isMinValueEnable();
+};

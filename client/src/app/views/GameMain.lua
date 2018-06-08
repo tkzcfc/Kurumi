@@ -37,8 +37,6 @@ function GameMain:loadFinish()
     self.word:addActor(hero)
     self.word:setPlayer(hero)
 
-    hero.gameAttribute:setSpeed(600, 0)
-
     _MyG.PlayerController:setPlayer(hero)
 
     self.hero = hero

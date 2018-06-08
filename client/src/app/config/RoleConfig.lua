@@ -8,7 +8,9 @@ RoleConfig["hero_lanse_dao"] =
 	StateConfig = 
 	{
 		State_Stand = {"fstand"},
-		State_Run = {"frun_1", "frun_2"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
 		State_Replace = {"replace_1", "replace_2", "replace_3"},
 		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
 		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
@@ -21,6 +23,10 @@ RoleConfig["hero_lanse_dao"] =
 		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
 		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
 		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
 	}
 }
 

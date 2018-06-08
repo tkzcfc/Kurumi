@@ -15,7 +15,7 @@ _MyG.loadStudioFile = function(fileName, target)
     return root
 end
 
-local LOCAL_SERVER = true
+local LOCAL_SERVER = false
 
 if LOCAL_SERVER then
     _MyG.GAME_IP = "127.0.0.1"
@@ -36,8 +36,8 @@ end
 
 _MyG.OPEN_DEBUG = 1
 
--- _MyG.StartScene = "GameMain"
-_MyG.StartScene = "LoginScene"
+_MyG.StartScene = "GameMain"
+-- _MyG.StartScene = "LoginScene"
 
 
 

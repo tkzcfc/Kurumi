@@ -14,7 +14,15 @@ local function main()
     _MyG.APP:run()
 end
 
+__G__TRACKBACK__ = function(msg)
+    local msg = debug.traceback(msg, 3)
+    local logmsg = os.date() .. ":"..msg
+    print(logmsg)
+    local data = {exception = logmsg}
+	_MyG.Net:sendMsgToGame("debug.C2S_luaexception", data)
+    return msg
+end
+
 local status, msg = xpcall(main, __G__TRACKBACK__)
-if not status then
-    print(msg)
+if not status then	
 end

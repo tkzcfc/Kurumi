@@ -17,10 +17,18 @@ GameActor::GameActor()
 {
 	m_armature = NULL;
 	m_actorType = GameActorType::AT_NONE;
+	m_isLockOrientation = false;
+
+	m_actorSpeedController = new SpeedController();
+	m_armatureSpeedController = new SpeedController();
+
+	m_actorSpeedController->setTarget(this);
 }
 
 GameActor::~GameActor()
 {
+	CC_SAFE_DELETE(m_actorSpeedController);
+	CC_SAFE_DELETE(m_armatureSpeedController);
 	clearLuaHandle();
 }
 
@@ -31,37 +39,10 @@ bool GameActor::init()
 	return true;
 }
 
-void GameActor::resetMoveSpeed(float x, float y)
-{
-	m_gameAttribute.m_curSpeed = Vec2(x, y);
-
-	LuaFunction* handle = getLuaHandle("resetMoveSpeed");
-	if (handle)
-	{
-		handle->ppush();
-		handle->pusharg(x);
-		handle->pusharg(y);
-		handle->pcall();
-	}
-}
-
-// ¸½¼ÓÒÆ¶¯ÊôÐÔ
-void GameActor::appendMoveSpeed(float x, float y)
-{
-	m_gameAttribute.m_curSpeed += Vec2(x, y);
-
-	LuaFunction* handle = getLuaHandle("appendMoveSpeed");
-	if (handle)
-	{
-		handle->ppush();
-		handle->pusharg(x);
-		handle->pusharg(y);
-		handle->pcall();
-	}
-}
-
 void GameActor::logicUpdate(float d)
 {
+	m_actorSpeedController->logicUpdate(d);
+	m_armatureSpeedController->logicUpdate(d);
 	LuaFunction* handle = getLuaHandle("logicUpdate");
 	if (handle)
 	{
@@ -69,52 +50,26 @@ void GameActor::logicUpdate(float d)
 		handle->pusharg(d);
 		handle->pcall();
 	}
-	updateMoveLogic(d);
-}
-
-bool GameActor::isCanMove()
-{
-	LuaFunction* handle = getLuaHandle("isCanMove");
-	if (handle)
-	{
-		handle->ppush();
-		handle->pcall(1);
-		return handle->retbool();
-	}
-	return true;
 }
 
 void GameActor::setOrientation(short ori)
 {
-	if (m_gameAttribute.m_curOrientation == ori)
+	if (m_isLockOrientation || m_gameAttribute.m_curOrientation == ori)
 		return;
 	m_gameAttribute.m_curOrientation = ori;
 	
 	updateArmatureInfo();
 }
 
-void GameActor::updateMoveLogic(float d)
-{
-	if (isCanMove())
-	{
-		Vec2 curSpeed = m_gameAttribute.m_curSpeed;
-		const Vec2& curPos = this->getActorPosition();
-
-		curSpeed = curSpeed * d;
-
-		this->setActorPosition(curPos + curSpeed);
-	}
-}
-
 void GameActor::updateArmatureInfo()
 {
-	if (m_armature == NULL)
-		return;
-
-	if(m_gameAttribute.m_curOrientation == GAME_ORI_RIGHT)
-		m_armature->setScaleX(1.0);
-	else
-		m_armature->setScaleX(-1.0);
+	if (m_armature)
+	{
+		if (m_gameAttribute.m_curOrientation == GAME_ORI_RIGHT)
+			m_armature->setScaleX(1.0);
+		else
+			m_armature->setScaleX(-1.0);
+	}
 
 	LuaFunction* handle = getLuaHandle("updateArmatureInfo");
 	if (handle)
@@ -137,6 +92,8 @@ void GameActor::loadArmature(const std::string& filepath)
 	m_armature = cocostudio::Armature::create(filepath);
 	m_armature->getAnimation()->playWithIndex(0);
 	this->addChild(m_armature);
+
+	m_armatureSpeedController->setTarget(m_armature);
 
 	LuaFunction* handle = getLuaHandle("loadArmature");
 	if (handle)
@@ -303,8 +260,10 @@ const Rect& GameActor::getAABB()
 {
 	if (m_armature == NULL)
 		return Rect::ZERO;
-	Rect r = m_armature->getBoundingBox();
-	return RectApplyTransform(r, this->getNodeToParentTransform());
+	static Rect r;
+	r = m_armature->getBoundingBox();
+	r = RectApplyTransform(r, this->getNodeToParentTransform());
+	return r;
 }
 
 bool GameActor::isRunAABB(GameActor* other)
@@ -383,7 +342,11 @@ const Vec2& GameActor::getMapMovePos()
 	if (m_armature == NULL)
 		return getActorPosition();
 	else
-		return getActorPosition() + m_armature->getPosition();
+	{
+		static Vec2 v;
+		v = getActorPosition() + m_armature->getPosition();
+		return v;
+	}
 }
 
 void GameActor::clearLuaHandle()

@@ -3,7 +3,7 @@
     "isLandscape": true,
     "isWindowTop": false,
     "name": "Kurumi",
-    "width": 960,
+    "width": 1136,
     "height": 640,
     "entry": "src/main.lua",
     "consolePort": 6050,

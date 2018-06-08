@@ -18,6 +18,8 @@ public:
 
 	virtual ~GameActor();
 
+	virtual bool init();
+
 	GameAttribute* getGameAttribute();
 
 	QFSM* getFSM();
@@ -25,19 +27,6 @@ public:
 	ccs.Armature* getArmature();
 	
 	GameWord* getGameWord();
-
-	virtual bool init();
-
-	virtual void resetMoveSpeed(float x, float y);
-
-	// 附加移动属性
-	virtual void appendMoveSpeed(float x, float y);
-
-	// 逻辑更新
-	virtual void logicUpdate(float d);
-
-	// 是否可以移动
-	virtual bool isCanMove();
 
 	// 设置角色方向
 	virtual void setOrientation(short ori);
@@ -72,4 +61,15 @@ public:
 	void registerLuaHandle(const std::string& name, LuaFunction handle);
 
 	void unregisterLuaHandle(const std::string& name);
+
+	inline SpeedController* getActorSpeedController();
+
+	inline SpeedController* getArmatureSpeedController();
+	
+	inline void lockOrientation();
+	
+	inline void unLockOrientation();
+	
+	inline bool isLockOrientation();
+
 };

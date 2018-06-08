@@ -7,6 +7,7 @@ function playerManager:ctor()
 
 	_MyG.NetMsgDispatcher:register("login.C2S_login", function(...) self:dis_login(...) end)
 	_MyG.NetMsgDispatcher:register("login.C2S_register", function(...) self:dis_register(...) end)
+	_MyG.NetMsgDispatcher:register("debug.C2S_luaexception", function(...) self:dis_luaexception(...) end)
 end
 
 function playerManager:connectToServer(client)
@@ -121,6 +122,10 @@ function playerManager:dis_register(client, msgdata)
 	player.playerInfo.password = msgdata.password
 	table.insert(self.offlinePlayers, player)
 	sendret()
+end
+
+function playerManager:dis_luaexception(client, msgdata)
+	print(client:getIp() .. msgdata.exception)
 end
 
 return playerManager

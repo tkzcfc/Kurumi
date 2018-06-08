@@ -52,7 +52,7 @@
             <FileData Type="Normal" Path="cont/joyk2.png" Plist="" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Button_ChangeWeapon" ActionTag="1467032247" CallBackType="Click" CallBackName="onClickChangeWeapon" Tag="249" IconVisible="False" LeftMargin="773.2095" RightMargin="252.7905" TopMargin="456.2401" BottomMargin="73.7599" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="80" Scale9Height="88" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+          <AbstractNodeData Name="Button_ChangeWeapon" ActionTag="1467032247" CallBackType="Click" CallBackName="onClickChangeWeapon" Tag="249" IconVisible="False" LeftMargin="773.2095" RightMargin="252.7905" TopMargin="456.2401" BottomMargin="73.7599" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="80" Scale9Height="88" DisplayState="False" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="110.0000" Y="110.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="828.2095" Y="128.7599" />
@@ -76,6 +76,21 @@
             <PreSize X="0.1144" Y="0.2031" />
             <TextColor A="255" R="65" G="65" B="70" />
             <NormalFileData Type="Normal" Path="cont/atk_but.png" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="Button_2" ActionTag="-1790558230" CallBackType="Click" CallBackName="onClickOpenDebug" Tag="68" IconVisible="False" LeftMargin="48.5382" RightMargin="1015.9161" TopMargin="35.7249" BottomMargin="563.1660" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="16" Scale9Height="14" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="71.5457" Y="41.1091" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="84.3111" Y="583.7205" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.0742" Y="0.9121" />
+            <PreSize X="0.0630" Y="0.0642" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <DisabledFileData Type="Default" Path="Default/Button_Disable.png" Plist="" />
+            <PressedFileData Type="Default" Path="Default/Button_Press.png" Plist="" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>

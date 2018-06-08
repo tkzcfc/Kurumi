@@ -70,6 +70,7 @@ function post_output_hook(package)
     [[
 #include "tolua_fix.h"
 #include "tolua++.h"
+#include "LuaBasicConversions.h"
 #include <string>
 ]])
 
@@ -89,6 +90,18 @@ function post_output_hook(package)
 	  
 	  replace([[/* Exported function */
 TOLUA_API int  tolua_game_open (lua_State* tolua_S);]], [[]])
+
+	  replace([[   {
+#ifdef __cplusplus
+    void* tolua_obj = Mtolua_new((Size)(tolua_ret));
+     tolua_pushusertype(tolua_S,tolua_obj,"Size");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#else
+    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(Size));
+     tolua_pushusertype(tolua_S,tolua_obj,"Size");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#endif
+   }]], [[size_to_luaval(tolua_S, tolua_ret);]])
 
       replace('\t', '    ')
 
