@@ -2,41 +2,57 @@
 
 SpeedController::SpeedController()
 {
-	m_condi = SpeedControllerStopCondi::SC_CD_ALL;
-
 	m_friction = 0.1;
 
 	m_target = NULL;
 
-	m_enableLuaCall = false;
+	m_enableLuaUpdateCall = false;
 	m_enableGravity = false;	
 	m_enableForce = false;		
 	m_enableFriction = false;	
 	m_enableMaxValue = false;	
-	m_enableMinValue = false;	
-	m_isCallForceZero = false;
+	m_enableMinValue = false;
+	m_isStopUpdate = false;
 }
 
 SpeedController::~SpeedController()
 {}
 
-void SpeedController::setEventCall(const LuaFunction& luaCall)
+void SpeedController::setLuaUpdateCall(const LuaFunction& luaCall)
 {
-	m_luaCall = luaCall;
-	m_enableLuaCall = true;
+	m_luaUpdateCall = luaCall;
+	m_enableLuaUpdateCall = true;
 }
 
-void SpeedController::callEvent(const std::string& eventName)
+void SpeedController::setGravityPositive(int x, int y)
 {
-	if (m_enableLuaCall)
-	{
-		m_luaCall(eventName);
-	}
+	if(x > 0)
+		m_gravity.x = fabs(m_gravity.x);
+	else if(x < 0)
+		m_gravity.x = -fabs(m_gravity.x);
+
+	if (y > 0)
+		m_gravity.y = fabs(m_gravity.y);
+	else if(y < 0)
+		m_gravity.y = -fabs(m_gravity.y);
+}
+
+void SpeedController::setForcePositive(int x, int y)
+{
+	if (x > 0)
+		m_force.x = fabs(m_force.x);
+	else if (x < 0)
+		m_force.x = -fabs(m_force.x);
+
+	if (y > 0)
+		m_force.y = fabs(m_force.y);
+	else if (y < 0)
+		m_force.y = -fabs(m_force.y);
 }
 
 void SpeedController::logicUpdate(float time)
 {
-	if (m_condi == SpeedControllerStopCondi::SC_CD_ALL || m_target == NULL)
+	if (m_isStopUpdate || m_target == NULL)
 		return;
 
 	m_appedValue = Vec2::ZERO;
@@ -64,6 +80,11 @@ void SpeedController::logicUpdate(float time)
 	}
 
 	m_target->setPosition(v);
+
+	if (m_enableLuaUpdateCall)
+	{
+		m_luaUpdateCall(v.x, v.y);
+	}
 }
 
 void SpeedController::forceUpdate(float time)
@@ -78,53 +99,12 @@ void SpeedController::forceUpdate(float time)
 		len = len - (m_friction * time);
 	}
 
-	if (fabs(len) < 0.00001f)
+	if (len <= 0.0f)
 	{
-		if (m_condi == SpeedControllerStopCondi::SC_CD_FORCE_EQ_ZERO)
-		{
-			callEvent("stop");
-			m_force.setZero();
-			m_condi = SpeedControllerStopCondi::SC_CD_ALL;
-			return;
-		}
-		else
-		{
-			if (!m_isCallForceZero)
-			{
-				m_isCallForceZero = true;
-				callEvent("forceZero");
-			}
-		}
+		m_force.setZero();
+		return;
 	}
 	m_force = m_force.getNormalized() * len;
-
-	if (m_condi == SpeedControllerStopCondi::SC_CD_FORCE_X_EQ_MIN 
-		&& fabs(m_force.x - m_forceMinValue.x) < 0.00001f)
-	{
-		callEvent("stop");
-		m_condi = SpeedControllerStopCondi::SC_CD_ALL;
-		return;
-	}
-
-	if (m_condi == SpeedControllerStopCondi::SC_CD_FORCE_Y_EQ_MIN 
-		&& fabs(m_force.y - m_forceMinValue.y) < 0.00001f)
-	{
-		callEvent("stop");
-		m_condi = SpeedControllerStopCondi::SC_CD_ALL;
-		return;
-	}
-
-	if (m_condi == SpeedControllerStopCondi::SC_CD_FORCE_EQ_MIN
-		&& fabs(m_force.x - m_forceMinValue.x) < 0.00001f
-		&& fabs(m_force.y - m_forceMinValue.y) < 0.00001f)
-	{
-		callEvent("stop");
-		m_condi = SpeedControllerStopCondi::SC_CD_ALL;
-		return;
-	}
-
-	//m_force.x = MAX(m_force.x, m_forceMinValue.x);
-	//m_force.y = MAX(m_force.y, m_forceMinValue.y);
 
 	m_appedValue = m_appedValue + m_force * time;
 }

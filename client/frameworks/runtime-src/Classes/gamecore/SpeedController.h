@@ -5,17 +5,6 @@
 
 using namespace cocos2d;
 
-// 停止条件
-enum SpeedControllerStopCondi
-{
-	SC_CD_FORCE_EQ_ZERO,	// 力为0时终止更新
-	SC_CD_FORCE_EQ_MIN,		// 力等于最小值时
-	SC_CD_FORCE_X_EQ_MIN,	// 力X等于最小值时
-	SC_CD_FORCE_Y_EQ_MIN,	// 力Y等于最小值时
-	SC_CD_ALL,				// 终止更新
-	SC_CD_NONE				// 没有任何限制
-};
-
 class SpeedController
 {
 public:
@@ -24,15 +13,15 @@ public:
 
 	~SpeedController();
 
-	void setEventCall(const LuaFunction& luaCall);
-
-	inline void resetCallForceZero()			{ m_isCallForceZero = false; }
-
+	void setLuaUpdateCall(const LuaFunction& luaCall);
+	inline void clearLuaUpdateCall()			{ m_enableLuaUpdateCall = false; }
+	
 	inline void setTarget(Node* target)			{ m_target = target; }
+	inline Node* getTarget()					{ return m_target; }
 
-	inline void setStopCondition(SpeedControllerStopCondi condi) { m_condi = condi; }
+	inline void setStopUpdate(bool isStop) { m_isStopUpdate = isStop; }
 
-	inline SpeedControllerStopCondi getStopCondition() { return m_condi; }
+	inline bool isStopUpdate() { return m_isStopUpdate; }
 
 	// 重力设置
 	inline void setGravity(float x, float y)	{ m_gravity = Vec2(x, y); }
@@ -49,14 +38,6 @@ public:
 	// 是否启用力
 	inline void setForceEnable(bool enable)		{ m_enableForce = enable; }
 	inline bool isForceEnable()					{ return m_enableForce; }
-
-	// 力的最小值
-	inline void setForceMinValue(float x, float y)	{ m_forceMinValue = Vec2(x, y); }
-	inline float getForceMinValueX()				{ return m_forceMinValue.x; }
-	inline float getForceMinValueY()				{ return m_forceMinValue.y; }
-	// 是否启用力最小值
-	inline void setForceMinValueEnable(bool enable) { m_enableForce = enable; }
-	inline bool isForceMinValueEnable()			{ return m_enableForce; }
 
 	// 摩擦力设置
 	inline void setFriction(float friction)		{ m_friction = friction; }
@@ -81,7 +62,13 @@ public:
 	inline void setMinValueEnable(bool enable)	{ m_enableMinValue = enable; }
 	inline bool isMinValueEnable()				{ return m_enableMinValue; }
 
-	// 设置终止更新条件
+	inline float getAppendX() { return m_appedValue.x; }
+	inline float getAppendY() { return m_appedValue.y; }
+
+	// 设置当前是否为正方向，如果是则该方向的值为正值
+	// 1正 -1负 0忽略
+	void setGravityPositive(int x, int y);
+	void setForcePositive(int x, int y);
 
 	// 逻辑更新
 	void logicUpdate(float time);
@@ -90,14 +77,9 @@ protected:
 
 	void forceUpdate(float time);
 
-	void callEvent(const std::string& eventName);
-
 private:
-	SpeedControllerStopCondi m_condi;
-
 	Vec2 m_gravity;		// 重力
 	Vec2 m_force;		// 力
-	Vec2 m_forceMinValue;//力最小值
 	float m_friction;	// 摩擦力
 	Vec2 m_minValue;	// 最小值
 	Vec2 m_maxValue;	// 最大值
@@ -108,12 +90,12 @@ private:
 	bool m_enableMaxValue;	// 最大值是否启用
 	bool m_enableMinValue;	// 最小值是否启用
 
+	bool m_isStopUpdate;	// 是否停止逻辑更新
+
 	Vec2 m_appedValue;
 
-	LuaFunction m_luaCall;
-	bool m_enableLuaCall;
-
-	bool m_isCallForceZero;
+	LuaFunction m_luaUpdateCall;
+	bool m_enableLuaUpdateCall;
 
 	Node* m_target;
 };

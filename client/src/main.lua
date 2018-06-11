@@ -18,8 +18,14 @@ __G__TRACKBACK__ = function(msg)
     local msg = debug.traceback(msg, 3)
     local logmsg = os.date() .. ":"..msg
     print(logmsg)
-    local data = {exception = logmsg}
-	_MyG.Net:sendMsgToGame("debug.C2S_luaexception", data)
+
+    local targetPlatform = cc.Application:getInstance():getTargetPlatform()
+	if targetPlatform == cc.PLATFORM_OS_ANDROID 
+	or targetPlatform == cc.PLATFORM_OS_IPHONE
+	or targetPlatform == cc.PLATFORM_OS_IPAD then
+    	local data = {exception = logmsg}
+		_MyG.Net:sendMsgToGame("debug.C2S_luaexception", data)
+	end
     return msg
 end
 
