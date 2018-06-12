@@ -2,7 +2,7 @@
 
 SpeedController::SpeedController()
 {
-	m_friction = 0.1;
+	m_friction = 0.f;
 
 	m_target = NULL;
 
@@ -83,7 +83,7 @@ void SpeedController::logicUpdate(float time)
 
 	if (m_enableLuaUpdateCall)
 	{
-		m_luaUpdateCall(v.x, v.y);
+		m_luaUpdateCall(v.x, v.y, time);
 	}
 }
 

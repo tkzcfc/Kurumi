@@ -48,8 +48,6 @@ function Hero_dao:ctor()
 	self.armatureSpeedController:setGravityEnable(true)
 	self.armatureSpeedController:setMinValue(0, 0)
 	self.armatureSpeedController:setMinValueEnable(true)
-	self.armatureSpeedController:setMaxValue(0, 350)
-	self.armatureSpeedController:setMaxValueEnable(true)
 	self.armatureSpeedController:setStopUpdate(true)
 
 	self.actorSpeedController:setFrictionEnable(true)
@@ -59,7 +57,10 @@ end
 
 function Hero_dao:override_attOtherActorCallback(otherActor)
 
-	if self.isAttack4 then
+	local stateName = self.FSM:getCurState():getStateName()
+
+	if stateName == "State_Attack4" 
+	or stateName == "State_Upcut" then
 		otherActor:override_beAttacked(self, true)
 	else
 		otherActor:override_beAttacked(self, false)
@@ -161,44 +162,8 @@ function Hero_dao:setMove(x, y)
 	self.armatureSpeedController:setGravityPositive(posotiveX, 0)
 end
 
-function Hero_dao:playActionByActionName(actionName, action, target)
-	self:stopActionByActionName(actionName)
-	self.actionList[actionName] = {target = target, action = action}
-
-	local clearAction = cc.CallFunc:create(function() self:stopActionByActionName(actionName) end)
-	target:runAction(cc.Sequence:create(action, clearAction))
-end
-
-function Hero_dao:playMoveAction(actionName, target, movepos, time, autoOrientation, actionEaseFunc)
-
-	if autoOrientation then
-		if self.gameAttribute:getCurOrientation() == GAME_ORI_LEFT then
-			movepos.x = -movepos.x
-		end
-	end
-
-	local action = cc.MoveBy:create(time, movepos)
-	
-	if actionEaseFunc ~= nil then
-		action = actionEaseFunc(action)
-	end
-	self:playActionByActionName(actionName, action, target) 
-end
-
-function Hero_dao:stopActionByActionName(actionName)
-	if self.actionList[actionName] == nil then
-		return
-	end
-	local action = self.actionList[actionName].action
-	if action then
-		self.actionList[actionName].target:stopAction(action)
-		self.actionList[actionName].action = nil
-	end
-end
-
 function Hero_dao:jump()
 	if self:handle("CMD_JumpUpStart") then
-
 		self.armatureSpeedController:setStopUpdate(false)
 		self.armatureSpeedController:setForceEnable(true)
 		self.armatureSpeedController:setFrictionEnable(true)
@@ -206,8 +171,8 @@ function Hero_dao:jump()
 		local isUpCut = false
 
 		if self.FSM:getCurState():getStateName() == "State_Upcut" then
-			self.armatureSpeedController:setForce(0, 700)
-			self.armatureSpeedController:setFriction(-2000)
+			self.armatureSpeedController:setForce(0, 10)
+			self.armatureSpeedController:setFriction(-100)
 			isUpCut = true
 		else
 			self.armatureSpeedController:setForce(0, 2000)
@@ -215,10 +180,60 @@ function Hero_dao:jump()
 		end
 
 		local stage = 0
+		local jumpTime = 0
+		if isUpCut then
+			stage = -2
+		end
 
-		self.armatureSpeedController:setLuaUpdateCall(function(x, y)
-			-- print(x, y)
-			--print(self.armatureSpeedController:getForceY(), self.armatureSpeedController:getAppendY())
+		local jumpH = 350
+		local percent = 1.0
+		local mapBeginY = 0
+		local gameword = getGameWord()
+		local rootNode = nil
+		if gameword then
+			rootNode = gameword:getRootNode()
+			mapBeginY = rootNode:getPositionY()
+
+			local winSize = cc.Director:getInstance():getVisibleSize()
+			local subheight = gameword:getMapSize().height - winSize.height
+			subheight = subheight * 0.5
+			subheight = math.min(subheight, jumpH)
+
+			percent = subheight / jumpH
+		end
+		
+
+		local function jumpFinishCall()
+			self.armatureSpeedController:setStopUpdate(true)
+			self.armatureSpeedController:clearLuaUpdateCall()
+			self.armatureSpeedController:setForceEnable(false)
+			self.armatureSpeedController:setFrictionEnable(false)
+
+			--print("stage == 3")
+			if self.actorSpeedController:isGravityEnable() 
+				and math.abs(self.actorSpeedController:getGravityX()) > 0 then
+				self:handle("CMD_JumpTo_MoveStart")
+			else
+				self:handle("CMD_JumpDownEnd")
+			end
+		end
+
+		self.armatureSpeedController:setLuaUpdateCall(function(x, y, time)
+
+			jumpTime = jumpTime + time
+
+			if stage == -2 and jumpTime > 0.15 then
+				self.armatureSpeedController:setForce(0, 0)
+				self.armatureSpeedController:setFriction(0)
+				stage = -1
+			end
+			if stage == -1 and jumpTime > 0.27 then
+				self.armatureSpeedController:setForce(0, 700)
+				self.armatureSpeedController:setFriction(-2000)
+				stage = 0
+			end
+
+			local curHeight = self.armatureSpeedController:getTarget():getPositionY()
 
 			if stage == 0 then
 				if not isUpCut then
@@ -227,7 +242,7 @@ function Hero_dao:jump()
 						stage = 1
 					end
 				else
-					if self:getArmature():getPositionY() >= 350 then
+					if curHeight >= jumpH then
 						self.armatureSpeedController:setForce(0, 830)
 						self.armatureSpeedController:setFriction(2000)
 						self:handle("CMD_JumpDownStart")
@@ -242,20 +257,24 @@ function Hero_dao:jump()
 				stage = 2
 				--print("stage == 2")
 			end
-			if stage > 0 and y == 0 then
-				self.armatureSpeedController:setStopUpdate(true)
-				self.armatureSpeedController:clearLuaUpdateCall()
-				self.armatureSpeedController:setForceEnable(false)
-				self.armatureSpeedController:setFrictionEnable(false)
-
-				--print("stage == 3")
-				if self.actorSpeedController:isGravityEnable() 
-					and math.abs(self.actorSpeedController:getGravityX()) > 0 then
-					self:handle("CMD_JumpTo_MoveStart")
+			if y == 0 then
+				if isUpCut then
+					if stage > 0 then
+						jumpFinishCall()
+					end
 				else
-					self:handle("CMD_JumpDownEnd")
+					jumpFinishCall()
 				end
 			end
+
+			-- 地图Y轴滚动
+			--subheight
+			--curHeight
+			if rootNode then
+				local tmp = mapBeginY - curHeight * percent
+				rootNode:setPositionY(tmp)
+			end
+
 		end)
 	end
 end
@@ -401,28 +420,10 @@ function Hero_dao:enter_State_JumpDownEnd()
 	self.isJump = false
 end
 
-local attack_move_func_time = 0
-local attack_move_func_total_time = 0
-local attack_move_x = 0
-local function attack_move_func(move, time)
-	if attack_move_func_time > attack_move_func_total_time then
-		return
-	end
-	if math.abs(move.x) < 1 then
-		return
-	end
-	if attack_move_func_time == 0 then
-		attack_move_x = move.x
-	end
-	attack_move_func_time = attack_move_func_time + time
-	attack_move_x = attack_move_x + attack_move_x * attack_move_func_time
-	return {x = attack_move_x, y = 0}
-end
-
 function Hero_dao:enter_State_Attack1()
 	self.isAttack1 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(10), 0)
-	self.actorSpeedController:setFriction(-200)
+	self.actorSpeedController:setForce(self:changeValueByOri(200), 0)
+	self.actorSpeedController:setFriction(450)
 end
 
 function Hero_dao:leave_State_Attack1()
@@ -433,8 +434,8 @@ end
 
 function Hero_dao:enter_State_Attack2()
 	self.isAttack2 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(10), 0)
-	self.actorSpeedController:setFriction(-200)
+	self.actorSpeedController:setForce(self:changeValueByOri(100), 0)
+	self.actorSpeedController:setFriction(400)
 end
 
 function Hero_dao:leave_State_Attack2()
@@ -445,8 +446,8 @@ end
 
 function Hero_dao:enter_State_Attack3()
 	self.isAttack3 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(20), 0)
-	self.actorSpeedController:setFriction(-300)
+	self.actorSpeedController:setForce(self:changeValueByOri(80), 0)
+	self.actorSpeedController:setFriction(300)
 end
 
 function Hero_dao:leave_State_Attack3()
@@ -459,7 +460,7 @@ function Hero_dao:enter_State_Attack4()
 	self.isAttack4 = true
 	self.actorSpeedController:setForce(self:changeValueByOri(50), 0)
 	self.actorSpeedController:setFriction(-300)
-	self.actorSpeedController:setLuaUpdateCall(function(x, y)
+	self.actorSpeedController:setLuaUpdateCall(function(x, y, time)
 		local tmp = self.actorSpeedController:getAppendX()
 		if math.abs(tmp) >= 3 then
 			self.actorSpeedController:clearLuaUpdateCall()
@@ -485,42 +486,39 @@ function Hero_dao:leave_State_Replace()
 end
 
 function Hero_dao:enter_State_Hit()
-	self.movePowerEnableState = self:getAllMovePowerEnableState()
-	self:setAllMovePowerEnable(false)
-	self:setMovePowerEnable(PowerName_Hit, true)
+	self.actorSpeedController:setForce(self:changeValueByOri(-100), 0)
+	self.actorSpeedController:setFriction(300)
+	self.actorSpeedController:setForceEnable(true)
+	self.actorSpeedController:setFrictionEnable(true)
 	self:lockOrientation()
 end
 
 function Hero_dao:leave_State_Hit()
-	self:setAllMovePowerEnableState(self.movePowerEnableState)
+	self.actorSpeedController:setForceEnable(false)
+	self.actorSpeedController:setFrictionEnable(false)
+	self.actorSpeedController:setForce(0, 0)
+	self.actorSpeedController:setFriction(0)
 	self:unLockOrientation()
 end
 
 function Hero_dao:enter_State_Collapse1()
-	self:setMovePowerEnable(PowerName_Collapse, true)
+	self.actorSpeedController:setForce(self:changeValueByOri(-200), 0)
+	self.actorSpeedController:setFriction(150)
+	self.actorSpeedController:setForceEnable(true)
+	self.actorSpeedController:setFrictionEnable(true)
 	self:lockOrientation()
 end
 
 function Hero_dao:leave_State_Collapse2()
-	self:setMovePowerEnable(PowerName_Collapse, false)
+	self.actorSpeedController:setForceEnable(false)
+	self.actorSpeedController:setFrictionEnable(false)
+	self.actorSpeedController:setForce(0, 0)
+	self.actorSpeedController:setFriction(0)
 	self:unLockOrientation()
 end
 
 function Hero_dao:leave_State_Collapse3()
 	self:unLockOrientation()
-end
-
-
------------------------------------------------------------------------------
-function Hero_dao:override_updateArmatureInfo()
-	self.super.override_updateArmatureInfo(self)
-	if self.gameAttribute:getCurOrientation() == GAME_ORI_LEFT then
-		self:setMovePower(PowerName_Hit, {x = -Hit_Power.x, y = Hit_Power.y})
-		self:setMovePower(PowerName_Collapse, {x = -Collapse_Power.x, y = Collapse_Power.y})
-	else
-		self:setMovePower(PowerName_Hit, Hit_Power)
-		self:setMovePower(PowerName_Collapse, Collapse_Power)
-	end
 end
 
 return Hero_dao

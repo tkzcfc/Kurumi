@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := \
 ../../../Classes/gamecore/GameActor.cpp \
 ../../../Classes/gamecore/GameMath.cpp \
 ../../../Classes/gamecore/GameWord.cpp \
+../../../Classes/gamecore/SpeedController.cpp \
 ../../../Classes/lua_game.cpp \
 hellolua/main.cpp
 
