@@ -6,17 +6,9 @@ local net = require("app.models.net.gameNet"):new()
 function GameMain:onCreate()
 
 	local word = GameWord:create()
+    word:loadMapFile("map/map3/m.json", "di1ceng")
+    word:setMinPosY(100)
 	self:addChild(word)
-
-    local winSize = cc.Director:getInstance():getVisibleSize()
-
-    local map = _MyG.loadStudioFile("map1_ui.Map1_B")
-    map.root:setPositionY(winSize.height * 0.5)
-    word:addBackgroundMap(map.root)
-
-    local mapf = _MyG.loadStudioFile("map1_ui.Map1_F")
-    mapf.root:setPositionY(winSize.height * 0.5)
-    word:addForegroundMap(mapf.root)
 
     self.word = word
 
@@ -45,7 +37,7 @@ function GameMain:loadFinish()
     local winSize = cc.Director:getInstance():getVisibleSize()
 
     local controlUI = require("app.ui.ControlUI"):create()
-    self.word:addChild(controlUI)
+    self.word:addChild(controlUI, 1)
 
 
     hero = require("app.actor.role.Hero_dao"):create()

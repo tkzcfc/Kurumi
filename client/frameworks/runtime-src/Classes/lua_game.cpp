@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 06/11/18 22:48:30.
+** Generated automatically by tolua++-1.0.92 on 06/13/18 23:25:40.
 */
 
 #include "tolua_fix.h"
@@ -2469,15 +2469,15 @@ static int tolua_game_GameWord_init00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: addBackgroundMap of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_addBackgroundMap00
-static int tolua_game_GameWord_addBackgroundMap00(lua_State* tolua_S)
+/* method: loadMapFile of class  GameWord */
+#ifndef TOLUA_DISABLE_tolua_game_GameWord_loadMapFile00
+static int tolua_game_GameWord_loadMapFile00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isusertype(tolua_S,2,"cc.Node",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
@@ -2485,53 +2485,53 @@ static int tolua_game_GameWord_addBackgroundMap00(lua_State* tolua_S)
 #endif
  {
   GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-  Node* map = ((Node*)  tolua_tousertype(tolua_S,2,0));
+  const std::string filepath = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addBackgroundMap'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'loadMapFile'", NULL);
 #endif
   {
-   self->addBackgroundMap(map);
+   self->loadMapFile(filepath);
+   tolua_pushcppstring(tolua_S,(const char*)filepath);
   }
  }
- return 0;
+ return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'addBackgroundMap'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'loadMapFile'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: addForegroundMap of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_addForegroundMap00
-static int tolua_game_GameWord_addForegroundMap00(lua_State* tolua_S)
+/* method: loadMapFile of class  GameWord */
+#ifndef TOLUA_DISABLE_tolua_game_GameWord_loadMapFile01
+static int tolua_game_GameWord_loadMapFile01(lua_State* tolua_S)
 {
-#if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isusertype(tolua_S,2,"cc.Node",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
  else
-#endif
  {
   GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-  Node* map = ((Node*)  tolua_tousertype(tolua_S,2,0));
+  const std::string filepath = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+  const std::string actorNodeName = ((const std::string)  tolua_tocppstring(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addForegroundMap'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'loadMapFile'", NULL);
 #endif
   {
-   self->addForegroundMap(map);
+   self->loadMapFile(filepath,actorNodeName);
+   tolua_pushcppstring(tolua_S,(const char*)filepath);
+   tolua_pushcppstring(tolua_S,(const char*)actorNodeName);
   }
  }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'addForegroundMap'.",&tolua_err);
- return 0;
-#endif
+ return 2;
+tolua_lerror:
+ return tolua_game_GameWord_loadMapFile00(tolua_S);
 }
 #endif //#ifndef TOLUA_DISABLE
 
@@ -2830,70 +2830,6 @@ static int tolua_game_GameWord_getRootNode00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: getBackgroundMap of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_getBackgroundMap00
-static int tolua_game_GameWord_getBackgroundMap00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getBackgroundMap'", NULL);
-#endif
-  {
-   Node* tolua_ret = (Node*)  self->getBackgroundMap();
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"cc.Node");
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getBackgroundMap'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getForegroundMap of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_getForegroundMap00
-static int tolua_game_GameWord_getForegroundMap00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getForegroundMap'", NULL);
-#endif
-  {
-   Node* tolua_ret = (Node*)  self->getForegroundMap();
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"cc.Node");
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getForegroundMap'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: getActorNode of class  GameWord */
 #ifndef TOLUA_DISABLE_tolua_game_GameWord_getActorNode00
 static int tolua_game_GameWord_getActorNode00(lua_State* tolua_S)
@@ -2988,6 +2924,71 @@ size_to_luaval(tolua_S, tolua_ret);
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getMapSize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMinPosY of class  GameWord */
+#ifndef TOLUA_DISABLE_tolua_game_GameWord_setMinPosY00
+static int tolua_game_GameWord_setMinPosY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
+  float InMinPosY = ((float)  tolua_tonumber(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMinPosY'", NULL);
+#endif
+  {
+   self->setMinPosY(InMinPosY);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMinPosY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMinPosY of class  GameWord */
+#ifndef TOLUA_DISABLE_tolua_game_GameWord_getMinPosY00
+static int tolua_game_GameWord_getMinPosY00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMinPosY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getMinPosY();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMinPosY'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4908,8 +4909,8 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"delete",tolua_game_GameWord_delete00);
    tolua_function(tolua_S,"create",tolua_game_GameWord_create00);
    tolua_function(tolua_S,"init",tolua_game_GameWord_init00);
-   tolua_function(tolua_S,"addBackgroundMap",tolua_game_GameWord_addBackgroundMap00);
-   tolua_function(tolua_S,"addForegroundMap",tolua_game_GameWord_addForegroundMap00);
+   tolua_function(tolua_S,"loadMapFile",tolua_game_GameWord_loadMapFile00);
+   tolua_function(tolua_S,"loadMapFile",tolua_game_GameWord_loadMapFile01);
    tolua_function(tolua_S,"addActor",tolua_game_GameWord_addActor00);
    tolua_function(tolua_S,"removeActor",tolua_game_GameWord_removeActor00);
    tolua_function(tolua_S,"setPlayer",tolua_game_GameWord_setPlayer00);
@@ -4919,11 +4920,11 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"openDebugDraw",tolua_game_GameWord_openDebugDraw00);
    tolua_function(tolua_S,"isOpenDebugDraw",tolua_game_GameWord_isOpenDebugDraw00);
    tolua_function(tolua_S,"getRootNode",tolua_game_GameWord_getRootNode00);
-   tolua_function(tolua_S,"getBackgroundMap",tolua_game_GameWord_getBackgroundMap00);
-   tolua_function(tolua_S,"getForegroundMap",tolua_game_GameWord_getForegroundMap00);
    tolua_function(tolua_S,"getActorNode",tolua_game_GameWord_getActorNode00);
    tolua_function(tolua_S,"getChildNode",tolua_game_GameWord_getChildNode00);
    tolua_function(tolua_S,"getMapSize",tolua_game_GameWord_getMapSize00);
+   tolua_function(tolua_S,"setMinPosY",tolua_game_GameWord_setMinPosY00);
+   tolua_function(tolua_S,"getMinPosY",tolua_game_GameWord_getMinPosY00);
   tolua_endmodule(tolua_S);
   tolua_function(tolua_S,"getGameWord",tolua_game_getGameWord00);
   tolua_cclass(tolua_S,"TCPClient","TCPClient","",NULL);

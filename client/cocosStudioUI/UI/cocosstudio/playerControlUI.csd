@@ -52,7 +52,7 @@
             <FileData Type="Normal" Path="cont/joyk2.png" Plist="" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Button_ChangeWeapon" ActionTag="1467032247" CallBackType="Click" CallBackName="onClickChangeWeapon" Tag="249" IconVisible="False" LeftMargin="773.2095" RightMargin="252.7905" TopMargin="456.2401" BottomMargin="73.7599" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="80" Scale9Height="88" DisplayState="False" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+          <AbstractNodeData Name="Button_ChangeWeapon" ActionTag="1467032247" CallBackType="Click" CallBackName="onClickChangeWeapon" Tag="249" IconVisible="False" LeftMargin="773.2095" RightMargin="252.7905" TopMargin="456.2401" BottomMargin="73.7599" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="80" Scale9Height="88" DisplayState="False" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="110.0000" Y="110.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="828.2095" Y="128.7599" />

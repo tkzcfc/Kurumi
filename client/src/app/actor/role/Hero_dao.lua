@@ -192,7 +192,7 @@ function Hero_dao:jump()
 		local rootNode = nil
 		if gameword then
 			rootNode = gameword:getRootNode()
-			mapBeginY = rootNode:getPositionY()
+			mapBeginY = 0
 
 			local winSize = cc.Director:getInstance():getVisibleSize()
 			local subheight = gameword:getMapSize().height - winSize.height
@@ -357,7 +357,7 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Attack4", "State_Attack4_stop", "State_Stand")
 
 	--跳跃攻击
-	self.FSM:addTranslation("State_JumpUp", "CMD_To_JumpAttack", "State_JumpAttack3")
+	self.FSM:addTranslation("State_JumpUp", "CMD_Attack", "State_JumpAttack3")
 	self.FSM:addTranslation("State_JumpAttack3", "State_JumpAttack3_stop", "State_JumpDown")
 	self.FSM:addTranslation("State_JumpAttack3", "CMD_JumpTo_MoveStart", "State_Run")
 	self.FSM:addTranslation("State_JumpAttack3", "CMD_JumpDownEnd", "State_JumpDownEnd")

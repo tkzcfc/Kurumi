@@ -9,7 +9,7 @@ GameWord* getGameWord()
 
 GameWord::GameWord()
 {
-	m_backgroundMap = m_foregroundMap = m_actorNode = NULL;
+	m_actorNode = NULL;
 	m_player = NULL;
 	Static__GameWord = this;
 }
@@ -45,76 +45,39 @@ bool GameWord::init()
 		m_defRectCache.reserve(10);
 		m_attRectCache.reserve(10);
 
-		m_rootNode = Node::create();
-		this->addChild(m_rootNode);
-
-		m_backgroundMap = Node::create();
-		m_rootNode->addChild(m_backgroundMap, -100);
-
-		m_actorNode = Node::create();
-		m_rootNode->addChild(m_actorNode, 0);
-
-		m_foregroundMap = Node::create();
-		m_rootNode->addChild(m_foregroundMap, 100);
+		m_rootNode = NULL;
+		m_minPosY = 0.0f;
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 		m_debugDraw = DrawNode::create();
-		m_rootNode->addChild(m_debugDraw, 200);
+		this->addChild(m_debugDraw, 200);
 #endif
 
 		this->schedule(schedule_selector(GameWord::logicUpdate), 1 / 60.0f);
 
-
 		const auto& size = Director::getInstance()->getVisibleSize();
 
 		m_mapSize = size;
-		m_enableRectMap.size = size;
 
 		return true;
 	} while (0);
 	return false;
 }
 
-void GameWord::addBackgroundMap(Node* map)
+void GameWord::loadMapFile(const std::string& filepath, const std::string& actorNodeName)
 {
-	if (map == NULL)
-		return;
-	m_backgroundMap->addChild(map);
-
-	auto& child = map->getChildren();
-	for (int i = 0; i < child.size(); ++i)
+	if (m_rootNode)
 	{
-		auto it = child.at(i);
-		if (strstr(it->getName().c_str(), "RECT_"))
-		{
-			m_enableRectMap = it->getBoundingBox();
-			m_enableRectMap.origin += map->getPosition();
-			it->removeFromParent();
-		}
+		m_rootNode->removeFromParent();
+		m_rootNode = nullptr;
 	}
+	m_rootNode = SceneReader::getInstance()->createNodeWithSceneFile(filepath);
+	addChild(m_rootNode);
 
-	auto node = map->getChildByName("Panel_Map");
-	if (node)
-	{
-		const auto& size = node->getContentSize();
-		m_mapSize.width = MAX(m_mapSize.width, size.width);
-		m_mapSize.height = MAX(m_mapSize.height, size.height);
-	}
-}
+	m_actorNode = m_rootNode->getChildByName(actorNodeName);
+	CCASSERT(m_actorNode != NULL, "m_actorNode ²»ÄÜÎª¿Õ");
 
-void GameWord::addForegroundMap(Node* map)
-{
-	if (map == NULL)
-		return;
-	m_foregroundMap->addChild(map);
-	
-	auto node = map->getChildByName("Panel_Map");
-	if (node)
-	{
-		const auto& size = node->getContentSize();
-		m_mapSize.width = MAX(m_mapSize.width, size.width);
-		m_mapSize.height = MAX(m_mapSize.height, size.height);
-	}
+	m_mapSize = m_rootNode->getContentSize();
 }
 
 void GameWord::addActor(GameActor* actor)
@@ -271,17 +234,13 @@ void GameWord::updateMapCorrectActor()
 		float halfWidth = 50.0f;//it->getAABB().size.width * 0.5;
 		v = it->getActorPosition();
 
-		tmp = m_enableRectMap.getMaxX() - halfWidth;
+		tmp = m_mapSize.width - halfWidth;
 		v.x = MIN(v.x, tmp);
 
-		tmp = m_enableRectMap.getMinX() + halfWidth;
+		tmp = halfWidth;
 		v.x = MAX(v.x, tmp);
 
-		tmp = m_enableRectMap.getMaxY();
-		v.y = MIN(v.y, tmp);
-
-		tmp = m_enableRectMap.getMinY();
-		v.y = MAX(v.y, tmp);
+		v.y = MAX(v.y, m_minPosY);
 
 		it->setActorPosition(v);
 	}

@@ -1,0 +1,317 @@
+{
+  "content_scale": 1.0,
+  "armature_data": [
+    {
+      "strVersion": "1.2.0.1",
+      "version": 1.201,
+      "name": "map3_3",
+      "bone_data": [
+        {
+          "name": "g1",
+          "parent": "",
+          "x": -10.689373016357422,
+          "y": 114.88497924804688,
+          "z": 2,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "scene_ocr_b02.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ld",
+          "parent": "",
+          "x": -0.62882709503173828,
+          "y": 99.80645751953125,
+          "z": 1,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "scene_ocr_b01.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "animation_data": [
+    {
+      "name": "map3_3",
+      "mov_data": [
+        {
+          "name": "ld",
+          "dr": 25,
+          "lp": true,
+          "to": 0,
+          "drTW": 0,
+          "twE": 0,
+          "sc": 0.4,
+          "mov_bone_data": [
+            {
+              "name": "g1",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 170,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 9,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 170,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 24,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "ld",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 9,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 24,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "texture_data": [
+    {
+      "name": "scene_ocr_b03",
+      "width": 640.0,
+      "height": 222.0,
+      "pX": 1.0,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b04",
+      "width": 640.0,
+      "height": 222.0,
+      "pX": 0.0,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b05",
+      "width": 115.0,
+      "height": 67.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b06",
+      "width": 72.0,
+      "height": 32.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b11",
+      "width": 89.0,
+      "height": 44.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b12",
+      "width": 113.0,
+      "height": 18.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b13",
+      "width": 62.0,
+      "height": 43.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b07",
+      "width": 84.0,
+      "height": 37.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b08",
+      "width": 56.0,
+      "height": 28.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b09",
+      "width": 77.0,
+      "height": 40.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b10",
+      "width": 87.0,
+      "height": 23.0,
+      "pX": 0.5,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b14",
+      "width": 640.0,
+      "height": 419.0,
+      "pX": 1.0,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b15",
+      "width": 640.0,
+      "height": 419.0,
+      "pX": 0.0,
+      "pY": 0.0,
+      "plistFile": ""
+    },
+    {
+      "name": "scene_ocr_b01",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": "shu1.plist"
+    },
+    {
+      "name": "scene_ocr_b02",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": "shu1.plist"
+    }
+  ],
+  "config_file_path": [
+    "shu1.plist"
+  ]
+}

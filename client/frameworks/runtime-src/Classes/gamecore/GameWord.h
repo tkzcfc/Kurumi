@@ -17,9 +17,7 @@ public:
 
 	virtual bool init() override;
 
-	void addBackgroundMap(Node* map);
-
-	void addForegroundMap(Node* map);
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName = "di2ceng");
 
 	void addActor(GameActor* actor);
 
@@ -39,15 +37,15 @@ public:
 	
 	inline Node* getRootNode() { return m_rootNode; }
 	
-	inline Node* getBackgroundMap() { return m_backgroundMap; }
-	
-	inline Node* getForegroundMap() { return m_foregroundMap; }
-	
 	inline Node* getActorNode() { return m_actorNode; }
 
 	Node* getChildNode(const std::string& name);
 
 	inline Size getMapSize() { return m_mapSize; }
+
+	inline void setMinPosY(float InMinPosY) { m_minPosY = InMinPosY; }
+
+	inline float getMinPosY() { return m_minPosY; }
 
 protected:
 
@@ -64,16 +62,12 @@ protected:
 	void collisionTest();
 
 private:
-	//地图中可以移动的区域
-	Rect m_enableRectMap;
-
+	float m_minPosY;
 	Size m_mapSize;
 
 	Vector<GameActor*> m_allActor;
 	GameActor* m_player;
 
-	Node* m_backgroundMap;
-	Node* m_foregroundMap;
 	Node* m_actorNode;
 	Node* m_rootNode;
 

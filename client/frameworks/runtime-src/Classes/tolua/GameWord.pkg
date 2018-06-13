@@ -10,10 +10,8 @@ public:
 	static GameWord* create();
 
 	virtual bool init();
-
-	void addBackgroundMap(cc.Node* map);
-
-	void addForegroundMap(cc.Node* map);
+	
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName = "di2ceng");
 
 	void addActor(GameActor* actor);
 
@@ -33,15 +31,15 @@ public:
 	
 	inline cc.Node* getRootNode();
 	
-	inline cc.Node* getBackgroundMap();
-	
-	inline cc.Node* getForegroundMap();
-	
 	inline cc.Node* getActorNode();
 
 	cc.Node* getChildNode(const std::string& name);
 
 	inline Size getMapSize();
+	
+	inline void setMinPosY(float InMinPosY);
+
+	inline float getMinPosY();
 };
 
 GameWord* getGameWord();

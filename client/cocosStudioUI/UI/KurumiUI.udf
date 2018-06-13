@@ -30,14 +30,7 @@
     </Item>
     <Item Key="TabsParamsKey">
       <Value ctype="TabsInfo">
-        <OpenedDocuments>
-          <FilePathData Path="taohua2.csd" />
-          <FilePathData Path="Yun.csd" />
-          <FilePathData Path="zhucheng.csd" />
-          <FilePathData Path="PreScene.csd" />
-          <FilePathData Path="playerControlUI.csd" />
-        </OpenedDocuments>
-        <ActiveDocument Path="playerControlUI.csd" />
+        <ActiveDocument />
       </Value>
     </Item>
   </Properties>

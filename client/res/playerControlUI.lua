@@ -132,6 +132,7 @@ Button_ChangeWeapon:setTitleColor({r = 65, g = 65, b = 70})
 Button_ChangeWeapon:setScale9Enabled(true)
 Button_ChangeWeapon:setCapInsets({x = 15, y = 11, width = 80, height = 88})
 Button_ChangeWeapon:setBright(false)
+Button_ChangeWeapon:setTouchEnabled(false);
 Button_ChangeWeapon:setLayoutComponentEnabled(true)
 Button_ChangeWeapon:setName("Button_ChangeWeapon")
 Button_ChangeWeapon:setTag(249)

@@ -65,92 +65,56 @@
           <Image Name="xiazhan.png" />
           <Image Name="xulizhan.png" />
         </Folder>
-        <Folder Name="map1">
-          <PlistImageFolder Image="map1_40.png" PListFile="map1_40.plist" Name=".map1_40_PList.Dir">
-            <PlistImageFile Name="bog1.png" Key="bog1.png" />
-            <PlistImageFile Name="bog2.png" Key="bog2.png" />
-            <PlistImageFile Name="bog3.png" Key="bog3.png" />
-            <PlistImageFile Name="taiyg.png" Key="taiyg.png" />
-          </PlistImageFolder>
-          <PlistImageFolder Image="map1qj10.png" PListFile="map1qj10.plist" Name=".map1qj10_PList.Dir">
-            <PlistImageFile Name="qianjz10.png" Key="qianjz10.png" />
-            <PlistImageFile Name="qianjz11.png" Key="qianjz11.png" />
-            <PlistImageFile Name="qianjz15.png" Key="qianjz15.png" />
-            <PlistImageFile Name="qianjz16.png" Key="qianjz16.png" />
-            <PlistImageFile Name="qianjz4.png" Key="qianjz4.png" />
-            <PlistImageFile Name="qianjz6.png" Key="qianjz6.png" />
-            <PlistImageFile Name="qianjz7.png" Key="qianjz7.png" />
-            <PlistImageFile Name="qianjz9.png" Key="qianjz9.png" />
-            <PlistImageFile Name="tianyq1.png" Key="tianyq1.png" />
-            <PlistImageFile Name="tianyq2.png" Key="tianyq2.png" />
-          </PlistImageFolder>
-          <PlistImageFolder Image="map1qjc20.png" PListFile="map1qjc20.plist" Name=".map1qjc20_PList.Dir">
-            <PlistImageFile Name="qianjz1.png" Key="qianjz1.png" />
-            <PlistImageFile Name="qianjz10.png" Key="qianjz10.png" />
-            <PlistImageFile Name="qianjz14.png" Key="qianjz14.png" />
-            <PlistImageFile Name="qianjz15.png" Key="qianjz15.png" />
-            <PlistImageFile Name="qianjz16.png" Key="qianjz16.png" />
-            <PlistImageFile Name="qianjz8.png" Key="qianjz8.png" />
-            <PlistImageFile Name="qianjz9.png" Key="qianjz9.png" />
-            <PlistImageFile Name="tianyq3.png" Key="tianyq3.png" />
-            <PlistImageFile Name="tianyq4.png" Key="tianyq4.png" />
-          </PlistImageFolder>
-          <PlistImageFolder Image="z1.png" PListFile="z1.plist" Name=".z1_PList.Dir">
-            <PlistImageFile Name="suiy11.png" Key="suiy11.png" />
-            <PlistImageFile Name="suiy3.png" Key="suiy3.png" />
-            <PlistImageFile Name="suiy8.png" Key="suiy8.png" />
-            <PlistImageFile Name="suiy9.png" Key="suiy9.png" />
-            <PlistImageFile Name="tainyzjc4.png" Key="tainyzjc4.png" />
-            <PlistImageFile Name="tianyzjdz4.png" Key="tianyzjdz4.png" />
-          </PlistImageFolder>
-          <PlistImageFolder Image="z2.png" PListFile="z2.plist" Name=".z2_PList.Dir">
-            <PlistImageFile Name="suiy12.png" Key="suiy12.png" />
-            <PlistImageFile Name="suiy6.png" Key="suiy6.png" />
-            <PlistImageFile Name="tainyzjc3.png" Key="tainyzjc3.png" />
-            <PlistImageFile Name="tianyzjdz3.png" Key="tianyzjdz3.png" />
-          </PlistImageFolder>
-          <PlistImageFolder Image="z3.png" PListFile="z3.plist" Name=".z3_PList.Dir">
-            <PlistImageFile Name="suiy1.png" Key="suiy1.png" />
-            <PlistImageFile Name="suiy2.png" Key="suiy2.png" />
-            <PlistImageFile Name="tainyzjc2.png" Key="tainyzjc2.png" />
-            <PlistImageFile Name="tianyzjdz2.png" Key="tianyzjdz2.png" />
-          </PlistImageFolder>
-          <PlistImageFolder Image="z4.png" PListFile="z4.plist" Name=".z4_PList.Dir">
-            <PlistImageFile Name="suiy4.png" Key="suiy4.png" />
-            <PlistImageFile Name="suiy5.png" Key="suiy5.png" />
-            <PlistImageFile Name="suiy6.png" Key="suiy6.png" />
-            <PlistImageFile Name="tainyzjc1.png" Key="tainyzjc1.png" />
-            <PlistImageFile Name="tianyzjdz1.png" Key="tianyzjdz1.png" />
-          </PlistImageFolder>
-          <File Name="m.map" />
-          <Image Name="m1bj.png" />
-          <Image Name="m1dim.png" />
-          <Image Name="m1fangw1.png" />
-          <Image Name="m1fangw2.png" />
-          <Image Name="m1henm1.png" />
-          <Image Name="m1henm2.png" />
-          <Image Name="m1henm3.png" />
-          <Image Name="m1henm4.png" />
-          <Image Name="m1henm5.png" />
-          <Image Name="m1henm6.png" />
-          <Image Name="m1henm7.png" />
-          <Image Name="m1henm8.png" />
-          <ExportJsonFile Name="m1map1_4.ExportJson" />
-          <ExportJsonFile Name="m1map1qj1.ExportJson" />
-          <ExportJsonFile Name="m1map1qjc2.ExportJson" />
-          <ExportJsonFile Name="m1mapz1.ExportJson" />
-          <ExportJsonFile Name="m1mapz2.ExportJson" />
-          <ExportJsonFile Name="m1mapz3.ExportJson" />
-          <ExportJsonFile Name="m1mapz4.ExportJson" />
-          <Image Name="m1tianyz.png" />
-          <Image Name="m1tkdt.png" />
+        <Folder Name="map">
+          <Folder Name="map3">
+            <PlistImageFolder Image="shu2.png" PListFile="shu2.plist" Name=".shu2_PList.Dir">
+              <PlistImageFile Name="scene_ocr_b03.png" Key="scene_ocr_b03.png" />
+              <PlistImageFile Name="scene_ocr_b04.png" Key="scene_ocr_b04.png" />
+              <PlistImageFile Name="scene_ocr_b05.png" Key="scene_ocr_b05.png" />
+              <PlistImageFile Name="scene_ocr_b06.png" Key="scene_ocr_b06.png" />
+              <PlistImageFile Name="scene_ocr_b07.png" Key="scene_ocr_b07.png" />
+              <PlistImageFile Name="scene_ocr_b08.png" Key="scene_ocr_b08.png" />
+              <PlistImageFile Name="scene_ocr_b09.png" Key="scene_ocr_b09.png" />
+              <PlistImageFile Name="scene_ocr_b10.png" Key="scene_ocr_b10.png" />
+              <PlistImageFile Name="scene_ocr_b11.png" Key="scene_ocr_b11.png" />
+              <PlistImageFile Name="scene_ocr_b12.png" Key="scene_ocr_b12.png" />
+              <PlistImageFile Name="scene_ocr_b13.png" Key="scene_ocr_b13.png" />
+            </PlistImageFolder>
+            <Image Name="bg.png" />
+            <File Name="m.json" />
+            <File Name="m.map" />
+            <ExportJsonFile Name="map3_1.ExportJson" />
+            <ExportJsonFile Name="map3_2.ExportJson" />
+            <ExportJsonFile Name="map3_3.ExportJson" />
+            <ExportJsonFile Name="map3_4.ExportJson" />
+            <ExportJsonFile Name="map3_ynb.ExportJson" />
+            <PlistParticleFile Name="map3_ynb.plist" />
+            <Image Name="scene_ocr_b38.png" />
+            <Image Name="yj.png" />
+          </Folder>
         </Folder>
-        <Folder Name="map1_ui">
-          <Project Name="Map1_B.csd" Type="Node" />
-          <Project Name="Map1_F.csd" Type="Node" />
-          <Project Name="map1_f1.csd" Type="Node" />
-          <Project Name="map1_f2.csd" Type="Node" />
-          <Project Name="map1_node.csd" Type="Node" />
+        <Folder Name="map_pr">
+          <Folder Name="ratio">
+            <File Name="ratio.plist" />
+            <File Name="ratio_ipad.plist" />
+          </Folder>
+          <File Name="ParallaxCollide.json" />
+          <File Name="ParallaxForeground.json" />
+          <File Name="ParallaxForeground_00.json" />
+          <File Name="ParallaxForeground_01.json" />
+          <File Name="ParallaxForeground_1105.json" />
+          <File Name="ParallaxRatio_00.json" />
+          <File Name="ParallaxRatio_00_02.json" />
+          <File Name="ParallaxRatio_01.json" />
+          <File Name="ParallaxRatio_02.json" />
+          <File Name="ParallaxRatio_03.json" />
+          <File Name="ParallaxRatio_04.json" />
+          <File Name="ParallaxRatio_05.json" />
+          <File Name="ParallaxRatio_06.json" />
+          <File Name="ParallaxRatio_07.json" />
+          <File Name="ParallaxRatio_08.json" />
+          <File Name="ParallaxRatio_09.json" />
+          <File Name="ParallaxRatio_10.json" />
         </Folder>
         <Folder Name="messagebox">
           <Image Name="button_no.png" />
