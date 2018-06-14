@@ -30,49 +30,372 @@ RoleConfig["hero_lanse_dao"] =
 	}
 }
 
--- RoleConfig["hero_lanse_dao"] = 
--- {
--- 	ExportJson = "role/baiji/hero_lanse_dao.ExportJson",
--- 	Armature = "hero_lanse_dao",
+RoleConfig["hero_xiuluo_dao"] = 
+{
+	ExportJson = "role/baiji/hero_xiuluo_dao.ExportJson",
+	Armature = "hero_xiuluo_dao",
 
--- 	StateConfig = 
--- 	{
--- 		fstand 		= "fstand",
--- 		frun_1 		= "frun_1",
--- 		frun_2 		= "frun_2",
--- 		fbrake 		= "fbrake",
--- 		fturn_1		= "fturn_1",
--- 		fturn_2		= "fturn_2",
--- 		pull		= "pull",
--- 		regain 		= "regain",
--- 		fjumpup_1	= "fjumpup_1",
--- 		fjumpup_2 	= "fjumpup_2",
--- 		fjumpup_3	= "fjumpup_3",
--- 		fjumpdown_1	= "fjumpdown_1",
--- 		fjumpdown_2	= "fjumpdown_2",
--- 		replace_1	= "replace_1",
--- 		replace_2	= "replace_2",
--- 		replace_3	= "replace_3",
--- 		hit			= "hit",
--- 		collapse_1	= "collapse_1",
--- 		collapse_2	= "collapse_2",
--- 		collapse_3	= "collapse_3",
--- 		attack1_1	= "attack1_1",
--- 		attack1_2	= "attack1_2",
--- 		attack2_1	= "attack2_1",
--- 		attack2_2	= "attack2_2",
--- 		attack3_1	= "attack3_1",
--- 		attack3_2	= "attack3_2",
--- 		attack4_1	= "attack4_1",
--- 		attack4_2	= "attack4_2",
--- 		kattack1_1	= "kattack1_1",
--- 		kattack1_2	= "kattack1_2",
--- 		kattack2_1	= "kattack2_1",
--- 		kattack2_2	= "kattack2_2",
--- 		kattack3_1	= "kattack3_1",
--- 		kattack3_2	= "kattack3_2",
--- 	}
--- }
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
 
+RoleConfig["hero_shizxianzi_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizxianzi_dao.ExportJson",
+	Armature = "hero_shizxianzi_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+RoleConfig["hero_shizwushikaijia_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizwushikaijia_dao.ExportJson",
+	Armature = "hero_shizwushikaijia_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_shizwushi_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizwushi_dao.ExportJson",
+	Armature = "hero_shizwushi_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+RoleConfig["hero_shizshuishoufu_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizshuishoufu_dao.ExportJson",
+	Armature = "hero_shizshuishoufu_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_shizshenyin_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizshenyin_dao.ExportJson",
+	Armature = "hero_shizshenyin_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_shiznvpu_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shiznvpu_dao.ExportJson",
+	Armature = "hero_shiznvpu_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_shizmaonv_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizmaonv_dao.ExportJson",
+	Armature = "hero_shizmaonv_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_shizhuak_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizhuak_dao.ExportJson",
+	Armature = "hero_shizhuak_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_shizconglin_dao"] = 
+{
+	ExportJson = "role/baiji/hero_shizconglin_dao.ExportJson",
+	Armature = "hero_shizconglin_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_luocha_dao"] = 
+{
+	ExportJson = "role/baiji/hero_luocha_dao.ExportJson",
+	Armature = "hero_luocha_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
+
+
+RoleConfig["hero_baiji_dao"] = 
+{
+	ExportJson = "role/baiji/hero_baiji_dao.ExportJson",
+	Armature = "hero_baiji_dao",
+
+	StateConfig = 
+	{
+		State_Stand = {"fstand"},
+		State_Run = {"frun_1"},
+		State_Run2 = {"frun_2"},
+		State_Brak = {"fbrake"},
+		State_Replace = {"replace_1", "replace_2", "replace_3"},
+		State_JumpUp = {"fjumpup_1", "fjumpup_2"},
+		State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
+		State_JumpDownEnd = {"fjumpdown_2"},
+		State_Attack1 = {"attack1_1", "attack1_2"},
+		State_Attack2 = {"attack2_1", "attack2_2"},
+		State_Attack3 = {"attack3_1", "attack3_2"},
+		State_Attack4 = {"attack4_1", "attack4_2"},
+		State_JumpAttack1 = {"kattack1_1", "kattack1_2"},
+		State_JumpAttack2 = {"kattack2_1", "kattack2_2"},
+		State_JumpAttack3 = {"kattack2_1", "kattack2_2", "kattack3_1", "kattack3_2"},
+		State_Hit = {"hit"},
+		State_Collapse1 = {"collapse_1"},
+		State_Collapse2 = {"collapse_2"},
+		State_Collapse3 = {"collapse_3"},
+		State_Upcut = {"upcut_1", "upcut_2"},
+	}
+}
 
 return RoleConfig

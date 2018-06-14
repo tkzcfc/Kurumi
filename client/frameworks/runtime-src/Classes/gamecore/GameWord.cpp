@@ -2,10 +2,6 @@
 #include "GameMath.h"
 
 static GameWord* Static__GameWord = NULL;
-GameWord* getGameWord()
-{
-	return Static__GameWord;
-}
 
 GameWord::GameWord()
 {
@@ -50,7 +46,7 @@ bool GameWord::init()
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 		m_debugDraw = DrawNode::create();
-		this->addChild(m_debugDraw, 200);
+		this->addChild(m_debugDraw, 1);
 #endif
 
 		this->schedule(schedule_selector(GameWord::logicUpdate), 1 / 60.0f);
@@ -66,18 +62,34 @@ bool GameWord::init()
 
 void GameWord::loadMapFile(const std::string& filepath, const std::string& actorNodeName)
 {
+#ifdef ENABLE_GAME_WORD_DEBUG
+	if (m_debugDraw)
+	{
+		m_debugDraw->retain();
+		m_debugDraw->removeFromParent();
+	}
+#endif
+
 	if (m_rootNode)
 	{
 		m_rootNode->removeFromParent();
 		m_rootNode = nullptr;
 	}
+
 	m_rootNode = SceneReader::getInstance()->createNodeWithSceneFile(filepath);
 	addChild(m_rootNode);
+
+#ifdef ENABLE_GAME_WORD_DEBUG
+	m_rootNode->addChild(m_debugDraw, 0xFFFF);
+	m_debugDraw->release();
+#endif
 
 	m_actorNode = m_rootNode->getChildByName(actorNodeName);
 	CCASSERT(m_actorNode != NULL, "m_actorNode ²»ÄÜÎª¿Õ");
 
 	m_mapSize = m_rootNode->getContentSize();
+
+	changeParticleSystemPositionType(m_rootNode);
 }
 
 void GameWord::addActor(GameActor* actor)
@@ -375,5 +387,54 @@ void GameWord::collisionTest()
 				}
 			}
 		}
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+///
+//////////////////////////////////////////////////////////////////////////
+GameWord* getGameWord()
+{
+	return Static__GameWord;
+}
+
+void __changeParticleSystemPositionType(Node* root)
+{
+	if (root == NULL)
+		return;
+
+	auto particleSys = dynamic_cast<ParticleSystem*>(root);
+	if (particleSys)
+	{
+		particleSys->setPositionType(ParticleSystem::PositionType::GROUPED);
+	}
+
+	auto& child = root->getChildren();
+	for (auto& it : child)
+	{
+		__changeParticleSystemPositionType(it);
+	}
+}
+
+void changeParticleSystemPositionType(Node* root)
+{
+	if (root == NULL)
+		return;
+
+	auto armature = dynamic_cast<Armature*>(root);
+	if (armature)
+	{
+		auto& boneDic = armature->getBoneDic();
+		for (auto& it : boneDic)
+		{
+			__changeParticleSystemPositionType(it.second->getDisplayRenderNode());
+		}
+	}
+
+	auto& child = root->getChildren();
+	for (auto& it : child)
+	{
+		changeParticleSystemPositionType(it);
 	}
 }

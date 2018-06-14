@@ -1,4 +1,6 @@
-local CreateScene = class("CreateScene", cc.load("mvc").ViewBase)
+local msgViewBase = require("app.common.msgViewBase")
+
+local CreateScene = class("CreateScene", msgViewBase)
 
 function CreateScene:onCreate()
 	self.ui = _MyG.loadStudioFile("CreateScene", self)

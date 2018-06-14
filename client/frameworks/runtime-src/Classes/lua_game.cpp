@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 06/13/18 23:25:40.
+** Generated automatically by tolua++-1.0.92 on 06/14/18 11:08:25.
 */
 
 #include "tolua_fix.h"
@@ -3021,6 +3021,34 @@ static int tolua_game_getGameWord00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: changeParticleSystemPositionType */
+#ifndef TOLUA_DISABLE_tolua_game_changeParticleSystemPositionType00
+static int tolua_game_changeParticleSystemPositionType00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"cc.Node",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Node* root = ((Node*)  tolua_tousertype(tolua_S,1,0));
+  {
+   changeParticleSystemPositionType(root);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'changeParticleSystemPositionType'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: getInstance of class  Client */
 #ifndef TOLUA_DISABLE_tolua_game_Client_getInstance00
 static int tolua_game_Client_getInstance00(lua_State* tolua_S)
@@ -4927,6 +4955,7 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getMinPosY",tolua_game_GameWord_getMinPosY00);
   tolua_endmodule(tolua_S);
   tolua_function(tolua_S,"getGameWord",tolua_game_getGameWord00);
+  tolua_function(tolua_S,"changeParticleSystemPositionType",tolua_game_changeParticleSystemPositionType00);
   tolua_cclass(tolua_S,"TCPClient","TCPClient","",NULL);
   tolua_beginmodule(tolua_S,"TCPClient");
    tolua_constant(tolua_S,"CONNECT",TCPClient::CONNECT);

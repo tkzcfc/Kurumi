@@ -1,7 +1,11 @@
-local GameMain = class("GameMain", cc.load("mvc").ViewBase)
+local msgViewBase = require("app.common.msgViewBase")
+local GameMain = class("GameMain", msgViewBase)
 
-local net = require("app.models.net.gameNet"):new()
+local RoleConfig = require("app.config.RoleConfig")
 
+local loadAllRole = false
+local playerRole = "hero_shizhuak_dao"
+local otherRole = {"hero_shizshuishoufu_dao", "hero_shizmaonv_dao", "hero_shizhuak_dao"}
 
 function GameMain:onCreate()
 
@@ -14,12 +18,6 @@ function GameMain:onCreate()
 
     local uiPage = _MyG.loadStudioFile("HomeSceneUI", self)
     self:addChild(uiPage.root)
-
-    -- local scheduler = cc.Director:getInstance():getScheduler()  
-    -- local schedulerID = nil  
-    -- schedulerID = scheduler:scheduleScriptFunc(function(d)  
-    --     self:updateLogin(d)
-    -- end,0,false)    
 
     self:onClickLoad(nil)
 end
@@ -40,10 +38,60 @@ function GameMain:loadFinish()
     self.word:addChild(controlUI, 1)
 
 
-    hero = require("app.actor.role.Hero_dao"):create()
-    hero:setActorPosition(400.0, 0)
-    hero:setActorType(AT_MONSTER)
-    self.word:addActor(hero)
+    local allRole = {}
+    local count = 1
+    for k,v in pairs(RoleConfig) do
+        allRole[count] = v.Armature
+        count = count + 1
+    end
+
+    hero:changeRole(playerRole)
+    
+    count = 1
+
+    if loadAllRole then
+        local callbackEntry = nil
+    
+        local function localfunc(time)
+            print("time = ", time)
+            hero = require("app.actor.role.Hero_dao"):create()
+            hero:setActorPosition(300 + 70 * count, 0)
+            hero:setActorType(AT_MONSTER)
+            hero:changeRole(allRole[count])
+            self.word:addActor(hero)
+    
+            count = count + 1
+            if count > #allRole then
+                print("load finish")
+                cc.Director:getInstance():getScheduler():unscheduleScriptEntry(callbackEntry)
+            end
+        end
+    
+        local scheduler=cc.Director:getInstance():getScheduler()
+        callbackEntry = scheduler:scheduleScriptFunc(localfunc,1,false)
+    else
+        local callbackEntry = nil
+    
+        local function localfunc(time)
+            print("time = ", time)
+            hero = require("app.actor.role.Hero_dao"):create()
+            hero:setActorPosition(300 + 100 * count, 0)
+            hero:setActorType(AT_MONSTER)
+            hero:changeRole(otherRole[count])
+            self.word:addActor(hero)
+    
+            count = count + 1
+            if count > #otherRole then
+                print("load finish")
+                cc.Director:getInstance():getScheduler():unscheduleScriptEntry(callbackEntry)
+            end
+        end
+    
+        local scheduler=cc.Director:getInstance():getScheduler()
+        if #otherRole > 0 then
+            callbackEntry = scheduler:scheduleScriptFunc(localfunc,1,false)
+        end
+    end
 end
 
 function GameMain:onClickLoad(sender)
@@ -58,19 +106,43 @@ function GameMain:onClickLoad(sender)
     self.isLoad = true
     self.printUpdate = true
 
-    ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync("role/baiji/hero_lanse_dao.ExportJson", function(jindu)
-        print(jindu)
-        --print(cc.TextureCache:getInstance():getDescription())
-        -- print(cc.TextureCache:getInstance():getCachedTextureInfo())
+    local count = 0
+    for k,v in pairs(RoleConfig) do
+        count = count + 1
+    end
 
-        if jindu >= 1.0 and self.printUpdate then
-            _MyG.Loading:hideLoding()
-            self.printUpdate = false
-            self:loadFinish()
-            --print(cc.TextureCache:getInstance():getDescription())
-            -- print(cc.TextureCache:getInstance():getCachedTextureInfo())
+
+    if not loadAllRole then
+
+        local loadRole = {}
+        loadRole[1] = RoleConfig[playerRole].ExportJson
+
+        for i=1,#otherRole do
+            loadRole[i + 1] = RoleConfig[otherRole[i]].ExportJson
         end
-    end)
+
+        for i = 1, #loadRole do
+            ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync(loadRole[i], function(jindu)
+                print(jindu)
+                if jindu >= 1.0 and self.printUpdate then
+                    _MyG.Loading:hideLoding()
+                    self.printUpdate = false
+                    self:loadFinish()
+                end
+            end)
+        end
+    else
+        for k,v in pairs(RoleConfig) do
+            ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync(v.ExportJson, function(jindu)
+                print(jindu)
+                if jindu >= 1.0 and self.printUpdate then
+                    _MyG.Loading:hideLoding()
+                    self.printUpdate = false
+                    self:loadFinish()
+                end
+            end)
+        end
+    end
 end
 
 function GameMain:updateLogin(delay)

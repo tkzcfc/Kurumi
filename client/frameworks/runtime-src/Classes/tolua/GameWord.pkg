@@ -43,3 +43,7 @@ public:
 };
 
 GameWord* getGameWord();
+
+void changeParticleSystemPositionType(cc.Node* root);
+
+

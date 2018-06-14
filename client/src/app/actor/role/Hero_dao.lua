@@ -51,8 +51,6 @@ function Hero_dao:ctor()
 	self.armatureSpeedController:setStopUpdate(true)
 
 	self.actorSpeedController:setFrictionEnable(true)
-
-	self:changeRole("hero_lanse_dao")
 end
 
 function Hero_dao:override_attOtherActorCallback(otherActor)
@@ -87,7 +85,7 @@ function Hero_dao:override_beAttacked(attackActor, isPickUp)
 			self:getArmature():runAction(q)
 	
 			local word = getGameWord()
-			if word ~= nil then
+			if word ~= nil and word:getPlayer() == self then
 				local winSize = cc.Director:getInstance():getVisibleSize()
 				local subheight = winSize.height - word:getMapSize().height
 				subheight = subheight * 0.5

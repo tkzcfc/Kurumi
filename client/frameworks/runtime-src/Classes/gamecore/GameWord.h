@@ -81,3 +81,6 @@ private:
 
 
 extern GameWord* getGameWord();
+
+extern void changeParticleSystemPositionType(Node* root);
+

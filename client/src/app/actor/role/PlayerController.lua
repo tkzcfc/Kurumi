@@ -149,7 +149,6 @@ function PlayerController:dis_State_Attack3_stop(actor)
 	if self.toNextAttack then
 		self.toNextAttack = false
 		self.player:handle("CMD_To_Attack4")
-		print("CMD_To_Attack4")
 	end
 end
 
