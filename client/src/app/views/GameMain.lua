@@ -9,6 +9,8 @@ local otherRole = {"hero_shizshuishoufu_dao", "hero_shizmaonv_dao", "hero_shizhu
 
 function GameMain:onCreate()
 
+    self.super.onCreate(self)
+
 	local word = GameWord:create()
     word:loadMapFile("map/map3/m.json", "di1ceng")
     word:setMinPosY(100)

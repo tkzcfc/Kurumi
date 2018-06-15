@@ -17,7 +17,7 @@ public:
 
 	virtual bool init() override;
 
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName = "di2ceng");
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName = "di1ceng");
 
 	void addActor(GameActor* actor);
 
