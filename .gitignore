@@ -1,3 +1,6 @@
+*.c linguist-language=Vue
+*.cpp linguist-language=Vue
+*.lua linguist-language=Vue
 
 server/.vs/
 client/simulator/
