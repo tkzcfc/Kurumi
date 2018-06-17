@@ -114,7 +114,7 @@
             <PrePosition X="0.5000" Y="0.8851" />
             <PreSize X="0.0000" Y="0.0000" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Button_3" ActionTag="-1153079422" CallBackType="Click" CallBackName="onClickSelect" UserData="1" Tag="30" IconVisible="False" LeftMargin="370.6607" RightMargin="542.3392" TopMargin="393.2195" BottomMargin="145.7805" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="193" Scale9Height="79" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+          <AbstractNodeData Name="Button_3" ActionTag="-1153079422" CallBackType="Click" CallBackName="onClickSelect" UserData="1" Tag="30" IconVisible="False" LeftMargin="370.6607" RightMargin="542.3393" TopMargin="393.2195" BottomMargin="145.7805" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="193" Scale9Height="79" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="223.0000" Y="101.0000" />
             <Children>
               <AbstractNodeData Name="weichuangjian_Tag" ActionTag="-571019578" Tag="39" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="94.3000" RightMargin="49.7000" TopMargin="38.0000" BottomMargin="38.0000" ctype="SpriteObjectData">
@@ -136,15 +136,14 @@
             <PrePosition X="0.4244" Y="0.3067" />
             <PreSize X="0.1963" Y="0.1578" />
             <TextColor A="255" R="65" G="65" B="70" />
-            <PressedFileData Type="PlistSubImage" Path="xuanze1.png" Plist="ui/selectrole.plist" />
             <NormalFileData Type="PlistSubImage" Path="xuanze1.png" Plist="ui/selectrole.plist" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Button_4" ActionTag="-1131117746" CallBackType="Click" CallBackName="onClickSelect" UserData="2" Tag="31" IconVisible="False" LeftMargin="551.4547" RightMargin="373.5453" TopMargin="399.2195" BottomMargin="145.7805" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="181" Scale9Height="73" DisplayState="False" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+          <AbstractNodeData Name="Button_4" ActionTag="-1131117746" CallBackType="Click" CallBackName="onClickSelect" UserData="2" Tag="31" IconVisible="False" LeftMargin="551.4547" RightMargin="373.5453" TopMargin="393.2195" BottomMargin="151.7805" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="181" Scale9Height="73" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="211.0000" Y="95.0000" />
             <Children>
-              <AbstractNodeData Name="weichuangjian_Tag" ActionTag="-110897618" VisibleForFrame="False" Tag="40" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="87.1000" RightMargin="44.9000" TopMargin="35.0000" BottomMargin="35.0000" ctype="SpriteObjectData">
+              <AbstractNodeData Name="weichuangjian_Tag" ActionTag="-110897618" Tag="40" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="87.1000" RightMargin="44.9000" TopMargin="35.0000" BottomMargin="35.0000" ctype="SpriteObjectData">
                 <Size X="79.0000" Y="25.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                 <Position X="126.6000" Y="47.5000" />
@@ -157,10 +156,10 @@
               </AbstractNodeData>
             </Children>
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="656.9547" Y="193.2805" />
+            <Position X="656.9547" Y="199.2805" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.5783" Y="0.3020" />
+            <PrePosition X="0.5783" Y="0.3114" />
             <PreSize X="0.1857" Y="0.1484" />
             <TextColor A="255" R="65" G="65" B="70" />
             <NormalFileData Type="PlistSubImage" Path="xianze2.png" Plist="ui/selectrole.plist" />
@@ -170,10 +169,10 @@
           <AbstractNodeData Name="Image_1" ActionTag="1342056744" Tag="45" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="398.4257" RightMargin="398.4257" TopMargin="523.0000" BottomMargin="43.0000" Scale9Enable="True" LeftEage="25" RightEage="25" TopEage="25" BottomEage="25" Scale9OriginX="25" Scale9OriginY="25" Scale9Width="24" Scale9Height="24" ctype="ImageViewObjectData">
             <Size X="339.1486" Y="74.0000" />
             <Children>
-              <AbstractNodeData Name="TextField_NickName" ActionTag="-1742490385" Tag="43" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="33.9148" RightMargin="33.9150" TopMargin="26.2001" BottomMargin="18.1999" TouchEnable="True" FontSize="20" IsCustomSize="True" LabelText="" PlaceHolderText="请输入昵称" MaxLengthText="10" ctype="TextFieldObjectData">
+              <AbstractNodeData Name="TextField_NickName" ActionTag="-1742490385" Tag="43" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="33.9149" RightMargin="33.9149" TopMargin="26.2034" BottomMargin="18.1966" TouchEnable="True" FontSize="20" IsCustomSize="True" LabelText="" PlaceHolderText="请输入昵称" MaxLengthText="10" ctype="TextFieldObjectData">
                 <Size X="271.3189" Y="29.6000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="169.5742" Y="32.9999" />
+                <Position X="169.5743" Y="32.9966" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <CColor A="255" R="255" G="255" B="255" />
                 <PrePosition X="0.5000" Y="0.4459" />

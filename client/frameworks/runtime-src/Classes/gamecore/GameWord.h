@@ -27,7 +27,7 @@ public:
 
 	inline GameActor* getPlayer() { return m_player; }
 
-	void removeActorByName(const std::string& name);
+	virtual void removeActorByName(const std::string& name);
 	
 	void logicUpdate(float d);
 

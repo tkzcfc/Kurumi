@@ -65,57 +65,6 @@
           <Image Name="xiazhan.png" />
           <Image Name="xulizhan.png" />
         </Folder>
-        <Folder Name="map">
-          <Folder Name="map3">
-            <PlistImageFolder Image="shu2.png" PListFile="shu2.plist" Name=".shu2_PList.Dir">
-              <PlistImageFile Name="scene_ocr_b03.png" Key="scene_ocr_b03.png" />
-              <PlistImageFile Name="scene_ocr_b04.png" Key="scene_ocr_b04.png" />
-              <PlistImageFile Name="scene_ocr_b05.png" Key="scene_ocr_b05.png" />
-              <PlistImageFile Name="scene_ocr_b06.png" Key="scene_ocr_b06.png" />
-              <PlistImageFile Name="scene_ocr_b07.png" Key="scene_ocr_b07.png" />
-              <PlistImageFile Name="scene_ocr_b08.png" Key="scene_ocr_b08.png" />
-              <PlistImageFile Name="scene_ocr_b09.png" Key="scene_ocr_b09.png" />
-              <PlistImageFile Name="scene_ocr_b10.png" Key="scene_ocr_b10.png" />
-              <PlistImageFile Name="scene_ocr_b11.png" Key="scene_ocr_b11.png" />
-              <PlistImageFile Name="scene_ocr_b12.png" Key="scene_ocr_b12.png" />
-              <PlistImageFile Name="scene_ocr_b13.png" Key="scene_ocr_b13.png" />
-            </PlistImageFolder>
-            <Image Name="bg.png" />
-            <File Name="m.json" />
-            <File Name="m.map" />
-            <ExportJsonFile Name="map3_1.ExportJson" />
-            <ExportJsonFile Name="map3_2.ExportJson" />
-            <ExportJsonFile Name="map3_3.ExportJson" />
-            <ExportJsonFile Name="map3_4.ExportJson" />
-            <ExportJsonFile Name="map3_ynb.ExportJson" />
-            <PlistParticleFile Name="map3_ynb.plist" />
-            <Image Name="scene_ocr_b38.png" />
-            <Image Name="yj.png" />
-          </Folder>
-        </Folder>
-        <Folder Name="map_pr">
-          <Folder Name="ratio">
-            <File Name="ratio.plist" />
-            <File Name="ratio_ipad.plist" />
-          </Folder>
-          <File Name="ParallaxCollide.json" />
-          <File Name="ParallaxForeground.json" />
-          <File Name="ParallaxForeground_00.json" />
-          <File Name="ParallaxForeground_01.json" />
-          <File Name="ParallaxForeground_1105.json" />
-          <File Name="ParallaxRatio_00.json" />
-          <File Name="ParallaxRatio_00_02.json" />
-          <File Name="ParallaxRatio_01.json" />
-          <File Name="ParallaxRatio_02.json" />
-          <File Name="ParallaxRatio_03.json" />
-          <File Name="ParallaxRatio_04.json" />
-          <File Name="ParallaxRatio_05.json" />
-          <File Name="ParallaxRatio_06.json" />
-          <File Name="ParallaxRatio_07.json" />
-          <File Name="ParallaxRatio_08.json" />
-          <File Name="ParallaxRatio_09.json" />
-          <File Name="ParallaxRatio_10.json" />
-        </Folder>
         <Folder Name="messagebox">
           <Image Name="button_no.png" />
           <Image Name="button_yes.png" />
@@ -2093,6 +2042,7 @@
         <Project Name="taohua2.csd" Type="Node" />
         <Project Name="Yun.csd" Type="Node" />
         <Project Name="zhucheng.csd" Type="Scene" />
+        <Project Name="SelectScene.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>
