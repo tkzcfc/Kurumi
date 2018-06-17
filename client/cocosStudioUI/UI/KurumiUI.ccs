@@ -2038,11 +2038,11 @@
         <Project Name="LoginScene.csd" Type="Scene" />
         <Project Name="playerControlUI.csd" Type="Scene" />
         <Project Name="PreScene.csd" Type="Scene" />
+        <Project Name="SelectScene.csd" Type="Scene" />
         <Project Name="taohua1.csd" Type="Node" />
         <Project Name="taohua2.csd" Type="Node" />
         <Project Name="Yun.csd" Type="Node" />
         <Project Name="zhucheng.csd" Type="Scene" />
-        <Project Name="SelectScene.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>
