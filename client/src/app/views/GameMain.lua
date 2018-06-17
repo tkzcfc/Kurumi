@@ -5,15 +5,16 @@ local RoleConfig = require("app.config.RoleConfig")
 
 local loadAllRole = false
 local playerRole = "hero_shizhuak_dao"
-local otherRole = {"hero_shizshuishoufu_dao", "hero_shizmaonv_dao", "hero_shizhuak_dao"}
+local otherRole = {"hero_shizshuishoufu_dao"}--, "hero_shizmaonv_dao", "hero_shizhuak_dao"}
 
 function GameMain:onCreate()
 
     self.super.onCreate(self)
 
-	local word = GameWord:create()
-    word:loadMapFile("map/map3/m.json", "di1ceng")
-    word:setMinPosY(100)
+    local mapConfig = require("app.config.MapConfig")
+
+    local word = GameWord:create()
+    mapConfig:loadMap(word, "map3")
 	self:addChild(word)
 
     self.word = word

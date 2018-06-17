@@ -17,7 +17,7 @@ public:
 
 	virtual bool init() override;
 
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName = "di1ceng");
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
 
 	void addActor(GameActor* actor);
 
@@ -70,6 +70,9 @@ private:
 
 	Node* m_actorNode;
 	Node* m_rootNode;
+	Node* m_fixNode;
+
+	float m_fixNodeBeginX;
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 	DrawNode* m_debugDraw;

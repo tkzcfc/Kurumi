@@ -7,6 +7,8 @@ GameWord::GameWord()
 {
 	m_actorNode = NULL;
 	m_player = NULL;
+	m_fixNode = NULL;
+	m_fixNodeBeginX = 0.0f;
 	Static__GameWord = this;
 }
 
@@ -60,7 +62,7 @@ bool GameWord::init()
 	return false;
 }
 
-void GameWord::loadMapFile(const std::string& filepath, const std::string& actorNodeName)
+void GameWord::loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName)
 {
 #ifdef ENABLE_GAME_WORD_DEBUG
 	if (m_debugDraw)
@@ -69,7 +71,7 @@ void GameWord::loadMapFile(const std::string& filepath, const std::string& actor
 		m_debugDraw->removeFromParent();
 	}
 #endif
-
+	
 	if (m_rootNode)
 	{
 		m_rootNode->removeFromParent();
@@ -84,7 +86,33 @@ void GameWord::loadMapFile(const std::string& filepath, const std::string& actor
 	m_debugDraw->release();
 #endif
 
-	m_actorNode = m_rootNode->getChildByName(actorNodeName);
+	if (m_actorNode && m_actorNode->getParent())
+	{
+		m_actorNode->removeFromParent();
+		m_actorNode = NULL;
+	}
+
+	Node* targetNode = NULL;
+	m_fixNode = NULL;
+
+	auto& child = m_rootNode->getChildren();
+	for (auto& it : child)
+	{
+		CCLOG("[T%d][Z%d][Z%d] : [%s] X[%f]Y[%f]", it->getTag(), it->getLocalZOrder(), (int)it->getGlobalZOrder(), it->getName().c_str(), it->getPositionX(), it->getPositionY());
+		if(strstr(it->getName().c_str(), actorNodeName.c_str()))
+		{
+			targetNode = it;
+		}
+		if (!fixNodeName.empty() && strstr(it->getName().c_str(), fixNodeName.c_str()))
+		{
+			m_fixNodeBeginX = it->getPositionX();
+			m_fixNode = it;
+		}
+	}
+
+	m_actorNode = Node::create();
+	m_rootNode->addChild(m_actorNode, targetNode->getLocalZOrder());
+
 	CCASSERT(m_actorNode != NULL, "m_actorNode 不能为空");
 
 	m_mapSize = m_rootNode->getContentSize();
@@ -94,7 +122,7 @@ void GameWord::loadMapFile(const std::string& filepath, const std::string& actor
 
 void GameWord::addActor(GameActor* actor)
 {
-	m_actorNode->addChild(actor);
+	m_actorNode->addChild(actor, 100);
 	actor->m_word = this;
 	m_allActor.pushBack(actor);
 }
@@ -135,13 +163,14 @@ Node* GameWord::getChildNode(const std::string& name)
 Node* GameWord::findChild(Node* root, const std::string& name)
 {
 	Node* node = root->getChildByName(name);
-	if (root != NULL)
+	if (node != NULL)
 	{
 		return node;
 	}
 	auto& child = root->getChildren();
 	for (auto& it : child)
 	{
+		//CCLOG("%s", it->getName().c_str());
 		node = findChild(it, name);
 		if (node)
 			return node;
@@ -216,6 +245,10 @@ void GameWord::updateMapMoveLogic()
 			else
 			{
 				m_rootNode->setPositionX(halfWidth - curpos.x);
+			}
+			if (m_fixNode)
+			{
+				m_fixNode->setPositionX(m_fixNodeBeginX - m_rootNode->getPositionX());
 			}
 		}
 		//// Y轴跟随玩家移动
@@ -425,6 +458,7 @@ void changeParticleSystemPositionType(Node* root)
 	auto armature = dynamic_cast<Armature*>(root);
 	if (armature)
 	{
+		//CCLOG("armature name = [%s]", armature->getName().c_str());
 		auto& boneDic = armature->getBoneDic();
 		for (auto& it : boneDic)
 		{

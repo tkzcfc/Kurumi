@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 06/14/18 11:08:25.
+** Generated automatically by tolua++-1.0.92 on 06/16/18 12:42:48.
 */
 
 #include "tolua_fix.h"
@@ -2478,7 +2478,9 @@ static int tolua_game_GameWord_loadMapFile00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
+     !tolua_iscppstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -2486,52 +2488,24 @@ static int tolua_game_GameWord_loadMapFile00(lua_State* tolua_S)
  {
   GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
   const std::string filepath = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+  const std::string actorNodeName = ((const std::string)  tolua_tocppstring(tolua_S,3,0));
+  const std::string fixNodeName = ((const std::string)  tolua_tocppstring(tolua_S,4,0));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'loadMapFile'", NULL);
 #endif
   {
-   self->loadMapFile(filepath);
+   self->loadMapFile(filepath,actorNodeName,fixNodeName);
    tolua_pushcppstring(tolua_S,(const char*)filepath);
+   tolua_pushcppstring(tolua_S,(const char*)actorNodeName);
+   tolua_pushcppstring(tolua_S,(const char*)fixNodeName);
   }
  }
- return 1;
+ return 3;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'loadMapFile'.",&tolua_err);
  return 0;
 #endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: loadMapFile of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_loadMapFile01
-static int tolua_game_GameWord_loadMapFile01(lua_State* tolua_S)
-{
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_iscppstring(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-  const std::string filepath = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
-  const std::string actorNodeName = ((const std::string)  tolua_tocppstring(tolua_S,3,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'loadMapFile'", NULL);
-#endif
-  {
-   self->loadMapFile(filepath,actorNodeName);
-   tolua_pushcppstring(tolua_S,(const char*)filepath);
-   tolua_pushcppstring(tolua_S,(const char*)actorNodeName);
-  }
- }
- return 2;
-tolua_lerror:
- return tolua_game_GameWord_loadMapFile00(tolua_S);
 }
 #endif //#ifndef TOLUA_DISABLE
 
@@ -4938,7 +4912,6 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"create",tolua_game_GameWord_create00);
    tolua_function(tolua_S,"init",tolua_game_GameWord_init00);
    tolua_function(tolua_S,"loadMapFile",tolua_game_GameWord_loadMapFile00);
-   tolua_function(tolua_S,"loadMapFile",tolua_game_GameWord_loadMapFile01);
    tolua_function(tolua_S,"addActor",tolua_game_GameWord_addActor00);
    tolua_function(tolua_S,"removeActor",tolua_game_GameWord_removeActor00);
    tolua_function(tolua_S,"setPlayer",tolua_game_GameWord_setPlayer00);

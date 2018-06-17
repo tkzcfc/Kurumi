@@ -10,8 +10,8 @@ public:
 	static GameWord* create();
 
 	virtual bool init();
-	
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName = "di2ceng");
+
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
 
 	void addActor(GameActor* actor);
 
