@@ -65,12 +65,6 @@
           <Image Name="xiazhan.png" />
           <Image Name="xulizhan.png" />
         </Folder>
-        <Folder Name="messagebox">
-          <Image Name="button_no.png" />
-          <Image Name="button_yes.png" />
-          <Project Name="MessageBox.csd" Type="Scene" />
-          <Image Name="ti_bg.png" />
-        </Folder>
         <Folder Name="npc">
           <ExportJsonFile Name="zhucheng_nvzhu.ExportJson" />
           <ExportJsonFile Name="zhucheng_nvzhu2.ExportJson" />
@@ -2043,6 +2037,8 @@
         <Project Name="taohua2.csd" Type="Node" />
         <Project Name="Yun.csd" Type="Node" />
         <Project Name="zhucheng.csd" Type="Scene" />
+        <Project Name="LoadResource.csd" Type="Scene" />
+        <Project Name="MessageBox.csd" Type="Scene" />
       </RootFolder>
     </Group>
   </SolutionFolder>

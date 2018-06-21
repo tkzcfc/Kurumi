@@ -1,5 +1,5 @@
 <GameFile>
-  <PropertyGroup Name="taohua" Type="Node" ID="bd1df514-e3ca-4e75-bbc5-56ecc36bd4ca" Version="3.10.0.0" />
+  <PropertyGroup Name="taohua1" Type="Node" ID="bd1df514-e3ca-4e75-bbc5-56ecc36bd4ca" Version="3.10.0.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />

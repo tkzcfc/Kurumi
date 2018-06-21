@@ -2,7 +2,7 @@ local MessageBoxUI = class("MessageBoxUI", cc.Node)
 
 
 function MessageBoxUI:ctor()
-	self.ui = _MyG.loadStudioFile("messagebox.MessageBox", self)
+	self.ui = _MyG.loadStudioFile("MessageBox", self)
     self:addChild(self.ui.root)
 
     self:setGlobalZOrder(100)
@@ -15,6 +15,7 @@ function MessageBoxUI:showBox(content, okcall, cancelcall)
 	self.okcall = okcall
 	self.cancelcall = cancelcall
 	self.ui.Text_show:setString(content)
+	self.ui.Text_Title:setString("提示")
 
 	if cancelcall == nil then
 		self.ui.Button_OK:setPositionX(self.OKButtonCenterPosX)
@@ -25,6 +26,11 @@ function MessageBoxUI:showBox(content, okcall, cancelcall)
 	end
 
 	_MyG.APP:getCurView():addChild(self)
+	return self
+end
+
+function MessageBoxUI:setTitle(title)
+	self.ui.Text_Title:setString(title)
 end
 
 function MessageBoxUI:onClickOK(sender)

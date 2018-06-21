@@ -38,6 +38,11 @@ function CreateScene:loadFinish(percent)
 	if percent >= 1.0 then
 		self.ui.baijixiuluo:init(self.selectRoleConfig[self.selectIndex].armatureName)
 		self.ui.baijixiuluo:getAnimation():playWithIndex(0)
+
+		if not self.isShowBox then
+			_MyG.MessageBox:showBox("该职业尚未开放")
+			self.isShowBox = true
+		end
 	end
 end
 

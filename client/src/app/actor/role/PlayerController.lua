@@ -70,42 +70,6 @@ function PlayerController:dis_control_jump(actor)
 	if not self.player:jump() then
 		return
 	end
-
-	if self.player:handle("CMD_JumpUpStart") then
-
-		self.isJumpAttack = false
-
-		local move = cc.MoveBy:create(JumpUpTime, {x = 0, y = JumpHeight})
-		local call1 = cc.CallFunc:create(function()
-			if self.isJumpAttack then
-				self.player:handle("CMD_To_JumpAttack")
-			else
-				self.player:handle("CMD_JumpDownStart")
-			end
-			self.isJumpAttack = false
-		end)
-		local call2 = cc.CallFunc:create(function()
-			local movePower = self.player:getMovePower("PowerName_ControlMove")
-			if movePower and math.abs(movePower.power.x) > 0.1 then
-				self.player:handle("CMD_JumpTo_MoveStart")
-			else
-				self.player:handle("CMD_JumpDownEnd")
-			end
-		end)
-		local q = cc.Sequence:create(move, call1, move:reverse(), call2)
-		self.player:getArmature():runAction(q)
-
-		local word = getGameWord()
-		if word ~= nil then
-			local winSize = cc.Director:getInstance():getVisibleSize()
-			local subheight = winSize.height - word:getMapSize().height
-			subheight = subheight * 0.5
-			subheight = math.max(subheight, -JumpHeight)
-
-			local mapMove = cc.MoveBy:create(JumpUpTime, {x = 0, y = subheight})
-			word:getRootNode():runAction(cc.Sequence:create(mapMove, mapMove:reverse()))
-		end
-	end
 end
 
 -- 切换武器
@@ -120,7 +84,6 @@ function PlayerController:dis_control_attack(actor)
 
 	if not self.player:handle("CMD_Attack") then
 		self.toNextAttack = true
-		self.isJumpAttack = true
 	else
 		self.toNextAttack = false
 	end
