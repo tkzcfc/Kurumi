@@ -37,7 +37,7 @@ end
 _MyG.OPEN_DEBUG = 1
 
 -- _MyG.StartScene = "GameMain"
-_MyG.StartScene = "LoginScene"
+_MyG.StartScene = "LoadResource"
 
 if targetPlatform == cc.PLATFORM_OS_ANDROID then
     _MyG.StartScene = "LoginScene"
@@ -58,3 +58,5 @@ _MyG.Loading:retain()
 
 _MyG.MessageBox = require("app.ui.MessageBoxUI"):new()
 _MyG.MessageBox:retain()
+
+_MyG.GlobalMsgRecipient = require("GlobalMsgRecipient")

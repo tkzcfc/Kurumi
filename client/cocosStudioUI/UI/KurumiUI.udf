@@ -32,8 +32,10 @@
       <Value ctype="TabsInfo">
         <OpenedDocuments>
           <FilePathData Path="MessageBox.csd" />
+          <FilePathData Path="LoadingScene.csd" />
+          <FilePathData Path="LoadResource.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="MessageBox.csd" />
+        <ActiveDocument Path="LoadResource.csd" />
       </Value>
     </Item>
   </Properties>

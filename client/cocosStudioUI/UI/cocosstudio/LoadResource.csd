@@ -6,125 +6,84 @@
       <ObjectData Name="Scene" Tag="33" ctype="GameNodeObjectData">
         <Size X="1136.0000" Y="640.0000" />
         <Children>
-          <AbstractNodeData Name="ArmatureNode_1" ActionTag="1849386719" Tag="43" IconVisible="True" LeftMargin="340.1105" RightMargin="795.8895" TopMargin="443.0724" BottomMargin="196.9276" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="walk" ctype="ArmatureNodeObjectData">
-            <Size X="0.0000" Y="0.0000" />
-            <AnchorPoint />
-            <Position X="340.1105" Y="196.9276" />
+          <AbstractNodeData Name="Image_5" ActionTag="-554870467" Tag="46" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="-28.4000" RightMargin="-28.3999" TopMargin="-16.0000" BottomMargin="-16.0000" LeftEage="80" RightEage="80" TopEage="66" BottomEage="66" Scale9OriginX="80" Scale9OriginY="66" Scale9Width="85" Scale9Height="69" ctype="ImageViewObjectData">
+            <Size X="1192.7999" Y="672.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="568.0000" Y="320.0000" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.2994" Y="0.3077" />
-            <PreSize X="0.0000" Y="0.0000" />
-            <FileData Type="Default" Path="Default/DemoPlayer.ExportJson" Plist="" />
+            <PrePosition X="0.5000" Y="0.5000" />
+            <PreSize X="1.0500" Y="1.0500" />
+            <FileData Type="Normal" Path="ui/fragment/beijing2.png" Plist="" />
           </AbstractNodeData>
-          <AbstractNodeData Name="nhdzxui25_8" ActionTag="1314083939" Tag="44" IconVisible="False" LeftMargin="-369.3483" RightMargin="1485.3484" TopMargin="241.5215" BottomMargin="282.4785" ctype="SpriteObjectData">
-            <Size X="20.0000" Y="116.0000" />
+          <AbstractNodeData Name="bsx_huYao_12" ActionTag="-745195236" Tag="52" IconVisible="False" LeftMargin="400.7803" RightMargin="428.2197" TopMargin="165.3204" BottomMargin="178.6796" ctype="SpriteObjectData">
+            <Size X="307.0000" Y="296.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-359.3483" Y="340.4785" />
+            <Position X="554.2803" Y="326.6796" />
+            <Scale ScaleX="1.8000" ScaleY="1.8000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.4879" Y="0.5104" />
+            <PreSize X="0.2702" Y="0.4625" />
+            <FileData Type="Normal" Path="ui/fragment/bsx_huYao.png" Plist="" />
+            <BlendFunc Src="1" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="Image_LoadBG" ActionTag="925681442" Tag="38" IconVisible="False" LeftMargin="97.3502" RightMargin="75.6177" TopMargin="549.4879" BottomMargin="60.5121" LeftEage="9" RightEage="9" TopEage="9" BottomEage="9" Scale9OriginX="9" Scale9OriginY="9" Scale9Width="12" Scale9Height="12" ctype="ImageViewObjectData">
+            <Size X="963.0322" Y="30.0000" />
+            <Children>
+              <AbstractNodeData Name="ArmatureNode_Load" ActionTag="1849386719" Tag="43" IconVisible="True" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="963.0322" BottomMargin="30.0000" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="running" ctype="ArmatureNodeObjectData">
+                <Size X="0.0000" Y="0.0000" />
+                <AnchorPoint />
+                <Position X="963.0322" Y="30.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <PrePosition X="1.0000" Y="1.0000" />
+                <PreSize X="0.0000" Y="0.0000" />
+                <FileData Type="Normal" Path="uianimation/ldrunning.ExportJson" Plist="" />
+              </AbstractNodeData>
+              <AbstractNodeData Name="Panel_Load" ActionTag="-469725083" Tag="42" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" TopMargin="5.2500" BottomMargin="5.2500" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ctype="PanelObjectData">
+                <Size X="963.0322" Y="19.5000" />
+                <Children>
+                  <AbstractNodeData Name="Image_2" CanEdit="False" ActionTag="-1827248346" Tag="43" IconVisible="False" PositionPercentYEnabled="True" PercentHeightEnable="True" PercentHeightEnabled="True" RightMargin="-36.9678" Scale9Enable="True" LeftEage="4" RightEage="4" TopEage="3" BottomEage="3" Scale9OriginX="4" Scale9OriginY="3" Scale9Width="6" Scale9Height="4" ctype="ImageViewObjectData">
+                    <Size X="1000.0000" Y="19.5000" />
+                    <AnchorPoint ScaleY="0.5000" />
+                    <Position Y="9.7500" />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition Y="0.5000" />
+                    <PreSize X="1.0384" Y="1.0000" />
+                    <FileData Type="PlistSubImage" Path="dljmld02.png" Plist="ui/ui1.plist" />
+                  </AbstractNodeData>
+                </Children>
+                <AnchorPoint ScaleY="0.5000" />
+                <Position Y="15.0000" />
+                <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                <CColor A="255" R="255" G="255" B="255" />
+                <PrePosition Y="0.5000" />
+                <PreSize X="1.0000" Y="0.6500" />
+                <SingleColor A="255" R="150" G="200" B="255" />
+                <FirstColor A="255" R="150" G="200" B="255" />
+                <EndColor A="255" R="255" G="255" B="255" />
+                <ColorVector ScaleY="1.0000" />
+              </AbstractNodeData>
+            </Children>
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="578.8663" Y="75.5121" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.3163" Y="0.5320" />
-            <PreSize X="0.0176" Y="0.1813" />
-            <FileData Type="PlistSubImage" Path="nhdzxui25.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
+            <PrePosition X="0.5096" Y="0.1180" />
+            <PreSize X="0.8477" Y="0.0469" />
+            <FileData Type="PlistSubImage" Path="dljmld01.png" Plist="ui/ui1.plist" />
           </AbstractNodeData>
-          <AbstractNodeData Name="nhdzxui24_9" ActionTag="-466536509" Tag="45" IconVisible="False" LeftMargin="-232.2048" RightMargin="1338.2048" TopMargin="356.0748" BottomMargin="261.9252" ctype="SpriteObjectData">
-            <Size X="30.0000" Y="22.0000" />
+          <AbstractNodeData Name="Text_Tip" ActionTag="210572989" Tag="20" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="381.0000" RightMargin="381.0000" TopMargin="594.7665" BottomMargin="23.2335" FontSize="22" LabelText="长按攻击键可以格挡一次额外攻击哦。" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="374.0000" Y="22.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-217.2048" Y="272.9252" />
+            <Position X="568.0000" Y="34.2335" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.1912" Y="0.4264" />
-            <PreSize X="0.0264" Y="0.0344" />
-            <FileData Type="PlistSubImage" Path="nhdzxui24.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="nhdzxui26_10" ActionTag="-771599790" Tag="46" IconVisible="False" LeftMargin="-348.2376" RightMargin="1464.2377" TopMargin="241.5210" BottomMargin="282.4790" ctype="SpriteObjectData">
-            <Size X="20.0000" Y="116.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-338.2376" Y="340.4790" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.2977" Y="0.5320" />
-            <PreSize X="0.0176" Y="0.1813" />
-            <FileData Type="PlistSubImage" Path="nhdzxui26.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="ui33_11" ActionTag="576754027" Tag="47" IconVisible="False" LeftMargin="-461.8674" RightMargin="1361.8674" TopMargin="95.8614" BottomMargin="542.1386" ctype="SpriteObjectData">
-            <Size X="236.0000" Y="2.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-343.8674" Y="543.1386" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.3027" Y="0.8487" />
-            <PreSize X="0.2077" Y="0.0031" />
-            <FileData Type="PlistSubImage" Path="ui33.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="ui24_12" ActionTag="-111056213" Tag="48" IconVisible="False" LeftMargin="-535.7493" RightMargin="1625.7493" TopMargin="470.7372" BottomMargin="123.2627" ctype="SpriteObjectData">
-            <Size X="46.0000" Y="46.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-512.7493" Y="146.2627" />
-            <Scale ScaleX="4.1819" ScaleY="5.1609" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.4514" Y="0.2285" />
-            <PreSize X="0.0405" Y="0.0719" />
-            <FileData Type="PlistSubImage" Path="ui24.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="ui25_13" ActionTag="1879395614" Tag="49" IconVisible="False" LeftMargin="-1033.7595" RightMargin="2123.7595" TopMargin="520.0408" BottomMargin="73.9592" ctype="SpriteObjectData">
-            <Size X="46.0000" Y="46.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-1010.7595" Y="96.9592" />
-            <Scale ScaleX="12.1957" ScaleY="7.6893" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.8898" Y="0.1515" />
-            <PreSize X="0.0405" Y="0.0719" />
-            <FileData Type="PlistSubImage" Path="ui25.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="ui18_14" ActionTag="416934699" Tag="50" IconVisible="False" LeftMargin="-97.3569" RightMargin="1225.3569" TopMargin="468.6270" BottomMargin="163.3730" ctype="SpriteObjectData">
-            <Size X="8.0000" Y="8.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-93.3569" Y="167.3730" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.0822" Y="0.2615" />
-            <PreSize X="0.0070" Y="0.0125" />
-            <FileData Type="PlistSubImage" Path="ui18.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="button02_15" ActionTag="1112726856" Tag="51" IconVisible="False" LeftMargin="333.4431" RightMargin="738.5569" TopMargin="-12.5435" BottomMargin="588.5435" ctype="SpriteObjectData">
-            <Size X="64.0000" Y="64.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="365.4431" Y="620.5435" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.3217" Y="0.9696" />
-            <PreSize X="0.0563" Y="0.1000" />
-            <FileData Type="PlistSubImage" Path="button02.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="button03_16" ActionTag="704280734" Tag="52" IconVisible="False" LeftMargin="540.3252" RightMargin="531.6748" TopMargin="25.4552" BottomMargin="550.5448" ctype="SpriteObjectData">
-            <Size X="64.0000" Y="64.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="572.3252" Y="582.5448" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.5038" Y="0.9102" />
-            <PreSize X="0.0563" Y="0.1000" />
-            <FileData Type="PlistSubImage" Path="button03.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
-          </AbstractNodeData>
-          <AbstractNodeData Name="tankuang02_17" ActionTag="-1285802880" Tag="53" IconVisible="False" LeftMargin="-703.7826" RightMargin="1775.7826" TopMargin="249.2257" BottomMargin="326.7743" ctype="SpriteObjectData">
-            <Size X="64.0000" Y="64.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="-671.7826" Y="358.7743" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
-            <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="-0.5914" Y="0.5606" />
-            <PreSize X="0.0563" Y="0.1000" />
-            <FileData Type="PlistSubImage" Path="tankuang02.png" Plist="ui/ui1.plist" />
-            <BlendFunc Src="1" Dst="771" />
+            <PrePosition X="0.5000" Y="0.0535" />
+            <PreSize X="0.3292" Y="0.0344" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
         </Children>
       </ObjectData>
