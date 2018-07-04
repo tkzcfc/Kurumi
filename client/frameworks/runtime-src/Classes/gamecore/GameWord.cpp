@@ -138,9 +138,37 @@ void GameWord::removeActor(GameActor* actor)
 	m_allActor.eraseObject(actor);
 }
 
-void GameWord::setPlayer(GameActor* player)
+void GameWord::setLocalPlayer(GameActor* player)
 {
 	m_player = player;
+}
+
+int GameWord::getPlayerCount()
+{
+	int outCount = 0;
+	for (int i = 0; i < (int)m_allActor.size(); ++i)
+	{
+		if (m_allActor.at(i)->getActorType() == GameActorType::AT_PLAYER)
+		{
+			outCount++;
+		}
+	}
+	return outCount;
+}
+
+GameActor* GameWord::getPlayerByIndex(int index)
+{
+	int count = 0;
+	for (int i = 0; i < (int)m_allActor.size(); ++i)
+	{
+		if (m_allActor.at(i)->getActorType() == GameActorType::AT_PLAYER)
+		{
+			count++;
+			if (count == index)
+				return m_allActor.at(i);
+		}
+	}
+	return NULL;
 }
 
 void GameWord::removeActorByName(const std::string& name)

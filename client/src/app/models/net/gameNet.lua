@@ -58,7 +58,7 @@ function gameNet:sendMsgToGame(msgKey, msg, clientKey)
 
     self.client:send(clientKey, encodeMsg)
 
-    if _MyG.OPEN_DEBUG then
+    if _MyG.DEBUG then
         print("send msg", msgKey)
         print(json.encode(msg).."\n")
     end
@@ -77,7 +77,7 @@ function gameNet:recvMsg(msgdata)
     end 
     local msg = protobuf.decode(baseMsg.msgName, baseMsg.msgData)
 
-    if _MyG.OPEN_DEBUG then
+    if _MyG.DEBUG then
         print("recv msg", baseMsg.msgName)
         print(json.encode(msg).."\n")
     end

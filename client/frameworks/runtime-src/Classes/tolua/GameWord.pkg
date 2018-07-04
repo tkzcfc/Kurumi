@@ -17,9 +17,13 @@ public:
 
 	void removeActor(GameActor* actor);
 
-	void setPlayer(GameActor* player);
+	void setLocalPlayer(GameActor* player);
 
-	inline GameActor* getPlayer();
+	inline GameActor* getLocalPlayer();
+
+	int getPlayerCount();
+
+	GameActor* getPlayerByIndex(int index);
 
 	void removeActorByName(const std::string& name);
 	

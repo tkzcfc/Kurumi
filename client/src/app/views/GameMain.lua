@@ -22,17 +22,110 @@ function GameMain:onCreate()
     local uiPage = _MyG.loadStudioFile("HomeSceneUI", self)
     self:addChild(uiPage.root)
 
+    
+
+    local ss = cc.SpriteFrameCache:getInstance():getSpriteFrameByName("rect_attack_a.png")
+    if ss == nil then
+        print("rect attack png is nil")
+    else
+        print("rect attack png is not nil")
+    end
+    cc.SpriteFrameCache:getInstance():addSpriteFrames("rect_collide.plist")
+    print(cc.TextureCache:getInstance():getDescription())
+    print(cc.TextureCache:getInstance():getCachedTextureInfo())
+    print("begin-------------------------------------------------\n\n\n\n")
+
+
     self:onClickLoad(nil)
 end
 
 function GameMain:loadFinish()
+    -- local hero = require("app.actor.role.Hero_dao"):create()
+    -- self.word:addActor(hero)
+    -- self.word:setLocalPlayer(hero)
+
+    -- _MyG.PlayerController:setPlayer(hero)
+
+    -- self.hero = hero
+
+
+    -- local winSize = cc.Director:getInstance():getVisibleSize()
+
+    -- local controlUI = require("app.ui.ControlUI"):create()
+    -- self.word:addChild(controlUI, 1)
+
+
+    -- local allRole = {}
+    -- local count = 1
+    -- for k,v in pairs(RoleConfig) do
+    --     allRole[count] = v.Armature
+    --     count = count + 1
+    -- end
+
+    -- hero:changeRole(playerRole)
+    
+    -- count = 1
+
+    -- if loadAllRole then
+    --     local callbackEntry = nil
+    
+    --     local function localfunc(time)
+    --         print("time = ", time)
+    --         hero = require("app.actor.role.Hero_dao"):create()
+    --         hero:setActorPosition(300 + 70 * count, 0)
+    --         hero:setActorType(AT_MONSTER)
+    --         hero:changeRole(allRole[count])
+    --         self.word:addActor(hero)
+    
+    --         count = count + 1
+    --         if count > #allRole then
+    --             print("load finish")
+    --             cc.Director:getInstance():getScheduler():unscheduleScriptEntry(callbackEntry)
+    --         end
+    --     end
+    
+    --     local scheduler=cc.Director:getInstance():getScheduler()
+    --     callbackEntry = scheduler:scheduleScriptFunc(localfunc,1,false)
+    -- else
+    --     local callbackEntry = nil
+    
+    --     local function localfunc(time)
+    --         print("time = ", time)
+    --         hero = require("app.actor.role.Hero_dao"):create()
+    --         hero:setActorPosition(300 + 100 * count, 0)
+    --         hero:setActorType(AT_MONSTER)
+    --         hero:changeRole(otherRole[count])
+    --         self.word:addActor(hero)
+    
+    --         count = count + 1
+    --         if count > #otherRole then
+    --             print("load finish")
+
+    --             cc.Director:getInstance():getScheduler():unscheduleScriptEntry(callbackEntry)
+
+
+    --             local ChangQiang = require("app.actor.monster.Monster_ChangQiangWS"):create()
+    --             ChangQiang:setActorPosition(800 + 100 * count, 0)
+    --             self.word:addActor(ChangQiang)
+    --         end
+    --     end
+    
+    --     local scheduler=cc.Director:getInstance():getScheduler()
+    --     if #otherRole > 0 then
+    --         callbackEntry = scheduler:scheduleScriptFunc(localfunc,1,false)
+    --     end
+    -- end
+
+
+
     local hero = require("app.actor.role.Hero_dao"):create()
     self.word:addActor(hero)
-    self.word:setPlayer(hero)
+    self.word:setLocalPlayer(hero)
 
     _MyG.PlayerController:setPlayer(hero)
 
     self.hero = hero
+    hero:changeRole(playerRole)
 
 
     local winSize = cc.Director:getInstance():getVisibleSize()
@@ -40,68 +133,27 @@ function GameMain:loadFinish()
     local controlUI = require("app.ui.ControlUI"):create()
     self.word:addChild(controlUI, 1)
 
-
-    local allRole = {}
-    local count = 1
-    for k,v in pairs(RoleConfig) do
-        allRole[count] = v.Armature
-        count = count + 1
-    end
-
-    hero:changeRole(playerRole)
-    
-    count = 1
-
-    if loadAllRole then
-        local callbackEntry = nil
-    
-        local function localfunc(time)
-            print("time = ", time)
-            hero = require("app.actor.role.Hero_dao"):create()
-            hero:setActorPosition(300 + 70 * count, 0)
-            hero:setActorType(AT_MONSTER)
-            hero:changeRole(allRole[count])
-            self.word:addActor(hero)
-    
-            count = count + 1
-            if count > #allRole then
-                print("load finish")
-                cc.Director:getInstance():getScheduler():unscheduleScriptEntry(callbackEntry)
-            end
-        end
-    
-        local scheduler=cc.Director:getInstance():getScheduler()
-        callbackEntry = scheduler:scheduleScriptFunc(localfunc,1,false)
+    local ss = cc.SpriteFrameCache:getInstance():getSpriteFrameByName("rect_attack_a.png")
+    if ss == nil then
+        print("rect attack png is nil")
     else
-        local callbackEntry = nil
-    
-        local function localfunc(time)
-            print("time = ", time)
-            hero = require("app.actor.role.Hero_dao"):create()
-            hero:setActorPosition(300 + 100 * count, 0)
-            hero:setActorType(AT_MONSTER)
-            hero:changeRole(otherRole[count])
-            self.word:addActor(hero)
-    
-            count = count + 1
-            if count > #otherRole then
-                print("load finish")
-                cc.Director:getInstance():getScheduler():unscheduleScriptEntry(callbackEntry)
-            end
-        end
-    
-        local scheduler=cc.Director:getInstance():getScheduler()
-        if #otherRole > 0 then
-            callbackEntry = scheduler:scheduleScriptFunc(localfunc,1,false)
-        end
+        print("rect attack png is not nil")
     end
+
+    local MS = require("app.actor.monster.Monster_Shengbo"):create()
+    MS:setActorPosition(200, 0)
+    self.word:addActor(MS)
 end
 
 function GameMain:onClickLoad(sender)
 
     _MyG.Loading:showLoading(nil, self)
 
-    print(cc.TextureCache:getInstance():getDescription())
+    -- self:loadFinish()
+    -- print(cc.TextureCache:getInstance():getDescription())
+    -- print(cc.TextureCache:getInstance():getCachedTextureInfo())
+
+
 
     if self.isLoad then
         return

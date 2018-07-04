@@ -140,6 +140,12 @@ function ControlUI:initKeyboard()
         	_MyG.PlayerDispatcher:call("control_attack", player) 
         end
         -- print("code", keyCode)
+
+        if keyCode >= 77 and keyCode <= 85 then
+        	local controlcode = keyCode-76
+        	_MyG.PlayerDispatcher:call("control_"..controlcode)
+        	-- print(controlcode)
+        end
     end  
   
     local function onKeyReleased(keyCode, event)

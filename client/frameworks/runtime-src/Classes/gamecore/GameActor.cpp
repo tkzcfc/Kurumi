@@ -18,6 +18,7 @@ GameActor::GameActor()
 	m_armature = NULL;
 	m_actorType = GameActorType::AT_NONE;
 	m_isLockOrientation = false;
+	m_curOrientation = GAME_ORI_RIGHT;
 
 	m_actorSpeedController = new SpeedController();
 	m_armatureSpeedController = new SpeedController();
@@ -52,11 +53,11 @@ void GameActor::logicUpdate(float d)
 	}
 }
 
-void GameActor::setOrientation(short ori)
+void GameActor::setOrientation(int ori)
 {
-	if (m_isLockOrientation || m_gameAttribute.m_curOrientation == ori)
+	if (m_isLockOrientation || m_curOrientation == ori)
 		return;
-	m_gameAttribute.m_curOrientation = ori;
+	m_curOrientation = ori;
 	
 	updateArmatureInfo();
 }
@@ -65,7 +66,7 @@ void GameActor::updateArmatureInfo()
 {
 	if (m_armature)
 	{
-		if (m_gameAttribute.m_curOrientation == GAME_ORI_RIGHT)
+		if (m_curOrientation == GAME_ORI_RIGHT)
 			m_armature->setScaleX(1.0);
 		else
 			m_armature->setScaleX(-1.0);
@@ -87,7 +88,7 @@ void GameActor::loadArmature(const std::string& filepath)
 		m_armature = NULL;
 	}
 
-	m_gameAttribute.m_curOrientation = GAME_ORI_RIGHT;
+	m_curOrientation = GAME_ORI_RIGHT;
 
 	m_armature = cocostudio::Armature::create(filepath);
 	m_armature->getAnimation()->playWithIndex(0);

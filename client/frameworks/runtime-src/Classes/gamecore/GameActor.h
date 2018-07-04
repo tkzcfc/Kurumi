@@ -45,7 +45,9 @@ public:
 	virtual void logicUpdate(float d);
 	
 	// 设置角色方向
-	virtual void setOrientation(short ori);
+	virtual void setOrientation(int ori);
+	// 获取角色方向
+	inline int getOrientation() { return m_curOrientation; }
 
 	// 
 	virtual void loadArmature(const std::string& filepath);
@@ -125,4 +127,6 @@ protected:
 	SpeedController* m_armatureSpeedController;
 
 	bool m_isLockOrientation;
+
+	int	m_curOrientation;	// 当前朝向 -1 左 1 右边
 };

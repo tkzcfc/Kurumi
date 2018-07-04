@@ -31,6 +31,8 @@ public:
 	// 设置角色方向
 	virtual void setOrientation(short ori);
 
+	inline int getOrientation();
+
 	// 
 	virtual void loadArmature(const std::string& filepath);
 

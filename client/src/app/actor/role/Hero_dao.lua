@@ -9,35 +9,11 @@ local Hero_dao = class("Hero_dao", LuaGameActor)
 local RoleConfig = require("app.config.RoleConfig")
 local CommonActorConfig = require("app.config.CommonActorConfig")
 
-local PowerName_ControlMove = "PowerName_ControlMove"
-local PowerName_JumpMove = "PowerName_JumpMove"
-local PowerName_Attack1 = "PowerName_Attack1"
-local PowerName_Attack2 = "PowerName_Attack2"
-local PowerName_Attack3 = "PowerName_Attack3"
-local PowerName_Attack4 = "PowerName_Attack4"
-local PowerName_Hit = "PowerName_Hit"
-local PowerName_Collapse = "PowerName_Collapse" --向后倒
-
-
---攻击时移动属性
-local Attack_Power = {}
-
-
---受到攻击时移动属性
-local Hit_Power = CommonActorConfig.playerHitBackSpeed
-
---向后倒
-local Collapse_Power = CommonActorConfig.playerCollapseMovePower
-
 
 --------------------------------------override--------------------------------------
 
 function Hero_dao:ctor()
-	self.super.ctor(self)
-
-	self.actionList = {}
-
-	self.gameAttribute:setSpeed(CommonActorConfig.playerMoveSpeed.x, CommonActorConfig.playerMoveSpeed.y)
+	Hero_dao.super.ctor(self)
 
 	self:setActorType(AT_PLAYER)
 
@@ -85,7 +61,7 @@ function Hero_dao:override_beAttacked(attackActor, isPickUp)
 			self:getArmature():runAction(q)
 	
 			local word = getGameWord()
-			if word ~= nil and word:getPlayer() == self then
+			if word ~= nil and word:getLocalPlayer() == self then
 				local winSize = cc.Director:getInstance():getVisibleSize()
 				local subheight = winSize.height - word:getMapSize().height
 				subheight = subheight * 0.5
@@ -130,7 +106,7 @@ function Hero_dao:changeRole(name)
 end
 
 function Hero_dao:changeValueByOri(x)
-	if self.gameAttribute:getCurOrientation() == GAME_ORI_LEFT then
+	if self:getOrientation() == GAME_ORI_LEFT then
 		return -x
 	end
 	return x

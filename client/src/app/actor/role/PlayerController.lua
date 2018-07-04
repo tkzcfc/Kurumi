@@ -1,15 +1,11 @@
 local PlayerController = class("PlayerController")
 
-local CommonActorConfig = require("app.config.CommonActorConfig")
-
-local JumpHeight = CommonActorConfig.playerJumpHeight
-local JumpUpTime = CommonActorConfig.playerJumpTime
-
-
 
 function PlayerController:ctor()
 
 	self.player = nil
+
+	self.disEventList = {}
 
 	self:register("control_move")
 	self:register("control_stop")
@@ -36,14 +32,23 @@ function PlayerController:getPlayer()
 end
 
 function PlayerController:register(key)
-	_MyG.PlayerDispatcher:register(key, function(...) 
+	local func = function(...) 
 		if self.player == nil then
 			return
 		end
 		if self["dis_"..key] then
 			self["dis_"..key](self, ...)
 		end
-	end)
+	end
+	_MyG.PlayerDispatcher:register(key, func)
+	self.disEventList[key] = func
+end
+
+function PlayerController:unRegisterAll()
+	for k,v in pairs(self.disEventList) do
+		_MyG.PlayerDispatcher:unRegister(k, v)
+	end	
+	self.disEventList = {}
 end
 
 function PlayerController:dis_control_move(actor, x, y)
@@ -51,9 +56,6 @@ function PlayerController:dis_control_move(actor, x, y)
 	if math.abs(x) <= 0.0001 and math.abs(y) <= 0.0001 then
 		return
 	end
-
-	x = x * self.player.gameAttribute:getSpeedX()
-	y = y * self.player.gameAttribute:getSpeedY()
 	self.player:setMove(x, y)
 	self.player:handle("CMD_MoveStart")
 end

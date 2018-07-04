@@ -26,27 +26,23 @@ else
 end
 
 local targetPlatform = cc.Application:getInstance():getTargetPlatform()
-if targetPlatform == cc.PLATFORM_OS_ANDROID then
-    _MyG.GAME_IP = "www.kurumi.xin"
+
+if targetPlatform == cc.PLATFORM_OS_WINDOWS then
+    _MyG.DEBUG = 1
 end
 
--- if (cc.PLATFORM_OS_IPHONE == targetPlatform) or (cc.PLATFORM_OS_IPAD == targetPlatform)
---         or (cc.PLATFORM_OS_WINDOWS == targetPlatform) or (cc.PLATFORM_OS_ANDROID == targetPlatform)
---         or (cc.PLATFORM_OS_MAC  == targetPlatform) then
 
-_MyG.OPEN_DEBUG = 1
+_MyG.StartScene = "GameMain"
+-- _MyG.StartScene = "LoadResource"
 
--- _MyG.StartScene = "GameMain"
-_MyG.StartScene = "LoadResource"
-
-if targetPlatform == cc.PLATFORM_OS_ANDROID then
+if _MyG.DEBUG == 0 then
+    _MyG.GAME_IP = "www.kurumi.xin"
     _MyG.StartScene = "LoginScene"
 end
 
 
 
-
-
+----------------------------------------------------------------------------------
 require("cocos.cocos2d.json")
 
 _MyG.Net = require("app.models.net.gameNet"):new()
@@ -59,4 +55,4 @@ _MyG.Loading:retain()
 _MyG.MessageBox = require("app.ui.MessageBoxUI"):new()
 _MyG.MessageBox:retain()
 
-_MyG.GlobalMsgRecipient = require("GlobalMsgRecipient")
+_MyG.GlobalMsgRecipient = require("app.common.GlobalMsgRecipient")

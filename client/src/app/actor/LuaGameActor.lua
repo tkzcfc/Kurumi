@@ -29,6 +29,20 @@ function LuaGameActor:ctor()
 
 	self.selfMovePower = {x = 0, y = 0}
 	self.allMovePower = {}
+
+    self:registerScriptHandler(function(state)
+        if state == "enter" then
+            self:onEnter()
+        elseif state == "exit" then
+            self:onExit()
+        end
+    end)
+end
+
+function LuaGameActor:onEnter()
+end
+
+function LuaGameActor:onExit()
 end
 
 function LuaGameActor:override_logicUpdate(time)
@@ -37,7 +51,7 @@ end
 
 function LuaGameActor:override_updateArmatureInfo()
 
-	if self.gameAttribute:getCurOrientation() == GAME_ORI_LEFT then
+	if self:getOrientation() == GAME_ORI_LEFT then
 		local x = self.actorSpeedController:getGravityX()
 		local y = self.actorSpeedController:getGravityY()
 		self.actorSpeedController:setGravity(-math.abs(x), y)
@@ -111,7 +125,12 @@ function LuaGameActor:override_isRunAABB(other)
 	return true
 end
 
------------------------------------------------------------------------------------
+function LuaGameActor:changeValueByOri(x)
+	if self:getOrientation() == GAME_ORI_LEFT then
+		return -x
+	end
+	return x
+end
 
 function LuaGameActor:loadConfig(config)
 	assert(config ~= nil)

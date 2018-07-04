@@ -33,7 +33,7 @@ typedef std::function<void(QFSMState*, QFSM*)> CallbackFunc;
 class QFSMState
 {
 public:
-	QFSMState(SK stateName, const CallbackFunc& enterFunc, const CallbackFunc& leaveFunc)
+	QFSMState(const SK& stateName, const CallbackFunc& enterFunc, const CallbackFunc& leaveFunc)
 	{
 		m_stateName = stateName;
 		m_enterFunc = enterFunc;
@@ -41,7 +41,7 @@ public:
 		m_fsm = NULL;
 	}
 
-	QFSMState(SK stateName, const LuaFunction& enterFunc, const LuaFunction& leaveFunc)
+	QFSMState(const SK& stateName, const LuaFunction& enterFunc, const LuaFunction& leaveFunc)
 	{
 		m_stateName = stateName;
 		m_lua_enterFunc = enterFunc;
@@ -80,7 +80,7 @@ protected:
 
 	inline void setFSM(QFSM* fsm) { m_fsm = fsm; }
 
-	bool addTranslation(EK eventName, QFSMState* toState)
+	bool addTranslation(const EK& eventName, QFSMState* toState)
 	{
 		auto it = m_translationDict.find(eventName);
 		if (it == m_translationDict.end())
@@ -92,7 +92,7 @@ protected:
 		return false;
 	}
 
-	bool removeTranslation(EK eventName, QFSMState* toState)
+	bool removeTranslation(const EK& eventName, QFSMState* toState)
 	{
 		auto it = m_translationDict.find(eventName);
 		if (it != m_translationDict.end() && it->second->m_toState == toState)
@@ -104,7 +104,7 @@ protected:
 		return false;
 	}
 
-	QFSMState* handle(EK eventName)
+	QFSMState* handle(const EK& eventName)
 	{
 		auto it = m_translationDict.find(eventName);
 		if (it != m_translationDict.end())
@@ -152,6 +152,7 @@ protected:
 	LuaFunction m_lua_leaveFunc;
 };
 
+// 有限状态机
 class QFSM
 {
 	QFSMState* m_curState;
@@ -172,7 +173,8 @@ public:
 		clear();
 	}
 
-	bool addState(SK stateName, const CallbackFunc& enterFunc, const CallbackFunc& leaveFunc)
+	// 添加状态
+	bool addState(const SK& stateName, const CallbackFunc& enterFunc, const CallbackFunc& leaveFunc)
 	{
 		auto state = getStateByKey(stateName);
 		if (state == NULL)
@@ -183,7 +185,8 @@ public:
 		return false;
 	}
 
-	bool addState(SK stateName, const LuaFunction& enterFunc, const LuaFunction& leaveFunc)
+	// 添加状态
+	bool addState(const SK& stateName, const LuaFunction& enterFunc, const LuaFunction& leaveFunc)
 	{
 		auto state = getStateByKey(stateName);
 		if (state == NULL)
@@ -194,7 +197,8 @@ public:
 		return false;
 	}
 
-	bool addTranslation(SK fromStateName, EK eventName, SK toStateName)
+	// 添加状态切换指令
+	bool addTranslation(const SK& fromStateName, const EK& eventName, const SK& toStateName)
 	{
 		auto fromState = getStateByKey(fromStateName);
 		auto toState = getStateByKey(toStateName);
@@ -205,7 +209,8 @@ public:
 		return fromState->addTranslation(eventName, toState);
 	}
 
-	bool removeTranslation(SK fromStateName, EK eventName, SK toStateName)
+	// 移除状态切换指令
+	bool removeTranslation(const SK& fromStateName, const EK& eventName, const SK& toStateName)
 	{
 		auto fromState = getStateByKey(fromStateName);
 		auto toState = getStateByKey(toStateName);
@@ -216,23 +221,22 @@ public:
 		return fromState->removeTranslation(eventName, toState);
 	}
 
-	void start(SK startStateName)
+	// 状态机开始
+	void start(const SK& startStateName)
 	{
 		m_nextState = NULL;
 		m_preState = NULL;
 
 		m_curState = getStateByKey(startStateName);
+		assert(m_curState == NULL);
 		if (m_curState)
 		{
 			m_curState->Enter();
 		}
-		else
-		{
-			assert(0);
-		}
 	}
 
-	bool handle(EK eventName)
+	// 状态切换触发
+	bool handle(const EK& eventName)
 	{
 		if (m_curState == NULL)
 		{
@@ -268,21 +272,48 @@ public:
 		m_stateDict.clear();
 	}
 
+	// 强制切换到某个状态
+	/// 注意清理！！！
+	bool forceSwitch(const SK& startStateName)
+	{
+		assert(m_curState != NULL);
+
+		auto toState = getStateByKey(startStateName);
+		assert(toState != NULL);
+		if (toState == NULL)
+			return false;
+
+		m_nextState = toState;
+
+		m_curState->Leave();
+
+		m_preState = m_curState;
+		m_nextState = NULL;
+		toState->Enter();
+
+		m_curState = toState;
+		return true;
+	}
+
+	// 获取上一个状态
 	inline QFSMState* getPreState()
 	{
 		return m_preState;
 	}
 
+	// 获取下一个状态
 	inline QFSMState* getNextState()
 	{
 		return m_nextState;
 	}
 
+	// 获取当前状态
 	inline QFSMState* getCurState()
 	{
 		return m_curState;
 	}
 
+	// 获取当前事件
 	inline EK getCurEventName()
 	{
 		return m_curEventName;
@@ -290,7 +321,7 @@ public:
 
 protected:
 
-	QFSMState* getStateByKey(SK stateName)
+	QFSMState* getStateByKey(const SK& stateName)
 	{
 		auto it = m_stateDict.find(stateName);
 		if (it == m_stateDict.end())
