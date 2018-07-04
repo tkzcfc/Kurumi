@@ -32,7 +32,9 @@ public:
 	bool handle(std::string eventName);
 
 	void clear();
-
+	
+	bool forceSwitch(std::string startStateName);
+	
 	QFSMState* getPreState();
 
 	QFSMState* getNextState();
@@ -40,4 +42,5 @@ public:
 	QFSMState* getCurState();
 	
 	std::string getCurEventName();
+	
 };

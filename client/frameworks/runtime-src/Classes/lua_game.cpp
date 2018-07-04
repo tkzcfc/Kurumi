@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 07/02/18 15:32:56.
+** Generated automatically by tolua++-1.0.92 on 07/04/18 21:51:16.
 */
 
 #include "tolua_fix.h"
@@ -546,6 +546,40 @@ static int tolua_game_QFSM_clear00(lua_State* tolua_S)
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'clear'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: forceSwitch of class  QFSM */
+#ifndef TOLUA_DISABLE_tolua_game_QFSM_forceSwitch00
+static int tolua_game_QFSM_forceSwitch00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"QFSM",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  QFSM* self = (QFSM*)  tolua_tousertype(tolua_S,1,0);
+  std::string startStateName = ((std::string)  tolua_tocppstring(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'forceSwitch'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->forceSwitch(startStateName);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'forceSwitch'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4427,6 +4461,7 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"start",tolua_game_QFSM_start00);
    tolua_function(tolua_S,"handle",tolua_game_QFSM_handle00);
    tolua_function(tolua_S,"clear",tolua_game_QFSM_clear00);
+   tolua_function(tolua_S,"forceSwitch",tolua_game_QFSM_forceSwitch00);
    tolua_function(tolua_S,"getPreState",tolua_game_QFSM_getPreState00);
    tolua_function(tolua_S,"getNextState",tolua_game_QFSM_getNextState00);
    tolua_function(tolua_S,"getCurState",tolua_game_QFSM_getCurState00);
