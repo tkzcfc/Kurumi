@@ -14,28 +14,28 @@ end
 
 --左移
 function AIM_ChangQiangWS:dis_control_4()
-	self.Owner:moveLeft()
+	self.owner:moveLeft()
 end
 
 --右移
 function AIM_ChangQiangWS:dis_control_6()
-	self.Owner:moveRight()
+	self.owner:moveRight()
 end
 
 function AIM_ChangQiangWS:dis_control_5()
-	self.Owner:attack(true)
+	self.owner:attack(true)
 end
 
 function AIM_ChangQiangWS:dis_control_7()
-	self.Owner:attack(false)
+	self.owner:attack(false)
 end
 
 function AIM_ChangQiangWS:dis_control_8()
-	self.Owner:jump()
+	self.owner:jump()
 end
 
 function AIM_ChangQiangWS:dis_control_9()
-	self.Owner:skill()
+	self.owner:skill()
 end
 
 return AIM_ChangQiangWS

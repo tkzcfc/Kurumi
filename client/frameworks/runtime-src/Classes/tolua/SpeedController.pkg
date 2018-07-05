@@ -65,4 +65,6 @@ public:
 	// 1正 -1负 0忽略
 	void setGravityPositive(int x, int y);
 	void setForcePositive(int x, int y);
+	
+	void defaultValue();
 };

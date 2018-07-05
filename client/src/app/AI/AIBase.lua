@@ -69,7 +69,7 @@ function AIBase:stop()
 	self:unRegisterAll()
 	if self.scriptEntryID ~= nil then
 		local scheduler=cc.Director:getInstance():getScheduler()
-		scheduler:unscheduleScriptEntry(self,scriptEntryID)
+		scheduler:unscheduleScriptEntry(self.scriptEntryID)
 	end
 	self.scriptEntryID = nil
 end

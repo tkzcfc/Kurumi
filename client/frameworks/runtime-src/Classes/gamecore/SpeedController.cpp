@@ -2,17 +2,8 @@
 
 SpeedController::SpeedController()
 {
-	m_friction = 0.f;
-
+	defaultValue();
 	m_target = NULL;
-
-	m_enableLuaUpdateCall = false;
-	m_enableGravity = false;	
-	m_enableForce = false;		
-	m_enableFriction = false;	
-	m_enableMaxValue = false;	
-	m_enableMinValue = false;
-	m_isStopUpdate = false;
 }
 
 SpeedController::~SpeedController()
@@ -107,4 +98,25 @@ void SpeedController::forceUpdate(float time)
 	m_force = m_force.getNormalized() * len;
 
 	m_appedValue = m_appedValue + m_force * time;
+}
+
+void SpeedController::defaultValue()
+{
+	m_gravity = Vec2::ZERO;
+	m_force = Vec2::ZERO;
+	m_friction = 0.0f;
+	m_minValue = Vec2::ZERO;
+	m_maxValue = Vec2::ZERO;
+
+	m_enableGravity = false;
+	m_enableForce = false;
+	m_enableFriction = false;
+	m_enableMaxValue = false;
+	m_enableMinValue = false;
+
+	m_isStopUpdate = true;
+
+	m_appedValue = Vec2::ZERO;
+
+	m_enableLuaUpdateCall = false;
 }

@@ -27,9 +27,6 @@ function LuaGameActor:ctor()
 	self.totalStateName = {}
 	self.stateConfig = {}
 
-	self.selfMovePower = {x = 0, y = 0}
-	self.allMovePower = {}
-
     self:registerScriptHandler(function(state)
         if state == "enter" then
             self:onEnter()
@@ -46,7 +43,6 @@ function LuaGameActor:onExit()
 end
 
 function LuaGameActor:override_logicUpdate(time)
-	self:updateMovePower(time)
 end
 
 function LuaGameActor:override_updateArmatureInfo()
@@ -63,7 +59,6 @@ function LuaGameActor:override_updateArmatureInfo()
 end
 
 function LuaGameActor:override_loadArmature(filePath)
-	--self:getArmature():setScale(0.9)
 end
 
 function LuaGameActor:override_setActorPosition(x, y)
@@ -149,6 +144,8 @@ function LuaGameActor:loadConfig(config)
 	self:getArmature():getAnimation():setMovementEventCallFunc(function(...) self:override_movementEventCallFunc(...) end)
 end
 
+-------------------------------------------------FSM-------------------------------------------------
+
 function LuaGameActor:addState(stateName)
 
 	self.totalStateName[stateName] = true
@@ -180,6 +177,16 @@ function LuaGameActor:handle(evenName)
 	return self.FSM:handle(evenName)
 end
 
+-- 强制切换
+function LuaGameActor:forceSwitch(stateName)
+	self:override_forceSwitchClean()
+	return self.FSM:forceSwitch(stateName) 
+end
+
+--强制切换清理
+function LuaGameActor:override_forceSwitchClean()
+end
+
 function LuaGameActor:clearState()
 	self.totalStateName = {}
 	self.FSM:clear()
@@ -192,98 +199,5 @@ function LuaGameActor:playAnimationByState(state)
 	local armature = self:getArmature()
 	armature:getAnimation():play(m[1])
 end
-----------------------move power begin-----------------------------
-
-function LuaGameActor:setMovePower(powerName, power)
-	--print(powerName, power.x, power.y)
-	local ptab = self.allMovePower[powerName]
-	if ptab then
-		ptab.power.x = power.x
-		ptab.power.y = power.y
-	end
-end
-
-function LuaGameActor:getMovePower(powerName)
-	return self.allMovePower[powerName]
-end
-
-function LuaGameActor:addMovePower(powerName, func)
-	if self.allMovePower[powerName] == nil then
-		self.allMovePower[powerName] = {power = {x = 0, y = 0}, enable = true, func = func}
-	end
-end
-
-function LuaGameActor:removeMovePower(powerName)
-	self.allMovePower[powerName] = nil
-end
-
-function LuaGameActor:setMovePowerEnable(powerName, enable, clearfunc)
-	if self.allMovePower[powerName] ~= nil then
-		self.allMovePower[powerName].enable = enable
-		if clearfunc then
-			self.allMovePower[powerName].func = nil
-		end
-	end
-end
-
-function LuaGameActor:setAllMovePowerEnable(enable)
-	for k,v in pairs(self.allMovePower) do
-		if v then
-			v.enable = enable
-		end
-	end
-end
-
-function LuaGameActor:getAllMovePowerEnableState()
-	local s = {}
-	for k,v in pairs(self.allMovePower) do
-		if v then 
-			s[k] = v.enable
-		end
-	end
-	return s
-end
-
-function LuaGameActor:setAllMovePowerEnableState(allEnableState)
-	if allEnableState == nil or #allEnableState < 1 then
-		return
-	end
-	
-	for k,v in pairs(allEnableState) do
-		if self.allMovePower[k] then
-			self.allMovePower[k].enable = v
-		end
-	end
-end
-
-function LuaGameActor:updateMovePower(time)
-	local power = {x = 0.0, y = 0.0}
-	for k,v in pairs(self.allMovePower) do
-		if v and v.enable then
-			if v.func then
-				local p = v.func(v.power, time)
-				if p then
-					power.x = power.x + p.x
-					power.y = power.y + p.y
-				end
-			else
-				power.x = power.x + v.power.x
-				power.y = power.y + v.power.y
-			end
-		end
-	end
-	self:setSelfMovePower(power)
-end
-
-function LuaGameActor:setSelfMovePower(power)
-	self:clearSelfMovePower()
-	self.selfMovePower = power
-end
-
-function LuaGameActor:clearSelfMovePower()
-	self.selfMovePower = {x = 0, y = 0}
-end
-
-----------------------------move power end---------------------------------
 
 return LuaGameActor

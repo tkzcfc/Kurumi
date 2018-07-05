@@ -16,17 +16,16 @@ function Hero_dao:ctor()
 	Hero_dao.super.ctor(self)
 
 	self:setActorType(AT_PLAYER)
+	self:override_forceSwitchClean()
+end
 
+function Hero_dao:onEnter()
+	Hero_dao.super.onEnter(self)
+end
 
-	self.actorSpeedController:setGravityEnable(true)
-
-	self.armatureSpeedController:setGravity(0, -800)
-	self.armatureSpeedController:setGravityEnable(true)
-	self.armatureSpeedController:setMinValue(0, 0)
-	self.armatureSpeedController:setMinValueEnable(true)
-	self.armatureSpeedController:setStopUpdate(true)
-
-	self.actorSpeedController:setFrictionEnable(true)
+function Hero_dao:onExit()
+	Hero_dao.super.onExit(self)
+	self:disenableMapYChange()
 end
 
 function Hero_dao:override_attOtherActorCallback(otherActor)
@@ -42,36 +41,50 @@ function Hero_dao:override_attOtherActorCallback(otherActor)
 end
 
 function Hero_dao:override_beAttacked(attackActor, isPickUp)
-	self.super.override_beAttacked(self, attackActor, isPickUp)
+	Hero_dao.super.override_beAttacked(self, attackActor, isPickUp)
 
-	if not isPickUp then
-		self:handle("CMD_hit")
+	if not isPickUp and not self.isJump then
+		if self.FSM:getCurState():getStateName() ~= "State_Hit" then
+			self:forceSwitch("State_Hit")
+		end
 	else
+		local curStateName = self.FSM:getCurState():getStateName()
+		if curStateName == "State_Collapse1" or curStateName == "State_Collapse2" or curStateName == "State_Collapse3" then
+			return
+		end
+
+		self:enableMapYChange()
+
+		local armature = self:getArmature()
+		local armaturePreY = armature:getPositionY()
+
+
 		local JumpUpTime = CommonActorConfig.playerCollapseJumpTime
 		local JumpHeight = CommonActorConfig.playerCollapseJumpHeight
-		if self:handle("CMD_Collapse") then
-			local move = cc.MoveBy:create(JumpUpTime, {x = 0, y = JumpHeight})
+		if self:forceSwitch("State_Collapse1") then
+
+			armature:stopAllActions()
+			armature:setPositionY(armaturePreY)
+
+			local move1 = cc.MoveTo:create(JumpUpTime, {x = 0, y = JumpHeight})
+			local move2 = cc.MoveTo:create(JumpUpTime, {x = 0, y = 0})
+			local q1 = cc.Sequence:create(move1, move2)
+			armature:runAction(q1)
+
 			local call1 = cc.CallFunc:create(function()
 				self:handle("CMD_To_Collapse2")
 			end)
 			local call2 = cc.CallFunc:create(function()
 				self:handle("CMD_To_Collapse3")
 			end)
-			local q = cc.Sequence:create(move, call1, move:reverse(), call2)
-			self:getArmature():runAction(q)
-	
-			local word = getGameWord()
-			if word ~= nil and word:getLocalPlayer() == self then
-				local winSize = cc.Director:getInstance():getVisibleSize()
-				local subheight = winSize.height - word:getMapSize().height
-				subheight = subheight * 0.5
-				subheight = math.max(subheight, -JumpHeight)
-	
-				local mapMove = cc.MoveBy:create(JumpUpTime, {x = 0, y = subheight})
-				word:getRootNode():runAction(cc.Sequence:create(mapMove, mapMove:reverse()))
-			end
+			local q2 = cc.Sequence:create(cc.DelayTime:create(JumpUpTime),
+										  call1, 
+										  cc.DelayTime:create(JumpUpTime * 0.7), 
+										  call2)
+			armature:runAction(q2)
 		end
 	end
+	self.isJump = false
 end
 
 --------------------------------------logic--------------------------------------
@@ -105,13 +118,6 @@ function Hero_dao:changeRole(name)
 	self.FSM:start("State_Stand")
 end
 
-function Hero_dao:changeValueByOri(x)
-	if self:getOrientation() == GAME_ORI_LEFT then
-		return -x
-	end
-	return x
-end
-
 function Hero_dao:setMoveStop()
 	self.actorSpeedController:setGravityEnable(false)
 	self.actorSpeedController:setForceEnable(false)
@@ -138,6 +144,8 @@ end
 
 function Hero_dao:jump()
 	if self:handle("CMD_JumpUpStart") then
+		self:enableMapYChange()
+
 		self.armatureSpeedController:setStopUpdate(false)
 		self.armatureSpeedController:setForceEnable(true)
 		self.armatureSpeedController:setFrictionEnable(true)
@@ -158,24 +166,6 @@ function Hero_dao:jump()
 		if isUpCut then
 			stage = -2
 		end
-
-		local jumpH = 350
-		local percent = 1.0
-		local mapBeginY = 0
-		local gameword = getGameWord()
-		local rootNode = nil
-		if gameword then
-			rootNode = gameword:getRootNode()
-			mapBeginY = 0
-
-			local winSize = cc.Director:getInstance():getVisibleSize()
-			local subheight = gameword:getMapSize().height - winSize.height
-			subheight = subheight * 0.5
-			subheight = math.min(subheight, jumpH)
-
-			percent = subheight / jumpH
-		end
-		
 
 		local function jumpFinishCall()
 			self.armatureSpeedController:setStopUpdate(true)
@@ -216,7 +206,7 @@ function Hero_dao:jump()
 						stage = 1
 					end
 				else
-					if curHeight >= jumpH then
+					if curHeight >= 350 then
 						self.armatureSpeedController:setForce(0, 830)
 						self.armatureSpeedController:setFriction(2000)
 						self:handle("CMD_JumpDownStart")
@@ -240,17 +230,47 @@ function Hero_dao:jump()
 					jumpFinishCall()
 				end
 			end
-
-			-- 地图Y轴滚动
-			--subheight
-			--curHeight
-			if rootNode then
-				local tmp = mapBeginY - curHeight * percent
-				rootNode:setPositionY(tmp)
-			end
-
 		end)
 	end
+end
+
+function Hero_dao:enableMapYChange()
+
+	local word = getGameWord()
+	if word == nil or word:getLocalPlayer() ~= self then
+		return
+	end
+
+	if self.scriptEntryID_UpdateMapY then
+		return
+	end
+
+	local scheduler=cc.Director:getInstance():getScheduler()
+    self.scriptEntryID_UpdateMapY = scheduler:scheduleScriptFunc(function(...) self:updateMapYPosition(...) end,1 / 40.0,false)
+
+	local percent = 1.0
+	local gameword = getGameWord()
+	self.mapRootNode = gameword:getRootNode()
+
+	local winSize = cc.Director:getInstance():getVisibleSize()
+	local subheight = gameword:getMapSize().height - winSize.height
+	
+	subheight = subheight * 0.5
+	subheight = math.min(subheight, CommonActorConfig.playerMaxHeight)
+	self.mapYpercent = subheight / CommonActorConfig.playerMaxHeight
+end
+
+function Hero_dao:disenableMapYChange()
+	if self.scriptEntryID_UpdateMapY then
+		local scheduler=cc.Director:getInstance():getScheduler()
+		scheduler:unscheduleScriptEntry(self.scriptEntryID_UpdateMapY)
+	end
+	self.scriptEntryID_UpdateMapY = nil
+end
+
+function Hero_dao:updateMapYPosition()
+	local curHeight = -self:getArmature():getPositionY()
+	self.mapRootNode:setPositionY(curHeight * self.mapYpercent)
 end
 
 --------------------------------------FSM--------------------------------------
@@ -296,18 +316,9 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Replace", "State_Replace_stop", "State_Stand")
 
 	--受到攻击
-	self.FSM:addTranslation("State_Stand", "CMD_hit", "State_Hit")
-	self.FSM:addTranslation("State_Run", "CMD_hit", "State_Hit")
-	self.FSM:addTranslation("State_Run2", "CMD_hit", "State_Hit")
-	self.FSM:addTranslation("State_Brak", "CMD_hit", "State_Hit")
 	self.FSM:addTranslation("State_Hit", "State_Hit_stop", "State_Stand")
 
 	--受到攻击并向后倒
-	self.FSM:addTranslation("State_Stand", "CMD_Collapse", "State_Collapse1")
-	self.FSM:addTranslation("State_Run", "CMD_Collapse", "State_Collapse1")
-	self.FSM:addTranslation("State_Run2", "CMD_Collapse", "State_Collapse1")
-	self.FSM:addTranslation("State_Brak", "CMD_Collapse", "State_Collapse1")
-
 	self.FSM:addTranslation("State_Collapse1", "CMD_To_Collapse2", "State_Collapse2")
 	self.FSM:addTranslation("State_Collapse2", "CMD_To_Collapse3", "State_Collapse3")
 	self.FSM:addTranslation("State_Collapse3", "State_Collapse3_stop", "State_Stand")
@@ -335,6 +346,34 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_JumpAttack3", "State_JumpAttack3_stop", "State_JumpDown")
 	self.FSM:addTranslation("State_JumpAttack3", "CMD_JumpTo_MoveStart", "State_Run")
 	self.FSM:addTranslation("State_JumpAttack3", "CMD_JumpDownEnd", "State_JumpDownEnd")
+end
+
+--强制切换清理
+function Hero_dao:override_forceSwitchClean()
+	Hero_dao.super.override_forceSwitchClean(self)
+
+	self.actorSpeedController:defaultValue()
+	self.actorSpeedController:setStopUpdate(false)
+	self.actorSpeedController:setGravityEnable(true)
+
+	self.armatureSpeedController:defaultValue()
+	self.armatureSpeedController:setStopUpdate(false)
+	self.armatureSpeedController:setGravity(0, -800)
+	self.armatureSpeedController:setGravityEnable(true)
+	self.armatureSpeedController:setMinValue(0, 0)
+	self.armatureSpeedController:setMinValueEnable(true)
+
+	local armature = self:getArmature()
+	if armature then
+		armature:setPosition({x = 0, y = 0})
+		armature:stopAllActions()
+	end
+	
+	local word = getGameWord()
+	if word then
+		word:getRootNode():setPositionY(0)
+		word:getRootNode():stopAllActions()
+	end
 end
 
 function Hero_dao:enter_State_Stand()
@@ -460,14 +499,16 @@ function Hero_dao:leave_State_Replace()
 end
 
 function Hero_dao:enter_State_Hit()
-	self.actorSpeedController:setForce(self:changeValueByOri(-100), 0)
-	self.actorSpeedController:setFriction(300)
+	self.actorSpeedController:setGravityEnable(false)
 	self.actorSpeedController:setForceEnable(true)
 	self.actorSpeedController:setFrictionEnable(true)
+	self.actorSpeedController:setForce(self:changeValueByOri(-100), 0)
+	self.actorSpeedController:setFriction(300)
 	self:lockOrientation()
 end
 
 function Hero_dao:leave_State_Hit()
+	self.actorSpeedController:setGravityEnable(true)
 	self.actorSpeedController:setForceEnable(false)
 	self.actorSpeedController:setFrictionEnable(false)
 	self.actorSpeedController:setForce(0, 0)
@@ -476,14 +517,16 @@ function Hero_dao:leave_State_Hit()
 end
 
 function Hero_dao:enter_State_Collapse1()
-	self.actorSpeedController:setForce(self:changeValueByOri(-200), 0)
-	self.actorSpeedController:setFriction(150)
+	self.actorSpeedController:setGravityEnable(false)
 	self.actorSpeedController:setForceEnable(true)
 	self.actorSpeedController:setFrictionEnable(true)
+	self.actorSpeedController:setForce(self:changeValueByOri(-200), 0)
+	self.actorSpeedController:setFriction(150)
 	self:lockOrientation()
 end
 
 function Hero_dao:leave_State_Collapse2()
+	self.actorSpeedController:setGravityEnable(true)
 	self.actorSpeedController:setForceEnable(false)
 	self.actorSpeedController:setFrictionEnable(false)
 	self.actorSpeedController:setForce(0, 0)
@@ -492,6 +535,7 @@ function Hero_dao:leave_State_Collapse2()
 end
 
 function Hero_dao:leave_State_Collapse3()
+	self.actorSpeedController:setGravityEnable(true)
 	self:unLockOrientation()
 end
 

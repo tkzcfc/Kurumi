@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 07/04/18 21:51:16.
+** Generated automatically by tolua++-1.0.92 on 07/04/18 22:23:33.
 */
 
 #include "tolua_fix.h"
@@ -4425,6 +4425,37 @@ static int tolua_game_SpeedController_setForcePositive00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: defaultValue of class  SpeedController */
+#ifndef TOLUA_DISABLE_tolua_game_SpeedController_defaultValue00
+static int tolua_game_SpeedController_defaultValue00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"SpeedController",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  SpeedController* self = (SpeedController*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'defaultValue'", NULL);
+#endif
+  {
+   self->defaultValue();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'defaultValue'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_game_open (lua_State* tolua_S)
 {
@@ -4629,6 +4660,7 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getAppendY",tolua_game_SpeedController_getAppendY00);
    tolua_function(tolua_S,"setGravityPositive",tolua_game_SpeedController_setGravityPositive00);
    tolua_function(tolua_S,"setForcePositive",tolua_game_SpeedController_setForcePositive00);
+   tolua_function(tolua_S,"defaultValue",tolua_game_SpeedController_defaultValue00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

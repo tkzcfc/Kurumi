@@ -73,6 +73,8 @@ public:
 	// Âß¼­¸üÐÂ
 	void logicUpdate(float time);
 
+	void defaultValue();
+
 protected:
 
 	void forceUpdate(float time);

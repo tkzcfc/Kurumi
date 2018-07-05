@@ -228,7 +228,7 @@ public:
 		m_preState = NULL;
 
 		m_curState = getStateByKey(startStateName);
-		assert(m_curState == NULL);
+		assert(m_curState != NULL);
 		if (m_curState)
 		{
 			m_curState->Enter();
