@@ -1,4 +1,5 @@
 #include "GameActor.h"
+#include "GameWord.h"
 
 
 GameActor* GameActor::create()
@@ -116,6 +117,10 @@ GameActorType GameActor::getActorType()
 void GameActor::setActorType(GameActorType type)
 {
 	m_actorType = type;
+	if (getGameWord())
+	{
+		getGameWord()->updateActors();
+	}
 }
 
 const Vec2& GameActor::getActorPosition()

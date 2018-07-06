@@ -122,7 +122,7 @@ void GameWord::loadMapFile(const std::string& filepath, const std::string& actor
 
 void GameWord::addActor(GameActor* actor)
 {
-	m_actorNode->addChild(actor, 100);
+	m_actorNode->addChild(actor);
 	actor->m_word = this;
 	m_allActor.pushBack(actor);
 }
@@ -447,6 +447,21 @@ void GameWord::collisionTest()
 					}
 				}
 			}
+		}
+	}
+}
+
+void GameWord::updateActors()
+{
+	for (size_t i = 0; i < m_allActor.size(); i++)
+	{
+		if (m_allActor.at(i)->getActorType() == GameActorType::AT_PLAYER)
+		{
+			m_allActor.at(i)->setLocalZOrder(10);
+		}
+		else
+		{
+			m_allActor.at(i)->setLocalZOrder(0);
 		}
 	}
 }

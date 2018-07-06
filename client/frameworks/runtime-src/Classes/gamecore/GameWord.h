@@ -51,6 +51,8 @@ public:
 
 	inline float getMinPosY() { return m_minPosY; }
 
+	void updateActors();
+
 protected:
 
 	Node* findChild(Node* root, const std::string& name);
@@ -64,7 +66,6 @@ protected:
 #endif
 
 	void collisionTest();
-
 private:
 	float m_minPosY;
 	Size m_mapSize;

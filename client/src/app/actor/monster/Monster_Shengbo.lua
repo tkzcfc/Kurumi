@@ -158,24 +158,10 @@ function Monster_Shengbo:initFSM()
 	self.FSM:addTranslation("State_Kill", "State_Kill_stop", "State_Stand")
 
 	--受到攻击
-	-- self.FSM:addTranslation("State_Stand", "CMD_hit", "State_Hit")
-	-- self.FSM:addTranslation("State_Run", "CMD_hit", "State_Hit")
-	-- self.FSM:addTranslation("State_Run2", "CMD_hit", "State_Hit")
-	-- self.FSM:addTranslation("State_Brak", "CMD_hit", "State_Hit")
-	-- self.FSM:addTranslation("State_Replace", "CMD_hit", "State_Hit")
-	-- self.FSM:addTranslation("State_Kill", "CMD_hit", "State_Hit")
-
 	self.FSM:addTranslation("State_Hit", "State_Hit_stop", "State_Stand")
 
 
 	--受到攻击并被击飞
-	-- self.FSM:addTranslation("State_Stand", "CMD_Collapase_Up", "State_Collapase_Up")
-	-- self.FSM:addTranslation("State_Run", "CMD_Collapase_Up", "State_Collapase_Up")
-	-- self.FSM:addTranslation("State_Turn", "CMD_Collapase_Up", "State_Collapase_Up")
-	-- self.FSM:addTranslation("State_Attack1", "CMD_Collapase_Up", "State_Collapase_Up")
-	-- self.FSM:addTranslation("State_Attack2", "CMD_Collapase_Up", "State_Collapase_Up")
-	-- self.FSM:addTranslation("State_Kill", "CMD_Collapase_Up", "State_Collapase_Up")
-
 	self.FSM:addTranslation("State_Collapase_Up", "CMD_Collapase_Down", "State_Collapase_Down")
 	self.FSM:addTranslation("State_Collapase_Down", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
 	self.FSM:addTranslation("State_Collapase_Down", "CMD_Collapase_EndToDead", "State_Collapase_EndToDead")
@@ -236,6 +222,39 @@ end
 
 function Monster_Shengbo:leave_State_Collapase_EndToStand()
 	self:unLockOrientation()
+end
+
+function Monster_Shengbo:enter_State_Kill()
+	self:lockOrientation()
+	self.actorSpeedController:setGravityEnable(false)
+	self.actorSpeedController:setGravity(0, 0)
+end
+
+function Monster_Shengbo:leave_State_Kill()
+	self:unLockOrientation()
+	self.actorSpeedController:setGravityEnable(true)
+end
+
+function Monster_Shengbo:enter_State_Attack1()
+	self:lockOrientation()
+	self.actorSpeedController:setGravityEnable(false)
+	self.actorSpeedController:setGravity(0, 0)
+end
+
+function Monster_Shengbo:leave_State_Attack1()
+	self:unLockOrientation()
+	self.actorSpeedController:setGravityEnable(true)
+end
+
+function Monster_Shengbo:enter_State_Attack2()
+	self:lockOrientation()
+	self.actorSpeedController:setGravityEnable(false)
+	self.actorSpeedController:setGravity(0, 0)
+end
+
+function Monster_Shengbo:leave_State_Attack2()
+	self:unLockOrientation()
+	self.actorSpeedController:setGravityEnable(true)
 end
 
 return Monster_Shengbo

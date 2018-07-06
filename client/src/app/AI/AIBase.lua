@@ -84,6 +84,23 @@ function AIBase:setOwner(InOwner)
 	end
 end
 
+function AIBase:getValueByWigetData(wigetData)
+	local totalWeight = 0
+	for k,v in pairs(wigetData) do
+		totalWeight = totalWeight + v
+	end
+	local randNum = math.random(1, totalWeight)
+	totalWeight = 0
+	for k,v in pairs(wigetData) do
+		totalWeight = totalWeight + v
+		if randNum <= totalWeight then
+			return k
+		end
+	end
+	print("[ERROR]: getValueByWigetData")
+	return nil
+end
+
 return AIBase
 
 
