@@ -26,7 +26,7 @@ public:
 	
 	ccs.Armature* getArmature();
 	
-	GameWord* getGameWord();
+	inline GameWord* getGameWord();
 
 	// 设置角色方向
 	virtual void setOrientation(short ori);

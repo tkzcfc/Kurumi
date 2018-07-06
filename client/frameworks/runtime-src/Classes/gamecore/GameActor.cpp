@@ -16,6 +16,7 @@ GameActor* GameActor::create()
 
 GameActor::GameActor()
 {
+	m_word = NULL;
 	m_armature = NULL;
 	m_actorType = GameActorType::AT_NONE;
 	m_isLockOrientation = false;
@@ -117,9 +118,9 @@ GameActorType GameActor::getActorType()
 void GameActor::setActorType(GameActorType type)
 {
 	m_actorType = type;
-	if (getGameWord())
+	if (m_word)
 	{
-		getGameWord()->updateActors();
+		m_word->updateActors();
 	}
 }
 

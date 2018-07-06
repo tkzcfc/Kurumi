@@ -49,6 +49,7 @@ function AIM_Follow:loadFollowConfig(config)
 	self.Follow_NextChangeOriTime = 0.0
 
 	self.Follow_CurState = nil
+	self.Follow_CurRange = "FOLLOW_G_MAX"
 
 	self:randState()
 end
@@ -72,12 +73,15 @@ function AIM_Follow:override_AIUpdate(time)
 			subx = math.abs(subx)
 			if subx <= self.FOLLOW_MIN then
 				self:doChangeOriConfig(self.FOLLOW_L_MIN)
+				self.Follow_CurRange = "FOLLOW_L_MIN"
 				-- print("self.FOLLOW_L_MIN")
 			elseif subx > self.FOLLOW_MAX then
 				self:doChangeOriConfig(self.FOLLOW_G_MAX)
+				self.Follow_CurRange = "FOLLOW_G_MAX"
 				-- print("self.FOLLOW_G_MAX")
 			else
 				self:doChangeOriConfig(self.FOLLOW_E_RANGE)
+				self.Follow_CurRange = "FOLLOW_E_RANGE"
 				-- print("self.FOLLOW_E_RANGE")
 			end
 		else
@@ -123,17 +127,17 @@ function AIM_Follow:doChangeOriConfig(config)
 	if value == "FOLLOW" then
 		if ori == GAME_ORI_LEFT then
 			self:override_MoveLeft()
-			-- print("Move Left")
 		else
 			self:override_MoveRight()
-			-- print("Move Right")
 		end
-	elseif value == "RANDOM" then
-		self:randomMove()
-		-- print("Move random2")
+	elseif value == "BACK" then
+		if ori == GAME_ORI_LEFT then
+			self:override_MoveRight()
+		else
+			self:override_MoveLeft()
+		end
 	elseif value == "NONE" then
 		self:override_Sleep()
-		-- print("Move sleep")
 	end
 end
 

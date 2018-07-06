@@ -71,6 +71,11 @@ end
 
 function AIM_ShengBo:override_Other()
 
+	if self.Follow_CurRange == "FOLLOW_E_RANGE" then
+		self.owner:skill()
+		return
+	end
+
 	local value = self:getValueByWigetData(AttackWeight)
 	if value == "ATTACK1" then
 		self.owner:attack1()

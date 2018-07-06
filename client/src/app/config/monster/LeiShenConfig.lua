@@ -1,31 +1,31 @@
-local ShengBoConfig = 
+local LeiShenConfig = 
 {
-	ExportJson = "monster/shengbo/shengbo.ExportJson",
-	Armature = "shengbo",
+	ExportJson = "monster/boss5_leishen/boss5_leishen.ExportJson",
+	Armature = "boss5_leishen",
 
 	StateConfig = 
 	{
 		State_Stand = {"fstand"},
-		State_Run = {"frun_2"},
-		State_Turn = {"fturn_1", "fturn_2"},
+		State_Run = {"frun_1", "frun_2"},
+		State_Brake = {"fbrake"},
 		State_Hit = {"hit"},
-		State_Attack1 = {"attack1"},
-		State_Attack2 = {"attack2"},
-		State_Kill = {"skill1"},
-		
-		-- State_Collapase_Up = {"collapse_1", "collapse_2"},
-		-- State_Collapase_Down = {"collapse_3", "collapse_4"},
-		State_Collapase_Up = {"collapse_1", "collapse_3"},
-		State_Collapase_Down = {"collapse_4"},
-		
-		State_Collapase_EndToStand = {"collapse_5", "collapse_6", "collapse_7"},
-		State_Collapase_EndToDead = {"collapse_5", "collapse_6", "dead"},
-		State_Dead	= {"collapse_3", "collapse_5", "dead"},
+		State_Kill1 = {"skill1_1"},
+		State_Kill2 = {"skill2_1"},
+		State_Kill3 = {"skill3_1", "skill3_2"},
+		State_Kill4 = {"skill4_1"},
+		State_Kill5_1 = {"skill5_1"},
+		State_Kill5_2 = {"skill5_2"},
+		State_Kill6 = {"skill6_1", "skill6_2"},
+		State_Kill6_Finish = {"skill6_3"},
+		State_Turn = {"fturn_1", "fturn_2"},
+		State_Collapase_EndToStand = {"collapse_1", "collapse_7"},
+		State_Collapase_EndToDead = {"collapse_1", "dead_1", "dead_2"},
+		State_Dead	= {"collapse_1", "dead_1", "dead_2"},
 	}
 }
 
 --跟随配置
-ShengBoConfig.FOLLOW_CONFIG = 
+LeiShenConfig.FOLLOW_CONFIG = 
 {
 	--状态切换最小间隔时间
 	STATE_CHAGE_MIN_TIME = 0.5,
@@ -94,4 +94,4 @@ ShengBoConfig.FOLLOW_CONFIG =
 	},
 }
 
-return ShengBoConfig
+return LeiShenConfig

@@ -41,7 +41,7 @@ function Monster_Shengbo:override_attOtherActorCallback(otherActor)
 end
 
 function Monster_Shengbo:override_beAttacked(attackActor, isPickUp)
-	self.super.override_beAttacked(self, attackActor, isPickUp)
+	Monster_Shengbo.super.override_beAttacked(self, attackActor, isPickUp)
 
 	local curStateName = self.FSM:getCurState():getStateName()
 	if curStateName == "State_Hit" or 

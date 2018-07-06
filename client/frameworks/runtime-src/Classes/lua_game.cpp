@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 07/04/18 22:23:33.
+** Generated automatically by tolua++-1.0.92 on 07/06/18 21:40:02.
 */
 
 #include "tolua_fix.h"
@@ -950,38 +950,6 @@ static int tolua_game_GameActor_getArmature00(lua_State* tolua_S)
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getArmature'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getGameWord of class  GameActor */
-#ifndef TOLUA_DISABLE_tolua_game_GameActor_getGameWord00
-static int tolua_game_GameActor_getGameWord00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameActor",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameActor* self = (GameActor*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getGameWord'", NULL);
-#endif
-  {
-   GameWord* tolua_ret = (GameWord*)  self->getGameWord();
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"GameWord");
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getGameWord'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4517,7 +4485,6 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getGameAttribute",tolua_game_GameActor_getGameAttribute00);
    tolua_function(tolua_S,"getFSM",tolua_game_GameActor_getFSM00);
    tolua_function(tolua_S,"getArmature",tolua_game_GameActor_getArmature00);
-   tolua_function(tolua_S,"getGameWord",tolua_game_GameActor_getGameWord00);
    tolua_function(tolua_S,"setOrientation",tolua_game_GameActor_setOrientation00);
    tolua_function(tolua_S,"getOrientation",tolua_game_GameActor_getOrientation00);
    tolua_function(tolua_S,"loadArmature",tolua_game_GameActor_loadArmature00);
