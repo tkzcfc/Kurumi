@@ -15,7 +15,8 @@ local LeiShenConfig =
 		State_Kill4 = {"skill4_1"},
 		State_Kill5_1 = {"skill5_1"},
 		State_Kill5_2 = {"skill5_2"},
-		State_Kill6 = {"skill6_1", "skill6_2"},
+		State_Kill6_Begin = {"skill6_1"},
+		State_Kill6_Run = {"skill6_2"},
 		State_Kill6_Finish = {"skill6_3"},
 		State_Turn = {"fturn_1", "fturn_2"},
 		State_Collapase_EndToStand = {"collapse_1", "collapse_7"},
@@ -28,26 +29,26 @@ local LeiShenConfig =
 LeiShenConfig.FOLLOW_CONFIG = 
 {
 	--状态切换最小间隔时间
-	STATE_CHAGE_MIN_TIME = 0.5,
+	STATE_CHAGE_MIN_TIME = 0.4,
 	--状态切换最大间隔时间
-	STATE_CHAGE_MAX_TIME = 1.5,
+	STATE_CHAGE_MAX_TIME = 1.0,
 
 	--跟随最大值
-	FOLLOW_MAX = 800,
+	FOLLOW_MAX = 1000,
 	--跟随最小值
-	FOLLOW_MIN = 100,
+	FOLLOW_MIN = 400,
 	
 	--小于最小值时的配置
 	FOLLOW_L_MIN = 
 	{
 		--切换方向最小间隔时间
-		updateOriMinTime = 0.5,
+		updateOriMinTime = 0.2,
 		--切换方向最大间隔时间
-		updateOriMaxTime = 0.8,
+		updateOriMaxTime = 0.3,
 		--移动状态下权重
 		changeOriWidget = {
 			FOLLOW = 3,	--跟随
-			BACK   = 3,	--后退
+			BACK   = 4,	--后退
 			NONE   = 1, --不做任何操作（休息）
 		},
 		--状态权重
@@ -55,14 +56,14 @@ LeiShenConfig.FOLLOW_CONFIG =
 		{
 			SLEEP = 0,
 			MOVE  = 1,
-			OTHER = 6
+			OTHER = 10
 		},
 	},
 	--大于最大值时的配置
 	FOLLOW_G_MAX = 
 	{
-		updateOriMinTime = 0.3,
-		updateOriMaxTime = 0.5,
+		updateOriMinTime = 0.2,
+		updateOriMaxTime = 0.4,
 		changeOriWidget = {
 			FOLLOW = 2,
 			BACK   = 2,
@@ -72,14 +73,14 @@ LeiShenConfig.FOLLOW_CONFIG =
 		{
 			SLEEP = 2,
 			MOVE  = 8,
-			OTHER = 0
+			OTHER = 12
 		},
 	},
 	--最大值和最小值之间
 	FOLLOW_E_RANGE = 
 	{
-		updateOriMinTime = 0.3,
-		updateOriMaxTime = 0.5,
+		updateOriMinTime = 0.2,
+		updateOriMaxTime = 0.3,
 		changeOriWidget = {
 			FOLLOW = 4,
 			BACK   = 2,
@@ -89,7 +90,7 @@ LeiShenConfig.FOLLOW_CONFIG =
 		{
 			SLEEP = 0,
 			MOVE  = 6,
-			OTHER = 3
+			OTHER = 10
 		},
 	},
 }

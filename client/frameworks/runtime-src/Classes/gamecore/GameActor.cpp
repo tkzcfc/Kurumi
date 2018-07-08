@@ -270,6 +270,8 @@ const Rect& GameActor::getAABB()
 	static Rect r;
 	r = m_armature->getBoundingBox();
 	r = RectApplyTransform(r, this->getNodeToParentTransform());
+	r.origin.x = r.origin.x - r.size.width * 0.5f;
+	r.size.width *= 2;
 	return r;
 }
 

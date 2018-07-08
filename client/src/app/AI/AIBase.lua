@@ -98,6 +98,10 @@ function AIBase:getValueByWigetData(wigetData)
 		end
 	end
 	print("[ERROR]: getValueByWigetData")
+	for k,v in pairs(table_name) do
+		print(k,v)
+	end
+	print("[ERROR] end\n\n")
 	return nil
 end
 

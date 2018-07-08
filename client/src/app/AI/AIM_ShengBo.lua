@@ -78,10 +78,13 @@ function AIM_ShengBo:override_Other()
 
 	local value = self:getValueByWigetData(AttackWeight)
 	if value == "ATTACK1" then
+		self:updateOrientation()
 		self.owner:attack1()
 	elseif value == "ATTACK2" then
+		self:updateOrientation()
 		self.owner:attack2()
 	elseif value == "SKILL" then
+		self:updateOrientation()
 		self.owner:skill()
 	end
 end

@@ -117,7 +117,7 @@ function LuaGameActor:override_movementEventCallFunc(armature, movementType, mov
 end
 
 function LuaGameActor:override_isRunAABB(other)
-	return true
+	return self:getActorType() ~= other:getActorType()
 end
 
 function LuaGameActor:changeValueByOri(x)
@@ -185,6 +185,7 @@ end
 
 --强制切换清理
 function LuaGameActor:override_forceSwitchClean()
+	self:unLockOrientation()
 end
 
 function LuaGameActor:clearState()

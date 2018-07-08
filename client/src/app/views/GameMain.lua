@@ -140,16 +140,17 @@ function GameMain:loadFinish()
         print("rect attack png is not nil")
     end
 
-    for i = 1, 1 do
-    local MS = require("app.actor.monster.Monster_Shengbo"):create()
-    MS:setActorPosition(200, 0)
-    self.word:addActor(MS)
-    end
+    -- for i = 1, 1 do
+    -- local MS = require("app.actor.monster.Monster_Shengbo"):create()
+    -- MS:setActorPosition(200, 0)
+    -- self.word:addActor(MS)
+    -- end
 
-    
+    for i = 1, 1 do
     local MS = require("app.actor.monster.Monster_LeiShen"):create()
     MS:setActorPosition(200, 0)
     self.word:addActor(MS)
+    end
 end
 
 function GameMain:onClickLoad(sender)
