@@ -74,4 +74,7 @@ public:
 	
 	inline bool isLockOrientation();
 
+	// 是否启用地图约束
+	inline void setMapConstraintEnable(bool InEnable);
+	inline bool isEnableMapConstraint();
 };

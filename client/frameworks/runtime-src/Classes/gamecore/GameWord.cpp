@@ -10,6 +10,7 @@ GameWord::GameWord()
 	m_fixNode = NULL;
 	m_fixNodeBeginX = 0.0f;
 	Static__GameWord = this;
+	m_viewPortMinX = m_viewPortMaxX = 0.0f;
 }
 
 GameWord::~GameWord()
@@ -53,9 +54,9 @@ bool GameWord::init()
 
 		this->schedule(schedule_selector(GameWord::logicUpdate), 1 / 60.0f);
 
-		const auto& size = Director::getInstance()->getVisibleSize();
+		m_winSize = Director::getInstance()->getVisibleSize();
 
-		m_mapSize = size;
+		m_mapSize = m_winSize;
 
 		return true;
 	} while (0);
@@ -116,7 +117,8 @@ void GameWord::loadMapFile(const std::string& filepath, const std::string& actor
 	CCASSERT(m_actorNode != NULL, "m_actorNode 不能为空");
 
 	m_mapSize = m_rootNode->getContentSize();
-
+	m_viewPortMaxX = m_mapSize.width;
+	
 	changeParticleSystemPositionType(m_rootNode);
 }
 
@@ -206,6 +208,19 @@ Node* GameWord::findChild(Node* root, const std::string& name)
 	return NULL;
 }
 
+
+void GameWord::setViewPortMinXValue(float InValue) 
+{ 
+	m_viewPortMinX = InValue;
+	m_viewPortMinX = MAX(m_viewPortMinX, 0.0f);
+}
+
+void GameWord::setViewPortMaxXValue(float InValue) 
+{
+	m_viewPortMaxX = InValue;
+	m_viewPortMaxX = MIN(m_viewPortMaxX, m_mapSize.width);
+}
+
 void GameWord::logicUpdate(float d)
 {
 	// 角色逻辑
@@ -254,47 +269,33 @@ void GameWord::updateMapMoveLogic()
 	// 地图跟随玩家移动
 	if (m_player)
 	{
-		const Vec2& curpos = m_player->getMapMovePos();
+		float curposX = m_player->getMapMovePos().x - m_viewPortMinX;
+		float t = m_viewPortMaxX - m_viewPortMinX;
 
-		Size winSize = Director::getInstance()->getVisibleSize();
-
-		// X轴跟随玩家移动
-		if (m_mapSize.width > winSize.width)
+		if (t > m_winSize.width)
 		{
-			float halfWidth = winSize.width * 0.5f;
-			if (curpos.x <= halfWidth)
+			float halfWidth = m_winSize.width * 0.5f;
+			if (curposX <= halfWidth)
 			{
-				m_rootNode->setPositionX(0.0f);
+				m_rootNode->setPositionX(-m_viewPortMinX);
 			}
-			else if (curpos.x >= m_mapSize.width - halfWidth)
+			else if (curposX >= t - halfWidth)
 			{
-				m_rootNode->setPositionX(winSize.width - m_mapSize.width);
+				m_rootNode->setPositionX(m_winSize.width - t - m_viewPortMinX);
 			}
 			else
 			{
-				m_rootNode->setPositionX(halfWidth - curpos.x);
+				m_rootNode->setPositionX(halfWidth - curposX - m_viewPortMinX);
 			}
 			if (m_fixNode)
 			{
 				m_fixNode->setPositionX(m_fixNodeBeginX - m_rootNode->getPositionX());
 			}
 		}
-		//// Y轴跟随玩家移动
-		//float subHeight = winSize.height - m_mapSize.height;
-		//if (subHeight < 0.0f)
-		//{
-		//	float actorposY = m_player->getActorPositionY();
-		//	float subposY = actorposY - curpos.y;
-		//	if (subposY < 0.0f)
-		//	{
-		//		subposY = MAX(subposY, subHeight * 0.5f);
-		//		m_rootNode->setPositionY(subposY);
-		//	}
-		//	else
-		//	{
-		//		m_rootNode->setPositionY(0.0f);
-		//	}
-		//}
+		else
+		{
+			m_rootNode->setPositionX(-m_viewPortMinX);
+		}
 	}
 }
 
@@ -304,13 +305,16 @@ void GameWord::updateMapCorrectActor()
 	float tmp;
 	for (auto& it : m_allActor)
 	{
-		float halfWidth = 50.0f;//it->getAABB().size.width * 0.5;
+		if(!it->isEnableMapConstraint())
+			continue;
+
+		static const float halfWidth = 50.0f;//it->getAABB().size.width * 0.5;
 		v = it->getActorPosition();
 
-		tmp = m_mapSize.width - halfWidth;
+		tmp = m_viewPortMaxX - halfWidth;
 		v.x = MIN(v.x, tmp);
 
-		tmp = halfWidth;
+		tmp = m_viewPortMinX + halfWidth;
 		v.x = MAX(v.x, tmp);
 
 		v.y = MAX(v.y, m_minPosY);

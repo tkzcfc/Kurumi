@@ -103,6 +103,10 @@ public:
 
 	inline bool isLockOrientation() { return m_isLockOrientation; }
 
+	// 是否启用地图约束
+	inline void setMapConstraintEnable(bool InEnable) { m_isMapConstraintEnable = InEnable; }
+	inline bool isEnableMapConstraint() { return m_isMapConstraintEnable; }
+
 protected:
 
 	void updateArmatureInfo();
@@ -126,7 +130,11 @@ protected:
 	SpeedController* m_actorSpeedController;
 	SpeedController* m_armatureSpeedController;
 
+	// 方向锁定？
 	bool m_isLockOrientation;
+
+	// 是否受地图约束
+	bool m_isMapConstraintEnable;
 
 	int	m_curOrientation;	// 当前朝向 -1 左 1 右边
 };

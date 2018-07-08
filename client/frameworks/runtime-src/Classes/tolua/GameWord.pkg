@@ -39,11 +39,21 @@ public:
 
 	cc.Node* getChildNode(const std::string& name);
 
-	inline Size getMapSize();
+	Size getMapSize();
+	inline float getMapWidth();
+	inline float getMapHeight();
 	
 	inline void setMinPosY(float InMinPosY);
 
 	inline float getMinPosY();
+	
+	void updateActors();
+
+	void setViewPortMinXValue(float InValue);
+	inline float getViewPortMinXValue();
+	
+	void setViewPortMaxXValue(float InValue);
+	inline float getViewPortMaxXValue();
 };
 
 GameWord* getGameWord();

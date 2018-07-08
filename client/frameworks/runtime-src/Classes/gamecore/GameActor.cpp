@@ -20,6 +20,7 @@ GameActor::GameActor()
 	m_armature = NULL;
 	m_actorType = GameActorType::AT_NONE;
 	m_isLockOrientation = false;
+	m_isMapConstraintEnable = true;
 	m_curOrientation = GAME_ORI_RIGHT;
 
 	m_actorSpeedController = new SpeedController();

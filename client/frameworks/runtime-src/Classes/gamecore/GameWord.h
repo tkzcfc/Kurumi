@@ -32,26 +32,34 @@ public:
 	GameActor* getPlayerByIndex(int index);
 
 	virtual void removeActorByName(const std::string& name);
-	
+
 	void logicUpdate(float d);
 
 	void openDebugDraw(bool open);
 
 	bool isOpenDebugDraw();
-	
+
 	inline Node* getRootNode() { return m_rootNode; }
-	
+
 	inline Node* getActorNode() { return m_actorNode; }
 
 	Node* getChildNode(const std::string& name);
 
-	inline Size getMapSize() { return m_mapSize; }
+	Size getMapSize() { return m_mapSize; }
+	inline float getMapWidth() { return m_mapSize.width; }
+	inline float getMapHeight() { return m_mapSize.height; }
 
 	inline void setMinPosY(float InMinPosY) { m_minPosY = InMinPosY; }
 
 	inline float getMinPosY() { return m_minPosY; }
 
 	void updateActors();
+
+	void setViewPortMinXValue(float InValue);
+	inline float getViewPortMinXValue() { return m_viewPortMinX; }
+	
+	void setViewPortMaxXValue(float InValue);
+	inline float getViewPortMaxXValue() { return m_viewPortMaxX; }
 
 protected:
 
@@ -85,6 +93,11 @@ private:
 
 	std::vector<ActorRect> m_defRectCache;
 	std::vector<ActorRect> m_attRectCache;
+
+	float m_viewPortMinX;
+	float m_viewPortMaxX;
+
+	Size m_winSize;
 };
 
 
