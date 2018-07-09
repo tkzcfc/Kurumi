@@ -19,22 +19,54 @@ function LoadResource:onCreate()
     self.panelheight = self.ui.Panel_Load:getContentSize().height
     self:updateUI(0.0)
 
-    self.plistFileList = {}
-    self.exportJsonFileList = {}
-    self.pngFileList = {}
+    --load
+    self.loadPlistFileList = {}
+    self.loadExportJsonFileList = {}
+    self.loadPngFileList = {}
 
-	self.curExportJsonCount = 0
-	self.curPlistCount = 0
-	self.curPngCount = 0
-	self.totalCount = 0
+	self.curLoadExportJsonCount = 0
+	self.curLoadPlistCount = 0
+	self.curLoadPngCount = 0
+	self.totalLoadCount = 0
 
 	self.pngFileIsLoadFinish = false
+
+	--release
+    self.releasePlistFileList = {}
+    self.releaseExportJsonFileList = {}
+    self.releasePngFileList = {}
 end
 
 function LoadResource:onExit()
 	LoadResource.super.onExit(self)
 	self:stopScheduler()
 end
+
+function LoadResource:setNextSceneInfo(sceneID, transition, time, more, args)
+	self.nextSceneInfo = {}
+	self.nextSceneInfo["sceneID"] = sceneID
+	self.nextSceneInfo["transition"] = transition
+	self.nextSceneInfo["time"] = time
+	self.nextSceneInfo["more"] = more
+	self.nextSceneInfo["args"] = args
+
+	local preSceneID = _MyG.GameSceneSwither:getPreSceneID()
+	if preSceneID and _MyG.SceneResourceLoadConfig[preSceneID] then
+		_MyG.SceneResourceLoadConfig[preSceneID].ReleaseResourceFunc(self, args)
+	end
+	_MyG.SceneResourceLoadConfig[sceneID].LoadResourceFunc(self, args)
+end
+
+function LoadResource:getNextSceneInfo()
+	self.nextSceneInfo
+end
+
+function LoadResource:updateUI(percent)
+	self.ui.ldrunning:setPositionX(percent * self.totalWidth)
+	self.ui.Panel_Load:setContentSize({width = percent * self.totalWidth, height = self.panelheight})
+end
+
+----------------------------------------------------------load----------------------------------------------------------
 
 function LoadResource:addLoadResource(type, path)	
 	if self.isStart then
@@ -48,12 +80,12 @@ function LoadResource:addLoadResource(type, path)
 	end
 
 	if type == LoadResource.RES_TYPE.PLIST then
-		table.insert(self.plistFileList, path)
+		table.insert(self.loadPlistFileList, path)
+		table.insert(self.loadPngFileList, string.gsub(path, ".plist", ".png"))
 	elseif type == LoadResource.RES_TYPE.EXPORTJSON then
-		table.insert(self.exportJsonFileList, path)
-		table.insert(self.pngFileList, string.gsub(path, ".plist", ".png"))
+		table.insert(self.loadExportJsonFileList, path)
 	elseif type == LoadResource.RES_TYPE.PNG then
-		table.insert(self.pngFileList, path)
+		table.insert(self.loadPngFileList, path)
 	else
 		print("[ERROR]未知格式资源")
 	end
@@ -66,19 +98,19 @@ function LoadResource:startLoad()
 	end
 	self.isStart = true
 
-	self.totalCount = #self.plistFileList + #self.exportJsonFileList + #self.pngFileList
+	self.totalLoadCount = #self.loadPlistFileList + #self.loadExportJsonFileList + #self.loadPngFileList
 
 	--异步加载exportjson
-	for i = 1, #self.exportJsonFileList do
-		ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync(loadRole[i], function(percent)
-			self.curExportJsonCount = #self.exportJsonFileList * percent
+	for i = 1, #self.loadExportJsonFileList do
+		ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync(self.loadExportJsonFileList[i], function(percent)
+			self.curLoadExportJsonCount = #self.loadExportJsonFileList * percent
 		end)
 	end
 
 	--异步加载图片资源
 	local textureCache = cc.Director:getInstance():getTextureCache()
-	for i = 1, #self.pngFileList do
-		textureCache:addImageAsync(self.pngFileList[i], function(...) self:pngLoadCall(...) end)
+	for i = 1, #self.loadPngFileList do
+		textureCache:addImageAsync(self.loadPngFileList[i], function(...) self:pngLoadCall(...) end)
 	end
 	
 	--
@@ -87,8 +119,8 @@ function LoadResource:startLoad()
 end
 
 function LoadResource:pngLoadCall()
-	self.curPngCount = self.curPngCount + 1
-	if self.curPngCount >= #self.pngFileList then
+	self.curLoadPngCount = self.curLoadPngCount + 1
+	if self.curLoadPngCount >= #self.loadPngFileList then
 		self.pngFileIsLoadFinish = true
 	end
 end
@@ -96,17 +128,17 @@ end
 function LoadResource:loadFileUpdate()
 
 	--加载plist文件
-	if self.pngFileIsLoadFinish and self.curPlistCount < #self.plistFileList then
-		self.curPlistCount = self.curPlistCount + 1
-		cc.SpriteFrameCache:getInstance():addSpriteFrames(self.plistFileList[self.curPlistCount])
+	if self.pngFileIsLoadFinish and self.curLoadPlistCount < #self.loadPlistFileList then
+		self.curLoadPlistCount = self.curLoadPlistCount + 1
+		cc.SpriteFrameCache:getInstance():addSpriteFrames(self.loadPlistFileList[self.curLoadPlistCount])
 	end
 
 	--进度刷新
-	local curCount = self.curExportJsonCount + self.curPlistCount + self.curPngCount
-	self:updateUI(curCount / self.totalCount)
+	local curCount = self.curLoadExportJsonCount + self.curLoadPlistCount + self.curLoadPngCount
+	self:updateUI(curCount / self.totalLoadCount)
 
 	--加载完成
-	if curCount > self.totalCount then
+	if curCount > self.totalLoadCount then
 		self:stopScheduler()
 		self:loadFinish()
 	end
@@ -120,12 +152,58 @@ function LoadResource:stopScheduler()
 	self.scriptEntryID = nil
 end
 
-function LoadResource:updateUI(percent)
-	self.ui.ldrunning:setPositionX(percent * self.totalWidth)
-	self.ui.Panel_Load:setContentSize({width = percent * self.totalWidth, height = self.panelheight})
+function LoadResource:loadFinish()
+	if self.isDelayReleaseResource then
+		self:doRelease()
+	end
+	_MyG.GameSceneSwither:runScene(self.nextSceneInfo["sceneID"], 
+									self.nextSceneInfo["transition"], 
+									self.nextSceneInfo["time"],
+									self.nextSceneInfo["more"])
 end
 
-function LoadResource:loadFinish()
+----------------------------------------------------------release----------------------------------------------------------
+function LoadResource:addReleaseResource(type, path)	
+	if self.isStart then
+		print("[ERROR]资源加载已开始")
+		return
+	end
+
+	if path == nil or path == "" then
+		print("[ERROR]资源路径不合法")
+		return
+	end
+
+	if type == LoadResource.RES_TYPE.PLIST then
+		table.insert(self.releasePlistFileList, path)
+		table.insert(self.releasePngFileList, string.gsub(path, ".plist", ".png"))
+	elseif type == LoadResource.RES_TYPE.EXPORTJSON then
+		table.insert(self.releaseExportJsonFileList, path)
+	elseif type == LoadResource.RES_TYPE.PNG then
+		table.insert(self.releasePngFileList, path)
+	else
+		print("[ERROR]未知格式资源")
+	end
+end
+
+function LoadResource:delayRelease()
+	self.isDelayReleaseResource = true
+end
+
+function LoadResource:doRelease()
+	for i = 1, #self.releaseExportJsonFileList do
+		ccs.ArmatureDataManager:getInstance():removeArmatureFileInfo(self.releaseExportJsonFileList[i])
+	end
+
+	local textureCache = cc.Director:getInstance():getTextureCache()
+	for i = 1, #self.releasePngFileList do
+		textureCache:removeTextureForKey(self.releasePngFileList[i])
+	end
+
+	local spriteFrameCache = cc.SpriteFrameCache:getInstance()
+	for i = 1, #self.releasePlistFileList do
+		spriteFrameCache:removeSpriteFramesFromFile(self.releasePlistFileList[i])
+	end
 end
 
 return LoadResource

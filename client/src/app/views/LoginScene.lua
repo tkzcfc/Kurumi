@@ -62,7 +62,7 @@ function LoginScene:dis_login_ret(data)
 		local password = self.ui.TextField_Password:getString()
 		cc.UserDefault:getInstance():setStringForKey("key-gameaccount", account)
 		cc.UserDefault:getInstance():setStringForKey("key-gamepassword", password)
-		_MyG.APP:run("CreateScene")
+		_MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_CREATE)
 	elseif data.code == 1 then
 		_MyG.MessageBox:showBox("账号不存在是否注册？", function() 
 			self:registerAccount()

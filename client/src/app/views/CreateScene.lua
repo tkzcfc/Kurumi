@@ -67,8 +67,7 @@ end
 
 function CreateScene:onClickCreate(sender)
 	local nickName = self.ui.TextField_NickName:getString()
-	print(nickName)
-	_MyG.APP:run("GameMain")
+	_MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_MAIN)
 end 
 
 return CreateScene

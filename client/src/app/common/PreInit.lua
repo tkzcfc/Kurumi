@@ -32,7 +32,8 @@ if targetPlatform == cc.PLATFORM_OS_WINDOWS then
 end
 
 
-_MyG.StartScene = "GameMain"
+-- _MyG.StartScene = "GameMain"
+_MyG.StartScene = "LoginScene"
 -- _MyG.StartScene = "LoadResource"
 
 if _MyG.DEBUG == 0 then
@@ -45,6 +46,10 @@ end
 ----------------------------------------------------------------------------------
 require("cocos.cocos2d.json")
 
+require("app.config.SceneConfig")
+
+_MyG.GameSceneSwither = require("app.common.GameSceneSwither")
+
 _MyG.Net = require("app.models.net.gameNet"):new()
 _MyG.PlayerDispatcher = require("app.common.dispatcher"):new()
 _MyG.PlayerController = require("app.actor.role.PlayerController"):new()
@@ -56,3 +61,4 @@ _MyG.MessageBox = require("app.ui.MessageBoxUI"):new()
 _MyG.MessageBox:retain()
 
 _MyG.GlobalMsgRecipient = require("app.common.GlobalMsgRecipient")
+
