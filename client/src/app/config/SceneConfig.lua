@@ -4,6 +4,7 @@ _MyG.SCENE_ID_CREATE 			= 1	--创建角色场景
 _MyG.SCENE_ID_MAIN				= 2	--主场景
 _MyG.SCENE_ID_GAME_MAP			= 3	--游戏场景
 _MyG.SCENE_ID_LOAD_RESOURCE		= 4	--资源加载场景
+_MyG.SCENE_ID_SELECT			= 5 --选择地图场景
 
 _MyG.SCENE_MAP = {}
 _MyG.SCENE_MAP[_MyG.SCENE_ID_LOGIN] 		= "LoginScene"
@@ -11,6 +12,7 @@ _MyG.SCENE_MAP[_MyG.SCENE_ID_CREATE] 		= "CreateScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_MAIN] 			= "MainScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_GAME_MAP] 		= "GameScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_LOAD_RESOURCE] = "LoadResource"
+_MyG.SCENE_MAP[_MyG.SCENE_ID_SELECT]		= "SelectScene"
 
 _MyG.SceneResourceLoadConfig = {}
 
@@ -93,4 +95,10 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 	CacheValue = nil,
 }
 
+_MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_SELECT] = 
+{
+	LoadResourceFunc = nil,
+
+	ReleaseResourceFunc = nil,
+}
 

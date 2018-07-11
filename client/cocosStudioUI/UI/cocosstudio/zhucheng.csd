@@ -16,7 +16,7 @@
             <PreSize X="1.0000" Y="1.0000" />
             <FileData Type="Normal" Path="zhuc_ldpi/zcmaph01.png" Plist="" />
           </AbstractNodeData>
-          <AbstractNodeData Name="ScrollView_1" CanEdit="False" ActionTag="228933456" Tag="206" IconVisible="False" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" TouchEnable="True" ClipAble="False" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ScrollDirectionType="Horizontal" ctype="ScrollViewObjectData">
+          <AbstractNodeData Name="ScrollView" ActionTag="228933456" Tag="206" IconVisible="False" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ScrollDirectionType="Horizontal" ctype="ScrollViewObjectData">
             <Size X="1136.0000" Y="640.0000" />
             <Children>
               <AbstractNodeData Name="FileNode_3" ActionTag="-953262631" Tag="231" IconVisible="True" LeftMargin="250.2768" RightMargin="2629.7231" TopMargin="352.4506" BottomMargin="287.5494" StretchWidthEnable="False" StretchHeightEnable="False" InnerActionSpeed="1.0000" CustomSizeEnabled="False" ctype="ProjectNodeObjectData">
@@ -71,6 +71,20 @@
               </AbstractNodeData>
               <AbstractNodeData Name="ArmatureNode_10" ActionTag="-1431505311" Tag="218" IconVisible="True" LeftMargin="1182.5710" RightMargin="1697.4290" TopMargin="305.5435" BottomMargin="334.4565" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="niaoju1" ctype="ArmatureNodeObjectData">
                 <Size X="0.0000" Y="0.0000" />
+                <Children>
+                  <AbstractNodeData Name="Button_Enter" ActionTag="398239598" CallBackType="Click" CallBackName="onClickEnter" Tag="127" IconVisible="False" LeftMargin="-14.4957" RightMargin="-27.5043" TopMargin="-109.7493" BottomMargin="95.7493" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="4" BottomEage="4" Scale9OriginX="-15" Scale9OriginY="-4" Scale9Width="30" Scale9Height="8" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+                    <Size X="42.0000" Y="14.0000" />
+                    <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                    <Position X="6.5043" Y="102.7493" />
+                    <Scale ScaleX="3.1785" ScaleY="14.6149" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <TextColor A="255" R="65" G="65" B="70" />
+                    <OutlineColor A="255" R="255" G="0" B="0" />
+                    <ShadowColor A="255" R="110" G="110" B="110" />
+                  </AbstractNodeData>
+                </Children>
                 <AnchorPoint />
                 <Position X="1182.5710" Y="334.4565" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
@@ -91,6 +105,19 @@
               </AbstractNodeData>
               <AbstractNodeData Name="ArmatureNode_1" ActionTag="-1544450755" Tag="209" IconVisible="True" LeftMargin="1115.3977" RightMargin="1764.6023" TopMargin="480.9557" BottomMargin="159.0443" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="stand1" ctype="ArmatureNodeObjectData">
                 <Size X="0.0000" Y="0.0000" />
+                <Children>
+                  <AbstractNodeData Name="npcnamebg_2" ActionTag="-2085438589" Tag="145" IconVisible="False" LeftMargin="-85.5000" RightMargin="-85.5000" TopMargin="-19.0000" BottomMargin="-19.0000" ctype="SpriteObjectData">
+                    <Size X="171.0000" Y="38.0000" />
+                    <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                    <Position />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="ui/fragment/npcnamebg.png" Plist="" />
+                    <BlendFunc Src="1" Dst="771" />
+                  </AbstractNodeData>
+                </Children>
                 <AnchorPoint />
                 <Position X="1115.3977" Y="159.0443" />
                 <Scale ScaleX="0.7000" ScaleY="0.7000" />
@@ -181,6 +208,19 @@
               </AbstractNodeData>
               <AbstractNodeData Name="ArmatureNode_2" ActionTag="674027718" Tag="210" IconVisible="True" LeftMargin="430.7376" RightMargin="2449.2625" TopMargin="388.8374" BottomMargin="251.1626" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="stand1" ctype="ArmatureNodeObjectData">
                 <Size X="0.0000" Y="0.0000" />
+                <Children>
+                  <AbstractNodeData Name="npcnamebg_1" ActionTag="-2002229300" Tag="144" IconVisible="False" LeftMargin="-85.5000" RightMargin="-85.5000" TopMargin="-19.0000" BottomMargin="-19.0000" ctype="SpriteObjectData">
+                    <Size X="171.0000" Y="38.0000" />
+                    <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+                    <Position />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="ui/fragment/npcnamebg.png" Plist="" />
+                    <BlendFunc Src="1" Dst="771" />
+                  </AbstractNodeData>
+                </Children>
                 <AnchorPoint />
                 <Position X="430.7376" Y="251.1626" />
                 <Scale ScaleX="0.7000" ScaleY="0.7000" />

@@ -10,6 +10,13 @@ function MainScene:onCreate()
     self.ui = _MyG.loadStudioFile("zhucheng", self)
     self:addChild(self.ui.root)
     changeParticleSystemPositionType(self.ui.root)
+
+    self.ui.ScrollView:jumpToPercentHorizontal(35)
+    self.ui.ScrollView:setScrollBarEnabled(false)
+end
+
+function MainScene:onClickEnter()
+    _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_SELECT)
 end
 
 
