@@ -12,6 +12,7 @@ function MessageBoxUI:ctor()
 end
 
 function MessageBoxUI:showBox(content, okcall, cancelcall)
+	self:hideBox()
 	self.okcall = okcall
 	self.cancelcall = cancelcall
 	self.ui.Text_show:setString(content)
@@ -29,6 +30,10 @@ function MessageBoxUI:showBox(content, okcall, cancelcall)
 	return self
 end
 
+function MessageBoxUI:hideBox()
+	self:removeFromParent()
+end
+
 function MessageBoxUI:setTitle(title)
 	self.ui.Text_Title:setString(title)
 end
@@ -37,14 +42,14 @@ function MessageBoxUI:onClickOK(sender)
 	if self.okcall then
 		self.okcall()
 	end
-	self:removeFromParent()
+	self:hideBox()
 end
 
 function MessageBoxUI:onClickCancel(sender)
 	if self.cancelcall then
 		self.cancelcall()
 	end
-	self:removeFromParent()
+	self:hideBox()
 end
 
 return MessageBoxUI

@@ -47,18 +47,20 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 		
 		local list = mapConfig[mapID].loadResourceList.exportJson
 		for k,v in pairs(list) do
-			resourceScene:addLoadResource(LoadResource.RES_TYPE.EXPORTJSON, v)
+			resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, v)
 		end
 
 		list = mapConfig[mapID].loadResourceList.image
 		for k,v in pairs(list) do
-			resourceScene:addLoadResource(LoadResource.RES_TYPE.PNG, v)
+			resourceScene:addLoadResource(_MyG.RES_TYPE.PNG, v)
 		end
 
 		list = mapConfig[mapID].loadResourceList.plist
 		for k,v in pairs(list) do
-			resourceScene:addLoadResource(LoadResource.RES_TYPE.PLIST, v)
+			resourceScene:addLoadResource(_MyG.RES_TYPE.PLIST, v)
 		end
+
+		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "role/baiji/hero_xiuluo_dao.ExportJson")
 
 		resourceScene:startLoad()
 
@@ -76,17 +78,17 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 		
 		local list = mapConfig[mapID].releaseResourceList.exportJson
 		for k,v in pairs(list) do
-			resourceScene:addReleaseResource(LoadResource.RES_TYPE.EXPORTJSON, v)
+			resourceScene:addReleaseResource(_MyG.RES_TYPE.EXPORTJSON, v)
 		end
 
 		list = mapConfig[mapID].releaseResourceList.image
 		for k,v in pairs(list) do
-			resourceScene:addReleaseResource(LoadResource.RES_TYPE.PNG, v)
+			resourceScene:addReleaseResource(_MyG.RES_TYPE.PNG, v)
 		end
 
 		list = mapConfig[mapID].releaseResourceList.plist
 		for k,v in pairs(list) do
-			resourceScene:addReleaseResource(LoadResource.RES_TYPE.PLIST, v)
+			resourceScene:addReleaseResource(_MyG.RES_TYPE.PLIST, v)
 		end
 
 		resourceScene:delayRelease()

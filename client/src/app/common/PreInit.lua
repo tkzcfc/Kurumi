@@ -28,7 +28,7 @@ end
 local targetPlatform = cc.Application:getInstance():getTargetPlatform()
 
 if targetPlatform == cc.PLATFORM_OS_WINDOWS then
-    _MyG.DEBUG = 1
+    _MyG.DEBUG = true
 end
 
 
@@ -36,7 +36,7 @@ end
 _MyG.StartScene = "LoginScene"
 -- _MyG.StartScene = "LoadResource"
 
-if _MyG.DEBUG == 0 then
+if not _MyG.DEBUG then
     _MyG.GAME_IP = "www.kurumi.xin"
     _MyG.StartScene = "LoginScene"
 end

@@ -28,14 +28,5 @@
         <LastRunType Value="Windows" />
       </Value>
     </Item>
-    <Item Key="TabsParamsKey">
-      <Value ctype="TabsInfo">
-        <OpenedDocuments>
-          <FilePathData Path="SelectScene.csd" />
-          <FilePathData Path="zhucheng.csd" />
-        </OpenedDocuments>
-        <ActiveDocument Path="SelectScene.csd" />
-      </Value>
-    </Item>
   </Properties>
 </UserData>

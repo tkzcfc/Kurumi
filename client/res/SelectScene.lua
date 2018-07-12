@@ -115,6 +115,9 @@ Button_Map1:setTag(194)
 Button_Map1:setCascadeColorEnabled(true)
 Button_Map1:setCascadeOpacityEnabled(true)
 Button_Map1:setPosition(216.6944, 177.6897)
+if callBackProvider~=nil then
+      Button_Map1:addClickEventListener(callBackProvider("SelectScene.lua", Button_Map1, "onClickSelectMap"))
+end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Map1)
 layout:setPositionPercentX(0.1908)
 layout:setPositionPercentY(0.2776)

@@ -3,7 +3,7 @@ local msgViewBase = require("app.common.msgViewBase")
 local LoginScene = class("LoginScene", msgViewBase)
 
 function LoginScene:onCreate()
-	self.super.onCreate(self)
+	LoginScene.super.onCreate(self)
 
 	self.ui = _MyG.loadStudioFile("LoginScene", self)
     self:addChild(self.ui.root)

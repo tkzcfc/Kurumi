@@ -22,7 +22,7 @@
                     <PreSize X="1.0000" Y="1.0000" />
                     <FileData Type="Normal" Path="ui/fragment/fbmap01.png" Plist="" />
                   </AbstractNodeData>
-                  <AbstractNodeData Name="Button_Map1" ActionTag="2114145709" Tag="194" IconVisible="False" LeftMargin="123.1944" RightMargin="825.8056" TopMargin="409.3103" BottomMargin="124.6897" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="157" Scale9Height="84" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+                  <AbstractNodeData Name="Button_Map1" ActionTag="2114145709" CallBackType="Click" CallBackName="onClickSelectMap" Tag="194" IconVisible="False" LeftMargin="123.1944" RightMargin="825.8056" TopMargin="409.3103" BottomMargin="124.6897" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="157" Scale9Height="84" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
                     <Size X="187.0000" Y="106.0000" />
                     <Children>
                       <AbstractNodeData Name="Text" ActionTag="-376225239" Tag="150" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="18.7000" RightMargin="79.3000" TopMargin="11.5938" BottomMargin="69.4062" FontSize="25" LabelText="副本1-1" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">

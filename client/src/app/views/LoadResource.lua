@@ -2,7 +2,7 @@ local msgViewBase = require("app.common.msgViewBase")
 
 local LoadResource = class("LoadResource", msgViewBase)
 
-LoadResource.RES_TYPE = 
+_MyG.RES_TYPE = 
 {
 	PLIST = 0,
 	EXPORTJSON = 1,
@@ -10,7 +10,7 @@ LoadResource.RES_TYPE =
 }
 
 function LoadResource:onCreate()
-	self.super.onCreate(self)
+	LoadResource.super.onCreate(self)
 
 	self.ui = _MyG.loadStudioFile("LoadResource", self)
     self:addChild(self.ui.root)
@@ -51,14 +51,14 @@ function LoadResource:setNextSceneInfo(sceneID, transition, time, more, args)
 	self.nextSceneInfo["args"] = args
 
 	local preSceneID = _MyG.GameSceneSwither:getPreSceneID()
-	if preSceneID and _MyG.SceneResourceLoadConfig[preSceneID] then
+	if preSceneID and _MyG.SceneResourceLoadConfig[preSceneID].ReleaseResourceFunc then
 		_MyG.SceneResourceLoadConfig[preSceneID].ReleaseResourceFunc(self, args)
 	end
 	_MyG.SceneResourceLoadConfig[sceneID].LoadResourceFunc(self, args)
 end
 
 function LoadResource:getNextSceneInfo()
-	self.nextSceneInfo
+	return self.nextSceneInfo
 end
 
 function LoadResource:updateUI(percent)
@@ -68,7 +68,7 @@ end
 
 ----------------------------------------------------------load----------------------------------------------------------
 
-function LoadResource:addLoadResource(type, path)	
+function LoadResource:addLoadResource(resType, path)	
 	if self.isStart then
 		print("[ERROR]资源加载已开始")
 		return
@@ -79,12 +79,17 @@ function LoadResource:addLoadResource(type, path)
 		return
 	end
 
-	if type == LoadResource.RES_TYPE.PLIST then
+	if _MyG.DEBUG then
+		print("add resource:", path)
+	end
+
+	if resType == _MyG.RES_TYPE.PLIST then
 		table.insert(self.loadPlistFileList, path)
-		table.insert(self.loadPngFileList, string.gsub(path, ".plist", ".png"))
-	elseif type == LoadResource.RES_TYPE.EXPORTJSON then
+		local str = string.gsub(path, ".plist", ".png")
+		table.insert(self.loadPngFileList, str)
+	elseif resType == _MyG.RES_TYPE.EXPORTJSON then
 		table.insert(self.loadExportJsonFileList, path)
-	elseif type == LoadResource.RES_TYPE.PNG then
+	elseif resType == _MyG.RES_TYPE.PNG then
 		table.insert(self.loadPngFileList, path)
 	else
 		print("[ERROR]未知格式资源")
@@ -105,12 +110,18 @@ function LoadResource:startLoad()
 		ccs.ArmatureDataManager:getInstance():addArmatureFileInfoAsync(self.loadExportJsonFileList[i], function(percent)
 			self.curLoadExportJsonCount = #self.loadExportJsonFileList * percent
 		end)
+		if _MyG.DEBUG then
+			print("load exportjson:", self.loadExportJsonFileList[i])
+		end
 	end
 
 	--异步加载图片资源
 	local textureCache = cc.Director:getInstance():getTextureCache()
 	for i = 1, #self.loadPngFileList do
 		textureCache:addImageAsync(self.loadPngFileList[i], function(...) self:pngLoadCall(...) end)
+		if _MyG.DEBUG then
+			print("load image:", self.loadPngFileList[i])
+		end
 	end
 	
 	--
@@ -131,14 +142,20 @@ function LoadResource:loadFileUpdate()
 	if self.pngFileIsLoadFinish and self.curLoadPlistCount < #self.loadPlistFileList then
 		self.curLoadPlistCount = self.curLoadPlistCount + 1
 		cc.SpriteFrameCache:getInstance():addSpriteFrames(self.loadPlistFileList[self.curLoadPlistCount])
+
+		if _MyG.DEBUG then
+			print("load plist:", self.loadPlistFileList[self.curLoadPlistCount])
+		end
 	end
 
 	--进度刷新
 	local curCount = self.curLoadExportJsonCount + self.curLoadPlistCount + self.curLoadPngCount
 	self:updateUI(curCount / self.totalLoadCount)
 
+	-- print(string.format("%d/%d", curCount, self.totalLoadCount))
+
 	--加载完成
-	if curCount > self.totalLoadCount then
+	if curCount >= self.totalLoadCount then
 		self:stopScheduler()
 		self:loadFinish()
 	end
@@ -159,11 +176,12 @@ function LoadResource:loadFinish()
 	_MyG.GameSceneSwither:runScene(self.nextSceneInfo["sceneID"], 
 									self.nextSceneInfo["transition"], 
 									self.nextSceneInfo["time"],
-									self.nextSceneInfo["more"])
+									self.nextSceneInfo["more"],
+									self.nextSceneInfo["args"])
 end
 
 ----------------------------------------------------------release----------------------------------------------------------
-function LoadResource:addReleaseResource(type, path)	
+function LoadResource:addReleaseResource(resType, path)	
 	if self.isStart then
 		print("[ERROR]资源加载已开始")
 		return
@@ -174,12 +192,12 @@ function LoadResource:addReleaseResource(type, path)
 		return
 	end
 
-	if type == LoadResource.RES_TYPE.PLIST then
+	if resType == _MyG.RES_TYPE.PLIST then
 		table.insert(self.releasePlistFileList, path)
 		table.insert(self.releasePngFileList, string.gsub(path, ".plist", ".png"))
-	elseif type == LoadResource.RES_TYPE.EXPORTJSON then
+	elseif resType == _MyG.RES_TYPE.EXPORTJSON then
 		table.insert(self.releaseExportJsonFileList, path)
-	elseif type == LoadResource.RES_TYPE.PNG then
+	elseif resType == _MyG.RES_TYPE.PNG then
 		table.insert(self.releasePngFileList, path)
 	else
 		print("[ERROR]未知格式资源")

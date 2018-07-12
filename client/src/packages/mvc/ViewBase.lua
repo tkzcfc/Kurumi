@@ -1,7 +1,7 @@
 
 local ViewBase = class("ViewBase", cc.Node)
 
-function ViewBase:ctor(app, name)
+function ViewBase:ctor(app, name, args)
     self:enableNodeEvents()
     self.app_ = app
     self.name_ = name
@@ -17,7 +17,7 @@ function ViewBase:ctor(app, name)
         self:createResoueceBinding(binding)
     end
 
-    if self.onCreate then self:onCreate() end
+    if self.onCreate then self:onCreate(args) end
 end
 
 function ViewBase:getApp()

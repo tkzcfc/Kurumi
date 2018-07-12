@@ -6,7 +6,7 @@ local MainScene = class("MainScene", msgViewBase)
 --MainScene.RESOURCE_FILENAME = "MainScene.csb"
 
 function MainScene:onCreate()
-    self.super.onCreate(self)
+    MainScene.super.onCreate(self)
     self.ui = _MyG.loadStudioFile("zhucheng", self)
     self:addChild(self.ui.root)
     changeParticleSystemPositionType(self.ui.root)

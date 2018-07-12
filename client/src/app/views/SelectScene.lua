@@ -14,12 +14,10 @@ function SelectScene:onCreate()
 end
 
 function SelectScene:initPageView()
-
-    self.curPageIndex = self.ui.PageView:getCurrentPageIndex()
     self.totalPageCount = 15
     
     local template = self.ui.Panel_Page
-    for i=2,self.totalPageCount do
+    for i=1,self.totalPageCount do
         local page = template:clone()
         self.ui.PageView:addPage(page)
 
@@ -29,10 +27,16 @@ function SelectScene:initPageView()
             local str = string.format("副本%d-%d", i, j)
             local btn = page:getChildByName("Button_Map"..j)
             btn:loadTextureNormal(string.format("ui/fragment/fbxmap%d.png", i),0)
-            btn:getChildByName("Text"):setString(str)        
+            btn:getChildByName("Text"):setString(str)
+            btn.mapIndex = i
+            btn.levelIndex = j
+            btn:addClickEventListener(function(...) self:onClickSelectMap(...) end)   
         end
-
     end
+
+    self.curPageIndex = 0
+    self.ui.PageView:removePage(template)
+    self.ui.PageView:setCurrentPageIndex(self.curPageIndex)
 
     self:updateButtonState()
 end
@@ -109,6 +113,16 @@ end
 function SelectScene:updateButtonState()
     self.ui.Button_Left:setVisible(self.curPageIndex > 0)
     self.ui.Button_Right:setVisible(self.curPageIndex < self.totalPageCount - 1)
+end
+
+function SelectScene:onClickSelectMap(sender)
+    --print(sender.mapIndex, sender.levelIndex)
+    local args = 
+    {
+        mapID = "map"..sender.mapIndex
+    }
+    _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_GAME_MAP, nil, nil, nil, args)
+    --SCENE_ID_GAME_MAP
 end
 
 return SelectScene

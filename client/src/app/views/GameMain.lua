@@ -9,7 +9,7 @@ local otherRole = {"hero_shizshuishoufu_dao"}--, "hero_shizmaonv_dao", "hero_shi
 
 function GameMain:onCreate()
 
-    self.super.onCreate(self)
+    GameMain.super.onCreate(self)
 
     local mapConfig = require("app.config.MapConfig")
 
