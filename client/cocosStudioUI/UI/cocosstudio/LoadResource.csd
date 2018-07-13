@@ -74,14 +74,14 @@
             <PreSize X="0.8477" Y="0.0469" />
             <FileData Type="PlistSubImage" Path="dljmld01.png" Plist="ui/ui1.plist" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Text_Tip" ActionTag="210572989" Tag="20" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="381.0000" RightMargin="381.0000" TopMargin="594.7665" BottomMargin="23.2335" FontSize="22" LabelText="长按攻击键可以格挡一次额外攻击哦。" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="374.0000" Y="22.0000" />
+          <AbstractNodeData Name="Text_Tip" ActionTag="210572989" Tag="20" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="496.5000" RightMargin="496.5000" TopMargin="594.7665" BottomMargin="23.2335" FontSize="22" LabelText="资源加载中..." ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="143.0000" Y="22.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="568.0000" Y="34.2335" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.5000" Y="0.0535" />
-            <PreSize X="0.3292" Y="0.0344" />
+            <PreSize X="0.1259" Y="0.0344" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>

@@ -16,11 +16,32 @@ _MyG.SCENE_MAP[_MyG.SCENE_ID_SELECT]		= "SelectScene"
 
 _MyG.SceneResourceLoadConfig = {}
 
+
+-- 调用流程图
+-- 当前运行场景：A
+-- 即将进入场景：B
+-- B:ReleaseResourceFunc()
+-- A:PreReleaseResourceFunc()
+-- A:LoadResourceFunc()
+-- A:DelayReleaseResourceFunc()
+
 _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_LOGIN] = 
 {
+	--进入场景时资源加载函数
+	--参数为：resourceScene，args
 	LoadResourceFunc = nil,
 
+	--资源释放函数，如果不为空则会在本场景退出时调用该函数
+	--参数为：resourceScene
 	ReleaseResourceFunc =  nil,
+
+	--预释放资源函数，在LoadResourceFunc之前调用
+	--参数为：resourceScene，args
+	PreReleaseResourceFunc = nil,
+
+	--释放资源函数，在LoadResourceFunc之后调用
+	--参数为：resourceScene，args
+	DelayReleaseResourceFunc = nil,
 }
 
 
@@ -29,6 +50,10 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_CREATE] =
 	LoadResourceFunc = nil,
 
 	ReleaseResourceFunc = nil,
+
+	PreReleaseResourceFunc = nil,
+
+	DelayReleaseResourceFunc = nil,
 }
 
 
@@ -37,6 +62,10 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_MAIN] =
 	LoadResourceFunc = nil,
 
 	ReleaseResourceFunc = nil,
+
+	PreReleaseResourceFunc = nil,
+	
+	DelayReleaseResourceFunc = nil,
 }
 
 _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] = 
@@ -61,16 +90,26 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 		end
 
 		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "role/baiji/hero_xiuluo_dao.ExportJson")
-
-		resourceScene:startLoad()
-
-		_MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP].CacheValue = mapID
+		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/boss5_leishen/boss5_leishen.ExportJson")
+		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/boss5_leishen/boss5_leigu.ExportJson")
+		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/boss5_leishen/boss5_dianqiu.ExportJson")
+		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/shengbo/shengbo.ExportJson")
 	end,
 
-	ReleaseResourceFunc =  function(resourceScene, args)
-		local mapID = args.mapID
+	ReleaseResourceFunc = nil,
 
-		if _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP].CacheValue == mapID then
+	PreReleaseResourceFunc =  function(resourceScene, args)
+		
+		_MyG.GlobalDataCache.preMapID = _MyG.GlobalDataCache.curMapID
+		_MyG.GlobalDataCache.curMapID = args.mapID
+
+		if _MyG.GlobalDataCache.preMapID == _MyG.GlobalDataCache.curMapID then
+			return
+		end
+
+		local mapID = _MyG.GlobalDataCache.preMapID
+		local mapConfig = require("app.config.MapConfig")
+		if mapID == nil or mapConfig[mapID] == nil then
 			return
 		end
 
@@ -90,11 +129,9 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 		for k,v in pairs(list) do
 			resourceScene:addReleaseResource(_MyG.RES_TYPE.PLIST, v)
 		end
-
-		resourceScene:delayRelease()
 	end,
 
-	CacheValue = nil,
+	DelayReleaseResourceFunc = nil,
 }
 
 _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_SELECT] = 
@@ -102,5 +139,9 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_SELECT] =
 	LoadResourceFunc = nil,
 
 	ReleaseResourceFunc = nil,
+
+	PreReleaseResourceFunc = nil,
+	
+	DelayReleaseResourceFunc = nil,
 }
 

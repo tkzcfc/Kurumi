@@ -12,14 +12,27 @@ function GameSceneSwither:enterScene(sceneID, transition, time, more, args)
 		return
 	end
 
-	if _MyG.SceneResourceLoadConfig[sceneID].LoadResourceFunc == nil then
-		self:runScene(sceneID, transition, time, more, args)
-	else
+	local function doResourceScene()
 		self.preSceneID = self.curSceneID
 		self.curSceneID = SCENE_ID_LOAD_RESOURCE
-
+	
 		local loadResourceScene = self:runScene(_MyG.SCENE_ID_LOAD_RESOURCE, transition, time, more)
 		loadResourceScene:setNextSceneInfo(sceneID, transition, time, more, args)
+	end
+
+
+	if _MyG.SceneResourceLoadConfig[sceneID].LoadResourceFunc == nil then
+	    if self.curSceneID ~= nil and _MyG.SCENE_MAP[self.curSceneID] ~= nil then
+	    	if _MyG.SceneResourceLoadConfig[self.curSceneID].ReleaseResourceFunc then
+	    		doResourceScene()
+	    	else
+	    		self:runScene(sceneID, transition, time, more, args)
+	    	end
+	    else
+			self:runScene(sceneID, transition, time, more, args)
+	    end
+	else
+		doResourceScene()
 	end
 end
 

@@ -125,4 +125,10 @@ function SelectScene:onClickSelectMap(sender)
     --SCENE_ID_GAME_MAP
 end
 
+function SelectScene:onKeyBackReleased()
+    _MyG.MessageBox:showBox("返回城镇？", function() 
+        _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_MAIN)
+    end, function() end)
+end
+
 return SelectScene

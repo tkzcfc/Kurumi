@@ -62,3 +62,5 @@ _MyG.MessageBox:retain()
 
 _MyG.GlobalMsgRecipient = require("app.common.GlobalMsgRecipient")
 
+_MyG.GlobalDataCache = require("app.common.GlobalDataCache")
+

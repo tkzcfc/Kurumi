@@ -31,22 +31,56 @@ function GameScene:onCreate(args)
     local controlUI = require("app.ui.ControlUI"):create()
     self.word:addChild(controlUI, 1)
 
-    self:initKeyEvent()
+    self.leishenCount = 1
+    self.shengboCount = 2
+    self.curShengbo = 0
+    self.curLeiShen = 0
+
+    local scheduler=cc.Director:getInstance():getScheduler()
+    self.scriptEntryID = scheduler:scheduleScriptFunc(function(time) self:createMonster(time) end,1 / 20.0,false)
 end
 
-function GameScene:initKeyEvent()
-		 --键盘事件  
-    local function onKeyPressed(keyCode, event)
-    	if keyCode == 6 then
-			_MyG.MessageBox:showBox("返回城镇？", function() 
-				_MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_MAIN)
-			end, function() end)
-		end
+function GameScene:onExit()
+    GameScene.super.onExit(self)
+    self:stopScheduler()
+end
+
+function GameScene:onKeyBackReleased()
+	_MyG.MessageBox:showBox("返回城镇？", function() 
+		_MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_MAIN)
+	end, function() end)
+end
+
+function GameScene:createMonster()
+
+    if self.curShengbo < self.shengboCount then
+        self.curShengbo = self.curShengbo + 1
+        local MS = require("app.actor.monster.Monster_Shengbo"):create()
+        MS:setActorPosition(200 * self.curShengbo, 0)
+        self.word:addActor(MS)
+        return
     end
-  
-    local listener = cc.EventListenerKeyboard:create()  
-    listener:registerScriptHandler(onKeyPressed, cc.Handler.EVENT_KEYBOARD_PRESSED)  
-    cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self) 
+
+    if self.curLeiShen < self.leishenCount then
+        self.curLeiShen = self.curLeiShen + 1
+        local MS = require("app.actor.monster.Monster_LeiShen"):create()
+        MS:setActorPosition(500 * self.curLeiShen, 0)
+        self.word:addActor(MS)
+        return
+    end
+
+    if self.curShengbo >= self.shengboCount and 
+        self.curLeiShen >= self.leishenCount then
+        self:stopScheduler()
+    end
+end
+
+function GameScene:stopScheduler()
+    if self.scriptEntryID ~= nil then
+        local scheduler=cc.Director:getInstance():getScheduler()
+        scheduler:unscheduleScriptEntry(self.scriptEntryID)
+    end
+    self.scriptEntryID = nil
 end
 
 return GameScene

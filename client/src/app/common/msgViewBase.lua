@@ -30,6 +30,17 @@ function msgViewBase:unRegisterAll()
 end
 
 function msgViewBase:onEnter()
+    local function onKeyReleased(keyCode, event)
+        if keyCode == cc.KeyCode.KEY_BACK then
+            if self.onKeyBackReleased then
+                self:onKeyBackReleased()
+            end
+        end
+    end
+  
+    local listener = cc.EventListenerKeyboard:create()  
+    listener:registerScriptHandler(onKeyReleased, cc.Handler.EVENT_KEYBOARD_RELEASED)  
+    cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self) 
 end
 
 function msgViewBase:onExit()
