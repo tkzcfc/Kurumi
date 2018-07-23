@@ -222,7 +222,7 @@ void TCPServer::pushThreadMsg(ThreadMsgType type, void* psocket, void* data, con
 					{
 						if (*((char*)data) == HEARTBEAT_MSG_C2S)
 						{
-							UV_LOG(UV_L_INFO, "recv heart c->s");
+							UV_LOG(UV_L_HEART, "recv heart c->s");
 							char senddata = HEARTBEAT_RET_MSG_S2C;
 							it->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
 						}
@@ -437,7 +437,7 @@ void TCPServer::heartRun()
 					{
 						char senddata = HEARTBEAT_MSG_S2C;
 						it->s->send(&senddata, HEARTBEAT_MSG_SIZE, TCPMsgTag::MT_HEARTBEAT);
-						UV_LOG(UV_L_INFO, "send heart s->c");
+						UV_LOG(UV_L_HEART, "send heart s->c");
 					}
 				}
 			}

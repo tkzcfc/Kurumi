@@ -49,6 +49,7 @@ string getTime_UV()
 
 static const char* tcp_uv_log_name[UV_L_FATAL + 1] =
 {
+	"HEART",
 	"INFO",
 	"WARNING",
 	"ERROR",

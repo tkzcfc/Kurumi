@@ -65,13 +65,14 @@ void printMemInfo();
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // 日志等级
-#define UV_L_INFO	 (0)
-#define UV_L_WARNING (1)
-#define UV_L_ERROR	 (2)
-#define UV_L_FATAL	 (3)
+#define UV_L_HEART	 (0)
+#define UV_L_INFO	 (1)
+#define UV_L_WARNING (2)
+#define UV_L_ERROR	 (3)
+#define UV_L_FATAL	 (4)
 
 // log输出最低等级
-#define UV_L_MIN_LEVEL UV_L_INFO
+#define UV_L_MIN_LEVEL UV_L_HEART
 
 #define CHECK_UV_ERROR(r) if(r) { getUVError(r); return false; }
 
