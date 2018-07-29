@@ -16,6 +16,7 @@ GameActor* GameActor::create()
 
 GameActor::GameActor()
 {
+	//CCLOG("GameActor::GameActor %p", this);
 	m_word = NULL;
 	m_armature = NULL;
 	m_actorType = GameActorType::AT_NONE;
@@ -31,6 +32,7 @@ GameActor::GameActor()
 
 GameActor::~GameActor()
 {
+	//CCLOG("GameActor::~GameActor %p", this);
 	CC_SAFE_DELETE(m_actorSpeedController);
 	CC_SAFE_DELETE(m_armatureSpeedController);
 	clearLuaHandle();

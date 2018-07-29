@@ -18,6 +18,8 @@ function GameSceneSwither:enterScene(sceneID, transition, time, more, args)
 	
 		local loadResourceScene = self:runScene(_MyG.SCENE_ID_LOAD_RESOURCE, transition, time, more)
 		loadResourceScene:setNextSceneInfo(sceneID, transition, time, more, args)
+
+		collectgarbage()
 	end
 
 
@@ -47,7 +49,6 @@ function GameSceneSwither:runScene(sceneID, transition, time, more, args)
 		print("[EEROR]:<2>不存在场景ID", sceneID)
 		return
 	end
-
 	return _MyG.APP:enterScene(_MyG.SCENE_MAP[sceneID], transition, time, more, args)
 end
 

@@ -20,6 +20,7 @@ function GameScene:onCreate(args)
 
 
 	local hero = require("app.actor.role.Hero_dao"):create()
+    -- print("hero = ", tostring(hero))
     self.word:addActor(hero)
     self.word:setLocalPlayer(hero)
 
@@ -31,7 +32,7 @@ function GameScene:onCreate(args)
     local controlUI = require("app.ui.ControlUI"):create()
     self.word:addChild(controlUI, 1)
 
-    self.leishenCount = 1
+    self.leishenCount = 0
     self.shengboCount = 2
     self.curShengbo = 0
     self.curLeiShen = 0

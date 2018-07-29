@@ -2,6 +2,7 @@
 server/.vs/
 client/simulator/
 client/runtime/
+client/obj/
 client/frameworks/cocos2d-x/
 client/frameworks/runtime-src/proj.ios_mac/
 client/frameworks/runtime-src/proj.linux/
@@ -17,7 +18,13 @@ client/frameworks/runtime-src/proj.android-studio/app/assets/
 client/frameworks/runtime-src/proj.android-studio/app/build/
 client/frameworks/runtime-src/proj.android-studio/app/obj/
 
+client/kurumi_lua.config
+client/kurumi_lua.luaproj
+client/kurumi_lua.sln
+client/UserDefault.xml
 client/frameworks/runtime-src/proj.win32/Kurumi.VC.VC.opendb
+client/frameworks/runtime-src/proj.android-studio/app/libs/armeabi/libcocos2dlua.so
+client/cocosStudioUI/UI/KurumiUI.udf
 
 server/server.VC.db
 server/Debug/
@@ -28,6 +35,5 @@ server/Release/
 server/server/Release/
 server/thirdparty/pro/glog/Release
 server/server.VC.VC.opendb
-client/UserDefault.xml
-client/frameworks/runtime-src/proj.android-studio/app/libs/armeabi/libcocos2dlua.so
-client/cocosStudioUI/UI/KurumiUI.udf
+
+

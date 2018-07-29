@@ -13,13 +13,15 @@ function Monster_Shengbo:ctor()
 
 	self:initFSM()
 	self.FSM:start("State_Stand")
+	self.AI = require("app.AI.AIM_ShengBo"):new()
 end
 
 function Monster_Shengbo:onEnter()
 	Monster_Shengbo.super.onEnter(self)
-	self.AI = require("app.AI.AIM_ShengBo"):new()
-	self.AI:setOwner(self)
-	self.AI:start()
+	if self.AI then
+		self.AI:setOwner(self)
+		self.AI:start()
+	end
 end
 
 function Monster_Shengbo:override_loadArmature(filePath)

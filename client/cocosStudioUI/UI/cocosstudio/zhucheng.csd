@@ -6,17 +6,17 @@
       <ObjectData Name="Scene" Tag="193" ctype="GameNodeObjectData">
         <Size X="1136.0000" Y="640.0000" />
         <Children>
-          <AbstractNodeData Name="Image_1" CanEdit="False" ActionTag="-1210246696" Tag="208" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftEage="28" RightEage="28" TopEage="28" BottomEage="28" Scale9OriginX="28" Scale9OriginY="28" Scale9Width="30" Scale9Height="30" ctype="ImageViewObjectData">
-            <Size X="1136.0000" Y="640.0000" />
-            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="568.0000" Y="320.0000" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+          <AbstractNodeData Name="ArmatureNode_Yun" ActionTag="1903136840" Tag="162" IconVisible="True" LeftMargin="1171.3882" RightMargin="-35.3882" TopMargin="295.3814" BottomMargin="344.6186" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="Animation1" ctype="ArmatureNodeObjectData">
+            <Size X="0.0000" Y="0.0000" />
+            <AnchorPoint />
+            <Position X="1171.3882" Y="344.6186" />
+            <Scale ScaleX="0.8000" ScaleY="0.8000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.5000" Y="0.5000" />
-            <PreSize X="1.0000" Y="1.0000" />
-            <FileData Type="Normal" Path="zhuc_ldpi/zcmaph01.png" Plist="" />
+            <PrePosition X="1.0312" Y="0.5385" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <FileData Type="Normal" Path="zhuc_ldpi/yun.ExportJson" Plist="" />
           </AbstractNodeData>
-          <AbstractNodeData Name="ScrollView" ActionTag="228933456" Tag="206" IconVisible="False" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ScrollDirectionType="Horizontal" ctype="ScrollViewObjectData">
+          <AbstractNodeData Name="ScrollView" ActionTag="228933456" Tag="206" IconVisible="False" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" TouchEnable="True" ClipAble="False" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ScrollDirectionType="Horizontal" ctype="ScrollViewObjectData">
             <Size X="1136.0000" Y="640.0000" />
             <Children>
               <AbstractNodeData Name="FileNode_3" ActionTag="-953262631" Tag="231" IconVisible="True" LeftMargin="250.2768" RightMargin="2629.7231" TopMargin="352.4506" BottomMargin="287.5494" StretchWidthEnable="False" StretchHeightEnable="False" InnerActionSpeed="1.0000" CustomSizeEnabled="False" ctype="ProjectNodeObjectData">

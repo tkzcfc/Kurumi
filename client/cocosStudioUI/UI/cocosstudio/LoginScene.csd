@@ -61,7 +61,7 @@
           <AbstractNodeData Name="Button_2" ActionTag="1072601603" CallBackType="Click" CallBackName="onClickStart" Tag="70" IconVisible="False" LeftMargin="677.6911" RightMargin="323.8839" TopMargin="424.3251" BottomMargin="135.4093" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="4" BottomEage="4" Scale9OriginX="15" Scale9OriginY="4" Scale9Width="20" Scale9Height="42" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="134.4250" Y="80.2656" />
             <Children>
-              <AbstractNodeData Name="ArmatureNode_4" CanEdit="False" ActionTag="1642668707" Tag="65" IconVisible="True" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="67.2125" RightMargin="67.2125" TopMargin="40.1328" BottomMargin="40.1328" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="playgame" ctype="ArmatureNodeObjectData">
+              <AbstractNodeData Name="ArmatureNode_4" ActionTag="1642668707" Tag="65" IconVisible="True" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="67.2125" RightMargin="67.2125" TopMargin="40.1328" BottomMargin="40.1328" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="playgame" ctype="ArmatureNodeObjectData">
                 <Size X="0.0000" Y="0.0000" />
                 <AnchorPoint />
                 <Position X="67.2125" Y="40.1328" />

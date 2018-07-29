@@ -14,6 +14,7 @@ function Monster_Base:onExit()
 	Monster_Base.super.onExit(self)
 	if self.AI then
 		self.AI:setOwner(nil)
+		self.AI:override_Exit()
 		self.AI = nil
 	end
 end

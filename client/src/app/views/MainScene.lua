@@ -19,7 +19,6 @@ function MainScene:onClickEnter()
     _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_SELECT)
 end
 
-
 --根据依赖编辑器中编辑框某些属性创建编辑框
 --1需要替换的节点 2代理表(事件来时代理表[callname](代理表,...)) 3编辑框背景图片 nil
 function MainScene:StudioTextFieldCreateEdit(TextField,HandleTable,backImagePath)

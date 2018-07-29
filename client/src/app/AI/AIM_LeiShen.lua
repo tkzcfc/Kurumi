@@ -51,13 +51,10 @@ function AIM_LeiShen:ctor()
 	--self:setAIEnable(false)
 end
 
-function AIM_LeiShen:start()
-	if AIM_LeiShen.super.start(self) then
-		local config = require("app.config.monster.LeiShenConfig")
-		self:loadFollowConfig(config.FOLLOW_CONFIG)
-		return true
-	end
-	return false
+function AIM_LeiShen:override_AIPreInit()
+	AIM_LeiShen.super.override_AIPreInit(self)
+	local config = require("app.config.monster.LeiShenConfig")
+	self:loadFollowConfig(config.FOLLOW_CONFIG)
 end
 
 function AIM_LeiShen:override_AIUpdate(time)

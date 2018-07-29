@@ -46,7 +46,7 @@ end
 ----------------------------------------------------------------------------------
 require("cocos.cocos2d.json")
 
-require("app.config.SceneConfig")
+require("app.config.SceneResourceLoadConfig")
 
 _MyG.GameSceneSwither = require("app.common.GameSceneSwither")
 

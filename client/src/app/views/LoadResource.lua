@@ -17,10 +17,18 @@ LoadResource.STAGE = {
 	FINISH = 5,
 }
 
-	local MAX_RELEASE_EXPRTJSON_COUNT = 5
-	local MAX_RELEASE_PNG_COUNT = 30
-	local MAX_RELEASE_PLIST_COUNT = 30
-	local MAX_RELEASE_RES_COUNT = 30
+
+local OPEN_LOG = false
+local function log_print(...)
+	if OPEN_LOG == true then
+		print(...)
+	end 
+end
+
+local MAX_RELEASE_EXPRTJSON_COUNT = 2
+local MAX_RELEASE_PNG_COUNT = 10
+local MAX_RELEASE_PLIST_COUNT = 10
+local MAX_RELEASE_RES_COUNT = 15
 
 function LoadResource:onCreate()
 	LoadResource.super.onCreate(self)
@@ -106,17 +114,17 @@ end
 
 function LoadResource:addLoadResource(resType, path)	
 	if self.curStage ~= LoadResource.STAGE.FREE then
-		print("[ERROR]资源加载已开始")
+		log_print("[ERROR]资源加载已开始")
 		return
 	end
 
 	if path == nil or path == "" then
-		print("[ERROR]资源路径不合法")
+		log_print("[ERROR]资源路径不合法")
 		return
 	end
 
 	if _MyG.DEBUG then
-		print("add resource:", path)
+		log_print("add resource:", path)
 	end
 
 	if resType == _MyG.RES_TYPE.PLIST then
@@ -128,23 +136,23 @@ function LoadResource:addLoadResource(resType, path)
 	elseif resType == _MyG.RES_TYPE.PNG then
 		table.insert(self.loadPngFileList, path)
 	else
-		print("[ERROR]未知格式资源")
+		log_print("[ERROR]未知格式资源")
 	end
 end
 
 function LoadResource:addReleaseResource(resType, path)	
 	if self.curStage ~= LoadResource.STAGE.FREE then
-		print("[ERROR]请调用addDelayReleaseResource")
+		log_print("[ERROR]请调用addDelayReleaseResource")
 		return
 	end
 
 	if path == nil or path == "" then
-		print("[ERROR]资源路径不合法")
+		log_print("[ERROR]资源路径不合法")
 		return
 	end
 
 	if _MyG.DEBUG then
-		print("add release resource:", path)
+		log_print("add release resource:", path)
 	end
 
 	if resType == _MyG.RES_TYPE.PLIST then
@@ -156,19 +164,17 @@ function LoadResource:addReleaseResource(resType, path)
 	elseif resType == _MyG.RES_TYPE.PNG then
 		table.insert(self.releasePngFileList, path)
 	else
-		print("[ERROR]未知格式资源")
+		log_print("[ERROR]未知格式资源")
 	end
 end
 
 function LoadResource:addDelayReleaseResource(resType, path)	
 	if path == nil or path == "" then
-		print("[ERROR]资源路径不合法")
+		log_print("[ERROR]资源路径不合法")
 		return
 	end
 
-	if _MyG.DEBUG then
-		print("add delay release resource:", path)
-	end
+	log_print("add delay release resource:", path)
 
 	if resType == _MyG.RES_TYPE.PLIST then
 		table.insert(self.delayReleasePlistFileList, path)
@@ -179,17 +185,20 @@ function LoadResource:addDelayReleaseResource(resType, path)
 	elseif resType == _MyG.RES_TYPE.PNG then
 		table.insert(self.delayReleasePngFileList, path)
 	else
-		print("[ERROR]未知格式资源")
+		log_print("[ERROR]未知格式资源")
 	end
 end
 
 ---------------------------------------------------------------------------------------------------------
 
 function LoadResource:start()
+	log_print("开始执行...")
 	if self.curStage ~= LoadResource.STAGE.FREE then
-		print("[ERROR]资源加载已开始")
+		log_print("[ERROR]资源加载已开始")
 		return
 	end
+
+	log_print("资源释放开始...")
 	self.curStage = LoadResource.STAGE.RELEASE_RES
 
 	self.curLoadExportJsonCount = 0
@@ -233,6 +242,7 @@ function LoadResource:stopScheduler()
 end
 
 function LoadResource:loadFinish()
+	log_print("执行完毕,进入下一场景...")
 	_MyG.GameSceneSwither:runScene(self.nextSceneInfo["sceneID"], 
 									self.nextSceneInfo["transition"], 
 									self.nextSceneInfo["time"],
@@ -250,6 +260,8 @@ function LoadResource:releaseUpdate()
 	local curCount = 0
 
 	for i = self.curReleaseCount, #self.releaseExportJsonFileList do
+		log_print("release", self.releaseExportJsonFileList[i])
+
 		ccs.ArmatureDataManager:getInstance():removeArmatureFileInfo(self.releaseExportJsonFileList[i])
 		curExportCount = curExportCount + 1
 		curCount = curCount + 1
@@ -269,9 +281,14 @@ function LoadResource:releaseUpdate()
 		return
 	end
 
+	local beginIndex = self.curReleaseCount - #self.releaseExportJsonFileList
+
 	local textureCache = cc.Director:getInstance():getTextureCache()
 
-	for i = self.curReleaseCount, #self.releasePngFileList do
+	for i = beginIndex, #self.releasePngFileList do
+
+		log_print("release", self.releasePngFileList[i])
+
 		textureCache:removeTextureForKey(self.releasePngFileList[i])
 		curPngCount = curPngCount + 1
 		curCount = curCount + 1
@@ -291,8 +308,13 @@ function LoadResource:releaseUpdate()
 		return
 	end
 
+	local beginIndex = self.curReleaseCount - #self.releaseExportJsonFileList -#self.releasePngFileList
+
 	local spriteFrameCache = cc.SpriteFrameCache:getInstance()
-	for i = 1, #self.releasePlistFileList do
+	for i = beginIndex, #self.releasePlistFileList do
+
+		log_print("release", self.releasePlistFileList[i])
+
 		spriteFrameCache:removeSpriteFramesFromFile(self.releasePlistFileList[i])		
 		curPlistCount = curPlistCount + 1
 		curCount = curCount + 1
@@ -311,7 +333,10 @@ function LoadResource:releaseUpdate()
 	if breakRelease then
 		return
 	end
+	log_print(self.curReleaseCount, self.totalReleaseCount)
 	if self.curReleaseCount >= self.totalReleaseCount then
+		log_print("资源释放结束...")
+		log_print("资源加载开始...")
 		self.curStage = LoadResource.STAGE.LOAD_RES
 		self:startLoad()
 	end 
@@ -327,7 +352,7 @@ function LoadResource:startLoad()
 			self.curLoadExportJsonCount = #self.loadExportJsonFileList * percent
 		end)
 		if _MyG.DEBUG then
-			print("load exportjson:", self.loadExportJsonFileList[i])
+			log_print("load exportjson:", self.loadExportJsonFileList[i])
 		end
 	end
 
@@ -336,7 +361,7 @@ function LoadResource:startLoad()
 	for i = 1, #self.loadPngFileList do
 		textureCache:addImageAsync(self.loadPngFileList[i], function(...) self:pngLoadCall(...) end)
 		if _MyG.DEBUG then
-			print("load image:", self.loadPngFileList[i])
+			log_print("load image:", self.loadPngFileList[i])
 		end
 	end
 end
@@ -355,7 +380,7 @@ function LoadResource:loadUpdate()
 		cc.SpriteFrameCache:getInstance():addSpriteFrames(self.loadPlistFileList[self.curLoadPlistCount])
 
 		if _MyG.DEBUG then
-			print("load plist:", self.loadPlistFileList[self.curLoadPlistCount])
+			log_print("load plist:", self.loadPlistFileList[self.curLoadPlistCount])
 		end
 	end
 
@@ -371,6 +396,8 @@ function LoadResource:loadUpdate()
     	self.totalDelayReleaseCount = #self.delayReleasePlistFileList + #self.delayReleaseExportJsonFileList + #self.delayReleasePngFileList + 1
 
 		self.curStage = LoadResource.STAGE.DELAY_RELEASE_RES
+		log_print("资源加载结束...")
+		log_print("延迟资源释放开始...")
 	end
 end
 
@@ -387,6 +414,7 @@ function LoadResource:delayReleaseUpdate()
 	local curCount = 0
 
 	for i = self.curDelayReleaseCount, #self.delayReleaseExportJsonFileList do
+		log_print("delay release", self.delayReleaseExportJsonFileList[i])
 		ccs.ArmatureDataManager:getInstance():removeArmatureFileInfo(self.delayReleaseExportJsonFileList[i])
 		curExportCount = curExportCount + 1
 		curCount = curCount + 1
@@ -406,9 +434,12 @@ function LoadResource:delayReleaseUpdate()
 		return
 	end
 
+	local beginIndex = self.curReleaseCount - #self.releaseExportJsonFileList
+
 	local textureCache = cc.Director:getInstance():getTextureCache()
 
-	for i = self.curDelayReleaseCount, #self.delayReleasePngFileList do
+	for i = beginIndex, #self.delayReleasePngFileList do
+		log_print("delay release", self.delayReleasePngFileList[i])
 		textureCache:removeTextureForKey(self.delayReleasePngFileList[i])
 		curPngCount = curPngCount + 1
 		curCount = curCount + 1
@@ -428,8 +459,11 @@ function LoadResource:delayReleaseUpdate()
 		return
 	end
 
+	local beginIndex = self.curReleaseCount - #self.releaseExportJsonFileList - #self.delayReleasePngFileList
+
 	local spriteFrameCache = cc.SpriteFrameCache:getInstance()
-	for i = 1, #self.delayReleasePlistFileList do
+	for i = beginIndex, #self.delayReleasePlistFileList do
+		log_print("delay release", self.delayReleasePlistFileList[i])
 		spriteFrameCache:removeSpriteFramesFromFile(self.delayReleasePlistFileList[i])		
 		curPlistCount = curPlistCount + 1
 		curCount = curCount + 1
@@ -451,6 +485,7 @@ function LoadResource:delayReleaseUpdate()
 
 	if self.curDelayReleaseCount >= self.totalDelayReleaseCount then
 		self.curStage = LoadResource.STAGE.FINISH
+		log_print("延迟资源释放结束...")
 	end 
 end
 

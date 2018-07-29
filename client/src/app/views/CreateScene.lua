@@ -17,10 +17,6 @@ function CreateScene:initSecne()
 
 	local chilrend = self.ui.root:getChildren()
 
-	for i = 1, #chilrend do
-		print("111", chilrend[i]:getName())
-	end
-
 	self.selectRoleConfig = {}
 	self.selectRoleConfig[1] = 
 	{

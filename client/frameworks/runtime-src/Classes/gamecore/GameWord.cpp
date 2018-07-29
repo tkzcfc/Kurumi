@@ -15,6 +15,7 @@ GameWord::GameWord()
 
 GameWord::~GameWord()
 {
+	//CCLOG("GameWord::~GameWord");
 	if (Static__GameWord == this)
 	{
 		Static__GameWord = NULL;

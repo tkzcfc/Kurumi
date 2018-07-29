@@ -15,13 +15,16 @@ function Monster_LeiShen:ctor()
 
 	self:initFSM()
 	self.FSM:start("State_Stand")
+
+	self.AI = require("app.AI.AIM_LeiShen"):new()
 end
 
 function Monster_LeiShen:onEnter()
 	Monster_LeiShen.super.onEnter(self)
-	self.AI = require("app.AI.AIM_LeiShen"):new()
-	self.AI:setOwner(self)
-	self.AI:start()
+	if self.AI then
+		self.AI:setOwner(self)
+		self.AI:start()
+	end
 end
 
 function Monster_LeiShen:override_loadArmature(filePath)

@@ -15,13 +15,10 @@ function AIM_ShengBo:ctor()
 	AIM_ShengBo.super.ctor(self)
 end
 
-function AIM_ShengBo:start()
-	if AIM_ShengBo.super.start(self) then
-		local config = require("app.config.monster.ShengBoConfig")
-		self:loadFollowConfig(config.FOLLOW_CONFIG)
-		return true
-	end
-	return false
+function AIM_ShengBo:override_AIPreInit()
+	AIM_ShengBo.super.override_AIPreInit(self)
+	local config = require("app.config.monster.ShengBoConfig")
+	self:loadFollowConfig(config.FOLLOW_CONFIG)
 end
 
 function AIM_ShengBo:override_AIUpdate(time)

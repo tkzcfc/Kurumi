@@ -14,6 +14,9 @@ _MyG.SCENE_MAP[_MyG.SCENE_ID_GAME_MAP] 		= "GameScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_LOAD_RESOURCE] = "LoadResource"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_SELECT]		= "SelectScene"
 
+
+local SceneResourceConfig = require("app.config.SceneResourceConfig")
+
 _MyG.SceneResourceLoadConfig = {}
 
 
@@ -33,7 +36,9 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_LOGIN] =
 
 	--资源释放函数，如果不为空则会在本场景退出时调用该函数
 	--参数为：resourceScene
-	ReleaseResourceFunc =  nil,
+	ReleaseResourceFunc =  function(resourceScene, args)
+		SceneResourceConfig:DefaultReleaseFunc(_MyG.SCENE_ID_LOGIN, resourceScene, args)
+	end,
 
 	--预释放资源函数，在LoadResourceFunc之前调用
 	--参数为：resourceScene，args
@@ -47,9 +52,13 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_LOGIN] =
 
 _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_CREATE] = 
 {
-	LoadResourceFunc = nil,
+	LoadResourceFunc = function(resourceScene, args)
+		SceneResourceConfig:DefaultLoadFunc(_MyG.SCENE_ID_CREATE, resourceScene, args)
+	end,
 
-	ReleaseResourceFunc = nil,
+	ReleaseResourceFunc = function(resourceScene, args)
+		SceneResourceConfig:DefaultReleaseFunc(_MyG.SCENE_ID_CREATE, resourceScene, args)
+	end,
 
 	PreReleaseResourceFunc = nil,
 
@@ -59,9 +68,13 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_CREATE] =
 
 _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_MAIN] = 
 {
-	LoadResourceFunc = nil,
+	LoadResourceFunc = function(resourceScene, args)
+		SceneResourceConfig:DefaultLoadFunc(_MyG.SCENE_ID_MAIN, resourceScene, args)
+	end,
 
-	ReleaseResourceFunc = nil,
+	ReleaseResourceFunc = function(resourceScene, args)
+		SceneResourceConfig:DefaultReleaseFunc(_MyG.SCENE_ID_MAIN, resourceScene, args)
+	end,
 
 	PreReleaseResourceFunc = nil,
 	
@@ -136,9 +149,13 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 
 _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_SELECT] = 
 {
-	LoadResourceFunc = nil,
+	LoadResourceFunc = function(resourceScene, args)
+		SceneResourceConfig:DefaultLoadFunc(_MyG.SCENE_ID_SELECT, resourceScene, args)
+	end,
 
-	ReleaseResourceFunc = nil,
+	ReleaseResourceFunc = function(resourceScene, args)
+		SceneResourceConfig:DefaultReleaseFunc(_MyG.SCENE_ID_SELECT, resourceScene, args)
+	end,
 
 	PreReleaseResourceFunc = nil,
 	

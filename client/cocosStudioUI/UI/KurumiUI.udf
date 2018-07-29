@@ -33,8 +33,13 @@
         <OpenedDocuments>
           <FilePathData Path="MessageBox.csd" />
           <FilePathData Path="LoginScene.csd" />
+          <FilePathData Path="zhucheng.csd" />
+          <FilePathData Path="taohua2.csd" />
+          <FilePathData Path="taohua1.csd" />
+          <FilePathData Path="CreateScene.csd" />
+          <FilePathData Path="SelectScene.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="LoginScene.csd" />
+        <ActiveDocument Path="SelectScene.csd" />
       </Value>
     </Item>
   </Properties>

@@ -40,6 +40,7 @@ function LuaGameActor:onEnter()
 end
 
 function LuaGameActor:onExit()
+	self:unregisterScriptHandler()
 end
 
 function LuaGameActor:override_logicUpdate(time)
