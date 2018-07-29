@@ -1,5 +1,4 @@
-
-server/.vs/
+client/.vs/
 client/simulator/
 client/runtime/
 client/obj/
@@ -26,6 +25,7 @@ client/frameworks/runtime-src/proj.win32/Kurumi.VC.VC.opendb
 client/frameworks/runtime-src/proj.android-studio/app/libs/armeabi/libcocos2dlua.so
 client/cocosStudioUI/UI/KurumiUI.udf
 
+server/.vs/
 server/server.VC.db
 server/Debug/
 server/server/Debug/
