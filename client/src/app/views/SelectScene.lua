@@ -131,4 +131,8 @@ function SelectScene:onKeyBackReleased()
     end, function() end)
 end
 
+function SelectScene:onClickBack(sender)
+    self:onKeyBackReleased()
+end
+
 return SelectScene

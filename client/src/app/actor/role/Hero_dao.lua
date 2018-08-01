@@ -17,6 +17,8 @@ function Hero_dao:ctor()
 
 	self:setActorType(AT_PLAYER)
 	self:override_forceSwitchClean()
+
+	self:enableMoveCmd(true)
 end
 
 function Hero_dao:onEnter()
@@ -125,8 +127,11 @@ end
 
 function Hero_dao:setMove(x, y)
 
-	self.actorSpeedController:setGravityEnable(true)
-	self.actorSpeedController:setForceEnable(true)
+	if not self.isEnableRecvMoveCMD then
+		self.actorSpeedController:setGravityEnable(false)
+	else
+		self.actorSpeedController:setGravityEnable(true)
+	end
 
 	local posotiveX = 0
 	if x > 0.0 then
@@ -139,7 +144,11 @@ function Hero_dao:setMove(x, y)
 	end
 
 	self.actorSpeedController:setGravityPositive(posotiveX, 0)
-	self.armatureSpeedController:setGravityPositive(posotiveX, 0)
+	-- self.armatureSpeedController:setGravityPositive(posotiveX, 0)
+end
+
+function Hero_dao:enableMoveCmd(enable)
+	self.isEnableRecvMoveCMD = enable
 end
 
 function Hero_dao:jump()
@@ -433,46 +442,55 @@ function Hero_dao:enter_State_JumpDownEnd()
 	self.isJump = false
 end
 
+function Hero_dao:com_enter_attack()
+	self:enableMoveCmd(false)
+	self.actorSpeedController:setForceEnable(true)
+end
+
+function Hero_dao:com_leave_attack()
+	self:enableMoveCmd(true)
+	self.actorSpeedController:setForceEnable(false)
+	self.actorSpeedController:setForce(0, 0)
+	self.actorSpeedController:setFriction(0)
+	self.actorSpeedController:clearLuaUpdateCall()
+end
+
 function Hero_dao:enter_State_Attack1()
 	self.isAttack1 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(200), 0)
-	self.actorSpeedController:setFriction(450)
+	self:com_enter_attack()
 end
 
 function Hero_dao:leave_State_Attack1()
 	self.isAttack1 = false
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
+	self:com_leave_attack()
 end
 
 function Hero_dao:enter_State_Attack2()
 	self.isAttack2 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(100), 0)
-	self.actorSpeedController:setFriction(400)
+	self:com_enter_attack()
 end
 
 function Hero_dao:leave_State_Attack2()
 	self.isAttack2 = false
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
+	self:com_leave_attack()
 end
 
 function Hero_dao:enter_State_Attack3()
 	self.isAttack3 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(80), 0)
-	self.actorSpeedController:setFriction(300)
+	self:com_enter_attack()
 end
 
 function Hero_dao:leave_State_Attack3()
 	self.isAttack3 = false
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
+	self:com_leave_attack()
 end
 
 function Hero_dao:enter_State_Attack4()
 	self.isAttack4 = true
-	self.actorSpeedController:setForce(self:changeValueByOri(50), 0)
-	self.actorSpeedController:setFriction(-300)
+	self:lockOrientation()
+	self:com_enter_attack()
+	self.actorSpeedController:setForce(self:changeValueByOri(85), 0)
+	self.actorSpeedController:setFriction(-450)
 	self.actorSpeedController:setLuaUpdateCall(function(x, y, time)
 		local tmp = self.actorSpeedController:getAppendX()
 		if math.abs(tmp) >= 3 then
@@ -485,9 +503,8 @@ end
 
 function Hero_dao:leave_State_Attack4()
 	self.isAttack4 = false
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
-	self.actorSpeedController:clearLuaUpdateCall()
+	self:unLockOrientation()
+	self:com_leave_attack()
 end
 
 function Hero_dao:enter_State_Replace()

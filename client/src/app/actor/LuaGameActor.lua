@@ -60,6 +60,11 @@ function LuaGameActor:override_updateArmatureInfo()
 end
 
 function LuaGameActor:override_loadArmature(filePath)
+	if self.yingyingNode == nil then
+		self.yingyingNode = cc.Sprite:create("ui/fragment/yy_ty.png")
+		self.yingyingNode:setPositionY(10)
+		self:addChild(self.yingyingNode, -1)
+	end
 end
 
 function LuaGameActor:override_setActorPosition(x, y)

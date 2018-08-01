@@ -38,8 +38,9 @@
           <FilePathData Path="taohua1.csd" />
           <FilePathData Path="CreateScene.csd" />
           <FilePathData Path="SelectScene.csd" />
+          <FilePathData Path="LoadResource.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="SelectScene.csd" />
+        <ActiveDocument Path="LoadResource.csd" />
       </Value>
     </Item>
   </Properties>

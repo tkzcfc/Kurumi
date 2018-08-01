@@ -358,6 +358,36 @@ layout:setTopMargin(270.0000)
 layout:setBottomMargin(270.0000)
 Scene:addChild(Button_Right)
 
+--Create Button_2
+local Button_2 = ccui.Button:create()
+Button_2:ignoreContentAdaptWithSize(false)
+cc.SpriteFrameCache:getInstance():addSpriteFrames("ui/ui2.plist")
+Button_2:loadTextureNormal("fbjmt01.png",1)
+Button_2:setTitleFontSize(14)
+Button_2:setTitleColor({r = 65, g = 65, b = 70})
+Button_2:setScale9Enabled(true)
+Button_2:setCapInsets({x = 15, y = 11, width = 34, height = 42})
+Button_2:setLayoutComponentEnabled(true)
+Button_2:setName("Button_2")
+Button_2:setTag(32)
+Button_2:setCascadeColorEnabled(true)
+Button_2:setCascadeOpacityEnabled(true)
+Button_2:setPosition(1084.4680, 583.5734)
+if callBackProvider~=nil then
+      Button_2:addClickEventListener(callBackProvider("SelectScene.lua", Button_2, "onClickBack"))
+end
+layout = ccui.LayoutComponent:bindLayoutComponent(Button_2)
+layout:setPositionPercentX(0.9546)
+layout:setPositionPercentY(0.9118)
+layout:setPercentWidth(0.0563)
+layout:setPercentHeight(0.1000)
+layout:setSize({width = 64.0000, height = 64.0000})
+layout:setLeftMargin(1052.4680)
+layout:setRightMargin(19.5316)
+layout:setTopMargin(24.4266)
+layout:setBottomMargin(551.5734)
+Scene:addChild(Button_2)
+
 --Create Animation
 result['animation'] = ccs.ActionTimeline:create()
   

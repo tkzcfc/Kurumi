@@ -174,6 +174,19 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
+          <AbstractNodeData Name="Button_2" ActionTag="1128732206" CallBackType="Click" CallBackName="onClickBack" Tag="32" IconVisible="False" LeftMargin="1052.4684" RightMargin="19.5316" TopMargin="24.4266" BottomMargin="551.5734" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="34" Scale9Height="42" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="64.0000" Y="64.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="1084.4684" Y="583.5734" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.9546" Y="0.9118" />
+            <PreSize X="0.0563" Y="0.1000" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <NormalFileData Type="PlistSubImage" Path="fbjmt01.png" Plist="ui/ui2.plist" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
         </Children>
       </ObjectData>
     </Content>
