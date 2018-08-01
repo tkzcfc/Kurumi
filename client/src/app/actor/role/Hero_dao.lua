@@ -121,17 +121,14 @@ function Hero_dao:changeRole(name)
 end
 
 function Hero_dao:setMoveStop()
+	self.startMoveCMD = false
 	self.actorSpeedController:setGravityEnable(false)
 	self.actorSpeedController:setForceEnable(false)
 end
 
 function Hero_dao:setMove(x, y)
-
-	if not self.isEnableRecvMoveCMD then
-		self.actorSpeedController:setGravityEnable(false)
-	else
-		self.actorSpeedController:setGravityEnable(true)
-	end
+	self.startMoveCMD = true
+	self.actorSpeedController:setGravityEnable(self.isEnableRecvMoveCMD)
 
 	local posotiveX = 0
 	if x > 0.0 then
@@ -149,6 +146,7 @@ end
 
 function Hero_dao:enableMoveCmd(enable)
 	self.isEnableRecvMoveCMD = enable
+	self.actorSpeedController:setGravityEnable(enable)
 end
 
 function Hero_dao:jump()
@@ -296,15 +294,17 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Brak", "CMD_MoveStart", "State_Run")
 	self.FSM:addTranslation("State_Run", "State_Run_stop", "State_Run2")
 
+	-- self.FSM:addTranslation("State_Stand", "CMD_MoveStart", "State_Run2")
+	-- self.FSM:addTranslation("State_Brak", "CMD_MoveStart", "State_Run2")
+
 	--跳跃
 	self.FSM:addTranslation("State_Stand", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_Run", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_Run2", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_Brak", "CMD_JumpUpStart", "State_JumpUp")
-	self.FSM:addTranslation("State_Attack1", "CMD_JumpUpStart", "State_Upcut")
-	self.FSM:addTranslation("State_Attack2", "CMD_JumpUpStart", "State_Upcut")
-	self.FSM:addTranslation("State_Attack3", "CMD_JumpUpStart", "State_Upcut")
-	--self.FSM:addTranslation("State_Attack4", "CMD_JumpUpStart", "State_JumpUp")
+	-- self.FSM:addTranslation("State_Attack1", "CMD_JumpUpStart", "State_Upcut")
+	-- self.FSM:addTranslation("State_Attack2", "CMD_JumpUpStart", "State_Upcut")
+	-- self.FSM:addTranslation("State_Attack3", "CMD_JumpUpStart", "State_Upcut")
 
 	self.FSM:addTranslation("State_Upcut", "CMD_JumpDownStart", "State_JumpDown")
 	self.FSM:addTranslation("State_Upcut", "CMD_JumpDownEnd", "State_JumpDownEnd")
@@ -386,11 +386,14 @@ function Hero_dao:override_forceSwitchClean()
 end
 
 function Hero_dao:enter_State_Stand()
-	if self.actorSpeedController:isGravityEnable() and math.abs(self.actorSpeedController:getGravityX()) > 0 then
+	-- if self.actorSpeedController:isGravityEnable() and math.abs(self.actorSpeedController:getGravityX()) > 0 then
+	if self.startMoveCMD then
 		local call = cc.CallFunc:create(function()
 			self:handle("CMD_MoveStart")
 		end)
 		self:runAction(call)
+	else
+		self.actorSpeedController:setGravity(0, 0)
 	end
 end
 
@@ -489,16 +492,16 @@ function Hero_dao:enter_State_Attack4()
 	self.isAttack4 = true
 	self:lockOrientation()
 	self:com_enter_attack()
-	self.actorSpeedController:setForce(self:changeValueByOri(85), 0)
-	self.actorSpeedController:setFriction(-450)
-	self.actorSpeedController:setLuaUpdateCall(function(x, y, time)
-		local tmp = self.actorSpeedController:getAppendX()
-		if math.abs(tmp) >= 3 then
-			self.actorSpeedController:clearLuaUpdateCall()
-			self.actorSpeedController:setForce(0, 0)
-			self.actorSpeedController:setFriction(0)
-		end
-	end)
+	-- self.actorSpeedController:setForce(self:changeValueByOri(120), 0)
+	-- self.actorSpeedController:setFriction(-1500)
+	-- self.actorSpeedController:setLuaUpdateCall(function(x, y, time)
+	-- 	local tmp = self.actorSpeedController:getAppendX()
+	-- 	if math.abs(tmp) >= 3 then
+	-- 		self.actorSpeedController:clearLuaUpdateCall()
+	-- 		self.actorSpeedController:setForce(0, 0)
+	-- 		self.actorSpeedController:setFriction(0)
+	-- 	end
+	-- end)
 end
 
 function Hero_dao:leave_State_Attack4()
