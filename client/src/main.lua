@@ -7,9 +7,9 @@ cc.FileUtils:getInstance():addSearchPath("res/")
 require "config"
 require "cocos.init"
 
-require("app.common.PreInit")
 
 local function main()
+    require("app.common.PreInit")
     _MyG.APP = require("app.MyApp"):create()
     _MyG.APP:run()
 end

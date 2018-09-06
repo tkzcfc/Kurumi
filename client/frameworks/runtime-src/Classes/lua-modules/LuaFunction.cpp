@@ -185,6 +185,11 @@ void LuaFunction::pcall(int nresults/* = 0*/)
 				m_retValues[index].type = type;
 				m_retValues[index].value.stringValue = new std::string(lua_tostring(L, i));
 			}break;
+			case LUA_TUSERDATA:
+			{
+				m_retValues[index].type = type;
+				m_retValues[index].value.userdata = lua_touserdata(L, i);
+			}break;
 			default:
 				assert(0);
 				break;
@@ -301,6 +306,20 @@ std::string LuaFunction::retstring(int index/* = 0*/, const std::string& default
 	return defaultvalue;
 }
 
+void* LuaFunction::retuserdata(int index/* = 0*/)
+{
+	assert(index < MAX_RET_ARGS_COUNT && index >= 0);
+	if (index >= m_retCount)
+	{
+		return NULL;
+	}
+	if (m_retValues[index].type == LUA_TUSERDATA)
+	{
+		return m_retValues[index].value.userdata;
+	}
+	return NULL;
+}
+
 int LuaFunction::checktype(int index/* = 0*/)
 {
 	assert(index < MAX_RET_ARGS_COUNT && index >= 0);
@@ -310,4 +329,9 @@ int LuaFunction::checktype(int index/* = 0*/)
 int LuaFunction::retcount()
 {
 	return m_retCount;
+}
+
+bool LuaFunction::isvalid()
+{
+	return (ref_ != LUA_NOREF);
 }

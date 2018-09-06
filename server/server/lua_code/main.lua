@@ -29,6 +29,23 @@ local function main()
     		print("loopexit")
     	end
     end)
+
+    local obj = TestOBJ:new()
+    obj:Test()
+    -- obj:delete()
+    obj = nil
+
+    local time = 0.0
+    local scheduKey = DUScheduler:getInstance():registerScripSchedule(function(dt)
+        time = time + dt
+        print(time)
+        collectgarbage("collect")
+        if time >= 10.0 then
+            print(scheduKey)
+            DUScheduler:getInstance():unRegisterScripSchedule(scheduKey)
+        end
+    end, 1.0, false)
+    print("scheduKey = ", scheduKey)
 end
 
 

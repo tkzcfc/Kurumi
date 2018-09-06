@@ -16,6 +16,8 @@
 #include <mutex>
 #include "uthash.h"
 #include "DUSchedulerTimer.h"
+#include "LuaFunction.hpp"
+#include <map>
 
 
 struct HashSchedulerUpdateEntry;
@@ -77,7 +79,12 @@ public:
     void unScheduleSeletorByObject(void *pTarget);
     
     void unScheduleAll();
+
+	// 
+	std::string registerScripSchedule(const LuaFunction& func, float interval, bool paused);
     
+	void unRegisterScripSchedule(const std::string& key);
+
 protected:
     
     void addTimerForHashMap(DUObject *pTarget, SchedulerTimer* timerData);
@@ -92,6 +99,8 @@ protected:
     
     struct HashSchedulerUpdateEntry* m_currentRunEntry;
     struct HashSchedulerUpdateEntry* m_operationEntry;
+
+	std::map<std::string, LuaFunction*> m_scripCall;
     
     //std::mutex m_mutex;
 };

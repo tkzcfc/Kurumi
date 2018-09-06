@@ -271,6 +271,7 @@ xcopy "$(ProjectDir)netmsg" "$(SolutionDir)$(Configuration)\netmsg" /D /E /I /F 
     <ClCompile Include="src\base\DUObject.cpp" />
     <ClCompile Include="src\base\DUScheduler.cpp" />
     <ClCompile Include="src\base\DUSchedulerTimer.cpp" />
+    <ClCompile Include="src\base\TestOBJ.cpp" />
     <ClCompile Include="src\DUGame.cpp" />
     <ClCompile Include="src\DULuaprint.cpp" />
     <ClCompile Include="src\lua-modules\lua_dubase.cpp" />
@@ -358,6 +359,7 @@ xcopy "$(ProjectDir)netmsg" "$(SolutionDir)$(Configuration)\netmsg" /D /E /I /F 
     <ClInclude Include="src\base\DUScheduler.h" />
     <ClInclude Include="src\base\DUSchedulerTimer.h" />
     <ClInclude Include="src\base\DUSmartPtr.h" />
+    <ClInclude Include="src\base\TestOBJ.h" />
     <ClInclude Include="src\base\uthash.h" />
     <ClInclude Include="src\DUGame.h" />
     <ClInclude Include="src\DULuaprint.h" />

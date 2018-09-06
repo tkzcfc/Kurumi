@@ -266,6 +266,9 @@
     <ClInclude Include="..\Classes\gamecore\SpeedController.h">
       <Filter>Classes\gamecore</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\QuickQueue.h">
+      <Filter>Classes\lua-modules\net\tcpSocket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">

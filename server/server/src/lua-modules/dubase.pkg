@@ -4,6 +4,7 @@ $#include "DUObject.h"
 $#include "DUScheduler.h"
 $#include "net/DUServer.h"
 $#include "DUGame.h"
+$#include "TestOBJ.h"
 
 class DUObject
 {
@@ -51,6 +52,10 @@ public:
     void unScheduleSeletorByObject(void *pTarget);
     
     void unScheduleAll();
+	
+	std::string registerScripSchedule(LuaFunction func, float interval, bool paused);
+    
+	void unRegisterScripSchedule(const std::string& key);
 };
 
 
@@ -79,5 +84,16 @@ public:
 	void setInterval(float interval);
 
 	bool isFileExist(const char* filename);
+};
+
+
+class TestOBJ
+{
+public:
+	TestOBJ();
+	
+	~TestOBJ();
+	
+	void Test();
 };
 

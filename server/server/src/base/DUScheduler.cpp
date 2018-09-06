@@ -447,6 +447,37 @@ void DUScheduler::unScheduleAll()
     }
 }
 
+std::string DUScheduler::registerScripSchedule(const LuaFunction& func, float interval, bool paused)
+{
+	LuaFunction* pFunc = new LuaFunction(func);
+
+	char szKey[64];
+	memset(szKey, 0, sizeof(szKey));
+	sprintf(szKey, "luafunc_%p", pFunc);
+	std::string strKey(szKey);
+
+	m_scripCall.insert(std::make_pair(strKey, pFunc));
+
+	this->scheduleSelector([=](float dt) {
+		pFunc->ppush();
+		pFunc->pusharg(dt);
+		pFunc->pcall();
+	}, interval, paused, strKey);
+
+	return strKey;
+}
+
+void DUScheduler::unRegisterScripSchedule(const std::string& key)
+{
+	auto it = m_scripCall.find(key);
+	if (it != m_scripCall.end())
+	{
+		this->unScheduleSeletorByKey(key);
+		delete it->second;
+		m_scripCall.erase(it);
+	}
+}
+
 void DUScheduler::clearOperationEntry()
 {
     std::vector<SchedulerTimerPtr>::iterator itTimer;

@@ -9,7 +9,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
 #include <string>
 
 class LuaRef {
@@ -43,7 +42,7 @@ public:
 	LuaFunction& operator=(const LuaFunction& rhs);
 	LuaFunction(LuaFunction&& other);
 	LuaFunction& operator=(LuaFunction&& rhs);
-	~LuaFunction();
+	virtual ~LuaFunction();
 
 	void operator()();
 	void ppush();
@@ -73,8 +72,11 @@ public:
 	bool retbool(int index = 0, bool defaultvalue = false);
 	int retint(int index = 0, int defaultvalue = 0);
 	std::string retstring(int index = 0, const std::string& defaultvalue = "");
+	void* retuserdata(int index = 0);
 	int checktype(int index = 0);
 	int retcount();
+
+	bool isvalid();
 
 private:
 
@@ -90,6 +92,7 @@ private:
 		std::string* stringValue;
 		int numberValue;
 		bool boolValue;
+		void* userdata;
 	};
 	struct LuaRetData
 	{
@@ -106,6 +109,7 @@ private:
 		#define LUA_TBOOLEAN		1
 		#define LUA_TNUMBER		3
 		#define LUA_TSTRING		4
+		#define LUA_TUSERDATA		7
 		*/
 		int type;
 	};

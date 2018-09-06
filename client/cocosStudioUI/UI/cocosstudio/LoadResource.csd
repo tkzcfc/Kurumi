@@ -43,7 +43,7 @@
               <AbstractNodeData Name="Panel_Load" ActionTag="-469725083" Tag="42" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" TopMargin="5.2500" BottomMargin="5.2500" TouchEnable="True" ClipAble="True" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ctype="PanelObjectData">
                 <Size X="963.0322" Y="19.5000" />
                 <Children>
-                  <AbstractNodeData Name="Image_2" CanEdit="False" ActionTag="-1827248346" Tag="43" IconVisible="False" PositionPercentYEnabled="True" PercentHeightEnable="True" PercentHeightEnabled="True" RightMargin="-36.9678" Scale9Enable="True" LeftEage="4" RightEage="4" TopEage="3" BottomEage="3" Scale9OriginX="4" Scale9OriginY="3" Scale9Width="6" Scale9Height="4" ctype="ImageViewObjectData">
+                  <AbstractNodeData Name="Image_2" ActionTag="-1827248346" Tag="43" IconVisible="False" PositionPercentYEnabled="True" PercentHeightEnable="True" PercentHeightEnabled="True" RightMargin="-36.9678" Scale9Enable="True" LeftEage="4" RightEage="4" TopEage="3" BottomEage="3" Scale9OriginX="4" Scale9OriginY="3" Scale9Width="6" Scale9Height="4" ctype="ImageViewObjectData">
                     <Size X="1000.0000" Y="19.5000" />
                     <AnchorPoint ScaleY="0.5000" />
                     <Position Y="9.7500" />

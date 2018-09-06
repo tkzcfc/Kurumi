@@ -1,6 +1,6 @@
 /*
 ** Lua binding: dubase
-** Generated automatically by tolua++-1.0.92 on 06/03/18 22:42:06.
+** Generated automatically by tolua++-1.0.92 on 08/13/18 13:37:10.
 */
 
 #include "tolua_fix.h"
@@ -11,26 +11,32 @@
 /* Exported function */
 TOLUA_API int  tolua_dubase_open (lua_State* tolua_S);
 
-#define GLOG_NO_ABBREVIATED_SEVERITIES 
-#include "glog/logging.h"
 #include "DUObject.h"
 #include "DUScheduler.h"
 #include "net/DUServer.h"
 #include "DUGame.h"
+#include "TestOBJ.h"
 
 /* function to release collected object via destructor */
 #ifdef __cplusplus
 
-static int tolua_collect_DUServer (lua_State* tolua_S)
+static int tolua_collect_DUObject (lua_State* tolua_S)
 {
- DUServer* self = (DUServer*) tolua_tousertype(tolua_S,1,0);
+ DUObject* self = (DUObject*) tolua_tousertype(tolua_S,1,0);
     Mtolua_delete(self);
     return 0;
 }
 
-static int tolua_collect_DUObject (lua_State* tolua_S)
+static int tolua_collect_TestOBJ (lua_State* tolua_S)
 {
- DUObject* self = (DUObject*) tolua_tousertype(tolua_S,1,0);
+ TestOBJ* self = (TestOBJ*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
+static int tolua_collect_DUServer (lua_State* tolua_S)
+{
+ DUServer* self = (DUServer*) tolua_tousertype(tolua_S,1,0);
     Mtolua_delete(self);
     return 0;
 }
@@ -41,6 +47,7 @@ static int tolua_collect_DUObject (lua_State* tolua_S)
 static void tolua_reg_types (lua_State* tolua_S)
 {
  tolua_usertype(tolua_S,"DUScheduler");
+ tolua_usertype(tolua_S,"TestOBJ");
  
  tolua_usertype(tolua_S,"DUObject");
  tolua_usertype(tolua_S,"DUGame");
@@ -603,6 +610,78 @@ static int tolua_dubase_DUScheduler_unScheduleAll00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: registerScripSchedule of class  DUScheduler */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUScheduler_registerScripSchedule00
+static int tolua_dubase_DUScheduler_registerScripSchedule00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUScheduler",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUScheduler* self = (DUScheduler*)  tolua_tousertype(tolua_S,1,0);
+  LuaFunction func = (  LuaFunction(tolua_S,2,0));
+  float interval = ((float)  tolua_tonumber(tolua_S,3,0));
+  bool paused = ((bool)  tolua_toboolean(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'registerScripSchedule'", NULL);
+#endif
+  {
+   std::string tolua_ret = (std::string)  self->registerScripSchedule(func,interval,paused);
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'registerScripSchedule'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: unRegisterScripSchedule of class  DUScheduler */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUScheduler_unRegisterScripSchedule00
+static int tolua_dubase_DUScheduler_unRegisterScripSchedule00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUScheduler",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUScheduler* self = (DUScheduler*)  tolua_tousertype(tolua_S,1,0);
+  const std::string key = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'unRegisterScripSchedule'", NULL);
+#endif
+  {
+   self->unRegisterScripSchedule(key);
+   tolua_pushcppstring(tolua_S,(const char*)key);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'unRegisterScripSchedule'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: new of class  DUServer */
 #ifndef TOLUA_DISABLE_tolua_dubase_DUServer_new00
 static int tolua_dubase_DUServer_new00(lua_State* tolua_S)
@@ -944,6 +1023,123 @@ static int tolua_dubase_DUGame_isFileExist00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: new of class  TestOBJ */
+#ifndef TOLUA_DISABLE_tolua_dubase_TestOBJ_new00
+static int tolua_dubase_TestOBJ_new00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"TestOBJ",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   TestOBJ* tolua_ret = (TestOBJ*)  Mtolua_new((TestOBJ)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TestOBJ");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  TestOBJ */
+#ifndef TOLUA_DISABLE_tolua_dubase_TestOBJ_new00_local
+static int tolua_dubase_TestOBJ_new00_local(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"TestOBJ",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   TestOBJ* tolua_ret = (TestOBJ*)  Mtolua_new((TestOBJ)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TestOBJ");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: delete of class  TestOBJ */
+#ifndef TOLUA_DISABLE_tolua_dubase_TestOBJ_delete00
+static int tolua_dubase_TestOBJ_delete00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TestOBJ",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TestOBJ* self = (TestOBJ*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'delete'", NULL);
+#endif
+  Mtolua_delete(self);
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'delete'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: Test of class  TestOBJ */
+#ifndef TOLUA_DISABLE_tolua_dubase_TestOBJ_Test00
+static int tolua_dubase_TestOBJ_Test00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TestOBJ",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TestOBJ* self = (TestOBJ*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'Test'", NULL);
+#endif
+  {
+   self->Test();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'Test'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_dubase_open (lua_State* tolua_S)
 {
@@ -979,6 +1175,8 @@ TOLUA_API int tolua_dubase_open (lua_State* tolua_S)
    tolua_function(tolua_S,"unScheduleSeletorByKey",tolua_dubase_DUScheduler_unScheduleSeletorByKey01);
    tolua_function(tolua_S,"unScheduleSeletorByObject",tolua_dubase_DUScheduler_unScheduleSeletorByObject00);
    tolua_function(tolua_S,"unScheduleAll",tolua_dubase_DUScheduler_unScheduleAll00);
+   tolua_function(tolua_S,"registerScripSchedule",tolua_dubase_DUScheduler_registerScripSchedule00);
+   tolua_function(tolua_S,"unRegisterScripSchedule",tolua_dubase_DUScheduler_unRegisterScripSchedule00);
   tolua_endmodule(tolua_S);
   #ifdef __cplusplus
   tolua_cclass(tolua_S,"DUServer","DUServer","DUObject",tolua_collect_DUServer);
@@ -1001,6 +1199,18 @@ TOLUA_API int tolua_dubase_open (lua_State* tolua_S)
    tolua_function(tolua_S,"destroy",tolua_dubase_DUGame_destroy00);
    tolua_function(tolua_S,"setInterval",tolua_dubase_DUGame_setInterval00);
    tolua_function(tolua_S,"isFileExist",tolua_dubase_DUGame_isFileExist00);
+  tolua_endmodule(tolua_S);
+  #ifdef __cplusplus
+  tolua_cclass(tolua_S,"TestOBJ","TestOBJ","",tolua_collect_TestOBJ);
+  #else
+  tolua_cclass(tolua_S,"TestOBJ","TestOBJ","",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"TestOBJ");
+   tolua_function(tolua_S,"new",tolua_dubase_TestOBJ_new00);
+   tolua_function(tolua_S,"new_local",tolua_dubase_TestOBJ_new00_local);
+   tolua_function(tolua_S,".call",tolua_dubase_TestOBJ_new00_local);
+   tolua_function(tolua_S,"delete",tolua_dubase_TestOBJ_delete00);
+   tolua_function(tolua_S,"Test",tolua_dubase_TestOBJ_Test00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

@@ -14,7 +14,7 @@ const int tcp_uv_hashlen = sizeof(uint32);
 
 // 加密
 // 加密前 ：|-DATA-|
-// 加密后 ：|-（DATA+加密key）的hash值-|-DATA-|
+// 加密后 ：|-（MD5（DATA+加密key））的hash值-|-DATA-|
 char* tcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
 {
 	MD5 M;

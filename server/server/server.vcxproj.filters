@@ -377,6 +377,9 @@
     <ClCompile Include="src\lua-modules\lua_glog.cpp">
       <Filter>lua-modules\glog</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\TestOBJ.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\lfs\lfs.h">
@@ -636,6 +639,9 @@
     </ClInclude>
     <ClInclude Include="src\lua-modules\lua_glog.h">
       <Filter>lua-modules\glog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\TestOBJ.h">
+      <Filter>base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

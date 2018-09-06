@@ -239,6 +239,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua-modules\net\libuv\src\win\winsock.h" />
     <ClInclude Include="..\Classes\lua-modules\net\lua_net.h" />
     <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\md5.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\QuickQueue.h" />
     <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPBuffer.h" />
     <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPClient.h" />
     <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\TCPCommon.h" />
