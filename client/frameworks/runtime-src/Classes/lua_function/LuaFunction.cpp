@@ -1,4 +1,4 @@
-﻿#include "LuaFunction.hpp"
+﻿#include "LuaFunction.h"
 #include <assert.h>
 
 LuaRef::LuaRef() : L(nullptr), ref_(LUA_NOREF)
@@ -175,6 +175,11 @@ void LuaFunction::pcall(int nresults/* = 0*/)
 				m_retValues[index].type = type;
 				m_retValues[index].value.boolValue = (bool)lua_toboolean(L, i);
 			}break;
+			case LUA_TLIGHTUSERDATA:
+			{
+				m_retValues[index].type = type;
+				m_retValues[index].value.userdata = *((void**)lua_touserdata(L, i));
+			}break;
 			case LUA_TNUMBER: 
 			{
 				m_retValues[index].type = type;
@@ -188,7 +193,7 @@ void LuaFunction::pcall(int nresults/* = 0*/)
 			case LUA_TUSERDATA:
 			{
 				m_retValues[index].type = type;
-				m_retValues[index].value.userdata = lua_touserdata(L, i);
+				m_retValues[index].value.userdata = *((void**)lua_touserdata(L, i));
 			}break;
 			default:
 				assert(0);
@@ -314,6 +319,20 @@ void* LuaFunction::retuserdata(int index/* = 0*/)
 		return NULL;
 	}
 	if (m_retValues[index].type == LUA_TUSERDATA)
+	{
+		return m_retValues[index].value.userdata;
+	}
+	return NULL;
+}
+
+void* LuaFunction::retlightuserdata(int index/* = 0*/)
+{
+	assert(index < MAX_RET_ARGS_COUNT && index >= 0);
+	if (index >= m_retCount)
+	{
+		return NULL;
+	}
+	if (m_retValues[index].type == LUA_TLIGHTUSERDATA)
 	{
 		return m_retValues[index].value.userdata;
 	}

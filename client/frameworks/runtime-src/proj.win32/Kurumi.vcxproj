@@ -208,7 +208,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua-modules\cjson\lua_cjson.h" />
     <ClInclude Include="..\Classes\lua-modules\cjson\strbuf.h" />
     <ClInclude Include="..\Classes\lua-modules\lfs\lfs.h" />
-    <ClInclude Include="..\Classes\lua-modules\LuaFunction.hpp" />
     <ClInclude Include="..\Classes\lua-modules\lua_modules.h" />
     <ClInclude Include="..\Classes\lua-modules\net\libuv\include\android-ifaddrs.h" />
     <ClInclude Include="..\Classes\lua-modules\net\libuv\include\pthread-barrier.h" />
@@ -257,6 +256,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua-modules\pbc\src\proto.h" />
     <ClInclude Include="..\Classes\lua-modules\pbc\src\stringpool.h" />
     <ClInclude Include="..\Classes\lua-modules\pbc\src\varint.h" />
+    <ClInclude Include="..\Classes\lua_function\LuaFunction.h" />
+    <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h" />
     <ClInclude Include="..\Classes\lua_game.h" />
     <ClInclude Include="..\Classes\net\Client.h" />
     <ClInclude Include="main.h" />
@@ -278,7 +279,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua-modules\cjson\lua_cjson.c" />
     <ClCompile Include="..\Classes\lua-modules\cjson\strbuf.c" />
     <ClCompile Include="..\Classes\lua-modules\lfs\lfs.c" />
-    <ClCompile Include="..\Classes\lua-modules\LuaFunction.cpp" />
     <ClCompile Include="..\Classes\lua-modules\lua_modules.cpp" />
     <ClCompile Include="..\Classes\lua-modules\net\libuv\src\fs-poll.c" />
     <ClCompile Include="..\Classes\lua-modules\net\libuv\src\inet.c" />
@@ -334,6 +334,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua-modules\pbc\src\stringpool.cpp" />
     <ClCompile Include="..\Classes\lua-modules\pbc\src\varint.cpp" />
     <ClCompile Include="..\Classes\lua-modules\pbc\src\wmessage.cpp" />
+    <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp" />
+    <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp" />
     <ClCompile Include="..\Classes\lua_game.cpp" />
     <ClCompile Include="..\Classes\net\Client.cpp" />
     <ClCompile Include="main.cpp" />

@@ -35,7 +35,6 @@ GameActor::~GameActor()
 	//CCLOG("GameActor::~GameActor %p", this);
 	CC_SAFE_DELETE(m_actorSpeedController);
 	CC_SAFE_DELETE(m_armatureSpeedController);
-	clearLuaHandle();
 }
 
 bool GameActor::init()
@@ -331,24 +330,6 @@ bool GameActor::attOtherActorCallback(GameActor* other)
 	return true;
 }
 
-void GameActor::registerLuaHandle(const std::string& name, const LuaFunction& handle)
-{
-	unregisterLuaHandle(name);
-
-	LuaFunction* pHandle = new LuaFunction(handle);
-	m_luaHandleMap.insert(std::make_pair(name, pHandle));
-}
-
-void GameActor::unregisterLuaHandle(const std::string& name)
-{
-	auto it = m_luaHandleMap.find(name);
-	if (it != m_luaHandleMap.end())
-	{
-		delete it->second;
-		m_luaHandleMap.erase(it);
-	}
-}
-
 const Vec2& GameActor::getMapMovePos()
 {
 	if (m_armature == NULL)
@@ -359,22 +340,5 @@ const Vec2& GameActor::getMapMovePos()
 		v = getActorPosition() + m_armature->getPosition();
 		return v;
 	}
-}
-
-void GameActor::clearLuaHandle()
-{
-	for (const auto& it : m_luaHandleMap)
-		delete it.second;
-	m_luaHandleMap.clear();
-}
-
-LuaFunction* GameActor::getLuaHandle(const std::string& name)
-{
-	auto it = m_luaHandleMap.find(name);
-	if (it != m_luaHandleMap.end())
-	{
-		return it->second;
-	}
-	return NULL;
 }
 

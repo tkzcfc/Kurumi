@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "LuaFunction.hpp"
+#include "lua_function/LuaFunction.h"
 
 using namespace cocos2d;
 

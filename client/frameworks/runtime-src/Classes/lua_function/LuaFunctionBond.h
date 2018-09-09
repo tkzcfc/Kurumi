@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LuaFunction.hpp"
+#include "LuaFunction.h"
 #include <map>
 #include <string>
 
@@ -15,9 +15,9 @@ public:
 
 	void unregisterLuaHandle(const std::string& name);
 
-protected:
-
 	void clearLuaHandle();
+
+protected:
 
 	LuaFunction* getLuaHandle(const std::string& name);
 

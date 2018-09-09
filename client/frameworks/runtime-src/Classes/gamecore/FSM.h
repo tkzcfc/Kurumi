@@ -4,7 +4,7 @@
 #include <string>
 #include <functional>
 #include <map>
-#include "../LuaFunction.hpp"
+#include "lua_function/LuaFunction.h"
 
 //◊¥Ã¨«–ªª÷∏¡Ó¿‡–Õ
 typedef std::string EK;

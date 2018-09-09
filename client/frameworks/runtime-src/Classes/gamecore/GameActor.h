@@ -4,6 +4,7 @@
 #include "FSM.h"
 #include "SpeedController.h"
 #include "cocostudio/CocoStudio.h"
+#include "lua_function/LuaFunctionBond.h"
 
 using namespace cocostudio;
 using namespace cocos2d;
@@ -22,7 +23,7 @@ enum GameActorType
 };
 
 class GameWord;
-class GameActor : public Node
+class GameActor : public Node, public LuaFunctionBond
 {
 public:
 	static GameActor* create();
@@ -87,10 +88,6 @@ public:
 	// 攻击其他角色
 	virtual bool attOtherActorCallback(GameActor* other);
 
-	void registerLuaHandle(const std::string& name, const LuaFunction& handle);
-
-	void unregisterLuaHandle(const std::string& name);
-
 	const Vec2& getMapMovePos();
 
 	inline SpeedController* getActorSpeedController() { return m_actorSpeedController ;}
@@ -111,10 +108,6 @@ protected:
 
 	void updateArmatureInfo();
 
-	void clearLuaHandle();
-
-	LuaFunction* getLuaHandle(const std::string& name);
-
 protected:
 	friend class GameWord;
 	GameWord* m_word;
@@ -124,9 +117,7 @@ protected:
 	Armature*		m_armature;			// 骨骼动画
 
 	GameActorType	m_actorType;
-
-	std::map<std::string, LuaFunction*> m_luaHandleMap;
-
+	
 	SpeedController* m_actorSpeedController;
 	SpeedController* m_armatureSpeedController;
 

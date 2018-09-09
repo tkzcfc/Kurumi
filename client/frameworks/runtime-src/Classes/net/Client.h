@@ -2,7 +2,7 @@
 
 #include "cocos2d.h"
 #include "tcpSocket/TCPClient.h"
-#include "LuaFunction.hpp"
+#include "lua_function/LuaFunction.h"
 
 typedef std::function<void(const ThreadMsg_C&)> netClientCallFunc;
 

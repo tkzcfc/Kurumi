@@ -61,6 +61,9 @@
     <Filter Include="Classes\gamecore">
       <UniqueIdentifier>{ae05eb1f-6e0d-4f87-bd49-976ddc059e94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\lua_function">
+      <UniqueIdentifier>{ab3a327d-81a1-4db4-8a64-05c5a1fecb21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -87,9 +90,6 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua-modules\lua_modules.h">
-      <Filter>Classes\lua-modules</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua-modules\LuaFunction.hpp">
       <Filter>Classes\lua-modules</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua-modules\cjson\lua_cjson.h">
@@ -269,6 +269,12 @@
     <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\QuickQueue.h">
       <Filter>Classes\lua-modules\net\tcpSocket</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h">
+      <Filter>Classes\lua_function</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_function\LuaFunction.h">
+      <Filter>Classes\lua_function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -288,9 +294,6 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua-modules\lua_modules.cpp">
-      <Filter>Classes\lua-modules</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua-modules\LuaFunction.cpp">
       <Filter>Classes\lua-modules</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua-modules\cjson\lua_cjson.c">
@@ -487,6 +490,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\gamecore\SpeedController.cpp">
       <Filter>Classes\gamecore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp">
+      <Filter>Classes\lua_function</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp">
+      <Filter>Classes\lua_function</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

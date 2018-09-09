@@ -73,6 +73,7 @@ public:
 	int retint(int index = 0, int defaultvalue = 0);
 	std::string retstring(int index = 0, const std::string& defaultvalue = "");
 	void* retuserdata(int index = 0);
+	void* retlightuserdata(int index = 0);
 	int checktype(int index = 0);
 	int retcount();
 
@@ -107,6 +108,7 @@ private:
 
 		#define LUA_TNIL		0
 		#define LUA_TBOOLEAN		1
+		#define LUA_TLIGHTUSERDATA	2
 		#define LUA_TNUMBER		3
 		#define LUA_TSTRING		4
 		#define LUA_TUSERDATA		7
