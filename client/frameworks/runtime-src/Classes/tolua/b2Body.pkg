@@ -1,0 +1,87 @@
+$#include "Box2D/Box2D.h"
+
+class b2Body
+{
+public:
+	void SetTransform(b2Vec2 position, float angle);
+
+	b2Vec2 GetPosition();
+
+	float GetAngle();
+
+	b2Vec2 GetWorldCenter();
+
+	b2Vec2 GetLocalCenter();
+
+	void SetLinearVelocity(b2Vec2 v);
+
+	b2Vec2 GetLinearVelocity();
+
+	void SetAngularVelocity(float omega);
+
+	float GetAngularVelocity();
+
+	void ApplyForce(b2Vec2 force, b2Vec2 point, bool wake);
+
+	void ApplyForceToCenter(b2Vec2 force, bool wake);
+
+	void ApplyTorque(float torque, bool wake);
+
+	void ApplyLinearImpulse(b2Vec2 impulse, b2Vec2 point, bool wake);
+
+	void ApplyAngularImpulse(float impulse, bool wake);
+
+	float GetMass();
+
+	float GetInertia();
+
+	void ResetMassData();
+
+	b2Vec2 GetWorldPoint(b2Vec2 localPoint);
+
+	b2Vec2 GetWorldVector(b2Vec2 localVector);
+
+	b2Vec2 GetLocalPoint(b2Vec2 worldPoint);
+
+	b2Vec2 GetLocalVector(b2Vec2 worldVector);
+
+	b2Vec2 GetLinearVelocityFromWorldPoint(b2Vec2 worldPoint);
+
+	b2Vec2 GetLinearVelocityFromLocalPoint(b2Vec2 localPoint);
+
+	float GetLinearDamping();
+
+	void SetLinearDamping(float linearDamping);
+
+	float GetAngularDamping();
+
+	void SetAngularDamping(float angularDamping);
+
+	float GetGravityScale();
+
+	void SetGravityScale(float scale);
+
+	void SetType(b2BodyType type);
+
+	b2BodyType GetType();
+
+	void SetBullet(bool flag);
+
+	bool IsBullet();
+
+	void SetSleepingAllowed(bool flag);
+
+	bool IsSleepingAllowed();
+
+	void SetAwake(bool flag);
+
+	bool IsAwake();
+
+	void SetActive(bool flag);
+
+	bool IsActive();
+
+	void SetFixedRotation(bool flag);
+
+	bool IsFixedRotation();
+};

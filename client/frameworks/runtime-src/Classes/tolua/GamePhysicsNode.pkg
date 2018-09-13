@@ -1,0 +1,18 @@
+$#include "gamecore/GamePhysicsNode.h"
+
+class GamePhysicsNode : public cc.Node
+{
+public:
+	
+	/** Keep the sprite's rotation separate from the body. */
+	bool isIgnoreBodyRotation();
+	void setIgnoreBodyRotation(bool bIgnoreBodyRotation);
+
+	b2Body* getB2Body();
+	void setB2Body(b2Body *pBody);
+
+	float getPTMRatio();
+	void setPTMRatio(float fPTMRatio);
+	void syncPhysicsTransform();
+};
+

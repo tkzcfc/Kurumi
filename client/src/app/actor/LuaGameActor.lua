@@ -8,8 +8,6 @@ function LuaGameActor:ctor()
 
 	self:registerLuaHandle("loadArmature", function(...) return self:override_loadArmature(...) end)
 
-	self:registerLuaHandle("setActorPosition", function(...) return self:override_setActorPosition(...) end)
-
 	self:registerLuaHandle("attLevelTest", function(...) return self:override_attLevelTest(...) end)
 
 	self:registerLuaHandle("AABBCallback", function(...) return self:override_AABBCallback(...) end)
@@ -20,9 +18,6 @@ function LuaGameActor:ctor()
 
 	self.FSM = self:getFSM()
 	self.gameAttribute = self:getGameAttribute()
-
-	self.actorSpeedController = self:getActorSpeedController()
-	self.armatureSpeedController = self:getArmatureSpeedController()
 
 	self.totalStateName = {}
 	self.stateConfig = {}
@@ -48,15 +43,15 @@ end
 
 function LuaGameActor:override_updateArmatureInfo()
 
-	if self:getOrientation() == GAME_ORI_LEFT then
-		local x = self.actorSpeedController:getGravityX()
-		local y = self.actorSpeedController:getGravityY()
-		self.actorSpeedController:setGravity(-math.abs(x), y)
-	else
-		local x = self.actorSpeedController:getGravityX()
-		local y = self.actorSpeedController:getGravityY()
-		self.actorSpeedController:setGravity(math.abs(x), y)
-	end
+	-- if self:getOrientation() == GAME_ORI_LEFT then
+	-- 	local x = self.actorSpeedController:getGravityX()
+	-- 	local y = self.actorSpeedController:getGravityY()
+	-- 	self.actorSpeedController:setGravity(-math.abs(x), y)
+	-- else
+	-- 	local x = self.actorSpeedController:getGravityX()
+	-- 	local y = self.actorSpeedController:getGravityY()
+	-- 	self.actorSpeedController:setGravity(math.abs(x), y)
+	-- end
 end
 
 function LuaGameActor:override_loadArmature(filePath)
@@ -65,9 +60,6 @@ function LuaGameActor:override_loadArmature(filePath)
 		self.yingyingNode:setPositionY(10)
 		self:addChild(self.yingyingNode, -1)
 	end
-end
-
-function LuaGameActor:override_setActorPosition(x, y)
 end
 
 function LuaGameActor:override_attLevelTest(otherActor)

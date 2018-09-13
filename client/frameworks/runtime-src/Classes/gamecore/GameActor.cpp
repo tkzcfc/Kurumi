@@ -16,38 +16,46 @@ GameActor* GameActor::create()
 
 GameActor::GameActor()
 {
-	//CCLOG("GameActor::GameActor %p", this);
 	m_word = NULL;
 	m_armature = NULL;
 	m_actorType = GameActorType::AT_NONE;
 	m_isLockOrientation = false;
 	m_isMapConstraintEnable = true;
 	m_curOrientation = GAME_ORI_RIGHT;
-
-	m_actorSpeedController = new SpeedController();
-	m_armatureSpeedController = new SpeedController();
-
-	m_actorSpeedController->setTarget(this);
 }
 
 GameActor::~GameActor()
 {
-	//CCLOG("GameActor::~GameActor %p", this);
-	CC_SAFE_DELETE(m_actorSpeedController);
-	CC_SAFE_DELETE(m_armatureSpeedController);
+	//if (m_pB2Body)
+	//{
+	//	m_pB2Body->GetWorld()->DestroyBody(m_pB2Body);
+	//	m_pB2Body = NULL;
+	//}
 }
 
 bool GameActor::init()
 {
 	if (!Node::init())
 		return false;
+	
+	b2BodyDef bodydef;
+	bodydef.bullet = false;
+	bodydef.allowSleep = true;
+	bodydef.fixedRotation = true;
+	bodydef.type = b2_dynamicBody;
+
+	this->setPTMRatio(PIXEL_TO_METER);
+
+	auto gameworld = ::getGameWord();
+	b2Body* body = gameworld->getPhysicsWorld()->CreateBody(&bodydef);
+	this->setB2Body(body);
+
 	return true;
 }
 
 void GameActor::logicUpdate(float d)
 {
-	m_actorSpeedController->logicUpdate(d);
-	m_armatureSpeedController->logicUpdate(d);
+	//syncPhysicsTransform();
 	LuaFunction* handle = getLuaHandle("logicUpdate");
 	if (handle)
 	{
@@ -98,8 +106,6 @@ void GameActor::loadArmature(const std::string& filepath)
 	m_armature->getAnimation()->playWithIndex(0);
 	this->addChild(m_armature);
 
-	m_armatureSpeedController->setTarget(m_armature);
-
 	LuaFunction* handle = getLuaHandle("loadArmature");
 	if (handle)
 	{
@@ -123,39 +129,6 @@ void GameActor::setActorType(GameActorType type)
 	if (m_word)
 	{
 		m_word->updateActors();
-	}
-}
-
-const Vec2& GameActor::getActorPosition()
-{
-	return this->getPosition();
-}
-
-float GameActor::getActorPositionX()
-{
-	return getActorPosition().x;
-}
-
-float GameActor::getActorPositionY()
-{
-	return getActorPosition().y;
-}
-
-void GameActor::setActorPosition(float x, float y)
-{
-	setActorPosition(Vec2(x, y));
-}
-
-void GameActor::setActorPosition(const Vec2& pos)
-{
-	this->setPosition(pos);
-
-	LuaFunction* handle = getLuaHandle("setActorPosition");
-	if (handle)
-	{
-		handle->ppush();
-		handle->pusharg(pos.x, pos.y);
-		handle->pcall();
 	}
 }
 
@@ -330,15 +303,18 @@ bool GameActor::attOtherActorCallback(GameActor* other)
 	return true;
 }
 
-const Vec2& GameActor::getMapMovePos()
+void GameActor::createPhysicsBox()
 {
-	if (m_armature == NULL)
-		return getActorPosition();
-	else
-	{
-		static Vec2 v;
-		v = getActorPosition() + m_armature->getPosition();
-		return v;
-	}
+	if (m_word == NULL)
+		return;
+
+	b2World* world = m_word->getPhysicsWorld();
+
+	b2PolygonShape shape;
+	shape.SetAsBox(100.0f / m_PTMRatio, 200.0f / m_PTMRatio);
+	b2FixtureDef fixdef;
+	fixdef.shape = &shape;
+	fixdef.userData = this;
+	b2Fixture* fixture = m_pB2Body->CreateFixture(&fixdef);
 }
 

@@ -1,9 +1,13 @@
 #pragma once
 
 #include "GameActor.h"
+#include "GameMap.h"
+#include "Box2D/Box2D.h"
 
 
 #define ENABLE_GAME_WORD_DEBUG
+
+#define PIXEL_TO_METER 30.0f
 
 using namespace cocos2d;
 
@@ -17,7 +21,9 @@ public:
 
 	virtual bool init() override;
 
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
+	void setGameMap(GameMap* map);
+
+	inline GameMap* getGameMap() { return m_gameMap; }
 
 	void addActor(GameActor* actor);
 
@@ -39,27 +45,21 @@ public:
 
 	bool isOpenDebugDraw();
 
-	inline Node* getRootNode() { return m_rootNode; }
-
-	inline Node* getActorNode() { return m_actorNode; }
+	inline Node* getActorNode() { return m_gameMap->getActorNode(); }
 
 	Node* getChildNode(const std::string& name);
-
-	Size getMapSize() { return m_mapSize; }
-	inline float getMapWidth() { return m_mapSize.width; }
-	inline float getMapHeight() { return m_mapSize.height; }
-
-	inline void setMinPosY(float InMinPosY) { m_minPosY = InMinPosY; }
-
-	inline float getMinPosY() { return m_minPosY; }
 
 	void updateActors();
 
 	void setViewPortMinXValue(float InValue);
 	inline float getViewPortMinXValue() { return m_viewPortMinX; }
-	
+
 	void setViewPortMaxXValue(float InValue);
 	inline float getViewPortMaxXValue() { return m_viewPortMaxX; }
+
+	void setMinPosY(float minPosY) { m_minPosY = minPosY; }
+
+	b2World* getPhysicsWorld() { return m_world; }
 
 protected:
 
@@ -75,17 +75,15 @@ protected:
 
 	void collisionTest();
 private:
-	float m_minPosY;
-	Size m_mapSize;
+
+	GameMap* m_gameMap;
 
 	Vector<GameActor*> m_allActor;
 	GameActor* m_player;
 
-	Node* m_actorNode;
-	Node* m_rootNode;
-	Node* m_fixNode;
-
-	float m_fixNodeBeginX;
+	float m_viewPortMinX;
+	float m_viewPortMaxX;
+	float m_minPosY;
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 	DrawNode* m_debugDraw;
@@ -94,10 +92,9 @@ private:
 	std::vector<ActorRect> m_defRectCache;
 	std::vector<ActorRect> m_attRectCache;
 
-	float m_viewPortMinX;
-	float m_viewPortMaxX;
-
 	Size m_winSize;
+
+	b2World* m_world;
 };
 
 

@@ -1,15 +1,17 @@
 #include "GameMap.h"
-
+#include "GameWord.h"
 
 
 GameMap::GameMap()
 {
 	m_lockMapY = false;
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; i++)
-	{
-		m_mapWidgetInfoArr[i].reserve(100);
-	}
+	m_actorNode = NULL;
+	m_fixNodeBeginX = 0.0f;
 	m_save_view_x = m_save_view_y = -1.0f;
+	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
+	{
+		m_mapNode[i] = NULL;
+	}
 }
 
 GameMap::~GameMap()
@@ -35,52 +37,58 @@ bool GameMap::init()
 	if (!Node::init())
 		return false;
 
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
-	{
-		m_mapNode[i] = Node::create();
-		this->addChild(m_mapNode[i]);
-	}
 	m_viewSize = Director::getInstance()->getVisibleSize();
-
-	initMap();
 
 	return true;
 }
 
-Node* GameMap::getMapNode(GameMapNodeType type)
+void GameMap::loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName)
 {
-	return m_mapNode[type];
-}
+	if (m_actorNode)
+		return;
 
-void GameMap::setMapNodeSize(GameMapNodeType type, float width, float height)
-{
-	m_mapNodeSize[type].width = width;
-	m_mapNodeSize[type].height = height;
-	m_mapNodeMoveSize[type].width = MAX(width - m_viewSize.width, 0.0f);
-	m_mapNodeMoveSize[type].height = MAX(height - m_viewSize.height, 0.0f);
+	Node* rootNode = SceneReader::getInstance()->createNodeWithSceneFile(filepath);
+	addChild(rootNode);
 
-	m_mapSize.width = MAX(m_mapSize.width, width);
-	m_mapSize.height = MAX(m_mapSize.height, height);
-}
-
-void GameMap::addMapWidgetData(GameMapNodeType type, int widgetKey, float begin_x, float end_x)
-{
-	MapWidgetInfo info;
-	info.isload = false;
-	info.node = NULL;
-	info.widgetKey = widgetKey;
-	info.begin_x = begin_x;
-	info.end_x = end_x;
-	m_mapWidgetInfoArr[type].emplace_back(info);
-}
-
-void GameMap::initMap()
-{
-	LuaFunction* pHandle = getLuaHandle("initMap");
-	if (pHandle)
+	if (m_actorNode && m_actorNode->getParent())
 	{
-		pHandle->ppush();
-		pHandle->pcall();
+		m_actorNode->removeFromParent();
+		m_actorNode = NULL;
+	}
+
+	Node* targetNode = NULL;
+
+	auto& child = rootNode->getChildren();
+	for (auto& it : child)
+	{
+		//CCLOG("[T%d][Z%d][Z%d] : [%s] X[%f]Y[%f]", it->getTag(), it->getLocalZOrder(), (int)it->getGlobalZOrder(), it->getName().c_str(), it->getPositionX(), it->getPositionY());
+		if (!actorNodeName.empty() && strstr(it->getName().c_str(), actorNodeName.c_str()))
+		{
+			targetNode = it;
+		}
+		if (!fixNodeName.empty() && strstr(it->getName().c_str(), fixNodeName.c_str()))
+		{
+			m_fixNodeBeginX = it->getPositionX();
+			m_mapNode[GameMapNodeType::FIX_NODE] = it;
+			m_mapNodeSize[GameMapNodeType::FIX_NODE] = it->getContentSize();
+		}
+	}
+	CCASSERT(targetNode != NULL, "targetNode ²»ÄÜÎª¿Õ");
+
+	m_actorNode = Node::create();
+	rootNode->addChild(m_actorNode, targetNode->getLocalZOrder());	
+
+	m_mapSize = rootNode->getContentSize();
+	m_mapNodeSize[GameMapNodeType::STAGE_NODE] = m_mapSize;
+
+	changeParticleSystemPositionType(rootNode);
+
+	m_mapNode[GameMapNodeType::STAGE_NODE] = rootNode;
+
+	for (int i = 0; i < (int)GameMapNodeType::STAGE_NODE; ++i)
+	{
+		m_mapNodeMoveSize[i].width = MAX(m_mapNodeMoveSize[i].width - m_viewSize.width, 0.0f);
+		m_mapNodeMoveSize[i].height = MAX(m_mapNodeMoveSize[i].height - m_viewSize.height, 0.0f);
 	}
 }
 
@@ -100,7 +108,14 @@ void GameMap::setViewPos(float x, float y)
 
 	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
+		if(m_mapNode[i] == NULL)
+			continue;
 		float curx = percent_x * m_mapNodeMoveSize[i].width;
+		if (i == GameMapNodeType::FIX_NODE)
+		{
+			curx = curx + m_mapNode[GameMapNodeType::STAGE_NODE]->getPositionX();
+			curx = curx - m_fixNodeBeginX;
+		}
 		if (m_lockMapY)
 		{
 			m_mapNode[i]->setPositionX(-curx);
@@ -112,59 +127,7 @@ void GameMap::setViewPos(float x, float y)
 		}
 	}
 	m_save_view_y = y;
-	if (fabs(m_save_view_x - x) < 0.0001f)
-	{
-		m_save_view_x = x;
-		return;
-	}
 	m_save_view_x = x;
-
-	LuaFunction* pHandle = getLuaHandle("LoadMapWidgetCallFunc");
-
-	if (pHandle == NULL)
-		return;
-
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
-	{
-		float cur_x = percent_x * m_mapNodeSize[i].width;
-		float beginx = cur_x - m_viewSize.width * 1.0f;
-		float endx = cur_x + m_viewSize.width * 1.0f;
-
-		for (auto & it : m_mapWidgetInfoArr[i])
-		{
-			if (it.end_x < beginx || endx < it.begin_x)
-			{
-				if (it.isload)
-				{
-					//CCLOG("\n[%d]remove widget key: %d", i, it.widgetKey);
-					if (it.node)
-					{
-						it.node->removeFromParent();
-						it.node = NULL;
-					}
-					it.isload = false;
-				}
-			}
-			else
-			{
-				if (!it.isload)
-				{
-					//CCLOG("\n[%d]load widget key: %d", i, it.widgetKey);
-					pHandle->ppush();
-					pHandle->pusharg(i);
-					pHandle->pusharg(it.widgetKey);
-					pHandle->pushusertype(m_mapNode[i], "cc.Node");
-					pHandle->pcall(1);
-					it.node = static_cast<Node*>(pHandle->retuserdata());
-					it.isload = true;
-					if (it.node)
-					{
-						m_mapNode[i]->addChild(it.node);
-					}
-				}
-			}
-		}
-	}
 }
 
 void GameMap::setViewSize(float width, float height)
@@ -172,12 +135,10 @@ void GameMap::setViewSize(float width, float height)
 	m_viewSize.width = width;
 	m_viewSize.height = height;
 
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
+	for (int i = 0; i < (int)GameMapNodeType::STAGE_NODE; ++i)
 	{
-		m_mapNodeMoveSize[i].width = m_mapNodeSize[i].width - width;
-		m_mapNodeMoveSize[i].height = m_mapNodeSize[i].height - height;
-		m_mapNodeMoveSize[i].width = MAX(m_mapNodeMoveSize[i].width, 0.0f);
-		m_mapNodeMoveSize[i].height = MAX(m_mapNodeMoveSize[i].height, 0.0f);
+		m_mapNodeMoveSize[i].width = MAX(m_mapNodeMoveSize[i].width - m_viewSize.width, 0.0f);
+		m_mapNodeMoveSize[i].height = MAX(m_mapNodeMoveSize[i].height - m_viewSize.height, 0.0f);
 	}
 }
 

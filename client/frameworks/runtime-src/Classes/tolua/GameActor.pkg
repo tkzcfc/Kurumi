@@ -40,15 +40,6 @@ public:
 
 	virtual void setActorType(GameActorType type);
 
-	/// 位置相关
-	virtual const Vec2& getActorPosition();
-
-	virtual float getActorPositionX();
-
-	virtual float getActorPositionY();
-
-	virtual void setActorPosition(float x, float y);
-
 	virtual bool isRunAABB(GameActor* other);
 
 	// 攻击等级测试
@@ -59,14 +50,6 @@ public:
 
 	// 攻击其他角色
 	virtual bool attOtherActorCallback(GameActor* other);
-
-	void registerLuaHandle(const std::string& name, LuaFunction handle);
-
-	void unregisterLuaHandle(const std::string& name);
-
-	inline SpeedController* getActorSpeedController();
-
-	inline SpeedController* getArmatureSpeedController();
 	
 	inline void lockOrientation();
 	
@@ -77,4 +60,20 @@ public:
 	// 是否启用地图约束
 	inline void setMapConstraintEnable(bool InEnable);
 	inline bool isEnableMapConstraint();
+	
+	//LuaFunctionBond
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
+
+	void unregisterLuaHandle(const std::string& name);
+	
+		/** Keep the sprite's rotation separate from the body. */
+	bool isIgnoreBodyRotation();
+	void setIgnoreBodyRotation(bool bIgnoreBodyRotation);
+
+	b2Body* getB2Body();
+	void setB2Body(b2Body *pBody);
+
+	float getPTMRatio();
+	void setPTMRatio(float fPTMRatio);
+	void syncPhysicsTransform();
 };

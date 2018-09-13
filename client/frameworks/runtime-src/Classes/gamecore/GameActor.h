@@ -5,6 +5,8 @@
 #include "SpeedController.h"
 #include "cocostudio/CocoStudio.h"
 #include "lua_function/LuaFunctionBond.h"
+#include "GamePhysicsNode.h"
+#include "Box2D/Box2D.h"
 
 using namespace cocostudio;
 using namespace cocos2d;
@@ -23,7 +25,7 @@ enum GameActorType
 };
 
 class GameWord;
-class GameActor : public Node, public LuaFunctionBond
+class GameActor : public GamePhysicsNode, public LuaFunctionBond
 {
 public:
 	static GameActor* create();
@@ -57,17 +59,6 @@ public:
 
 	virtual void setActorType(GameActorType type);
 
-	/// 位置相关
-	virtual const Vec2& getActorPosition();
-
-	virtual float getActorPositionX();
-
-	virtual float getActorPositionY();
-
-	virtual void setActorPosition(float x, float y);
-
-	virtual void setActorPosition(const Vec2& pos);
-
 	/// 碰撞相关
 	virtual bool getAllDefRECT(std::vector<ActorRect>& actorRectVec);
 
@@ -88,12 +79,6 @@ public:
 	// 攻击其他角色
 	virtual bool attOtherActorCallback(GameActor* other);
 
-	const Vec2& getMapMovePos();
-
-	inline SpeedController* getActorSpeedController() { return m_actorSpeedController ;}
-
-	inline SpeedController* getArmatureSpeedController() { return m_armatureSpeedController; }
-
 	inline void lockOrientation() { m_isLockOrientation = true; }
 
 	inline void unLockOrientation() { m_isLockOrientation = false; }
@@ -108,8 +93,11 @@ protected:
 
 	void updateArmatureInfo();
 
+	void createPhysicsBox();
+
 protected:
 	friend class GameWord;
+
 	GameWord* m_word;
 
 	QFSM			m_FSM;				// 有限状态机
@@ -118,14 +106,12 @@ protected:
 
 	GameActorType	m_actorType;
 	
-	SpeedController* m_actorSpeedController;
-	SpeedController* m_armatureSpeedController;
-
 	// 方向锁定？
 	bool m_isLockOrientation;
 
-	// 是否受地图约束
+	// 是否受地图约束?
 	bool m_isMapConstraintEnable;
 
-	int	m_curOrientation;	// 当前朝向 -1 左 1 右边
+	// 当前朝向 -1 左 1 右边
+	int	m_curOrientation;
 };

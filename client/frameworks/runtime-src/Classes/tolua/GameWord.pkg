@@ -3,15 +3,12 @@ $#include "gamecore/GameWord.h"
 class GameWord : public cc.Node
 {
 public:
-	GameWord();
-	
-	virtual ~GameWord();
 
 	static GameWord* create();
 
-	virtual bool init();
+	void setGameMap(GameMap* map);
 
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
+	GameMap* getGameMap();
 
 	void addActor(GameActor* actor);
 
@@ -19,41 +16,33 @@ public:
 
 	void setLocalPlayer(GameActor* player);
 
-	inline GameActor* getLocalPlayer();
+	GameActor* getLocalPlayer();
 
 	int getPlayerCount();
 
 	GameActor* getPlayerByIndex(int index);
 
 	void removeActorByName(const std::string& name);
-	
+
 	void logicUpdate(float d);
 
 	void openDebugDraw(bool open);
 
 	bool isOpenDebugDraw();
-	
-	inline cc.Node* getRootNode();
-	
-	inline cc.Node* getActorNode();
+
+	cc.Node* getActorNode();
 
 	cc.Node* getChildNode(const std::string& name);
 
-	Size getMapSize();
-	inline float getMapWidth();
-	inline float getMapHeight();
-	
-	inline void setMinPosY(float InMinPosY);
-
-	inline float getMinPosY();
-	
 	void updateActors();
 
 	void setViewPortMinXValue(float InValue);
-	inline float getViewPortMinXValue();
+	float getViewPortMinXValue();
 	
 	void setViewPortMaxXValue(float InValue);
-	inline float getViewPortMaxXValue();
+	float getViewPortMaxXValue();
+	
+	void setMinPosY(float minPosY);
 };
 
 GameWord* getGameWord();

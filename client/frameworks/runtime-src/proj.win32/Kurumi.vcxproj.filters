@@ -275,6 +275,15 @@
     <ClInclude Include="..\Classes\lua_function\LuaFunction.h">
       <Filter>Classes\lua_function</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\gamecore\GameMap.h">
+      <Filter>Classes\gamecore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\gamecore\GamePhysicsNode.h">
+      <Filter>Classes\gamecore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_function\tolua_ext.h">
+      <Filter>Classes\lua_function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -495,6 +504,15 @@
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp">
+      <Filter>Classes\lua_function</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\gamecore\GameMap.cpp">
+      <Filter>Classes\gamecore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\gamecore\GamePhysicsNode.cpp">
+      <Filter>Classes\gamecore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp">
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
   </ItemGroup>

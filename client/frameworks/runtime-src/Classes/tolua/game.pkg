@@ -1,6 +1,7 @@
 $pfile "FSM.pkg"
 $pfile "GameActor.pkg"
 $pfile "GameAttribute.pkg"
+$pfile "GameMap.pkg"
 $pfile "GameWord.pkg"
 $pfile "Client.pkg"
-$pfile "SpeedController.pkg"
+$pfile "b2Body.pkg"

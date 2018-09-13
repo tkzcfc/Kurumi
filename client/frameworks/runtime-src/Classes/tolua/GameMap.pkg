@@ -1,0 +1,27 @@
+$#include "gamecore/GameMap.h"
+
+class GameMap : public cc.Node
+{
+public:
+
+	static GameMap * create();
+	
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
+
+	void setViewPos(float x, float y);
+
+	void setViewSize(float width, float height);
+
+	Node* getActorNode();
+
+	void lockMapY();
+
+	void unlockMapY();
+
+	float getMapWidth();
+
+	float getMapHeight();
+};
+
+
+

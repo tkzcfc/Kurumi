@@ -7,13 +7,12 @@ using namespace cocos2d;
 
 enum GameMapNodeType
 {
-	BACKGROUND_NODE,
 	STAGE_NODE,
-	FOREGROUND_NODE,
+	FIX_NODE,
 	COUNT
 };
 
-class GameMap : public Node, public LuaFunctionBond
+class GameMap : public Node
 {
 public:
 	GameMap();
@@ -26,15 +25,13 @@ public:
 
 public:
 
-	Node* getMapNode(GameMapNodeType type);
-
-	void setMapNodeSize(GameMapNodeType type, float width, float height);
-
-	void addMapWidgetData(GameMapNodeType type, int widgetKey, float begin_x, float end_x);
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
 
 	void setViewPos(float x, float y);
 
 	void setViewSize(float width, float height);
+
+	inline Node* getActorNode() { return m_actorNode; }
 
 	inline void lockMapY() { m_lockMapY = true; }
 
@@ -44,25 +41,17 @@ public:
 
 	inline float getMapHeight() { return m_mapSize.height; }
 
-protected:
-
-	virtual void initMap();
-
 private:
 
-	struct MapWidgetInfo
-	{
-		bool isload;
-		int widgetKey;
-		Node* node;
-		float begin_x;
-		float end_x;
-	};
 
 	Size m_mapNodeSize[GameMapNodeType::COUNT];
 	Size m_mapNodeMoveSize[GameMapNodeType::COUNT];
 
-	Node* m_rootNode;
+	Node* m_mapNode[GameMapNodeType::COUNT];
+
+	Node* m_actorNode;
+
+	float m_fixNodeBeginX;
 
 	Size m_mapSize;
 	Size m_viewSize;

@@ -119,6 +119,7 @@ function GameMain:loadFinish()
 
 
     local hero = require("app.actor.role.Hero_dao"):create()
+    hero:setPosition(500, 500)
     self.word:addActor(hero)
     self.word:setLocalPlayer(hero)
 

@@ -5,12 +5,12 @@ static GameWord* Static__GameWord = NULL;
 
 GameWord::GameWord()
 {
-	m_actorNode = NULL;
+	m_gameMap = NULL;
 	m_player = NULL;
-	m_fixNode = NULL;
-	m_fixNodeBeginX = 0.0f;
+	m_world = NULL;
 	Static__GameWord = this;
 	m_viewPortMinX = m_viewPortMaxX = 0.0f;
+	m_minPosY = 0.0f;
 }
 
 GameWord::~GameWord()
@@ -19,6 +19,11 @@ GameWord::~GameWord()
 	if (Static__GameWord == this)
 	{
 		Static__GameWord = NULL;
+	}
+	if (m_world)
+	{
+		delete m_world;
+		m_world = NULL;
 	}
 }
 
@@ -44,10 +49,7 @@ bool GameWord::init()
 
 		m_defRectCache.reserve(10);
 		m_attRectCache.reserve(10);
-
-		m_rootNode = NULL;
-		m_minPosY = 0.0f;
-
+		
 #ifdef ENABLE_GAME_WORD_DEBUG
 		m_debugDraw = DrawNode::create();
 		this->addChild(m_debugDraw, 1);
@@ -57,75 +59,65 @@ bool GameWord::init()
 
 		m_winSize = Director::getInstance()->getVisibleSize();
 
-		m_mapSize = m_winSize;
-
 		return true;
 	} while (0);
 	return false;
 }
 
-void GameWord::loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName)
+void GameWord::setGameMap(GameMap* map)
 {
-#ifdef ENABLE_GAME_WORD_DEBUG
-	if (m_debugDraw)
-	{
-		m_debugDraw->retain();
-		m_debugDraw->removeFromParent();
-	}
-#endif
-	
-	if (m_rootNode)
-	{
-		m_rootNode->removeFromParent();
-		m_rootNode = nullptr;
-	}
+	if (m_gameMap)
+		return;
 
-	m_rootNode = SceneReader::getInstance()->createNodeWithSceneFile(filepath);
-	addChild(m_rootNode);
+	this->addChild(map);
+	m_gameMap = map;
 
-#ifdef ENABLE_GAME_WORD_DEBUG
-	m_rootNode->addChild(m_debugDraw, 0xFFFF);
-	m_debugDraw->release();
-#endif
+	m_viewPortMinX = 0.0f;
+	m_viewPortMaxX = m_gameMap->getMapWidth();
 
-	if (m_actorNode && m_actorNode->getParent())
-	{
-		m_actorNode->removeFromParent();
-		m_actorNode = NULL;
-	}
+	// 初始化box2d
+	m_world = new b2World(b2Vec2(0.0f, -10.0f / PIXEL_TO_METER));
+	m_world->SetAllowSleeping(true);
+	m_world->SetWarmStarting(true);
 
-	Node* targetNode = NULL;
-	m_fixNode = NULL;
+	b2BodyDef wallDef;   //刚体定义
+	wallDef.position.Set(0, 0);  //位置
 
-	auto& child = m_rootNode->getChildren();
-	for (auto& it : child)
-	{
-		CCLOG("[T%d][Z%d][Z%d] : [%s] X[%f]Y[%f]", it->getTag(), it->getLocalZOrder(), (int)it->getGlobalZOrder(), it->getName().c_str(), it->getPositionX(), it->getPositionY());
-		if(strstr(it->getName().c_str(), actorNodeName.c_str()))
-		{
-			targetNode = it;
-		}
-		if (!fixNodeName.empty() && strstr(it->getName().c_str(), fixNodeName.c_str()))
-		{
-			m_fixNodeBeginX = it->getPositionX();
-			m_fixNode = it;
-		}
-	}
+	b2Body* wallBody = m_world->CreateBody(&wallDef);   //创建一个刚体（四周墙体）
 
-	m_actorNode = Node::create();
-	m_rootNode->addChild(m_actorNode, targetNode->getLocalZOrder());
+	float halfMapWidth = m_gameMap->getMapWidth();
+	float halfMapHeight = m_gameMap->getMapHeight();
 
-	CCASSERT(m_actorNode != NULL, "m_actorNode 不能为空");
-
-	m_mapSize = m_rootNode->getContentSize();
-	m_viewPortMaxX = m_mapSize.width;
-	
-	changeParticleSystemPositionType(m_rootNode);
+	b2EdgeShape wallShape;   //形状
+	//下
+	wallShape.Set(b2Vec2(-halfMapWidth / PIXEL_TO_METER, (-halfMapHeight + m_minPosY) / PIXEL_TO_METER), b2Vec2(halfMapWidth / PIXEL_TO_METER, (-halfMapHeight + m_minPosY) / PIXEL_TO_METER));
+	wallBody->CreateFixture(&wallShape, 0.0f);
+	//上
+	wallShape.Set(b2Vec2(-halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER), b2Vec2(halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER));
+	wallBody->CreateFixture(&wallShape, 0.0f);
+	//左
+	wallShape.Set(b2Vec2(-halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER), b2Vec2(-halfMapWidth / PIXEL_TO_METER, -halfMapHeight / PIXEL_TO_METER));
+	wallBody->CreateFixture(&wallShape, 0.0f);
+	//右
+	wallShape.Set(b2Vec2(halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER), b2Vec2(halfMapWidth / PIXEL_TO_METER, -halfMapHeight / PIXEL_TO_METER));
+	wallBody->CreateFixture(&wallShape, 0.0f);
+	////下
+	//wallShape.Set(b2Vec2(0.0f, m_minPosY / PIXEL_TO_METER), b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, m_minPosY / PIXEL_TO_METER));
+	//wallBody->CreateFixture(&wallShape, 0.0f);
+	////上
+	//wallShape.Set(b2Vec2(0.0f, m_gameMap->getMapHeight() / PIXEL_TO_METER), b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, m_gameMap->getMapHeight() / PIXEL_TO_METER));
+	//wallBody->CreateFixture(&wallShape, 0.0f);
+	////左
+	//wallShape.Set(b2Vec2(0.0f, m_gameMap->getMapHeight() / PIXEL_TO_METER), b2Vec2(0.0f, 0.0f));
+	//wallBody->CreateFixture(&wallShape, 0.0f);
+	////右
+	//wallShape.Set(b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, m_gameMap->getMapHeight() / PIXEL_TO_METER), b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, 0.0f));
+	//wallBody->CreateFixture(&wallShape, 0.0f);
 }
 
 void GameWord::addActor(GameActor* actor)
 {
-	m_actorNode->addChild(actor);
+	getActorNode()->addChild(actor);
 	actor->m_word = this;
 	m_allActor.pushBack(actor);
 }
@@ -176,7 +168,7 @@ GameActor* GameWord::getPlayerByIndex(int index)
 
 void GameWord::removeActorByName(const std::string& name)
 {
-	GameActor* actor = dynamic_cast<GameActor*>(m_actorNode->getChildByName(name));
+	GameActor* actor = dynamic_cast<GameActor*>(getActorNode()->getChildByName(name));
 
 	if (actor)
 	{
@@ -219,20 +211,23 @@ void GameWord::setViewPortMinXValue(float InValue)
 void GameWord::setViewPortMaxXValue(float InValue) 
 {
 	m_viewPortMaxX = InValue;
-	m_viewPortMaxX = MIN(m_viewPortMaxX, m_mapSize.width);
+	m_viewPortMaxX = MIN(m_viewPortMaxX, m_gameMap->getMapWidth());
 }
 
 void GameWord::logicUpdate(float d)
 {
+	m_world->Step(d, 4, 4);
+
 	// 角色逻辑
 	for (auto& it : m_allActor)
 	{
 		it->logicUpdate(d);
 	}
+	// 地图约束
+	//updateMapCorrectActor();
+
 	// 地图移动
 	updateMapMoveLogic();
-	// 地图约束
-	updateMapCorrectActor();
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 	// debug
@@ -270,58 +265,33 @@ void GameWord::updateMapMoveLogic()
 	// 地图跟随玩家移动
 	if (m_player)
 	{
-		float curposX = m_player->getMapMovePos().x - m_viewPortMinX;
-		float t = m_viewPortMaxX - m_viewPortMinX;
-
-		if (t > m_winSize.width)
-		{
-			float halfWidth = m_winSize.width * 0.5f;
-			if (curposX <= halfWidth)
-			{
-				m_rootNode->setPositionX(-m_viewPortMinX);
-			}
-			else if (curposX >= t - halfWidth)
-			{
-				m_rootNode->setPositionX(m_winSize.width - t - m_viewPortMinX);
-			}
-			else
-			{
-				m_rootNode->setPositionX(halfWidth - curposX - m_viewPortMinX);
-			}
-			if (m_fixNode)
-			{
-				m_fixNode->setPositionX(m_fixNodeBeginX - m_rootNode->getPositionX());
-			}
-		}
-		else
-		{
-			m_rootNode->setPositionX(-m_viewPortMinX);
-		}
+		const Vec2& v = m_player->getPosition();
+		m_gameMap->setViewPos(v.x, 0.0f);
 	}
 }
 
 void GameWord::updateMapCorrectActor()
 {
-	Vec2 v;
-	float tmp;
-	for (auto& it : m_allActor)
-	{
-		if(!it->isEnableMapConstraint())
-			continue;
+	//Vec2 v;
+	//float tmp;
+	//for (auto& it : m_allActor)
+	//{
+	//	if(!it->isEnableMapConstraint())
+	//		continue;
 
-		static const float halfWidth = 50.0f;//it->getAABB().size.width * 0.5;
-		v = it->getActorPosition();
+	//	static const float halfWidth = 50.0f;//it->getAABB().size.width * 0.5;
+	//	v = it->getPosition();
 
-		tmp = m_viewPortMaxX - halfWidth;
-		v.x = MIN(v.x, tmp);
+	//	tmp = m_viewPortMaxX - halfWidth;
+	//	v.x = MIN(v.x, tmp);
 
-		tmp = m_viewPortMinX + halfWidth;
-		v.x = MAX(v.x, tmp);
+	//	tmp = m_viewPortMinX + halfWidth;
+	//	v.x = MAX(v.x, tmp);
 
-		v.y = MAX(v.y, m_minPosY);
+	//	v.x = MAX(v.y, m_minPosY);
 
-		it->setActorPosition(v);
-	}
+	//	it->setPosition(v);
+	//}
 }
 
 

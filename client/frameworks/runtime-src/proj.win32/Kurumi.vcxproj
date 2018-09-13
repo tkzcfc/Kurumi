@@ -53,7 +53,7 @@
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>lua_function;$(IncludePath)</IncludePath>
     <SourcePath>$(SourcePath);</SourcePath>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -198,7 +198,9 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\gamecore\FSM.h" />
     <ClInclude Include="..\Classes\gamecore\GameActor.h" />
     <ClInclude Include="..\Classes\gamecore\GameAttribute.h" />
+    <ClInclude Include="..\Classes\gamecore\GameMap.h" />
     <ClInclude Include="..\Classes\gamecore\GameMath.h" />
+    <ClInclude Include="..\Classes\gamecore\GamePhysicsNode.h" />
     <ClInclude Include="..\Classes\gamecore\GameWord.h" />
     <ClInclude Include="..\Classes\gamecore\SpeedController.h" />
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
@@ -258,6 +260,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua-modules\pbc\src\varint.h" />
     <ClInclude Include="..\Classes\lua_function\LuaFunction.h" />
     <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h" />
+    <ClInclude Include="..\Classes\lua_function\tolua_ext.h" />
     <ClInclude Include="..\Classes\lua_game.h" />
     <ClInclude Include="..\Classes\net\Client.h" />
     <ClInclude Include="main.h" />
@@ -269,7 +272,9 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameActor.cpp" />
+    <ClCompile Include="..\Classes\gamecore\GameMap.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameMath.cpp" />
+    <ClCompile Include="..\Classes\gamecore\GamePhysicsNode.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameWord.cpp" />
     <ClCompile Include="..\Classes\gamecore\SpeedController.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
@@ -336,6 +341,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua-modules\pbc\src\wmessage.cpp" />
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp" />
     <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp" />
+    <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp" />
     <ClCompile Include="..\Classes\lua_game.cpp" />
     <ClCompile Include="..\Classes\net\Client.cpp" />
     <ClCompile Include="main.cpp" />
