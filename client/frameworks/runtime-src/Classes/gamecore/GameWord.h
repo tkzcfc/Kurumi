@@ -3,6 +3,7 @@
 #include "GameActor.h"
 #include "GameMap.h"
 #include "Box2D/Box2D.h"
+#include "GLES-Render.h"
 
 
 #define ENABLE_GAME_WORD_DEBUG
@@ -21,7 +22,7 @@ public:
 
 	virtual bool init() override;
 
-	void setGameMap(GameMap* map);
+	void initGameWorld(GameMap* map, int minPosY);
 
 	inline GameMap* getGameMap() { return m_gameMap; }
 
@@ -51,29 +52,29 @@ public:
 
 	void updateActors();
 
-	void setViewPortMinXValue(float InValue);
-	inline float getViewPortMinXValue() { return m_viewPortMinX; }
-
-	void setViewPortMaxXValue(float InValue);
-	inline float getViewPortMaxXValue() { return m_viewPortMaxX; }
-
-	void setMinPosY(float minPosY) { m_minPosY = minPosY; }
-
 	b2World* getPhysicsWorld() { return m_world; }
 
 protected:
+
+	void initPhysics();
 
 	Node* findChild(Node* root, const std::string& name);
 
 	void updateMapMoveLogic();
 
-	void updateMapCorrectActor();
+	void collisionTest();
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 	void debugDraw();
+	virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags) override;
+	void onDraw();
+
+	DrawNode* m_debugDraw;
+	GLESDebugDraw* m_physicsDebugDraw;
+	cocos2d::CustomCommand _customCommand;
+	cocos2d::Mat4 _modelViewMV;
 #endif
 
-	void collisionTest();
 private:
 
 	GameMap* m_gameMap;
@@ -81,13 +82,7 @@ private:
 	Vector<GameActor*> m_allActor;
 	GameActor* m_player;
 
-	float m_viewPortMinX;
-	float m_viewPortMaxX;
 	float m_minPosY;
-
-#ifdef ENABLE_GAME_WORD_DEBUG
-	DrawNode* m_debugDraw;
-#endif
 
 	std::vector<ActorRect> m_defRectCache;
 	std::vector<ActorRect> m_attRectCache;

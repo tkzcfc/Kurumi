@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 09/13/18 10:47:26.
+** Generated automatically by tolua++-1.0.92 on 09/13/18 21:25:52.
 */
 
 #ifndef __cplusplus
@@ -2317,16 +2317,17 @@ static int tolua_game_GameWord_create00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setGameMap of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_setGameMap00
-static int tolua_game_GameWord_setGameMap00(lua_State* tolua_S)
+/* method: initGameWorld of class  GameWord */
+#ifndef TOLUA_DISABLE_tolua_game_GameWord_initGameWorld00
+static int tolua_game_GameWord_initGameWorld00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
      !tolua_isusertype(tolua_S,2,"GameMap",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -2334,17 +2335,18 @@ static int tolua_game_GameWord_setGameMap00(lua_State* tolua_S)
  {
   GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
   GameMap* map = ((GameMap*)  tolua_tousertype(tolua_S,2,0));
+  int minPosY = ((int)  tolua_tonumber(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setGameMap'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'initGameWorld'", NULL);
 #endif
   {
-   self->setGameMap(map);
+   self->initGameWorld(map,minPosY);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setGameMap'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'initGameWorld'.",&tolua_err);
  return 0;
 #endif
 }
@@ -2804,169 +2806,6 @@ static int tolua_game_GameWord_updateActors00(lua_State* tolua_S)
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'updateActors'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: setViewPortMinXValue of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_setViewPortMinXValue00
-static int tolua_game_GameWord_setViewPortMinXValue00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-  float InValue = ((float)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setViewPortMinXValue'", NULL);
-#endif
-  {
-   self->setViewPortMinXValue(InValue);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setViewPortMinXValue'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getViewPortMinXValue of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_getViewPortMinXValue00
-static int tolua_game_GameWord_getViewPortMinXValue00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getViewPortMinXValue'", NULL);
-#endif
-  {
-   float tolua_ret = (float)  self->getViewPortMinXValue();
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getViewPortMinXValue'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: setViewPortMaxXValue of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_setViewPortMaxXValue00
-static int tolua_game_GameWord_setViewPortMaxXValue00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-  float InValue = ((float)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setViewPortMaxXValue'", NULL);
-#endif
-  {
-   self->setViewPortMaxXValue(InValue);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setViewPortMaxXValue'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getViewPortMaxXValue of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_getViewPortMaxXValue00
-static int tolua_game_GameWord_getViewPortMaxXValue00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getViewPortMaxXValue'", NULL);
-#endif
-  {
-   float tolua_ret = (float)  self->getViewPortMaxXValue();
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getViewPortMaxXValue'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: setMinPosY of class  GameWord */
-#ifndef TOLUA_DISABLE_tolua_game_GameWord_setMinPosY00
-static int tolua_game_GameWord_setMinPosY00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"GameWord",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  GameWord* self = (GameWord*)  tolua_tousertype(tolua_S,1,0);
-  float minPosY = ((float)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMinPosY'", NULL);
-#endif
-  {
-   self->setMinPosY(minPosY);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setMinPosY'.",&tolua_err);
  return 0;
 #endif
 }
@@ -5074,7 +4913,7 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
   tolua_cclass(tolua_S,"GameWord","GameWord","cc.Node",NULL);
   tolua_beginmodule(tolua_S,"GameWord");
    tolua_function(tolua_S,"create",tolua_game_GameWord_create00);
-   tolua_function(tolua_S,"setGameMap",tolua_game_GameWord_setGameMap00);
+   tolua_function(tolua_S,"initGameWorld",tolua_game_GameWord_initGameWorld00);
    tolua_function(tolua_S,"getGameMap",tolua_game_GameWord_getGameMap00);
    tolua_function(tolua_S,"addActor",tolua_game_GameWord_addActor00);
    tolua_function(tolua_S,"removeActor",tolua_game_GameWord_removeActor00);
@@ -5089,11 +4928,6 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getActorNode",tolua_game_GameWord_getActorNode00);
    tolua_function(tolua_S,"getChildNode",tolua_game_GameWord_getChildNode00);
    tolua_function(tolua_S,"updateActors",tolua_game_GameWord_updateActors00);
-   tolua_function(tolua_S,"setViewPortMinXValue",tolua_game_GameWord_setViewPortMinXValue00);
-   tolua_function(tolua_S,"getViewPortMinXValue",tolua_game_GameWord_getViewPortMinXValue00);
-   tolua_function(tolua_S,"setViewPortMaxXValue",tolua_game_GameWord_setViewPortMaxXValue00);
-   tolua_function(tolua_S,"getViewPortMaxXValue",tolua_game_GameWord_getViewPortMaxXValue00);
-   tolua_function(tolua_S,"setMinPosY",tolua_game_GameWord_setMinPosY00);
   tolua_endmodule(tolua_S);
   tolua_function(tolua_S,"getGameWord",tolua_game_getGameWord00);
   tolua_function(tolua_S,"changeParticleSystemPositionType",tolua_game_changeParticleSystemPositionType00);

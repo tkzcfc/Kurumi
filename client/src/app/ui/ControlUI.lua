@@ -18,7 +18,7 @@ function ControlUI:ctor()
     self:initTouch()
     self:initKeyboard()
 
-    self:onClickOpenDebug(nil)
+    -- self:onClickOpenDebug(nil)
 end
 
 function ControlUI:onEnter()

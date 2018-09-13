@@ -202,6 +202,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\gamecore\GameMath.h" />
     <ClInclude Include="..\Classes\gamecore\GamePhysicsNode.h" />
     <ClInclude Include="..\Classes\gamecore\GameWord.h" />
+    <ClInclude Include="..\Classes\gamecore\GLES-Render.h" />
     <ClInclude Include="..\Classes\gamecore\SpeedController.h" />
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
     <ClInclude Include="..\Classes\ide-support\lua_debugger.h" />
@@ -276,6 +277,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\gamecore\GameMath.cpp" />
     <ClCompile Include="..\Classes\gamecore\GamePhysicsNode.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameWord.cpp" />
+    <ClCompile Include="..\Classes\gamecore\GLES-Render.cpp" />
     <ClCompile Include="..\Classes\gamecore\SpeedController.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
     <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp" />

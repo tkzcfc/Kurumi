@@ -1123,9 +1123,7 @@ function MapConfig:loadMap(word, mapKey)
 
     local map = GameMap:create()
     map:loadMapFile(c.filepath, c.actorNodeName, c.fixNodeName)
-    
-    word:setGameMap(map)
-    word:setMinPosY(c.minPosY)
+    word:initGameWorld(map, c.minPosY)
     return word
 end
 

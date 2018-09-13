@@ -284,6 +284,9 @@
     <ClInclude Include="..\Classes\lua_function\tolua_ext.h">
       <Filter>Classes\lua_function</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\gamecore\GLES-Render.h">
+      <Filter>Classes\gamecore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -514,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp">
       <Filter>Classes\lua_function</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\gamecore\GLES-Render.cpp">
+      <Filter>Classes\gamecore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

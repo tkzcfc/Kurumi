@@ -93,8 +93,6 @@ protected:
 
 	void updateArmatureInfo();
 
-	void createPhysicsBox();
-
 protected:
 	friend class GameWord;
 

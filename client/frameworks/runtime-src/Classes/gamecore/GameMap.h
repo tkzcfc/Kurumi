@@ -41,6 +41,8 @@ public:
 
 	inline float getMapHeight() { return m_mapSize.height; }
 
+	inline Node* getRootNode() { return m_mapNode[GameMapNodeType::STAGE_NODE]; }
+
 private:
 
 
@@ -55,6 +57,7 @@ private:
 
 	Size m_mapSize;
 	Size m_viewSize;
+	Size m_halfViewSize;
 	bool m_lockMapY;
 
 	float m_save_view_x;

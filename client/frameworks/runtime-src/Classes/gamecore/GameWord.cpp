@@ -1,16 +1,20 @@
 #include "GameWord.h"
 #include "GameMath.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCCustomCommand.h"
 
 static GameWord* Static__GameWord = NULL;
 
 GameWord::GameWord()
+	: m_gameMap(NULL)
+#ifdef ENABLE_GAME_WORD_DEBUG
+	, m_physicsDebugDraw(NULL)
+#endif
+	, m_player(NULL)
+	, m_world(NULL)
+	, m_minPosY(0.0f)
 {
-	m_gameMap = NULL;
-	m_player = NULL;
-	m_world = NULL;
 	Static__GameWord = this;
-	m_viewPortMinX = m_viewPortMaxX = 0.0f;
-	m_minPosY = 0.0f;
 }
 
 GameWord::~GameWord()
@@ -20,11 +24,11 @@ GameWord::~GameWord()
 	{
 		Static__GameWord = NULL;
 	}
-	if (m_world)
-	{
-		delete m_world;
-		m_world = NULL;
-	}
+	CC_SAFE_DELETE(m_world);
+
+#ifdef ENABLE_GAME_WORD_DEBUG
+	CC_SAFE_DELETE(m_physicsDebugDraw);
+#endif
 }
 
 GameWord* GameWord::create()
@@ -64,55 +68,68 @@ bool GameWord::init()
 	return false;
 }
 
-void GameWord::setGameMap(GameMap* map)
+void GameWord::initGameWorld(GameMap* map, int minPosY)
 {
-	if (m_gameMap)
-		return;
-
 	this->addChild(map);
-	m_gameMap = map;
 
-	m_viewPortMinX = 0.0f;
-	m_viewPortMaxX = m_gameMap->getMapWidth();
+	this->m_gameMap = map;
+	this->m_minPosY = minPosY;
+	this->initPhysics();
+}
 
+void GameWord::initPhysics()
+{
 	// 初始化box2d
-	m_world = new b2World(b2Vec2(0.0f, -10.0f / PIXEL_TO_METER));
+	m_world = new b2World(b2Vec2(0.0f, -10.0f));
 	m_world->SetAllowSleeping(true);
 	m_world->SetWarmStarting(true);
+	m_world->SetContinuousPhysics(true);
 
-	b2BodyDef wallDef;   //刚体定义
-	wallDef.position.Set(0, 0);  //位置
+#ifdef ENABLE_GAME_WORD_DEBUG
+	m_physicsDebugDraw = new GLESDebugDraw(PIXEL_TO_METER);
+	m_physicsDebugDraw->AppendFlags(b2Draw::e_shapeBit);
+	m_physicsDebugDraw->AppendFlags(b2Draw::e_jointBit);
+	m_physicsDebugDraw->AppendFlags(b2Draw::e_aabbBit);
+	m_physicsDebugDraw->AppendFlags(b2Draw::e_pairBit);
+	m_physicsDebugDraw->AppendFlags(b2Draw::e_centerOfMassBit);
+	m_world->SetDebugDraw(m_physicsDebugDraw);
+#endif
 
-	b2Body* wallBody = m_world->CreateBody(&wallDef);   //创建一个刚体（四周墙体）
+	// Define the ground body.
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0, 0);
+	b2Body* groundBody = m_world->CreateBody(&groundBodyDef);
 
-	float halfMapWidth = m_gameMap->getMapWidth();
-	float halfMapHeight = m_gameMap->getMapHeight();
+	// Define the ground box shape.
+	b2EdgeShape groundBox;
+	
+	const float world_width = m_gameMap->getMapWidth();
+	const float world_height = m_gameMap->getMapHeight();
+	const float left_offsetValue = 20.0f;
+	const float right_offsetValue = 20.0f;
+	const float bottom_offsetValue = m_minPosY;
+	const float top_offsetValue = 0.0f;
 
-	b2EdgeShape wallShape;   //形状
-	//下
-	wallShape.Set(b2Vec2(-halfMapWidth / PIXEL_TO_METER, (-halfMapHeight + m_minPosY) / PIXEL_TO_METER), b2Vec2(halfMapWidth / PIXEL_TO_METER, (-halfMapHeight + m_minPosY) / PIXEL_TO_METER));
-	wallBody->CreateFixture(&wallShape, 0.0f);
-	//上
-	wallShape.Set(b2Vec2(-halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER), b2Vec2(halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER));
-	wallBody->CreateFixture(&wallShape, 0.0f);
-	//左
-	wallShape.Set(b2Vec2(-halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER), b2Vec2(-halfMapWidth / PIXEL_TO_METER, -halfMapHeight / PIXEL_TO_METER));
-	wallBody->CreateFixture(&wallShape, 0.0f);
-	//右
-	wallShape.Set(b2Vec2(halfMapWidth / PIXEL_TO_METER, halfMapHeight / PIXEL_TO_METER), b2Vec2(halfMapWidth / PIXEL_TO_METER, -halfMapHeight / PIXEL_TO_METER));
-	wallBody->CreateFixture(&wallShape, 0.0f);
-	////下
-	//wallShape.Set(b2Vec2(0.0f, m_minPosY / PIXEL_TO_METER), b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, m_minPosY / PIXEL_TO_METER));
-	//wallBody->CreateFixture(&wallShape, 0.0f);
-	////上
-	//wallShape.Set(b2Vec2(0.0f, m_gameMap->getMapHeight() / PIXEL_TO_METER), b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, m_gameMap->getMapHeight() / PIXEL_TO_METER));
-	//wallBody->CreateFixture(&wallShape, 0.0f);
-	////左
-	//wallShape.Set(b2Vec2(0.0f, m_gameMap->getMapHeight() / PIXEL_TO_METER), b2Vec2(0.0f, 0.0f));
-	//wallBody->CreateFixture(&wallShape, 0.0f);
-	////右
-	//wallShape.Set(b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, m_gameMap->getMapHeight() / PIXEL_TO_METER), b2Vec2(m_gameMap->getMapWidth() / PIXEL_TO_METER, 0.0f));
-	//wallBody->CreateFixture(&wallShape, 0.0f);
+	Vec2 LB(left_offsetValue, bottom_offsetValue);
+	Vec2 LT(left_offsetValue, world_height - top_offsetValue);
+	Vec2 RB(world_width - right_offsetValue, bottom_offsetValue);
+	Vec2 RT(world_width - right_offsetValue, world_height - top_offsetValue);
+
+	// bottom
+	groundBox.Set(b2Vec2(LB.x / PIXEL_TO_METER, LB.y / PIXEL_TO_METER), b2Vec2(RB.x / PIXEL_TO_METER, RB.y / PIXEL_TO_METER));
+	groundBody->CreateFixture(&groundBox, 0);
+
+	// top
+	groundBox.Set(b2Vec2(LT.x / PIXEL_TO_METER, LT.y / PIXEL_TO_METER), b2Vec2(RT.x / PIXEL_TO_METER, RT.y / PIXEL_TO_METER));
+	groundBody->CreateFixture(&groundBox, 0);
+
+	// left
+	groundBox.Set(b2Vec2(LT.x / PIXEL_TO_METER, LT.y / PIXEL_TO_METER), b2Vec2(LB.x / PIXEL_TO_METER, LB.y / PIXEL_TO_METER));
+	groundBody->CreateFixture(&groundBox, 0);
+
+	// right
+	groundBox.Set(b2Vec2(RB.x / PIXEL_TO_METER, RB.y / PIXEL_TO_METER), b2Vec2(RT.x / PIXEL_TO_METER, RT.y / PIXEL_TO_METER));
+	groundBody->CreateFixture(&groundBox, 0);
 }
 
 void GameWord::addActor(GameActor* actor)
@@ -201,30 +218,18 @@ Node* GameWord::findChild(Node* root, const std::string& name)
 	return NULL;
 }
 
-
-void GameWord::setViewPortMinXValue(float InValue) 
-{ 
-	m_viewPortMinX = InValue;
-	m_viewPortMinX = MAX(m_viewPortMinX, 0.0f);
-}
-
-void GameWord::setViewPortMaxXValue(float InValue) 
-{
-	m_viewPortMaxX = InValue;
-	m_viewPortMaxX = MIN(m_viewPortMaxX, m_gameMap->getMapWidth());
-}
-
 void GameWord::logicUpdate(float d)
 {
-	m_world->Step(d, 4, 4);
+	if (m_world)
+	{
+		m_world->Step(d, 4, 4);
+	}
 
 	// 角色逻辑
 	for (auto& it : m_allActor)
 	{
 		it->logicUpdate(d);
 	}
-	// 地图约束
-	//updateMapCorrectActor();
 
 	// 地图移动
 	updateMapMoveLogic();
@@ -266,34 +271,12 @@ void GameWord::updateMapMoveLogic()
 	if (m_player)
 	{
 		const Vec2& v = m_player->getPosition();
-		m_gameMap->setViewPos(v.x, 0.0f);
+		m_gameMap->setViewPos(v.x, MAX(v.y - m_minPosY, 0.0f));
+#ifdef ENABLE_GAME_WORD_DEBUG
+		m_debugDraw->setPosition(m_gameMap->getRootNode()->getPosition());
+#endif
 	}
 }
-
-void GameWord::updateMapCorrectActor()
-{
-	//Vec2 v;
-	//float tmp;
-	//for (auto& it : m_allActor)
-	//{
-	//	if(!it->isEnableMapConstraint())
-	//		continue;
-
-	//	static const float halfWidth = 50.0f;//it->getAABB().size.width * 0.5;
-	//	v = it->getPosition();
-
-	//	tmp = m_viewPortMaxX - halfWidth;
-	//	v.x = MIN(v.x, tmp);
-
-	//	tmp = m_viewPortMinX + halfWidth;
-	//	v.x = MAX(v.x, tmp);
-
-	//	v.x = MAX(v.y, m_minPosY);
-
-	//	it->setPosition(v);
-	//}
-}
-
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 void GameWord::debugDraw()
@@ -327,6 +310,40 @@ void GameWord::debugDraw()
 		}
 	}
 }
+
+void GameWord::draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags)
+{
+	Node::draw(renderer, transform, flags);
+
+	if (m_world == NULL || !m_debugDraw->isVisible())
+		return;
+
+	GL::enableVertexAttribs(cocos2d::GL::VERTEX_ATTRIB_FLAG_POSITION);
+	Director* director = Director::getInstance();
+	CCASSERT(nullptr != director, "Director is null when seting matrix stack");
+	director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+
+	_modelViewMV = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+
+	_customCommand.init(_globalZOrder + 1);
+	_customCommand.func = CC_CALLBACK_0(GameWord::onDraw, this);
+	renderer->addCommand(&_customCommand);
+
+	director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+}
+
+void GameWord::onDraw()
+{
+	Director* director = Director::getInstance();
+	CCASSERT(nullptr != director, "Director is null when seting matrix stack");
+
+	auto oldMV = director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+	director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewMV);
+	director->multiplyMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, m_gameMap->getRootNode()->getNodeToParentTransform());
+	m_world->DrawDebugData();
+	director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, oldMV);
+}
+
 #endif
 
 void GameWord::collisionTest()

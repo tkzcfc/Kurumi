@@ -38,6 +38,7 @@ bool GameMap::init()
 		return false;
 
 	m_viewSize = Director::getInstance()->getVisibleSize();
+	m_halfViewSize = m_viewSize * 0.5f;
 
 	return true;
 }
@@ -85,10 +86,10 @@ void GameMap::loadMapFile(const std::string& filepath, const std::string& actorN
 
 	m_mapNode[GameMapNodeType::STAGE_NODE] = rootNode;
 
-	for (int i = 0; i < (int)GameMapNodeType::STAGE_NODE; ++i)
+	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
-		m_mapNodeMoveSize[i].width = MAX(m_mapNodeMoveSize[i].width - m_viewSize.width, 0.0f);
-		m_mapNodeMoveSize[i].height = MAX(m_mapNodeMoveSize[i].height - m_viewSize.height, 0.0f);
+		m_mapNodeMoveSize[i].width = MAX(m_mapNodeSize[i].width - m_viewSize.width, 0.0f);
+		m_mapNodeMoveSize[i].height = MAX(m_mapNodeSize[i].height - m_viewSize.height, 0.0f);
 	}
 }
 
@@ -103,18 +104,46 @@ void GameMap::setViewPos(float x, float y)
 		return;
 	}
 
-	float percent_x = x / m_mapSize.width;
+	float percent_x = 0.0f;
 	float percent_y = y / m_mapSize.height;
 
+	bool fix_player_to_center_x = false;
+	if (x <= m_halfViewSize.width)
+	{
+		percent_x = 0.0f;
+	}
+	else if(x >= m_mapSize.width - m_halfViewSize.width)
+	{
+		percent_x = 1.0f;
+	}
+	else
+	{
+		fix_player_to_center_x = true;
+		percent_x = x / m_mapSize.width;;
+	}
+
+	float curx, cury;
 	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
 		if(m_mapNode[i] == NULL)
 			continue;
-		float curx = percent_x * m_mapNodeMoveSize[i].width;
+		curx = 0.0f;
 		if (i == GameMapNodeType::FIX_NODE)
 		{
+			curx = percent_x * m_mapNodeMoveSize[i].width;
 			curx = curx + m_mapNode[GameMapNodeType::STAGE_NODE]->getPositionX();
 			curx = curx - m_fixNodeBeginX;
+		}
+		else
+		{
+			if (fix_player_to_center_x)
+			{
+				curx = x - m_halfViewSize.width;
+			}
+			else
+			{
+				curx = percent_x * m_mapNodeMoveSize[i].width;
+			}
 		}
 		if (m_lockMapY)
 		{
@@ -122,7 +151,7 @@ void GameMap::setViewPos(float x, float y)
 		}
 		else
 		{
-			float cury = percent_y * m_mapNodeMoveSize[i].height;
+			cury = percent_y * m_mapNodeMoveSize[i].height;
 			m_mapNode[i]->setPosition(-curx, -cury);
 		}
 	}
@@ -134,8 +163,9 @@ void GameMap::setViewSize(float width, float height)
 {
 	m_viewSize.width = width;
 	m_viewSize.height = height;
+	m_halfViewSize = m_viewSize * 0.5f;
 
-	for (int i = 0; i < (int)GameMapNodeType::STAGE_NODE; ++i)
+	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
 		m_mapNodeMoveSize[i].width = MAX(m_mapNodeMoveSize[i].width - m_viewSize.width, 0.0f);
 		m_mapNodeMoveSize[i].height = MAX(m_mapNodeMoveSize[i].height - m_viewSize.height, 0.0f);

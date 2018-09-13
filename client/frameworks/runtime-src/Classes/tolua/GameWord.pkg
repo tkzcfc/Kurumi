@@ -6,7 +6,7 @@ public:
 
 	static GameWord* create();
 
-	void setGameMap(GameMap* map);
+	void initGameWorld(GameMap* map, int minPosY);
 
 	GameMap* getGameMap();
 
@@ -35,14 +35,6 @@ public:
 	cc.Node* getChildNode(const std::string& name);
 
 	void updateActors();
-
-	void setViewPortMinXValue(float InValue);
-	float getViewPortMinXValue();
-	
-	void setViewPortMaxXValue(float InValue);
-	float getViewPortMaxXValue();
-	
-	void setMinPosY(float minPosY);
 };
 
 GameWord* getGameWord();
