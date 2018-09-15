@@ -10,6 +10,11 @@
 
 #define PIXEL_TO_METER 30.0f
 
+#define PHYSICS_WORLD_GRAVITY_Y -40.0f
+#define PHYSICS_WORLD_GRAVITY_X 0.0f
+
+#define PHYSICS_WORLD_FPS (1.0 / 60.0f)
+
 using namespace cocos2d;
 
 class GameWord : public Node
@@ -22,10 +27,11 @@ public:
 
 	virtual bool init() override;
 
-	void initGameWorld(GameMap* map, int minPosY);
+	void initGameWorld(GameMap* map, float left_offset, float right_offset);
 
 	inline GameMap* getGameMap() { return m_gameMap; }
 
+	// actorÏà¹Ø
 	void addActor(GameActor* actor);
 
 	void removeActor(GameActor* actor);
@@ -40,29 +46,37 @@ public:
 
 	virtual void removeActorByName(const std::string& name);
 
-	void logicUpdate(float d);
-
-	void openDebugDraw(bool open);
-
-	bool isOpenDebugDraw();
-
-	inline Node* getActorNode() { return m_gameMap->getActorNode(); }
-
 	Node* getChildNode(const std::string& name);
 
 	void updateActors();
 
-	b2World* getPhysicsWorld() { return m_world; }
+	inline Node* getActorNode() const { return m_gameMap->getActorNode(); }
+
+	void logicUpdate(float d);
+
+	// debug draw
+	void openDebugDraw(bool open);
+
+	bool isOpenDebugDraw();
+
+	//
+	inline b2World* getPhysicsWorld() const { return m_world; }
+
+	inline const Rect& getGameWorldValidRect() const { return m_worldValidRect; }
+
+	void addDiscardB2Body(b2Body* body);
 
 protected:
 
-	void initPhysics();
+	void initPhysics(float left_offset, float right_offset, float top_offset, float bottom_offset);
 
 	Node* findChild(Node* root, const std::string& name);
 
 	void updateMapMoveLogic();
 
 	void collisionTest();
+
+	void clearDiscardB2BodyList();
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 	void debugDraw();
@@ -82,14 +96,14 @@ private:
 	Vector<GameActor*> m_allActor;
 	GameActor* m_player;
 
-	float m_minPosY;
-
 	std::vector<ActorRect> m_defRectCache;
 	std::vector<ActorRect> m_attRectCache;
 
 	Size m_winSize;
+	Rect m_worldValidRect;
 
 	b2World* m_world;
+	std::list<b2Body*> m_discardB2BodyList;
 };
 
 

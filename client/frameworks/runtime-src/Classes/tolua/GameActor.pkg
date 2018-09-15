@@ -1,6 +1,9 @@
 $#include "gamecore/GameActor.h"
 
 
+#define GAME_ORI_LEFT (-1)
+#define GAME_ORI_RIGHT (1)
+
 enum GameActorType
 {
 	AT_MONSTER,
@@ -13,67 +16,18 @@ class GameActor : public cc.Node
 {
 public:
 	static GameActor* create();
-
-	GameActor();
-
-	virtual ~GameActor();
-
-	virtual bool init();
-
-	GameAttribute* getGameAttribute();
-
-	QFSM* getFSM();
 	
-	ccs.Armature* getArmature();
+	GameActorType getActorType();
+
+	void setActorType(GameActorType type);
 	
-	inline GameWord* getGameWord();
+	bool isEnableCollision();
 
-	// 设置角色方向
-	virtual void setOrientation(short ori);
-
-	inline int getOrientation();
-
-	// 
-	virtual void loadArmature(const std::string& filepath);
-
-	virtual GameActorType getActorType();
-
-	virtual void setActorType(GameActorType type);
-
-	virtual bool isRunAABB(GameActor* other);
-
-	// 攻击等级测试
-	/// true 大于传入actor
-	virtual bool attLevelTest(GameActor* other);
-
-	virtual void AABBCallback(GameActor* other);
-
-	// 攻击其他角色
-	virtual bool attOtherActorCallback(GameActor* other);
+	void setCollisionEnable(bool enable);
 	
-	inline void lockOrientation();
-	
-	inline void unLockOrientation();
-	
-	inline bool isLockOrientation();
-
-	// 是否启用地图约束
-	inline void setMapConstraintEnable(bool InEnable);
-	inline bool isEnableMapConstraint();
 	
 	//LuaFunctionBond
 	void registerLuaHandle(const std::string& name, LuaFunction handle);
 
 	void unregisterLuaHandle(const std::string& name);
-	
-		/** Keep the sprite's rotation separate from the body. */
-	bool isIgnoreBodyRotation();
-	void setIgnoreBodyRotation(bool bIgnoreBodyRotation);
-
-	b2Body* getB2Body();
-	void setB2Body(b2Body *pBody);
-
-	float getPTMRatio();
-	void setPTMRatio(float fPTMRatio);
-	void syncPhysicsTransform();
 };

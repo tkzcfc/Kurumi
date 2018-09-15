@@ -1,12 +1,18 @@
 $#include "gamecore/GameWord.h"
 
+#define PIXEL_TO_METER 30.0f
+#define PHYSICS_WORLD_GRAVITY_Y -40.0f
+#define PHYSICS_WORLD_GRAVITY_X 0.0f
+
+#define PHYSICS_WORLD_FPS (1.0 / 60.0f)
+
 class GameWord : public cc.Node
 {
 public:
 
 	static GameWord* create();
 
-	void initGameWorld(GameMap* map, int minPosY);
+	void initGameWorld(GameMap* map, float left_offset, float right_offset);
 
 	GameMap* getGameMap();
 
@@ -35,6 +41,8 @@ public:
 	cc.Node* getChildNode(const std::string& name);
 
 	void updateActors();
+	
+	const Rect getGameWorldValidRect();
 };
 
 GameWord* getGameWord();

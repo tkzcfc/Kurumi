@@ -198,12 +198,11 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\gamecore\FSM.h" />
     <ClInclude Include="..\Classes\gamecore\GameActor.h" />
     <ClInclude Include="..\Classes\gamecore\GameAttribute.h" />
+    <ClInclude Include="..\Classes\gamecore\GameCharacter.h" />
     <ClInclude Include="..\Classes\gamecore\GameMap.h" />
     <ClInclude Include="..\Classes\gamecore\GameMath.h" />
-    <ClInclude Include="..\Classes\gamecore\GamePhysicsNode.h" />
     <ClInclude Include="..\Classes\gamecore\GameWord.h" />
     <ClInclude Include="..\Classes\gamecore\GLES-Render.h" />
-    <ClInclude Include="..\Classes\gamecore\SpeedController.h" />
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
     <ClInclude Include="..\Classes\ide-support\lua_debugger.h" />
     <ClInclude Include="..\Classes\ide-support\RuntimeLuaImpl.h" />
@@ -273,12 +272,12 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameActor.cpp" />
+    <ClCompile Include="..\Classes\gamecore\GameCharacter.cpp" />
+    <ClCompile Include="..\Classes\gamecore\GameCharacterBox2d.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameMap.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameMath.cpp" />
-    <ClCompile Include="..\Classes\gamecore\GamePhysicsNode.cpp" />
     <ClCompile Include="..\Classes\gamecore\GameWord.cpp" />
     <ClCompile Include="..\Classes\gamecore\GLES-Render.cpp" />
-    <ClCompile Include="..\Classes\gamecore\SpeedController.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
     <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp" />
     <ClCompile Include="..\Classes\lua-modules\bit\bit.c" />

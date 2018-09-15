@@ -18,7 +18,7 @@ function ControlUI:ctor()
     self:initTouch()
     self:initKeyboard()
 
-    -- self:onClickOpenDebug(nil)
+    self:onClickOpenDebug(nil)
 end
 
 function ControlUI:onEnter()
@@ -28,6 +28,8 @@ function ControlUI:onExit()
 end
 
 function ControlUI:initTouch()
+
+	self.isKey_jump = false
 
 	local beginPos = {x = self.ui.sprite_BG:getPositionX(), y = self.ui.sprite_BG:getPositionY()}
 	local touchBox = self.ui.sprite_BG:getBoundingBox()
@@ -45,6 +47,7 @@ function ControlUI:initTouch()
 		self.ui.sprite_Move:setVisible(false)
 		self.ui.sprite_Red:setVisible(false)
 		self.ui.sprite_Ori:setOpacity(180)
+		self.isKey_jump = false
 	end
 	normal()
 
@@ -89,7 +92,10 @@ function ControlUI:initTouch()
 		local player = _MyG.PlayerController:getPlayer()
 
 		if radian < -30 and radian > -150 then
-			_MyG.PlayerDispatcher:call("control_jump", player)
+			if not self.isKey_jump then
+				_MyG.PlayerDispatcher:call("control_jump", player)
+				self.isKey_jump = true
+			end
 		end
 		local move_x = 1--math.min(1.0, math.abs(V_R.x) / touchR)
 		if V_R.x < 0 then move_x = -move_x end

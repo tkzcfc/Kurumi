@@ -238,7 +238,7 @@ end
 
 function Monster_LeiShen:enter_State_Hit()
 	self.isHit = true
-	self.actorSpeedController:setForce(self:changeValueByOri(-100), 0)
+	self.actorSpeedController:setForce(self:getVelocityByOrientation(-100), 0)
 	self.actorSpeedController:setFriction(300)
 	self.actorSpeedController:setForceEnable(true)
 	self.actorSpeedController:setFrictionEnable(true)

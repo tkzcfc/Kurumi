@@ -3,11 +3,13 @@
 
 
 GameMap::GameMap()
+	: m_minPosY(0.0f)
+	, m_actorNode(NULL)
+	, m_lockMapY(false)
+	, m_fixNodeBeginX(0.0f)
+	, m_save_view_x(-1.0f)
+	, m_save_view_y(-1.0f)
 {
-	m_lockMapY = false;
-	m_actorNode = NULL;
-	m_fixNodeBeginX = 0.0f;
-	m_save_view_x = m_save_view_y = -1.0f;
 	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
 		m_mapNode[i] = NULL;
@@ -43,10 +45,12 @@ bool GameMap::init()
 	return true;
 }
 
-void GameMap::loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName)
+void GameMap::loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName, float minPosY)
 {
 	if (m_actorNode)
 		return;
+
+	m_minPosY = minPosY;
 
 	Node* rootNode = SceneReader::getInstance()->createNodeWithSceneFile(filepath);
 	addChild(rootNode);
@@ -95,6 +99,7 @@ void GameMap::loadMapFile(const std::string& filepath, const std::string& actorN
 
 void GameMap::setViewPos(float x, float y)
 {
+	y = y - m_minPosY;
 	x = MAX(x, 0.0f);
 	x = MIN(x, m_mapSize.width);
 	y = MAX(y, 0.0f);

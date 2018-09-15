@@ -263,9 +263,6 @@
     <ClInclude Include="..\Classes\lua_game.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\SpeedController.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua-modules\net\tcpSocket\QuickQueue.h">
       <Filter>Classes\lua-modules\net\tcpSocket</Filter>
     </ClInclude>
@@ -278,13 +275,13 @@
     <ClInclude Include="..\Classes\gamecore\GameMap.h">
       <Filter>Classes\gamecore</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GamePhysicsNode.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_function\tolua_ext.h">
       <Filter>Classes\lua_function</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\gamecore\GLES-Render.h">
+      <Filter>Classes\gamecore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\gamecore\GameCharacter.h">
       <Filter>Classes\gamecore</Filter>
     </ClInclude>
   </ItemGroup>
@@ -500,9 +497,6 @@
     <ClCompile Include="..\Classes\lua_game.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\SpeedController.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp">
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
@@ -512,13 +506,16 @@
     <ClCompile Include="..\Classes\gamecore\GameMap.cpp">
       <Filter>Classes\gamecore</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GamePhysicsNode.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp">
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\gamecore\GLES-Render.cpp">
+      <Filter>Classes\gamecore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\gamecore\GameCharacter.cpp">
+      <Filter>Classes\gamecore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\gamecore\GameCharacterBox2d.cpp">
       <Filter>Classes\gamecore</Filter>
     </ClCompile>
   </ItemGroup>

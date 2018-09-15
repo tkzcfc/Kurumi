@@ -15,55 +15,21 @@ GameActor* GameActor::create()
 }
 
 GameActor::GameActor()
+	: m_actorType(GameActorType::AT_NONE)
+	, m_collisionEnable(false)
 {
-	m_word = NULL;
-	m_armature = NULL;
-	m_actorType = GameActorType::AT_NONE;
-	m_isLockOrientation = false;
-	m_isMapConstraintEnable = true;
-	m_curOrientation = GAME_ORI_RIGHT;
 }
 
 GameActor::~GameActor()
-{
-	//if (m_pB2Body)
-	//{
-	//	m_pB2Body->GetWorld()->DestroyBody(m_pB2Body);
-	//	m_pB2Body = NULL;
-	//}
-}
+{}
 
 bool GameActor::init()
 {
 	if (!Node::init())
 		return false;
-
-	this->setPTMRatio(PIXEL_TO_METER);
-
-	b2BodyDef bodydef;
-	bodydef.bullet = false;
-	bodydef.allowSleep = true;
-	bodydef.fixedRotation = true;
-	bodydef.type = b2_dynamicBody;
-	bodydef.position.x = 200.0f / PIXEL_TO_METER;
-	bodydef.position.y = 500.0f / PIXEL_TO_METER;
-
-	auto gameworld = ::getGameWord();
-	b2Body* body = gameworld->getPhysicsWorld()->CreateBody(&bodydef);
-	this->setB2Body(body);
-
-	const float box_w = 100.0f / PIXEL_TO_METER;
-	const float box_h = 120.0f / PIXEL_TO_METER;
-
-	b2PolygonShape shape;
-	shape.SetAsBox(box_w, box_h, b2Vec2(0.0f, box_h), 0.0f);
-	b2FixtureDef fixdef;
-	fixdef.shape = &shape;
-	fixdef.userData = this;
-	b2Fixture* fixture = body->CreateFixture(&fixdef);
-
 	return true;
 }
+
 
 void GameActor::logicUpdate(float d)
 {
@@ -76,57 +42,6 @@ void GameActor::logicUpdate(float d)
 	}
 }
 
-void GameActor::setOrientation(int ori)
-{
-	if (m_isLockOrientation || m_curOrientation == ori)
-		return;
-	m_curOrientation = ori;
-	
-	updateArmatureInfo();
-}
-
-void GameActor::updateArmatureInfo()
-{
-	if (m_armature)
-	{
-		if (m_curOrientation == GAME_ORI_RIGHT)
-			m_armature->setScaleX(1.0);
-		else
-			m_armature->setScaleX(-1.0);
-	}
-
-	LuaFunction* handle = getLuaHandle("updateArmatureInfo");
-	if (handle)
-	{
-		handle->ppush();
-		handle->pcall();
-	}
-}
-
-void GameActor::loadArmature(const std::string& filepath)
-{
-	if (m_armature)
-	{
-		m_armature->removeFromParent();
-		m_armature = NULL;
-	}
-
-	m_curOrientation = GAME_ORI_RIGHT;
-
-	m_armature = cocostudio::Armature::create(filepath);
-	m_armature->getAnimation()->playWithIndex(0);
-	this->addChild(m_armature);
-
-	LuaFunction* handle = getLuaHandle("loadArmature");
-	if (handle)
-	{
-		handle->ppush();
-		handle->pusharg(filepath);
-		handle->pcall();
-	}
-
-	updateArmatureInfo();
-}
 
 GameActorType GameActor::getActorType()
 {
@@ -137,110 +52,18 @@ GameActorType GameActor::getActorType()
 void GameActor::setActorType(GameActorType type)
 {
 	m_actorType = type;
-	if (m_word)
-	{
-		m_word->updateActors();
-	}
+	getGameWord()->updateActors();
 }
 
 /// Åö×²Ïà¹Ø
 bool GameActor::getAllDefRECT(std::vector<ActorRect>& actorRectVec)
 {
-	bool r = false;
-
-	actorRectVec.clear();
-
-	if (m_armature == NULL)
-		return false;
-
-	const auto& boneDic = m_armature->getBoneDic();
-
-	for (auto it = boneDic.begin(); it != boneDic.end(); ++it)
-	{
-		Bone *bone = it->second;
-		ColliderDetector *detector = bone->getColliderDetector();
-
-		if (!detector || it->first.find("RECT_HIT") == std::string::npos)
-			continue;
-
-		const cocos2d::Vector<ColliderBody*>& bodyList = detector->getColliderBodyList();
-
-		for (auto& object : bodyList)
-		{
-			ColliderBody *body = static_cast<ColliderBody*>(object);
-			const std::vector<Vec2> &vertexList = body->getCalculatedVertexList();
-
-			unsigned long length = vertexList.size();
-
-			ActorRect ar;
-			if (length % 4 == 0)
-			{
-				r = true;
-				for (unsigned long i = 0; i < length; i += 4)
-				{
-					for (unsigned long j = 0; j < 4; ++j)
-					{
-						Vec2 p = vertexList.at(i + j);
-						p = PointApplyAffineTransform(p, this->getNodeToParentAffineTransform());
-						ar.v[j].x = p.x;
-						ar.v[j].y = p.y;
-					}
-					actorRectVec.push_back(ar);
-				}
-			}
-		}
-	}
-
-	return r;
+	return false;
 }
 
 bool GameActor::getAllAttRECT(std::vector<ActorRect>& actorRectVec)
 {
-	bool r = false;
-
-	actorRectVec.clear();
-
-	if (m_armature == NULL)
-		return false;
-
-	const auto& boneDic = m_armature->getBoneDic();
-
-	for (auto it = boneDic.begin(); it != boneDic.end(); ++it)
-	{
-		Bone *bone = it->second;
-		ColliderDetector *detector = bone->getColliderDetector();
-
-		if (!detector || it->first.find("RECT_ATK_") == std::string::npos)
-			continue;
-
-		const cocos2d::Vector<ColliderBody*>& bodyList = detector->getColliderBodyList();
-
-		for (auto& object : bodyList)
-		{
-			ColliderBody *body = static_cast<ColliderBody*>(object);
-			const std::vector<Vec2> &vertexList = body->getCalculatedVertexList();
-
-			unsigned long length = vertexList.size();
-
-			ActorRect ar;
-			if (length % 4 == 0)
-			{
-				r = true;
-				for (unsigned long i = 0; i < length; i += 4)
-				{
-					for (unsigned long j = 0; j < 4; ++j)
-					{
-						Vec2 p = vertexList.at(i + j);
-						p = PointApplyAffineTransform(p, this->getNodeToParentAffineTransform());
-						ar.v[j].x = p.x;
-						ar.v[j].y = p.y;
-					}
-					actorRectVec.push_back(ar);
-				}
-			}
-		}
-	}
-	return r;
+	return false;
 }
 
 bool GameActor::AABBTest(const Rect& r)
@@ -251,13 +74,8 @@ bool GameActor::AABBTest(const Rect& r)
 
 const Rect& GameActor::getAABB()
 {
-	if (m_armature == NULL)
-		return Rect::ZERO;
 	static Rect r;
-	r = m_armature->getBoundingBox();
-	r = RectApplyTransform(r, this->getNodeToParentTransform());
-	r.origin.x = r.origin.x - r.size.width * 0.5f;
-	r.size.width *= 2;
+	r = getBoundingBox();
 	return r;
 }
 

@@ -84,7 +84,7 @@ end
 function PlayerController:dis_control_attack(actor)
 	if actor ~= self.player then return end
 
-	if not self.player:handle("CMD_Attack") then
+	if not self.player:attack() then
 		self.toNextAttack = true
 	else
 		self.toNextAttack = false

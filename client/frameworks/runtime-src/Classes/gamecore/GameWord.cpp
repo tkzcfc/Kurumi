@@ -12,7 +12,6 @@ GameWord::GameWord()
 #endif
 	, m_player(NULL)
 	, m_world(NULL)
-	, m_minPosY(0.0f)
 {
 	Static__GameWord = this;
 }
@@ -20,15 +19,17 @@ GameWord::GameWord()
 GameWord::~GameWord()
 {
 	//CCLOG("GameWord::~GameWord");
-	if (Static__GameWord == this)
-	{
-		Static__GameWord = NULL;
-	}
+	m_allActor.clear();
+	m_discardB2BodyList.clear();
 	CC_SAFE_DELETE(m_world);
 
 #ifdef ENABLE_GAME_WORD_DEBUG
 	CC_SAFE_DELETE(m_physicsDebugDraw);
 #endif
+	if (Static__GameWord == this)
+	{
+		Static__GameWord = NULL;
+	}
 }
 
 GameWord* GameWord::create()
@@ -59,7 +60,7 @@ bool GameWord::init()
 		this->addChild(m_debugDraw, 1);
 #endif
 
-		this->schedule(schedule_selector(GameWord::logicUpdate), 1 / 60.0f);
+		this->schedule(schedule_selector(GameWord::logicUpdate), PHYSICS_WORLD_FPS);
 
 		m_winSize = Director::getInstance()->getVisibleSize();
 
@@ -68,19 +69,22 @@ bool GameWord::init()
 	return false;
 }
 
-void GameWord::initGameWorld(GameMap* map, int minPosY)
+void GameWord::initGameWorld(GameMap* map, float left_offset, float right_offset)
 {
 	this->addChild(map);
-
 	this->m_gameMap = map;
-	this->m_minPosY = minPosY;
-	this->initPhysics();
+	this->initPhysics(left_offset, right_offset, 0.0f, map->getMinPosY());
+	
+	m_worldValidRect.origin.x = left_offset;
+	m_worldValidRect.origin.y = map->getMinPosY();
+	m_worldValidRect.size.width = map->getMapWidth() - left_offset - right_offset;
+	m_worldValidRect.size.height = map->getMapHeight() - map->getMinPosY();
 }
 
-void GameWord::initPhysics()
+void GameWord::initPhysics(float left_offset, float right_offset, float top_offset, float bottom_offset)
 {
 	// ³õÊ¼»¯box2d
-	m_world = new b2World(b2Vec2(0.0f, -10.0f));
+	m_world = new b2World(b2Vec2(PHYSICS_WORLD_GRAVITY_X, PHYSICS_WORLD_GRAVITY_Y));
 	m_world->SetAllowSleeping(true);
 	m_world->SetWarmStarting(true);
 	m_world->SetContinuousPhysics(true);
@@ -105,10 +109,10 @@ void GameWord::initPhysics()
 	
 	const float world_width = m_gameMap->getMapWidth();
 	const float world_height = m_gameMap->getMapHeight();
-	const float left_offsetValue = 20.0f;
-	const float right_offsetValue = 20.0f;
-	const float bottom_offsetValue = m_minPosY;
-	const float top_offsetValue = 0.0f;
+	const float left_offsetValue = left_offset;
+	const float right_offsetValue = right_offset;
+	const float bottom_offsetValue = bottom_offset;
+	const float top_offsetValue = top_offset;
 
 	Vec2 LB(left_offsetValue, bottom_offsetValue);
 	Vec2 LT(left_offsetValue, world_height - top_offsetValue);
@@ -135,7 +139,6 @@ void GameWord::initPhysics()
 void GameWord::addActor(GameActor* actor)
 {
 	getActorNode()->addChild(actor);
-	actor->m_word = this;
 	m_allActor.pushBack(actor);
 }
 
@@ -146,7 +149,6 @@ void GameWord::removeActor(GameActor* actor)
 		return;
 	}
 	actor->removeFromParent();
-	actor->m_word = NULL;
 	m_allActor.eraseObject(actor);
 }
 
@@ -190,7 +192,6 @@ void GameWord::removeActorByName(const std::string& name)
 	if (actor)
 	{
 		actor->removeFromParent();
-		actor->m_word = NULL;
 		m_allActor.eraseObject(actor);
 	}	
 }
@@ -223,6 +224,7 @@ void GameWord::logicUpdate(float d)
 	if (m_world)
 	{
 		m_world->Step(d, 4, 4);
+		clearDiscardB2BodyList();
 	}
 
 	// ½ÇÉ«Âß¼­
@@ -271,7 +273,7 @@ void GameWord::updateMapMoveLogic()
 	if (m_player)
 	{
 		const Vec2& v = m_player->getPosition();
-		m_gameMap->setViewPos(v.x, MAX(v.y - m_minPosY, 0.0f));
+		m_gameMap->setViewPos(v.x, v.y);
 #ifdef ENABLE_GAME_WORD_DEBUG
 		m_debugDraw->setPosition(m_gameMap->getRootNode()->getPosition());
 #endif
@@ -456,6 +458,24 @@ void GameWord::updateActors()
 			m_allActor.at(i)->setLocalZOrder(0);
 		}
 	}
+}
+
+void GameWord::addDiscardB2Body(b2Body* body)
+{
+	auto it = std::find(m_discardB2BodyList.begin(), m_discardB2BodyList.end(), body);
+	if (it == m_discardB2BodyList.end())
+	{
+		m_discardB2BodyList.push_back(body);
+	}
+}
+
+void GameWord::clearDiscardB2BodyList()
+{
+	for (auto& it : m_discardB2BodyList)
+	{
+		m_world->DestroyBody(it);
+	}
+	m_discardB2BodyList.clear();
 }
 
 

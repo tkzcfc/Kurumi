@@ -545,6 +545,7 @@ void tolua_ext_b2vec2_to_luaval(lua_State* L, const b2Vec2& v)
 	lua_rawset(L, -3);                                  /* table[key] = value, L: table */
 	lua_pushstring(L, "y");                             /* L: table key */
 	lua_pushnumber(L, (lua_Number)v.y);					/* L: table key value*/
+	lua_rawset(L, -3);                                  /* table[key] = value, L: table */
 }
 
 Vec2 tolua_ext_luaval_to_vec2_value(lua_State* L, int lo, int)

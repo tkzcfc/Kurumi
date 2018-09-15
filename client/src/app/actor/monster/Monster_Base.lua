@@ -1,6 +1,6 @@
-local LuaGameActor = require("app.actor.LuaGameActor")
+local LuaGameCharacter = require("app.actor.LuaGameCharacter")
 
-local Monster_Base = class("Monster_Base", LuaGameActor)
+local Monster_Base = class("Monster_Base", LuaGameCharacter)
 
 function Monster_Base:ctor()
 	Monster_Base.super.ctor(self)

@@ -191,7 +191,7 @@ function Monster_Shengbo:override_forceSwitchClean()
 end
 
 function Monster_Shengbo:enter_State_Hit()
-	self.actorSpeedController:setForce(self:changeValueByOri(-100), 0)
+	self.actorSpeedController:setForce(self:getVelocityByOrientation(-100), 0)
 	self.actorSpeedController:setFriction(300)
 	self.actorSpeedController:setForceEnable(true)
 	self.actorSpeedController:setFrictionEnable(true)
@@ -207,7 +207,7 @@ function Monster_Shengbo:leave_State_Hit()
 end
 
 function Monster_Shengbo:enter_State_Collapase_Up()
-	self.actorSpeedController:setForce(self:changeValueByOri(-350), 0)
+	self.actorSpeedController:setForce(self:getVelocityByOrientation(-350), 0)
 	self.actorSpeedController:setFriction(150)
 	self.actorSpeedController:setForceEnable(true)
 	self.actorSpeedController:setFrictionEnable(true)

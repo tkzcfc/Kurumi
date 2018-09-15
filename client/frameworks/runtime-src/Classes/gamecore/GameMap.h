@@ -25,7 +25,7 @@ public:
 
 public:
 
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName, float minPosY);
 
 	void setViewPos(float x, float y);
 
@@ -42,6 +42,8 @@ public:
 	inline float getMapHeight() { return m_mapSize.height; }
 
 	inline Node* getRootNode() { return m_mapNode[GameMapNodeType::STAGE_NODE]; }
+
+	inline float getMinPosY() {	return m_minPosY; }
 
 private:
 
@@ -62,4 +64,6 @@ private:
 
 	float m_save_view_x;
 	float m_save_view_y;
+
+	float m_minPosY;
 };

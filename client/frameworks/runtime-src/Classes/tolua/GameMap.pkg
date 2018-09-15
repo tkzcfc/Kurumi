@@ -6,7 +6,7 @@ public:
 
 	static GameMap * create();
 	
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName);
+	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName, float minPosY);
 
 	void setViewPos(float x, float y);
 
