@@ -7,9 +7,12 @@ function PlayerController:ctor()
 
 	self.disEventList = {}
 
-	self:register("control_move")
-	self:register("control_stop")
-	self:register("control_jump")
+	self:register("control_left")
+	self:register("control_right")
+	self:register("control_up")
+	self:register("control_down")
+	self:register("control_cancel")
+
 	self:register("control_changeWeapon")
 	self:register("control_attack")
 
@@ -51,27 +54,29 @@ function PlayerController:unRegisterAll()
 	self.disEventList = {}
 end
 
-function PlayerController:dis_control_move(actor, x, y)
+function PlayerController:dis_control_left(actor)
 	if actor ~= self.player then return end
-	if math.abs(x) <= 0.0001 and math.abs(y) <= 0.0001 then
-		return
-	end
-	self.player:setMove(x, y)
-	self.player:handle("CMD_MoveStart")
+	self.player:control_left()
 end
 
-function PlayerController:dis_control_stop(actor)
+function PlayerController:dis_control_right(actor)
 	if actor ~= self.player then return end
-	self.player:setMoveStop()
-	self.player:handle("CMD_MoveStand")
+	self.player:control_right()
 end
 
-function PlayerController:dis_control_jump(actor)
+function PlayerController:dis_control_cancel(actor)
 	if actor ~= self.player then return end
+	self.player:control_cancel()
+end
 
-	if not self.player:jump() then
-		return
-	end
+function PlayerController:dis_control_up(actor)
+	if actor ~= self.player then return end
+	self.player:control_up()
+end
+
+function PlayerController:dis_control_down(actor)	
+	if actor ~= self.player then return end
+	self.player:control_down()
 end
 
 -- 切换武器

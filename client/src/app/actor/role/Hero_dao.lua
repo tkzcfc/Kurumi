@@ -102,8 +102,10 @@ function Hero_dao:override_logicUpdate(time)
 					self:clearForceX()
 				end
 			else
-				if curStateName == "State_JumpUp" and self.b2Body:GetLinearVelocity().y <= 0 then
-					self:handle("CMD_JumpDownStart")
+				if curStateName == "State_JumpUp" or curStateName == "State_JumpUp_2" then
+					if self.b2Body:GetLinearVelocity().y <= 0 then
+						self:handle("CMD_JumpDownStart")
+					end
 				elseif curStateName == "State_JumpDown" and not self:isInAir() then
 					self.isJump = false
 					self.jumpCountInAir = 0
@@ -114,14 +116,25 @@ function Hero_dao:override_logicUpdate(time)
 						self:handle("CMD_JumpDownEnd")
 					end
 				end
-				if self.startMoveCMD then
-					self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.JumMoveVelocity))
-				end
+				self:setVelocityXInStartMoveCMD(CommonActorConfig.JumMoveVelocity)
 			end
+		elseif self.isAttack2 then
+			self:setVelocityXInStartMoveCMD(CommonActorConfig.Attacl_2_MoveImpulse)
+		elseif self.isAttack3 then
+			self:setVelocityXInStartMoveCMD(CommonActorConfig.Attacl_3_MoveImpulse)
+		elseif self.isUpcut then
+			self:setVelocityYByImpulse(CommonActorConfig.Upcut_Impulse)			
 		end
 	end
 end
 
+function Hero_dao:setVelocityXInStartMoveCMD(impulse)				
+	if self.startMoveCMD then
+		self:setVelocityXByImpulse(self:getVelocityByOrientation(impulse))
+	else
+		self:clearForceX()
+	end
+end
 --------------------------------------logic--------------------------------------
 
 --切换角色
@@ -148,36 +161,46 @@ function Hero_dao:changeRole(name)
 	self.isAttack2 = false
 	self.isAttack3 = false
 	self.isAttack4 = false
+	-- 跳跃次数
 	self.jumpCountInAir = 0
+	-- 跳跃攻击次数
 	self.jumAttackCount = 0
+
+	self.isUpcut = false
 
 	self:initFSM()
 
 	self.FSM:start("State_Stand")
 end
 
-function Hero_dao:setMoveStop()
+function Hero_dao:control_cancel()
 	self.startMoveCMD = false
 	self:clearForceX()
+	self:handle("CMD_MoveStand")
 end
 
-function Hero_dao:setMove(x, y)
+function Hero_dao:control_left()
 	self.startMoveCMD = true
-
-	if x > 0.0 then
-		self:setOrientation(GAME_ORI_RIGHT)
-	elseif x < 1.0 then
-		self:setOrientation(GAME_ORI_LEFT)
-	end
+	self:setOrientation(GAME_ORI_LEFT)
+	self:handle("CMD_MoveStart")
 end
 
-function Hero_dao:jump()
+function Hero_dao:control_right()
+	self.startMoveCMD = true
+	self:setOrientation(GAME_ORI_RIGHT)
+	self:handle("CMD_MoveStart")
+end
+
+function Hero_dao:control_up()
 	if self.jumpCountInAir >= CommonActorConfig.MAX_JUMP_COUNT_IN_AIR then
 		return
 	end
 	if self:handle("CMD_JumpUpStart") then
 		self.jumpCountInAir = self.jumpCountInAir + 1
 	end
+end
+
+function Hero_dao:control_down()
 end
 
 function Hero_dao:attack()
@@ -212,18 +235,17 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Run2", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_Brak", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_JumpUp", "CMD_JumpUpStart", "State_JumpUp")
+	self.FSM:addTranslation("State_JumpUp_2", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_JumpDown", "CMD_JumpUpStart", "State_JumpUp")
-	-- self.FSM:addTranslation("State_Attack1", "CMD_JumpUpStart", "State_Upcut")
-	-- self.FSM:addTranslation("State_Attack2", "CMD_JumpUpStart", "State_Upcut")
-	-- self.FSM:addTranslation("State_Attack3", "CMD_JumpUpStart", "State_Upcut")
+	self.FSM:addTranslation("State_Attack1", "CMD_JumpUpStart", "State_Upcut")
+	self.FSM:addTranslation("State_Attack2", "CMD_JumpUpStart", "State_Upcut")
+	self.FSM:addTranslation("State_Attack3", "CMD_JumpUpStart", "State_Upcut")
 
-	self.FSM:addTranslation("State_Upcut", "CMD_JumpDownStart", "State_JumpDown")
-	self.FSM:addTranslation("State_Upcut", "CMD_JumpDownEnd", "State_JumpDownEnd")
-	self.FSM:addTranslation("State_Upcut", "CMD_JumpTo_MoveStart", "State_Run")
-	self.FSM:addTranslation("State_Upcut", "State_JumpDownEnd_stop", "State_Stand")
+	self.FSM:addTranslation("State_Upcut", "State_Upcut_stop", "State_JumpUp_2")
 
 
 	self.FSM:addTranslation("State_JumpUp", "CMD_JumpDownStart", "State_JumpDown")
+	self.FSM:addTranslation("State_JumpUp_2", "CMD_JumpDownStart", "State_JumpDown")
 	self.FSM:addTranslation("State_JumpDown", "CMD_JumpDownEnd", "State_JumpDownEnd")
 	self.FSM:addTranslation("State_JumpDown", "CMD_JumpTo_MoveStart", "State_Run")
 	self.FSM:addTranslation("State_JumpDownEnd", "State_JumpDownEnd_stop", "State_Stand")
@@ -344,14 +366,17 @@ function Hero_dao:leave_State_JumpAttack3()
 end
 
 function Hero_dao:com_enter_attack()
+	self:clearForceX()
 end
 
 function Hero_dao:com_leave_attack()
+	self:clearForceX()
 end
 
 function Hero_dao:enter_State_Attack1()
 	self.isAttack1 = true
 	self:com_enter_attack()
+	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.Attacl_1_MoveImpulse))
 end
 
 function Hero_dao:leave_State_Attack1()
@@ -383,6 +408,7 @@ function Hero_dao:enter_State_Attack4()
 	self.isAttack4 = true
 	self:lockOrientation()
 	self:com_enter_attack()
+	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.Attacl_4_MoveImpulse))
 end
 
 function Hero_dao:leave_State_Attack4()
@@ -417,6 +443,20 @@ end
 
 function Hero_dao:leave_State_Collapse3()
 	self:unLockOrientation()
+end
+
+function Hero_dao:enter_State_Upcut()
+	self.isUpcut = true
+	self:unLockOrientation()
+	self:clearForceY()
+end
+
+function Hero_dao:leave_State_Upcut()
+	self.isUpcut = false
+	self:unLockOrientation()
+	self.isJump = true
+	self:clearForceY()
+	self:setVelocityYByImpulse(CommonActorConfig.Upcut_JumpImpulse)
 end
 
 return Hero_dao

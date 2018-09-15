@@ -10,6 +10,7 @@ local CommonStateConfig =
 	State_JumpUp = {"fjumpup_1", "fjumpup_2"},
 	State_JumpDown = {"fjumpup_3", "fjumpdown_1"},
 	State_JumpDownEnd = {"fjumpdown_2"},
+	State_JumpUp_2 = {"fjumpup_2"},
 	State_Attack1 = {"attack1_1", "attack1_2"},
 	State_Attack2 = {"attack2_1", "attack2_2"},
 	State_Attack3 = {"attack3_1", "attack3_2"},

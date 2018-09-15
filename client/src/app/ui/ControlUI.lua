@@ -1,5 +1,9 @@
 local ControlUI = class("ControlUI", cc.Node)
 
+local ControlUI_Left 	= 0
+local ControlUI_Right 	= 1
+local ControlUI_Up 		= 2
+local ControlUI_Down 	= 3
 
 function ControlUI:ctor()
     local function onNodeEvent(event)
@@ -29,7 +33,8 @@ end
 
 function ControlUI:initTouch()
 
-	self.isKey_jump = false
+	self.history_Key_Y = nil
+	self.history_Key_X = nil
 
 	local beginPos = {x = self.ui.sprite_BG:getPositionX(), y = self.ui.sprite_BG:getPositionY()}
 	local touchBox = self.ui.sprite_BG:getBoundingBox()
@@ -47,7 +52,8 @@ function ControlUI:initTouch()
 		self.ui.sprite_Move:setVisible(false)
 		self.ui.sprite_Red:setVisible(false)
 		self.ui.sprite_Ori:setOpacity(180)
-		self.isKey_jump = false
+		self.history_Key_Y = nil
+		self.history_Key_X = nil
 	end
 	normal()
 
@@ -89,23 +95,35 @@ function ControlUI:initTouch()
 		self.ui.sprite_Red:setVisible(true)
 		self.ui.sprite_Red:setRotation(radian)
 
-		local player = _MyG.PlayerController:getPlayer()
-
-		if radian < -30 and radian > -150 then
-			if not self.isKey_jump then
-				_MyG.PlayerDispatcher:call("control_jump", player)
-				self.isKey_jump = true
-			end
+		if length <= 25 then
+			self.history_Key_X = nil
+			self.history_Key_Y = nil
+			return
 		end
-		local move_x = 1--math.min(1.0, math.abs(V_R.x) / touchR)
-		if V_R.x < 0 then move_x = -move_x end
-		_MyG.PlayerDispatcher:call("control_move", player, move_x, 0.0)
+
+		-- 上
+		if radian < -30 and radian > -150 then
+			self:up()
+		-- 下
+		elseif radian >= 60 and radian < 120 then
+			self:down()
+		end
+		if math.abs(V_R.x) < 0.001 then
+			return
+		end
+
+		-- 右
+		if V_R.x > 0 then
+			self:right()
+		-- 左
+		else
+			self:left()
+		end
 	end
 
 	local function onTouchEnd(touch,event)
 		normal()
-		local player = _MyG.PlayerController:getPlayer()
-		_MyG.PlayerDispatcher:call("control_stop", player)
+		self:cancel()
 	end
 
 	local listener = cc.EventListenerTouchOneByOne:create();
@@ -114,6 +132,48 @@ function ControlUI:initTouch()
 	listener:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_ENDED);
 	listener:registerScriptHandler(onTouchEnd,cc.Handler.EVENT_TOUCH_CANCELLED);
 	cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, touchLayer)
+end
+
+function ControlUI:left()
+	local player = getGameWord():getLocalPlayer()
+	if self.history_Key_X ~= ControlUI_Left then
+		_MyG.PlayerDispatcher:call("control_left", player)
+		self.history_Key_X = ControlUI_Left
+		-- print("left")
+	end
+end
+
+function ControlUI:right()
+	local player = getGameWord():getLocalPlayer()
+	if self.history_Key_X ~= ControlUI_Right then
+		_MyG.PlayerDispatcher:call("control_right", player)
+		self.history_Key_X = ControlUI_Right
+		-- print("right")
+	end
+end
+
+function ControlUI:up()
+	local player = getGameWord():getLocalPlayer()
+	if self.history_Key_Y ~= ControlUI_Up then
+		_MyG.PlayerDispatcher:call("control_up", player)
+		self.history_Key_Y = ControlUI_Up
+		-- print("up")
+	end
+end
+
+function ControlUI:down()
+	local player = getGameWord():getLocalPlayer()
+	if self.history_Key_Y ~= ControlUI_Down then
+		_MyG.PlayerDispatcher:call("control_down", player)
+		self.history_Key_Y = ControlUI_Down
+		-- print("down")
+	end
+end
+
+function ControlUI:cancel()
+	local player = getGameWord():getLocalPlayer()
+	_MyG.PlayerDispatcher:call("control_cancel", player)
+	-- print("cancel")
 end
 
 function ControlUI:initKeyboard()
@@ -134,16 +194,18 @@ function ControlUI:initKeyboard()
 
         if keyCode == LEFT then
         	curOri = LEFT
-            _MyG.PlayerDispatcher:call("control_move", player, -1.0, 0)
+        	self:left()
         elseif keyCode == RIGHT then
         	curOri = RIGHT
-            _MyG.PlayerDispatcher:call("control_move", player, 1.0, 0)
+        	self:right()
         elseif keyCode == TOP then
-            _MyG.PlayerDispatcher:call("control_jump", player)
+        	self:up()
+        elseif keyCode == BOTTOM then
+        	self:down()
         elseif keyCode == KEY_C then
         	_MyG.PlayerDispatcher:call("control_changeWeapon", player)
 		elseif keyCode == KEY_X then
-        	_MyG.PlayerDispatcher:call("control_attack", player) 
+        	_MyG.PlayerDispatcher:call("control_attack", player)
         end
         -- print("code", keyCode)
 
@@ -157,7 +219,7 @@ function ControlUI:initKeyboard()
     local function onKeyReleased(keyCode, event)
     	local player = _MyG.PlayerController:getPlayer()
     	if keyCode == curOri then
-    		_MyG.PlayerDispatcher:call("control_stop", player)
+    		self:cancel()
     	end
     end  
   
