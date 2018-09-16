@@ -94,7 +94,10 @@ private:
 	GameMap* m_gameMap;
 
 	Vector<GameActor*> m_allActor;
+	std::vector<GameActor*> m_destroyActor;
 	GameActor* m_player;
+
+	bool m_isUpdate;
 
 	std::vector<ActorRect> m_defRectCache;
 	std::vector<ActorRect> m_attRectCache;

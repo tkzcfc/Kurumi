@@ -48,7 +48,7 @@ local AttackRange =
 
 function AIM_LeiShen:ctor()
 	AIM_LeiShen.super.ctor(self)
-	--self:setAIEnable(false)
+	-- self:setAIEnable(false)
 end
 
 function AIM_LeiShen:override_AIPreInit()
@@ -113,7 +113,7 @@ end
 function AIM_LeiShen:override_Other()
 	local curAttackArr = {}
 	if self.enemy then
-		local subx = self.enemy:getActorPositionX() - self.owner:getActorPositionX()
+		local subx = self.enemy:getPositionX() - self.owner:getPositionX()
 		subx = math.abs(subx)
 		for k,v in pairs(AttackRange) do
 			if subx <= v then
@@ -166,17 +166,17 @@ function AIM_LeiShen:runSkill5(isHit)
 
 	if value == "PLAYER_POS" then
 		local randomValue = math.random(Slill5_Left_Random_Range_Min, Slill5_Right_Random_Range_Min)
-		endPosx = self.enemy:getActorPositionX() + randomValue
+		endPosx = self.enemy:getPositionX() + randomValue
 	elseif value == "PLAYER_LEFT" then
 		local randomValue = math.random(Slill5_Left_Random_Range_Min, Slill5_Left_Random_Range_Max)
-		endPosx = self.enemy:getActorPositionX() + randomValue
+		endPosx = self.enemy:getPositionX() + randomValue
 	elseif value == "PLAYER_RIGHT" then
 		local randomValue = math.random(Slill5_Right_Random_Range_Min, Slill5_Right_Random_Range_Max)
-		endPosx = self.enemy:getActorPositionX() + randomValue
+		endPosx = self.enemy:getPositionX() + randomValue
 	elseif value == "RANDOM" then
 		local randomValue = math.random(Skill5_Random_Range_Min, Skill5_Random_Range_Max)
 		if self.enemy then
-			if self.enemy:getActorPositionX() < self.owner:getActorPositionX() then
+			if self.enemy:getPositionX() < self.owner:getPositionX() then
 				randomValue = -randomValue
 			end
 		else
@@ -184,7 +184,7 @@ function AIM_LeiShen:runSkill5(isHit)
 				randomValue = -randomValue
 			end
 		end
-		endPosx = self.owner:getActorPositionX() + randomValue
+		endPosx = self.owner:getPositionX() + randomValue
 	end
 	endPosx = self:Skill5MoveCheck(endPosx)
 	self.owner:skill5(endPosx)
@@ -195,14 +195,14 @@ function AIM_LeiShen:Skill5MoveCheck(endPosx)
 		return endPosx
 	end
 
-	local value = self.owner:getActorPositionX() - endPosx
+	local value = self.owner:getPositionX() - endPosx
 	local absvalue = math.abs(value)
 	if absvalue > Skill5_MoveX_Max then
 		absvalue = Skill5_MoveX_Max
 		if value < 0 then
 			absvalue = -absvalue
 		end
-		return self.owner:getActorPositionX() - absvalue
+		return self.owner:getPositionX() - absvalue
 	end
 	return endPosx
 end

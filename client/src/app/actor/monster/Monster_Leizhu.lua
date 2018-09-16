@@ -10,6 +10,7 @@ function Monster_Leizhu:ctor()
 	self:loadConfig(require("app.config.monster.LeiZhuConfig"))
 
 	self.FSM:start("State_Skill")
+	self.runTime = 0
 end
 
 function Monster_Leizhu:onEnter()
@@ -24,18 +25,20 @@ function Monster_Leizhu:override_loadArmature(filePath)
 	--changeParticleSystemPositionType(self:getArmature())
 end
 
-function Monster_Leizhu:startRun(delayTime, distance)
-	local armature = self:getArmature()
-	armature:setPosition({x = 0, y = 0})
-	armature:stopAllActions()
+function Monster_Leizhu:override_logicUpdate(time)
+	Monster_Leizhu.super.override_logicUpdate(self, time)
 
-	local move = cc.MoveBy:create(1.1, {x = distance, y = 0})
-	local call = cc.CallFunc:create(function()
-		self:getGameWord():removeActor(self)
-	end)
+	if self.runTime > 1.1 then
+		getGameWord():removeActor(self)
+		return
+	end
+	self.runTime = self.runTime + time
 
-	local q1 = cc.Sequence:create(cc.DelayTime:create(delayTime), move, call)
-	armature:runAction(q1)
+	self:setVelocityXByImpulse(self:getVelocityByOrientation(800 / PIXEL_TO_METER))
+end
+
+function Monster_Leizhu:startRun()
+	self.runTime = 0
 end
 
 return Monster_Leizhu

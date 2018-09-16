@@ -4,12 +4,15 @@ local Monster_Leiqiu = require("app.actor.monster.Monster_Leiqiu")
 
 local Monster_LeiShen = class("Monster_LeiShen", Monster_Base)
 
+
+local LeiShenConfig = require("app.config.monster.LeiShenConfig")
+
 function Monster_LeiShen:ctor()
 	Monster_LeiShen.super.ctor(self)
 	
 	self:setActorType(AT_MONSTER)
 
-	self:loadConfig(require("app.config.monster.LeiShenConfig"))
+	self:loadConfig(LeiShenConfig)
 
 	self:override_forceSwitchClean()
 
@@ -48,72 +51,71 @@ end
 
 function Monster_LeiShen:override_beAttacked(attackActor, isPickUp)
 	
-	local curStateName = self.FSM:getCurState():getStateName()
-	for k, v in pairs(self.forceStateNameArr) do
-		if curStateName == v then
-			return
-		end
-	end
-
 	Monster_LeiShen.super.override_beAttacked(self, attackActor, isPickUp)
 
 	if not isPickUp then
-		self:forceSwitch("State_Hit")
+		self:handle("CMD_Hit")
 	else
-		self:forceSwitch("State_Collapase_EndToStand")		
+		self:handle("CMD_Collapase_EndToStand")		
+	end
+end
+
+
+function Monster_LeiShen:override_logicUpdate(time)
+	Monster_LeiShen.super.override_logicUpdate(self, time)
+	local curStateName = self.FSM:getCurState():getStateName()
+	-- 奔跑状态
+	if curStateName == "State_Run" then
+		if self.startMoveCMD then
+			self:setVelocityXByImpulse(self:getVelocityByMoveOrientation(LeiShenConfig.BaseConfig.MoveVelocity))
+		else
+			self:clearForceX()
+		end
 	end
 end
 
 --------------------------------------Logic--------------------------------------
-function Monster_LeiShen:moveLeft()
-	local ret = self:handle("CMD_MoveStart")
-
-	if ret then
-		self.actorSpeedController:setGravity(-400, 0)
+function Monster_LeiShen:getVelocityByMoveOrientation(value)
+	if self.moveToLeft then
+		return -value
 	end
+	return value
+end
 
+function Monster_LeiShen:moveLeft()
+	self.startMoveCMD = true
+	self.moveToLeft = true
+	local ret = self:handle("CMD_MoveStart")
 	return ret
 end
 
 function Monster_LeiShen:moveRight()
+	self.startMoveCMD = true
+	self.moveToLeft = false
 	local ret = self:handle("CMD_MoveStart")
-
-	if ret then
-		self.actorSpeedController:setGravity(400, 0)
-	end
-
 	return ret
 end
 
 function Monster_LeiShen:moveStop()
+	self.startMoveCMD = false
+	self:clearForceX()
 	local ret = self:handle("CMD_MoveStand")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 function Monster_LeiShen:skill1()
 	local ret = self:handle("CMD_Skill1")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 function Monster_LeiShen:skill2()
 	local ret = self:handle("CMD_Kill2")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 function Monster_LeiShen:skill3()
 	local ret = self:handle("CMD_Kill3")
 	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-
 		local call = cc.CallFunc:create(function()
 			self:handle("CMD_Kill3_Finish")
 		end)
@@ -128,7 +130,6 @@ end
 function Monster_LeiShen:skill5(endPos)
 	local ret = self:handle("CMD_Kill5_1")
 	if ret then
-		self.actorSpeedController:setGravity(0, 0)
 		self.skill5EndPos = endPos
 	end
 	return ret
@@ -137,8 +138,6 @@ end
 function Monster_LeiShen:skill6()
 	local ret = self:handle("CMD_Kill6")
 	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-
 		local callfunc = cc.CallFunc:create(function()
 			self:handle("CMD_Kill6_Finish")
 		end)
@@ -200,34 +199,32 @@ function Monster_LeiShen:initFSM()
 	self.FSM:addTranslation("State_Kill6_Finish", "State_Kill6_Finish_stop", "State_Stand")
 
 	--受到攻击
+	self.FSM:addTranslation("State_Stand", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Run", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Brake", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Kill6_Begin", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Kill6_Finish", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Turn", "CMD_Hit", "State_Hit")
 	self.FSM:addTranslation("State_Hit", "State_Hit_stop", "State_Stand")
 
 	--受到攻击并被击飞
-	self.FSM:addTranslation("State_Collapase_EndToStand", "State_Collapase_EndToStand_stop", "State_Stand")
+	self.FSM:addTranslation("State_Stand", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
+	self.FSM:addTranslation("State_Run", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
+	self.FSM:addTranslation("State_Brake", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
+	self.FSM:addTranslation("State_Kill6_Begin", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
+	self.FSM:addTranslation("State_Kill6_Finish", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
+	self.FSM:addTranslation("State_Turn", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
 
-	self.forceStateNameArr = {}
-	table.insert(self.forceStateNameArr, "State_Hit")
-	table.insert(self.forceStateNameArr, "State_Collapase_EndToStand")
-	table.insert(self.forceStateNameArr, "State_Kill1")
-	table.insert(self.forceStateNameArr, "State_Kill2")
-	table.insert(self.forceStateNameArr, "State_Kill3")
-	table.insert(self.forceStateNameArr, "State_Kill4")
-	table.insert(self.forceStateNameArr, "State_Kill5_1")
-	table.insert(self.forceStateNameArr, "State_Kill5_2")
-	table.insert(self.forceStateNameArr, "State_Kill6_Run")
-	table.insert(self.forceStateNameArr, "State_Dead")
-	table.insert(self.forceStateNameArr, "State_Collapase_EndToDead")
+	self.FSM:addTranslation("State_Collapase_EndToStand", "State_Collapase_EndToStand_stop", "State_Stand")
 end
 
 --强制切换清理
 function Monster_LeiShen:override_forceSwitchClean()
 	Monster_LeiShen.super.override_forceSwitchClean(self)
-
-	self.actorSpeedController:defaultValue()
-	self.actorSpeedController:setStopUpdate(false)
-	self.actorSpeedController:setGravityEnable(true)
-
-	self.armatureSpeedController:defaultValue()
+	
+	if self.b2Body then
+		self:clearForceXY()
+	end
 
 	local armature = self:getArmature()
 	if armature then
@@ -236,22 +233,29 @@ function Monster_LeiShen:override_forceSwitchClean()
 	end
 end
 
+function Monster_LeiShen:enter_State_Stand()
+	self:clearForceX()
+end
+
+function Monster_LeiShen:enter_State_Run()
+	self:clearForceX()
+end
+
+function Monster_LeiShen:leave_State_Run()
+	self:clearForceX()
+end
+
 function Monster_LeiShen:enter_State_Hit()
-	self.isHit = true
-	self.actorSpeedController:setForce(self:getVelocityByOrientation(-100), 0)
-	self.actorSpeedController:setFriction(300)
-	self.actorSpeedController:setForceEnable(true)
-	self.actorSpeedController:setFrictionEnable(true)
 	self:lockOrientation()
+	self:clearForceX()
+	--
+	local impluse = self:getVelocityByOrientation(LeiShenConfig.BaseConfig.HitImpluse)
+	self:setVelocityXByImpulse(impluse)
 end
 
 function Monster_LeiShen:leave_State_Hit()
-	self.isHit = false
-	self.actorSpeedController:setForceEnable(false)
-	self.actorSpeedController:setFrictionEnable(false)
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
 	self:unLockOrientation()
+	self:clearForceX()
 end
 
 function Monster_LeiShen:enter_State_Kill1()
@@ -265,11 +269,13 @@ function Monster_LeiShen:leave_State_Kill1()
 	getGameWord():addActor(qiu)
 
 	if self:getOrientation() == GAME_ORI_LEFT then
-		qiu:start(200, -1200)
-		qiu:setActorPosition(self:getActorPositionX() - 20, 0)
+		qiu:start(200)
+		qiu:setOrientation(GAME_ORI_LEFT)
+		qiu:setPosition({x = self:getPositionX() - 20, y = 0})
 	else
-		qiu:start(200, 1200)
-		qiu:setActorPosition(self:getActorPositionX() + 20, 0)
+		qiu:start(200)
+		qiu:setOrientation(GAME_ORI_RIGHT)
+		qiu:setPosition({x = self:getPositionX() + 20, y = 0})
 	end
 end
 
@@ -312,7 +318,7 @@ function Monster_LeiShen:leave_State_Kill5_1()
 		self.skill5EndPos = movex
 	end
 
-	self:setActorPosition(self.skill5EndPos, self:getActorPositionY())
+	self:setActorPositionInValidRect({x = self.skill5EndPos, y = self:getPositionY()})
 	self.skill5EndPos = nil
 end
 
@@ -332,14 +338,10 @@ function Monster_LeiShen:leave_State_Kill6_Begin()
 	self:unLockOrientation()
 
 	local zhu = Monster_Leizhu:create()
+	zhu:setActorPositionInValidRect({x = self:getPositionX(), y = 0})
+	zhu:setOrientation(self:getOrientation())
+	zhu:startRun()
 	getGameWord():addActor(zhu)
-
-	if self:getOrientation() == GAME_ORI_LEFT then
-		zhu:startRun(0.2, -900)
-	else
-		zhu:startRun(0.2, 900)
-	end
-	zhu:setActorPosition(self:getActorPositionX(), 0)
 end
 
 function Monster_LeiShen:enter_State_Kill6_Run()

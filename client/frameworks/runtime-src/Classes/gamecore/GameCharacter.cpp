@@ -71,11 +71,15 @@ void GameCharacter::initCharacterByData(const std::string& filepath, const Size&
 	const float box_w = characterSize.width / PIXEL_TO_METER;
 	const float box_h = characterSize.height / PIXEL_TO_METER;
 
+	b2Filter filter;
+	filter.groupIndex = -1;
+
 	b2PolygonShape shape;
 	shape.SetAsBox(box_w, box_h, b2Vec2(0.0f, box_h), 0.0f);
 	b2FixtureDef fixdef;
 	fixdef.shape = &shape;
 	fixdef.userData = this;
+	fixdef.filter = filter;
 	b2Fixture* fixture = body->CreateFixture(&fixdef);
 
 	LuaFunction* handle = getLuaHandle("loadActorFinish");

@@ -69,7 +69,7 @@ function AIM_Follow:override_AIUpdate(time)
 	self.Follow_CurChangeOriTime = self.Follow_CurChangeOriTime + time
 	if self.Follow_CurChangeOriTime >= self.Follow_NextChangeOriTime then
 		if self.enemy then
-			local subx = self.owner:getActorPositionX() - self.enemy:getActorPositionX()
+			local subx = self.owner:getPositionX() - self.enemy:getPositionX()
 			subx = math.abs(subx)
 			if subx <= self.FOLLOW_MIN then
 				self:doChangeOriConfig(self.FOLLOW_L_MIN)
@@ -93,7 +93,7 @@ end
 function AIM_Follow:updateOrientation()
 	local Orientation = 0
 	if self.enemy then
-		if self.owner:getActorPositionX() > self.enemy:getActorPositionX() then
+		if self.owner:getPositionX() > self.enemy:getPositionX() then
 			self.owner:setOrientation(GAME_ORI_LEFT)
 			Orientation = GAME_ORI_LEFT
 		else

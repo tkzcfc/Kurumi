@@ -12,6 +12,7 @@ GameWord::GameWord()
 #endif
 	, m_player(NULL)
 	, m_world(NULL)
+	, m_isUpdate(false)
 {
 	Static__GameWord = this;
 }
@@ -19,6 +20,7 @@ GameWord::GameWord()
 GameWord::~GameWord()
 {
 	//CCLOG("GameWord::~GameWord");
+	m_destroyActor.clear();
 	m_allActor.clear();
 	m_discardB2BodyList.clear();
 	CC_SAFE_DELETE(m_world);
@@ -92,10 +94,10 @@ void GameWord::initPhysics(float left_offset, float right_offset, float top_offs
 #ifdef ENABLE_GAME_WORD_DEBUG
 	m_physicsDebugDraw = new GLESDebugDraw(PIXEL_TO_METER);
 	m_physicsDebugDraw->AppendFlags(b2Draw::e_shapeBit);
-	m_physicsDebugDraw->AppendFlags(b2Draw::e_jointBit);
-	m_physicsDebugDraw->AppendFlags(b2Draw::e_aabbBit);
-	m_physicsDebugDraw->AppendFlags(b2Draw::e_pairBit);
-	m_physicsDebugDraw->AppendFlags(b2Draw::e_centerOfMassBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_jointBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_aabbBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_pairBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_centerOfMassBit);
 	m_world->SetDebugDraw(m_physicsDebugDraw);
 #endif
 
@@ -148,6 +150,11 @@ void GameWord::removeActor(GameActor* actor)
 	{
 		return;
 	}
+	if (m_isUpdate)
+	{
+		m_destroyActor.push_back(actor);
+		return;
+	}
 	actor->removeFromParent();
 	m_allActor.eraseObject(actor);
 }
@@ -188,12 +195,7 @@ GameActor* GameWord::getPlayerByIndex(int index)
 void GameWord::removeActorByName(const std::string& name)
 {
 	GameActor* actor = dynamic_cast<GameActor*>(getActorNode()->getChildByName(name));
-
-	if (actor)
-	{
-		actor->removeFromParent();
-		m_allActor.eraseObject(actor);
-	}	
+	removeActor(actor);
 }
 
 Node* GameWord::getChildNode(const std::string& name)
@@ -228,10 +230,21 @@ void GameWord::logicUpdate(float d)
 	}
 
 	// ½ÇÉ«Âß¼­
+	if (!m_destroyActor.empty())
+	{
+		for (auto& it : m_destroyActor)
+		{
+			removeActor(it);
+		}
+		m_destroyActor.clear();
+	}
+
+	m_isUpdate = true;
 	for (auto& it : m_allActor)
 	{
 		it->logicUpdate(d);
 	}
+	m_isUpdate = false;
 
 	// µØÍ¼ÒÆ¶¯
 	updateMapMoveLogic();

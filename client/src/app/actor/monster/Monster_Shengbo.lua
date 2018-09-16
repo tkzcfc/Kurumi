@@ -2,12 +2,14 @@ local Monster_Base = require("app.actor.monster.Monster_Base")
 
 local Monster_Shengbo = class("Monster_Shengbo", Monster_Base)
 
+local ShengBoConfig = require("app.config.monster.ShengBoConfig")
+
 function Monster_Shengbo:ctor()
 	Monster_Shengbo.super.ctor(self)
 	
 	self:setActorType(AT_MONSTER)
 
-	self:loadConfig(require("app.config.monster.ShengBoConfig"))
+	self:loadConfig(ShengBoConfig)
 
 	self:override_forceSwitchClean()
 
@@ -45,98 +47,81 @@ end
 function Monster_Shengbo:override_beAttacked(attackActor, isPickUp)
 	Monster_Shengbo.super.override_beAttacked(self, attackActor, isPickUp)
 
-	local curStateName = self.FSM:getCurState():getStateName()
-	if curStateName == "State_Hit" or 
-	   curStateName == "State_Collapase_Up" or 
-	   curStateName == "State_Collapase_Down" or
-	   curStateName == "State_Collapase_EndToStand" or
-	   curStateName == "State_Collapase_EndToDead" or
-	   curStateName == "State_Dead" then
-		return
-	end
-
 	if not isPickUp then
-		if self:forceSwitch("State_Hit") then
-			self.actorSpeedController:setGravity(0, 0)
+		self:handle("CMD_Hit")
+	else
+		self:handle("CMD_Collapase")
+	end
+end
+
+function Monster_Shengbo:override_logicUpdate(time)
+	Monster_Shengbo.super.override_logicUpdate(self, time)
+	local curStateName = self.FSM:getCurState():getStateName()
+	-- 奔跑状态
+	if curStateName == "State_Run" then
+		if self.startMoveCMD then
+			self:setVelocityXByImpulse(self:getVelocityByMoveOrientation(ShengBoConfig.BaseConfig.MoveVelocity))
+		else
+			self:clearForceX()
 		end
 	else
-		local JumpUpTime = 0.3
-		local JumpHeight = 200
-		if self:forceSwitch("State_Collapase_Up") then
-			local move = cc.MoveBy:create(JumpUpTime, {x = 0, y = JumpHeight})
-			
-			local call1 = cc.CallFunc:create(function()
-				self:handle("CMD_Collapase_Down")
-			end)
-			
-			local call2 = cc.CallFunc:create(function()
+		if self.isCollapse then
+			if not self:isInAir() then
 				self:handle("CMD_Collapase_EndToStand")
-			end)
-			
-			local q = cc.Sequence:create(move, call1, move:reverse(), call2)
-			self:getArmature():runAction(q)
-
-			self.actorSpeedController:setGravity(0, 0)
+			end
 		end
 	end
 end
 
 --------------------------------------Logic--------------------------------------
-function Monster_Shengbo:moveLeft()
-	local ret = self:handle("CMD_MoveStart")
-
-	if ret then
-		self.actorSpeedController:setGravity(-400, 0)
+function Monster_Shengbo:getVelocityByMoveOrientation(value)
+	if self.moveToLeft then
+		return -value
 	end
+	return value
+end
 
+function Monster_Shengbo:moveLeft()
+	self.startMoveCMD = true
+	self.moveToLeft = true
+	local ret = self:handle("CMD_MoveStart")
 	return ret
 end
 
 function Monster_Shengbo:moveRight()
+	self.startMoveCMD = true
+	self.moveToLeft = false
 	local ret = self:handle("CMD_MoveStart")
-
-	if ret then
-		self.actorSpeedController:setGravity(400, 0)
-	end
-
 	return ret
 end
 
 function Monster_Shengbo:moveStop()
+	self.startMoveCMD = false
+	self:clearForceX()
 	local ret = self:handle("CMD_MoveStand")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 function Monster_Shengbo:attack1()
 	local ret = self:handle("CMD_Attack1")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 function Monster_Shengbo:attack2()
 	local ret = self:handle("CMD_Attack2")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 function Monster_Shengbo:skill()
 	local ret = self:handle("CMD_Skill")
-	if ret then
-		self.actorSpeedController:setGravity(0, 0)
-	end
 	return ret
 end
 
 --------------------------------------FSM--------------------------------------
 
 function Monster_Shengbo:initFSM()
+
+	self.isCollapse = false
 
 	--站立
 	self.FSM:addTranslation("State_Run", "CMD_MoveStand", "State_Stand")
@@ -160,11 +145,21 @@ function Monster_Shengbo:initFSM()
 	self.FSM:addTranslation("State_Kill", "State_Kill_stop", "State_Stand")
 
 	--受到攻击
+	self.FSM:addTranslation("State_Stand", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Run", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Attack1", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Attack2", "CMD_Hit", "State_Hit")
 	self.FSM:addTranslation("State_Hit", "State_Hit_stop", "State_Stand")
 
 
 	--受到攻击并被击飞
-	self.FSM:addTranslation("State_Collapase_Up", "CMD_Collapase_Down", "State_Collapase_Down")
+	self.FSM:addTranslation("State_Stand", "CMD_Collapase", "State_Collapase_Up")
+	self.FSM:addTranslation("State_Run", "CMD_Collapase", "State_Collapase_Up")
+	self.FSM:addTranslation("State_Attack1", "CMD_Collapase", "State_Collapase_Up")
+	self.FSM:addTranslation("State_Attack2", "CMD_Collapase", "State_Collapase_Up")
+	self.FSM:addTranslation("State_Hit", "CMD_Collapase", "State_Collapase_Up")
+
+	self.FSM:addTranslation("State_Collapase_Up", "State_Collapase_Up_stop", "State_Collapase_Down")
 	self.FSM:addTranslation("State_Collapase_Down", "CMD_Collapase_EndToStand", "State_Collapase_EndToStand")
 	self.FSM:addTranslation("State_Collapase_Down", "CMD_Collapase_EndToDead", "State_Collapase_EndToDead")
 
@@ -176,13 +171,10 @@ end
 --强制切换清理
 function Monster_Shengbo:override_forceSwitchClean()
 	Monster_Shengbo.super.override_forceSwitchClean(self)
-
-	self.actorSpeedController:defaultValue()
-	self.actorSpeedController:setStopUpdate(false)
-	self.actorSpeedController:setGravityEnable(true)
-
-	self.armatureSpeedController:defaultValue()
-
+	
+	if self.b2Body then
+		self:clearForceXY()
+	end
 	local armature = self:getArmature()
 	if armature then
 		armature:setPosition({x = 0, y = 0})
@@ -190,73 +182,71 @@ function Monster_Shengbo:override_forceSwitchClean()
 	end
 end
 
+function Monster_Shengbo:enter_State_Stand()
+	self:clearForceX()
+end
+
+function Monster_Shengbo:enter_State_Run()
+	self:clearForceX()
+end
+
+function Monster_Shengbo:leave_State_Run()
+	self:clearForceX()
+end
+
 function Monster_Shengbo:enter_State_Hit()
-	self.actorSpeedController:setForce(self:getVelocityByOrientation(-100), 0)
-	self.actorSpeedController:setFriction(300)
-	self.actorSpeedController:setForceEnable(true)
-	self.actorSpeedController:setFrictionEnable(true)
 	self:lockOrientation()
+	self:clearForceX()
+	--
+	local impluse = self:getVelocityByOrientation(ShengBoConfig.BaseConfig.HitImpluse)
+	self:setVelocityXByImpulse(impluse)
 end
 
 function Monster_Shengbo:leave_State_Hit()
-	self.actorSpeedController:setForceEnable(false)
-	self.actorSpeedController:setFrictionEnable(false)
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
 	self:unLockOrientation()
+	self:clearForceX()
 end
 
 function Monster_Shengbo:enter_State_Collapase_Up()
-	self.actorSpeedController:setForce(self:getVelocityByOrientation(-350), 0)
-	self.actorSpeedController:setFriction(150)
-	self.actorSpeedController:setForceEnable(true)
-	self.actorSpeedController:setFrictionEnable(true)
 	self:lockOrientation()
+	self.isCollapse = true
+
+	local implusex = self:getVelocityByOrientation(ShengBoConfig.BaseConfig.CollapseXImpluse)
+	self:setVelocityXYByImpulse(implusex, ShengBoConfig.BaseConfig.CollapseYImpluse)
 end
 
 function Monster_Shengbo:leave_State_Collapase_Down()
-	self.actorSpeedController:setForceEnable(false)
-	self.actorSpeedController:setFrictionEnable(false)
-	self.actorSpeedController:setForce(0, 0)
-	self.actorSpeedController:setFriction(0)
 	self:unLockOrientation()
+	self.isCollapse = false
 end
 
 function Monster_Shengbo:leave_State_Collapase_EndToStand()
 	self:unLockOrientation()
+	self.isCollapse = false
 end
 
 function Monster_Shengbo:enter_State_Kill()
 	self:lockOrientation()
-	self.actorSpeedController:setGravityEnable(false)
-	self.actorSpeedController:setGravity(0, 0)
 end
 
 function Monster_Shengbo:leave_State_Kill()
 	self:unLockOrientation()
-	self.actorSpeedController:setGravityEnable(true)
 end
 
 function Monster_Shengbo:enter_State_Attack1()
 	self:lockOrientation()
-	self.actorSpeedController:setGravityEnable(false)
-	self.actorSpeedController:setGravity(0, 0)
 end
 
 function Monster_Shengbo:leave_State_Attack1()
 	self:unLockOrientation()
-	self.actorSpeedController:setGravityEnable(true)
 end
 
 function Monster_Shengbo:enter_State_Attack2()
 	self:lockOrientation()
-	self.actorSpeedController:setGravityEnable(false)
-	self.actorSpeedController:setGravity(0, 0)
 end
 
 function Monster_Shengbo:leave_State_Attack2()
 	self:unLockOrientation()
-	self.actorSpeedController:setGravityEnable(true)
 end
 
 return Monster_Shengbo

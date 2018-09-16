@@ -32,8 +32,8 @@ function GameScene:onCreate(args)
     local controlUI = require("app.ui.ControlUI"):create()
     self.word:addChild(controlUI, 1)
 
-    self.leishenCount = 0
-    self.shengboCount = 2
+    self.leishenCount = 1
+    self.shengboCount = 0
     self.curShengbo = 0
     self.curLeiShen = 0
 
@@ -57,7 +57,7 @@ function GameScene:createMonster()
     if self.curShengbo < self.shengboCount then
         self.curShengbo = self.curShengbo + 1
         local MS = require("app.actor.monster.Monster_Shengbo"):create()
-        MS:setActorPosition(200 * self.curShengbo, 0)
+        MS:setActorPositionInValidRect({x = 200 * self.curShengbo, y = 0})
         self.word:addActor(MS)
         return
     end
@@ -65,7 +65,7 @@ function GameScene:createMonster()
     if self.curLeiShen < self.leishenCount then
         self.curLeiShen = self.curLeiShen + 1
         local MS = require("app.actor.monster.Monster_LeiShen"):create()
-        MS:setActorPosition(500 * self.curLeiShen, 0)
+        MS:setActorPositionInValidRect({x = 500 * self.curLeiShen, y = 0})
         self.word:addActor(MS)
         return
     end

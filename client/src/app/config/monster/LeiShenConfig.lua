@@ -25,6 +25,24 @@ local LeiShenConfig =
 	}
 }
 
+-- 基础属性配置
+LeiShenConfig.BaseConfig = 
+{
+	-- 移动速度
+	MoveVelocity = 500.0 / PIXEL_TO_METER,
+
+	-- 受到攻击时冲力
+	HitImpluse = -150.0 / PIXEL_TO_METER,
+
+	-- 受到攻击并向后抛 
+	-- 抛起冲力(瞬间冲力)
+	CollapseYImpluse = 500.0 / PIXEL_TO_METER,
+
+	-- 向后冲力
+	CollapseXImpluse = -100.0 / PIXEL_TO_METER,
+
+}
+
 --跟随配置
 LeiShenConfig.FOLLOW_CONFIG = 
 {

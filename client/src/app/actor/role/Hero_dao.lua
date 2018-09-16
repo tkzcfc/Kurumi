@@ -42,46 +42,15 @@ end
 function Hero_dao:override_beAttacked(attackActor, isPickUp)
 	Hero_dao.super.override_beAttacked(self, attackActor, isPickUp)
 
-	if not isPickUp and not self.isJump then
-		if self.FSM:getCurState():getStateName() ~= "State_Hit" then
-			self:forceSwitch("State_Hit")
+	if not isPickUp then
+		if self:handle("CMD_Hit") then
+			self:clearStateData()
 		end
 	else
-		local curStateName = self.FSM:getCurState():getStateName()
-		if curStateName == "State_Collapse1" or curStateName == "State_Collapse2" or curStateName == "State_Collapse3" then
-			return
-		end
-
-		local armature = self:getArmature()
-		local armaturePreY = armature:getPositionY()
-
-
-		local JumpUpTime = CommonActorConfig.playerCollapseJumpTime
-		local JumpHeight = CommonActorConfig.playerCollapseJumpHeight
-		if self:forceSwitch("State_Collapse1") then
-
-			armature:stopAllActions()
-			armature:setPositionY(armaturePreY)
-
-			local move1 = cc.MoveTo:create(JumpUpTime, {x = 0, y = JumpHeight})
-			local move2 = cc.MoveTo:create(JumpUpTime, {x = 0, y = 0})
-			local q1 = cc.Sequence:create(move1, move2)
-			armature:runAction(q1)
-
-			local call1 = cc.CallFunc:create(function()
-				self:handle("CMD_To_Collapse2")
-			end)
-			local call2 = cc.CallFunc:create(function()
-				self:handle("CMD_To_Collapse3")
-			end)
-			local q2 = cc.Sequence:create(cc.DelayTime:create(JumpUpTime),
-										  call1, 
-										  cc.DelayTime:create(JumpUpTime * 0.7), 
-										  call2)
-			armature:runAction(q2)
+		if self:handle("CMD_Collapse") then
+			self:clearStateData()
 		end
 	end
-	self.isJump = false
 end
 
 function Hero_dao:override_logicUpdate(time)
@@ -90,7 +59,7 @@ function Hero_dao:override_logicUpdate(time)
 	local curStateName = self.FSM:getCurState():getStateName()
 	-- 奔跑状态
 	if curStateName == "State_Run" or curStateName == "State_Run2" then
-		self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.MoveVelocity))
+		self:setVelocityXInStartMoveCMD(CommonActorConfig.MoveVelocity)
 	else
 		if self.isJump then
 			if self.isJumpAttack then
@@ -123,7 +92,12 @@ function Hero_dao:override_logicUpdate(time)
 		elseif self.isAttack3 then
 			self:setVelocityXInStartMoveCMD(CommonActorConfig.Attacl_3_MoveImpulse)
 		elseif self.isUpcut then
-			self:setVelocityYByImpulse(CommonActorConfig.Upcut_Impulse)			
+			self:setVelocityYByImpulse(CommonActorConfig.Upcut_Impulse)
+		end
+		if self.isCollapse then
+			if not self:isInAir() then
+				self:handle("CMD_To_Collapse3")
+			end
 		end
 	end
 end
@@ -136,6 +110,22 @@ function Hero_dao:setVelocityXInStartMoveCMD(impulse)
 	end
 end
 --------------------------------------logic--------------------------------------
+
+function Hero_dao:clearStateData()
+	self.isRun = false
+	self.isJump = false
+	self.isJumpAttack = false
+	self.isAttack1 = false
+	self.isAttack2 = false
+	self.isAttack3 = false
+	self.isAttack4 = false
+	self.isUpcut = false
+	self.isCollapse = false
+	-- 跳跃次数
+	self.jumpCountInAir = 0
+	-- 跳跃攻击次数
+	self.jumAttackCount = 0
+end
 
 --切换角色
 function Hero_dao:changeRole(name)
@@ -154,19 +144,7 @@ function Hero_dao:changeRole(name)
 	ArmatureNode:setPosition({x = 0, y = 110})
 	self:addChild(ArmatureNode)
 
-	self.isRun = false
-	self.isJump = false
-	self.isJumpAttack = false
-	self.isAttack1 = false
-	self.isAttack2 = false
-	self.isAttack3 = false
-	self.isAttack4 = false
-	-- 跳跃次数
-	self.jumpCountInAir = 0
-	-- 跳跃攻击次数
-	self.jumAttackCount = 0
-
-	self.isUpcut = false
+	self:clearStateData()
 
 	self:initFSM()
 
@@ -201,6 +179,7 @@ function Hero_dao:control_up()
 end
 
 function Hero_dao:control_down()
+	self:handle("CMD_DownCut")
 end
 
 function Hero_dao:attack()
@@ -237,11 +216,16 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_JumpUp", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_JumpUp_2", "CMD_JumpUpStart", "State_JumpUp")
 	self.FSM:addTranslation("State_JumpDown", "CMD_JumpUpStart", "State_JumpUp")
+	
 	self.FSM:addTranslation("State_Attack1", "CMD_JumpUpStart", "State_Upcut")
 	self.FSM:addTranslation("State_Attack2", "CMD_JumpUpStart", "State_Upcut")
 	self.FSM:addTranslation("State_Attack3", "CMD_JumpUpStart", "State_Upcut")
-
 	self.FSM:addTranslation("State_Upcut", "State_Upcut_stop", "State_JumpUp_2")
+
+	self.FSM:addTranslation("State_Attack1", "CMD_DownCut", "State_DownCut")
+	self.FSM:addTranslation("State_Attack2", "CMD_DownCut", "State_DownCut")
+	self.FSM:addTranslation("State_Attack3", "CMD_DownCut", "State_DownCut")
+	self.FSM:addTranslation("State_DownCut", "State_DownCut_stop", "State_Stand")
 
 
 	self.FSM:addTranslation("State_JumpUp", "CMD_JumpDownStart", "State_JumpDown")
@@ -256,14 +240,6 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Run2", "CMD_change", "State_Replace")
 	self.FSM:addTranslation("State_Brak", "CMD_change", "State_Replace")
 	self.FSM:addTranslation("State_Replace", "State_Replace_stop", "State_Stand")
-
-	--受到攻击
-	self.FSM:addTranslation("State_Hit", "State_Hit_stop", "State_Stand")
-
-	--受到攻击并向后倒
-	self.FSM:addTranslation("State_Collapse1", "CMD_To_Collapse2", "State_Collapse2")
-	self.FSM:addTranslation("State_Collapse2", "CMD_To_Collapse3", "State_Collapse3")
-	self.FSM:addTranslation("State_Collapse3", "State_Collapse3_stop", "State_Stand")
 
 	--普通攻击
 	self.FSM:addTranslation("State_Stand", "CMD_Attack", "State_Attack1")
@@ -287,16 +263,51 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_JumpUp", "CMD_Attack", "State_JumpAttack3")
 	self.FSM:addTranslation("State_JumpDown", "CMD_Attack", "State_JumpAttack3")
 	self.FSM:addTranslation("State_JumpAttack3", "State_JumpAttack3_stop", "State_JumpDown")
-	-- self.FSM:addTranslation("State_JumpAttack3", "CMD_JumpTo_MoveStart", "State_Run")
-	-- self.FSM:addTranslation("State_JumpAttack3", "CMD_JumpDownEnd", "State_JumpDownEnd")
+
+	--受到攻击
+	self.FSM:addTranslation("State_Stand", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Run", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Run2", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Brak", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_JumpUp", "CMD_Hit", "State_Collapse1")
+	self.FSM:addTranslation("State_JumpDown", "CMD_Hit", "State_Collapse1")
+	self.FSM:addTranslation("State_JumpDownEnd", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_JumpUp_2", "CMD_Hit", "State_Collapse1")
+	self.FSM:addTranslation("State_Attack1", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Attack2", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Attack3", "CMD_Hit", "State_Hit")
+	self.FSM:addTranslation("State_Attack4", "CMD_Hit", "State_Hit")
+
+	self.FSM:addTranslation("State_Hit", "State_Hit_stop", "State_Stand")
+
+	--受到攻击并向后倒
+	self.FSM:addTranslation("State_Stand", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Run", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Run2", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Brak", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_JumpUp", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_JumpDown", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_JumpDownEnd", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_JumpUp_2", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Attack1", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Attack2", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Attack3", "CMD_Collapse", "State_Collapse1")
+	self.FSM:addTranslation("State_Attack4", "CMD_Collapse", "State_Collapse1")
+
+	self.FSM:addTranslation("State_Collapse1", "State_Collapse1_stop", "State_Collapse2")
+	self.FSM:addTranslation("State_Collapse2", "CMD_To_Collapse3", "State_Collapse3")
+	self.FSM:addTranslation("State_Collapse3", "State_Collapse3_stop", "State_Stand")
 end
 
 --强制切换清理
 function Hero_dao:override_forceSwitchClean()
 	Hero_dao.super.override_forceSwitchClean(self)
 
+	self:clearStateData()
 	if self.b2Body then
 		self:clearForceXY()
+		local _x = self:getPositionX()
+		self:setActorPositionInValidRect({x = _x, y = 0})
 	end
 	local armature = self:getArmature()
 	if armature then
@@ -333,7 +344,7 @@ end
 
 function Hero_dao:enter_State_Brak()
 	self:clearForceX()
-	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.BrakVelocity))
+	self:setVelocityXInStartMoveCMD(CommonActorConfig.BrakVelocity)
 end
 
 function Hero_dao:leave_State_Brak()
@@ -376,7 +387,7 @@ end
 function Hero_dao:enter_State_Attack1()
 	self.isAttack1 = true
 	self:com_enter_attack()
-	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.Attacl_1_MoveImpulse))
+	self:setVelocityXInStartMoveCMD(CommonActorConfig.Attacl_1_MoveImpulse)
 end
 
 function Hero_dao:leave_State_Attack1()
@@ -408,7 +419,7 @@ function Hero_dao:enter_State_Attack4()
 	self.isAttack4 = true
 	self:lockOrientation()
 	self:com_enter_attack()
-	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.Attacl_4_MoveImpulse))
+	self:setVelocityXInStartMoveCMD(CommonActorConfig.Attacl_4_MoveImpulse)
 end
 
 function Hero_dao:leave_State_Attack4()
@@ -427,22 +438,30 @@ end
 
 function Hero_dao:enter_State_Hit()
 	self:lockOrientation()
+	self:clearForceX()
+	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.HitImpluse))
 end
 
 function Hero_dao:leave_State_Hit()
 	self:unLockOrientation()
+	self:clearForceX()
 end
 
 function Hero_dao:enter_State_Collapse1()
+	self.isCollapse = true
 	self:lockOrientation()
+	self:clearForceXY()
+	self:setVelocityXYByImpulse(self:getVelocityByOrientation(CommonActorConfig.CollapseXImpluse), CommonActorConfig.CollapseYImpluse)
 end
 
-function Hero_dao:leave_State_Collapse2()
-	self:unLockOrientation()
+function Hero_dao:enter_State_Collapse2()
+	self:lockOrientation()
+	self.isCollapse = true
 end
 
 function Hero_dao:leave_State_Collapse3()
 	self:unLockOrientation()
+	self.isCollapse = false
 end
 
 function Hero_dao:enter_State_Upcut()
@@ -457,6 +476,15 @@ function Hero_dao:leave_State_Upcut()
 	self.isJump = true
 	self:clearForceY()
 	self:setVelocityYByImpulse(CommonActorConfig.Upcut_JumpImpulse)
+end
+
+function Hero_dao:enter_State_DownCut()
+	self:clearForceX()
+	self:setVelocityXByImpulse(self:getVelocityByOrientation(CommonActorConfig.DownCutImpluse))
+end
+
+function Hero_dao:leave_State_DownCut()
+	self:clearForceX()
 end
 
 return Hero_dao

@@ -67,9 +67,9 @@ end
 -- 参数attackActor ： 攻击者
 -- 参数isPickUp ： 是否为上挑攻击
 function LuaGameCharacter:override_beAttacked(attackActor, isPickUp)
-	if attackActor:getActorPositionX() > self:getActorPositionX() then
+	if attackActor:getPositionX() > self:getPositionX() then
 		self:setOrientation(GAME_ORI_RIGHT)
-	elseif attackActor:getActorPositionX() < self:getActorPositionX() then
+	elseif attackActor:getPositionX() < self:getPositionX() then
 		self:setOrientation(GAME_ORI_LEFT)
 	end
 end

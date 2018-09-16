@@ -11,6 +11,7 @@ function Monster_Leiqiu:ctor()
 
 	self:initFSM()
 	self.FSM:start("State_Leiqiu1")
+	self.runTime = 0.0
 end
 
 function Monster_Leiqiu:onEnter()
@@ -25,22 +26,23 @@ function Monster_Leiqiu:override_loadArmature(filePath)
 	--changeParticleSystemPositionType(self:getArmature())
 end
 
-function Monster_Leiqiu:start(height, distance)
-	if height < 200 then
-		print("Le 200")
-		print(height)
+function Monster_Leiqiu:override_logicUpdate(time)
+	Monster_Leiqiu.super.override_logicUpdate(self, time)
+
+	if self.runTime > 0.8 then
+		getGameWord():removeActor(self)
+		return
 	end
+	self.runTime = self.runTime + time
+
+	self:setVelocityXByImpulse(self:getVelocityByOrientation(900 / PIXEL_TO_METER))
+end
+
+function Monster_Leiqiu:start(height)
 	local armature = self:getArmature()
 	armature:setPosition({x = 0, y = height})
 	armature:stopAllActions()
-
-	local move = cc.MoveBy:create(0.8, {x = distance, y = 0})
-	local call = cc.CallFunc:create(function()
-		self:getGameWord():removeActor(self)
-	end)
-
-	local q1 = cc.Sequence:create(move, call)
-	armature:runAction(q1)
+	self.runTime = 0.0
 end
 
 function Monster_Leiqiu:initFSM()

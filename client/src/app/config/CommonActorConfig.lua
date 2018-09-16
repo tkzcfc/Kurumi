@@ -1,16 +1,5 @@
 local CommonActorConfig = {}
 
---角色向后倒抛起高度
-CommonActorConfig.playerCollapseJumpHeight = 800
-
---角色向后倒抛起时间
-CommonActorConfig.playerCollapseJumpTime = 0.4
-
-
-
-
-
-
 
 -- 移动速度
 CommonActorConfig.MoveVelocity = 900.0 / PIXEL_TO_METER
@@ -57,6 +46,18 @@ CommonActorConfig.Upcut_Impulse = 120.0 / PIXEL_TO_METER
 -- 上冲攻击完毕跳跃冲力(瞬间冲力)
 CommonActorConfig.Upcut_JumpImpulse = 800.0 / PIXEL_TO_METER
 
+-- 下段攻击冲力(瞬间冲力)
+CommonActorConfig.DownCutImpluse = 400.0 / PIXEL_TO_METER
+
+-- 受到攻击时冲力(瞬间冲力)
+CommonActorConfig.HitImpluse = -100.0 / PIXEL_TO_METER
+
+-- 受到攻击并向后抛 
+-- 抛起冲力(瞬间冲力)
+CommonActorConfig.CollapseYImpluse = 800.0 / PIXEL_TO_METER 
+
+-- 向后冲力
+CommonActorConfig.CollapseXImpluse = -100.0 / PIXEL_TO_METER 
 
 
 return CommonActorConfig

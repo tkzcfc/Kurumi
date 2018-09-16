@@ -127,6 +127,12 @@ function GameMain:loadFinish()
     self.hero = hero
     hero:changeRole(playerRole)
 
+    local hero1 = require("app.actor.role.Hero_dao"):create()
+    hero1:changeRole(playerRole)
+    hero1:setActorPositionInValidRect({x = 500, y = 0})
+    hero1:setActorType(AT_MONSTER)
+    self.word:addActor(hero1)
+
 
     local winSize = cc.Director:getInstance():getVisibleSize()
 
