@@ -16,11 +16,15 @@ LOCAL_SRC_FILES := \
 ../../../Classes/ide-support/lua_debugger.c \
 ../../../Classes/net/Client.cpp \
 ../../../Classes/gamecore/GameActor.cpp \
-../../../Classes/gamecore/GameMath.cpp \
+../../../Classes/gamecore/GameCharacter.cpp \
+../../../Classes/gamecore/GameMap.cpp \
+../../../Classes/gamecore/GameCharacterBox2d.cpp \
 ../../../Classes/gamecore/GameWord.cpp \
-../../../Classes/gamecore/SpeedController.cpp \
+../../../Classes/gamecore/GameMath.cpp \
+../../../Classes/gamecore/GLES-Render.cpp \
 ../../../Classes/lua_game.cpp \
 hellolua/main.cpp
+
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
 					$(LOCAL_PATH)/../../../Classes/lua-modules/net \
