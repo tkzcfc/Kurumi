@@ -23,6 +23,9 @@ LOCAL_SRC_FILES := \
 ../../../Classes/gamecore/GameMath.cpp \
 ../../../Classes/gamecore/GLES-Render.cpp \
 ../../../Classes/lua_game.cpp \
+../../../Classes/lua_function/LuaFunction.cpp \
+../../../Classes/lua_function/LuaFunctionBond.cpp \
+../../../Classes/lua_function/tolua_ext.cpp \
 hellolua/main.cpp
 
 

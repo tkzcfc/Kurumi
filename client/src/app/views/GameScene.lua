@@ -27,7 +27,7 @@ function GameScene:onCreate(args)
     _MyG.PlayerController:setPlayer(hero)
 
     self.hero = hero
-    hero:changeRole("hero_xiuluo_dao")
+    hero:changeRole("hero_shizhuak_dao")
 
     local controlUI = require("app.ui.ControlUI"):create()
     self.word:addChild(controlUI, 1)
@@ -36,6 +36,9 @@ function GameScene:onCreate(args)
     self.shengboCount = 0
     self.curShengbo = 0
     self.curLeiShen = 0
+
+    self.curMonsterList = {}
+    self.curBoosList = {}
 
     local scheduler=cc.Director:getInstance():getScheduler()
     self.scriptEntryID = scheduler:scheduleScriptFunc(function(time) self:createMonster(time) end,1 / 20.0,false)
@@ -59,6 +62,7 @@ function GameScene:createMonster()
         local MS = require("app.actor.monster.Monster_Shengbo"):create()
         MS:setActorPositionInValidRect({x = 200 * self.curShengbo, y = 0})
         self.word:addActor(MS)
+        table.insert(self.curMonsterList, MS)
         return
     end
 
@@ -67,6 +71,7 @@ function GameScene:createMonster()
         local MS = require("app.actor.monster.Monster_LeiShen"):create()
         MS:setActorPositionInValidRect({x = 500 * self.curLeiShen, y = 0})
         self.word:addActor(MS)
+        table.insert(self.curBoosList, MS)
         return
     end
 
@@ -74,6 +79,36 @@ function GameScene:createMonster()
         self.curLeiShen >= self.leishenCount then
         self:stopScheduler()
     end
+end
+
+function GameScene:onClickAddMonster()
+    local MS = require("app.actor.monster.Monster_Shengbo"):create()
+    MS:setActorPositionInValidRect({x = 200 * #self.curMonsterList, y = 0})
+    self.word:addActor(MS)
+    table.insert(self.curMonsterList, MS)
+end
+
+function GameScene:onClickAddBOOS()
+    local MS = require("app.actor.monster.Monster_LeiShen"):create()
+    MS:setActorPositionInValidRect({x = 500 * #self.curBoosList, y = 0})
+    self.word:addActor(MS)
+    table.insert(self.curBoosList, MS)
+end
+
+function GameScene:onClickRemoveMonster()
+    if #self.curMonsterList <= 0 then
+        return
+    end
+    self.word:removeActor(self.curMonsterList[#self.curMonsterList])
+    table.remove(self.curMonsterList, #self.curMonsterList)
+end
+
+function GameScene:onClickRemoveBOSS()
+    if #self.curBoosList <= 0 then
+        return
+    end
+    self.word:removeActor(self.curBoosList[#self.curBoosList])
+    table.remove(self.curBoosList, #self.curBoosList)
 end
 
 function GameScene:stopScheduler()

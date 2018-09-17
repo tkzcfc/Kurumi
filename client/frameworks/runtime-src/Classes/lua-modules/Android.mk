@@ -5,8 +5,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := lua_modules_static
 LOCAL_MODULE_FILENAME := libluamodules
 
-LOCAL_SRC_FILES  += $(LOCAL_PATH)/lua_modules.cpp \
-				 += $(LOCAL_PATH)/LuaFunction.cpp
+LOCAL_SRC_FILES  += $(LOCAL_PATH)/lua_modules.cpp
 
 LOCAL_SRC_FILES  += $(LOCAL_PATH)/bit/bit.c
 

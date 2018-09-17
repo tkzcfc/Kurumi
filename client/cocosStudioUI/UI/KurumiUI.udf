@@ -38,8 +38,9 @@
           <FilePathData Path="playerControlUI.csd" />
           <FilePathData Path="LoginScene.csd" />
           <FilePathData Path="LoadingScene.csd" />
+          <FilePathData Path="HomeSceneUI.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="LoadingScene.csd" />
+        <ActiveDocument Path="HomeSceneUI.csd" />
       </Value>
     </Item>
   </Properties>

@@ -102,7 +102,7 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_GAME_MAP] =
 			resourceScene:addLoadResource(_MyG.RES_TYPE.PLIST, v)
 		end
 
-		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "role/baiji/hero_xiuluo_dao.ExportJson")
+		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "role/baiji/hero_shizhuak_dao.ExportJson")
 		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/boss5_leishen/boss5_leishen.ExportJson")
 		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/boss5_leishen/boss5_leigu.ExportJson")
 		resourceScene:addLoadResource(_MyG.RES_TYPE.EXPORTJSON, "monster/boss5_leishen/boss5_dianqiu.ExportJson")
