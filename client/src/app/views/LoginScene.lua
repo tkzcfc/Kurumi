@@ -17,6 +17,8 @@ function LoginScene:onCreate()
 
     self:register("login.S2C_login_ret", function(...) self:dis_login_ret(...) end)
     self:register("login.S2C_register_ret", function(...) self:dis_register_ret(...) end)
+
+	_MyG.AudioManager:playBackMusic("res/audio/login.ogg", true)
 end
 
 function LoginScene:onClickStart(sender)

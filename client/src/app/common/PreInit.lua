@@ -48,6 +48,8 @@ require("cocos.cocos2d.json")
 
 require("app.config.SceneResourceLoadConfig")
 
+_MyG.AudioManager = require("app.common.AudioManager"):new()
+
 _MyG.GameSceneSwither = require("app.common.GameSceneSwither")
 
 _MyG.Net = require("app.models.net.gameNet"):new()

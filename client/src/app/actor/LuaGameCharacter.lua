@@ -22,6 +22,7 @@ function LuaGameCharacter:ctor()
 
 	self.totalStateName = {}
 	self.stateConfig = {}
+	self.soundConfig = {}
 
     self:registerScriptHandler(function(state)
         if state == "enter" then
@@ -116,7 +117,8 @@ end
 function LuaGameCharacter:loadConfig(config)
 	assert(config ~= nil)
 
-	self.stateConfig = config.StateConfig
+	self.stateConfig = config.StateConfig or {}
+	self.soundConfig = config.SoundConfig or {}
 
 	self:clearState()
 	for k,v in pairs(self.stateConfig) do
@@ -132,13 +134,39 @@ end
 
 -------------------------------------------------FSM-------------------------------------------------
 
+function LuaGameCharacter:stopSound()
+	if self.curSoundID then
+		_MyG.AudioManager:stopSound(self.curSoundID)
+		self.curSoundID = nil
+	end
+end
+
+function LuaGameCharacter:changePlaySound(soundName, stateName)
+	if soundName == nil or soundName == "" then
+		self:stopSound()
+	else
+		if self.curSoundName == soundName then
+			if self.curSound_StateName == stateName then
+				self:stopSound()
+				self.curSoundID = _MyG.AudioManager:playSound(soundName)
+			end
+		else
+			self:stopSound()
+			self.curSoundID = _MyG.AudioManager:playSound(soundName)
+		end
+	end
+	self.curSoundName = soundName
+	self.curSound_StateName = stateName
+end
+
 function LuaGameCharacter:addState(stateName)
 
 	self.totalStateName[stateName] = true
 
 	local enter = function(state, fsm)
 		--print("FSM:enter",state:getStateName())
-		
+		self:changePlaySound(self.soundConfig[stateName], stateName)
+
 		local f = self["enter_"..stateName]
 		if type(f) == "function" then
 			f(self, state, fsm)

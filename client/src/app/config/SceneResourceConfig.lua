@@ -20,6 +20,7 @@ local SceneResourceConfig = {}
 --         plist = {
 --         },
 --     },
+--      backgroundMusic = nil,
 -- }
 
 SceneResourceConfig[_MyG.SCENE_ID_LOGIN] = 
@@ -44,6 +45,7 @@ SceneResourceConfig[_MyG.SCENE_ID_LOGIN] =
         plist = {
         },
     },
+    backgroundMusic = "audio/login.ogg",
 }
 
 SceneResourceConfig[_MyG.SCENE_ID_CREATE] = 
@@ -155,6 +157,7 @@ SceneResourceConfig[_MyG.SCENE_ID_SELECT] =
         plist = {
         },
     },
+    backgroundMusic = "audio/maincity.ogg",
 }
 
 
@@ -274,6 +277,7 @@ SceneResourceConfig[_MyG.SCENE_ID_MAIN] =
         plist = {
         },
     },
+    backgroundMusic = "audio/maincity.ogg",
 }
 
 

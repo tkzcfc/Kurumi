@@ -1,4 +1,5 @@
 local GameSceneSwither = class("GameSceneSwither")
+local SceneResourceConfig = require("app.config.SceneResourceConfig")
 
 function GameSceneSwither:ctor()
 	self.preSceneID = nil
@@ -12,6 +13,11 @@ function GameSceneSwither:enterScene(sceneID, transition, time, more, args)
 		return
 	end
 
+	local musicName = self:getBackgroundNameBySceneID(sceneID)
+	if musicName == nil or musicName ~= _MyG.AudioManager:getBackMusicName() then
+		_MyG.AudioManager:stopBackMusic()
+	end
+
 	local function doResourceScene()
 		self.preSceneID = self.curSceneID
 		self.curSceneID = SCENE_ID_LOAD_RESOURCE
@@ -19,7 +25,7 @@ function GameSceneSwither:enterScene(sceneID, transition, time, more, args)
 		local loadResourceScene = self:runScene(_MyG.SCENE_ID_LOAD_RESOURCE, transition, time, more)
 		loadResourceScene:setNextSceneInfo(sceneID, transition, time, more, args)
 
-		collectgarbage()
+		collectgarbage("collect")
 	end
 
 
@@ -40,6 +46,11 @@ end
 
 function GameSceneSwither:runScene(sceneID, transition, time, more, args)
 
+	local musicName = self:getBackgroundNameBySceneID(sceneID)
+	if musicName ~= nil and musicName ~= _MyG.AudioManager:getBackMusicName() then
+		_MyG.AudioManager:playBackMusic(musicName, true)
+	end
+
 	if sceneID ~= _MyG.SCENE_ID_LOAD_RESOURCE then
 		self.preSceneID = self.curSceneID
 		self.curSceneID = sceneID
@@ -50,6 +61,12 @@ function GameSceneSwither:runScene(sceneID, transition, time, more, args)
 		return
 	end
 	return _MyG.APP:enterScene(_MyG.SCENE_MAP[sceneID], transition, time, more, args)
+end
+
+function GameSceneSwither:getBackgroundNameBySceneID(sceneID)
+	if sceneID and SceneResourceConfig[sceneID] then
+		return SceneResourceConfig[sceneID].backgroundMusic
+	end
 end
 
 function GameSceneSwither:getCurSceneID()
