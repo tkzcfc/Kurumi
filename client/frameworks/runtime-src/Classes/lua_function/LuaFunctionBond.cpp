@@ -5,15 +5,25 @@ LuaFunctionBond::LuaFunctionBond()
 
 LuaFunctionBond::~LuaFunctionBond()
 {
-	clearLuaHandle();
+	for (const auto& it : m_luaHandleMap)
+	{
+		delete it.second;
+	}
+	m_luaHandleMap.clear();
 }
 
 void LuaFunctionBond::registerLuaHandle(const std::string& name, const LuaFunction& handle)
 {
-	unregisterLuaHandle(name);
-
-	LuaFunction* pHandle = new LuaFunction(handle);
-	m_luaHandleMap.insert(std::make_pair(name, pHandle));
+	auto it = m_luaHandleMap.find(name);
+	if (it != m_luaHandleMap.end())
+	{
+		*it->second = handle;
+	}
+	else
+	{
+		LuaFunction* pHandle = new LuaFunction(handle);
+		m_luaHandleMap.insert(std::make_pair(name, pHandle));
+	}
 }
 
 void LuaFunctionBond::unregisterLuaHandle(const std::string& name)
@@ -21,22 +31,22 @@ void LuaFunctionBond::unregisterLuaHandle(const std::string& name)
 	auto it = m_luaHandleMap.find(name);
 	if (it != m_luaHandleMap.end())
 	{
-		delete it->second;
-		m_luaHandleMap.erase(it);
+		it->second->invalid();
 	}
 }
 
 void LuaFunctionBond::clearLuaHandle()
 {
 	for (const auto& it : m_luaHandleMap)
-		delete it.second;
-	m_luaHandleMap.clear();
+	{
+		it.second->invalid();
+	}
 }
 
 LuaFunction* LuaFunctionBond::getLuaHandle(const std::string& name)
 {
 	auto it = m_luaHandleMap.find(name);
-	if (it != m_luaHandleMap.end())
+	if (it != m_luaHandleMap.end() && it->second->isvalid())
 	{
 		return it->second;
 	}

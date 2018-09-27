@@ -19,10 +19,10 @@ local LOCAL_SERVER = false
 
 if LOCAL_SERVER then
     _MyG.GAME_IP = "127.0.0.1"
-    _MyG.GAME_PORT = 1234
+    _MyG.GAME_PORT = 1000
 else
     _MyG.GAME_IP = "www.kurumi.xin"
-    _MyG.GAME_PORT = 1234
+    _MyG.GAME_PORT = 1000
 end
 
 local targetPlatform = cc.Application:getInstance():getTargetPlatform()
