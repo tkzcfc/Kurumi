@@ -9,7 +9,7 @@ using SessionCloseCall = std::function<void(Session*)>;
 using SessionRecvCall = std::function<void(Session*, char*, unsigned int)>;
 
 class SessionManager;
-class NET_UV_EXTERN Session
+class Session
 {
 public:
 	Session(SessionManager* manager);

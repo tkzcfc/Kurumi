@@ -44,12 +44,21 @@ LOCAL_SRC_FILES  += $(LOCAL_PATH)/net/libuv/src/inet.c \
                     $(LOCAL_PATH)/net/libuv/src/uv-common.c \
                     $(LOCAL_PATH)/net/libuv/src/version.c \
                     $(LOCAL_PATH)/net/libuv/src/fs-poll.c \
-                    $(LOCAL_PATH)/net/tcpSocket/md5.cpp \
-                    $(LOCAL_PATH)/net/tcpSocket/TCPClient.cpp \
-                    $(LOCAL_PATH)/net/tcpSocket/TCPCommon.cpp \
-                    $(LOCAL_PATH)/net/tcpSocket/TCPServer.cpp \
-                    $(LOCAL_PATH)/net/tcpSocket/TCPSocket.cpp \
-                    $(LOCAL_PATH)/net/tcpSocket/TCPUtils.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Client.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Common.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Mutex.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Runnable.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Server.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Session.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/SessionManager.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/Socket.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/md5.cpp \
+                    $(LOCAL_PATH)/net/net_uv/base/uv_func.cpp \
+                    $(LOCAL_PATH)/net/net_uv/tcp/TCPSession.cpp \
+                    $(LOCAL_PATH)/net/net_uv/tcp/TCPSocket.cpp \
+                    $(LOCAL_PATH)/net/net_uv/tcp/TCPClient.cpp \
+                    $(LOCAL_PATH)/net/net_uv/tcp/TCPServer.cpp \
+                    $(LOCAL_PATH)/net/net_uv/tcp/TCPUtils.cpp \
                     $(LOCAL_PATH)/net/lua_net.cpp
 
 LOCAL_SRC_FILES  += $(LOCAL_PATH)/pbc/src/alloc.cpp \
@@ -91,8 +100,9 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/lfs \
                     $(LOCAL_PATH)/net/libuv/include \
                     $(LOCAL_PATH)/net/libuv/src \
-                    $(LOCAL_PATH)/net/tcpSocket \
+                    $(LOCAL_PATH)/net/net_uv \
                     $(LOCAL_PATH)/net \
+                    $(LOCAL_PATH)/../ \
 					
 
 include $(BUILD_STATIC_LIBRARY)

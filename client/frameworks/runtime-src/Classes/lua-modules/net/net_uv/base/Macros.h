@@ -30,22 +30,3 @@
 #define ThreadSleep(ms) usleep((ms) * 1000)
 
 #endif
-
-
-#ifdef _WIN32
-/* Windows - set up dll import/export decorators. */
-# if defined(BUILDING_UV_SHARED)
-/* Building shared library. */
-#   define NET_UV_EXTERN __declspec(dllexport)
-# elif defined(USING_UV_SHARED)
-/* Using shared library. */
-#   define NET_UV_EXTERN __declspec(dllimport)
-# else
-/* Building static library. */
-#   define NET_UV_EXTERN /* nothing */
-# endif
-//#elif __GNUC__ >= 4
-//# define NET_UV_EXTERN __attribute__((visibility("default")))
-//#else
-# define NET_UV_EXTERN /* nothing */
-#endif

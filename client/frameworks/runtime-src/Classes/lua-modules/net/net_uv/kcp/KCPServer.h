@@ -6,7 +6,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN KCPServer : public Server
+class KCPServer : public Server
 {
 	//服务器所处阶段
 	enum class ServerStage

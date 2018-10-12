@@ -5,7 +5,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN KCPSession : public Session
+class KCPSession : public Session
 {
 public:
 	KCPSession() = delete;

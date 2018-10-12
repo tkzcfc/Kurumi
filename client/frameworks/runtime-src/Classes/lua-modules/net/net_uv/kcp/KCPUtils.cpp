@@ -102,7 +102,7 @@ const static unsigned int kcp_msg_headlen = sizeof(KCPMsgHead);
 // 加密
 // 加密前 ：|-DATA-|
 // 加密后 ：|-（MD5（DATA+加密key））的hash值-|-DATA-|
-NET_UV_EXTERN char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
+char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
 {
 	MD5 M;
 
@@ -125,7 +125,7 @@ NET_UV_EXTERN char* kcp_uv_encode(const char* data, unsigned int len, unsigned i
 }
 
 // 解密
-NET_UV_EXTERN char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen)
+char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen)
 {
 	outLen = 0;
 
@@ -167,7 +167,7 @@ NET_UV_EXTERN char* kcp_uv_decode(const char* data, unsigned int len, unsigned i
 
 
 // 打包数据
-NET_UV_EXTERN uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
+uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
 {
 	*bufCount = 0;
 	if (data == NULL || len <= 0)
@@ -268,7 +268,7 @@ NET_UV_EXTERN uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCo
 	}
 
 // 打包心跳消息
-NET_UV_EXTERN char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize)
+char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize)
 {
 	*outBufSize = 0;
 #if KCP_UV_OPEN_MD5_CHECK == 1

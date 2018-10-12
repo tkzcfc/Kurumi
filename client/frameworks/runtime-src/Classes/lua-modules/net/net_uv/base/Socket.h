@@ -12,7 +12,7 @@ using SocketConnectCall = std::function<void(Socket*,int)>;	//0Ê§°Ü 1³É¹¦ 2³¬Ê±
 using SocketCloseCall = std::function<void(Socket*)>; 
 using SocketRecvCall = std::function<void(char*, ssize_t)>;
 
-class NET_UV_EXTERN Socket
+class Socket
 {
 public:
 	Socket();

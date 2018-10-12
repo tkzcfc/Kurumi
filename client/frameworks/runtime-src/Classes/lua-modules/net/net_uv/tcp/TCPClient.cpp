@@ -453,7 +453,7 @@ void TCPClient::executeOperation()
 				auto socket = it.second->session->getTCPSocket();
 				if (socket && !it.second->removeTag)
 				{
-					socket->setKeepAlive(m_keepAliveDelay, m_keepAliveDelay);
+					socket->setKeepAlive(m_enableKeepAlive, m_keepAliveDelay);
 				}
 			}
 		}break;

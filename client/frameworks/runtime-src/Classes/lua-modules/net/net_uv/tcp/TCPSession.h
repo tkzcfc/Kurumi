@@ -5,7 +5,7 @@
 NS_NET_UV_BEGIN
 
 
-class NET_UV_EXTERN TCPSession : public Session
+class TCPSession : public Session
 {
 public:
 	TCPSession() = delete;

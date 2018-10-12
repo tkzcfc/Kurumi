@@ -15,7 +15,8 @@ using std::string;
 using std::ifstream;
 
 /* MD5 declaration. */
-class NET_UV_EXTERN MD5 {
+class MD5 
+{
 public:
     MD5();
     MD5(const void *input, size_t length);

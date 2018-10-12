@@ -6,7 +6,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN SessionManager
+class SessionManager
 {
 public:
 

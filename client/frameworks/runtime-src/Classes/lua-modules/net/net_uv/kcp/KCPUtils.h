@@ -38,13 +38,13 @@ std::string kcp_making_heart_back_packet();
 bool kcp_is_heart_back_packet(const char* data, size_t len);
 
 //加密
-NET_UV_EXTERN char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen);
+char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen);
 //解密
-NET_UV_EXTERN char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen);
+char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen);
 // 打包数据
-NET_UV_EXTERN uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount);
+uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount);
 // 打包心跳消息
-NET_UV_EXTERN char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize);
+char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize);
 
 
 /* get system time */

@@ -16,7 +16,7 @@ using ClientRecvCall = std::function<void(Client*, Session*, char*, unsigned int
 using ClientCloseCall = std::function<void(Client*)>;
 using ClientRemoveSessionCall = std::function<void(Client*, Session*)>;
 
-class NET_UV_EXTERN Client : public Runnable, public SessionManager
+class Client : public Runnable, public SessionManager
 {
 public:
 	Client();

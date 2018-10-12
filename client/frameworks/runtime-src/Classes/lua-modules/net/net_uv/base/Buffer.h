@@ -3,7 +3,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN Buffer
+class Buffer
 {
 	struct block
 	{

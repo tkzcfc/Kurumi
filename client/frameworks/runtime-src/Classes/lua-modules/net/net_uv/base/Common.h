@@ -23,11 +23,11 @@ NS_NET_UV_BEGIN
 
 #define fc_malloc(len) fc_malloc_s(len, __FILE__, __LINE__)
 
-NET_UV_EXTERN void* fc_malloc_s(unsigned int len, const char* file, int line);
-NET_UV_EXTERN void fc_free(void* p);
+void* fc_malloc_s(unsigned int len, const char* file, int line);
+void fc_free(void* p);
 
 //打印内存信息
-NET_UV_EXTERN void printMemInfo();
+void printMemInfo();
 
 #define NET_UV_LOG(level, format, ...) net_uvLog(level, format, ##__VA_ARGS__)
 
@@ -57,12 +57,12 @@ NET_UV_EXTERN void printMemInfo();
 #define CHECK_UV_ASSERT(r) if(r != 0) { assert(0); }
 #endif
 
-NET_UV_EXTERN std::string getUVError(int errcode);
+std::string getUVError(int errcode);
 
 //日志输出
-NET_UV_EXTERN void net_uvLog(int level, const char* format, ...);
+void net_uvLog(int level, const char* format, ...);
 
 //设置日志输出函数
-NET_UV_EXTERN void setNetUVLogPrintFunc(void(*func)(int, const char*));
+void setNetUVLogPrintFunc(void(*func)(int, const char*));
 
 NS_NET_UV_END

@@ -4,7 +4,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN Runnable
+class Runnable
 {
 public:
 	Runnable();

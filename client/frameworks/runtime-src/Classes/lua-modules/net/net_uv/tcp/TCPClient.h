@@ -5,7 +5,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN TCPClient : public Client
+class TCPClient : public Client
 {
 protected:
 	enum CONNECTSTATE
@@ -120,7 +120,7 @@ protected:
 	float m_totalTime;		// 断线重连时间
 	bool m_enableNoDelay;	
 	int m_enableKeepAlive; 
-	int m_keepAliveDelay;
+	unsigned int m_keepAliveDelay;
 
 	// 所有会话
 	std::map<unsigned int, clientSessionData*> m_allSessionMap;

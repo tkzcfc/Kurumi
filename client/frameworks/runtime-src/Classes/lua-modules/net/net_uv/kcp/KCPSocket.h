@@ -13,7 +13,7 @@ using KCPSocketConnectFilterCall = std::function<bool(const struct sockaddr*)>;
 using KCPSocketNewConnectionCall = std::function<void(Socket*)>;
 using KCPSocketDisconnectCall = std::function<void(Socket*, unsigned int)>;
 
-class NET_UV_EXTERN KCPSocket : public Socket
+class KCPSocket : public Socket
 {
 public:
 	KCPSocket() = delete;

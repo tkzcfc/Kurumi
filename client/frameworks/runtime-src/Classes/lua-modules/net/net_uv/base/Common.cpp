@@ -12,7 +12,7 @@ typedef void(*uvOutputLoggerType)(int, const char*);
 uvOutputLoggerType uvOutputLogger = 0;
 
 
-NET_UV_EXTERN std::string getUVError(int errcode)
+std::string getUVError(int errcode)
 {
 	if (0 == errcode)
 	{
@@ -40,7 +40,7 @@ NET_UV_EXTERN std::string getUVError(int errcode)
 	return std::move(err);
 }
 
-NET_UV_EXTERN string getTime_UV()
+string getTime_UV()
 {
 	time_t timep;
 	time(&timep);
@@ -58,7 +58,7 @@ static const char* net_uv_log_name[NET_UV_L_FATAL + 1] =
 	"FATAL"
 };
 
-NET_UV_EXTERN void net_uvLog(int level, const char* format, ...)
+void net_uvLog(int level, const char* format, ...)
 {
 	if (level < NET_UV_L_MIN_LEVEL)
 	{
@@ -94,7 +94,7 @@ NET_UV_EXTERN void net_uvLog(int level, const char* format, ...)
 	//printf("\n");
 }
 
-NET_UV_EXTERN void setNetUVLogPrintFunc(void(*func)(int, const char*))
+void setNetUVLogPrintFunc(void(*func)(int, const char*))
 {
 	uvOutputLogger = func;
 }
@@ -115,7 +115,7 @@ Mutex block_mutex;
 unsigned int block_size = 0;
 std::map<void*, mallocBlockInfo> block_map;
 
-NET_UV_EXTERN void* fc_malloc_s(unsigned int len, const char* file, int line)
+void* fc_malloc_s(unsigned int len, const char* file, int line)
 {
 	mallocBlockInfo info;
 	info.file = file;
@@ -148,7 +148,7 @@ NET_UV_EXTERN void* fc_malloc_s(unsigned int len, const char* file, int line)
 	return p;
 }
 
-NET_UV_EXTERN void fc_free(void* p)
+void fc_free(void* p)
 {
 	if (p == NULL)
 	{
@@ -175,7 +175,7 @@ NET_UV_EXTERN void fc_free(void* p)
 
 
 
-NET_UV_EXTERN void printMemInfo()
+void printMemInfo()
 {
 	block_mutex.lock();
 	NET_UV_LOG(NET_UV_L_INFO, "block size = %d\n", block_size);

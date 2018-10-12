@@ -5,7 +5,7 @@
 
 NS_NET_UV_BEGIN
 
-class NET_UV_EXTERN KCPClient : public Client
+class KCPClient : public Client
 {
 protected:
 	enum CONNECTSTATE
