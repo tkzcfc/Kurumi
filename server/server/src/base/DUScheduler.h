@@ -16,7 +16,7 @@
 #include <mutex>
 #include "uthash.h"
 #include "DUSchedulerTimer.h"
-#include "LuaFunction.hpp"
+#include "lua_function/LuaFunction.h"
 #include <map>
 
 

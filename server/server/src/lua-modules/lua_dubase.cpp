@@ -1,6 +1,6 @@
 /*
 ** Lua binding: dubase
-** Generated automatically by tolua++-1.0.92 on 08/13/18 13:37:10.
+** Generated automatically by tolua++-1.0.92 on 10/11/18 23:02:17.
 */
 
 #include "tolua_fix.h"
@@ -49,8 +49,9 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"DUScheduler");
  tolua_usertype(tolua_S,"TestOBJ");
  
- tolua_usertype(tolua_S,"DUObject");
  tolua_usertype(tolua_S,"DUGame");
+ tolua_usertype(tolua_S,"DUObject");
+ tolua_usertype(tolua_S,"Session");
  tolua_usertype(tolua_S,"DUServer");
 }
 
@@ -778,7 +779,8 @@ static int tolua_dubase_DUServer_startServer00(lua_State* tolua_S)
      !tolua_isusertype(tolua_S,1,"DUServer",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -786,16 +788,16 @@ static int tolua_dubase_DUServer_startServer00(lua_State* tolua_S)
  {
   DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
   const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  int port = ((int)  tolua_tonumber(tolua_S,3,0));
+  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  bool isIPV6 = ((bool)  tolua_toboolean(tolua_S,4,0));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'startServer'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->startServer(ip,port);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+   self->startServer(ip,port,isIPV6);
   }
  }
- return 1;
+ return 0;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'startServer'.",&tolua_err);
@@ -804,9 +806,9 @@ static int tolua_dubase_DUServer_startServer00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: closeServer of class  DUServer */
-#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_closeServer00
-static int tolua_dubase_DUServer_closeServer00(lua_State* tolua_S)
+/* method: stopServer of class  DUServer */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_stopServer00
+static int tolua_dubase_DUServer_stopServer00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
@@ -820,17 +822,87 @@ static int tolua_dubase_DUServer_closeServer00(lua_State* tolua_S)
  {
   DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'closeServer'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'stopServer'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->closeServer();
+   bool tolua_ret = (bool)  self->stopServer();
    tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
  return 1;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'closeServer'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'stopServer'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: send of class  DUServer */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_send00
+static int tolua_dubase_DUServer_send00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUServer",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
+#endif
+  {
+   self->send(session,data,len);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: disconnect of class  DUServer */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_disconnect00
+static int tolua_dubase_DUServer_disconnect00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUServer",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
+#endif
+  {
+   self->disconnect(session);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'disconnect'.",&tolua_err);
  return 0;
 #endif
 }
@@ -868,15 +940,51 @@ static int tolua_dubase_DUServer_isCloseFinish00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setCallFunc of class  DUServer */
-#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_setCallFunc00
-static int tolua_dubase_DUServer_setCallFunc00(lua_State* tolua_S)
+/* method: registerLuaHandle of class  DUServer */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_registerLuaHandle00
+static int tolua_dubase_DUServer_registerLuaHandle00(lua_State* tolua_S)
 {
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"DUServer",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
+  const std::string name = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+  LuaFunction handle = (  LuaFunction(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'registerLuaHandle'", NULL);
+#endif
+  {
+   self->registerLuaHandle(name,handle);
+   tolua_pushcppstring(tolua_S,(const char*)name);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'registerLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: unregisterLuaHandle of class  DUServer */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_unregisterLuaHandle00
+static int tolua_dubase_DUServer_unregisterLuaHandle00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUServer",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
@@ -884,18 +992,50 @@ static int tolua_dubase_DUServer_setCallFunc00(lua_State* tolua_S)
 #endif
  {
   DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
-  LuaFunction handle = (  LuaFunction(tolua_S,2,0));
+  const std::string name = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
 #ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setCallFunc'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'unregisterLuaHandle'", NULL);
 #endif
   {
-   self->setCallFunc(handle);
+   self->unregisterLuaHandle(name);
+   tolua_pushcppstring(tolua_S,(const char*)name);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'unregisterLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: clearLuaHandle of class  DUServer */
+#ifndef TOLUA_DISABLE_tolua_dubase_DUServer_clearLuaHandle00
+static int tolua_dubase_DUServer_clearLuaHandle00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"DUServer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  DUServer* self = (DUServer*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'clearLuaHandle'", NULL);
+#endif
+  {
+   self->clearLuaHandle();
   }
  }
  return 0;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setCallFunc'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'clearLuaHandle'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1189,9 +1329,13 @@ TOLUA_API int tolua_dubase_open (lua_State* tolua_S)
    tolua_function(tolua_S,".call",tolua_dubase_DUServer_new00_local);
    tolua_function(tolua_S,"delete",tolua_dubase_DUServer_delete00);
    tolua_function(tolua_S,"startServer",tolua_dubase_DUServer_startServer00);
-   tolua_function(tolua_S,"closeServer",tolua_dubase_DUServer_closeServer00);
+   tolua_function(tolua_S,"stopServer",tolua_dubase_DUServer_stopServer00);
+   tolua_function(tolua_S,"send",tolua_dubase_DUServer_send00);
+   tolua_function(tolua_S,"disconnect",tolua_dubase_DUServer_disconnect00);
    tolua_function(tolua_S,"isCloseFinish",tolua_dubase_DUServer_isCloseFinish00);
-   tolua_function(tolua_S,"setCallFunc",tolua_dubase_DUServer_setCallFunc00);
+   tolua_function(tolua_S,"registerLuaHandle",tolua_dubase_DUServer_registerLuaHandle00);
+   tolua_function(tolua_S,"unregisterLuaHandle",tolua_dubase_DUServer_unregisterLuaHandle00);
+   tolua_function(tolua_S,"clearLuaHandle",tolua_dubase_DUServer_clearLuaHandle00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"DUGame","DUGame","",NULL);
   tolua_beginmodule(tolua_S,"DUGame");

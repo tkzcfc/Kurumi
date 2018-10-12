@@ -1,0 +1,22 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "tcp/TCPServer.h"
+
+
+class TCPServer : public Server
+{
+	TCPServer();
+
+	virtual ~TCPServer();
+
+	/// SessionManager
+	virtual void send(Session* session, char* data, unsigned int len);
+
+	virtual void disconnect(Session* session);
+
+	/// TCPServer
+	bool isCloseFinish();
+};
+
+

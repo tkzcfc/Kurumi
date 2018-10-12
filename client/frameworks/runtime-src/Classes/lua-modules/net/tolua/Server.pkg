@@ -1,0 +1,14 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "base/Client.h"
+
+
+
+class Server
+{
+public:
+	virtual void startServer(const char* ip, unsigned int port, bool isIPV6);
+
+	virtual bool stopServer();
+};

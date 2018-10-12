@@ -1,0 +1,55 @@
+$#include "net/TCPLuaClient.h"
+
+
+
+class TCPLuaClient
+{
+	static TCPLuaClient* getInstance();
+
+	static void destroy();
+
+	void connect(const char* ip, unsigned int port, unsigned int sessionId);
+
+	void disconnect(unsigned int sessionId);
+
+	void closeClient();
+
+	void send(unsigned int sessionId, char* data, unsigned int len);
+
+	void removeSession(unsigned int sessionId);
+
+	void send(Session* session, char* data, unsigned int len);
+
+	void disconnect(Session* session);
+
+	bool isCloseFinish();
+
+	//是否启用TCP_NODELAY
+	bool setSocketNoDelay(bool enable);
+
+	//设置心跳
+	bool setSocketKeepAlive(int enable, unsigned int delay);
+
+	//设置所有socket是否自动重连
+	void setAutoReconnect(bool isAuto);
+
+	//设置所有socket自动重连时间(单位：S)
+	void setAutoReconnectTime(float time);
+
+	//是否自动重连
+	void setAutoReconnectBySessionID(unsigned int sessionID, bool isAuto);
+
+	//自动重连时间(单位：S)
+	void setAutoReconnectTimeBySessionID(unsigned int sessionID, float time);
+
+	TCPClient* getTCPClient();
+
+
+
+	//LuaFunctionBond
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
+
+	void unregisterLuaHandle(const std::string& name);
+
+	void clearLuaHandle();
+};

@@ -1,0 +1,51 @@
+#pragma once
+
+//#ifdef __cplusplus
+//#define NS_NET_UV_BEGIN	namespace net_uv {
+//#define NS_NET_UV_END	}
+//#define NS_NET_UV_OPEN using namespace net_uv;
+//#else
+//#define NS_NET_UV_BEGIN	
+//#define NS_NET_UV_END	
+//#define NS_NET_UV_OPEN using namespace net_uv;
+//#endif
+
+#define NS_NET_UV_BEGIN	
+#define NS_NET_UV_END	
+
+#define NS_NET_UV_OPEN
+
+#if defined (WIN32) || defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#pragma comment(lib,"ws2_32.lib")
+#pragma comment(lib, "Iphlpapi.lib")
+#pragma comment(lib,"Psapi.lib")
+#pragma comment(lib, "Userenv.lib")
+#define ThreadSleep(ms) Sleep(ms);
+
+#elif defined __linux__
+
+#include <unistd.h>
+#define ThreadSleep(ms) usleep((ms) * 1000)
+
+#endif
+
+
+#ifdef _WIN32
+/* Windows - set up dll import/export decorators. */
+# if defined(BUILDING_UV_SHARED)
+/* Building shared library. */
+#   define NET_UV_EXTERN __declspec(dllexport)
+# elif defined(USING_UV_SHARED)
+/* Using shared library. */
+#   define NET_UV_EXTERN __declspec(dllimport)
+# else
+/* Building static library. */
+#   define NET_UV_EXTERN /* nothing */
+# endif
+//#elif __GNUC__ >= 4
+//# define NET_UV_EXTERN __attribute__((visibility("default")))
+//#else
+# define NET_UV_EXTERN /* nothing */
+#endif

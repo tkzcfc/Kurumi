@@ -1,0 +1,20 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "base/Session.h"
+
+
+class Session
+{
+public:
+
+	virtual void send(char* data, unsigned int len);
+
+	virtual void disconnect();
+
+	unsigned int getSessionID();
+
+	virtual unsigned int getPort();
+
+	virtual std::string getIp();
+};

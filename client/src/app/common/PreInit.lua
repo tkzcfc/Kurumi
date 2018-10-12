@@ -15,14 +15,14 @@ _MyG.loadStudioFile = function(fileName, target)
     return root
 end
 
-local LOCAL_SERVER = false
+local LOCAL_SERVER = true
 
 if LOCAL_SERVER then
     _MyG.GAME_IP = "127.0.0.1"
-    _MyG.GAME_PORT = 1000
+    _MyG.GAME_PORT = 1234
 else
     _MyG.GAME_IP = "www.kurumi.xin"
-    _MyG.GAME_PORT = 1000
+    _MyG.GAME_PORT = 1234
 end
 
 local targetPlatform = cc.Application:getInstance():getTargetPlatform()

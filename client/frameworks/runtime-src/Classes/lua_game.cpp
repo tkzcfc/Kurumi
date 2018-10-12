@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 09/15/18 15:07:58.
+** Generated automatically by tolua++-1.0.92 on 10/11/18 21:53:42.
 */
 
 #ifndef __cplusplus
@@ -21,7 +21,7 @@ TOLUA_API int  tolua_game_open (lua_State* tolua_S);
 #include "gamecore/GameCharacter.h"
 #include "gamecore/GameMap.h"
 #include "gamecore/GameWord.h"
-#include "net/Client.h"
+#include "net/TCPLuaClient.h"
 #include "Box2D/Box2D.h"
 
 /* function to release collected object via destructor */
@@ -73,10 +73,11 @@ static void tolua_reg_types (lua_State* tolua_S)
   tolua_usertype(tolua_S,"ccs.Armature");
   tolua_usertype(tolua_S,"GameActor");
  tolua_usertype(tolua_S,"QFSM");
- tolua_usertype(tolua_S,"Client");
  tolua_usertype(tolua_S,"Node");
   
-  tolua_usertype(tolua_S,"b2Body");
+ tolua_usertype(tolua_S,"TCPLuaClient");
+ tolua_usertype(tolua_S,"b2Body");
+  tolua_usertype(tolua_S,"Session");
  tolua_usertype(tolua_S,"GameWord");
  tolua_usertype(tolua_S,"SK");
  tolua_usertype(tolua_S,"GameCharacter");
@@ -2337,14 +2338,14 @@ static int tolua_game_changeParticleSystemPositionType00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: getInstance of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_getInstance00
-static int tolua_game_Client_getInstance00(lua_State* tolua_S)
+/* method: getInstance of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_getInstance00
+static int tolua_game_TCPLuaClient_getInstance00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertable(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertable(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
@@ -2352,8 +2353,8 @@ static int tolua_game_Client_getInstance00(lua_State* tolua_S)
 #endif
  {
   {
-   Client* tolua_ret = (Client*)  Client::getInstance();
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"Client");
+   TCPLuaClient* tolua_ret = (TCPLuaClient*)  TCPLuaClient::getInstance();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPLuaClient");
   }
  }
  return 1;
@@ -2365,14 +2366,14 @@ static int tolua_game_Client_getInstance00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: destroy of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_destroy00
-static int tolua_game_Client_destroy00(lua_State* tolua_S)
+/* method: destroy of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_destroy00
+static int tolua_game_TCPLuaClient_destroy00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertable(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertable(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
@@ -2380,7 +2381,7 @@ static int tolua_game_Client_destroy00(lua_State* tolua_S)
 #endif
  {
   {
-   Client::destroy();
+   TCPLuaClient::destroy();
   }
  }
  return 0;
@@ -2392,47 +2393,14 @@ static int tolua_game_Client_destroy00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setCallFunc of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setCallFunc00
-static int tolua_game_Client_setCallFunc00(lua_State* tolua_S)
+/* method: connect of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_connect00
+static int tolua_game_TCPLuaClient_connect00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  LuaFunction handle = (  LuaFunction(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setCallFunc'", NULL);
-#endif
-  {
-   self->setCallFunc(handle);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setCallFunc'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: connect of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_connect00
-static int tolua_game_Client_connect00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
@@ -2442,19 +2410,18 @@ static int tolua_game_Client_connect00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
   const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  int port = ((int)  tolua_tonumber(tolua_S,3,0));
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'connect'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->connect(ip,port,key);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+   self->connect(ip,port,sessionId);
   }
  }
- return 1;
+ return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'connect'.",&tolua_err);
@@ -2463,14 +2430,14 @@ static int tolua_game_Client_connect00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: disconnect of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_disconnect00
-static int tolua_game_Client_disconnect00(lua_State* tolua_S)
+/* method: disconnect of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_disconnect00
+static int tolua_game_TCPLuaClient_disconnect00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
@@ -2478,13 +2445,13 @@ static int tolua_game_Client_disconnect00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
 #endif
   {
-   self->disconnect(key);
+   self->disconnect(sessionId);
   }
  }
  return 0;
@@ -2496,21 +2463,21 @@ static int tolua_game_Client_disconnect00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: closeClient of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_closeClient00
-static int tolua_game_Client_closeClient00(lua_State* tolua_S)
+/* method: closeClient of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_closeClient00
+static int tolua_game_TCPLuaClient_closeClient00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'closeClient'", NULL);
 #endif
@@ -2527,21 +2494,151 @@ static int tolua_game_Client_closeClient00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: isCloseFinish of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_isCloseFinish00
-static int tolua_game_Client_isCloseFinish00(lua_State* tolua_S)
+/* method: send of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_send00
+static int tolua_game_TCPLuaClient_send00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
+#endif
+  {
+   self->send(sessionId,data,len);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: removeSession of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_removeSession00
+static int tolua_game_TCPLuaClient_removeSession00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeSession'", NULL);
+#endif
+  {
+   self->removeSession(sessionId);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'removeSession'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: send of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_send01
+static int tolua_game_TCPLuaClient_send01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
+#endif
+  {
+   self->send(session,data,len);
+  }
+ }
+ return 0;
+tolua_lerror:
+ return tolua_game_TCPLuaClient_send00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: disconnect of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_disconnect01
+static int tolua_game_TCPLuaClient_disconnect01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
+#endif
+  {
+   self->disconnect(session);
+  }
+ }
+ return 0;
+tolua_lerror:
+ return tolua_game_TCPLuaClient_disconnect00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isCloseFinish of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_isCloseFinish00
+static int tolua_game_TCPLuaClient_isCloseFinish00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isCloseFinish'", NULL);
 #endif
@@ -2559,83 +2656,14 @@ static int tolua_game_Client_isCloseFinish00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: send of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_send00
-static int tolua_game_Client_send00(lua_State* tolua_S)
+/* method: setSocketNoDelay of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_setSocketNoDelay00
+static int tolua_game_TCPLuaClient_setSocketNoDelay00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,5,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
-  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
-  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->send(key,data,len);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: send of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_send01
-static int tolua_game_Client_send01(lua_State* tolua_S)
-{
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
- {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
-  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->send(key,data);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-tolua_lerror:
- return tolua_game_Client_send00(tolua_S);
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: setNoDelay of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setNoDelay00
-static int tolua_game_Client_setNoDelay00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
@@ -2643,33 +2671,33 @@ static int tolua_game_Client_setNoDelay00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
   bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setNoDelay'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setSocketNoDelay'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->setNoDelay(enable);
+   bool tolua_ret = (bool)  self->setSocketNoDelay(enable);
    tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
  return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setNoDelay'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'setSocketNoDelay'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setKeepAlive of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setKeepAlive00
-static int tolua_game_Client_setKeepAlive00(lua_State* tolua_S)
+/* method: setSocketKeepAlive of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_setSocketKeepAlive00
+static int tolua_game_TCPLuaClient_setSocketKeepAlive00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
@@ -2678,99 +2706,34 @@ static int tolua_game_Client_setKeepAlive00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
   int enable = ((int)  tolua_tonumber(tolua_S,2,0));
   unsigned int delay = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setKeepAlive'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setSocketKeepAlive'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->setKeepAlive(enable,delay);
+   bool tolua_ret = (bool)  self->setSocketKeepAlive(enable,delay);
    tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
  return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setKeepAlive'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'setSocketKeepAlive'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: checkState of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_checkState00
-static int tolua_game_Client_checkState00(lua_State* tolua_S)
+/* method: setAutoReconnect of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_setAutoReconnect00
+static int tolua_game_TCPLuaClient_setAutoReconnect00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'checkState'", NULL);
-#endif
-  {
-   TCPClient::CONNECTSTATE tolua_ret = (TCPClient::CONNECTSTATE)  self->checkState(key);
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'checkState'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: checkState of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_checkState01
-static int tolua_game_Client_checkState01(lua_State* tolua_S)
-{
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
-     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
- {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'checkState'", NULL);
-#endif
-  {
-   TCPClient::CONNECTSTATE tolua_ret = (TCPClient::CONNECTSTATE)  self->checkState(ip,port);
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-tolua_lerror:
- return tolua_game_Client_checkState00(tolua_S);
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: setAutoReconnect of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setAutoReconnect00
-static int tolua_game_Client_setAutoReconnect00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
@@ -2778,7 +2741,7 @@ static int tolua_game_Client_setAutoReconnect00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
   bool isAuto = ((bool)  tolua_toboolean(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnect'", NULL);
@@ -2796,14 +2759,14 @@ static int tolua_game_Client_setAutoReconnect00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setAutoReconnectTime of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setAutoReconnectTime00
-static int tolua_game_Client_setAutoReconnectTime00(lua_State* tolua_S)
+/* method: setAutoReconnectTime of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_setAutoReconnectTime00
+static int tolua_game_TCPLuaClient_setAutoReconnectTime00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
@@ -2811,7 +2774,7 @@ static int tolua_game_Client_setAutoReconnectTime00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
   float time = ((float)  tolua_tonumber(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectTime'", NULL);
@@ -2829,14 +2792,14 @@ static int tolua_game_Client_setAutoReconnectTime00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setAutoReconnectByKey of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setAutoReconnectByKey00
-static int tolua_game_Client_setAutoReconnectByKey00(lua_State* tolua_S)
+/* method: setAutoReconnectBySessionID of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_setAutoReconnectBySessionID00
+static int tolua_game_TCPLuaClient_setAutoReconnectBySessionID00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isboolean(tolua_S,3,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
@@ -2845,33 +2808,33 @@ static int tolua_game_Client_setAutoReconnectByKey00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionID = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
   bool isAuto = ((bool)  tolua_toboolean(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectByKey'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectBySessionID'", NULL);
 #endif
   {
-   self->setAutoReconnectByKey(key,isAuto);
+   self->setAutoReconnectBySessionID(sessionID,isAuto);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setAutoReconnectByKey'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'setAutoReconnectBySessionID'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setAutoReconnectTimeByKey of class  Client */
-#ifndef TOLUA_DISABLE_tolua_game_Client_setAutoReconnectTimeByKey00
-static int tolua_game_Client_setAutoReconnectTimeByKey00(lua_State* tolua_S)
+/* method: setAutoReconnectTimeBySessionID of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_setAutoReconnectTimeBySessionID00
+static int tolua_game_TCPLuaClient_setAutoReconnectTimeBySessionID00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
@@ -2880,20 +2843,153 @@ static int tolua_game_Client_setAutoReconnectTimeByKey00(lua_State* tolua_S)
  else
 #endif
  {
-  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionID = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
   float time = ((float)  tolua_tonumber(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectTimeByKey'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectTimeBySessionID'", NULL);
 #endif
   {
-   self->setAutoReconnectTimeByKey(key,time);
+   self->setAutoReconnectTimeBySessionID(sessionID,time);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setAutoReconnectTimeByKey'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'setAutoReconnectTimeBySessionID'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getTCPClient of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_getTCPClient00
+static int tolua_game_TCPLuaClient_getTCPClient00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTCPClient'", NULL);
+#endif
+  {
+   TCPClient* tolua_ret = (TCPClient*)  self->getTCPClient();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPClient");
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getTCPClient'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: registerLuaHandle of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_registerLuaHandle00
+static int tolua_game_TCPLuaClient_registerLuaHandle00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  const std::string name = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+  LuaFunction handle = (  LuaFunction(tolua_S,3,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'registerLuaHandle'", NULL);
+#endif
+  {
+   self->registerLuaHandle(name,handle);
+   tolua_pushcppstring(tolua_S,(const char*)name);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'registerLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: unregisterLuaHandle of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_unregisterLuaHandle00
+static int tolua_game_TCPLuaClient_unregisterLuaHandle00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+  const std::string name = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'unregisterLuaHandle'", NULL);
+#endif
+  {
+   self->unregisterLuaHandle(name);
+   tolua_pushcppstring(tolua_S,(const char*)name);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'unregisterLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: clearLuaHandle of class  TCPLuaClient */
+#ifndef TOLUA_DISABLE_tolua_game_TCPLuaClient_clearLuaHandle00
+static int tolua_game_TCPLuaClient_clearLuaHandle00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPLuaClient* self = (TCPLuaClient*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'clearLuaHandle'", NULL);
+#endif
+  {
+   self->clearLuaHandle();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'clearLuaHandle'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4379,32 +4475,28 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
   tolua_endmodule(tolua_S);
   tolua_function(tolua_S,"getGameWord",tolua_game_getGameWord00);
   tolua_function(tolua_S,"changeParticleSystemPositionType",tolua_game_changeParticleSystemPositionType00);
-  tolua_cclass(tolua_S,"TCPClient","TCPClient","",NULL);
-  tolua_beginmodule(tolua_S,"TCPClient");
-   tolua_constant(tolua_S,"CONNECT",TCPClient::CONNECT);
-   tolua_constant(tolua_S,"CONNECTING",TCPClient::CONNECTING);
-   tolua_constant(tolua_S,"DISCONNECTING",TCPClient::DISCONNECTING);
-   tolua_constant(tolua_S,"DISCONNECT",TCPClient::DISCONNECT);
-  tolua_endmodule(tolua_S);
-  tolua_cclass(tolua_S,"Client","Client","",NULL);
-  tolua_beginmodule(tolua_S,"Client");
-   tolua_function(tolua_S,"getInstance",tolua_game_Client_getInstance00);
-   tolua_function(tolua_S,"destroy",tolua_game_Client_destroy00);
-   tolua_function(tolua_S,"setCallFunc",tolua_game_Client_setCallFunc00);
-   tolua_function(tolua_S,"connect",tolua_game_Client_connect00);
-   tolua_function(tolua_S,"disconnect",tolua_game_Client_disconnect00);
-   tolua_function(tolua_S,"closeClient",tolua_game_Client_closeClient00);
-   tolua_function(tolua_S,"isCloseFinish",tolua_game_Client_isCloseFinish00);
-   tolua_function(tolua_S,"send",tolua_game_Client_send00);
-   tolua_function(tolua_S,"send",tolua_game_Client_send01);
-   tolua_function(tolua_S,"setNoDelay",tolua_game_Client_setNoDelay00);
-   tolua_function(tolua_S,"setKeepAlive",tolua_game_Client_setKeepAlive00);
-   tolua_function(tolua_S,"checkState",tolua_game_Client_checkState00);
-   tolua_function(tolua_S,"checkState",tolua_game_Client_checkState01);
-   tolua_function(tolua_S,"setAutoReconnect",tolua_game_Client_setAutoReconnect00);
-   tolua_function(tolua_S,"setAutoReconnectTime",tolua_game_Client_setAutoReconnectTime00);
-   tolua_function(tolua_S,"setAutoReconnectByKey",tolua_game_Client_setAutoReconnectByKey00);
-   tolua_function(tolua_S,"setAutoReconnectTimeByKey",tolua_game_Client_setAutoReconnectTimeByKey00);
+  tolua_cclass(tolua_S,"TCPLuaClient","TCPLuaClient","",NULL);
+  tolua_beginmodule(tolua_S,"TCPLuaClient");
+   tolua_function(tolua_S,"getInstance",tolua_game_TCPLuaClient_getInstance00);
+   tolua_function(tolua_S,"destroy",tolua_game_TCPLuaClient_destroy00);
+   tolua_function(tolua_S,"connect",tolua_game_TCPLuaClient_connect00);
+   tolua_function(tolua_S,"disconnect",tolua_game_TCPLuaClient_disconnect00);
+   tolua_function(tolua_S,"closeClient",tolua_game_TCPLuaClient_closeClient00);
+   tolua_function(tolua_S,"send",tolua_game_TCPLuaClient_send00);
+   tolua_function(tolua_S,"removeSession",tolua_game_TCPLuaClient_removeSession00);
+   tolua_function(tolua_S,"send",tolua_game_TCPLuaClient_send01);
+   tolua_function(tolua_S,"disconnect",tolua_game_TCPLuaClient_disconnect01);
+   tolua_function(tolua_S,"isCloseFinish",tolua_game_TCPLuaClient_isCloseFinish00);
+   tolua_function(tolua_S,"setSocketNoDelay",tolua_game_TCPLuaClient_setSocketNoDelay00);
+   tolua_function(tolua_S,"setSocketKeepAlive",tolua_game_TCPLuaClient_setSocketKeepAlive00);
+   tolua_function(tolua_S,"setAutoReconnect",tolua_game_TCPLuaClient_setAutoReconnect00);
+   tolua_function(tolua_S,"setAutoReconnectTime",tolua_game_TCPLuaClient_setAutoReconnectTime00);
+   tolua_function(tolua_S,"setAutoReconnectBySessionID",tolua_game_TCPLuaClient_setAutoReconnectBySessionID00);
+   tolua_function(tolua_S,"setAutoReconnectTimeBySessionID",tolua_game_TCPLuaClient_setAutoReconnectTimeBySessionID00);
+   tolua_function(tolua_S,"getTCPClient",tolua_game_TCPLuaClient_getTCPClient00);
+   tolua_function(tolua_S,"registerLuaHandle",tolua_game_TCPLuaClient_registerLuaHandle00);
+   tolua_function(tolua_S,"unregisterLuaHandle",tolua_game_TCPLuaClient_unregisterLuaHandle00);
+   tolua_function(tolua_S,"clearLuaHandle",tolua_game_TCPLuaClient_clearLuaHandle00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"b2Body","b2Body","",NULL);
   tolua_beginmodule(tolua_S,"b2Body");

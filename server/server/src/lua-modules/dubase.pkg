@@ -65,13 +65,22 @@ public:
 	DUServer();
 	~DUServer();
 
-	bool startServer(const char* ip, int port);
+	void startServer(const char* ip, unsigned int port, bool isIPV6);
 
-	bool closeServer();
+	bool stopServer();
+
+	void send(Session* session, char* data, unsigned int len);
+
+	void disconnect(Session* session);
 
 	bool isCloseFinish();
+	
+	//LuaFunctionBond
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
 
-	void setCallFunc(LuaFunction handle);
+	void unregisterLuaHandle(const std::string& name);
+
+	void clearLuaHandle();
 };
 
 

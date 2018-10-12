@@ -1,0 +1,21 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "base/Client.h"
+
+
+
+class Client
+{
+	virtual void connect(const char* ip, unsigned int port, unsigned int sessionId);
+
+	virtual void disconnect(unsigned int sessionId);
+
+	virtual void closeClient();
+
+	virtual void updateFrame();
+
+	virtual void send(unsigned int sessionId, char* data, unsigned int len);
+
+	virtual void removeSession(unsigned int sessionId);
+};

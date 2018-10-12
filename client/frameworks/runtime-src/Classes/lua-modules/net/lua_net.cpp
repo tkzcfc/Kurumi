@@ -1,19 +1,27 @@
 /*
 ** Lua binding: net
-** Generated automatically by tolua++-1.0.92 on 06/01/18 22:18:18.
+** Generated automatically by tolua++-1.0.92 on 10/11/18 22:51:43.
 */
 
-#include "tolua_fix.h"
+#ifndef __cplusplus
+#include "stdlib.h"
+#endif
+#include "string.h"
 #include "tolua++.h"
-#include <string>
+#include "lua_function/tolua_ext.h"
+#include "tolua_fix.h"
+//#include "LuaBasicConversions.h"
 
 
 /* Exported function */
 TOLUA_API int  tolua_net_open (lua_State* tolua_S);
 
-#include "TCPServer.h"
-#include "TCPSocket.h"
-#include "TCPClient.h"
+#include "base/Session.h"
+#include "base/Client.h"
+#include "base/Client.h"
+#include "tcp/TCPSession.h"
+#include "tcp/TCPClient.h"
+#include "tcp/TCPServer.h"
 
 /* function to release collected object via destructor */
 #ifdef __cplusplus
@@ -25,9 +33,9 @@ static int tolua_collect_TCPClient (lua_State* tolua_S)
     return 0;
 }
 
-static int tolua_collect_TCPSocket (lua_State* tolua_S)
+static int tolua_collect_TCPServer (lua_State* tolua_S)
 {
- TCPSocket* self = (TCPSocket*) tolua_tousertype(tolua_S,1,0);
+ TCPServer* self = (TCPServer*) tolua_tousertype(tolua_S,1,0);
     Mtolua_delete(self);
     return 0;
 }
@@ -38,47 +46,21 @@ static int tolua_collect_TCPSocket (lua_State* tolua_S)
 static void tolua_reg_types (lua_State* tolua_S)
 {
  tolua_usertype(tolua_S,"TCPClient");
- tolua_usertype(tolua_S,"TCPSocket");
- tolua_usertype(tolua_S,"std::vector<ThreadMsg_C>");
+ tolua_usertype(tolua_S,"TCPServer");
+ tolua_usertype(tolua_S,"TCPSession");
+ tolua_usertype(tolua_S,"Client");
+ tolua_usertype(tolua_S,"Session");
+ tolua_usertype(tolua_S,"Server");
 }
 
-/* method: delete of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_delete00
-static int tolua_net_TCPSocket_delete00(lua_State* tolua_S)
+/* method: send of class  Session */
+#ifndef TOLUA_DISABLE_tolua_net_Session_send00
+static int tolua_net_Session_send00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'delete'", NULL);
-#endif
-  Mtolua_delete(self);
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'delete'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: listen of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_listen00
-static int tolua_net_TCPSocket_listen00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"Session",0,&tolua_err) ||
      !tolua_isstring(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
@@ -87,141 +69,40 @@ static int tolua_net_TCPSocket_listen00(lua_State* tolua_S)
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  Session* self = (Session*)  tolua_tousertype(tolua_S,1,0);
+  char* data = ((char*)  tolua_tostring(tolua_S,2,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'listen'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
 #endif
   {
-   self->listen(ip,port);
+   self->send(data,len);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'listen'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: connect of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_connect00
-static int tolua_net_TCPSocket_connect00(lua_State* tolua_S)
+/* method: disconnect of class  Session */
+#ifndef TOLUA_DISABLE_tolua_net_Session_disconnect00
+static int tolua_net_Session_disconnect00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,5,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
-  unsigned int timeout = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'connect'", NULL);
-#endif
-  {
-   self->connect(ip,port,timeout);
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'connect'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: reconnect of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_reconnect00
-static int tolua_net_TCPSocket_reconnect00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"Session",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'reconnect'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->reconnect();
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'reconnect'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: isConnect of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_isConnect00
-static int tolua_net_TCPSocket_isConnect00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isConnect'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->isConnect();
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'isConnect'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: disconnect of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_disconnect00
-static int tolua_net_TCPSocket_disconnect00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
+  Session* self = (Session*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
 #endif
@@ -238,91 +119,53 @@ static int tolua_net_TCPSocket_disconnect00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: send of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_send00
-static int tolua_net_TCPSocket_send00(lua_State* tolua_S)
+/* method: getSessionID of class  Session */
+#ifndef TOLUA_DISABLE_tolua_net_Session_getSessionID00
+static int tolua_net_Session_getSessionID00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,5,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-  const char* data = ((const char*)  tolua_tostring(tolua_S,2,0));
-  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
-  TCPMsgTag msgTag = ((TCPMsgTag) (int)  tolua_tonumber(tolua_S,4,TCPMsgTag::MT_DEFAULT));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->send(data,len,msgTag);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getIp of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_getIp00
-static int tolua_net_TCPSocket_getIp00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"Session",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
+  Session* self = (Session*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIp'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getSessionID'", NULL);
 #endif
   {
-   std::string tolua_ret = (std::string)  self->getIp();
-   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
+   unsigned int tolua_ret = (unsigned int)  self->getSessionID();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
   }
  }
  return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getIp'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'getSessionID'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: getPort of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_getPort00
-static int tolua_net_TCPSocket_getPort00(lua_State* tolua_S)
+/* method: getPort of class  Session */
+#ifndef TOLUA_DISABLE_tolua_net_Session_getPort00
+static int tolua_net_Session_getPort00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"Session",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
+  Session* self = (Session*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getPort'", NULL);
 #endif
@@ -340,103 +183,304 @@ static int tolua_net_TCPSocket_getPort00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: getState of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_getState00
-static int tolua_net_TCPSocket_getState00(lua_State* tolua_S)
+/* method: getIp of class  Session */
+#ifndef TOLUA_DISABLE_tolua_net_Session_getIp00
+static int tolua_net_Session_getIp00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"Session",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
+  Session* self = (Session*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getState'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getIp'", NULL);
 #endif
   {
-   tcpSocketState tolua_ret = (tcpSocketState)  self->getState();
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+   std::string tolua_ret = (std::string)  self->getIp();
+   tolua_pushcppstring(tolua_S,(const char*)tolua_ret);
   }
  }
  return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getState'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'getIp'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setNoDelay of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_setNoDelay00
-static int tolua_net_TCPSocket_setNoDelay00(lua_State* tolua_S)
+/* method: connect of class  Client */
+#ifndef TOLUA_DISABLE_tolua_net_Client_connect00
+static int tolua_net_Client_connect00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
+  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'connect'", NULL);
+#endif
+  {
+   self->connect(ip,port,sessionId);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'connect'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: disconnect of class  Client */
+#ifndef TOLUA_DISABLE_tolua_net_Client_disconnect00
+static int tolua_net_Client_disconnect00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setNoDelay'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->setNoDelay(enable);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+   self->disconnect(sessionId);
   }
  }
- return 1;
+ return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setNoDelay'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'disconnect'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setKeepAlive of class  TCPSocket */
-#ifndef TOLUA_DISABLE_tolua_net_TCPSocket_setKeepAlive00
-static int tolua_net_TCPSocket_setKeepAlive00(lua_State* tolua_S)
+/* method: closeClient of class  Client */
+#ifndef TOLUA_DISABLE_tolua_net_Client_closeClient00
+static int tolua_net_Client_closeClient00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
-     !tolua_isusertype(tolua_S,1,"TCPSocket",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  TCPSocket* self = (TCPSocket*)  tolua_tousertype(tolua_S,1,0);
-  int enable = ((int)  tolua_tonumber(tolua_S,2,0));
-  unsigned int delay = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setKeepAlive'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'closeClient'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->setKeepAlive(enable,delay);
+   self->closeClient();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'closeClient'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: updateFrame of class  Client */
+#ifndef TOLUA_DISABLE_tolua_net_Client_updateFrame00
+static int tolua_net_Client_updateFrame00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'updateFrame'", NULL);
+#endif
+  {
+   self->updateFrame();
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'updateFrame'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: send of class  Client */
+#ifndef TOLUA_DISABLE_tolua_net_Client_send00
+static int tolua_net_Client_send00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
+#endif
+  {
+   self->send(sessionId,data,len);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: removeSession of class  Client */
+#ifndef TOLUA_DISABLE_tolua_net_Client_removeSession00
+static int tolua_net_Client_removeSession00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Client",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Client* self = (Client*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int sessionId = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'removeSession'", NULL);
+#endif
+  {
+   self->removeSession(sessionId);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'removeSession'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: startServer of class  Server */
+#ifndef TOLUA_DISABLE_tolua_net_Server_startServer00
+static int tolua_net_Server_startServer00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Server",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Server* self = (Server*)  tolua_tousertype(tolua_S,1,0);
+  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
+  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
+  bool isIPV6 = ((bool)  tolua_toboolean(tolua_S,4,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'startServer'", NULL);
+#endif
+  {
+   self->startServer(ip,port,isIPV6);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'startServer'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: stopServer of class  Server */
+#ifndef TOLUA_DISABLE_tolua_net_Server_stopServer00
+static int tolua_net_Server_stopServer00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Server",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Server* self = (Server*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'stopServer'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->stopServer();
    tolua_pushboolean(tolua_S,(bool)tolua_ret);
   }
  }
  return 1;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setKeepAlive'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'stopServer'.",&tolua_err);
  return 0;
 #endif
 }
@@ -528,41 +572,38 @@ static int tolua_net_TCPClient_delete00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: connect of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_connect00
-static int tolua_net_TCPClient_connect00(lua_State* tolua_S)
+/* method: send of class  TCPClient */
+#ifndef TOLUA_DISABLE_tolua_net_TCPClient_send00
+static int tolua_net_TCPClient_send00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,6,&tolua_err)
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
   TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  int port = ((int)  tolua_tonumber(tolua_S,3,0));
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
-  unsigned int timeout = ((unsigned int)  tolua_tonumber(tolua_S,5,3000U));
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'connect'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
 #endif
   {
-   bool tolua_ret = (bool)  self->connect(ip,port,key,timeout);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+   self->send(session,data,len);
   }
  }
- return 1;
+ return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'connect'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
  return 0;
 #endif
 }
@@ -576,7 +617,7 @@ static int tolua_net_TCPClient_disconnect00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
@@ -584,49 +625,18 @@ static int tolua_net_TCPClient_disconnect00(lua_State* tolua_S)
 #endif
  {
   TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
 #if (COCOS2D_DEBUG == 1)
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
 #endif
   {
-   self->disconnect(key);
+   self->disconnect(session);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'disconnect'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: closeClient of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_closeClient00
-static int tolua_net_TCPClient_closeClient00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'closeClient'", NULL);
-#endif
-  {
-   self->closeClient();
-  }
- }
- return 0;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'closeClient'.",&tolua_err);
  return 0;
 #endif
 }
@@ -659,46 +669,6 @@ static int tolua_net_TCPClient_isCloseFinish00(lua_State* tolua_S)
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'isCloseFinish'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: send of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_send00
-static int tolua_net_TCPClient_send00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,6,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
-  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
-  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
-  TCPMsgTag tag = ((TCPMsgTag) (int)  tolua_tonumber(tolua_S,5,TCPMsgTag::MT_DEFAULT));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->send(key,data,len,tag);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
  return 0;
 #endif
 }
@@ -774,139 +744,6 @@ static int tolua_net_TCPClient_setSocketKeepAlive00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: getAllThreadMsg of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_getAllThreadMsg00
-static int tolua_net_TCPClient_getAllThreadMsg00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isusertype(tolua_S,2,"std::vector<ThreadMsg_C>",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  std::vector<ThreadMsg_C>* v = ((std::vector<ThreadMsg_C>*)  tolua_tousertype(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getAllThreadMsg'", NULL);
-#endif
-  {
-   bool tolua_ret = (bool)  self->getAllThreadMsg(v);
-   tolua_pushboolean(tolua_S,(bool)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getAllThreadMsg'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: getSocketByKey of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_getSocketByKey00
-static int tolua_net_TCPClient_getSocketByKey00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getSocketByKey'", NULL);
-#endif
-  {
-   TCPSocket* tolua_ret = (TCPSocket*)  self->getSocketByKey(key);
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPSocket");
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'getSocketByKey'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: checkState of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_checkState00
-static int tolua_net_TCPClient_checkState00(lua_State* tolua_S)
-{
-#if (COCOS2D_DEBUG == 1)
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'checkState'", NULL);
-#endif
-  {
-   TCPClient::CONNECTSTATE tolua_ret = (TCPClient::CONNECTSTATE)  self->checkState(key);
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#if (COCOS2D_DEBUG == 1)
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'checkState'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: checkState of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_checkState01
-static int tolua_net_TCPClient_checkState01(lua_State* tolua_S)
-{
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"TCPClient",0,&tolua_err) ||
-     !tolua_isstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
- {
-  TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  const char* ip = ((const char*)  tolua_tostring(tolua_S,2,0));
-  unsigned int port = ((unsigned int)  tolua_tonumber(tolua_S,3,0));
-#if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'checkState'", NULL);
-#endif
-  {
-   TCPClient::CONNECTSTATE tolua_ret = (TCPClient::CONNECTSTATE)  self->checkState(ip,port);
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-tolua_lerror:
- return tolua_net_TCPClient_checkState00(tolua_S);
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: setAutoReconnect of class  TCPClient */
 #ifndef TOLUA_DISABLE_tolua_net_TCPClient_setAutoReconnect00
 static int tolua_net_TCPClient_setAutoReconnect00(lua_State* tolua_S)
@@ -973,9 +810,9 @@ static int tolua_net_TCPClient_setAutoReconnectTime00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setAutoReconnectByKey of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_setAutoReconnectByKey00
-static int tolua_net_TCPClient_setAutoReconnectByKey00(lua_State* tolua_S)
+/* method: setAutoReconnectBySessionID of class  TCPClient */
+#ifndef TOLUA_DISABLE_tolua_net_TCPClient_setAutoReconnectBySessionID00
+static int tolua_net_TCPClient_setAutoReconnectBySessionID00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
@@ -990,27 +827,27 @@ static int tolua_net_TCPClient_setAutoReconnectByKey00(lua_State* tolua_S)
 #endif
  {
   TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  unsigned int sessionID = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
   bool isAuto = ((bool)  tolua_toboolean(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectByKey'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectBySessionID'", NULL);
 #endif
   {
-   self->setAutoReconnectByKey(key,isAuto);
+   self->setAutoReconnectBySessionID(sessionID,isAuto);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setAutoReconnectByKey'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'setAutoReconnectBySessionID'.",&tolua_err);
  return 0;
 #endif
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: setAutoReconnectTimeByKey of class  TCPClient */
-#ifndef TOLUA_DISABLE_tolua_net_TCPClient_setAutoReconnectTimeByKey00
-static int tolua_net_TCPClient_setAutoReconnectTimeByKey00(lua_State* tolua_S)
+/* method: setAutoReconnectTimeBySessionID of class  TCPClient */
+#ifndef TOLUA_DISABLE_tolua_net_TCPClient_setAutoReconnectTimeBySessionID00
+static int tolua_net_TCPClient_setAutoReconnectTimeBySessionID00(lua_State* tolua_S)
 {
 #if (COCOS2D_DEBUG == 1)
  tolua_Error tolua_err;
@@ -1025,19 +862,207 @@ static int tolua_net_TCPClient_setAutoReconnectTimeByKey00(lua_State* tolua_S)
 #endif
  {
   TCPClient* self = (TCPClient*)  tolua_tousertype(tolua_S,1,0);
-  unsigned int key = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  unsigned int sessionID = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
   float time = ((float)  tolua_tonumber(tolua_S,3,0));
 #if (COCOS2D_DEBUG == 1)
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectTimeByKey'", NULL);
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAutoReconnectTimeBySessionID'", NULL);
 #endif
   {
-   self->setAutoReconnectTimeByKey(key,time);
+   self->setAutoReconnectTimeBySessionID(sessionID,time);
   }
  }
  return 0;
 #if (COCOS2D_DEBUG == 1)
  tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'setAutoReconnectTimeByKey'.",&tolua_err);
+ tolua_error(tolua_S,"#ferror in function 'setAutoReconnectTimeBySessionID'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new of class  TCPServer */
+#ifndef TOLUA_DISABLE_tolua_net_TCPServer_new00
+static int tolua_net_TCPServer_new00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"TCPServer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   TCPServer* tolua_ret = (TCPServer*)  Mtolua_new((TCPServer)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPServer");
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  TCPServer */
+#ifndef TOLUA_DISABLE_tolua_net_TCPServer_new00_local
+static int tolua_net_TCPServer_new00_local(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"TCPServer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   TCPServer* tolua_ret = (TCPServer*)  Mtolua_new((TCPServer)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPServer");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: delete of class  TCPServer */
+#ifndef TOLUA_DISABLE_tolua_net_TCPServer_delete00
+static int tolua_net_TCPServer_delete00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPServer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPServer* self = (TCPServer*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'delete'", NULL);
+#endif
+  Mtolua_delete(self);
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'delete'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: send of class  TCPServer */
+#ifndef TOLUA_DISABLE_tolua_net_TCPServer_send00
+static int tolua_net_TCPServer_send00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPServer",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isstring(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPServer* self = (TCPServer*)  tolua_tousertype(tolua_S,1,0);
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+  char* data = ((char*)  tolua_tostring(tolua_S,3,0));
+  unsigned int len = ((unsigned int)  tolua_tonumber(tolua_S,4,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'send'", NULL);
+#endif
+  {
+   self->send(session,data,len);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'send'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: disconnect of class  TCPServer */
+#ifndef TOLUA_DISABLE_tolua_net_TCPServer_disconnect00
+static int tolua_net_TCPServer_disconnect00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPServer",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Session",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPServer* self = (TCPServer*)  tolua_tousertype(tolua_S,1,0);
+  Session* session = ((Session*)  tolua_tousertype(tolua_S,2,0));
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disconnect'", NULL);
+#endif
+  {
+   self->disconnect(session);
+  }
+ }
+ return 0;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'disconnect'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isCloseFinish of class  TCPServer */
+#ifndef TOLUA_DISABLE_tolua_net_TCPServer_isCloseFinish00
+static int tolua_net_TCPServer_isCloseFinish00(lua_State* tolua_S)
+{
+#if (COCOS2D_DEBUG == 1)
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TCPServer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TCPServer* self = (TCPServer*)  tolua_tousertype(tolua_S,1,0);
+#if (COCOS2D_DEBUG == 1)
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isCloseFinish'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isCloseFinish();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if (COCOS2D_DEBUG == 1)
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isCloseFinish'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1050,59 +1075,64 @@ TOLUA_API int tolua_net_open (lua_State* tolua_S)
  tolua_reg_types(tolua_S);
  tolua_module(tolua_S,NULL,0);
  tolua_beginmodule(tolua_S,NULL);
-  tolua_constant(tolua_S,"MT_HEARTBEAT",MT_HEARTBEAT);
-  tolua_constant(tolua_S,"MT_DEFAULT",MT_DEFAULT);
-  tolua_constant(tolua_S,"tcps_dis_connect",tcps_dis_connect);
-  tolua_constant(tolua_S,"tcps_connecting",tcps_connecting);
-  tolua_constant(tolua_S,"tcps_connect",tcps_connect);
-  #ifdef __cplusplus
-  tolua_cclass(tolua_S,"TCPSocket","TCPSocket","",tolua_collect_TCPSocket);
-  #else
-  tolua_cclass(tolua_S,"TCPSocket","TCPSocket","",NULL);
-  #endif
-  tolua_beginmodule(tolua_S,"TCPSocket");
-   tolua_function(tolua_S,"delete",tolua_net_TCPSocket_delete00);
-   tolua_function(tolua_S,"listen",tolua_net_TCPSocket_listen00);
-   tolua_function(tolua_S,"connect",tolua_net_TCPSocket_connect00);
-   tolua_function(tolua_S,"reconnect",tolua_net_TCPSocket_reconnect00);
-   tolua_function(tolua_S,"isConnect",tolua_net_TCPSocket_isConnect00);
-   tolua_function(tolua_S,"disconnect",tolua_net_TCPSocket_disconnect00);
-   tolua_function(tolua_S,"send",tolua_net_TCPSocket_send00);
-   tolua_function(tolua_S,"getIp",tolua_net_TCPSocket_getIp00);
-   tolua_function(tolua_S,"getPort",tolua_net_TCPSocket_getPort00);
-   tolua_function(tolua_S,"getState",tolua_net_TCPSocket_getState00);
-   tolua_function(tolua_S,"setNoDelay",tolua_net_TCPSocket_setNoDelay00);
-   tolua_function(tolua_S,"setKeepAlive",tolua_net_TCPSocket_setKeepAlive00);
+  tolua_cclass(tolua_S,"Session","Session","",NULL);
+  tolua_beginmodule(tolua_S,"Session");
+   tolua_function(tolua_S,"send",tolua_net_Session_send00);
+   tolua_function(tolua_S,"disconnect",tolua_net_Session_disconnect00);
+   tolua_function(tolua_S,"getSessionID",tolua_net_Session_getSessionID00);
+   tolua_function(tolua_S,"getPort",tolua_net_Session_getPort00);
+   tolua_function(tolua_S,"getIp",tolua_net_Session_getIp00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"Client","Client","",NULL);
+  tolua_beginmodule(tolua_S,"Client");
+   tolua_function(tolua_S,"connect",tolua_net_Client_connect00);
+   tolua_function(tolua_S,"disconnect",tolua_net_Client_disconnect00);
+   tolua_function(tolua_S,"closeClient",tolua_net_Client_closeClient00);
+   tolua_function(tolua_S,"updateFrame",tolua_net_Client_updateFrame00);
+   tolua_function(tolua_S,"send",tolua_net_Client_send00);
+   tolua_function(tolua_S,"removeSession",tolua_net_Client_removeSession00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"Server","Server","",NULL);
+  tolua_beginmodule(tolua_S,"Server");
+   tolua_function(tolua_S,"startServer",tolua_net_Server_startServer00);
+   tolua_function(tolua_S,"stopServer",tolua_net_Server_stopServer00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"TCPSession","TCPSession","Session",NULL);
+  tolua_beginmodule(tolua_S,"TCPSession");
   tolua_endmodule(tolua_S);
   #ifdef __cplusplus
-  tolua_cclass(tolua_S,"TCPClient","TCPClient","",tolua_collect_TCPClient);
+  tolua_cclass(tolua_S,"TCPClient","TCPClient","Client",tolua_collect_TCPClient);
   #else
-  tolua_cclass(tolua_S,"TCPClient","TCPClient","",NULL);
+  tolua_cclass(tolua_S,"TCPClient","TCPClient","Client",NULL);
   #endif
   tolua_beginmodule(tolua_S,"TCPClient");
-   tolua_constant(tolua_S,"CONNECT",TCPClient::CONNECT);
-   tolua_constant(tolua_S,"CONNECTING",TCPClient::CONNECTING);
-   tolua_constant(tolua_S,"DISCONNECTING",TCPClient::DISCONNECTING);
-   tolua_constant(tolua_S,"DISCONNECT",TCPClient::DISCONNECT);
    tolua_function(tolua_S,"new",tolua_net_TCPClient_new00);
    tolua_function(tolua_S,"new_local",tolua_net_TCPClient_new00_local);
    tolua_function(tolua_S,".call",tolua_net_TCPClient_new00_local);
    tolua_function(tolua_S,"delete",tolua_net_TCPClient_delete00);
-   tolua_function(tolua_S,"connect",tolua_net_TCPClient_connect00);
-   tolua_function(tolua_S,"disconnect",tolua_net_TCPClient_disconnect00);
-   tolua_function(tolua_S,"closeClient",tolua_net_TCPClient_closeClient00);
-   tolua_function(tolua_S,"isCloseFinish",tolua_net_TCPClient_isCloseFinish00);
    tolua_function(tolua_S,"send",tolua_net_TCPClient_send00);
+   tolua_function(tolua_S,"disconnect",tolua_net_TCPClient_disconnect00);
+   tolua_function(tolua_S,"isCloseFinish",tolua_net_TCPClient_isCloseFinish00);
    tolua_function(tolua_S,"setSocketNoDelay",tolua_net_TCPClient_setSocketNoDelay00);
    tolua_function(tolua_S,"setSocketKeepAlive",tolua_net_TCPClient_setSocketKeepAlive00);
-   tolua_function(tolua_S,"getAllThreadMsg",tolua_net_TCPClient_getAllThreadMsg00);
-   tolua_function(tolua_S,"getSocketByKey",tolua_net_TCPClient_getSocketByKey00);
-   tolua_function(tolua_S,"checkState",tolua_net_TCPClient_checkState00);
-   tolua_function(tolua_S,"checkState",tolua_net_TCPClient_checkState01);
    tolua_function(tolua_S,"setAutoReconnect",tolua_net_TCPClient_setAutoReconnect00);
    tolua_function(tolua_S,"setAutoReconnectTime",tolua_net_TCPClient_setAutoReconnectTime00);
-   tolua_function(tolua_S,"setAutoReconnectByKey",tolua_net_TCPClient_setAutoReconnectByKey00);
-   tolua_function(tolua_S,"setAutoReconnectTimeByKey",tolua_net_TCPClient_setAutoReconnectTimeByKey00);
+   tolua_function(tolua_S,"setAutoReconnectBySessionID",tolua_net_TCPClient_setAutoReconnectBySessionID00);
+   tolua_function(tolua_S,"setAutoReconnectTimeBySessionID",tolua_net_TCPClient_setAutoReconnectTimeBySessionID00);
+  tolua_endmodule(tolua_S);
+  #ifdef __cplusplus
+  tolua_cclass(tolua_S,"TCPServer","TCPServer","Server",tolua_collect_TCPServer);
+  #else
+  tolua_cclass(tolua_S,"TCPServer","TCPServer","Server",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"TCPServer");
+   tolua_function(tolua_S,"new",tolua_net_TCPServer_new00);
+   tolua_function(tolua_S,"new_local",tolua_net_TCPServer_new00_local);
+   tolua_function(tolua_S,".call",tolua_net_TCPServer_new00_local);
+   tolua_function(tolua_S,"delete",tolua_net_TCPServer_delete00);
+   tolua_function(tolua_S,"send",tolua_net_TCPServer_send00);
+   tolua_function(tolua_S,"disconnect",tolua_net_TCPServer_disconnect00);
+   tolua_function(tolua_S,"isCloseFinish",tolua_net_TCPServer_isCloseFinish00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

@@ -4,6 +4,31 @@ require("lua_code.utils.functions")
 
 OPEN_DEBUG = 1
 
+local function onServerStartCall(svr, success)
+    if success then
+        print("服务器启动成功")
+    else
+        print("服务器启动失败")
+    end
+end
+
+local function onServerCloseCall(svr)
+    print("服务器已关闭")
+end
+
+local function onServerNewConnectCall(svr, session)
+    _MyG.PlayerManager:connectToServer(session)
+end
+
+local function onServerRecvCall(svr, session, data, len)
+    local msgName, msgTab = recvMsg(data)
+    _MyG.NetMsgDispatcher:call(msgName, session, msgTab)
+end
+
+local function onServerDisconnectCall(svr, session)
+    _MyG.PlayerManager:disconnectToServer(session)
+end
+
 local function main()
 	json = require("lua_code.utils.json")
     require("lua_code.utils.tools")
@@ -16,36 +41,29 @@ local function main()
     local sendMsg = ""
 
     local server = DUServer:new()
-    server:startServer("0.0.0.0", 1234)
-    server:setCallFunc(function(msgtype, client, msgdata)
-    	if msgtype == "recv" then
-            local msgName, msgTab = recvMsg(msgdata)
-            _MyG.NetMsgDispatcher:call(msgName, client, msgTab)
-    	elseif msgtype == "connect" then
-            _MyG.PlayerManager:connectToServer(client)
-    	elseif msgtype == "disconnect" then
-            _MyG.PlayerManager:disconnectToServer(client)
-    	elseif msgtype == "loopexit" then
-    		print("loopexit")
-    	end
-    end)
+    server:startServer("0.0.0.0", 1234, false)
+    server:registerLuaHandle("onServerStartCall", onServerStartCall)
+    server:registerLuaHandle("onServerCloseCall", onServerCloseCall)
+    server:registerLuaHandle("onServerNewConnectCall", onServerNewConnectCall)
+    server:registerLuaHandle("onServerRecvCall", onServerRecvCall)
+    server:registerLuaHandle("onServerDisconnectCall", onServerDisconnectCall)
 
-    local obj = TestOBJ:new()
-    obj:Test()
-    -- obj:delete()
-    obj = nil
+    -- local obj = TestOBJ:new()
+    -- obj:Test()
+    -- -- obj:delete()
+    -- obj = nil
 
-    local time = 0.0
-    local scheduKey = DUScheduler:getInstance():registerScripSchedule(function(dt)
-        time = time + dt
-        print(time)
-        collectgarbage("collect")
-        if time >= 10.0 then
-            print(scheduKey)
-            DUScheduler:getInstance():unRegisterScripSchedule(scheduKey)
-        end
-    end, 1.0, false)
-    print("scheduKey = ", scheduKey)
+    -- local time = 0.0
+    -- local scheduKey = DUScheduler:getInstance():registerScripSchedule(function(dt)
+    --     time = time + dt
+    --     print(time)
+    --     collectgarbage("collect")
+    --     if time >= 10.0 then
+    --         print(scheduKey)
+    --         DUScheduler:getInstance():unRegisterScripSchedule(scheduKey)
+    --     end
+    -- end, 1.0, false)
+    -- print("scheduKey = ", scheduKey)
 end
 
 

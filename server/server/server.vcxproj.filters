@@ -42,9 +42,6 @@
     <Filter Include="lua-modules\net\libuv\src\win">
       <UniqueIdentifier>{084e309f-ad0b-434f-96e7-e2beb757807b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lua-modules\net\tcpSocket">
-      <UniqueIdentifier>{8689a14a-1388-42d5-9537-64b6c5130c00}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lua-modules\lfs">
       <UniqueIdentifier>{1bc33916-1d4b-4afd-9b0d-9ab5d2823205}</UniqueIdentifier>
     </Filter>
@@ -65,6 +62,24 @@
     </Filter>
     <Filter Include="lua-modules\glog">
       <UniqueIdentifier>{b8bec90c-7d48-40f2-a19e-0c049126b06b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\net_uv">
+      <UniqueIdentifier>{9ed31f5b-5b52-4347-908f-dfe2846a62a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\net_uv\base">
+      <UniqueIdentifier>{9b570836-17d2-4f7a-891b-e3c3cad3e883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\net_uv\common">
+      <UniqueIdentifier>{82c2a667-4270-4375-9ff9-7d0246fdd355}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\net_uv\tcp">
+      <UniqueIdentifier>{06549169-dc46-4db7-963f-b6bea45b4388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua-modules\net\net_uv\kcp">
+      <UniqueIdentifier>{d3ee6760-24c5-417d-af20-d2cfc3cd0324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua_function">
+      <UniqueIdentifier>{85f17c71-bde0-4030-88ed-ccd213676856}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -347,27 +362,6 @@
     <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\dl.c">
       <Filter>lua-modules\net\libuv\src\win</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\md5.cpp">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPClient.cpp">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPCommon.cpp">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPServer.cpp">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPSocket.cpp">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPUtils.cpp">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\LuaFunction.cpp">
-      <Filter>lua-modules</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.cpp">
       <Filter>lua-modules\net</Filter>
     </ClCompile>
@@ -379,6 +373,81 @@
     </ClCompile>
     <ClCompile Include="src\base\TestOBJ.cpp">
       <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Runnable.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Server.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Session.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\SessionManager.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Socket.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\uv_func.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Client.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Common.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\md5.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Mutex.cpp">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPServer.cpp">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPSession.cpp">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPSocket.cpp">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPSocketManager.cpp">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPUtils.cpp">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\ikcp.c">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPClient.cpp">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPServer.cpp">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPSession.cpp">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPSocket.cpp">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPUtils.cpp">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPClient.cpp">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua_function\LuaFunctionBond.cpp">
+      <Filter>lua_function</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua_function\tolua_ext.cpp">
+      <Filter>lua_function</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua_function\LuaFunction.cpp">
+      <Filter>lua_function</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -604,33 +673,6 @@
     <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\libuv\src\win\atomicops-inl.h">
       <Filter>lua-modules\net\libuv\src\win</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\md5.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPBuffer.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPClient.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPCommon.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPServer.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPSocket.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\TCPUtils.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\tcpSocket\ThreadMsg.h">
-      <Filter>lua-modules\net\tcpSocket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\LuaFunction.hpp">
-      <Filter>lua-modules</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\lua_net.h">
       <Filter>lua-modules\net</Filter>
     </ClInclude>
@@ -642,6 +684,108 @@
     </ClInclude>
     <ClInclude Include="src\base\TestOBJ.h">
       <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Mutex.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Runnable.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Server.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Session.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\SessionManager.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Socket.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\uv_func.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Buffer.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Client.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Common.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Config.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\Macros.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\base\md5.h">
+      <Filter>lua-modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\common\NetUVThreadMsg.h">
+      <Filter>lua-modules\net\net_uv\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\common\NetHeart.h">
+      <Filter>lua-modules\net\net_uv\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPConfig.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPServer.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPSession.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPSocket.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPSocketManager.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPUtils.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\ikcp.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPClient.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\kcp\KCPCommon.h">
+      <Filter>lua-modules\net\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPServer.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPSession.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPSocket.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPUtils.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPClient.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPCommon.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\client\frameworks\runtime-src\Classes\lua-modules\net\net_uv\tcp\TCPConfig.h">
+      <Filter>lua-modules\net\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua_function\LuaFunctionBond.h">
+      <Filter>lua_function</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua_function\tolua_ext.h">
+      <Filter>lua_function</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua_function\LuaFunction.h">
+      <Filter>lua_function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

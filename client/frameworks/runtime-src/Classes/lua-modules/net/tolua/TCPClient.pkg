@@ -1,0 +1,38 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "tcp/TCPClient.h"
+
+
+
+class TCPClient : public Client
+{
+	TCPClient();
+	virtual ~TCPClient();
+
+	/// SessionManager
+	virtual void send(Session* session, char* data, unsigned int len);
+
+	virtual void disconnect(Session* session);
+
+	/// TCPClient
+	bool isCloseFinish();
+
+	//是否启用TCP_NODELAY
+	bool setSocketNoDelay(bool enable);
+
+	//设置心跳
+	bool setSocketKeepAlive(int enable, unsigned int delay);
+
+	//设置所有socket是否自动重连
+	void setAutoReconnect(bool isAuto);
+
+	//设置所有socket自动重连时间(单位：S)
+	void setAutoReconnectTime(float time);
+
+	//是否自动重连
+	void setAutoReconnectBySessionID(unsigned int sessionID, bool isAuto);
+
+	//自动重连时间(单位：S)
+	void setAutoReconnectTimeBySessionID(unsigned int sessionID, float time);
+};

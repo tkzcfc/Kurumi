@@ -1,40 +1,47 @@
 ﻿#pragma once
 
-#include "TCPServer.h"
+#include "tcp/TCPServer.h"
 #include "DUObject.h"
-#include "LuaFunction.hpp"
 #include "DUScheduler.h"
+#include "lua_function/LuaFunctionBond.h"
 
-typedef std::function<void(const ThreadMsg_S&)> netServerCallFunc;
-
-class DUServer : public DUObject
+class DUServer : public DUObject, public LuaFunctionBond
 {
 public:
 	DUServer();
 	~DUServer();
 
-	bool startServer(const char* ip, int port);
+	void startServer(const char* ip, unsigned int port, bool isIPV6);
 
-	bool closeServer();
+	bool stopServer();
+
+	void send(Session* session, char* data, unsigned int len);
+
+	void disconnect(Session* session);
 
 	bool isCloseFinish();
 
-	void setCallFunc(const LuaFunction& handle);
-
-	void setCallFunc(const netServerCallFunc& func);
+	inline TCPServer* getTCPServer();
 
 protected:
 
 	void update(float d);
 
+	void onServerStartCall(Server* svr, bool success);
+
+	void onServerCloseCall(Server* svr);
+
+	void onServerNewConnectCall(Server* svr, Session* session);
+
+	void onServerRecvCall(Server* svr, Session* session, char* data, unsigned int len);
+
+	void onServerDisconnectCall(Server* svr, Session* session);
+
 protected:
 	TCPServer* m_server;
-	
-	std::vector<ThreadMsg_S> m_msgs;
-
-	LuaFunction m_luaHandle;
-	
-	bool m_luaHandleInvalid;
-
-	netServerCallFunc m_callFunc;
 };
+
+TCPServer* DUServer::getTCPServer()
+{
+	return m_server;
+}
