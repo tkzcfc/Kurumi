@@ -21,9 +21,6 @@ NS_NET_UV_BEGIN
 // (4K)
 #define TCP_WRITE_MAX_LEN (1024 * 4)
 
-// IP地址长度
-#define TCP_IP_ADDR_LEN (32)
-
 // 最大连接数
 #define TCP_MAX_CONNECT (0xFFFF)
 

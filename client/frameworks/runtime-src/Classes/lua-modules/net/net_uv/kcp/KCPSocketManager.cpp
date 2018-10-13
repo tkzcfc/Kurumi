@@ -28,18 +28,43 @@ void KCPSocketManager::push(KCPSocket* socket, IUINT32 conv)
 
 KCPSocket* KCPSocketManager::accept(uv_udp_t* handle, const struct sockaddr* addr)
 {
-	char szIp[17] = { 0 };
-	int r = uv_ip4_name((const struct sockaddr_in*) addr, szIp, 16);
-	if (r != 0)
-	{
-		NET_UV_LOG(NET_UV_L_ERROR, "kcp服务器创建KCPSocket失败,地址解析失败");
-		return NULL;
-	}
+	std::string strip;
+	unsigned int addrlen = 0;
+	unsigned int port = 0;
 
-	unsigned int addrlen = sizeof(struct sockaddr_in);
 	if (addr->sa_family == AF_INET6)
 	{
 		addrlen = sizeof(struct sockaddr_in6);
+
+		struct sockaddr_in6* addr_in = (struct sockaddr_in6*) addr;
+
+		char szIp[NET_UV_INET6_ADDRSTRLEN + 1] = { 0 };
+		int r = uv_ip6_name(addr_in, szIp, NET_UV_INET6_ADDRSTRLEN);
+		if (r != 0)
+		{
+			NET_UV_LOG(NET_UV_L_ERROR, "kcp服务器创建KCPSocket失败,地址解析失败");
+			return NULL;
+		}
+
+		strip = szIp;
+		port = ntohs(addr_in->sin6_port);
+	}
+	else
+	{
+		addrlen = sizeof(struct sockaddr_in);
+
+		struct sockaddr_in* addr_in = (struct sockaddr_in*) addr;
+
+		char szIp[NET_UV_INET_ADDRSTRLEN + 1] = { 0 };
+		int r = uv_ip4_name(addr_in, szIp, NET_UV_INET_ADDRSTRLEN);
+		if (r != 0)
+		{
+			NET_UV_LOG(NET_UV_L_ERROR, "kcp服务器创建KCPSocket失败,地址解析失败");
+			return NULL;
+		}
+
+		strip = szIp;
+		port = ntohs(addr_in->sin_port);
 	}
 
 	struct sockaddr* curAddr = (struct sockaddr*)fc_malloc(addrlen);
@@ -48,7 +73,8 @@ KCPSocket* KCPSocketManager::accept(uv_udp_t* handle, const struct sockaddr* add
 	KCPSocket* socket = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
 	new (socket)KCPSocket(m_loop);
 
-	socket->setIp(szIp);
+	socket->setIp(strip);
+	socket->setPort(port);
 	socket->setConv(m_convCount);
 	socket->initKcp(m_convCount);
 	socket->setWeakRefUdp(handle);

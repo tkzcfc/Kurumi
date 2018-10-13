@@ -30,3 +30,7 @@
 #define ThreadSleep(ms) usleep((ms) * 1000)
 
 #endif
+
+
+#define NET_UV_INET_ADDRSTRLEN         16
+#define NET_UV_INET6_ADDRSTRLEN        46

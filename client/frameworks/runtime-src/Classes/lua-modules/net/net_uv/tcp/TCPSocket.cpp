@@ -199,11 +199,11 @@ TCPSocket* TCPSocket::accept(uv_stream_t* server, int status)
 	//sockaddr_in (the address structure for TCP/IP) is 16 bytes. Therefore, a buffer size of at least 32 bytes must be 
 	//specified for the local and remote addresses.
 
-	sockaddr_in client_addr[2];
-	memset(&client_addr, 0, sizeof(client_addr));
-	int client_addr_length = sizeof(client_addr);
-
-	r = uv_tcp_getpeername((const uv_tcp_t*)handle, (struct sockaddr*)&client_addr, &client_addr_length);
+	int client_addr_length = sizeof(sockaddr_in6) * 2;
+	struct sockaddr* client_addr = (struct sockaddr*)fc_malloc(client_addr_length);
+	memset(client_addr, 0, client_addr_length);
+	
+	r = uv_tcp_getpeername((const uv_tcp_t*)handle, client_addr, &client_addr_length);
 	CHECK_UV_ASSERT(r);
 	if (r != 0)
 	{
@@ -211,15 +211,39 @@ TCPSocket* TCPSocket::accept(uv_stream_t* server, int status)
 		return NULL;
 	}
 
-	char* szIp = (char*)fc_malloc(TCP_IP_ADDR_LEN);
-	memset(szIp, 0, TCP_IP_ADDR_LEN);
-	r = uv_inet_ntop(AF_INET, &client_addr[0].sin_addr, szIp, TCP_IP_ADDR_LEN);
-	CHECK_UV_ASSERT(r);
-	if (r != 0)
+	std::string strip;
+	unsigned int port;
+	if (client_addr->sa_family == AF_INET6)
 	{
-		fc_free(szIp);
-		fc_free(client);
-		return NULL;
+		struct sockaddr_in6* addr_in = (struct sockaddr_in6*) client_addr;
+
+		char szIp[NET_UV_INET6_ADDRSTRLEN + 1] = { 0 };
+		int r = uv_ip6_name(addr_in, szIp, NET_UV_INET6_ADDRSTRLEN);
+		if (r != 0)
+		{
+			NET_UV_LOG(NET_UV_L_ERROR, "tcp服务器接受连接失败,地址解析失败");
+			fc_free(client);
+			return NULL;
+		}
+
+		strip = szIp;
+		port = ntohs(addr_in->sin6_port);
+	}
+	else
+	{
+		struct sockaddr_in* addr_in = (struct sockaddr_in*) client_addr;
+
+		char szIp[NET_UV_INET_ADDRSTRLEN + 1] = { 0 };
+		int r = uv_ip4_name(addr_in, szIp, NET_UV_INET_ADDRSTRLEN);
+		if (r != 0)
+		{
+			NET_UV_LOG(NET_UV_L_ERROR, "tcp服务器接受连接失败,地址解析失败");
+			fc_free(client);
+			return NULL;
+		}
+
+		strip = szIp;
+		port = ntohs(addr_in->sin_port);
 	}
 
 	net_adjustBuffSize((uv_handle_t*)client, TCP_UV_SOCKET_RECV_BUF_LEN, TCP_UV_SOCKET_SEND_BUF_LEN);
@@ -228,9 +252,9 @@ TCPSocket* TCPSocket::accept(uv_stream_t* server, int status)
 	new (newSocket) TCPSocket(m_loop, client);
 	client->data = newSocket;
 
-	newSocket->setIp(szIp);
+	newSocket->setIp(strip);
+	newSocket->setPort(port);
 
-	fc_free(szIp);
 	r = uv_read_start(handle, uv_on_alloc_buffer, uv_on_after_read);
 	if (r != 0)
 	{
