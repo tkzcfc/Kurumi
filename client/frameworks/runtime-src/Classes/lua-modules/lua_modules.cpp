@@ -20,6 +20,7 @@ extern int luaopen_protobuf_c(lua_State *L);
 #endif
 
 #include "net/lua_net.h"
+#include "game/lua_game.h"
 
 
 static luaL_Reg modules[] = {
@@ -30,8 +31,12 @@ static luaL_Reg modules[] = {
 
 void preload_lua_modules(lua_State *L)
 {
-	// load tolua...
-	tolua_net_open(L);
+	// net
+	luaopen_net(L);
+
+	// game
+	luaopen_game(L);
+
 	//load pbc
 	luaopen_protobuf_c(L);
 	//lfs

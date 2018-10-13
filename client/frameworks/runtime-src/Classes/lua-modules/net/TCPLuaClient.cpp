@@ -5,14 +5,14 @@ TCPLuaClient* TCPLuaClient::Instance = NULL;
 
 void tcp_com_log_func(int level, const char* log)
 {
-	CCLOG("%s", log);
+	CCLOG("[NET_UV]: %s", log);
 }
 
 TCPLuaClient* TCPLuaClient::getInstance()
 {
 	if (Instance == NULL)
 	{
-		//setUVLogPrintFunc(tcp_com_log_func);
+		net_uv::setNetUVLogPrintFunc(tcp_com_log_func);
 		Instance = new TCPLuaClient();
 	}
 	return Instance;
@@ -29,7 +29,7 @@ void TCPLuaClient::destroy()
 
 TCPLuaClient::TCPLuaClient()
 {
-	m_client = new TCPClient();
+	m_client = new net_uv::TCPClient();
 
 	m_client->setConnectCallback(CC_CALLBACK_3(TCPLuaClient::onClientConnectCall, this));
 	m_client->setDisconnectCallback(CC_CALLBACK_2(TCPLuaClient::onClientDisconnectCall, this));
@@ -46,7 +46,7 @@ TCPLuaClient::~TCPLuaClient()
 	auto scheduler = cocos2d::Director::getInstance()->getScheduler();
 	scheduler->unscheduleAllForTarget(this);
 
-	delete m_client;
+	CC_SAFE_DELETE(m_client);
 }
 
 void TCPLuaClient::connect(const char* ip, unsigned int port, unsigned int sessionId)
@@ -74,12 +74,12 @@ void TCPLuaClient::removeSession(unsigned int sessionId)
 	m_client->removeSession(sessionId);
 }
 
-void TCPLuaClient::send(Session* session, char* data, unsigned int len)
+void TCPLuaClient::send(net_uv::Session* session, char* data, unsigned int len)
 {
 	m_client->send(session, data, len);
 }
 
-void TCPLuaClient::disconnect(Session* session)
+void TCPLuaClient::disconnect(net_uv::Session* session)
 {
 	m_client->disconnect(session);
 }
@@ -128,131 +128,66 @@ void TCPLuaClient::setAutoReconnectTimeBySessionID(unsigned int sessionID, float
 void TCPLuaClient::update(float)
 {
 	m_client->updateFrame();
-
-	//m_client->getAllThreadMsg(&m_threadMsg);
-	//if (!m_threadMsg.empty())
-	//{
-	//	if (m_func)
-	//	{
-	//		for (auto& it : m_threadMsg)
-	//		{
-	//			m_func(it);
-	//		}
-	//	}
-
-	//	if (m_luaHandleInvalid)
-	//	{
-	//		for (auto& msg : m_threadMsg)
-	//		{
-	//			switch (msg.msgType)
-	//			{
-	//			case CONNECT_FAIL:	//连接失败
-	//			{
-	//				UV_LOG(UV_L_INFO, "CONNECT_FAIL");
-	//				m_luaHandle("fail", msg.key);
-	//			}break;
-	//			case CONNECT_ING:	//正在连接
-	//			{
-	//				UV_LOG(UV_L_INFO, "CONNECT_ING");
-	//				m_luaHandle("connecting", msg.key);
-	//			}break;
-	//			case CONNECT:		//连接成功
-	//			{
-	//				UV_LOG(UV_L_INFO, "CONNECT");
-	//				m_luaHandle("connect", msg.key);
-	//			}break;
-	//			case DIS_CONNECT:	//断开连接
-	//			{
-	//				UV_LOG(UV_L_INFO, "DIS_CONNECT");
-	//				m_luaHandle("disconnect", msg.key);
-	//			}break;
-	//			case EXIT_LOOP:		//退出loop
-	//			{
-	//				UV_LOG(UV_L_INFO, "EXIT_LOOP");
-	//				m_luaHandle("loop exit");
-	//			}break;
-	//			case RECV_DATA:		//收到消息
-	//			{
-	//				//UV_LOG("uv RECV_DATA");
-	//				if (msg.tag == TCPMsgTag::MT_DEFAULT)
-	//				{
-	//					m_luaHandle.ppush();
-	//					m_luaHandle.pusharg("recv");
-	//					m_luaHandle.pushlstring((const char*)msg.data, (unsigned int)msg.dataLen);
-	//					m_luaHandle.pcall();
-	//				}
-	//			}break;
-	//			default:
-	//				break;
-	//			}
-	//		}
-	//	}
-
-	//	for (auto& it : m_threadMsg)
-	//	{
-	//		fc_free(it.data);
-	//	}
-	//}
 }
 
-void TCPLuaClient::onClientConnectCall(Client* client, Session* session, int status)
+void TCPLuaClient::onClientConnectCall(net_uv::Client* client, net_uv::Session* session, int status)
 {
 	auto handle = getLuaHandle("onClientConnectCall");
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "Client");
-		handle->pushusertype(session, "Session");
+		handle->pushusertype(client, "net_uv::TCPClient");
+		handle->pushusertype(session, "net_uv::TCPSession");
 		handle->pusharg(status);
 		handle->pcall();
 	}
 }
 
-void TCPLuaClient::onClientDisconnectCall(Client* client, Session* session)
+void TCPLuaClient::onClientDisconnectCall(net_uv::Client* client, net_uv::Session* session)
 {
 	auto handle = getLuaHandle("onClientDisconnectCall");
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "Client");
-		handle->pushusertype(session, "Session");
+		handle->pushusertype(client, "net_uv::TCPClient");
+		handle->pushusertype(session, "net_uv::TCPSession");
 		handle->pcall();
 	}
 }
 
-void TCPLuaClient::onClientRecvCall(Client* client, Session* session, char* data, unsigned int len)
+void TCPLuaClient::onClientRecvCall(net_uv::Client* client, net_uv::Session* session, char* data, unsigned int len)
 {
 	auto handle = getLuaHandle("onClientRecvCall");
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "Client");
-		handle->pushusertype(session, "Session");
+		handle->pushusertype(client, "net_uv::TCPClient");
+		handle->pushusertype(session, "net_uv::TCPSession");
 		handle->pushlstring(data, len);
 		handle->pusharg(len);
 		handle->pcall();
 	}
 }
 
-void TCPLuaClient::onClientCloseCall(Client* client)
+void TCPLuaClient::onClientCloseCall(net_uv::Client* client)
 {
 	auto handle = getLuaHandle("onClientCloseCall");
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "Client");
+		handle->pushusertype(client, "net_uv::TCPClient");
 		handle->pcall();
 	}
 }
 
-void TCPLuaClient::onClientRemoveSessionCall(Client* client, Session* session)
+void TCPLuaClient::onClientRemoveSessionCall(net_uv::Client* client, net_uv::Session* session)
 {
 	auto handle = getLuaHandle("onClientRemoveSessionCall");
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "Client");
-		handle->pushusertype(session, "Session");
+		handle->pushusertype(client, "net_uv::TCPClient");
+		handle->pushusertype(session, "net_uv::TCPSession");
 		handle->pcall();
 	}
 }

@@ -1,12 +1,11 @@
 #include "Common.h"
 #include <time.h>
 
-
-NS_NET_UV_BEGIN
-
 #if OPEN_NET_MEM_CHECK == 1
 #include "Mutex.h"
 #endif
+
+NS_NET_UV_BEGIN
 
 typedef void(*uvOutputLoggerType)(int, const char*);
 uvOutputLoggerType uvOutputLogger = 0;

@@ -10,7 +10,7 @@ class TCPLuaClient : public cocos2d::Ref, public LuaFunctionBond
 	static TCPLuaClient* Instance;
 
 	TCPLuaClient();
-	~TCPLuaClient();
+	virtual ~TCPLuaClient();
 public:
 
 	static TCPLuaClient* getInstance();
@@ -27,9 +27,9 @@ public:
 
 	void removeSession(unsigned int sessionId);
 
-	void send(Session* session, char* data, unsigned int len);
+	void send(net_uv::Session* session, char* data, unsigned int len);
 
-	void disconnect(Session* session);
+	void disconnect(net_uv::Session* session);
 
 	bool isCloseFinish();
 
@@ -51,28 +51,28 @@ public:
 	//自动重连时间(单位：S)
 	void setAutoReconnectTimeBySessionID(unsigned int sessionID, float time);
 
-	inline TCPClient* getTCPClient();
+	inline net_uv::TCPClient* getTCPClient();
 
 protected:
 
 	void update(float);
 
-	void onClientConnectCall(Client* client, Session* session, int status);
+	void onClientConnectCall(net_uv::Client* client, net_uv::Session* session, int status);
 
-	void onClientDisconnectCall(Client* client, Session* session);
+	void onClientDisconnectCall(net_uv::Client* client, net_uv::Session* session);
 
-	void onClientRecvCall(Client* client, Session* session, char* data, unsigned int len);
+	void onClientRecvCall(net_uv::Client* client, net_uv::Session* session, char* data, unsigned int len);
 
-	void onClientCloseCall(Client* client);
+	void onClientCloseCall(net_uv::Client* client);
 
-	void onClientRemoveSessionCall(Client* client, Session* session);
+	void onClientRemoveSessionCall(net_uv::Client* client, net_uv::Session* session);
 
 protected:
 
-	TCPClient* m_client;
+	net_uv::TCPClient* m_client;
 };
 
-TCPClient* TCPLuaClient::getTCPClient()
+net_uv::TCPClient* TCPLuaClient::getTCPClient()
 {
 	return m_client;
 }

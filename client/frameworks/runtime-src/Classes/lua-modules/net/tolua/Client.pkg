@@ -4,6 +4,7 @@
 $#include "base/Client.h"
 
 
+namespace net_uv {
 
 class Client
 {
@@ -19,3 +20,5 @@ class Client
 
 	virtual void removeSession(unsigned int sessionId);
 };
+
+}

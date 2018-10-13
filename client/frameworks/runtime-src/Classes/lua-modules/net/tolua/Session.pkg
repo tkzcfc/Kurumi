@@ -3,6 +3,7 @@
 
 $#include "base/Session.h"
 
+namespace net_uv {
 
 class Session
 {
@@ -18,3 +19,5 @@ public:
 
 	virtual std::string getIp();
 };
+
+}

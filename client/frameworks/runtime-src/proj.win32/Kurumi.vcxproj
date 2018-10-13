@@ -209,8 +209,11 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua-modules\cjson\fpconv.h" />
     <ClInclude Include="..\Classes\lua-modules\cjson\lua_cjson.h" />
     <ClInclude Include="..\Classes\lua-modules\cjson\strbuf.h" />
+    <ClInclude Include="..\Classes\lua-modules\game\lua_game.h" />
     <ClInclude Include="..\Classes\lua-modules\lfs\lfs.h" />
     <ClInclude Include="..\Classes\lua-modules\lua_modules.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\KCPLuaClient.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\KCPLuaServer.h" />
     <ClInclude Include="..\Classes\lua-modules\net\libuv\include\android-ifaddrs.h" />
     <ClInclude Include="..\Classes\lua-modules\net\libuv\include\pthread-barrier.h" />
     <ClInclude Include="..\Classes\lua-modules\net\libuv\include\stdint-msvc2008.h" />
@@ -270,6 +273,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua-modules\net\net_uv\tcp\TCPSession.h" />
     <ClInclude Include="..\Classes\lua-modules\net\net_uv\tcp\TCPSocket.h" />
     <ClInclude Include="..\Classes\lua-modules\net\net_uv\tcp\TCPUtils.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\TCPLuaClient.h" />
+    <ClInclude Include="..\Classes\lua-modules\net\TCPLuaServer.h" />
     <ClInclude Include="..\Classes\lua-modules\pbc\src\alloc.h" />
     <ClInclude Include="..\Classes\lua-modules\pbc\src\array.h" />
     <ClInclude Include="..\Classes\lua-modules\pbc\src\bootstrap.h" />
@@ -283,8 +288,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua_function\LuaFunction.h" />
     <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h" />
     <ClInclude Include="..\Classes\lua_function\tolua_ext.h" />
-    <ClInclude Include="..\Classes\lua_game.h" />
-    <ClInclude Include="..\Classes\net\TCPLuaClient.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SimulatorWin.h" />
@@ -306,8 +309,11 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua-modules\cjson\fpconv.c" />
     <ClCompile Include="..\Classes\lua-modules\cjson\lua_cjson.c" />
     <ClCompile Include="..\Classes\lua-modules\cjson\strbuf.c" />
+    <ClCompile Include="..\Classes\lua-modules\game\lua_game.cpp" />
     <ClCompile Include="..\Classes\lua-modules\lfs\lfs.c" />
     <ClCompile Include="..\Classes\lua-modules\lua_modules.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\KCPLuaClient.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\KCPLuaServer.cpp" />
     <ClCompile Include="..\Classes\lua-modules\net\libuv\src\fs-poll.c" />
     <ClCompile Include="..\Classes\lua-modules\net\libuv\src\inet.c" />
     <ClCompile Include="..\Classes\lua-modules\net\libuv\src\threadpool.c" />
@@ -364,6 +370,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua-modules\net\net_uv\tcp\TCPSession.cpp" />
     <ClCompile Include="..\Classes\lua-modules\net\net_uv\tcp\TCPSocket.cpp" />
     <ClCompile Include="..\Classes\lua-modules\net\net_uv\tcp\TCPUtils.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\TCPLuaClient.cpp" />
+    <ClCompile Include="..\Classes\lua-modules\net\TCPLuaServer.cpp" />
     <ClCompile Include="..\Classes\lua-modules\pbc\binding\lua\pbc-lua.c" />
     <ClCompile Include="..\Classes\lua-modules\pbc\src\alloc.cpp" />
     <ClCompile Include="..\Classes\lua-modules\pbc\src\array.cpp" />
@@ -381,8 +389,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp" />
     <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp" />
     <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp" />
-    <ClCompile Include="..\Classes\lua_game.cpp" />
-    <ClCompile Include="..\Classes\net\TCPLuaClient.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimulatorWin.cpp" />
     <ClCompile Include="stdafx.cpp" />

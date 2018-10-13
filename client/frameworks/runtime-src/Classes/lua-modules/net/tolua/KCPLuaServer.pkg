@@ -1,0 +1,29 @@
+$#include "KCPLuaServer.h"
+
+
+
+class KCPLuaServer
+{
+	KCPLuaServer();
+
+	~KCPLuaServer();
+
+	void startServer(const char* ip, unsigned int port, bool isIPV6);
+
+	bool stopServer();
+		
+	void send(net_uv::Session* session, char* data, unsigned int len);
+
+	void disconnect(net_uv::Session* session);
+
+	bool isCloseFinish();
+	
+	net_uv::KCPServer* getKCPServer();
+
+	//LuaFunctionBond
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
+
+	void unregisterLuaHandle(const std::string& name);
+
+	void clearLuaHandle();
+};

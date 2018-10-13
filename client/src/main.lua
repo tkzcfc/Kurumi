@@ -15,8 +15,8 @@ local function main()
 end
 
 __G__TRACKBACK__ = function(msg)
-    local msg = debug.traceback(msg, 3)
-    local logmsg = os.date() .. ":"..msg
+    local errormsg = debug.traceback(msg, 3)
+    local logmsg = os.date() .. ":"..errormsg
     print(logmsg)
 
     local targetPlatform = cc.Application:getInstance():getTargetPlatform()
@@ -26,7 +26,7 @@ __G__TRACKBACK__ = function(msg)
     	local data = {exception = logmsg}
 		_MyG.Net:sendMsgToGame("debug.C2S_luaexception", data)
 	end
-    return msg
+    return errormsg
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)

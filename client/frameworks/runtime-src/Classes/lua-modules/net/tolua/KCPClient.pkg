@@ -1,28 +1,22 @@
 //tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
 
 
-$#include "tcp/TCPClient.h"
+$#include "kcp/KCPClient.h"
 
 namespace net_uv {
 
-class TCPClient : public net_uv::Client
+class KCPClient : public Client
 {
-	TCPClient();
-	virtual ~TCPClient();
+	KCPClient();
+	virtual ~KCPClient();
 
 	/// SessionManager
 	virtual void send(Session* session, char* data, unsigned int len);
 
 	virtual void disconnect(Session* session);
 
-	/// TCPClient
+	/// KCPClient
 	bool isCloseFinish();
-
-	//是否启用TCP_NODELAY
-	bool setSocketNoDelay(bool enable);
-
-	//设置心跳
-	bool setSocketKeepAlive(int enable, unsigned int delay);
 
 	//设置所有socket是否自动重连
 	void setAutoReconnect(bool isAuto);

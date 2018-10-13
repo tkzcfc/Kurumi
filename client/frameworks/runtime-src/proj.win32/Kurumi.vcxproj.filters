@@ -52,9 +52,6 @@
     <Filter Include="Classes\lua-modules\pbc\binding\lua">
       <UniqueIdentifier>{51c5bf5c-c294-420e-83d3-847421933b0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\net">
-      <UniqueIdentifier>{2ff8c31b-47a4-459d-a2ce-ba50e3f6e19e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\gamecore">
       <UniqueIdentifier>{ae05eb1f-6e0d-4f87-bd49-976ddc059e94}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="Classes\lua-modules\net\net_uv\kcp">
       <UniqueIdentifier>{f5b42d36-e23f-4480-8828-106dd37a6342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\lua-modules\game">
+      <UniqueIdentifier>{9884e460-2d82-41b0-8a8e-2925849688cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +242,6 @@
     <ClInclude Include="..\Classes\gamecore\FSM.h">
       <Filter>Classes\gamecore</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\lua_game.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h">
       <Filter>Classes\lua_function</Filter>
     </ClInclude>
@@ -262,9 +259,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\gamecore\GameCharacter.h">
       <Filter>Classes\gamecore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\net\TCPLuaClient.h">
-      <Filter>Classes\net</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua-modules\net\net_uv\base\Client.h">
       <Filter>Classes\lua-modules\net\net_uv\base</Filter>
@@ -359,8 +353,23 @@
     <ClInclude Include="..\Classes\lua-modules\net\net_uv\tcp\TCPCommon.h">
       <Filter>Classes\lua-modules\net\net_uv\tcp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\lua-modules\net\TCPLuaClient.h">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua-modules\net\TCPLuaServer.h">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua-modules\net\KCPLuaClient.h">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua-modules\net\KCPLuaServer.h">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\lua-modules\net\lua_net.h">
       <Filter>Classes\lua-modules\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua-modules\game\lua_game.h">
+      <Filter>Classes\lua-modules\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -548,9 +557,6 @@
     <ClCompile Include="..\Classes\gamecore\GameActor.cpp">
       <Filter>Classes\gamecore</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\lua_game.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp">
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
@@ -571,9 +577,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\gamecore\GameCharacterBox2d.cpp">
       <Filter>Classes\gamecore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\net\TCPLuaClient.cpp">
-      <Filter>Classes\net</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua-modules\net\net_uv\base\Common.cpp">
       <Filter>Classes\lua-modules\net\net_uv\base</Filter>
@@ -641,8 +644,23 @@
     <ClCompile Include="..\Classes\lua-modules\net\net_uv\tcp\TCPClient.cpp">
       <Filter>Classes\lua-modules\net\net_uv\tcp</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\lua-modules\net\TCPLuaServer.cpp">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua-modules\net\KCPLuaClient.cpp">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua-modules\net\KCPLuaServer.cpp">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\lua-modules\net\lua_net.cpp">
       <Filter>Classes\lua-modules\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua-modules\net\TCPLuaClient.cpp">
+      <Filter>Classes\lua-modules\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua-modules\game\lua_game.cpp">
+      <Filter>Classes\lua-modules\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

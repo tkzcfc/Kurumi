@@ -1,6 +1,8 @@
 #include "KCPSocketManager.h"
 #include "KCPSocket.h"
 
+NS_NET_UV_BEGIN
+
 KCPSocketManager::KCPSocketManager(uv_loop_t* loop)
 	: m_convCount(1000)
 	, m_owner(NULL)
@@ -151,3 +153,5 @@ void KCPSocketManager::uv_on_idle_run(uv_idle_t* handle)
 	((KCPSocketManager*)handle->data)->idleRun();
 }
 
+
+NS_NET_UV_END

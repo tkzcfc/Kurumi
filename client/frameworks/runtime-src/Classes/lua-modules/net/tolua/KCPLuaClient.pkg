@@ -1,10 +1,10 @@
-$#include "net/TCPLuaClient.h"
+$#include "KCPLuaClient.h"
 
 
 
-class TCPLuaClient
+class KCPLuaClient
 {
-	static TCPLuaClient* getInstance();
+	static KCPLuaClient* getInstance();
 
 	static void destroy();
 
@@ -18,17 +18,11 @@ class TCPLuaClient
 
 	void removeSession(unsigned int sessionId);
 
-	void send(Session* session, char* data, unsigned int len);
+	void send(net_uv::Session* session, char* data, unsigned int len);
 
-	void disconnect(Session* session);
+	void disconnect(net_uv::Session* session);
 
 	bool isCloseFinish();
-
-	//是否启用TCP_NODELAY
-	bool setSocketNoDelay(bool enable);
-
-	//设置心跳
-	bool setSocketKeepAlive(int enable, unsigned int delay);
 
 	//设置所有socket是否自动重连
 	void setAutoReconnect(bool isAuto);
@@ -42,7 +36,7 @@ class TCPLuaClient
 	//自动重连时间(单位：S)
 	void setAutoReconnectTimeBySessionID(unsigned int sessionID, float time);
 
-	TCPClient* getTCPClient();
+	net_uv::KCPClient* getKCPClient();
 
 
 

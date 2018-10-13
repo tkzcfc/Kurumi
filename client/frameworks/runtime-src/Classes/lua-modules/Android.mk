@@ -75,6 +75,8 @@ LOCAL_SRC_FILES  += $(LOCAL_PATH)/pbc/src/alloc.cpp \
                     $(LOCAL_PATH)/pbc/src/varint.cpp \
                     $(LOCAL_PATH)/pbc/src/wmessage.cpp \
                     $(LOCAL_PATH)/pbc/binding/lua/pbc-lua.c
+					
+LOCAL_SRC_FILES  += $(LOCAL_PATH)/game/lua_game.cpp
 
 
 

@@ -3,6 +3,8 @@
 #include "KCPCommon.h"
 #include "KCPUtils.h"
 
+NS_NET_UV_BEGIN
+
 class KCPSocket;
 class KCPSocketManager
 {
@@ -48,3 +50,5 @@ void KCPSocketManager::setOwner(KCPSocket* socket)
 {
 	m_owner = socket;
 }
+
+NS_NET_UV_END

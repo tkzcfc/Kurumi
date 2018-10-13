@@ -4,6 +4,7 @@
 $#include "base/Client.h"
 
 
+namespace net_uv {
 
 class Server
 {
@@ -12,3 +13,5 @@ public:
 
 	virtual bool stopServer();
 };
+
+}

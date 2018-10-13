@@ -1,19 +1,14 @@
 #pragma once
 
-//#ifdef __cplusplus
-//#define NS_NET_UV_BEGIN	namespace net_uv {
-//#define NS_NET_UV_END	}
-//#define NS_NET_UV_OPEN using namespace net_uv;
-//#else
-//#define NS_NET_UV_BEGIN	
-//#define NS_NET_UV_END	
-//#define NS_NET_UV_OPEN using namespace net_uv;
-//#endif
-
+#ifdef __cplusplus
+#define NS_NET_UV_BEGIN	namespace net_uv {
+#define NS_NET_UV_END	}
+#define NS_NET_UV_OPEN using namespace net_uv;
+#else
 #define NS_NET_UV_BEGIN	
 #define NS_NET_UV_END	
-
-#define NS_NET_UV_OPEN
+#define NS_NET_UV_OPEN using namespace net_uv;
+#endif
 
 #if defined (WIN32) || defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN

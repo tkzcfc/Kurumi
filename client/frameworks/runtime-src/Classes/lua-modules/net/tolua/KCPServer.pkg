@@ -1,22 +1,22 @@
 //tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
 
 
-$#include "tcp/TCPServer.h"
+$#include "kcp/KCPServer.h"
 
 namespace net_uv {
 
-class TCPServer : public Server
+class KCPServer : public Server
 {
-	TCPServer();
+	KCPServer();
 
-	virtual ~TCPServer();
+	virtual ~KCPServer();
 
 	/// SessionManager
 	virtual void send(Session* session, char* data, unsigned int len);
 
 	virtual void disconnect(Session* session);
 
-	/// TCPServer
+	/// KCPServer
 	bool isCloseFinish();
 };
 
