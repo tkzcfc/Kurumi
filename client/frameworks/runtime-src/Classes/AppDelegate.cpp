@@ -13,7 +13,7 @@
 #include "ide-support/RuntimeLuaImpl.h"
 #endif
 
-#include "lua-modules/lua_modules.h"
+#include "lua_modules/lua_modules.h"
 
 using namespace CocosDenshion;
 
