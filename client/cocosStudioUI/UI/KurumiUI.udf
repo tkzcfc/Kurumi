@@ -40,7 +40,7 @@
           <FilePathData Path="LoadingScene.csd" />
           <FilePathData Path="HomeSceneUI.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="HomeSceneUI.csd" />
+        <ActiveDocument Path="playerControlUI.csd" />
       </Value>
     </Item>
   </Properties>

@@ -52,13 +52,13 @@
             <FileData Type="Normal" Path="cont/joyk2.png" Plist="" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Button_ChangeWeapon" ActionTag="1467032247" CallBackType="Click" CallBackName="onClickChangeWeapon" Tag="249" IconVisible="False" LeftMargin="773.2095" RightMargin="252.7905" TopMargin="456.2401" BottomMargin="73.7599" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="80" Scale9Height="88" DisplayState="False" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+          <AbstractNodeData Name="Button_ChangeWeapon" ActionTag="1467032247" VisibleForFrame="False" CallBackType="Click" CallBackName="onClickChangeWeapon" Tag="249" IconVisible="False" LeftMargin="640.8053" RightMargin="385.1947" TopMargin="496.4332" BottomMargin="33.5668" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="80" Scale9Height="88" DisplayState="False" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="110.0000" Y="110.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="828.2095" Y="128.7599" />
+            <Position X="695.8053" Y="88.5668" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.7291" Y="0.2012" />
+            <PrePosition X="0.6125" Y="0.1384" />
             <PreSize X="0.0968" Y="0.1719" />
             <TextColor A="255" R="65" G="65" B="70" />
             <PressedFileData Type="Normal" Path="cont/icon2_1.png" Plist="" />
@@ -91,6 +91,58 @@
             <DisabledFileData Type="Default" Path="Default/Button_Disable.png" Plist="" />
             <PressedFileData Type="Default" Path="Default/Button_Press.png" Plist="" />
             <NormalFileData Type="Default" Path="Default/Button_Normal.png" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="Button_Skill1" ActionTag="946138627" CallBackType="Click" CallBackName="onClickSkill" UserData="1" Tag="41" IconVisible="False" LeftMargin="812.5917" RightMargin="253.4083" TopMargin="521.0684" BottomMargin="48.9316" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="40" Scale9Height="48" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="70.0000" Y="70.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="847.5917" Y="83.9316" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.7461" Y="0.1311" />
+            <PreSize X="0.0616" Y="0.1094" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <NormalFileData Type="Normal" Path="cont/taidaoay01.png" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="Button_Skill2" ActionTag="-1079691799" CallBackType="Click" CallBackName="onClickSkill" UserData="2" Tag="42" IconVisible="False" LeftMargin="845.0519" RightMargin="220.9481" TopMargin="404.5803" BottomMargin="165.4197" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="40" Scale9Height="48" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="70.0000" Y="70.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="880.0519" Y="200.4197" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.7747" Y="0.3132" />
+            <PreSize X="0.0616" Y="0.1094" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <NormalFileData Type="Normal" Path="cont/taidaoay01.png" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="Button_Skill3" ActionTag="-1154577288" CallBackType="Click" CallBackName="onClickSkill" UserData="3" Tag="43" IconVisible="False" LeftMargin="934.2545" RightMargin="131.7455" TopMargin="343.6519" BottomMargin="226.3481" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="40" Scale9Height="48" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="70.0000" Y="70.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="969.2545" Y="261.3481" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.8532" Y="0.4084" />
+            <PreSize X="0.0616" Y="0.1094" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <NormalFileData Type="Normal" Path="cont/taidaoay01.png" Plist="" />
+            <OutlineColor A="255" R="255" G="0" B="0" />
+            <ShadowColor A="255" R="110" G="110" B="110" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="Button_Skill4" ActionTag="1849018291" CallBackType="Click" CallBackName="onClickSkill" UserData="4" Tag="44" IconVisible="False" LeftMargin="1043.5527" RightMargin="22.4473" TopMargin="339.4669" BottomMargin="230.5331" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="40" Scale9Height="48" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="70.0000" Y="70.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="1078.5527" Y="265.5331" />
+            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.9494" Y="0.4149" />
+            <PreSize X="0.0616" Y="0.1094" />
+            <TextColor A="255" R="65" G="65" B="70" />
+            <NormalFileData Type="Normal" Path="cont/taidaoay01.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>

@@ -41,7 +41,7 @@ local CommonSoundConfig =
 	State_Replace 			= nil,
 	State_JumpUp 			= nil,
 	State_JumpDown 			= nil,
-	State_JumpDownEnd 		= nil,
+	State_JumpDownEnd 		= "audio/brake.ogg",
 	State_JumpUp_2 			= nil,
 	State_Attack1 			= "audio/baiji_atk_1.ogg",
 	State_Attack2 			= "audio/baiji_atk_2.ogg",
@@ -64,6 +64,15 @@ local CommonSoundConfig =
 	State_Skill3_End 		= nil,
 }
 
+
+local CommonSkillConfig = 
+{
+	{SkillName = "旋转", Image = "cont/taidaoay01.png", CMD = "control_to_Skill_01"},
+	{SkillName = "上斩", Image = "cont/taidaoay02.png", CMD = "control_to_Skill_02"},
+	{SkillName = "落剑", Image = "cont/taidaoay03.png", CMD = "control_to_Skill_03"},
+	{SkillName = "上斩(大)", Image = "cont/taidaoay04.png", CMD = "control_to_Skill_04"},
+}
+
 RoleConfig["hero_lanse_dao"] = 
 {
 	ExportJson = "role/baiji/hero_lanse_dao.ExportJson",
@@ -71,6 +80,7 @@ RoleConfig["hero_lanse_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 RoleConfig["hero_xiuluo_dao"] = 
@@ -80,6 +90,7 @@ RoleConfig["hero_xiuluo_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 RoleConfig["hero_shizxianzi_dao"] = 
@@ -89,6 +100,7 @@ RoleConfig["hero_shizxianzi_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 RoleConfig["hero_shizwushikaijia_dao"] = 
@@ -98,6 +110,7 @@ RoleConfig["hero_shizwushikaijia_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -108,6 +121,7 @@ RoleConfig["hero_shizwushi_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 RoleConfig["hero_shizshuishoufu_dao"] = 
@@ -117,6 +131,7 @@ RoleConfig["hero_shizshuishoufu_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -127,6 +142,7 @@ RoleConfig["hero_shizshenyin_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -137,6 +153,7 @@ RoleConfig["hero_shiznvpu_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -147,6 +164,7 @@ RoleConfig["hero_shizmaonv_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -157,6 +175,7 @@ RoleConfig["hero_shizhuak_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -167,6 +186,7 @@ RoleConfig["hero_shizconglin_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -177,6 +197,7 @@ RoleConfig["hero_luocha_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 
@@ -187,6 +208,7 @@ RoleConfig["hero_baiji_dao"] =
 
 	StateConfig = CommonStateConfig,
 	SoundConfig = CommonSoundConfig,
+	SkillConfig = CommonSkillConfig,
 }
 
 return RoleConfig

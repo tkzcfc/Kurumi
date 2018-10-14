@@ -1,16 +1,6 @@
 local msgViewBase = class("msgViewBase", cc.load("mvc").ViewBase)
 
 function msgViewBase:onCreate()
-
-	-- local function onNodeEvent(event)
-    --     if event == "enter" then
-    --         self:onEnter()
-    --     elseif event == "exit" then
-    --         self:onExit()
-    --     end
-    -- end
-    -- self:registerScriptHandler(onNodeEvent)
-
     self.msgRegisterMap = {}
 end
 

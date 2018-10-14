@@ -13,6 +13,8 @@ function PlayerController:ctor()
 	self:register("control_down")
 	self:register("control_cancel")
 
+	self:register("control_to_Skill_01")
+
 	self:register("control_changeWeapon")
 	self:register("control_attack")
 
@@ -94,6 +96,12 @@ function PlayerController:dis_control_attack(actor)
 	else
 		self.toNextAttack = false
 	end
+end
+
+-----------------技能
+function PlayerController:dis_control_to_Skill_01(actor)
+	if actor ~= self.player then return end
+	self.player:handle("CMD_To_Skill_01")
 end
 
 -----------------------------------状态切换-----------------------------------

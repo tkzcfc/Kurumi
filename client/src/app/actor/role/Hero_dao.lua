@@ -297,6 +297,36 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Collapse1", "State_Collapse1_stop", "State_Collapse2")
 	self.FSM:addTranslation("State_Collapse2", "CMD_To_Collapse3", "State_Collapse3")
 	self.FSM:addTranslation("State_Collapse3", "State_Collapse3_stop", "State_Stand")
+
+	--Skill_01
+	self.FSM:addTranslation("State_Stand", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Run", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Run2", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Brak", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Attack1", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Attack2", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Attack2", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_KAttack4_Begin", "CMD_To_Skill_01_Stop", "State_KAttack4_End")
+	self.FSM:addTranslation("State_KAttack4_End", "State_KAttack4_End_stop", "State_Stand")
+end
+
+function Hero_dao:startTimer(time, callback)
+	if self.timerNode == nil then
+		self.timerNode = cc.Node:create()
+		self.timerNode:setVisible(false)
+		self:addChild(self.timerNode)
+	end
+	self:stopTimer()
+
+	local delay = cc.DelayTime:create(time)
+    local sequence = cc.Sequence:create(delay, cc.CallFunc:create(callback))
+    self.timerNode:runAction(sequence)
+end
+
+function Hero_dao:stopTimer()
+	if self.timerNode then
+		self.timerNode:stopAllActions()
+	end
 end
 
 --强制切换清理
@@ -332,6 +362,7 @@ end
 
 function Hero_dao:leave_State_Run()
 	self.isRun = false
+	self:clearForceX()
 end
 
 function Hero_dao:enter_State_Run2()
@@ -340,6 +371,7 @@ end
 
 function Hero_dao:leave_State_Run2()
 	self.isRun = false
+	self:clearForceX()
 end
 
 function Hero_dao:enter_State_Brak()
@@ -485,6 +517,10 @@ end
 
 function Hero_dao:leave_State_DownCut()
 	self:clearForceX()
+end
+
+function Hero_dao:enter_State_KAttack4_Begin()
+	self:startTimer(1.5, function() self:handle("CMD_To_Skill_01_Stop") end)
 end
 
 return Hero_dao
