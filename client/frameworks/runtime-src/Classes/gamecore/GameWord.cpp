@@ -12,7 +12,6 @@ GameWord::GameWord()
 #endif
 	, m_player(NULL)
 	, m_world(NULL)
-	, m_isUpdate(false)
 {
 	Static__GameWord = this;
 }
@@ -150,13 +149,8 @@ void GameWord::removeActor(GameActor* actor)
 	{
 		return;
 	}
-	if (m_isUpdate)
-	{
-		m_destroyActor.push_back(actor);
-		return;
-	}
+	m_destroyActor.push_back(actor);
 	actor->removeFromParent();
-	m_allActor.eraseObject(actor);
 }
 
 void GameWord::setLocalPlayer(GameActor* player)
@@ -228,23 +222,21 @@ void GameWord::logicUpdate(float d)
 		m_world->Step(d, 4, 4);
 		clearDiscardB2BodyList();
 	}
-
+	
 	// ½ÇÉ«Âß¼­
 	if (!m_destroyActor.empty())
 	{
 		for (auto& it : m_destroyActor)
 		{
-			removeActor(it);
+			m_allActor.eraseObject(it);
 		}
 		m_destroyActor.clear();
 	}
 
-	m_isUpdate = true;
 	for (auto& it : m_allActor)
 	{
 		it->logicUpdate(d);
 	}
-	m_isUpdate = false;
 
 	// µØÍ¼ÒÆ¶¯
 	updateMapMoveLogic();

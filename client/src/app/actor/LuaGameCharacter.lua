@@ -97,6 +97,7 @@ function LuaGameCharacter:override_movementEventCallFunc(armature, movementType,
 		assert(index ~= -1)
 
 		if index >= #data then
+			self:override_onStateRunStop(curStateName)
 			self:handle(curStateName.."_stop")
 			_MyG.PlayerDispatcher:call(curStateName.."_stop", self)
 		else
@@ -104,6 +105,9 @@ function LuaGameCharacter:override_movementEventCallFunc(armature, movementType,
 			armature:getAnimation():play(data[index + 1])
 		end
 	end
+end
+
+function LuaGameCharacter:override_onStateRunStop(stateName)
 end
 
 function LuaGameCharacter:override_isRunAABB(other)

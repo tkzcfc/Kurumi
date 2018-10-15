@@ -305,9 +305,21 @@ function Hero_dao:initFSM()
 	self.FSM:addTranslation("State_Brak", "CMD_To_Skill_01", "State_KAttack4_Begin")
 	self.FSM:addTranslation("State_Attack1", "CMD_To_Skill_01", "State_KAttack4_Begin")
 	self.FSM:addTranslation("State_Attack2", "CMD_To_Skill_01", "State_KAttack4_Begin")
-	self.FSM:addTranslation("State_Attack2", "CMD_To_Skill_01", "State_KAttack4_Begin")
+	self.FSM:addTranslation("State_Attack3", "CMD_To_Skill_01", "State_KAttack4_Begin")
 	self.FSM:addTranslation("State_KAttack4_Begin", "CMD_To_Skill_01_Stop", "State_KAttack4_End")
 	self.FSM:addTranslation("State_KAttack4_End", "State_KAttack4_End_stop", "State_Stand")
+
+	-- Skill_10 召唤陨石下落
+	self.FSM:addTranslation("State_Stand", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Run", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Run2", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Brak", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Attack1", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Attack2", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Attack3", "CMD_To_Skill_10", "State_Skill_10_Begin")
+	self.FSM:addTranslation("State_Skill_10_Begin", "CMD_To_Skill_10_Stop", "State_Skill_10_End")
+	self.FSM:addTranslation("State_Skill_10_End", "State_Skill_10_End_stop", "State_Stand")
+	--
 end
 
 function Hero_dao:startTimer(time, callback)
@@ -345,6 +357,7 @@ function Hero_dao:override_forceSwitchClean()
 		armature:stopAllActions()
 	end
 	self:stopAllActions()
+	self:stopTimer()
 end
 
 function Hero_dao:enter_State_Stand()
@@ -462,6 +475,11 @@ end
 
 function Hero_dao:enter_State_Replace()
 	self:lockOrientation()
+
+	local skill = require("app.actor.role.dao_skill.Skill_BaDaoZhan"):create()
+	skill:startSkill()
+	skill:setActorPositionInValidRect({x = self:getPositionX(), y = self:getPositionY() + 250})
+	getGameWord():addActor(skill)
 end
 
 function Hero_dao:leave_State_Replace()
@@ -521,6 +539,50 @@ end
 
 function Hero_dao:enter_State_KAttack4_Begin()
 	self:startTimer(1.5, function() self:handle("CMD_To_Skill_01_Stop") end)
+end
+
+function Hero_dao:enter_State_Skill_10_Begin()
+	-- self:startTimer(1.2, function() self:handle("CMD_To_Skill_10_Stop") end)
+
+	local count = 3
+
+	local space_role = self:getVelocityByOrientation(-200)
+	local space_skill = self:getVelocityByOrientation(170)
+	local move_velocity = self:getVelocityByOrientation(150 / PIXEL_TO_METER)
+	local skill_rotation = self:getVelocityByOrientation(-30)
+
+	-- for i=1,count do
+	-- 	local skill = require("app.actor.role.dao_skill.Skill_YunShi"):create()
+	-- 	skill:startSkill(nil, skill_rotation)
+	-- 	skill:setActorPositionInValidRect({x = self:getPositionX() + space_role + i * space_skill, y = self:getPositionY() + 500})
+	-- 	skill:setVelocityXByImpulse(move_velocity)
+	-- 	getGameWord():addActor(skill)
+	-- end
+
+	
+	local curIndex = 0
+	local function do_skill_10_func()
+		curIndex = curIndex + 1
+		if curIndex >= count then
+			self:handle("CMD_To_Skill_10_Stop")
+			self:stopAllActions()
+		end
+
+		local skill = require("app.actor.role.dao_skill.Skill_YunShi"):create()
+		skill:startSkill(nil, skill_rotation)
+		skill:setActorPositionInValidRect({x = self:getPositionX() + space_role + curIndex * space_skill, y = self:getPositionY() + 500})
+		skill:setVelocityXByImpulse(move_velocity)
+		getGameWord():addActor(skill)
+	end
+	local delay = cc.DelayTime:create(0.3)
+    local sequence = cc.Sequence:create(cc.CallFunc:create(do_skill_10_func), delay)
+    self:runAction(cc.RepeatForever:create(sequence))
+
+	self:lockOrientation()
+end
+
+function Hero_dao:leave_State_Skill_10_Begin()
+	self:unLockOrientation()
 end
 
 return Hero_dao

@@ -30,6 +30,8 @@ local CommonStateConfig =
 	State_Skill2_End = {"kattack4_3"},
 	State_Skill3_Begin = {"skill3_0", "skill3_1"},
 	State_Skill3_End = {"skill3_2"},
+	State_Skill_10_Begin = {"skill10_1", "skill10_2"},
+	State_Skill_10_End = {"skill10_3"},
 }
 
 local CommonSoundConfig = 
@@ -38,19 +40,19 @@ local CommonSoundConfig =
 	State_Run 				= nil,
 	State_Run2 				= nil,
 	State_Brak 				= "audio/brake.ogg",
-	State_Replace 			= nil,
-	State_JumpUp 			= nil,
-	State_JumpDown 			= nil,
+	State_Replace 			= "audio/baiji_common_qiedao.ogg",
+	State_JumpUp 			= "audio/baiji_common_tiao.ogg",
+	State_JumpDown 			= "audio/baiji_common_huaxiang.ogg",
 	State_JumpDownEnd 		= "audio/brake.ogg",
 	State_JumpUp_2 			= nil,
 	State_Attack1 			= "audio/baiji_atk_1.ogg",
 	State_Attack2 			= "audio/baiji_atk_2.ogg",
 	State_Attack3 			= "audio/baiji_atk_3.ogg",
 	State_Attack4 			= "audio/baiji_atk_4.ogg",
-	State_JumpAttack1 		= nil,
-	State_JumpAttack2 		= nil,
-	State_JumpAttack3 		= nil,
-	State_Hit 				= nil,
+	State_JumpAttack1 		= "audio/baiji_atk_1.ogg",
+	State_JumpAttack2 		= "audio/baiji_atk_2.ogg",
+	State_JumpAttack3 		= "audio/baiji_atk_2.ogg",
+	State_Hit 				= "audio/baiji_common_shouji.ogg",
 	State_Collapse1 		= nil,
 	State_Collapse2 		= nil,
 	State_Collapse3 		= nil,
@@ -62,6 +64,8 @@ local CommonSoundConfig =
 	State_Skill2_End 		= nil,
 	State_Skill3_Begin 		= nil,
 	State_Skill3_End 		= nil,
+	State_Skill_10_Begin 	= nil,
+	State_Skill_10_End 		= nil,
 }
 
 
