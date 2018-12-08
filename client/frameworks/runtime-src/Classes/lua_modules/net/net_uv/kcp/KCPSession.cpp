@@ -62,7 +62,7 @@ void KCPSession::init(KCPSocket* socket)
 	new (m_recvBuffer)Buffer(1024 * 1);
 }
 
-void KCPSession::executeSend(char* data, unsigned int len)
+void KCPSession::executeSend(char* data, uint32_t len)
 {
 	if (data == NULL || len <= 0)
 		return;
@@ -83,7 +83,7 @@ void KCPSession::executeDisconnect()
 	}
 }
 
-bool KCPSession::executeConnect(const char* ip, unsigned int port)
+bool KCPSession::executeConnect(const char* ip, uint32_t port)
 {
 	return getKCPSocket()->connect(ip, port);
 }
@@ -122,7 +122,7 @@ void KCPSession::on_socket_recv(char* data, ssize_t len)
 
 	m_recvBuffer->add(data, len);
 
-	const static unsigned int headlen = sizeof(KCPMsgHead);
+	const static uint32_t headlen = sizeof(KCPMsgHead);
 
 	while (m_recvBuffer->getDataLength() >= headlen)
 	{
@@ -162,7 +162,7 @@ void KCPSession::on_socket_recv(char* data, ssize_t len)
 		}
 #endif
 
-		int subv = m_recvBuffer->getDataLength() - (h->len + headlen);
+		int32_t subv = m_recvBuffer->getDataLength() - (h->len + headlen);
 
 		//消息接收完成
 		if (subv >= 0)
@@ -173,7 +173,7 @@ void KCPSession::on_socket_recv(char* data, ssize_t len)
 			char* src = pMsg + headlen;
 
 #if KCP_UV_OPEN_MD5_CHECK == 1
-			unsigned int recvLen = 0;
+			uint32_t recvLen = 0;
 			char* recvData = kcp_uv_decode(src, h->len, recvLen);
 
 			if (recvData != NULL && recvLen > 0)
@@ -222,7 +222,7 @@ void KCPSession::on_socket_recv(char* data, ssize_t len)
 	}
 }
 
-void KCPSession::onRecvMsgPackage(char* data, unsigned int len, NET_HEART_TYPE type)
+void KCPSession::onRecvMsgPackage(char* data, uint32_t len, NET_HEART_TYPE type)
 {
 	if (type == NET_MSG_TYPE::MT_HEARTBEAT)
 	{
@@ -231,14 +231,14 @@ void KCPSession::onRecvMsgPackage(char* data, unsigned int len, NET_HEART_TYPE t
 			NET_HEART_TYPE msg = *((NET_HEART_TYPE*)data);
 			if (msg == NET_HEARTBEAT_MSG_C2S)
 			{
-				unsigned int sendlen = 0;
+				uint32_t sendlen = 0;
 				char* senddata = kcp_packageHeartMsgData(NET_HEARTBEAT_RET_MSG_S2C, &sendlen);
 				executeSend(senddata, sendlen);
 				NET_UV_LOG(NET_UV_L_HEART, "recv heart c->s");
 			}
 			else if (msg == NET_HEARTBEAT_MSG_S2C)
 			{
-				unsigned int sendlen = 0;
+				uint32_t sendlen = 0;
 				char* senddata = kcp_packageHeartMsgData(NET_HEARTBEAT_RET_MSG_C2S, &sendlen);
 				executeSend(senddata, sendlen);
 				NET_UV_LOG(NET_UV_L_HEART, "recv heart s->c");
@@ -258,7 +258,7 @@ void KCPSession::onRecvMsgPackage(char* data, unsigned int len, NET_HEART_TYPE t
 }
 
 
-void KCPSession::update(unsigned int time)
+void KCPSession::update(uint32_t time)
 {
 	if (!isOnline())
 		return;
@@ -278,7 +278,7 @@ void KCPSession::update(unsigned int time)
 			}
 			else
 			{
-				unsigned int sendlen = 0;
+				uint32_t sendlen = 0;
 				char* senddata = kcp_packageHeartMsgData(m_sendHeartMsg, &sendlen);
 				executeSend(senddata, sendlen);
 				NET_UV_LOG(NET_UV_L_HEART, "kcp send heart %d", m_sendHeartMsg);
@@ -289,7 +289,17 @@ void KCPSession::update(unsigned int time)
 
 void KCPSession::updateKcp(IUINT32 update_clock)
 {
-	getKCPSocket()->updateKcp(update_clock);
+	getKCPSocket()->socketUpdate(update_clock);
+}
+
+uint32_t KCPSession::getPort()
+{
+	return getKCPSocket()->getPort();
+}
+
+std::string KCPSession::getIp()
+{
+	return getKCPSocket()->getIp();
 }
 
 NS_NET_UV_END

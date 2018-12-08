@@ -8,7 +8,7 @@ class KCPLuaServer
 
 	~KCPLuaServer();
 
-	void startServer(const char* ip, unsigned int port, bool isIPV6);
+	bool startServer(const char* ip, unsigned int port, bool isIPV6);
 
 	bool stopServer();
 		

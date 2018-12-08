@@ -9,9 +9,26 @@ namespace net_uv {
 class Server
 {
 public:
-	virtual void startServer(const char* ip, unsigned int port, bool isIPV6);
+	bool startServer(const char* ip, unsigned int port, bool isIPV6);
 
-	virtual bool stopServer();
+	bool stopServer();
+
+	void updateFrame();
+
+	std::string getIP();
+	
+	unsigned int  getPort();
+
+	unsigned int getListenPort();
+
+	bool isIPV6();
+
+	bool isCloseFinish();
+
+	//////////////////////////SessionManager/////////////////
+	void send(unsigned int sessionID, char* data, unsigned int len);
+
+	void disconnect(unsigned int sessionID);
 };
 
 }

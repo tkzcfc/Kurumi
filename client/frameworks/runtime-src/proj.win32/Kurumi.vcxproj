@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4E6A7A0E-DDD8-4BAA-8B22-C964069364ED}</ProjectGuid>
     <ProjectName>Kurumi</ProjectName>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -25,6 +25,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
     <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -34,6 +35,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -251,13 +253,13 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Config.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Macros.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\md5.h" />
+    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Misc.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Mutex.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Runnable.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Server.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Session.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\SessionManager.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Socket.h" />
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\uv_func.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\common\NetHeart.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\common\NetUVThreadMsg.h" />
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\ikcp.h" />
@@ -355,13 +357,13 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Client.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Common.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\md5.cpp" />
+    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Misc.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Mutex.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Runnable.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Server.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Session.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\SessionManager.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Socket.cpp" />
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\uv_func.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\ikcp.c" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPClient.cpp" />
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPServer.cpp" />

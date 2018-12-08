@@ -4,7 +4,6 @@ KCPLuaServer::KCPLuaServer()
 {
 	m_server = new net_uv::KCPServer();
 
-	m_server->setStartCallback(CC_CALLBACK_2(KCPLuaServer::onServerStartCall, this));
 	m_server->setCloseCallback(CC_CALLBACK_1(KCPLuaServer::onServerCloseCall, this));
 	m_server->setNewConnectCallback(CC_CALLBACK_2(KCPLuaServer::onServerNewConnectCall, this));
 	m_server->setRecvCallback(std::bind(&KCPLuaServer::onServerRecvCall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
@@ -22,9 +21,9 @@ KCPLuaServer::~KCPLuaServer()
 	CC_SAFE_DELETE(m_server);
 }
 
-void KCPLuaServer::startServer(const char* ip, unsigned int port, bool isIPV6)
+bool KCPLuaServer::startServer(const char* ip, unsigned int port, bool isIPV6)
 {
-	m_server->startServer(ip, port, isIPV6);
+	return m_server->startServer(ip, port, isIPV6);
 }
 
 bool KCPLuaServer::stopServer()
@@ -34,12 +33,12 @@ bool KCPLuaServer::stopServer()
 
 void KCPLuaServer::send(net_uv::Session* session, char* data, unsigned int len)
 {
-	m_server->send(session, data, len);
+	m_server->send(session->getSessionID(), data, len);
 }
 
 void KCPLuaServer::disconnect(net_uv::Session* session)
 {
-	m_server->disconnect(session);
+	m_server->disconnect(session->getSessionID());
 }
 
 bool KCPLuaServer::isCloseFinish()
@@ -50,18 +49,6 @@ bool KCPLuaServer::isCloseFinish()
 void KCPLuaServer::update(float)
 {
 	m_server->updateFrame();
-}
-
-void KCPLuaServer::onServerStartCall(net_uv::Server* svr, bool success)
-{
-	auto handle = getLuaHandle("onServerStartCall");
-	if (handle && handle->isvalid())
-	{
-		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pusharg(success);
-		handle->pcall();
-	}
 }
 
 void KCPLuaServer::onServerCloseCall(net_uv::Server* svr)

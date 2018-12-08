@@ -8,17 +8,20 @@ namespace net_uv {
 
 class Client
 {
-	virtual void connect(const char* ip, unsigned int port, unsigned int sessionId);
+	void connect(const char* ip, unsigned int port, unsigned int sessionId);
 
-	virtual void disconnect(unsigned int sessionId);
+	void removeSession(unsigned int sessionId);
 
-	virtual void closeClient();
+	void closeClient();
 
-	virtual void updateFrame();
+	void updateFrame();
 
-	virtual void send(unsigned int sessionId, char* data, unsigned int len);
+	bool isCloseFinish();
 
-	virtual void removeSession(unsigned int sessionId);
+	///////////////////////////SessionManager//////////////////
+	void send(unsigned int sessionId, char* data, unsigned int len);
+
+	void disconnect(unsigned int sessionId);
 };
 
 }

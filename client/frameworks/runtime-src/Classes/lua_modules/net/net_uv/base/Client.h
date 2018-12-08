@@ -10,11 +10,29 @@ NS_NET_UV_BEGIN
 class Client;
 class Session;
 
-using ClientConnectCall = std::function<void(Client*, Session*, int)>; // 0失败 1成功 2超时 3会话ID已存在，且与现在的IP、端口不一致
-using ClientDisconnectCall = std::function<void(Client*, Session*)>;
-using ClientRecvCall = std::function<void(Client*, Session*, char*, unsigned int)>;
-using ClientCloseCall = std::function<void(Client*)>;
-using ClientRemoveSessionCall = std::function<void(Client*, Session*)>;
+using ClientConnectCall = std::function<void(Client* client, Session* session, int32_t status)>; // 0失败 1成功 2超时
+using ClientDisconnectCall = std::function<void(Client* client, Session* session)>;
+using ClientRecvCall = std::function<void(Client* client, Session* session, char* data, uint32_t len)>;
+using ClientCloseCall = std::function<void(Client* client)>;
+using ClientRemoveSessionCall = std::function<void(Client* client, Session* session)>;
+
+
+enum CONNECTSTATE
+{
+	CONNECT,		//已连接
+	CONNECTING,		//正在连接
+	DISCONNECTING,	//正在断开
+	DISCONNECT,		//已断开
+};
+
+//客户端所处阶段
+enum class clientStage
+{
+	START,
+	CLEAR_SESSION,//清理会话
+	WAIT_EXIT,//即将退出
+	STOP
+};
 
 class Client : public Runnable, public SessionManager
 {
@@ -23,17 +41,15 @@ public:
 
 	virtual ~Client();
 
-	virtual void connect(const char* ip, unsigned int port, unsigned int sessionId) = 0;
-
-	virtual void disconnect(unsigned int sessionId) = 0;
+	virtual void connect(const char* ip, uint32_t port, uint32_t sessionId) = 0;
 
 	virtual void closeClient() = 0;
 
 	virtual void updateFrame() = 0;
 
-	virtual void send(unsigned int sessionId, char* data, unsigned int len) = 0;
+	virtual void removeSession(uint32_t sessionId) = 0;
 
-	virtual void removeSession(unsigned int sessionId) = 0;
+	virtual bool isCloseFinish();
 
 	inline void setConnectCallback(const ClientConnectCall& call);
 
@@ -56,11 +72,11 @@ protected:
 
 	void stopIdle();
 
-	void startSessionUpdate(unsigned int time);
+	void startSessionUpdate(uint32_t time);
 
 	void stopSessionUpdate();
 
-	virtual void pushThreadMsg(NetThreadMsgType type, Session* session, char* data = NULL, unsigned int len = 0);
+	virtual void pushThreadMsg(NetThreadMsgType type, Session* session, char* data = NULL, uint32_t len = 0);
 
 protected:
 	static void uv_on_idle_run(uv_idle_t* handle);
@@ -83,6 +99,8 @@ protected:
 	uv_idle_t m_idle;
 	uv_timer_t m_sessionUpdateTimer;
 	uv_loop_t m_loop;
+
+	clientStage m_clientStage;
 };
 
 void Client::setConnectCallback(const ClientConnectCall& call)

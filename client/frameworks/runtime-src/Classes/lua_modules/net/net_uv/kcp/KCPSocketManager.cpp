@@ -6,152 +6,298 @@ NS_NET_UV_BEGIN
 KCPSocketManager::KCPSocketManager(uv_loop_t* loop)
 	: m_convCount(1000)
 	, m_owner(NULL)
+	, m_stop(false)
+	, m_isConnectArrDirty(false)
+	, m_isAwaitConnectArrDirty(false)
 {
 	m_loop = loop;
 
-	uv_idle_init(loop, &m_idle);
-	m_idle.data = this;
-	uv_idle_start(&m_idle, KCPSocketManager::uv_on_idle_run);
+	m_allAwaitConnectSocket.reserve(200);
+	m_allConnectSocket.reserve(200);
+
+	m_lastUpdateClock = iclock();
 }
 
 KCPSocketManager::~KCPSocketManager()
 {
-	uv_idle_stop(&m_idle);
 }
 
-void KCPSocketManager::push(KCPSocket* socket, IUINT32 conv)
+void KCPSocketManager::push(KCPSocket* socket)
 {
-	auto it = m_allSocket.find(conv);
-	if (it == m_allSocket.end())
+	for (auto& it : m_allAwaitConnectSocket)
 	{
-		m_allSocket.insert(std::make_pair(conv, socket));
+		if (it.socket == socket)
+		{
+			return;
+		}
 	}
+
+	SMData data;
+	data.invalid = false;
+	data.socket = socket;
+	m_allAwaitConnectSocket.push_back(data);
+
+	socket->setConnectCallback(std::bind(&KCPSocketManager::on_socket_connect, this, std::placeholders::_1, std::placeholders::_2));
+	socket->setCloseCallback(std::bind(&KCPSocketManager::on_socket_close, this, std::placeholders::_1));
 }
 
-KCPSocket* KCPSocketManager::accept(uv_udp_t* handle, const struct sockaddr* addr)
+IUINT32 KCPSocketManager::getNewConv()
 {
-	std::string strip;
-	unsigned int addrlen = 0;
-	unsigned int port = 0;
-
-	if (addr->sa_family == AF_INET6)
-	{
-		addrlen = sizeof(struct sockaddr_in6);
-
-		struct sockaddr_in6* addr_in = (struct sockaddr_in6*) addr;
-
-		char szIp[NET_UV_INET6_ADDRSTRLEN + 1] = { 0 };
-		int r = uv_ip6_name(addr_in, szIp, NET_UV_INET6_ADDRSTRLEN);
-		if (r != 0)
-		{
-			NET_UV_LOG(NET_UV_L_ERROR, "kcp服务器创建KCPSocket失败,地址解析失败");
-			return NULL;
-		}
-
-		strip = szIp;
-		port = ntohs(addr_in->sin6_port);
-	}
-	else
-	{
-		addrlen = sizeof(struct sockaddr_in);
-
-		struct sockaddr_in* addr_in = (struct sockaddr_in*) addr;
-
-		char szIp[NET_UV_INET_ADDRSTRLEN + 1] = { 0 };
-		int r = uv_ip4_name(addr_in, szIp, NET_UV_INET_ADDRSTRLEN);
-		if (r != 0)
-		{
-			NET_UV_LOG(NET_UV_L_ERROR, "kcp服务器创建KCPSocket失败,地址解析失败");
-			return NULL;
-		}
-
-		strip = szIp;
-		port = ntohs(addr_in->sin_port);
-	}
-
-	struct sockaddr* curAddr = (struct sockaddr*)fc_malloc(addrlen);
-	memcpy(curAddr, addr, addrlen);
-
-	KCPSocket* socket = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
-	new (socket)KCPSocket(m_loop);
-
-	socket->setIp(strip);
-	socket->setPort(port);
-	socket->setConv(m_convCount);
-	socket->initKcp(m_convCount);
-	socket->setWeakRefUdp(handle);
-	socket->setSocketAddr(curAddr);
-	socket->setWeakRefSocketManager(this);
-	socket->m_kcpState = KCPSocket::State::CONNECT;
-	this->push(socket, m_convCount);
-
 	m_convCount++;
-
-	return socket;
+	return m_convCount;
 }
 
-void KCPSocketManager::remove(IUINT32 conv)
+void KCPSocketManager::remove(KCPSocket* socket)
 {
-	auto it = m_allSocket.find(conv);
-	if (it != m_allSocket.end())
+	for (auto& it : m_allConnectSocket)
 	{
-		m_allSocket.erase(it);
-	}
-}
-
-void KCPSocketManager::resetLastPacketRecvTime(IUINT32 conv)
-{
-	auto it = m_allSocket.find(conv);
-	if (it != m_allSocket.end())
-	{
-		it->second->resetLastPacketRecvTime();
-	}
-}
-
-void KCPSocketManager::input(IUINT32 conv, const char* data, long size)
-{
-	auto it = m_allSocket.find(conv);
-	if (it != m_allSocket.end())
-	{
-		it->second->kcpInput(data, size);
-	}
-}
-
-void KCPSocketManager::disconnect(IUINT32 conv)
-{
-	auto it = m_allSocket.find(conv);
-	if (it != m_allSocket.end())
-	{
-		it->second->shutdownSocket();
+		if (it.socket == socket)
+		{
+			it.invalid = true;
+			m_isConnectArrDirty = true;
+			break;
+		}
 	}
 }
 
 void KCPSocketManager::stop_listen()
 {
-	for (auto& it : m_allSocket)
+	m_stop = true;
+
+	for (auto& it : m_allConnectSocket)
 	{
-		it.second->disconnect();
+		it.socket->disconnect();
 	}
-	m_allSocket.clear();
+
+	for (auto& it : m_allAwaitConnectSocket)
+	{
+		it.socket->disconnect();
+	}
+}
+
+int32_t KCPSocketManager::isContain(const struct sockaddr* addr)
+{
+	std::string strip;
+	uint32_t port;
+	uint32_t addrlen = net_getsockAddrIPAndPort(addr, strip, port);
+	if (addrlen == 0)
+	{
+		return -1;
+	}
+
+	for (auto& it : m_allAwaitConnectSocket)
+	{
+		if (!it.invalid && it.socket && it.socket->getIp() == strip && it.socket->getPort() == port)
+		{
+			return 1;
+		}
+	}
+
+	for (auto& it : m_allConnectSocket)
+	{
+		if (!it.invalid && it.socket->getIp() == strip && it.socket->getPort() == port)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void KCPSocketManager::on_socket_connect(Socket* socket, int32_t status)
+{
+	if (!m_stop && status == 1)
+	{
+		socket->setConnectCallback(nullptr);
+		connect((KCPSocket*)socket);
+	}
+	else
+	{
+		removeAwaitConnectSocket((KCPSocket*)socket);
+	}
+}
+
+void KCPSocketManager::on_socket_close(Socket* socket)
+{
+	removeAwaitConnectSocket((KCPSocket*)socket);
+}
+
+void KCPSocketManager::connect(KCPSocket* socket)
+{
+	for (auto& it : m_allConnectSocket)
+	{
+		if (it.socket == socket)
+		{
+			return;
+		}
+	}
+
+	SMData data;
+	data.invalid = false;
+	data.socket = socket;
+	m_allConnectSocket.push_back(data);
+
+	m_owner->m_newConnectionCall(socket);
+
+	for (auto& it : m_allAwaitConnectSocket)
+	{
+		if (it.socket == socket)
+		{
+			it.invalid = true;
+			it.socket = NULL;
+			m_isAwaitConnectArrDirty = true;
+			break;
+		}
+	}
+}
+
+void KCPSocketManager::removeAwaitConnectSocket(KCPSocket* socket)
+{
+	for (auto& it : m_allAwaitConnectSocket)
+	{
+		if (it.socket == socket)
+		{
+			it.invalid = true;
+			m_isAwaitConnectArrDirty = true;
+			break;
+		}
+	}
+}
+
+void KCPSocketManager::clearInvalid()
+{
+	if (m_isAwaitConnectArrDirty)
+	{
+		auto it = m_allAwaitConnectSocket.begin();
+		for (; it != m_allAwaitConnectSocket.end(); )
+		{
+			if (it->invalid)
+			{
+				if (it->socket != NULL)
+				{
+					it->socket->~KCPSocket();
+					fc_free(it->socket);
+				}
+				it = m_allAwaitConnectSocket.erase(it);
+			}
+			else
+			{
+				it++;
+			}
+		}
+
+		m_isAwaitConnectArrDirty = false;
+	}
+
+	if (m_isConnectArrDirty)
+	{
+		auto it = m_allConnectSocket.begin();
+		for (; it != m_allConnectSocket.end(); )
+		{
+			if (it->invalid)
+			{
+				it = m_allConnectSocket.erase(it);
+			}
+			else
+			{
+				it++;
+			}
+		}
+		m_isConnectArrDirty = false;
+	}
 }
 
 void KCPSocketManager::idleRun()
 {
-	IUINT32 update_clock = iclock();
-	for (auto& it : m_allSocket)
-	{
-		it.second->socketUpdate(update_clock);
-	}
+	clearInvalid();
+
+	m_lastUpdateClock = iclock();
+	
 	if (m_owner)
 	{
-		m_owner->updateKcp(update_clock);
+		m_owner->socketUpdate(m_lastUpdateClock);
+	}
+
+	for (auto& it : m_allAwaitConnectSocket)
+	{
+		it.socket->socketUpdate(m_lastUpdateClock);
+	}
+
+	for (auto& it : m_allConnectSocket)
+	{
+		it.socket->socketUpdate(m_lastUpdateClock);
 	}
 }
 
-void KCPSocketManager::uv_on_idle_run(uv_idle_t* handle)
+bool KCPSocketManager::isAccept(const struct sockaddr* addr)
 {
-	((KCPSocketManager*)handle->data)->idleRun();
-}
+	std::string strip;
+	uint32_t port;
+	uint32_t addrlen = net_getsockAddrIPAndPort(addr, strip, port);
+	if (addrlen == 0)
+	{
+		return false;
+	}
+	
+	bool recessFinish = false;
+	auto it_recess = m_recessTimeMap.find(strip);
+	if (it_recess != m_recessTimeMap.end())
+	{
+		// 该IP冷却时间未到
+		if (it_recess->second > m_lastUpdateClock)
+		{
+			return false;
+		}
+		else
+		{
+			recessFinish = true;
+			m_recessTimeMap.erase(it_recess);
+		}
+	}
 
+	if (recessFinish)
+	{
+		for (auto& it : m_allAwaitConnectSocket)
+		{
+			if (!it.invalid && it.socket && it.socket->getIp() == strip)
+			{
+				it.socket->disconnect();
+			}
+		}
+	}
+	else
+	{
+		uint32_t awaitCount = 0;
+		for (auto& it : m_allAwaitConnectSocket)
+		{
+			if (!it.invalid && it.socket && it.socket->getIp() == strip)
+			{
+				awaitCount++;
+				// 该IP、端口正在连接
+				if (it.socket->getPort() == port)
+				{
+					return false;
+				}
+			}
+		}
+
+		// 该IP等待连接数量过多，暂停accept
+		if (awaitCount > 500)
+		{
+			// 休息10S
+			m_recessTimeMap[strip] = m_lastUpdateClock + 10000;
+			return false;
+		}
+	}
+
+	// 该IP、端口已连接成功
+	for (auto& it : m_allConnectSocket)
+	{
+		if (!it.invalid && it.socket->getIp() == strip && it.socket->getPort() == port)
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
 NS_NET_UV_END

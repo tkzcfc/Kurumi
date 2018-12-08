@@ -10,6 +10,7 @@ Socket::Socket()
 	, m_closeCall(nullptr)
 	, m_userdata(nullptr)
 	, m_recvCall(nullptr)
+	, m_bindPort(0)
 {
 	m_uvReadBuf.base = 0;
 	m_uvReadBuf.len = 0;

@@ -5,19 +5,19 @@ NS_NET_UV_BEGIN
 
 // 加密Key
 const char* tcp_uv_encodeKey = TCP_UV_ENCODE_KEY;
-const int tcp_uv_encodeKeyLen = strlen(tcp_uv_encodeKey);
+const int32_t tcp_uv_encodeKeyLen = strlen(tcp_uv_encodeKey);
 
-const static unsigned int tcp_uv_hashlen = sizeof(unsigned int);
+const static uint32_t tcp_uv_hashlen = sizeof(unsigned int);
 
 
-const static unsigned int tcp_msg_headlen = sizeof(TCPMsgHead);
+const static uint32_t tcp_msg_headlen = sizeof(TCPMsgHead);
 
 
 
 // 加密
 // 加密前 ：|-DATA-|
 // 加密后 ：|-（MD5（DATA+加密key））的hash值-|-DATA-|
-char* tcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
+char* tcp_uv_encode(const char* data, uint32_t len, uint32_t &outLen)
 {
 	MD5 M;
 
@@ -40,13 +40,13 @@ char* tcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
 }
 
 // 解密
-char* tcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen)
+char* tcp_uv_decode(const char* data, uint32_t len, uint32_t &outLen)
 {
 	outLen = 0;
 
 	MD5 M;
 
-	int datalen = len - tcp_uv_hashlen;
+	int32_t datalen = len - tcp_uv_hashlen;
 
 	char* p = (char*)fc_malloc(datalen + tcp_uv_encodeKeyLen + 1);
 
@@ -82,7 +82,7 @@ char* tcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen)
 
 
 // 打包数据
-uv_buf_t* tcp_packageData(char* data, unsigned int len, int* bufCount)
+uv_buf_t* tcp_packageData(char* data, uint32_t len, int32_t* bufCount)
 {
 	*bufCount = 0;
 	if (data == NULL || len <= 0)
@@ -103,14 +103,14 @@ uv_buf_t* tcp_packageData(char* data, unsigned int len, int* bufCount)
 
 #if TCP_UV_OPEN_MD5_CHECK == 1
 
-	unsigned int encodelen = 0;
+	uint32_t encodelen = 0;
 	char* encodedata = tcp_uv_encode(data, len, encodelen);
 	if (encodedata == NULL)
 	{
 		assert(0);
 		return NULL;
 	}
-	unsigned int sendlen = tcp_msg_headlen + encodelen;
+	uint32_t sendlen = tcp_msg_headlen + encodelen;
 	char* p = (char*)fc_malloc(sendlen);
 
 	TCPMsgHead* h = (TCPMsgHead*)p;
@@ -122,7 +122,7 @@ uv_buf_t* tcp_packageData(char* data, unsigned int len, int* bufCount)
 
 	fc_free(encodedata);
 #else
-	unsigned int sendlen = tcp_msg_headlen + len;
+	uint32_t sendlen = tcp_msg_headlen + len;
 	char* p = (char*)fc_malloc(sendlen);
 	TCPMsgHead* h = (TCPMsgHead*)p;
 	h->len = len;
@@ -139,8 +139,8 @@ uv_buf_t* tcp_packageData(char* data, unsigned int len, int* bufCount)
 
 		outBuf = (uv_buf_t*)fc_malloc(sizeof(uv_buf_t) * (*bufCount));
 		
-		int curIndex = 0;
-		int curArrIndex = 0;
+		int32_t curIndex = 0;
+		int32_t curArrIndex = 0;
 
 		while (sendlen > 0)
 		{
@@ -187,14 +187,14 @@ char* tcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize)
 {
 	*outBufSize = 0;
 #if TCP_UV_OPEN_MD5_CHECK == 1
-	unsigned int encodelen = 0;
+	uint32_t encodelen = 0;
 	char* encodedata = tcp_uv_encode((char*)&msg, NET_HEARTBEAT_MSG_SIZE, encodelen);
 	if (encodedata == NULL)
 	{
 		assert(0);
 		return NULL;
 	}
-	unsigned int sendlen = tcp_msg_headlen + encodelen;
+	uint32_t sendlen = tcp_msg_headlen + encodelen;
 	char* p = (char*)fc_malloc(sendlen);
 	if (p == NULL)
 	{
@@ -210,7 +210,7 @@ char* tcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize)
 
 	fc_free(encodedata);
 #else
-	unsigned int sendlen = tcp_msg_headlen + NET_HEARTBEAT_MSG_SIZE;
+	uint32_t sendlen = tcp_msg_headlen + NET_HEARTBEAT_MSG_SIZE;
 	char* p = (char*)fc_malloc(sendlen);
 	if (p == NULL)
 	{

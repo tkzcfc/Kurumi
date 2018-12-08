@@ -26,13 +26,14 @@
 //添加头文件
 #include <BaseTsd.h>
 
-#if !defined(_SSIZE_T_) && !defined(_SSIZE_T_DEFINED)
+#if !defined(_SSIZE_T_) && !defined(_SSIZE_T_DEFINED) && !defined(HAVE_SSIZE_T)
 //error C2371: “ssize_t”: 重定义；不同的基类型
 //typedef intptr_t ssize_t;
 //改为SSIZE_T 与cocos/base/CCConsole.h中的ssize_t定义一样
 typedef SSIZE_T ssize_t;
 # define _SSIZE_T_
 # define _SSIZE_T_DEFINED
+# define HAVE_SSIZE_T
 #endif
 
 #include <winsock2.h>

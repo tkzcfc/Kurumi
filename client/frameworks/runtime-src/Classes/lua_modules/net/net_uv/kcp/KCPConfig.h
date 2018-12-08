@@ -6,9 +6,9 @@ NS_NET_UV_BEGIN
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // 套接字最小接收缓存大小
-#define KCP_UV_SOCKET_RECV_BUF_LEN (1024 * 4)
+#define KCP_UV_SOCKET_RECV_BUF_LEN (1024 * 10)
 // 套接字最小发送缓存大小
-#define KCP_UV_SOCKET_SEND_BUF_LEN (1024 * 4)
+#define KCP_UV_SOCKET_SEND_BUF_LEN (1024 * 10)
 
 // 大消息最大发送大小
 // 如果消息头的长度字段大于该值
@@ -18,7 +18,7 @@ NS_NET_UV_BEGIN
 
 // 单次消息发送最大字节
 // 若超过该长度，则进行分片发送
-// (4K)
+// (1K)
 #define KCP_WRITE_MAX_LEN (1024 * 1)
 
 // IP地址长度

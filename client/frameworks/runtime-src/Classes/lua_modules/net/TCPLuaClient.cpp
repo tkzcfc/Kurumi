@@ -76,12 +76,12 @@ void TCPLuaClient::removeSession(unsigned int sessionId)
 
 void TCPLuaClient::send(net_uv::Session* session, char* data, unsigned int len)
 {
-	m_client->send(session, data, len);
+	m_client->send(session->getSessionID(), data, len);
 }
 
 void TCPLuaClient::disconnect(net_uv::Session* session)
 {
-	m_client->disconnect(session);
+	m_client->disconnect(session->getSessionID());
 }
 
 bool TCPLuaClient::isCloseFinish()

@@ -12,9 +12,9 @@
 #if _DEBUG 
 
 // 开启调试模式
-#define OPEN_NET_UV_DEBUG 0
+#define OPEN_NET_UV_DEBUG 1
 // 开启内存检测
-#define OPEN_NET_MEM_CHECK 0
+#define OPEN_NET_MEM_CHECK 1
 // log输出最低等级
 #define NET_UV_L_MIN_LEVEL NET_UV_L_INFO
 

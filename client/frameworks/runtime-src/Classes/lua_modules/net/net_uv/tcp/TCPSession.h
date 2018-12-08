@@ -12,9 +12,9 @@ public:
 	TCPSession(const TCPSession&) = delete;
 	virtual ~TCPSession();
 
-	virtual inline unsigned int getPort()override;
+	virtual uint32_t getPort()override;
 
-	virtual inline const std::string& getIp()override;
+	virtual std::string getIp()override;
 	
 protected:
 
@@ -24,15 +24,15 @@ protected:
 
 protected:
 
-	virtual void executeSend(char* data, unsigned int len) override;
+	virtual void executeSend(char* data, uint32_t len) override;
 
 	virtual void executeDisconnect() override;
 
-	virtual bool executeConnect(const char* ip, unsigned int port)override;
+	virtual bool executeConnect(const char* ip, uint32_t port)override;
 
 	virtual void setIsOnline(bool isOnline)override;
 
-	virtual void update(unsigned int time)override;
+	virtual void update(uint32_t time)override;
 
 protected:
 
@@ -40,13 +40,13 @@ protected:
 	
 	inline TCPSocket* getTCPSocket();
 
-	inline void setResetHeartCount(int resetHeartCount);
+	inline void setResetHeartCount(int32_t resetHeartCount);
 
 	inline void setSendHeartMsg(NET_HEART_TYPE msg);
 
-	inline void setHeartMaxCount(int maxCount);
+	inline void setHeartMaxCount(int32_t maxCount);
 	
-	void onRecvMsgPackage(char* data, unsigned int len, NET_HEART_TYPE type);
+	void onRecvMsgPackage(char* data, uint32_t len, NET_HEART_TYPE type);
 
 protected:
 
@@ -63,10 +63,10 @@ protected:
 	TCPSocket* m_socket;
 
 #if TCP_OPEN_UV_THREAD_HEARTBEAT == 1
-	int m_curHeartTime;
-	int m_curHeartCount;
-	int m_resetHeartCount;
-	int m_curHeartMaxCount;
+	int32_t m_curHeartTime;
+	int32_t m_curHeartCount;
+	int32_t m_resetHeartCount;
+	int32_t m_curHeartMaxCount;
 	NET_HEART_TYPE m_sendHeartMsg;
 #endif
 };
@@ -76,18 +76,8 @@ TCPSocket* TCPSession::getTCPSocket()
 	return m_socket;
 }
 
-unsigned int TCPSession::getPort()
-{
-	return getTCPSocket()->getPort();
-}
 
-const std::string& TCPSession::getIp()
-{
-	return getTCPSocket()->getIp();
-}
-
-
-void TCPSession::setResetHeartCount(int resetHeartCount)
+void TCPSession::setResetHeartCount(int32_t resetHeartCount)
 {
 #if TCP_OPEN_UV_THREAD_HEARTBEAT == 1
 	m_resetHeartCount = resetHeartCount;
@@ -101,7 +91,7 @@ void TCPSession::setSendHeartMsg(NET_HEART_TYPE msg)
 #endif
 }
 
-void TCPSession::setHeartMaxCount(int maxCount)
+void TCPSession::setHeartMaxCount(int32_t maxCount)
 {
 #if TCP_OPEN_UV_THREAD_HEARTBEAT == 1
 	m_curHeartMaxCount = maxCount;

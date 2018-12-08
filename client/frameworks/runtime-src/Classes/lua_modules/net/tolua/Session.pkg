@@ -8,16 +8,15 @@ namespace net_uv {
 class Session
 {
 public:
+	void send(char* data, unsigned int len);
 
-	virtual void send(char* data, unsigned int len);
-
-	virtual void disconnect();
+	void disconnect();
 
 	unsigned int getSessionID();
 
-	virtual unsigned int getPort();
+	unsigned int getPort();
 
-	virtual std::string getIp();
+	std::string getIp();
 };
 
 }

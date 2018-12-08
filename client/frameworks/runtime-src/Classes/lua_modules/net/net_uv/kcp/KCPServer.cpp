@@ -9,8 +9,17 @@ enum
 	KCP_SVR_OP_SEND_DATA,	// 发送消息给某个会话
 	KCP_SVR_OP_DIS_SESSION,	// 断开某个会话
 	KCP_SVR_OP_SEND_DIS_SESSION_MSG_TO_MAIN_THREAD,//向主线程发送会话已断开
+	KCP_SVR_OP_SVR_SOCKET_SEND,//服务器socket发送数据
 };
 
+// 连接操作
+struct KCPServerSVRSendOperation
+{
+	KCPServerSVRSendOperation() {}
+	~KCPServerSVRSendOperation() {}
+	char addrData[sizeof(sockaddr_in6) * 2];
+	char* sendData;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +27,6 @@ KCPServer::KCPServer()
 	: m_start(false)
 	, m_server(NULL)
 {
-	m_serverStage = ServerStage::STOP;
 }
 
 KCPServer::~KCPServer()
@@ -30,26 +38,69 @@ KCPServer::~KCPServer()
 	NET_UV_LOG(NET_UV_L_INFO, "KCPServer destroy...");
 }
 
-void KCPServer::startServer(const char* ip, unsigned int port, bool isIPV6)
+bool KCPServer::startServer(const char* ip, uint32_t port, bool isIPV6)
 {
-	if (m_serverStage != ServerStage::STOP)
-		return;
-	if (m_start)
-		return;
+	if (m_serverStage != ServerStage::STOP || m_start)
+	{
+		return false;
+	}
 
 	Server::startServer(ip, port, isIPV6);
 
-	m_start = true;
-	m_serverStage = ServerStage::START;
+	int32_t r = uv_loop_init(&m_loop);
+	CHECK_UV_ASSERT(r);
 
-	NET_UV_LOG(NET_UV_L_INFO, "KCPServer %s:%d start-up...", ip, port);
-	this->startThread();
+	m_server = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
+	if (m_server == NULL)
+	{
+		return false;
+	}
+
+	new (m_server) KCPSocket(&m_loop);
+	m_server->setCloseCallback(std::bind(&KCPServer::onServerSocketClose, this, std::placeholders::_1));
+	m_server->setNewConnectionCallback(std::bind(&KCPServer::onNewConnect, this, std::placeholders::_1));
+	m_server->setConnectFilterCallback(std::bind(&KCPServer::onServerSocketConnectFilter, this, std::placeholders::_1));
+
+	uint32_t bindPort = 0;
+	if (m_isIPV6)
+	{
+		bindPort = m_server->bind6(m_ip.c_str(), m_port);
+	}
+	else
+	{
+		bindPort = m_server->bind(m_ip.c_str(), m_port);
+	}
+
+	if (bindPort == 0)
+	{
+		startFailureLogic();
+		return false;
+	}
+
+	bool suc = m_server->listen();
+	if (!suc)
+	{
+		startFailureLogic();
+		return false;
+	}
+	NET_UV_LOG(NET_UV_L_INFO, "KCPServer %s:%u start-up...", ip, bindPort);
+
+	m_start = true;
+	m_serverStage = ServerStage::RUN;
+
+	setListenPort(bindPort);
+	startThread();
+
+	return true;
 }
 
 bool KCPServer::stopServer()
 {
 	if (!m_start)
+	{
 		return false;
+	}
+
 	m_start = false;
 	pushOperation(KCP_SVR_OP_STOP_SERVER, NULL, NULL, 0U);
 	return true;
@@ -87,20 +138,6 @@ void KCPServer::updateFrame()
 			m_recvCall(this, Msg.pSession, Msg.data, Msg.dataLen);
 			fc_free(Msg.data);
 		}break;
-		case NetThreadMsgType::START_SERVER_SUC:
-		{
-			if (m_startCall != nullptr)
-			{
-				m_startCall(this, true);
-			}
-		}break;
-		case NetThreadMsgType::START_SERVER_FAIL:
-		{
-			if (m_startCall != nullptr)
-			{
-				m_startCall(this, false);
-			}
-		}break;
 		case NetThreadMsgType::NEW_CONNECT:
 		{
 			m_newConnectCall(this, Msg.pSession);
@@ -125,99 +162,81 @@ void KCPServer::updateFrame()
 	}
 }
 
-void KCPServer::send(Session* session, char* data, unsigned int len)
+void KCPServer::send(uint32_t sessionID, char* data, uint32_t len)
 {
-	int bufCount = 0;
+	int32_t bufCount = 0;
 
 	uv_buf_t* bufArr = kcp_packageData(data, len, &bufCount);
 
 	if (bufArr == NULL)
 		return;
 
-	for (int i = 0; i < bufCount; ++i)
+	for (int32_t i = 0; i < bufCount; ++i)
 	{
-		pushOperation(KCP_SVR_OP_SEND_DATA, (bufArr + i)->base, (bufArr + i)->len, session->getSessionID());
+		pushOperation(KCP_SVR_OP_SEND_DATA, (bufArr + i)->base, (bufArr + i)->len, sessionID);
 	}
 	fc_free(bufArr);
 }
 
-void KCPServer::disconnect(Session* session)
+void KCPServer::disconnect(uint32_t sessionID)
 {
-	pushOperation(KCP_SVR_OP_DIS_SESSION, NULL, 0, session->getSessionID());
+	pushOperation(KCP_SVR_OP_DIS_SESSION, NULL, 0, sessionID);
 }
 
-bool KCPServer::isCloseFinish()
+/// KCPServer
+bool KCPServer::svrUdpSend(const char* ip, uint32_t port, bool isIPV6, char* data, uint32_t len)
 {
-	return (m_serverStage == ServerStage::STOP);
+	uint32_t addrlen;
+	struct sockaddr* addr = net_getsocketAddr_no(ip, port, isIPV6, &addrlen);
+
+	if (addr == NULL)
+		return false;
+
+	bool ret = svrUdpSend(addr, addrlen, data, len);
+
+	fc_free(addr);
+
+	return ret;
+}
+
+bool KCPServer::svrUdpSend(struct sockaddr* addr, uint32_t addrlen, char* data, uint32_t len)
+{
+	if (addr == NULL || data == NULL || len <= 0)
+		return false;
+
+	KCPServerSVRSendOperation* opData = (KCPServerSVRSendOperation*)fc_malloc(sizeof(KCPServerSVRSendOperation));
+	new (opData)KCPServerSVRSendOperation();
+
+	memset(opData->addrData, 0, sizeof(sockaddr_in6) * 2);
+	memcpy(opData, addr, addrlen);
+
+	opData->sendData = (char*)fc_malloc(len);
+	memcpy(opData->sendData, data, len);
+
+	pushOperation(KCP_SVR_OP_SVR_SOCKET_SEND, opData, len, 0U);
+
+	return true;
 }
 
 void KCPServer::run()
 {
-	int r = uv_loop_init(&m_loop);
-	CHECK_UV_ASSERT(r);
-
 	startIdle();
 	startSessionUpdate(KCP_HEARTBEAT_TIMER_DELAY);
 
-	m_server = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
-	if (m_server == NULL)
-	{
-		m_serverStage = ServerStage::STOP;
-		pushThreadMsg(NetThreadMsgType::START_SERVER_FAIL, NULL);
-		return;
-	}
-	new (m_server) KCPSocket(&m_loop);
-	m_server->setCloseCallback(std::bind(&KCPServer::onServerSocketClose, this, std::placeholders::_1));
-	m_server->setNewConnectionCallback(std::bind(&KCPServer::onNewConnect, this, std::placeholders::_1));
-	m_server->setConnectFilterCallback(std::bind(&KCPServer::onServerSocketConnectFilter, this, std::placeholders::_1));
-
-	bool suc = false;
-	if (m_isIPV6)
-	{
-		suc = m_server->bind6(m_ip.c_str(), m_port);
-	}
-	else
-	{
-		suc = m_server->bind(m_ip.c_str(), m_port);
-	}
-
-	if (!suc)
-	{
-		m_server->~KCPSocket();
-		fc_free(m_server);
-		m_server = NULL;
-
-		m_serverStage = ServerStage::STOP;
-		pushThreadMsg(NetThreadMsgType::START_SERVER_FAIL, NULL);
-		return;
-	}
-
-	suc = m_server->listen();
-	if (!suc)
-	{
-		m_server->~KCPSocket();
-		fc_free(m_server);
-		m_server = NULL;
-
-		m_serverStage = ServerStage::STOP;
-		pushThreadMsg(NetThreadMsgType::START_SERVER_FAIL, NULL);
-		return;
-	}
-	m_serverStage = ServerStage::RUN;
-	pushThreadMsg(NetThreadMsgType::START_SERVER_SUC, NULL);
-
 	uv_run(&m_loop, UV_RUN_DEFAULT);
 
-	m_server->~KCPSocket();
-	fc_free(m_server);
-	m_server = NULL;
+	if (m_server)
+	{
+		m_server->~KCPSocket();
+		fc_free(m_server);
+		m_server = NULL;
+	}
 
 	uv_loop_close(&m_loop);
 
 	m_serverStage = ServerStage::STOP;
 	pushThreadMsg(NetThreadMsgType::EXIT_LOOP, NULL);
 }
-
 
 void KCPServer::onNewConnect(Socket* socket)
 {
@@ -256,6 +275,19 @@ bool KCPServer::onServerSocketConnectFilter(const struct sockaddr* addr)
 	return true;
 }
 
+void KCPServer::startFailureLogic()
+{
+	m_server->~KCPSocket();
+	fc_free(m_server);
+	m_server = NULL;
+
+	uv_run(&m_loop, UV_RUN_DEFAULT);
+
+	uv_loop_close(&m_loop);
+
+	m_serverStage = ServerStage::STOP;
+}
+
 void KCPServer::addNewSession(KCPSession* session)
 {
 	if (session == NULL)
@@ -281,12 +313,11 @@ void KCPServer::onSessionClose(Session* session)
 	if (it != m_allSession.end())
 	{
 		it->second.isInvalid = true;
+		pushThreadMsg(NetThreadMsgType::DIS_CONNECT, session);
 	}
-
-	pushThreadMsg(NetThreadMsgType::DIS_CONNECT, session);
 }
 
-void KCPServer::onSessionRecvData(Session* session, char* data, unsigned int len)
+void KCPServer::onSessionRecvData(Session* session, char* data, uint32_t len)
 {
 	pushThreadMsg(NetThreadMsgType::RECV_DATA, session, data, len);
 }
@@ -360,6 +391,15 @@ void KCPServer::executeOperation()
 
 			stopSessionUpdate();
 		}break;
+		case KCP_SVR_OP_SVR_SOCKET_SEND:
+		{
+			KCPServerSVRSendOperation* opData = (KCPServerSVRSendOperation*)curOperation.operationData;
+			m_server->udpSend((const char*)opData->sendData, curOperation.operationDataLen, (const struct sockaddr*)opData->addrData);
+			
+			fc_free(opData->sendData); 
+			opData->~KCPServerSVRSendOperation();
+			fc_free(opData);
+		}break;
 		default:
 			break;
 		}
@@ -381,9 +421,17 @@ void KCPServer::clearData()
 	m_msgMutex.unlock();
 	while (!m_operationQue.empty())
 	{
-		if (m_operationQue.front().operationType == KCP_SVR_OP_SEND_DATA)
+		const auto& curOpration = m_operationQue.front();
+		if (curOpration.operationType == KCP_SVR_OP_SEND_DATA)
 		{
-			fc_free(m_operationQue.front().operationData);
+			fc_free(curOpration.operationData);
+		}
+		else if (curOpration.operationType == KCP_SVR_OP_SVR_SOCKET_SEND)
+		{
+			KCPServerSVRSendOperation* opData = (KCPServerSVRSendOperation*)curOpration.operationData;
+			fc_free(opData->sendData);
+			opData->~KCPServerSVRSendOperation();
+			fc_free(opData);
 		}
 		m_operationQue.pop();
 	}
@@ -391,11 +439,13 @@ void KCPServer::clearData()
 
 void KCPServer::onIdleRun()
 {
+	m_server->svrIdleRun();
+
 	executeOperation();
 
 	switch (m_serverStage)
 	{
-	case KCPServer::ServerStage::CLEAR:
+	case ServerStage::CLEAR:
 	{
 		for (auto& it : m_allSession)
 		{
@@ -407,19 +457,23 @@ void KCPServer::onIdleRun()
 		m_serverStage = ServerStage::WAIT_SESSION_CLOSE;
 	}
 	break;
-	case KCPServer::ServerStage::WAIT_SESSION_CLOSE:
+	case ServerStage::WAIT_SESSION_CLOSE:
 	{
 		if (m_allSession.empty())
 		{
+			m_server->~KCPSocket();
+			fc_free(m_server);
+			m_server = NULL;
+
 			stopIdle();
 			uv_stop(&m_loop);
-			m_serverStage = ServerStage::STOP;
 		}
 	}
 	break;
 	default:
 		break;
 	}
+
 	ThreadSleep(1);
 }
 

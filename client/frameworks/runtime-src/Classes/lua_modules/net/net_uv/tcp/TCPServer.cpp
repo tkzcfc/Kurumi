@@ -19,7 +19,6 @@ TCPServer::TCPServer()
 	, m_server(NULL)
 	, m_sessionID(0)
 {
-	m_serverStage = ServerStage::STOP;
 }
 
 TCPServer::~TCPServer()
@@ -31,20 +30,58 @@ TCPServer::~TCPServer()
 	NET_UV_LOG(NET_UV_L_INFO, "TCPServer destroy...");
 }
 
-void TCPServer::startServer(const char* ip, unsigned int port, bool isIPV6)
+bool TCPServer::startServer(const char* ip, uint32_t port, bool isIPV6)
 {
-	if (m_serverStage != ServerStage::STOP)
-		return;
-	if (m_start)
-		return;
+	if (m_serverStage != ServerStage::STOP || m_start)
+	{
+		return false;
+	}
 
 	Server::startServer(ip, port, isIPV6);
 
-	m_start = true;
-	m_serverStage = ServerStage::START;
+	int32_t r = uv_loop_init(&m_loop);
+	CHECK_UV_ASSERT(r);
 
-	NET_UV_LOG(NET_UV_L_INFO, "TCPServer %s:%d start-up...", ip, port);
-	this->startThread();
+	m_server = (TCPSocket*)fc_malloc(sizeof(TCPSocket));
+	if (m_server == NULL)
+	{
+		return false;
+	}
+	new (m_server) TCPSocket(&m_loop);
+	m_server->setCloseCallback(std::bind(&TCPServer::onServerSocketClose, this, std::placeholders::_1));
+	m_server->setNewConnectionCallback(std::bind(&TCPServer::onNewConnect, this, std::placeholders::_1, std::placeholders::_2));
+
+	uint32_t outPort = 0U;
+	if (m_isIPV6)
+	{
+		outPort = m_server->bind6(m_ip.c_str(), m_port);
+	}
+	else
+	{
+		outPort = m_server->bind(m_ip.c_str(), m_port);
+	}
+
+	if (outPort == 0)
+	{
+		startFailureLogic();
+		return false;
+	}
+
+	bool suc = m_server->listen();
+	if (!suc)
+	{
+		startFailureLogic();
+		return false;
+	}
+	NET_UV_LOG(NET_UV_L_INFO, "TCPServer %s:%u start-up...", m_ip.c_str(), getListenPort());
+
+	m_start = true;
+	m_serverStage = ServerStage::RUN;
+
+	setListenPort(outPort);
+	startThread();
+
+	return true;
 }
 
 bool TCPServer::stopServer()
@@ -88,20 +125,6 @@ void TCPServer::updateFrame()
 			m_recvCall(this, Msg.pSession, Msg.data, Msg.dataLen);
 			fc_free(Msg.data);
 		}break;
-		case NetThreadMsgType::START_SERVER_SUC:
-		{
-			if (m_startCall != nullptr)
-			{
-				m_startCall(this, true);
-			}
-		}break;
-		case NetThreadMsgType::START_SERVER_FAIL:
-		{
-			if (m_startCall != nullptr)
-			{
-				m_startCall(this, false);
-			}
-		}break;
 		case NetThreadMsgType::NEW_CONNECT:
 		{
 			m_newConnectCall(this, Msg.pSession);
@@ -126,85 +149,31 @@ void TCPServer::updateFrame()
 	}
 }
 
-void TCPServer::send(Session* session, char* data, unsigned int len)
+void TCPServer::send(uint32_t sessionID, char* data, uint32_t len)
 {
-	int bufCount = 0;
+	int32_t bufCount = 0;
 
 	uv_buf_t* bufArr = tcp_packageData(data, len, &bufCount);
 
 	if (bufArr == NULL)
 		return;
 
-	for (int i = 0; i < bufCount; ++i)
+	for (int32_t i = 0; i < bufCount; ++i)
 	{
-		pushOperation(TCP_SVR_OP_SEND_DATA, (bufArr + i)->base, (bufArr + i)->len, session->getSessionID());
+		pushOperation(TCP_SVR_OP_SEND_DATA, (bufArr + i)->base, (bufArr + i)->len, sessionID);
 	}
 	fc_free(bufArr);
 }
 
-void TCPServer::disconnect(Session* session)
+void TCPServer::disconnect(uint32_t sessionID)
 {
-	pushOperation(TCP_SVR_OP_DIS_SESSION, NULL, 0, session->getSessionID());
-}
-
-bool TCPServer::isCloseFinish()
-{
-	return (m_serverStage == ServerStage::STOP);
+	pushOperation(TCP_SVR_OP_DIS_SESSION, NULL, 0, sessionID);
 }
 
 void TCPServer::run()
 {
-	int r = uv_loop_init(&m_loop);
-	CHECK_UV_ASSERT(r);
-
 	startIdle();
 	startSessionUpdate(TCP_HEARTBEAT_TIMER_DELAY);
-
-	m_server = (TCPSocket*)fc_malloc(sizeof(TCPSocket));
-	if (m_server == NULL)
-	{
-		m_serverStage = ServerStage::STOP;
-		pushThreadMsg(NetThreadMsgType::START_SERVER_FAIL, NULL);
-		return;
-	}
-	new (m_server) TCPSocket(&m_loop);
-	m_server->setCloseCallback(std::bind(&TCPServer::onServerSocketClose, this, std::placeholders::_1));
-	m_server->setNewConnectionCallback(std::bind(&TCPServer::onNewConnect, this, std::placeholders::_1, std::placeholders::_2));
-
-	bool suc = false;
-	if (m_isIPV6)
-	{
-		suc = m_server->bind6(m_ip.c_str(), m_port);
-	}
-	else
-	{
-		suc = m_server->bind(m_ip.c_str(), m_port);
-	}
-
-	if (!suc)
-	{
-		m_server->~TCPSocket();
-		fc_free(m_server);
-		m_server = NULL;
-
-		m_serverStage = ServerStage::STOP;
-		pushThreadMsg(NetThreadMsgType::START_SERVER_FAIL, NULL);
-		return;
-	}
-
-	suc = m_server->listen();
-	if (!suc)
-	{
-		m_server->~TCPSocket();
-		fc_free(m_server);
-		m_server = NULL;
-
-		m_serverStage = ServerStage::STOP;
-		pushThreadMsg(NetThreadMsgType::START_SERVER_FAIL, NULL);
-		return;
-	}
-	m_serverStage = ServerStage::RUN;
-	pushThreadMsg(NetThreadMsgType::START_SERVER_SUC, NULL);
 
 	uv_run(&m_loop, UV_RUN_DEFAULT);
 
@@ -219,7 +188,7 @@ void TCPServer::run()
 }
 
 
-void TCPServer::onNewConnect(uv_stream_t* server, int status)
+void TCPServer::onNewConnect(uv_stream_t* server, int32_t status)
 {
 	TCPSocket* client = m_server->accept(server, status);
 	if (client != NULL)
@@ -255,6 +224,19 @@ void TCPServer::onServerSocketClose(Socket* svr)
 	m_serverStage = ServerStage::CLEAR;
 }
 
+void TCPServer::startFailureLogic()
+{
+	m_server->~TCPSocket();
+	fc_free(m_server);
+	m_server = NULL;
+
+	uv_run(&m_loop, UV_RUN_DEFAULT);
+
+	uv_loop_close(&m_loop);
+
+	m_serverStage = ServerStage::STOP;
+}
+
 void TCPServer::addNewSession(TCPSession* session)
 {
 	if (session == NULL)
@@ -280,12 +262,11 @@ void TCPServer::onSessionClose(Session* session)
 	if (it != m_allSession.end())
 	{
 		it->second.isInvalid = true;
+		pushThreadMsg(NetThreadMsgType::DIS_CONNECT, session);
 	}
-
-	pushThreadMsg(NetThreadMsgType::DIS_CONNECT, session);
 }
 
-void TCPServer::onSessionRecvData(Session* session, char* data, unsigned int len)
+void TCPServer::onSessionRecvData(Session* session, char* data, uint32_t len)
 {
 	pushThreadMsg(NetThreadMsgType::RECV_DATA, session, data, len);
 }
@@ -393,7 +374,7 @@ void TCPServer::onIdleRun()
 	executeOperation();
 	switch (m_serverStage)
 	{
-	case TCPServer::ServerStage::CLEAR:
+	case ServerStage::CLEAR:
 	{
 		for (auto& it : m_allSession)
 		{
@@ -405,13 +386,12 @@ void TCPServer::onIdleRun()
 		m_serverStage = ServerStage::WAIT_SESSION_CLOSE;
 	}
 	break;
-	case TCPServer::ServerStage::WAIT_SESSION_CLOSE:
+	case ServerStage::WAIT_SESSION_CLOSE:
 	{
 		if (m_allSession.empty())
 		{
 			stopIdle();
 			uv_stop(&m_loop);
-			m_serverStage = ServerStage::STOP;
 		}
 	}
 	break;

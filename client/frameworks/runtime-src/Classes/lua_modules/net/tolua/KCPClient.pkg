@@ -7,17 +7,6 @@ namespace net_uv {
 
 class KCPClient : public Client
 {
-	KCPClient();
-	virtual ~KCPClient();
-
-	/// SessionManager
-	virtual void send(Session* session, char* data, unsigned int len);
-
-	virtual void disconnect(Session* session);
-
-	/// KCPClient
-	bool isCloseFinish();
-
 	//设置所有socket是否自动重连
 	void setAutoReconnect(bool isAuto);
 

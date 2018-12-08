@@ -18,6 +18,7 @@ enum
 	KCP_CLI_OP_CLIENT_CLOSE,	//客户端退出
 	KCP_CLI_OP_REMOVE_SESSION,	//移除会话命令
 	KCP_CLI_OP_DELETE_SESSION,	//删除会话
+	KCP_CLI_OP_CREATE_PRE_SOCKET,// 创建预制socket
 };
 
 // 连接操作
@@ -26,8 +27,8 @@ struct KCPClientConnectOperation
 	KCPClientConnectOperation() {}
 	~KCPClientConnectOperation() {}
 	std::string ip;
-	unsigned int port;
-	unsigned int sessionID;
+	uint32_t port;
+	uint32_t sessionID;
 };
 
 // 设置自动连接操作
@@ -36,7 +37,7 @@ struct KCPClientAutoConnectOperation
 	KCPClientAutoConnectOperation() {}
 	~KCPClientAutoConnectOperation() {}
 	bool isAuto;
-	unsigned int sessionID;
+	uint32_t sessionID;
 };
 
 // 设置重连时间操作
@@ -45,10 +46,16 @@ struct KCPClientReconnectTimeOperation
 	KCPClientReconnectTimeOperation() {}
 	~KCPClientReconnectTimeOperation() {}
 	float time;
-	unsigned int sessionID;
+	uint32_t sessionID;
 };
 
 
+// 创建预制socket返回数据结构
+struct KCPClientCreatePreSocketCallData
+{
+	uint32_t sessionID;
+	uint32_t bindPort;
+};
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +63,7 @@ KCPClient::KCPClient()
 	: m_reconnect(true)
 	, m_totalTime(3.0f)
 	, m_isStop(false)
+	, m_createPreSocketCall(nullptr)
 {
 	uv_loop_init(&m_loop);
 
@@ -79,7 +87,7 @@ KCPClient::~KCPClient()
 }
 
 
-void KCPClient::connect(const char* ip, unsigned int port, unsigned int sessionId)
+void KCPClient::connect(const char* ip, uint32_t port, uint32_t sessionId)
 {
 	if (m_isStop)
 		return;
@@ -93,14 +101,6 @@ void KCPClient::connect(const char* ip, unsigned int port, unsigned int sessionI
 	opData->port = port;
 	opData->sessionID = sessionId;
 	pushOperation(KCP_CLI_OP_CONNECT, opData, 0U, 0U);
-}
-
-void KCPClient::disconnect(unsigned int sessionId)
-{
-	if (m_isStop)
-		return;
-
-	pushOperation(KCP_CLI_OP_DISCONNECT, NULL, 0U, sessionId);
 }
 
 void KCPClient::closeClient()
@@ -163,13 +163,6 @@ void KCPClient::updateFrame()
 				m_connectCall(this, Msg.pSession, 2);
 			}
 		}break;
-		case NetThreadMsgType::CONNECT_SESSIONID_EXIST:
-		{
-			if (m_connectCall != nullptr)
-			{
-				m_connectCall(this, Msg.pSession, 3);
-			}
-		}break;
 		case NetThreadMsgType::DIS_CONNECT:
 		{
 			if (m_disconnectCall != nullptr)
@@ -189,6 +182,15 @@ void KCPClient::updateFrame()
 			}
 			pushOperation(KCP_CLI_OP_DELETE_SESSION, NULL, 0U, Msg.pSession->getSessionID());
 		}break;
+		case NetThreadMsgType::CREATE_PRE_SOCKET:
+		{
+			KCPClientCreatePreSocketCallData* pre_data = (KCPClientCreatePreSocketCallData*)Msg.data;
+			if (m_createPreSocketCall)
+			{
+				m_createPreSocketCall(this, pre_data->sessionID, pre_data->bindPort);
+			}
+			fc_free(pre_data);
+		}break;
 		default:
 			break;
 		}
@@ -200,47 +202,39 @@ void KCPClient::updateFrame()
 	}
 }
 
-void KCPClient::send(unsigned int sessionId, char* data, unsigned int len)
+void KCPClient::removeSession(uint32_t sessionId)
+{
+	pushOperation(KCP_CLI_OP_REMOVE_SESSION, NULL, 0U, sessionId);
+}
+
+/// SessionManager
+void KCPClient::send(uint32_t sessionId, char* data, uint32_t len)
 {
 	if (m_isStop)
 		return;
 
 	if (data == 0 || len <= 0)
 		return;
-	int bufCount = 0;
+	int32_t bufCount = 0;
 
 	uv_buf_t* bufArr = kcp_packageData(data, len, &bufCount);
 
 	if (bufArr == NULL)
 		return;
 
-	for (int i = 0; i < bufCount; ++i)
+	for (int32_t i = 0; i < bufCount; ++i)
 	{
 		pushOperation(KCP_CLI_OP_SENDDATA, (bufArr + i)->base, (bufArr + i)->len, sessionId);
 	}
 	fc_free(bufArr);
 }
 
-void KCPClient::removeSession(unsigned int sessionId)
+void KCPClient::disconnect(uint32_t sessionId)
 {
-	pushOperation(KCP_CLI_OP_REMOVE_SESSION, NULL, 0U, sessionId);
-}
+	if (m_isStop)
+		return;
 
-/// SessionManager
-void KCPClient::send(Session* session, char* data, unsigned int len)
-{
-	send(session->getSessionID(), data, len);
-}
-
-void KCPClient::disconnect(Session* session)
-{
-	disconnect(session->getSessionID());
-}
-
-/// KCPClient
-bool KCPClient::isCloseFinish()
-{
-	return (m_clientStage == clientStage::STOP);
+	pushOperation(KCP_CLI_OP_DISCONNECT, NULL, 0U, sessionId);
 }
 
 void KCPClient::setAutoReconnect(bool isAuto)
@@ -275,7 +269,7 @@ void KCPClient::setAutoReconnectTime(float time)
 	pushOperation(KCP_CLI_OP_SET_RECON_TIME, opData, NULL, NULL);
 }
 
-void KCPClient::setAutoReconnectBySessionID(unsigned int sessionID, bool isAuto)
+void KCPClient::setAutoReconnectBySessionID(uint32_t sessionID, bool isAuto)
 {
 	if (m_isStop)
 		return;
@@ -289,7 +283,7 @@ void KCPClient::setAutoReconnectBySessionID(unsigned int sessionID, bool isAuto)
 	pushOperation(KCP_CLI_OP_SET_AUTO_CONNECT, opData, NULL, NULL);
 }
 
-void KCPClient::setAutoReconnectTimeBySessionID(unsigned int sessionID, float time)
+void KCPClient::setAutoReconnectTimeBySessionID(uint32_t sessionID, float time)
 {
 	if (m_isStop)
 		return;
@@ -301,6 +295,15 @@ void KCPClient::setAutoReconnectTimeBySessionID(unsigned int sessionID, float ti
 	opData->time = time;
 
 	pushOperation(KCP_CLI_OP_SET_RECON_TIME, opData, NULL, NULL);
+}
+
+// 创建预制Socket
+void KCPClient::createPrefabricationSocket(uint32_t sessionID)
+{
+	if (m_isStop)
+		return;
+
+	pushOperation(KCP_CLI_OP_CREATE_PRE_SOCKET, NULL, NULL, sessionID);
 }
 
 /// Runnable
@@ -422,6 +425,15 @@ void KCPClient::executeOperation()
 		case KCP_CLI_OP_CLIENT_CLOSE://客户端关闭
 		{
 			m_clientStage = clientStage::CLEAR_SESSION;
+
+			// 清空预制socket
+			for (auto &it : m_allPrefabricationSocket)
+			{
+				it.second.socket->~KCPSocket();
+				fc_free(it.second.socket);
+			}
+			m_allPrefabricationSocket.clear();
+
 			stopSessionUpdate();
 		}break;
 		case KCP_CLI_OP_REMOVE_SESSION:
@@ -456,6 +468,61 @@ void KCPClient::executeOperation()
 				m_allSessionMap.erase(it);
 			}
 		}break;
+		case KCP_CLI_OP_CREATE_PRE_SOCKET:// 创建预制socket
+		{
+			auto it = m_allSessionMap.find(curOperation.sessionID);
+
+			if (it == m_allSessionMap.end() || it->second->removeTag)
+			{
+				auto it_pre = m_allPrefabricationSocket.find(curOperation.sessionID);
+				if (it_pre == m_allPrefabricationSocket.end())
+				{
+					KCPSocket* socket = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
+					new (socket)KCPSocket(&m_loop);
+
+					uint32_t bindPort = socket->bind("0.0.0.0", 0);
+					if (bindPort == 0)
+					{
+						socket->~KCPSocket();
+						fc_free(socket);
+					}
+					else
+					{
+						PrefabricationSocket preData;
+						preData.socket = socket;
+						preData.bindPort = bindPort;
+
+						m_allPrefabricationSocket.insert(std::make_pair(curOperation.sessionID, preData));
+					}
+					KCPClientCreatePreSocketCallData* pre_data = (KCPClientCreatePreSocketCallData*)fc_malloc(sizeof(KCPClientCreatePreSocketCallData));
+					memset(pre_data, 0, sizeof(KCPClientCreatePreSocketCallData));
+					pre_data->bindPort = bindPort;
+					pre_data->sessionID = curOperation.sessionID;
+
+					pushThreadMsg(NetThreadMsgType::CREATE_PRE_SOCKET, NULL, (char*)pre_data, 0);
+				}
+				else
+				{
+					// 预制socket已存在
+					KCPClientCreatePreSocketCallData* pre_data = (KCPClientCreatePreSocketCallData*)fc_malloc(sizeof(KCPClientCreatePreSocketCallData));
+					memset(pre_data, 0, sizeof(KCPClientCreatePreSocketCallData));
+					pre_data->bindPort = it_pre->second.bindPort;
+					pre_data->sessionID = curOperation.sessionID;
+
+					pushThreadMsg(NetThreadMsgType::CREATE_PRE_SOCKET, NULL, (char*)pre_data, 0);
+				}
+			}
+			else
+			{
+				KCPClientCreatePreSocketCallData* pre_data = (KCPClientCreatePreSocketCallData*)fc_malloc(sizeof(KCPClientCreatePreSocketCallData));
+				memset(pre_data, 0, sizeof(KCPClientCreatePreSocketCallData));
+				pre_data->bindPort = 0U;
+				pre_data->sessionID = curOperation.sessionID;
+
+				// sessionID已存在
+				pushThreadMsg(NetThreadMsgType::CREATE_PRE_SOCKET, NULL, (char*)pre_data, 0);
+			}
+		}break;
 		default:
 			break;
 		}
@@ -485,7 +552,7 @@ void KCPClient::onSessionUpdateRun()
 }
 
 /// KCPClient
-void KCPClient::onSocketConnect(Socket* socket, int status)
+void KCPClient::onSocketConnect(Socket* socket, int32_t status)
 {
 	Session* pSession = NULL;
 	bool isSuc = (status == 1);
@@ -562,15 +629,11 @@ void KCPClient::createNewConnect(void* data)
 		if (it->second->removeTag)
 			return;
 
-		//对比端口和IP是否一致
-		if (strcmp(opData->ip.c_str(), it->second->ip.c_str()) != 0 && opData->port != it->second->port)
-		{
-			pushThreadMsg(NetThreadMsgType::CONNECT_SESSIONID_EXIST, NULL);
-			return;
-		}
-
 		if (it->second->connectState == CONNECTSTATE::DISCONNECT)
 		{
+			it->second->ip = opData->ip;
+			it->second->port = opData->port;
+
 			if (it->second->session->executeConnect(opData->ip.c_str(), opData->port))
 			{
 				it->second->connectState = CONNECTSTATE::CONNECTING;
@@ -585,8 +648,20 @@ void KCPClient::createNewConnect(void* data)
 	}
 	else
 	{
-		KCPSocket* socket = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
-		new (socket) KCPSocket(&m_loop);
+		auto it_pre = m_allPrefabricationSocket.find(opData->sessionID);
+
+		KCPSocket* socket = NULL;
+		// 存在预制，则使用预制的socket
+		if (it_pre != m_allPrefabricationSocket.end())
+		{
+			socket = it_pre->second.socket;
+			m_allPrefabricationSocket.erase(it_pre);
+		}
+		else
+		{
+			socket = (KCPSocket*)fc_malloc(sizeof(KCPSocket));
+			new (socket) KCPSocket(&m_loop);
+		}
 		socket->setConnectCallback(std::bind(&KCPClient::onSocketConnect, this, std::placeholders::_1, std::placeholders::_2));
 
 		KCPSession* session = KCPSession::createSession(this, socket);
@@ -629,12 +704,12 @@ void KCPClient::createNewConnect(void* data)
 	}
 }
 
-void KCPClient::onSessionRecvData(Session* session, char* data, unsigned int len)
+void KCPClient::onSessionRecvData(Session* session, char* data, uint32_t len)
 {
 	pushThreadMsg(NetThreadMsgType::RECV_DATA, session, data, len);
 }
 
-KCPClient::clientSessionData* KCPClient::getClientSessionDataBySessionId(unsigned int sessionId)
+KCPClient::clientSessionData* KCPClient::getClientSessionDataBySessionId(uint32_t sessionId)
 {
 	auto it = m_allSessionMap.find(sessionId);
 	if (it != m_allSessionMap.end())
@@ -715,6 +790,13 @@ void KCPClient::clearData()
 		}
 		m_operationQue.pop();
 	}
+
+	for (auto &it : m_allPrefabricationSocket)
+	{
+		it.second.socket->~KCPSocket();
+		fc_free(it.second.socket);
+	}
+	m_allPrefabricationSocket.clear();
 }
 
 void KCPClient::onClientUpdate()

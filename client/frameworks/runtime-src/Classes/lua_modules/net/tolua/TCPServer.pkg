@@ -7,17 +7,6 @@ namespace net_uv {
 
 class TCPServer : public Server
 {
-	TCPServer();
-
-	virtual ~TCPServer();
-
-	/// SessionManager
-	virtual void send(Session* session, char* data, unsigned int len);
-
-	virtual void disconnect(Session* session);
-
-	/// TCPServer
-	bool isCloseFinish();
 };
 
 }

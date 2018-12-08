@@ -1,5 +1,5 @@
 #include "Common.h"
-#include <time.h>
+#include "Misc.h"
 
 #if OPEN_NET_MEM_CHECK == 1
 #include "Mutex.h"
@@ -7,46 +7,9 @@
 
 NS_NET_UV_BEGIN
 
-typedef void(*uvOutputLoggerType)(int, const char*);
+typedef void(*uvOutputLoggerType)(int32_t, const char*);
 uvOutputLoggerType uvOutputLogger = 0;
 
-
-std::string getUVError(int errcode)
-{
-	if (0 == errcode)
-	{
-		return "";
-	}
-	std::string err;
-	auto tmpChar = uv_err_name(errcode);
-	if (tmpChar)
-	{
-		err = tmpChar;
-		err += ":";
-	}
-	else
-	{
-		char szCode[16];
-		sprintf(szCode, "%d:", errcode);
-		err = "unknown system errcode ";
-		err.append(szCode);
-	}
-	tmpChar = uv_strerror(errcode);
-	if (tmpChar)
-	{
-		err += tmpChar;
-	}
-	return std::move(err);
-}
-
-string getTime_UV()
-{
-	time_t timep;
-	time(&timep);
-	char tmp[64];
-	strftime(tmp, sizeof(tmp), "%Y-%m-%d %H:%M:%S", localtime(&timep));
-	return tmp;
-}
 
 static const char* net_uv_log_name[NET_UV_L_FATAL + 1] =
 {
@@ -57,7 +20,7 @@ static const char* net_uv_log_name[NET_UV_L_FATAL + 1] =
 	"FATAL"
 };
 
-void net_uvLog(int level, const char* format, ...)
+void net_uvLog(int32_t level, const char* format, ...)
 {
 	if (level < NET_UV_L_MIN_LEVEL)
 	{
@@ -71,7 +34,7 @@ void net_uvLog(int level, const char* format, ...)
 	vsnprintf(buf, sizeof(buf), format, args);
 	va_end(args);
 
-	std::string str = getTime_UV();
+	std::string str = net_getTime();
 	str.append("[NET-UV]-[");
 	str.append(net_uv_log_name[level]);
 	str.append("] ");
@@ -93,7 +56,7 @@ void net_uvLog(int level, const char* format, ...)
 	//printf("\n");
 }
 
-void setNetUVLogPrintFunc(void(*func)(int, const char*))
+void setNetUVLogPrintFunc(void(*func)(int32_t, const char*))
 {
 	uvOutputLogger = func;
 }
@@ -105,23 +68,21 @@ void setNetUVLogPrintFunc(void(*func)(int, const char*))
 #if OPEN_NET_MEM_CHECK == 1
 struct mallocBlockInfo
 {
-	unsigned int len;
+	uint32_t len;
 	std::string file;
 	int line;
 };
 
 Mutex block_mutex;
-unsigned int block_size = 0;
+uint32_t block_size = 0;
 std::map<void*, mallocBlockInfo> block_map;
 
-void* fc_malloc_s(unsigned int len, const char* file, int line)
+void* fc_malloc_s(uint32_t len, const char* file, int32_t line)
 {
 	mallocBlockInfo info;
 	info.file = file;
 	info.line = line;
 	info.len = len;
-
-	block_mutex.lock();
 
 	void* p = malloc(len);
 
@@ -135,9 +96,10 @@ void* fc_malloc_s(unsigned int len, const char* file, int line)
 		printf("…Í«Îƒ⁄¥Ê ß∞‹!!!\n");
 		assert(0);
 #endif
-		block_mutex.unlock();
 		return NULL;
 	}
+
+	block_mutex.lock();
 
 	block_size++;
 	block_map.insert(std::make_pair(p, info));
@@ -151,7 +113,7 @@ void fc_free(void* p)
 {
 	if (p == NULL)
 	{
-		assert(0);
+		//assert(0);
 		return;
 	}
 	block_mutex.lock();
@@ -159,7 +121,7 @@ void fc_free(void* p)
 	auto it = block_map.find(p);
 	if (it == block_map.end())
 	{
-		assert(p == NULL);
+		//assert(p == NULL);
 		NET_UV_LOG(NET_UV_L_WARNING, "fc_free: [%p] not find", p);
 	}
 	else

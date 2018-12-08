@@ -8,7 +8,7 @@
 NS_NET_UV_BEGIN
 
 class Socket;
-using SocketConnectCall = std::function<void(Socket*,int)>;	//0失败 1成功 2超时
+using SocketConnectCall = std::function<void(Socket*,int32_t)>;	//0失败 1成功 2超时
 using SocketCloseCall = std::function<void(Socket*)>; 
 using SocketRecvCall = std::function<void(char*, ssize_t)>;
 
@@ -18,15 +18,18 @@ public:
 	Socket();
 	virtual ~Socket();
 	
-	virtual bool bind(const char* ip, unsigned int port) = 0;
+	// 返回值说明
+	// 0 : bind失败
+	// 其他 : 绑定的端口
+	virtual uint32_t bind(const char* ip, uint32_t port) = 0;
 
-	virtual bool bind6(const char* ip, unsigned int port) = 0;
+	virtual uint32_t bind6(const char* ip, uint32_t port) = 0;
 
 	virtual bool listen() = 0;
 
-	virtual bool connect(const char* ip, unsigned int port) = 0;
+	virtual bool connect(const char* ip, uint32_t port) = 0;
 
-	virtual bool send(char* data, int len) = 0;
+	virtual bool send(char* data, int32_t len) = 0;
 
 	virtual void disconnect() = 0;
 
@@ -35,17 +38,19 @@ public:
 	inline void setCloseCallback(const SocketCloseCall& call);
 
 	inline void setRecvCallback(const SocketRecvCall& call);
+
+	inline uint32_t getBindPort();
 public:
 
-	inline const std::string& getIp();
+	inline std::string getIp();
 
-	inline unsigned int getPort();
+	inline uint32_t getPort();
 
 	inline bool isIPV6();
 
 	inline void setIp(const std::string& ip);
 
-	inline void setPort(unsigned int port);
+	inline void setPort(uint32_t port);
 
 	inline void setIsIPV6(bool isIPV6);
 
@@ -54,6 +59,8 @@ public:
 	inline void* getUserdata();
 
 	inline uv_loop_t* getLoop();
+
+	inline void setBindPort(uint32_t port);
 
 protected:
 
@@ -64,7 +71,8 @@ protected:
 	uv_buf_t m_uvReadBuf;
 	
 	std::string m_ip;
-	unsigned int m_port;
+	uint32_t m_port;
+	uint32_t m_bindPort;
 	bool m_isIPV6;
 
 	void* m_userdata;
@@ -74,7 +82,7 @@ protected:
 	SocketRecvCall m_recvCall;
 };
 
-const std::string& Socket::getIp()
+std::string Socket::getIp()
 {
 	return m_ip;
 }
@@ -84,12 +92,12 @@ void Socket::setIp(const std::string& ip)
 	m_ip = ip;
 }
 
-unsigned int Socket::getPort()
+uint32_t Socket::getPort()
 {
 	return m_port;
 }
 
-void Socket::setPort(unsigned int port)
+void Socket::setPort(uint32_t port)
 {
 	m_port = port;
 }
@@ -132,6 +140,16 @@ void* Socket::getUserdata()
 uv_loop_t* Socket::getLoop()
 {
 	return m_loop;
+}
+
+uint32_t Socket::getBindPort()
+{
+	return m_bindPort;
+}
+
+void Socket::setBindPort(uint32_t port)
+{
+	m_bindPort = port;
 }
 
 NS_NET_UV_END

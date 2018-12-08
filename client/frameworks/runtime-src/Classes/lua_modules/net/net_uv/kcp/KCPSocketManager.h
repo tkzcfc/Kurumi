@@ -12,43 +12,76 @@ public:
 	KCPSocketManager(uv_loop_t* loop);
 
 	virtual ~KCPSocketManager();
+	
+	IUINT32 getNewConv();
 
-	KCPSocket* accept(uv_udp_t* handle, const struct sockaddr* addr);
+	void push(KCPSocket* socket);
 
-	void push(KCPSocket* socket, IUINT32 conv);
-
-	void remove(IUINT32 conv);
-
-	void resetLastPacketRecvTime(IUINT32 conv);
-
-	void input(IUINT32 conv, const char* data, long size);
-
-	void disconnect(IUINT32 conv);
+	void remove(KCPSocket* socket);
 
 	void stop_listen();
 
 	inline void setOwner(KCPSocket* socket);
 
-protected:
+	inline KCPSocket* getOwner();
+	
+	inline int32_t getAwaitConnectCount();
 
 	void idleRun();
 
-protected:
-
-	static void uv_on_idle_run(uv_idle_t* handle);
+	bool isAccept(const struct sockaddr* addr);
 
 protected:
+
+	int32_t isContain(const struct sockaddr* addr);
+
+	void on_socket_connect(Socket* socket, int32_t status);
+
+	void on_socket_close(Socket* socket);
+
+	void connect(KCPSocket* socket);
+
+	void removeAwaitConnectSocket(KCPSocket* socket);
+
+	void clearInvalid();
+	
+protected:
+
+	struct SMData
+	{
+		KCPSocket* socket;
+		bool invalid;
+	};
+
 	uv_loop_t* m_loop;
-	uv_idle_t m_idle;
 	IUINT32 m_convCount;
-	std::map<IUINT32, KCPSocket*> m_allSocket;
+	IUINT32 m_lastUpdateClock;
+	
+	bool m_isConnectArrDirty;
+	bool m_isAwaitConnectArrDirty;
+
+	std::vector<SMData> m_allConnectSocket;
+	std::vector<SMData> m_allAwaitConnectSocket;
+
+	std::map<std::string, IUINT32> m_recessTimeMap;
 
 	KCPSocket* m_owner;
+	bool m_stop;
 };
 
 void KCPSocketManager::setOwner(KCPSocket* socket)
 {
 	m_owner = socket;
+}
+
+KCPSocket* KCPSocketManager::getOwner()
+{
+	return m_owner;
+}
+
+int32_t KCPSocketManager::getAwaitConnectCount()
+{
+	return (int)m_allAwaitConnectSocket.size();
 }
 
 NS_NET_UV_END

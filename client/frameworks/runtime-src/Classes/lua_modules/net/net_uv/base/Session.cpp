@@ -14,14 +14,14 @@ Session::Session(SessionManager* manager)
 Session::~Session()
 {}
 
-void Session::send(char* data, unsigned int len)
+void Session::send(char* data, uint32_t len)
 {
-	getSessionManager()->send(this, data, len);
+	getSessionManager()->send(this->m_sessionID, data, len);
 }
 
 void Session::disconnect()
 {
-	getSessionManager()->disconnect(this);
+	getSessionManager()->disconnect(this->m_sessionID);
 }
 
 void Session::setIsOnline(bool bIsOnline)

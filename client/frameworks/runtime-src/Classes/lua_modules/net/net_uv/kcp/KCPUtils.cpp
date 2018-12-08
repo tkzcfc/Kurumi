@@ -4,7 +4,9 @@ NS_NET_UV_BEGIN
 
 
 #define NET_KCP_CONNECT_PACKET "kcp_connect_package get_conv"
-#define NET_KCP_SEND_BACK_CONV_PACKET "kcp_connect_back_package get_conv:"
+#define NET_KCP_SEND_BACK_CONV_PACKET "kcp_connect_back_package"
+#define NET_KCP_SVR_CONNECT_PACKET "kcp_svr_connect_package conv:"
+#define NET_KCP_SVR_SEND_BACK_CONV_PACKET "kcp_connect_svr_back_package conv:"
 #define NET_KCP_DISCONNECT_PACKET "kcp_disconnect_package"
 #define NET_KCP_HEART_PACKET "kcp_heart_package"
 #define NET_KCP_HEART_BACK_PACKET "kcp_heart_back_package"
@@ -26,16 +28,97 @@ bool kcp_is_send_back_conv_packet(const char* data, size_t len)
 		memcmp(data, NET_KCP_SEND_BACK_CONV_PACKET, sizeof(NET_KCP_SEND_BACK_CONV_PACKET) - 1) == 0);
 }
 
-std::string kcp_making_send_back_conv_packet(uint32_t conv)
+std::string kcp_making_send_back_conv_packet(uint32_t conv, uint32_t port)
 {
 	char str_send_back_conv[256] = "";
-	size_t n = snprintf(str_send_back_conv, sizeof(str_send_back_conv), "%s %u", NET_KCP_SEND_BACK_CONV_PACKET, conv);
+	size_t n = snprintf(str_send_back_conv, sizeof(str_send_back_conv), "%s conv:%u newport:%u", NET_KCP_SEND_BACK_CONV_PACKET, conv, port);
 	return std::string(str_send_back_conv, n);
 }
 
-uint32_t kcp_grab_conv_from_send_back_conv_packet(const char* data, size_t len)
+bool kcp_grab_conv_from_send_back_conv_packet(const char* data, size_t len, uint32_t& out_conv, uint32_t& out_port)
 {
-	uint32_t conv = atol(data + sizeof(NET_KCP_SEND_BACK_CONV_PACKET));
+	std::string str(data, len);
+
+	const char* conv_key = "conv:";
+	const char* port_key = "newport:";
+
+	std::size_t pos = 0;
+	pos = str.find(conv_key);
+	if (pos != std::string::npos)
+	{
+		std::string str_value;
+		for (size_t i = pos + strlen(conv_key); i <= str.size(); ++i)
+		{
+			if ('0' <= str[i] && str[i] <= '9')
+				str_value.push_back(str[i]);
+			else
+				break;
+		}
+		if (str_value.empty())
+		{
+			return false;
+		}
+		out_conv = atol(str_value.c_str());
+	}
+
+	pos = str.find(port_key);
+	if (pos != std::string::npos)
+	{
+		std::string str_value;
+		for (size_t i = pos + strlen(port_key); i <= str.size(); ++i)
+		{
+			if ('0' <= str[i] && str[i] <= '9')
+				str_value.push_back(str[i]);
+			else
+				break;
+		}
+		if (str_value.empty())
+		{
+			return false;
+		}
+		out_port = atol(str_value.c_str());
+	}
+	return true;
+}
+
+
+
+
+std::string kcp_making_svr_connect_packet(uint32_t conv)
+{
+	char str_send_back_conv[256] = "";
+	size_t n = snprintf(str_send_back_conv, sizeof(str_send_back_conv), "%s %u", NET_KCP_SVR_CONNECT_PACKET, conv);
+	return std::string(str_send_back_conv, n);
+}
+
+bool kcp_is_svr_connect_packet(const char* data, size_t len)
+{
+	return (len > sizeof(NET_KCP_SVR_CONNECT_PACKET) &&
+		memcmp(data, NET_KCP_SVR_CONNECT_PACKET, sizeof(NET_KCP_SVR_CONNECT_PACKET) - 1) == 0);
+}
+
+uint32_t kcp_grab_conv_from_svr_connect_packet(const char* data, size_t len)
+{
+	uint32_t conv = atol(data + sizeof(NET_KCP_SVR_CONNECT_PACKET));
+	return conv;
+}
+
+std::string kcp_making_svr_send_back_conv_packet(uint32_t conv)
+{
+	char str_send_back_conv[256] = "";
+	size_t n = snprintf(str_send_back_conv, sizeof(str_send_back_conv), "%s %u", NET_KCP_SVR_SEND_BACK_CONV_PACKET, conv);
+	return std::string(str_send_back_conv, n);
+}
+
+bool kcp_is_svr_send_back_conv_packet(const char* data, size_t len)
+{
+	return (len > sizeof(NET_KCP_SVR_SEND_BACK_CONV_PACKET) &&
+		memcmp(data, NET_KCP_SVR_SEND_BACK_CONV_PACKET, sizeof(NET_KCP_SVR_SEND_BACK_CONV_PACKET) - 1) == 0);
+}
+
+uint32_t kcp_grab_conv_from_svr_send_back_conv_packet(const char* data, size_t len)
+{
+	uint32_t conv = atol(data + sizeof(NET_KCP_SVR_SEND_BACK_CONV_PACKET));
 	return conv;
 }
 
@@ -90,19 +173,19 @@ bool kcp_is_heart_back_packet(const char* data, size_t len)
 
 // 加密Key
 const char* kcp_uv_encodeKey = KCP_UV_ENCODE_KEY;
-const int kcp_uv_encodeKeyLen = strlen(kcp_uv_encodeKey);
+const int32_t kcp_uv_encodeKeyLen = strlen(kcp_uv_encodeKey);
 
-const static unsigned int kcp_uv_hashlen = sizeof(unsigned int);
+const static uint32_t kcp_uv_hashlen = sizeof(uint32_t);
 
 
-const static unsigned int kcp_msg_headlen = sizeof(KCPMsgHead);
+const static uint32_t kcp_msg_headlen = sizeof(KCPMsgHead);
 
 
 
 // 加密
 // 加密前 ：|-DATA-|
 // 加密后 ：|-（MD5（DATA+加密key））的hash值-|-DATA-|
-char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
+char* kcp_uv_encode(const char* data, uint32_t len, uint32_t &outLen)
 {
 	MD5 M;
 
@@ -125,13 +208,13 @@ char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen)
 }
 
 // 解密
-char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen)
+char* kcp_uv_decode(const char* data, uint32_t len, uint32_t &outLen)
 {
 	outLen = 0;
 
 	MD5 M;
 
-	int datalen = len - kcp_uv_hashlen;
+	int32_t datalen = len - kcp_uv_hashlen;
 
 	char* p = (char*)fc_malloc(datalen + kcp_uv_encodeKeyLen + 1);
 
@@ -167,7 +250,7 @@ char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen)
 
 
 // 打包数据
-uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
+uv_buf_t* kcp_packageData(char* data, uint32_t len, int32_t* bufCount)
 {
 	*bufCount = 0;
 	if (data == NULL || len <= 0)
@@ -188,14 +271,14 @@ uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
 
 #if KCP_UV_OPEN_MD5_CHECK == 1
 
-	unsigned int encodelen = 0;
+	uint32_t encodelen = 0;
 	char* encodedata = kcp_uv_encode(data, len, encodelen);
 	if (encodedata == NULL)
 	{
 		assert(0);
 		return NULL;
 	}
-	unsigned int sendlen = kcp_msg_headlen + encodelen;
+	uint32_t sendlen = kcp_msg_headlen + encodelen;
 	char* p = (char*)fc_malloc(sendlen);
 
 	KCPMsgHead* h = (KCPMsgHead*)p;
@@ -207,7 +290,7 @@ uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
 
 	fc_free(encodedata);
 #else
-	unsigned int sendlen = kcp_msg_headlen + len;
+	uint32_t sendlen = kcp_msg_headlen + len;
 	char* p = (char*)fc_malloc(sendlen);
 	KCPMsgHead* h = (KCPMsgHead*)p;
 	h->len = len;
@@ -224,8 +307,8 @@ uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
 
 		outBuf = (uv_buf_t*)fc_malloc(sizeof(uv_buf_t) * (*bufCount));
 
-		int curIndex = 0;
-		int curArrIndex = 0;
+		int32_t curIndex = 0;
+		int32_t curArrIndex = 0;
 
 		while (sendlen > 0)
 		{
@@ -268,18 +351,18 @@ uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount)
 	}
 
 // 打包心跳消息
-char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize)
+char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, uint32_t* outBufSize)
 {
 	*outBufSize = 0;
 #if KCP_UV_OPEN_MD5_CHECK == 1
-	unsigned int encodelen = 0;
+	uint32_t encodelen = 0;
 	char* encodedata = kcp_uv_encode((char*)&msg, NET_HEARTBEAT_MSG_SIZE, encodelen);
 	if (encodedata == NULL)
 	{
 		assert(0);
 		return NULL;
 	}
-	unsigned int sendlen = kcp_msg_headlen + encodelen;
+	uint32_t sendlen = kcp_msg_headlen + encodelen;
 	char* p = (char*)fc_malloc(sendlen);
 	if (p == NULL)
 	{
@@ -295,7 +378,7 @@ char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize)
 
 	fc_free(encodedata);
 #else
-	unsigned int sendlen = kcp_msg_headlen + NET_HEARTBEAT_MSG_SIZE;
+	uint32_t sendlen = kcp_msg_headlen + NET_HEARTBEAT_MSG_SIZE;
 	char* p = (char*)fc_malloc(sendlen);
 	if (p == NULL)
 	{

@@ -13,7 +13,7 @@ public:
 
 	~TCPLuaServer();
 
-	void startServer(const char* ip, unsigned int port, bool isIPV6);
+	bool startServer(const char* ip, unsigned int port, bool isIPV6);
 
 	bool stopServer();
 
@@ -28,9 +28,7 @@ public:
 protected:
 
 	void update(float);
-
-	void onServerStartCall(net_uv::Server* svr, bool success);
-
+	
 	void onServerCloseCall(net_uv::Server* svr);
 
 	void onServerNewConnectCall(net_uv::Server* svr, net_uv::Session* session);

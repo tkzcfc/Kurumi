@@ -70,12 +70,12 @@ void KCPLuaClient::removeSession(unsigned int sessionId)
 
 void KCPLuaClient::send(net_uv::Session* session, char* data, unsigned int len)
 {
-	m_client->send(session, data, len);
+	m_client->send(session->getSessionID(), data, len);
 }
 
 void KCPLuaClient::disconnect(net_uv::Session* session)
 {
-	m_client->disconnect(session);
+	m_client->disconnect(session->getSessionID());
 }
 
 bool KCPLuaClient::isCloseFinish()

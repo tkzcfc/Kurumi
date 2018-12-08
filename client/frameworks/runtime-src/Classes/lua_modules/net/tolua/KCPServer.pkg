@@ -7,17 +7,6 @@ namespace net_uv {
 
 class KCPServer : public Server
 {
-	KCPServer();
-
-	virtual ~KCPServer();
-
-	/// SessionManager
-	virtual void send(Session* session, char* data, unsigned int len);
-
-	virtual void disconnect(Session* session);
-
-	/// KCPServer
-	bool isCloseFinish();
 };
 
 }

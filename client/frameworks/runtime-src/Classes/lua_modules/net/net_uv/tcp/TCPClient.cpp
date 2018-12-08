@@ -28,8 +28,8 @@ struct TCPClientConnectOperation
 	TCPClientConnectOperation() {}
 	~TCPClientConnectOperation() {}
 	std::string ip;
-	unsigned int port;
-	unsigned int sessionID;
+	uint32_t port;
+	uint32_t sessionID;
 };
 
 // 设置自动连接操作
@@ -38,7 +38,7 @@ struct TCPClientAutoConnectOperation
 	TCPClientAutoConnectOperation() {}
 	~TCPClientAutoConnectOperation() {}
 	bool isAuto;
-	unsigned int sessionID;
+	uint32_t sessionID;
 };
 
 // 设置重连时间操作
@@ -47,7 +47,7 @@ struct TCPClientReconnectTimeOperation
 	TCPClientReconnectTimeOperation() {}
 	~TCPClientReconnectTimeOperation() {}
 	float time;
-	unsigned int sessionID;
+	uint32_t sessionID;
 };
 
 
@@ -84,7 +84,7 @@ TCPClient::~TCPClient()
 }
 
 
-void TCPClient::connect(const char* ip, unsigned int port, unsigned int sessionId)
+void TCPClient::connect(const char* ip, uint32_t port, uint32_t sessionId)
 {
 	if (m_isStop)
 		return;
@@ -98,14 +98,6 @@ void TCPClient::connect(const char* ip, unsigned int port, unsigned int sessionI
 	opData->port = port;
 	opData->sessionID = sessionId;
 	pushOperation(TCP_CLI_OP_CONNECT, opData, 0U, 0U);
-}
-
-void TCPClient::disconnect(unsigned int sessionId)
-{
-	if (m_isStop)
-		return;
-
-	pushOperation(TCP_CLI_OP_DISCONNECT, NULL, 0U, sessionId);
 }
 
 void TCPClient::closeClient()
@@ -168,13 +160,6 @@ void TCPClient::updateFrame()
 				m_connectCall(this, Msg.pSession, 2);
 			}
 		}break;
-		case NetThreadMsgType::CONNECT_SESSIONID_EXIST:
-		{
-			if (m_connectCall != nullptr)
-			{
-				m_connectCall(this, Msg.pSession, 3);
-			}
-		}break;
 		case NetThreadMsgType::DIS_CONNECT:
 		{
 			if (m_disconnectCall != nullptr)
@@ -205,41 +190,40 @@ void TCPClient::updateFrame()
 	}
 }
 
-void TCPClient::send(unsigned int sessionId, char* data, unsigned int len)
+void TCPClient::removeSession(uint32_t sessionId)
+{
+	pushOperation(TCP_CLI_OP_REMOVE_SESSION, NULL, 0U, sessionId);
+}
+
+/// SessionManager
+
+void TCPClient::disconnect(uint32_t sessionId)
+{
+	if (m_isStop)
+		return;
+
+	pushOperation(TCP_CLI_OP_DISCONNECT, NULL, 0U, sessionId);
+}
+
+void TCPClient::send(uint32_t sessionId, char* data, uint32_t len)
 {
 	if (m_isStop)
 		return;
 
 	if (data == 0 || len <= 0)
 		return;
-	int bufCount = 0;
+	int32_t bufCount = 0;
 
 	uv_buf_t* bufArr = tcp_packageData(data, len, &bufCount);
 
 	if (bufArr == NULL)
 		return;
 
-	for (int i = 0; i < bufCount; ++i)
+	for (int32_t i = 0; i < bufCount; ++i)
 	{
 		pushOperation(TCP_CLI_OP_SENDDATA, (bufArr + i)->base, (bufArr + i)->len, sessionId);
 	}
 	fc_free(bufArr);
-}
-
-void TCPClient::removeSession(unsigned int sessionId)
-{
-	pushOperation(TCP_CLI_OP_REMOVE_SESSION, NULL, 0U, sessionId);
-}
-
-/// SessionManager
-void TCPClient::send(Session* session, char* data, unsigned int len)
-{
-	send(session->getSessionID(), data, len);
-}
-
-void TCPClient::disconnect(Session* session)
-{
-	disconnect(session->getSessionID());
 }
 
 /// TCPClient
@@ -258,7 +242,7 @@ bool TCPClient::setSocketNoDelay(bool enable)
 	return true;
 }
 
-bool TCPClient::setSocketKeepAlive(int enable, unsigned int delay)
+bool TCPClient::setSocketKeepAlive(int32_t enable, uint32_t delay)
 {
 	if (m_isStop)
 		return false;
@@ -302,7 +286,7 @@ void TCPClient::setAutoReconnectTime(float time)
 	pushOperation(TCP_CLI_OP_SET_RECON_TIME, opData, NULL, NULL);
 }
 
-void TCPClient::setAutoReconnectBySessionID(unsigned int sessionID, bool isAuto)
+void TCPClient::setAutoReconnectBySessionID(uint32_t sessionID, bool isAuto)
 {
 	if (m_isStop)
 		return;
@@ -316,7 +300,7 @@ void TCPClient::setAutoReconnectBySessionID(unsigned int sessionID, bool isAuto)
 	pushOperation(TCP_CLI_OP_SET_AUTO_CONNECT, opData, NULL, NULL);
 }
 
-void TCPClient::setAutoReconnectTimeBySessionID(unsigned int sessionID, float time)
+void TCPClient::setAutoReconnectTimeBySessionID(uint32_t sessionID, float time)
 {
 	if (m_isStop)
 		return;
@@ -527,7 +511,7 @@ void TCPClient::onSessionUpdateRun()
 }
 
 /// TCPClient
-void TCPClient::onSocketConnect(Socket* socket, int status)
+void TCPClient::onSocketConnect(Socket* socket, int32_t status)
 {
 	Session* pSession = NULL;
 	bool isSuc = (status == 1);
@@ -609,13 +593,6 @@ void TCPClient::createNewConnect(void* data)
 		if (it->second->removeTag)
 			return;
 
-		//对比端口和IP是否一致
-		if (strcmp(opData->ip.c_str(), it->second->ip.c_str()) != 0 && opData->port != it->second->port)
-		{
-			pushThreadMsg(NetThreadMsgType::CONNECT_SESSIONID_EXIST, NULL);
-			return;
-		}
-
 		if (it->second->connectState == CONNECTSTATE::DISCONNECT)
 		{
 			if (it->second->session->executeConnect(opData->ip.c_str(), opData->port))
@@ -676,12 +653,12 @@ void TCPClient::createNewConnect(void* data)
 	}
 }
 
-void TCPClient::onSessionRecvData(Session* session, char* data, unsigned int len)
+void TCPClient::onSessionRecvData(Session* session, char* data, uint32_t len)
 {
 	pushThreadMsg(NetThreadMsgType::RECV_DATA, session, data, len);
 }
 
-TCPClient::clientSessionData* TCPClient::getClientSessionDataBySessionId(unsigned int sessionId)
+TCPClient::clientSessionData* TCPClient::getClientSessionDataBySessionId(uint32_t sessionId)
 {
 	auto it = m_allSessionMap.find(sessionId);
 	if (it != m_allSessionMap.end())

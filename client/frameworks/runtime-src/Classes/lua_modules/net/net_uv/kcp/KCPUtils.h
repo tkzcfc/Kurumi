@@ -22,9 +22,17 @@ NS_NET_UV_BEGIN
 std::string kcp_making_connect_packet(void);
 bool kcp_is_connect_packet(const char* data, size_t len);
 
-std::string kcp_making_send_back_conv_packet(uint32_t conv);
+std::string kcp_making_send_back_conv_packet(uint32_t conv, uint32_t port);
 bool kcp_is_send_back_conv_packet(const char* data, size_t len);
-uint32_t kcp_grab_conv_from_send_back_conv_packet(const char* data, size_t len);
+bool kcp_grab_conv_from_send_back_conv_packet(const char* data, size_t len, uint32_t& out_conv, uint32_t& out_port);
+
+std::string kcp_making_svr_connect_packet(uint32_t conv);
+bool kcp_is_svr_connect_packet(const char* data, size_t len);
+uint32_t kcp_grab_conv_from_svr_connect_packet(const char* data, size_t len);
+
+std::string kcp_making_svr_send_back_conv_packet(uint32_t conv);
+bool kcp_is_svr_send_back_conv_packet(const char* data, size_t len);
+uint32_t kcp_grab_conv_from_svr_send_back_conv_packet(const char* data, size_t len);
 
 
 std::string kcp_making_disconnect_packet(uint32_t conv);
@@ -38,13 +46,13 @@ std::string kcp_making_heart_back_packet();
 bool kcp_is_heart_back_packet(const char* data, size_t len);
 
 //加密
-char* kcp_uv_encode(const char* data, unsigned int len, unsigned int &outLen);
+char* kcp_uv_encode(const char* data, uint32_t len, uint32_t &outLen);
 //解密
-char* kcp_uv_decode(const char* data, unsigned int len, unsigned int &outLen);
+char* kcp_uv_decode(const char* data, uint32_t len, uint32_t &outLen);
 // 打包数据
-uv_buf_t* kcp_packageData(char* data, unsigned int len, int* bufCount);
+uv_buf_t* kcp_packageData(char* data, uint32_t len, int32_t* bufCount);
 // 打包心跳消息
-char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, unsigned int* outBufSize);
+char* kcp_packageHeartMsgData(NET_HEART_TYPE msg, uint32_t* outBufSize);
 
 
 /* get system time */

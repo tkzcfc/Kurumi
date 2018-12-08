@@ -4,7 +4,6 @@ TCPLuaServer::TCPLuaServer()
 {
 	m_server = new net_uv::TCPServer();
 
-	m_server->setStartCallback(CC_CALLBACK_2(TCPLuaServer::onServerStartCall, this));
 	m_server->setCloseCallback(CC_CALLBACK_1(TCPLuaServer::onServerCloseCall, this));
 	m_server->setNewConnectCallback(CC_CALLBACK_2(TCPLuaServer::onServerNewConnectCall, this));
 	m_server->setRecvCallback(std::bind(&TCPLuaServer::onServerRecvCall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
@@ -22,9 +21,9 @@ TCPLuaServer::~TCPLuaServer()
 	CC_SAFE_DELETE(m_server);
 }
 
-void TCPLuaServer::startServer(const char* ip, unsigned int port, bool isIPV6)
+bool TCPLuaServer::startServer(const char* ip, unsigned int port, bool isIPV6)
 {
-	m_server->startServer(ip, port, isIPV6);
+	return m_server->startServer(ip, port, isIPV6);
 }
 
 bool TCPLuaServer::stopServer()
@@ -34,12 +33,12 @@ bool TCPLuaServer::stopServer()
 
 void TCPLuaServer::send(net_uv::Session* session, char* data, unsigned int len)
 {
-	m_server->send(session, data, len);
+	m_server->send(session->getSessionID(), data, len);
 }
 
 void TCPLuaServer::disconnect(net_uv::Session* session)
 {
-	m_server->disconnect(session);
+	m_server->disconnect(session->getSessionID());
 }
 
 bool TCPLuaServer::isCloseFinish()
@@ -50,18 +49,6 @@ bool TCPLuaServer::isCloseFinish()
 void TCPLuaServer::update(float)
 {
 	m_server->updateFrame();
-}
-
-void TCPLuaServer::onServerStartCall(net_uv::Server* svr, bool success)
-{
-	auto handle = getLuaHandle("onServerStartCall");
-	if (handle && handle->isvalid())
-	{
-		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pusharg(success);
-		handle->pcall();
-	}
 }
 
 void TCPLuaServer::onServerCloseCall(net_uv::Server* svr)

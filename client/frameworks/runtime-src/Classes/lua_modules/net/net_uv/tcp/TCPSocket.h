@@ -11,13 +11,13 @@ class TCPSocket : public Socket
 public:
 	TCPSocket() = delete;
 	TCPSocket(const TCPSocket&) = delete;
-	TCPSocket(uv_loop_t* loop, uv_tcp_t* tcp = NULL);
+	TCPSocket(uv_loop_t* loop);
 
 	virtual ~TCPSocket();
 
-	virtual bool bind(const char* ip, unsigned int port)override;
+	virtual unsigned int bind(const char* ip, unsigned int port)override;
 
-	virtual bool bind6(const char* ip, unsigned int port)override;
+	virtual unsigned int bind6(const char* ip, unsigned int port)override;
 
 	virtual bool listen()override;
 

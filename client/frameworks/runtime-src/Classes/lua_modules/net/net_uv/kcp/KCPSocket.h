@@ -11,7 +11,6 @@ NS_NET_UV_BEGIN
 // 新连接过滤回调，用于过滤黑名单 返回false表示不接受该连接
 using KCPSocketConnectFilterCall = std::function<bool(const struct sockaddr*)>;
 using KCPSocketNewConnectionCall = std::function<void(Socket*)>;
-using KCPSocketDisconnectCall = std::function<void(Socket*, unsigned int)>;
 
 class KCPSocket : public Socket
 {
@@ -24,55 +23,60 @@ public:
 
 	virtual ~KCPSocket();
 
-	virtual bool bind(const char* ip, unsigned int port)override;
+	virtual uint32_t bind(const char* ip, uint32_t port)override;
 
-	virtual bool bind6(const char* ip, unsigned int port)override;
+	virtual uint32_t bind6(const char* ip, uint32_t port)override;
 
 	virtual bool listen()override;
 
-	virtual bool connect(const char* ip, unsigned int port)override;
+	virtual bool connect(const char* ip, uint32_t port)override;
 
-	virtual bool send(char* data, int len)override;
+	virtual bool send(char* data, int32_t len)override;
 
 	virtual void disconnect()override;
 
+	bool accept(const struct sockaddr* addr, IUINT32 conv);
+
 	inline void setNewConnectionCallback(const KCPSocketNewConnectionCall& call);
-	inline void setDisconnectCallback(const KCPSocketDisconnectCall& call);
 	inline void setConnectFilterCallback(const KCPSocketConnectFilterCall& call);
+
+	void svrIdleRun();
 
 protected:
 	inline uv_udp_t* getUdp();
-
-	inline void setWeakRefUdp(uv_udp_t* udp);
-
+	
 	inline void setWeakRefSocketManager(KCPSocketManager* manager);
+
+	void svr_connect(struct sockaddr* addr, IUINT32 conv);
 
 	void socketUpdate(IUINT32 clock);
 
-	void shutdownSocket();
+	void shutdownSocket(bool isCallClose = true);
 
 	void setSocketAddr(struct sockaddr* addr);
 
 	inline struct sockaddr* getSocketAddr();
 
-	void udpSend(const char* data, int len);
+	void udpSend(const char* data, int32_t len);
 
-	void udpSend(const char* data, int len, const struct sockaddr* addr);
+	void udpSend(const char* data, int32_t len, const struct sockaddr* addr);
 
 	void kcpInput(const char* data, long size);
 
 	void initKcp(IUINT32 conv);
 
-	void onUdpRead(uv_udp_t* handle, ssize_t nread, const uv_buf_t* buf, const struct sockaddr* addr, unsigned flags);
+	void onUdpRead(uv_udp_t* handle, ssize_t nread, const uv_buf_t* buf, const struct sockaddr* addr, uint32_t flags);
+
+	void connectResult(int32_t status);
+
+	void doSendSvrConnectMsgPack(IUINT32 clock);
 
 	void doSendConnectMsgPack(IUINT32 clock);
 
 	void doConnectTimeout();
 
 	void doSendTimeout();
-
-	inline void resetLastPacketRecvTime();
-
+	
 	inline void setConv(IUINT32 conv);
 
 	inline IUINT32 getConv();
@@ -81,7 +85,7 @@ protected:
 
 	inline void stopIdle();
 
-	void updateKcp(IUINT32 update_clock);
+	inline void setConnectTimeoutTime(uint32_t timout);
 
 protected:
 
@@ -96,7 +100,6 @@ protected:
 	};
 
 	uv_udp_t* m_udp;
-	bool m_weakRefUdp;
 	struct sockaddr* m_socketAddr;
 
 	bool m_runIdle;
@@ -107,17 +110,19 @@ protected:
 	ikcpcb* m_kcp;
 	IUINT32 m_first_send_connect_msg_time;
 	IUINT32 m_last_send_connect_msg_time;
-	IUINT32 m_last_packet_recv_time;
+	IUINT32 m_last_kcp_packet_recv_time;
+	IUINT32 m_last_kcp_packet_send_time;
 	IUINT32 m_last_update_time;
 	IUINT32 m_conv;
-
 	IINT32 m_releaseCount;
 
+	uint32_t m_connectTimeoutTime;
+	uint32_t m_burrowCount;
+	
 	KCPSocketManager* m_socketMng;
 	bool m_weakRefSocketMng;
 
 	KCPSocketNewConnectionCall m_newConnectionCall;
-	KCPSocketDisconnectCall m_disconnectCall;
 	KCPSocketConnectFilterCall m_connectFilterCall;
 
 	friend class KCPSocketManager;
@@ -125,20 +130,14 @@ protected:
 	friend class KCPSession;
 protected:
 	static void uv_on_close_socket(uv_handle_t* socket);
-	static void uv_on_udp_send(uv_udp_send_t *req, int status);
+	static void uv_on_udp_send(uv_udp_send_t *req, int32_t status);
 	static void uv_on_after_read(uv_udp_t* handle, ssize_t nread, const uv_buf_t* buf, const struct sockaddr* addr, unsigned flags);
-	static int udp_output(const char *buf, int len, ikcpcb *kcp, void *user);
+	static int32_t udp_output(const char *buf, int32_t len, ikcpcb *kcp, void *user);
 };
 
 uv_udp_t* KCPSocket::getUdp()
 {
 	return m_udp;
-}
-
-void KCPSocket::setWeakRefUdp(uv_udp_t* udp)
-{
-	m_udp = udp;
-	m_weakRefUdp = true;
 }
 
 void KCPSocket::setWeakRefSocketManager(KCPSocketManager* manager)
@@ -157,19 +156,9 @@ void KCPSocket::setNewConnectionCallback(const KCPSocketNewConnectionCall& call)
 	m_newConnectionCall = std::move(call);
 }
 
-void KCPSocket::setDisconnectCallback(const KCPSocketDisconnectCall& call)
-{
-	m_disconnectCall = std::move(call);
-}
-
 void KCPSocket::setConnectFilterCallback(const KCPSocketConnectFilterCall& call)
 {
 	m_connectFilterCall = std::move(call);
-}
-
-void KCPSocket::resetLastPacketRecvTime()
-{
-	m_last_packet_recv_time = m_last_update_time;
 }
 
 void KCPSocket::setConv(IUINT32 conv)
@@ -190,6 +179,11 @@ void KCPSocket::startIdle()
 void KCPSocket::stopIdle()
 {
 	m_runIdle = false;
+}
+
+void KCPSocket::setConnectTimeoutTime(uint32_t timout)
+{
+	m_connectTimeoutTime = timout;
 }
 
 NS_NET_UV_END

@@ -8,7 +8,7 @@ SessionManager::SessionManager()
 SessionManager::~SessionManager()
 {}
 
-void SessionManager::pushOperation(int type, void* data, unsigned int len, unsigned int sessionID)
+void SessionManager::pushOperation(int32_t type, void* data, uint32_t len, uint32_t sessionID)
 {
 	SessionManager::SessionOperation operationData;
 	operationData.operationType = type;
@@ -20,5 +20,7 @@ void SessionManager::pushOperation(int type, void* data, unsigned int len, unsig
 	m_operationQue.push(operationData);
 	m_operationMutex.unlock();
 }
+
+
 NS_NET_UV_END
 

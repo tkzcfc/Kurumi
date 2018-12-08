@@ -7,20 +7,20 @@ class Buffer
 {
 	struct block
 	{
-		unsigned int dataLen;
+		uint32_t dataLen;
 		char* data;
 		block* pre;
 		block* next;
 	};
 
-	unsigned int m_blockSize;
-	unsigned int m_curDataLength;
+	uint32_t m_blockSize;
+	uint32_t m_curDataLength;
 	block* m_headBlock;
 	block* m_tailBlock;
 public:
 	Buffer() = delete;
 	Buffer(const Buffer&) = delete;
-	Buffer(int blockSize)
+	Buffer(uint32_t blockSize)
 	{
 		assert(blockSize > 0);
 		m_blockSize = blockSize;
@@ -36,12 +36,12 @@ public:
 		fc_free(m_headBlock);
 	}
 
-	inline unsigned int getDataLength()
+	inline uint32_t getDataLength()
 	{
 		return m_curDataLength;
 	}
 
-	void add(char* pData, unsigned int dataLen)
+	void add(char* pData, uint32_t dataLen)
 	{
 		char* curData = pData;
 		while (dataLen > 0)
@@ -54,8 +54,8 @@ public:
 				b->pre = m_tailBlock;
 				m_tailBlock = b;
 			}
-			unsigned int sub = m_blockSize - m_tailBlock->dataLen;
-			int copylen = (sub > dataLen) ? dataLen : sub;
+			uint32_t sub = m_blockSize - m_tailBlock->dataLen;
+			uint32_t copylen = (sub > dataLen) ? dataLen : sub;
 			
 			memcpy(m_tailBlock->data + m_tailBlock->dataLen, curData, copylen);
 			
@@ -71,7 +71,7 @@ public:
 		if (m_curDataLength <= 0)
 			return false;
 
-		int curIndex = 0;
+		uint32_t curIndex = 0;
 		block* curBlock = m_headBlock;
 		do
 		{
@@ -103,7 +103,7 @@ public:
 		return m_headBlock->data;
 	}
 
-private:
+protected:
 	block* createBlock()
 	{
 		auto p = (block*)fc_malloc(sizeof(block));

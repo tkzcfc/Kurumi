@@ -81,7 +81,7 @@ bool TCPSession::initWithSocket(TCPSocket* socket)
 	return true;
 }
 
-void TCPSession::executeSend(char* data, unsigned int len)
+void TCPSession::executeSend(char* data, uint32_t len)
 {
 	if (data == NULL || len <= 0)
 		return;
@@ -108,7 +108,7 @@ void TCPSession::executeDisconnect()
 	}
 }
 
-bool TCPSession::executeConnect(const char* ip, unsigned int port)
+bool TCPSession::executeConnect(const char* ip, uint32_t port)
 {
 	return getTCPSocket()->connect(ip, port);
 }
@@ -125,7 +125,7 @@ void TCPSession::on_socket_recv(char* data, ssize_t len)
 
 	m_recvBuffer->add(data, len);
 
-	const static unsigned int headlen = sizeof(TCPMsgHead);
+	const static uint32_t headlen = sizeof(TCPMsgHead);
 
 	while (m_recvBuffer->getDataLength() >= headlen)
 	{
@@ -165,7 +165,7 @@ void TCPSession::on_socket_recv(char* data, ssize_t len)
 		}
 #endif
 
-		int subv = m_recvBuffer->getDataLength() - (h->len + headlen);
+		int32_t subv = m_recvBuffer->getDataLength() - (h->len + headlen);
 
 		//消息接收完成
 		if (subv >= 0)
@@ -176,7 +176,7 @@ void TCPSession::on_socket_recv(char* data, ssize_t len)
 			char* src = pMsg + headlen;
 
 #if TCP_UV_OPEN_MD5_CHECK == 1
-			unsigned int recvLen = 0;
+			uint32_t recvLen = 0;
 			char* recvData = tcp_uv_decode(src, h->len, recvLen);
 
 			if (recvData != NULL && recvLen > 0)
@@ -225,7 +225,7 @@ void TCPSession::on_socket_recv(char* data, ssize_t len)
 	}
 }
 
-void TCPSession::onRecvMsgPackage(char* data, unsigned int len, NET_HEART_TYPE type)
+void TCPSession::onRecvMsgPackage(char* data, uint32_t len, NET_HEART_TYPE type)
 {
 	if (type == NET_MSG_TYPE::MT_HEARTBEAT)
 	{
@@ -234,14 +234,14 @@ void TCPSession::onRecvMsgPackage(char* data, unsigned int len, NET_HEART_TYPE t
 			NET_HEART_TYPE msg = *((NET_HEART_TYPE*)data);
 			if (msg == NET_HEARTBEAT_MSG_C2S)
 			{
-				unsigned int sendlen = 0;
+				uint32_t sendlen = 0;
 				char* senddata = tcp_packageHeartMsgData(NET_HEARTBEAT_RET_MSG_S2C, &sendlen);
 				executeSend(senddata, sendlen);
 				NET_UV_LOG(NET_UV_L_HEART, "recv heart c->s");
 			}
 			else if (msg == NET_HEARTBEAT_MSG_S2C)
 			{
-				unsigned int sendlen = 0;
+				uint32_t sendlen = 0;
 				char* senddata = tcp_packageHeartMsgData(NET_HEARTBEAT_RET_MSG_C2S, &sendlen);
 				executeSend(senddata, sendlen);
 				NET_UV_LOG(NET_UV_L_HEART, "recv heart s->c");
@@ -280,7 +280,7 @@ void TCPSession::setIsOnline(bool isOnline)
 #endif
 }
 
-void TCPSession::update(unsigned int time)
+void TCPSession::update(uint32_t time)
 {
 	if (!isOnline())
 		return;
@@ -300,13 +300,23 @@ void TCPSession::update(unsigned int time)
 			}
 			else
 			{
-				unsigned int sendlen = 0;
+				uint32_t sendlen = 0;
 				char* senddata = tcp_packageHeartMsgData(m_sendHeartMsg, &sendlen);
 				executeSend(senddata, sendlen);
 				NET_UV_LOG(NET_UV_L_HEART, "tcp send heart %d", m_sendHeartMsg);
 			}
 		}
 	}
+}
+
+uint32_t TCPSession::getPort()
+{
+	return getTCPSocket()->getPort();
+}
+
+std::string TCPSession::getIp()
+{
+	return getTCPSocket()->getIp();
 }
 
 NS_NET_UV_END

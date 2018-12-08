@@ -14,13 +14,13 @@ public:
 
 	virtual ~SessionManager();
 
-	virtual void send(Session* session, char* data, unsigned int len) = 0;
+	virtual void send(uint32_t sessionID, char* data, uint32_t len) = 0;
 
-	virtual void disconnect(Session* session) = 0;
-
+	virtual void disconnect(uint32_t sessionID) = 0;
+	
 protected:
 
-	void pushOperation(int type, void* data, unsigned int len, unsigned int sessionID);
+	void pushOperation(int32_t type, void* data, uint32_t len, uint32_t sessionID);
 
 	virtual void executeOperation() = 0;
 	
@@ -28,10 +28,10 @@ protected:
 
 	struct SessionOperation
 	{
-		int operationType;
+		int32_t operationType;
 		void* operationData;
-		unsigned int operationDataLen;
-		unsigned int sessionID;
+		uint32_t operationDataLen;
+		uint32_t sessionID;
 	};
 
 protected:

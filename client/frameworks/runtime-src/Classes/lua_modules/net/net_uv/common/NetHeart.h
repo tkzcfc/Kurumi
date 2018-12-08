@@ -4,7 +4,7 @@
 
 NS_NET_UV_BEGIN
 
-typedef unsigned int NET_HEART_TYPE;
+typedef uint32_t NET_HEART_TYPE;
 
 enum NET_MSG_TYPE : NET_HEART_TYPE
 {
