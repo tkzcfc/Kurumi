@@ -70,7 +70,7 @@ LOCAL_SRC_FILES  += ../../../Classes/lua_modules/net/libuv/src/inet.c \
                     ../../../Classes/lua_modules/net/net_uv/base/SessionManager.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Socket.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/md5.cpp \
-                    ../../../Classes/lua_modules/net/net_uv/base/uv_func.cpp \
+                    ../../../Classes/lua_modules/net/net_uv/base/Misc.cpp \
                     ../../../Classes/lua_modules/net/net_uv/tcp/TCPSession.cpp \
                     ../../../Classes/lua_modules/net/net_uv/tcp/TCPSocket.cpp \
                     ../../../Classes/lua_modules/net/net_uv/tcp/TCPClient.cpp \
@@ -129,7 +129,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/net/libuv/include \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/net/libuv/src \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/net/net_uv \
-					$(LOCAL_PATH)/../../../Classes/lua_modules/bit \
+                    $(LOCAL_PATH)/../../../Classes/lua_modules/bit \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/cjson \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/pbc \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/pbc/src \

@@ -5,9 +5,6 @@
 
 NS_NET_UV_BEGIN
 
-// 创建预制socket回调
-using KCPClientCreatePreSocketCall = std::function<void(KCPClient* client, uint32_t sessionID, uint32_t bindPort)>;
-
 class KCPClient : public Client
 {
 protected:
@@ -58,11 +55,6 @@ public:
 	//自动重连时间(单位：S)
 	void setAutoReconnectTimeBySessionID(uint32_t sessionID, float time);
 
-	// 创建预制Socket
-	void createPrefabricationSocket(uint32_t sessionID);
-
-	inline void setCreatePreSocketCallback(const KCPClientCreatePreSocketCall& call);
-
 protected:
 
 	/// Runnable
@@ -102,27 +94,13 @@ protected:
 	// 所有会话
 	std::map<uint32_t, clientSessionData*> m_allSessionMap;
 
-
-	// 预制socket数据
-	struct PrefabricationSocket
-	{
-		KCPSocket* socket;
-		uint32_t bindPort;
-	};
-	std::map<uint32_t, PrefabricationSocket> m_allPrefabricationSocket;
-
 	bool m_isStop;
 
-	KCPClientCreatePreSocketCall m_createPreSocketCall;
 protected:
 
 	static void uv_client_update_timer_run(uv_timer_t* handle);
 };
 
-void KCPClient::setCreatePreSocketCallback(const KCPClientCreatePreSocketCall& call)
-{
-	m_createPreSocketCall = std::move(call);
-}
 
 
 NS_NET_UV_END

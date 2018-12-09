@@ -17,7 +17,6 @@ enum class NetThreadMsgType
 	EXIT_LOOP,			//退出loop
 	RECV_DATA,			//收到消息
 	REMOVE_SESSION,		//移除会话
-	CREATE_PRE_SOCKET, // 创建预制socket
 };
 
 class Session;
