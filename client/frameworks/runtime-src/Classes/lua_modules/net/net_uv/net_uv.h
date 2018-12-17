@@ -3,6 +3,7 @@
 // base
 #include "base/Buffer.h"
 #include "base/Mutex.h"
+#include "base/DNSCache.h"
 
 // tcp
 #include "tcp/TCPSocket.h"

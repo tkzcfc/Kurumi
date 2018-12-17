@@ -57,7 +57,11 @@ struct TCPClientReconnectTimeOperation
 TCPClient::TCPClient()
 	: m_reconnect(true)
 	, m_totalTime(3.0f)
+#if TCP_USE_NET_UV_MSG_STRUCT == 0
 	, m_enableNoDelay(true)
+#else
+	, m_enableNoDelay(false)
+#endif
 	, m_enableKeepAlive(true)
 	, m_keepAliveDelay(10)
 	, m_isStop(false)
@@ -237,9 +241,13 @@ bool TCPClient::setSocketNoDelay(bool enable)
 	if (m_isStop)
 		return false;
 
+#if TCP_USE_NET_UV_MSG_STRUCT == 0
+	return true;
+#else
 	m_enableNoDelay = enable;
 	pushOperation(TCP_CLI_OP_SET_NO_DELAY, NULL, 0U, 0U);
 	return true;
+#endif	
 }
 
 bool TCPClient::setSocketKeepAlive(int32_t enable, uint32_t delay)

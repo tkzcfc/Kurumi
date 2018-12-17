@@ -527,6 +527,7 @@ void KCPSocket::kcpInput(const char* data, long size)
 	int32_t kcp_recvd_bytes = 0;
 	do
 	{
+		if(m_kcp == NULL) break;
 		kcp_recvd_bytes = ikcp_recv(m_kcp, m_recvBuf, KCP_MAX_MSG_SIZE);
 
 		if (kcp_recvd_bytes < 0)
@@ -546,6 +547,7 @@ void KCPSocket::initKcp(IUINT32 conv)
 	}
 	m_kcp = ikcp_create(conv, this);
 	m_kcp->output = &KCPSocket::udp_output;
+	m_kcp->stream = 1;
 
 	ikcp_wndsize(m_kcp, 128, 128);
 

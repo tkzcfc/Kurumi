@@ -13,12 +13,12 @@ NS_NET_UV_BEGIN
 // 大消息最大发送大小
 // 如果消息头的长度字段大于该值
 // 则直接认定为该客户端发送的消息为非法消息
-// (4MB)
-#define KCP_BIG_MSG_MAX_LEN (1024 * 1024 * 4)
+// (10MB)
+#define KCP_BIG_MSG_MAX_LEN (1024 * 1024 * 10)
 
 // 单次消息发送最大字节
 // 若超过该长度，则进行分片发送
-// (1K)
+// (4K)
 #define KCP_WRITE_MAX_LEN (1024 * 1)
 
 // IP地址长度

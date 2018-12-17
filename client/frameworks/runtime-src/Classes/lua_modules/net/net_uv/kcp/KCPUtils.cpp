@@ -173,7 +173,7 @@ bool kcp_is_heart_back_packet(const char* data, size_t len)
 
 // 加密Key
 const char* kcp_uv_encodeKey = KCP_UV_ENCODE_KEY;
-const int32_t kcp_uv_encodeKeyLen = strlen(kcp_uv_encodeKey);
+const uint32_t kcp_uv_encodeKeyLen = (uint32_t)strlen(kcp_uv_encodeKey);
 
 const static uint32_t kcp_uv_hashlen = sizeof(uint32_t);
 
@@ -201,7 +201,7 @@ char* kcp_uv_encode(const char* data, uint32_t len, uint32_t &outLen)
 
 	auto md5s = M.toString();
 
-	auto hashvalue = net_getBufHash(md5s.c_str(), md5s.size());
+	auto hashvalue = net_getBufHash(md5s.c_str(), (uint32_t)md5s.size());
 	memcpy(r, &hashvalue, kcp_uv_hashlen);
 
 	return r;
@@ -226,8 +226,8 @@ char* kcp_uv_decode(const char* data, uint32_t len, uint32_t &outLen)
 
 	auto md5s = M.toString();
 
-	auto hashvalue = net_getBufHash(md5s.c_str(), md5s.size());
-	if (hashvalue == *(size_t*)(data))
+	uint32_t hashvalue = net_getBufHash(md5s.c_str(), (uint32_t)md5s.size());
+	if (hashvalue == *(uint32_t*)(data))
 	{
 		outLen = datalen;
 	}
@@ -303,7 +303,11 @@ uv_buf_t* kcp_packageData(char* data, uint32_t len, int32_t* bufCount)
 	// 大文件分片
 	if (sendlen > KCP_WRITE_MAX_LEN)
 	{
-		*bufCount = sendlen / KCP_WRITE_MAX_LEN + 1;
+		*bufCount = sendlen / KCP_WRITE_MAX_LEN;
+		if (sendlen % KCP_WRITE_MAX_LEN != 0)
+		{
+			*bufCount = *bufCount + 1;
+		}
 
 		outBuf = (uv_buf_t*)fc_malloc(sizeof(uv_buf_t) * (*bufCount));
 

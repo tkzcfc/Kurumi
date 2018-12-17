@@ -5,7 +5,7 @@
 NS_NET_UV_BEGIN
 
 //消息类型
-enum class NetThreadMsgType
+enum class NetThreadMsgType : uint32_t
 {
 	CONNECT_FAIL,		//连接失败
 	CONNECT_TIMOUT,		//连接超时
@@ -20,6 +20,8 @@ enum class NetThreadMsgType
 };
 
 class Session;
+
+#pragma pack(4)
 struct NetThreadMsg
 {
 	NetThreadMsgType msgType;
@@ -27,5 +29,6 @@ struct NetThreadMsg
 	char* data;
 	uint32_t dataLen;
 };
+#pragma pack()
 
 NS_NET_UV_END
