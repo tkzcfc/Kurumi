@@ -123,6 +123,13 @@ void TCPSession::on_socket_recv(char* data, ssize_t len)
 	m_curHeartTime = 0;
 #endif
 
+#if TCP_USE_NET_UV_MSG_STRUCT == 0
+
+	char* buf = (char*)fc_malloc(sizeof(char) * len);
+	memcpy(buf, data, len);
+	onRecvMsgPackage(buf, len, NET_MSG_TYPE::MT_DEFAULT);
+
+#else
 	m_recvBuffer->add(data, len);
 
 	const static uint32_t headlen = sizeof(TCPMsgHead);
@@ -223,6 +230,7 @@ void TCPSession::on_socket_recv(char* data, ssize_t len)
 			break;
 		}
 	}
+#endif
 }
 
 void TCPSession::onRecvMsgPackage(char* data, uint32_t len, NET_HEART_TYPE type)
@@ -282,6 +290,7 @@ void TCPSession::setIsOnline(bool isOnline)
 
 void TCPSession::update(uint32_t time)
 {
+#if TCP_OPEN_UV_THREAD_HEARTBEAT == 1
 	if (!isOnline())
 		return;
 
@@ -307,6 +316,7 @@ void TCPSession::update(uint32_t time)
 			}
 		}
 	}
+#endif
 }
 
 uint32_t TCPSession::getPort()

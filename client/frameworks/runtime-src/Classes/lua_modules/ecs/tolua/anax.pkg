@@ -1,0 +1,110 @@
+$#include "anax/anax.hpp"
+
+
+
+namespace anax
+{
+    class World
+    {
+    public:
+	
+        /// Removes all the systems from the world
+        void removeAllSystems();
+		
+		
+        /// Refreshes the World
+        void refresh();
+
+        /// Instantaneously clears the world, by removing
+        /// all systems and entities from the world.
+        /// \note It is no guarantee that the entities from the world
+        /// will be invalidated, as the counter of the entity may still be
+        /// set to the same counter in the pool. However, it is expected
+        /// that the entity will not have the same counter as long as you have not
+        /// created another entity.
+        void clear();
+
+        /// \return The amount of entities that are alive (attached to the world)
+        /// \note This count includes the deactivated entities
+        int getEntityCount();
+	}
+}
+
+
+
+
+
+
+namespace anax
+{
+    /// \brief A class that follows the CRTP pattern, used to define custom systems
+    /// \tparam T The System you are defining
+    /// \tparam RequirementList 
+    ///
+    /// This class uses the CRTP pattern to make a unique identifier for each system
+    /// class
+    ///
+    /// \see BaseSystem
+    /// If you wish to store systems generically and for further documentation.
+    ///
+    /// \author Miguel Martin
+    class System
+    {
+    public:
+    };
+}
+
+
+
+
+
+
+
+
+
+
+namespace anax
+{
+    /// \brief A handle to an Entity within a World
+    ///
+    /// This class is used as a handle to an entity within a world.
+    /// The handle can be invalid, as it "handle" no entity at all.
+    ///
+    /// \todo
+    /// Benchmark this against a plain old 64-bit Id (as in just use
+    /// the ID class)
+    ///
+    /// \author Miguel Martin
+    class Entity
+    {
+    public:
+
+        /// Determines if this Entity handle is valid & able to be used.
+        /// \note You should only use this for DEBUG builds
+        ///       as checking if an Entity is valid may/may not
+        ///       impact your performance.
+        /// \return true if this Entity is valid, false otherwise
+        bool isValid() const;
+
+        /// \return true if this Entity is activated
+        bool isActivated() const;
+
+        /// Activates this Entity
+        void activate();
+
+        /// Deactivates this Entity
+        void deactivate();
+
+        /// Kills this Entity
+        /// \see World::killEntity for an alternate way to kill an Entity
+        void kill();
+
+		void post();
+
+        /// Removes all the components attached to the Entity
+        void removeAllComponents();
+
+        /// \return All the components the Entity has
+        //ComponentArray getComponents() const;
+    };
+}

@@ -92,7 +92,7 @@ function AudioManager:playSound(file, loop)
         self._soundIds[c1] = nil
     end)
     self._soundIds[id] = file
-    return
+    return id
 end
 
 function AudioManager:stopSound(soundId)

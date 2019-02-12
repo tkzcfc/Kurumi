@@ -1,0 +1,51 @@
+$#include "ecs/AnaxHelper.h"
+
+class AnaxHelper
+{
+public:
+	static anax::Component* addComponent(anax::Entity* entity, const std::string& component)
+	{
+		return GComponentHelperMap[component]->addComponent(entity);
+	}
+
+	static anax::Component* getComponent(anax::Entity* entity, const std::string& component)
+	{
+		return GComponentHelperMap[component]->getComponent(entity);
+	}
+
+	static void removeComponent(anax::Entity* entity, const std::string& component)
+	{
+		GComponentHelperMap[component]->removeComponent(entity);
+	}
+
+	static bool hasComponent(anax::Entity* entity, const std::string& component)
+	{
+		return GComponentHelperMap[component]->hasComponent(entity);
+	}
+
+	static void addSystem(anax::World* world, const std::string& systemName, void* sys)
+	{
+		GSystemHelperMap[systemName]->addSystem(world, sys);
+	}
+
+	static void removeSystem(anax::World* world, const std::string& systemName)
+	{
+		GSystemHelperMap[systemName]->removeSystem(world);
+	}
+
+	static bool doesSystemExist(anax::World* world, const std::string& systemName)
+	{
+		return GSystemHelperMap[systemName]->doesSystemExist(world);
+	}
+
+	static anax::World* getSystemWorld(const std::string& systemName, void* sys)
+	{
+		return GSystemHelperMap[systemName]->getWorld(sys);
+	}
+};
+
+
+
+
+
+

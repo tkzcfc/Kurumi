@@ -1,0 +1,52 @@
+$#include "foundation/Actor.h"
+//$#include "foundation/PhysicsActor.h"
+
+class Actor : public cc.Node
+{
+public:
+
+	static Actor* create(GameWorldBase* world);
+	
+public:
+
+	void destroy();
+
+public:
+
+	inline GameWorldBase* getGameWorld();
+
+	inline anax::Entity* getEntity();
+
+	/// helper
+	inline anax::Component* addAnaxComponent(const std::string& component);
+
+	inline anax::Component* getAnaxComponent(const std::string& component);
+
+	inline void removeAnaxComponent(const std::string& component);
+
+	inline bool hasAnaxComponent(const std::string& component);
+	
+	
+	
+	
+	///LuaFunctionBond
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
+
+	void unregisterLuaHandle(const std::string& name);
+
+	void clearLuaHandle();
+};
+
+
+/*
+class PhysicsActor : public Actor
+{
+public:
+	static PhysicsActor* create();
+
+	void syncPhysicsTransform(float x, float y, float angle);
+};
+*/
+
+
+

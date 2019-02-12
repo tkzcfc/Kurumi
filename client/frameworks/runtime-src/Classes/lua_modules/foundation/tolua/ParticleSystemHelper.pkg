@@ -1,0 +1,4 @@
+$#include "foundation/ParticleSystemHelper.h"
+
+void changeParticleSystemPositionType(cc.Node* root, int type);
+

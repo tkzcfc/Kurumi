@@ -10,9 +10,6 @@
     <Filter Include="resource">
       <UniqueIdentifier>{2d1d0979-58cd-4ab6-b91c-13650158f1fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\gamecore">
-      <UniqueIdentifier>{ae05eb1f-6e0d-4f87-bd49-976ddc059e94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\lua_function">
       <UniqueIdentifier>{ab3a327d-81a1-4db4-8a64-05c5a1fecb21}</UniqueIdentifier>
     </Filter>
@@ -73,8 +70,50 @@
     <Filter Include="Classes\lua_modules\pbc\src">
       <UniqueIdentifier>{4df1e2f0-8219-4818-bd05-907362494e46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\lua_modules\game">
-      <UniqueIdentifier>{9884e460-2d82-41b0-8a8e-2925849688cc}</UniqueIdentifier>
+    <Filter Include="Classes\anax">
+      <UniqueIdentifier>{2014f6ce-1925-4ecd-a12f-1318c7637d22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\include">
+      <UniqueIdentifier>{b6cd6f4b-7f49-48fc-b5ff-25a4c9f74fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\src">
+      <UniqueIdentifier>{752b40de-bf5e-4b9b-b1cf-a3cbadf595ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\include\anax">
+      <UniqueIdentifier>{2ff007a0-cdd6-4a49-90d5-4b9fb637fb6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\src\anax">
+      <UniqueIdentifier>{eb5d3925-1caf-409d-aafd-2e7d7ddacd10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\src\anax\detail">
+      <UniqueIdentifier>{aacfa8d0-bc59-4702-9ae6-172c3c8f260a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\include\anax\detail">
+      <UniqueIdentifier>{83737329-8dff-447f-b0f7-ac2b3fa31ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\anax\include\anax\util">
+      <UniqueIdentifier>{c50c70c1-3cb2-4443-a649-c388bde33e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs">
+      <UniqueIdentifier>{3e42a9a7-17c9-430b-9c5b-1d58c20b2dc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs\system">
+      <UniqueIdentifier>{0ffbed75-a28f-460f-9d6a-562ca5eafdf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs\components">
+      <UniqueIdentifier>{632d610d-9633-446f-a0aa-b8e4b33cb3aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs\util">
+      <UniqueIdentifier>{5227d723-c2db-45cc-aa1b-c13f8b915c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\foundation">
+      <UniqueIdentifier>{f49a5fea-0ae5-4f95-91b7-a70ccb7313c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\lua_modules\ecs">
+      <UniqueIdentifier>{7dc02833-5242-4dbb-b6c2-9d552378778e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\lua_modules\foundation">
+      <UniqueIdentifier>{24430528-c672-4085-88e4-ec5885d0f46b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -101,38 +140,14 @@
     <ClInclude Include="..\Classes\ide-support\RuntimeLuaImpl.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GameActor.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GameAttribute.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GameMath.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GameWord.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\FSM.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h">
       <Filter>Classes\lua_function</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua_function\LuaFunction.h">
       <Filter>Classes\lua_function</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GameMap.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_function\tolua_ext.h">
       <Filter>Classes\lua_function</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GLES-Render.h">
-      <Filter>Classes\gamecore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\gamecore\GameCharacter.h">
-      <Filter>Classes\gamecore</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\cjson\lua_cjson.h">
       <Filter>Classes\lua_modules\cjson</Filter>
@@ -142,9 +157,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\cjson\fpconv.h">
       <Filter>Classes\lua_modules\cjson</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\game\lua_game.h">
-      <Filter>Classes\lua_modules\game</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\lfs\lfs.h">
       <Filter>Classes\lua_modules\lfs</Filter>
@@ -374,6 +386,132 @@
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPConfig.h">
       <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\Component.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\Config.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\Entity.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\FilterOptions.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\System.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\World.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\anax.hpp">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\ClassReflect.h">
+      <Filter>Classes\anax\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\ClassTypeId.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\ComponentTypeList.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\EntityComponentStorage.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\EntityIdPool.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\Filter.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\AnaxAssert.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\detail\BaseSystem.hpp">
+      <Filter>Classes\anax\include\anax\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\anax\include\anax\util\ContainerUtils.hpp">
+      <Filter>Classes\anax\include\anax\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\anaxHelper.h">
+      <Filter>Classes\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\Box2DSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\Box2DComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureCollisionSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\DNSCache.h">
+      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\util\ComLuaFunctionUtil.h">
+      <Filter>Classes\ecs\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\MapFollowComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\MapFollowSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\ecs\lua_ecs.h">
+      <Filter>Classes\lua_modules\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\OrientationComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\FSM.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GameMath.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GLES-Render.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GameMap.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h">
+      <Filter>Classes\lua_modules\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h">
+      <Filter>Classes\lua_function</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GameWorld.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GameWorldBase.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GameMacro.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\Actor.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\PhysicsActor.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\Character.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\UpdateComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\UpdateSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\Box2DHelper.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -392,35 +530,14 @@
     <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GameMath.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GameWord.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GameActor.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp">
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp">
       <Filter>Classes\lua_function</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GameMap.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp">
       <Filter>Classes\lua_function</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GLES-Render.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GameCharacter.cpp">
-      <Filter>Classes\gamecore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\gamecore\GameCharacterBox2d.cpp">
-      <Filter>Classes\gamecore</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\bit\bit.c">
       <Filter>Classes\lua_modules\bit</Filter>
@@ -433,9 +550,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\cjson\fpconv.c">
       <Filter>Classes\lua_modules\cjson</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\game\lua_game.cpp">
-      <Filter>Classes\lua_modules\game</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\lfs\lfs.c">
       <Filter>Classes\lua_modules\lfs</Filter>
@@ -664,6 +778,84 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\tcp\TCPClient.cpp">
       <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\detail\EntityIdPool.cpp">
+      <Filter>Classes\anax\src\anax\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\detail\Filter.cpp">
+      <Filter>Classes\anax\src\anax\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\detail\BaseSystem.cpp">
+      <Filter>Classes\anax\src\anax\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\detail\EntityComponentStorage.cpp">
+      <Filter>Classes\anax\src\anax\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\Entity.cpp">
+      <Filter>Classes\anax\src\anax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\World.cpp">
+      <Filter>Classes\anax\src\anax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\anax\src\anax\ClassReflect.cpp">
+      <Filter>Classes\anax\src\anax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\Box2DSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureCollisionSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\DNSCache.cpp">
+      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\util\ComLuaFunctionUtil.cpp">
+      <Filter>Classes\ecs\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\MapFollowSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\ecs\lua_ecs.cpp">
+      <Filter>Classes\lua_modules\ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\GameMath.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\GLES-Render.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\GameMap.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp">
+      <Filter>Classes\lua_modules\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp">
+      <Filter>Classes\lua_function</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\GameWorldBase.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\GameWorld.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\Actor.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\PhysicsActor.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\Character.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\anaxHelper.cpp">
+      <Filter>Classes\ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\UpdateSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\Box2DHelper.cpp">
+      <Filter>Classes\foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

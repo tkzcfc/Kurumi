@@ -11,7 +11,10 @@
 #include <functional>
 #include <assert.h>
 #include "uv.h"
+#include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <iostream>
 
 
 NS_NET_UV_BEGIN

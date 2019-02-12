@@ -5,7 +5,7 @@ NS_NET_UV_BEGIN
 
 // 加密Key
 const char* tcp_uv_encodeKey = TCP_UV_ENCODE_KEY;
-const int32_t tcp_uv_encodeKeyLen = strlen(tcp_uv_encodeKey);
+const uint32_t tcp_uv_encodeKeyLen = (uint32_t)strlen(tcp_uv_encodeKey);
 
 const static uint32_t tcp_uv_hashlen = sizeof(unsigned int);
 
@@ -58,8 +58,8 @@ char* tcp_uv_decode(const char* data, uint32_t len, uint32_t &outLen)
 
 	auto md5s = M.toString();
 
-	auto hashvalue = net_getBufHash(md5s.c_str(), md5s.size());
-	if (hashvalue == *(size_t*)(data))
+	uint32_t hashvalue = net_getBufHash(md5s.c_str(), (uint32_t)md5s.size());
+	if (hashvalue == *(uint32_t*)(data))
 	{
 		outLen = datalen;
 	}
@@ -90,6 +90,17 @@ uv_buf_t* tcp_packageData(char* data, uint32_t len, int32_t* bufCount)
 		return NULL;
 	}
 
+#if TCP_USE_NET_UV_MSG_STRUCT == 0
+
+	*bufCount = 1;
+
+	uv_buf_t* outBuf = (uv_buf_t*)fc_malloc(sizeof(uv_buf_t));
+	outBuf->base = (char*)fc_malloc(len);
+	memcpy(outBuf->base, data, len);
+	outBuf->len = len;
+	
+	return outBuf;
+#else
 	if (len > TCP_BIG_MSG_MAX_LEN)
 	{
 #if defined (WIN32) || defined(_WIN32)
@@ -135,7 +146,11 @@ uv_buf_t* tcp_packageData(char* data, uint32_t len, int32_t* bufCount)
 	// 大文件分片
 	if (sendlen > TCP_WRITE_MAX_LEN)
 	{
-		*bufCount = sendlen / TCP_WRITE_MAX_LEN + 1;
+		*bufCount = sendlen / TCP_WRITE_MAX_LEN;
+		if (sendlen % TCP_WRITE_MAX_LEN != 0)
+		{
+			*bufCount = *bufCount + 1;
+		}
 
 		outBuf = (uv_buf_t*)fc_malloc(sizeof(uv_buf_t) * (*bufCount));
 		
@@ -180,6 +195,7 @@ uv_buf_t* tcp_packageData(char* data, uint32_t len, int32_t* bufCount)
 		outBuf->len = sendlen;
 	}
 	return outBuf;
+#endif
 }
 
 // 打包心跳消息

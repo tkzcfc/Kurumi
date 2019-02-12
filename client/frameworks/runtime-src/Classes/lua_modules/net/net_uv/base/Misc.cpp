@@ -1,5 +1,6 @@
 #include "Misc.h"
 #include <time.h>
+#include "DNSCache.h"
 
 NS_NET_UV_BEGIN
 
@@ -152,6 +153,26 @@ uint32_t net_getsockAddrIPAndPort(const struct sockaddr* addr, std::string& outI
 
 struct sockaddr* net_getsocketAddr(const char* ip, uint32_t port, uint32_t* outAddrLen)
 {
+	uint32_t outValueLen = 0;
+	auto outValue = DNSCache::getInstance()->rand_get(ip, &outValueLen);
+	if (outValue != NULL && outValueLen > 0)
+	{
+		if (outValueLen == sizeof(struct sockaddr_in))
+		{
+			((struct sockaddr_in*)outValue)->sin_port = htons(port); 
+			struct sockaddr* addr = (struct sockaddr*)fc_malloc(sizeof(struct sockaddr_in));
+			memcpy(addr, outValue, sizeof(struct sockaddr_in));
+			return addr;
+		}
+		else if (outValueLen == sizeof(struct sockaddr_in6))
+		{
+			((struct sockaddr_in6*)outValue)->sin6_port = htons(port);
+			struct sockaddr* addr = (struct sockaddr*)fc_malloc(sizeof(struct sockaddr_in6));
+			memcpy(addr, outValue, sizeof(struct sockaddr_in6));
+			return addr;
+		}
+	}
+
 	struct addrinfo hints;
 	struct addrinfo* ainfo;
 	struct addrinfo* rp;
@@ -167,6 +188,8 @@ struct sockaddr* net_getsocketAddr(const char* ip, uint32_t port, uint32_t* outA
 
 	if (ret == 0)
 	{
+		DNSCache::getInstance()->add(ip, ainfo);
+
 		for (rp = ainfo; rp; rp = rp->ai_next)
 		{
 			if (rp->ai_family == AF_INET)

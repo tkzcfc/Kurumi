@@ -52,10 +52,27 @@ struct Rect
 #endif
 
 
+int tolua_ext_pushusertype_ccobject(lua_State* L,
+                                             int uid,
+                                             int* p_refid,
+                                             void* ptr,
+                                             const char* type);
+
+int tolua_ext_remove_ccobject_by_refid(lua_State* L, int refid);
+
+int tolua_ext_pushusertype_cclass(lua_State* L, void* value, const char* type);
+
+int tolua_ext_remove_cclass_by_refid(lua_State* L, void* ptr);
 
 
 // 
-bool tolua_ext_check_is_table(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
+int tolua_ext_check_is_table(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
+int tolua_ext_check_isfunction(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
+
+// function
+void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type);
+
+void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def);
 
 // map
 void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& v);

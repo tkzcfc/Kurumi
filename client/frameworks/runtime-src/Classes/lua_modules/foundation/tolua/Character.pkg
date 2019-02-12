@@ -1,0 +1,21 @@
+$#include "foundation/Character.h"
+
+
+class Character : public Actor
+{
+public:
+
+	static Character* create(GameWorldBase* world);
+
+	void loadArmature(std::string filepath);
+
+	void enableBox2DComponent(Vec2 bodyPos, Size characterSize);
+	
+	void setPositionAndSyncPhysicsTransform(Vec2 inPos);
+
+public:
+
+	inline QFSM* getFSM();
+
+	inline ccs.Armature* getArmature();
+};

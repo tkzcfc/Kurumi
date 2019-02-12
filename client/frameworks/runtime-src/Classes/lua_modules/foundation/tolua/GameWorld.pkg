@@ -1,0 +1,57 @@
+$#include "foundation/GameWorldBase.h"
+$#include "foundation/GameWorld.h"
+
+
+
+class GameWorldBase : public cc.Node
+{
+public:
+
+	static GameWorldBase* create();
+	
+	void destroy(Actor* actor);
+
+public:
+
+	inline anax::World* getWorld();
+
+	inline anax::Entity* getAdmin();
+
+	inline cc.Node* getNode(int nodeTag);
+	
+		
+	///LuaFunctionBond
+	void registerLuaHandle(const std::string& name, LuaFunction handle);
+
+	void unregisterLuaHandle(const std::string& name);
+
+	void clearLuaHandle();
+};
+
+
+
+
+class GameWorld : public GameWorldBase
+{
+public:
+
+	static GameWorld* create();
+
+public:
+
+	void enableBox2DPhysics(bool enable, float left_offset, float right_offset, float top_offset, float bottom_offset);
+
+	void setGameMap(GameMap* gameMap);
+
+	void setDebugEnable(bool enable);
+	
+	bool isEnableDebug();
+
+public:
+
+	inline GameMap* getGameMap();
+
+};
+
+
+

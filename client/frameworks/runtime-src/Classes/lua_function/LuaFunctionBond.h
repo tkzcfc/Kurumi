@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LuaFunction.h"
-#include <map>
+#include <unordered_map>
 #include <string>
 
 class LuaFunctionBond
@@ -17,11 +17,9 @@ public:
 
 	void clearLuaHandle();
 
-protected:
-
 	LuaFunction* getLuaHandle(const std::string& name);
 
 protected:
 
-	std::map<std::string, LuaFunction*> m_luaHandleMap;
+	std::unordered_map<std::string, LuaFunction*> m_luaHandleMap;
 };

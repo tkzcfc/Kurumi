@@ -16,12 +16,10 @@ function ControlUI:ctor()
     self:registerScriptHandler(onNodeEvent)
 
     self.ui = _MyG.loadStudioFile("playerControlUI", self)
-
     self:addChild(self.ui.root)
 
     self:initTouch()
     self:initKeyboard()
-
     self:onClickOpenDebug(nil)
 end
 
@@ -32,9 +30,6 @@ function ControlUI:onExit()
 end
 
 function ControlUI:initTouch()
-
-	self.history_Key_Y = nil
-	self.history_Key_X = nil
 
 	local beginPos = {x = self.ui.sprite_BG:getPositionX(), y = self.ui.sprite_BG:getPositionY()}
 	local touchBox = self.ui.sprite_BG:getBoundingBox()
@@ -52,8 +47,6 @@ function ControlUI:initTouch()
 		self.ui.sprite_Move:setVisible(false)
 		self.ui.sprite_Red:setVisible(false)
 		self.ui.sprite_Ori:setOpacity(180)
-		self.history_Key_Y = nil
-		self.history_Key_X = nil
 	end
 	normal()
 
@@ -95,9 +88,7 @@ function ControlUI:initTouch()
 		self.ui.sprite_Red:setVisible(true)
 		self.ui.sprite_Red:setRotation(radian)
 
-		if length <= 25 then
-			self.history_Key_X = nil
-			self.history_Key_Y = nil
+		if length < 35 then
 			return
 		end
 
@@ -134,46 +125,28 @@ function ControlUI:initTouch()
 	cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, touchLayer)
 end
 
+function ControlUI:setWorld(world)
+	self.world = world
+end
+
 function ControlUI:left()
-	local player = getGameWord():getLocalPlayer()
-	if self.history_Key_X ~= ControlUI_Left then
-		_MyG.PlayerDispatcher:call("control_left", player)
-		self.history_Key_X = ControlUI_Left
-		-- print("left")
-	end
+	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_X, -1)
 end
 
 function ControlUI:right()
-	local player = getGameWord():getLocalPlayer()
-	if self.history_Key_X ~= ControlUI_Right then
-		_MyG.PlayerDispatcher:call("control_right", player)
-		self.history_Key_X = ControlUI_Right
-		-- print("right")
-	end
+	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_X, 1)
 end
 
 function ControlUI:up()
-	local player = getGameWord():getLocalPlayer()
-	if self.history_Key_Y ~= ControlUI_Up then
-		_MyG.PlayerDispatcher:call("control_up", player)
-		self.history_Key_Y = ControlUI_Up
-		-- print("up")
-	end
+	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_Y, 1)
 end
 
 function ControlUI:down()
-	local player = getGameWord():getLocalPlayer()
-	if self.history_Key_Y ~= ControlUI_Down then
-		_MyG.PlayerDispatcher:call("control_down", player)
-		self.history_Key_Y = ControlUI_Down
-		-- print("down")
-	end
+	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_Y, -1)
 end
 
 function ControlUI:cancel()
-	local player = getGameWord():getLocalPlayer()
-	_MyG.PlayerDispatcher:call("control_cancel", player)
-	-- print("cancel")
+	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_CANCEL)
 end
 
 function ControlUI:initKeyboard()
@@ -190,7 +163,6 @@ function ControlUI:initKeyboard()
 
 	 --键盘事件  
     local function onKeyPressed(keyCode, event)
-    	local player = _MyG.PlayerController:getPlayer()
 
         if keyCode == LEFT then
         	curOri = LEFT
@@ -203,9 +175,7 @@ function ControlUI:initKeyboard()
         elseif keyCode == BOTTOM then
         	self:down()
         elseif keyCode == KEY_C then
-        	_MyG.PlayerDispatcher:call("control_changeWeapon", player)
 		elseif keyCode == KEY_X then
-        	_MyG.PlayerDispatcher:call("control_attack", player)
         end
         -- print("code", keyCode)
 
@@ -217,7 +187,6 @@ function ControlUI:initKeyboard()
     end  
   
     local function onKeyReleased(keyCode, event)
-    	local player = _MyG.PlayerController:getPlayer()
     	if keyCode == curOri then
     		self:cancel()
     	end
@@ -233,24 +202,30 @@ end
 
 
 function ControlUI:onClickChangeWeapon(sender)
-	local player = _MyG.PlayerController:getPlayer()
-	_MyG.PlayerDispatcher:call("control_changeWeapon", player)
+	-- local player = _MyG.PlayerController:getPlayer()
+	-- _MyG.PlayerDispatcher:call("control_changeWeapon", player)
 end
 
 function ControlUI:onClickAttack(sender)
-	local player = _MyG.PlayerController:getPlayer()
-	_MyG.PlayerDispatcher:call("control_attack", player) 
+	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_ATTACK_NORMAL)
 end
 
 function ControlUI:onClickSkill(sender)
-	local player = _MyG.PlayerController:getPlayer()
-	_MyG.PlayerDispatcher:call("control_to_Skill_01", player) 
+	local userData = tonumber(sender.UserData[1])
+	if userData == 1 then
+		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_JUMP)
+	elseif userData == 2 then
+		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_DOWN_CUT)
+	elseif userData == 3 then
+		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_SKILL_1)
+	elseif userData == 4 then
+		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_SKILL_10)
+	end
 end
 
 function ControlUI:onClickOpenDebug(sender)
-	local gameword = getGameWord()
-	if gameword ~= nil then
-		gameword:openDebugDraw(not gameword:isOpenDebugDraw())
+	if self.world then
+		self.world:setDebugEnable(not self.world:isEnableDebug())
 	end
 end
 

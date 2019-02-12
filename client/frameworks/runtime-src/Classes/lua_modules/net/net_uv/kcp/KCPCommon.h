@@ -19,6 +19,7 @@ NS_NET_UV_BEGIN
 /// 消息包头
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma pack(4)
 struct KCPMsgHead
 {
 	uint32_t len;// 消息长度，不包括本结构体
@@ -26,5 +27,6 @@ struct KCPMsgHead
 	NET_HEART_TYPE tag;// 消息标记
 #endif
 };
+#pragma pack()
 
 NS_NET_UV_END

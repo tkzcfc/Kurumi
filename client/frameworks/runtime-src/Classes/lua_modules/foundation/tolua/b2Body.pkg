@@ -1,0 +1,238 @@
+$#include "Box2D/Box2D.h"
+
+/// This holds the mass data computed for a shape.
+struct b2MassData
+{
+	b2MassData();
+	
+	~b2MassData();
+
+	/// The mass of the shape, usually in kilograms.
+	float mass;
+
+	/// The position of the shape's centroid relative to the shape's origin.
+	b2Vec2 center;
+
+	/// The rotational inertia of the shape about the local origin.
+	float I;
+};
+
+class b2Body
+{
+public:
+	void SetTransform(b2Vec2 position, float angle);
+
+	b2Vec2 GetPosition();
+
+	float GetAngle();
+
+	b2Vec2 GetWorldCenter();
+
+	b2Vec2 GetLocalCenter();
+
+	void SetLinearVelocity(b2Vec2 v);
+
+	b2Vec2 GetLinearVelocity();
+
+	void SetAngularVelocity(float omega);
+
+	float GetAngularVelocity();
+
+	void ApplyForce(b2Vec2 force, b2Vec2 point, bool wake);
+
+	void ApplyForceToCenter(b2Vec2 force, bool wake);
+
+	void ApplyTorque(float torque, bool wake);
+
+	void ApplyLinearImpulse(b2Vec2 impulse, b2Vec2 point, bool wake);
+
+	void ApplyAngularImpulse(float impulse, bool wake);
+
+	float GetMass();
+
+	float GetInertia();
+	
+	void GetMassData(b2MassData* data);
+
+	void SetMassData(b2MassData* data);
+
+	void ResetMassData();
+
+	b2Vec2 GetWorldPoint(b2Vec2 localPoint);
+
+	b2Vec2 GetWorldVector(b2Vec2 localVector);
+
+	b2Vec2 GetLocalPoint(b2Vec2 worldPoint);
+
+	b2Vec2 GetLocalVector(b2Vec2 worldVector);
+
+	b2Vec2 GetLinearVelocityFromWorldPoint(b2Vec2 worldPoint);
+
+	b2Vec2 GetLinearVelocityFromLocalPoint(b2Vec2 localPoint);
+
+	float GetLinearDamping();
+
+	void SetLinearDamping(float linearDamping);
+
+	float GetAngularDamping();
+
+	void SetAngularDamping(float angularDamping);
+
+	float GetGravityScale();
+
+	void SetGravityScale(float scale);
+
+	void SetType(b2BodyType type);
+
+	b2BodyType GetType();
+
+	void SetBullet(bool flag);
+
+	bool IsBullet();
+
+	void SetSleepingAllowed(bool flag);
+
+	bool IsSleepingAllowed();
+
+	void SetAwake(bool flag);
+
+	bool IsAwake();
+
+	void SetActive(bool flag);
+
+	bool IsActive();
+
+	void SetFixedRotation(bool flag);
+
+	bool IsFixedRotation();
+	
+	b2Fixture* GetFixtureList();
+	
+	
+	b2Body* GetNext();
+};
+
+
+
+
+
+
+
+struct b2Filter
+{
+	b2Filter()
+	{
+		categoryBits = 0x0001;
+		maskBits = 0xFFFF;
+		groupIndex = 0;
+	}
+
+	/// The collision category bits. Normally you would just set one bit.
+	int categoryBits;
+
+	/// The collision mask bits. This states the categories that this
+	/// shape would accept for collision.
+	int maskBits;
+
+	/// Collision groups allow a certain group of objects to never collide (negative)
+	/// or always collide (positive). Zero means no collision group. Non-zero group
+	/// filtering always wins against the mask bits.
+	int groupIndex;
+};
+
+
+
+
+
+
+class b2Fixture
+{
+public:
+	/// Get the type of the child shape. You can use this to down cast to the concrete shape.
+	/// @return the shape type.
+	//b2Shape::Type GetType() const;
+
+	/// Get the child shape. You can modify the child shape, however you should not change the
+	/// number of vertices because this will crash some collision caching mechanisms.
+	/// Manipulating the shape may lead to non-physical behavior.
+	b2Shape* GetShape();
+	//const b2Shape* GetShape() const;
+
+	/// Set if this fixture is a sensor.
+	void SetSensor(bool sensor);
+
+	/// Is this fixture a sensor (non-solid)?
+	/// @return the true if the shape is a sensor.
+	bool IsSensor() const;
+
+	/// Set the contact filtering data. This will not update contacts until the next time
+	/// step when either parent body is active and awake.
+	/// This automatically calls Refilter.
+	void SetFilterData(b2Filter filter);
+
+	/// Get the contact filtering data.
+	b2Filter GetFilterData() const;
+
+	/// Call this if you want to establish collision that was previously disabled by b2ContactFilter::ShouldCollide.
+	void Refilter();
+
+	/// Get the parent body of this fixture. This is NULL if the fixture is not attached.
+	/// @return the parent body.
+	b2Body* GetBody();
+	//const b2Body* GetBody() const;
+
+	/// Get the next fixture in the parent body's fixture list.
+	/// @return the next shape.
+	b2Fixture* GetNext();
+	//const b2Fixture* GetNext() const;
+
+	/// Get the user data that was assigned in the fixture definition. Use this to
+	/// store your application specific data.
+	//void* GetUserData() const;
+
+	/// Set the user data. Use this to store your application specific data.
+	//void SetUserData(void* data);
+
+	/// Test a point for containment in this fixture.
+	/// @param p a point in world coordinates.
+	bool TestPoint(b2Vec2 p) const;
+
+	/// Cast a ray against this shape.
+	/// @param output the ray-cast results.
+	/// @param input the ray-cast input parameters.
+	//bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input, int32 childIndex) const;
+
+	/// Get the mass data for this fixture. The mass data is based on the density and
+	/// the shape. The rotational inertia is about the shape's origin. This operation
+	/// may be expensive.
+	void GetMassData(b2MassData* massData) const;
+
+	/// Set the density of this fixture. This will _not_ automatically adjust the mass
+	/// of the body. You must call b2Body::ResetMassData to update the body's mass.
+	void SetDensity(float density);
+
+	/// Get the density of this fixture.
+	float GetDensity() const;
+
+	/// Get the coefficient of friction.
+	float GetFriction() const;
+
+	/// Set the coefficient of friction. This will _not_ change the friction of
+	/// existing contacts.
+	void SetFriction(float friction);
+
+	/// Get the coefficient of restitution.
+	float GetRestitution() const;
+
+	/// Set the coefficient of restitution. This will _not_ change the restitution of
+	/// existing contacts.
+	void SetRestitution(float restitution);
+
+	/// Get the fixture's AABB. This AABB may be enlarge and/or stale.
+	/// If you need a more accurate AABB, compute it using the shape and
+	/// the body transform.
+	//const b2AABB& GetAABB(int32 childIndex) const;
+
+	/// Dump this fixture to the log file.
+	void Dump(int bodyIndex);
+};

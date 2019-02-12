@@ -18,17 +18,41 @@ LOCAL_SRC_FILES  += ../../../Classes/lua_function/LuaFunction.cpp \
                     ../../../Classes/lua_function/LuaFunctionBond.cpp \
                     ../../../Classes/lua_function/tolua_ext.cpp \
 
-# gamecore
-LOCAL_SRC_FILES  += ../../../Classes/gamecore/GameActor.cpp \
-                    ../../../Classes/gamecore/GameCharacter.cpp \
-                    ../../../Classes/gamecore/GameCharacterBox2d.cpp \
-                    ../../../Classes/gamecore/GameMap.cpp \
-                    ../../../Classes/gamecore/GameMath.cpp \
-                    ../../../Classes/gamecore/GLES-Render.cpp \
-                    ../../../Classes/gamecore/GameWord.cpp
+# anax
+LOCAL_SRC_FILES  += ../../../Classes/anax/src/anax/ClassReflect.cpp \
+                    ../../../Classes/anax/src/anax/Entity.cpp \
+                    ../../../Classes/anax/src/anax/World.cpp \
+                    ../../../Classes/anax/src/anax/detail/BaseSystem.cpp \
+                    ../../../Classes/anax/src/anax/detail/EntityComponentStorage.cpp \
+                    ../../../Classes/anax/src/anax/detail/EntityIdPool.cpp \
+                    ../../../Classes/anax/src/anax/detail/Filter.cpp
 
-# lua_modules/game
-LOCAL_SRC_FILES  += ../../../Classes/lua_modules/game/lua_game.cpp
+# ecs-system
+LOCAL_SRC_FILES  += ../../../Classes/ecs/system/ArmatureCollisionSystem.cpp \
+                    ../../../Classes/ecs/system/Box2DSystem.cpp \
+                    ../../../Classes/ecs/system/MapFollowSystem.cpp \
+                    ../../../Classes/ecs/system/UpdateSystem.cpp \
+
+# ecs-anaxHelper
+LOCAL_SRC_FILES  += ../../../Classes/ecs/anaxHelper.cpp
+
+# foundation
+LOCAL_SRC_FILES  += ../../../Classes/foundation/Actor.cpp \
+                    ../../../Classes/foundation/Character.cpp \
+                    ../../../Classes/foundation/GameMap.cpp \
+                    ../../../Classes/foundation/GameMath.cpp \
+                    ../../../Classes/foundation/GameWorld.cpp \
+                    ../../../Classes/foundation/GameWorldBase.cpp \
+                    ../../../Classes/foundation/GLES-Render.cpp \
+                    ../../../Classes/foundation/ParticleSystemHelper.cpp \
+                    ../../../Classes/foundation/PhysicsActor.cpp \
+
+
+# lua_modules/foundation
+LOCAL_SRC_FILES  += ../../../Classes/lua_modules/foundation/lua_foundation.cpp
+
+# lua_modules/ecs
+LOCAL_SRC_FILES  += ../../../Classes/lua_modules/ecs/lua_ecs.cpp
 
 
 # lua_modules/net
@@ -63,14 +87,15 @@ LOCAL_SRC_FILES  += ../../../Classes/lua_modules/net/libuv/src/inet.c \
                     ../../../Classes/lua_modules/net/libuv/src/fs-poll.c \
                     ../../../Classes/lua_modules/net/net_uv/base/Client.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Common.cpp \
+                    ../../../Classes/lua_modules/net/net_uv/base/DNSCache.cpp \
+                    ../../../Classes/lua_modules/net/net_uv/base/md5.cpp \
+                    ../../../Classes/lua_modules/net/net_uv/base/Misc.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Mutex.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Runnable.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Server.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Session.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/SessionManager.cpp \
                     ../../../Classes/lua_modules/net/net_uv/base/Socket.cpp \
-                    ../../../Classes/lua_modules/net/net_uv/base/md5.cpp \
-                    ../../../Classes/lua_modules/net/net_uv/base/Misc.cpp \
                     ../../../Classes/lua_modules/net/net_uv/tcp/TCPSession.cpp \
                     ../../../Classes/lua_modules/net/net_uv/tcp/TCPSocket.cpp \
                     ../../../Classes/lua_modules/net/net_uv/tcp/TCPClient.cpp \
@@ -124,6 +149,7 @@ LOCAL_SRC_FILES  += ../../../Classes/lua_modules/lua_modules.cpp
 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
+                    $(LOCAL_PATH)/../../../Classes/anax/include \
                     $(LOCAL_PATH)/../../../Classes/lua_modules \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/game \
                     $(LOCAL_PATH)/../../../Classes/lua_modules/net/libuv/include \

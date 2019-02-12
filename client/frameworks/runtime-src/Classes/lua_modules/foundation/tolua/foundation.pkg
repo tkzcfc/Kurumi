@@ -1,0 +1,12 @@
+$pfile "FSM.pkg"
+$pfile "GameMap.pkg"
+$pfile "b2Body.pkg"
+$pfile "ParticleSystemHelper.pkg"
+$pfile "Actor.pkg"
+$pfile "Character.pkg"
+$pfile "GameWorld.pkg"
+$pfile "GameMacro.pkg"
+
+$using namespace cocostudio;
+
+

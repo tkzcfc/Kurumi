@@ -9,7 +9,7 @@ require "cocos.init"
 
 
 local function main()
-    require("app.common.PreInit")
+    require("app.init.init")
     _MyG.APP = require("app.MyApp"):create()
     _MyG.APP:run()
 end

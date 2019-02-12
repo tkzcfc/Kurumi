@@ -1,0 +1,50 @@
+$#include "foundation/FSM.h"
+
+
+class QFSMState
+{
+public:
+	QFSMState(SK stateName, LuaFunction enterFunc, LuaFunction leaveFunc);
+
+	virtual ~QFSMState();
+
+	std::string getStateName();
+
+	QFSM* getFSM();
+};
+
+
+class QFSM
+{
+public:
+	QFSM();
+
+	~QFSM();
+
+	bool addState(std::string stateName, LuaFunction enterFunc, LuaFunction leaveFunc);
+
+	bool addTranslation(std::string fromStateName, std::string eventName, std::string toStateName);
+
+	bool removeTranslation(std::string fromStateName, std::string eventName, std::string toStateName);
+
+	void start(std::string startStateName);
+
+	bool handle(std::string eventName);
+
+	void clear();
+	
+	bool forceSwitch(std::string startStateName);
+	
+	QFSMState* getPreState();
+	
+	std::string getPreStateName();
+
+	QFSMState* getNextState();
+	
+	QFSMState* getCurState();
+	
+	std::string getCurStateName();
+	
+	std::string getCurEventName();
+	
+};

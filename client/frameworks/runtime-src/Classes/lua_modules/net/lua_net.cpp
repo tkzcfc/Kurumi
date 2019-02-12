@@ -1,6 +1,6 @@
 /*
 ** Lua binding: net
-** Generated automatically by tolua++-1.0.92 on 12/08/18 22:29:02.
+** Generated automatically by tolua++-1.0.92 on 01/24/19 22:57:44.
 */
 
 #ifndef __cplusplus
@@ -10,7 +10,7 @@
 #include "tolua++.h"
 #include "lua_function/tolua_ext.h"
 #include "tolua_fix.h"
-//#include "LuaBasicConversions.h"
+#include "LuaBasicConversions.h"
 
 
 /* Exported function */
@@ -1153,7 +1153,9 @@ static int tolua_net_TCPLuaClient_getInstance00(lua_State* tolua_S)
  {
   {
    TCPLuaClient* tolua_ret = (TCPLuaClient*)  TCPLuaClient::getInstance();
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPLuaClient");
+    int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
+    tolua_ext_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"TCPLuaClient");
   }
  }
  return 1;
@@ -1702,7 +1704,7 @@ static int tolua_net_TCPLuaClient_registerLuaHandle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"TCPLuaClient",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
@@ -1810,7 +1812,9 @@ static int tolua_net_TCPLuaServer_new00(lua_State* tolua_S)
  {
   {
    TCPLuaServer* tolua_ret = (TCPLuaServer*)  Mtolua_new((TCPLuaServer)());
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPLuaServer");
+    int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
+    tolua_ext_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"TCPLuaServer");
   }
  }
  return 1;
@@ -1838,7 +1842,9 @@ static int tolua_net_TCPLuaServer_new00_local(lua_State* tolua_S)
  {
   {
    TCPLuaServer* tolua_ret = (TCPLuaServer*)  Mtolua_new((TCPLuaServer)());
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"TCPLuaServer");
+    int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
+    tolua_ext_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"TCPLuaServer");
     tolua_register_gc(tolua_S,lua_gettop(tolua_S));
   }
  }
@@ -2093,7 +2099,7 @@ static int tolua_net_TCPLuaServer_registerLuaHandle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"TCPLuaServer",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
@@ -2201,7 +2207,9 @@ static int tolua_net_KCPLuaClient_getInstance00(lua_State* tolua_S)
  {
   {
    KCPLuaClient* tolua_ret = (KCPLuaClient*)  KCPLuaClient::getInstance();
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"KCPLuaClient");
+    int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
+    tolua_ext_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"KCPLuaClient");
   }
  }
  return 1;
@@ -2680,7 +2688,7 @@ static int tolua_net_KCPLuaClient_registerLuaHandle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"KCPLuaClient",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
@@ -2788,7 +2796,9 @@ static int tolua_net_KCPLuaServer_new00(lua_State* tolua_S)
  {
   {
    KCPLuaServer* tolua_ret = (KCPLuaServer*)  Mtolua_new((KCPLuaServer)());
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"KCPLuaServer");
+    int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
+    tolua_ext_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"KCPLuaServer");
   }
  }
  return 1;
@@ -2816,7 +2826,9 @@ static int tolua_net_KCPLuaServer_new00_local(lua_State* tolua_S)
  {
   {
    KCPLuaServer* tolua_ret = (KCPLuaServer*)  Mtolua_new((KCPLuaServer)());
-    tolua_pushusertype(tolua_S,(void*)tolua_ret,"KCPLuaServer");
+    int nID = (tolua_ret) ? (int)tolua_ret->_ID : -1;
+    int* pLuaID = (tolua_ret) ? &tolua_ret->_luaID : NULL;
+    tolua_ext_pushusertype_ccobject(tolua_S, nID, pLuaID, (void*)tolua_ret,"KCPLuaServer");
     tolua_register_gc(tolua_S,lua_gettop(tolua_S));
   }
  }
@@ -3071,7 +3083,7 @@ static int tolua_net_KCPLuaServer_registerLuaHandle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"KCPLuaServer",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;

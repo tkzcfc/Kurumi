@@ -1118,13 +1118,11 @@ MapConfig["map15"] =
     boos = "MID_SHENGBO",
 }
 
-function MapConfig:loadMap(word, mapKey)
+function MapConfig:loadMap(mapKey)
     local c = self[mapKey]
-
     local map = GameMap:create()
     map:loadMapFile(c.filepath, c.actorNodeName, c.fixNodeName, c.minPosY)
-    word:initGameWorld(map, 20.0, 20.0)
-    return word
+    return map
 end
 
 return MapConfig

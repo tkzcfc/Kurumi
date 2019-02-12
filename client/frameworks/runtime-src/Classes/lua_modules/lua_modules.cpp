@@ -20,8 +20,9 @@ extern int luaopen_protobuf_c(lua_State *L);
 #endif
 
 #include "net/lua_net.h"
-#include "game/lua_game.h"
-
+//#include "game/lua_game.h"
+#include "foundation/lua_foundation.h"
+#include "ecs/lua_ecs.h"
 
 static luaL_Reg modules[] = {
     { "cjson", luaopen_cjson_safe },
@@ -35,7 +36,13 @@ void preload_lua_modules(lua_State *L)
 	luaopen_net(L);
 
 	// game
-	luaopen_game(L);
+	//luaopen_game(L);
+
+	// foundation
+	luaopen_foundation(L);
+
+	// ecs
+	luaopen_ecs(L);
 
 	//load pbc
 	luaopen_protobuf_c(L);
