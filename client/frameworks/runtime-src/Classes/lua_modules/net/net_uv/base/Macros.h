@@ -7,7 +7,7 @@
 #else
 #define NS_NET_UV_BEGIN	
 #define NS_NET_UV_END	
-#define NS_NET_UV_OPEN using namespace net_uv;
+#define NS_NET_UV_OPEN
 #endif
 
 #if defined (WIN32) || defined(_WIN32)
