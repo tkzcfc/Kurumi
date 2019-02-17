@@ -18,7 +18,7 @@ function PlayerController:registerInput(funcName, key)
 		if self.player == nil then
 			return
 		end
-		if self["input_"..funcName] then
+		if self["input_"..funcName] and self.player then
 			self["input_"..funcName](self, ...)
 		end
 	end

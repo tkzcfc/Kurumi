@@ -9,7 +9,7 @@ function MainScene:onCreate()
     MainScene.super.onCreate(self)
     self.ui = _MyG.loadStudioFile("zhucheng", self)
     self:addChild(self.ui.root)
-    changeParticleSystemPositionType(self.ui.root)
+    changeParticleSystemPositionType(self.ui.root, 2)
 
     self.ui.ScrollView:jumpToPercentHorizontal(35)
     self.ui.ScrollView:setScrollBarEnabled(false)

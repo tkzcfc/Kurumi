@@ -9,7 +9,11 @@ function GameScene:onCreate(args)
     self:addChild(world)
     self.world = world
 
-    world:loadMap("map3")
+    if args ~= nil then
+        world:loadMap(args.mapID)
+    else
+        world:loadMap("map3")
+    end
 
     local role = require("app.actor.role.Role_Dao"):create(world)
     role:changeRole("hero_lanse_dao")
@@ -20,8 +24,14 @@ function GameScene:onCreate(args)
     controlUI:setWorld(self.world)
     self.world.uiNode:addChild(controlUI, 1)
 
-    local controller = require("app.common.PlayerController"):new()
-    self.controller = controller:setPlayer(role)
+    _MyG.PlayerController:setPlayer(role)
+end
+
+function GameScene:onKeyBackReleased()
+    _MyG.MessageBox:showBox("返回城镇？", function() 
+        _MyG.PlayerController:setPlayer(nil)
+        _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_MAIN)
+    end, function() end)
 end
 
 return GameScene

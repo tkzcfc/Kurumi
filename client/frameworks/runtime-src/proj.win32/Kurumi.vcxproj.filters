@@ -482,9 +482,6 @@
     <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h">
-      <Filter>Classes\lua_function</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\foundation\GameWorld.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
@@ -510,6 +507,9 @@
       <Filter>Classes\ecs\system</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\Box2DHelper.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
   </ItemGroup>
@@ -830,9 +830,6 @@
     <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp">
-      <Filter>Classes\lua_function</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\foundation\GameWorldBase.cpp">
       <Filter>Classes\foundation</Filter>
     </ClCompile>
@@ -855,6 +852,9 @@
       <Filter>Classes\ecs\system</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\Box2DHelper.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp">
       <Filter>Classes\foundation</Filter>
     </ClCompile>
   </ItemGroup>

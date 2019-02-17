@@ -169,11 +169,11 @@ void GameMap::setViewPos(float x, float y)
 #if COCOS2D_DEBUG == 1
 	if (m_lockMapY)
 	{
-		m_drawNode->setPositionX(-curx);
+		m_drawNode->setPositionX(m_mapNode[GameMapNodeType::STAGE_NODE]->getPositionX());
 	}
 	else
 	{
-		m_drawNode->setPosition(-curx, -cury);
+		m_drawNode->setPosition(m_mapNode[GameMapNodeType::STAGE_NODE]->getPosition());
 	}
 #endif
 
