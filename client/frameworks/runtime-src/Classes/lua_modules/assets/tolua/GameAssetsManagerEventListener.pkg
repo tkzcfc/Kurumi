@@ -1,0 +1,7 @@
+$#include "assets/GameAssetsManagerEventListener.h"
+
+class GameAssetsManagerEventListener : public cc.EventListenerCustom
+{
+public:
+	static GameAssetsManagerEventListener* create(GameAssetsManager* gameAssetsManager, LuaFunction handle);
+};

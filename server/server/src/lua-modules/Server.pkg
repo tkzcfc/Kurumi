@@ -1,0 +1,34 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "base/Client.h"
+
+
+namespace net_uv {
+
+class Server
+{
+public:
+	bool startServer(const char* ip, unsigned int port, bool isIPV6);
+
+	bool stopServer();
+
+	void updateFrame();
+
+	std::string getIP();
+	
+	unsigned int  getPort();
+
+	unsigned int getListenPort();
+
+	bool isIPV6();
+
+	bool isCloseFinish();
+
+	//////////////////////////SessionManager/////////////////
+	void send(unsigned int sessionID, char* data, unsigned int len);
+
+	void disconnect(unsigned int sessionID);
+};
+
+}

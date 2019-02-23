@@ -1,0 +1,80 @@
+$#include "assets/GameAssetsManager.h"
+
+class GameAssetsManager : public cc.Ref
+{
+public:
+    
+    //! Update states
+    enum State
+    {
+        UNCHECKED,
+        PREDOWNLOAD_VERSION,
+        DOWNLOADING_VERSION,
+        VERSION_LOADED,
+        PREDOWNLOAD_MANIFEST,
+        DOWNLOADING_MANIFEST,
+        MANIFEST_LOADED,
+        NEED_UPDATE,
+        UPDATING,
+        UNZIPPING,
+        UP_TO_DATE,
+        FAIL_TO_UPDATE
+    };
+    
+     //static std::string VERSION_ID;
+     //static std::string MANIFEST_ID;
+    
+    /** @brief Create function for creating a new GameAssetsManager
+     @param manifestUrl   The url for the local manifest file
+     @param storagePath   The storage path for downloaded assets
+     @warning   The cached manifest in your storage path have higher priority and will be searched first,
+                only if it doesn't exist, GameAssetsManager will use the given manifestUrl.
+     */
+    static GameAssetsManager* create(const std::string &manifestUrl, const std::string &storagePath, const std::string& platformName);
+    
+    /** @brief  Check out if there is a new version of manifest.
+     *          You may use this method before updating, then let user determine whether
+     *          he wants to update resources.
+     */
+    void checkUpdate();
+    
+    /** @brief Update with the current local manifest.
+     */
+    void update();
+	
+	bool continueUpdate();
+    
+    /** @brief Reupdate all failed assets under the current GameAssetsManager context
+     */
+    void downloadFailedAssets();
+    
+    /** @brief Gets the current update state.
+     */
+    State getState() ;
+    
+    /** @brief Gets storage path.
+     */
+     std::string& getStoragePath() ;
+    
+    /** @brief Function for retrieving the local manifest object
+     */
+     GameManifest* getLocalManifest() ;
+    
+    /** @brief Function for retrieving the remote manifest object
+     */
+     GameManifest* getRemoteManifest() ;
+    
+    /** @brief Function for retrieving the max concurrent task count
+     */
+     int getMaxConcurrentTask();;
+    
+    /** @brief Function for setting the max concurrent task count
+     */
+    void setMaxConcurrentTask( int max);
+
+	void setVersionCompareLuaHandle( LuaFunction handle);
+
+	void setVerifyLuaCallback( LuaFunction handle);
+	
+	void setUpdateDownloadFilePercentLuaCallback( LuaFunction handle);
+};

@@ -1,0 +1,13 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "tcp/TCPSession.h"
+
+namespace net_uv {
+
+class TCPSession : public Session
+{
+public:
+};
+
+}

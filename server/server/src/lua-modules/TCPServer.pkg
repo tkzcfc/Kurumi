@@ -1,0 +1,13 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "tcp/TCPServer.h"
+
+namespace net_uv {
+
+class TCPServer : public Server
+{
+};
+
+}
+

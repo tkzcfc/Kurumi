@@ -1,0 +1,4 @@
+$pfile "GameAssetsManagerEvent.pkg"
+$pfile "GameAssetsManagerEventListener.pkg"
+$pfile "GameAssetsManager.pkg"
+$pfile "GameManifest.pkg"

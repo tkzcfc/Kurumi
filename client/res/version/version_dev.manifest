@@ -1,0 +1,22 @@
+{
+    "packageUrl": "http://47.75.218.200:1000/91/ResourceDir/",
+    "strongUpdateDes": {
+        "android": "Android我是强更新描述",
+        "ios": "IOS我是强更新描述"
+    },
+    "remoteManifestUrl": "http://47.75.218.200:1000/91/download/project_dev.manifest",
+    "searchPaths": [],
+    "restartLevel": 1,
+    "remoteVersionUrl": "http://47.75.218.200:1000/91/download/version_dev.manifest",
+    "strongUpdateURL": {
+        "android": "www.baidu.com",
+        "ios": "www.google.com"
+    },
+    "version": "0.0.0",
+    "engineVersion": "3.x dev",
+    "strongUpdateVer": {
+        "android": 0,
+        "ios": 0
+    },
+    "updateDescription": "1:修复bug\n2:增加功能\n"
+}

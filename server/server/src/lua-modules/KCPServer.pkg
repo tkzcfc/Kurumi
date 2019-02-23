@@ -1,0 +1,13 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "kcp/KCPServer.h"
+
+namespace net_uv {
+
+class KCPServer : public Server
+{
+};
+
+}
+

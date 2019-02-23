@@ -4,14 +4,6 @@ require("lua_code.utils.functions")
 
 OPEN_DEBUG = 1
 
-local function onServerStartCall(svr, success)
-    if success then
-        print("服务器启动成功")
-    else
-        print("服务器启动失败")
-    end
-end
-
 local function onServerCloseCall(svr)
     print("服务器已关闭")
 end
@@ -40,9 +32,13 @@ local function main()
     local clients = {}
     local sendMsg = ""
 
-    local server = DUServer:new()
-    server:startServer("0.0.0.0", 1234, false)
-    server:registerLuaHandle("onServerStartCall", onServerStartCall)
+    local server = DUServer:new_local()
+    if server:startServer("0.0.0.0", 1234, false) then
+        print("服务器启动成功")
+    else
+        print("服务器启动失败")
+        return
+    end
     server:registerLuaHandle("onServerCloseCall", onServerCloseCall)
     server:registerLuaHandle("onServerNewConnectCall", onServerNewConnectCall)
     server:registerLuaHandle("onServerRecvCall", onServerRecvCall)

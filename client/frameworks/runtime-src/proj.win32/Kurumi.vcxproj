@@ -213,6 +213,10 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\anax\include\anax\util\ContainerUtils.hpp" />
     <ClInclude Include="..\Classes\anax\include\anax\World.hpp" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\assets\GameAssetsManager.h" />
+    <ClInclude Include="..\Classes\assets\GameAssetsManagerEvent.h" />
+    <ClInclude Include="..\Classes\assets\GameAssetsManagerEventListener.h" />
+    <ClInclude Include="..\Classes\assets\GameManifest.h" />
     <ClInclude Include="..\Classes\ecs\anaxHelper.h" />
     <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\Box2DComponent.h" />
@@ -242,6 +246,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua_function\LuaFunction.h" />
     <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h" />
     <ClInclude Include="..\Classes\lua_function\tolua_ext.h" />
+    <ClInclude Include="..\Classes\lua_modules\assets\game_assets_tolua.h" />
     <ClInclude Include="..\Classes\lua_modules\cjson\fpconv.h" />
     <ClInclude Include="..\Classes\lua_modules\cjson\lua_cjson.h" />
     <ClInclude Include="..\Classes\lua_modules\cjson\strbuf.h" />
@@ -339,6 +344,10 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\anax\src\anax\Entity.cpp" />
     <ClCompile Include="..\Classes\anax\src\anax\World.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\assets\GameAssetsManager.cpp" />
+    <ClCompile Include="..\Classes\assets\GameAssetsManagerEvent.cpp" />
+    <ClCompile Include="..\Classes\assets\GameAssetsManagerEventListener.cpp" />
+    <ClCompile Include="..\Classes\assets\GameManifest.cpp" />
     <ClCompile Include="..\Classes\ecs\anaxHelper.cpp" />
     <ClCompile Include="..\Classes\ecs\system\ArmatureCollisionSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\Box2DSystem.cpp" />
@@ -360,6 +369,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp" />
     <ClCompile Include="..\Classes\lua_function\LuaFunctionBond.cpp" />
     <ClCompile Include="..\Classes\lua_function\tolua_ext.cpp" />
+    <ClCompile Include="..\Classes\lua_modules\assets\game_assets_tolua.cpp" />
     <ClCompile Include="..\Classes\lua_modules\bit\bit.c" />
     <ClCompile Include="..\Classes\lua_modules\cjson\fpconv.c" />
     <ClCompile Include="..\Classes\lua_modules\cjson\lua_cjson.c" />

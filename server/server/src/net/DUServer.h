@@ -11,37 +11,35 @@ public:
 	DUServer();
 	~DUServer();
 
-	void startServer(const char* ip, unsigned int port, bool isIPV6);
+	bool startServer(const char* ip, unsigned int port, bool isIPV6);
 
 	bool stopServer();
 
-	void send(Session* session, char* data, unsigned int len);
+	void send(net_uv::Session* session, char* data, unsigned int len);
 
-	void disconnect(Session* session);
+	void disconnect(net_uv::Session* session);
 
 	bool isCloseFinish();
 
-	inline TCPServer* getTCPServer();
+	inline net_uv::TCPServer* getTCPServer();
 
 protected:
 
 	void update(float d);
 
-	void onServerStartCall(Server* svr, bool success);
+	void onServerCloseCall(net_uv::Server* svr);
 
-	void onServerCloseCall(Server* svr);
+	void onServerNewConnectCall(net_uv::Server* svr, net_uv::Session* session);
 
-	void onServerNewConnectCall(Server* svr, Session* session);
+	void onServerRecvCall(net_uv::Server* svr, net_uv::Session* session, char* data, unsigned int len);
 
-	void onServerRecvCall(Server* svr, Session* session, char* data, unsigned int len);
-
-	void onServerDisconnectCall(Server* svr, Session* session);
+	void onServerDisconnectCall(net_uv::Server* svr, net_uv::Session* session);
 
 protected:
-	TCPServer* m_server;
+	net_uv::TCPServer* m_server;
 };
 
-TCPServer* DUServer::getTCPServer()
+net_uv::TCPServer* DUServer::getTCPServer()
 {
 	return m_server;
 }

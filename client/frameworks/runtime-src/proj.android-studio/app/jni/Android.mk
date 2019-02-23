@@ -47,6 +47,12 @@ LOCAL_SRC_FILES  += ../../../Classes/foundation/Actor.cpp \
                     ../../../Classes/foundation/ParticleSystemHelper.cpp \
                     ../../../Classes/foundation/PhysicsActor.cpp \
 
+# assets
+LOCAL_SRC_FILES  += ../../../Classes/assets/GameAssetsManager.cpp \
+                    ../../../Classes/assets/GameAssetsManagerEvent.cpp \
+                    ../../../Classes/assets/GameAssetsManagerEventListener.cpp \
+                    ../../../Classes/assets/GameManifest.cpp \
+
 
 # lua_modules/foundation
 LOCAL_SRC_FILES  += ../../../Classes/lua_modules/foundation/lua_foundation.cpp
@@ -142,6 +148,9 @@ LOCAL_SRC_FILES  += ../../../Classes/lua_modules/lfs/lfs.c
 LOCAL_SRC_FILES  += ../../../Classes/lua_modules/cjson/fpconv.c \
                     ../../../Classes/lua_modules/cjson/lua_cjson.c \
                     ../../../Classes/lua_modules/cjson/strbuf.c
+
+# lua_modules/assets
+LOCAL_SRC_FILES  += ../../../Classes/lua_modules/assets/game_assets_tolua.cpp
 
 # lua_modules
 LOCAL_SRC_FILES  += ../../../Classes/lua_modules/lua_modules.cpp

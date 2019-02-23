@@ -1,18 +1,22 @@
 
-_MyG.SCENE_ID_LOGIN 			= 0	--注册场景
-_MyG.SCENE_ID_CREATE 			= 1	--创建角色场景
-_MyG.SCENE_ID_MAIN				= 2	--主场景
-_MyG.SCENE_ID_GAME_MAP			= 3	--游戏场景
-_MyG.SCENE_ID_LOAD_RESOURCE		= 4	--资源加载场景
-_MyG.SCENE_ID_SELECT			= 5 --选择地图场景
+_MyG.SCENE_ID_UPDATE 			= 0	--更新场景
+_MyG.SCENE_ID_LOGIN 			= 1	--注册场景
+_MyG.SCENE_ID_CREATE 			= 2	--创建角色场景
+_MyG.SCENE_ID_MAIN				= 3	--主场景
+_MyG.SCENE_ID_GAME_MAP			= 4	--游戏场景
+_MyG.SCENE_ID_LOAD_RESOURCE		= 5	--资源加载场景
+_MyG.SCENE_ID_SELECT			= 6 --选择地图场景
 
 _MyG.SCENE_MAP = {}
+_MyG.SCENE_MAP[_MyG.SCENE_ID_UPDATE] 		= "UpdateScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_LOGIN] 		= "LoginScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_CREATE] 		= "CreateScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_MAIN] 			= "MainScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_GAME_MAP] 		= "GameScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_LOAD_RESOURCE] = "LoadResource"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_SELECT]		= "SelectScene"
+
+
 
 
 local SceneResourceConfig = require("app.config.SceneResourceConfig")

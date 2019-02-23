@@ -11,7 +11,7 @@ function MessageBoxUI:ctor()
     self.OKButtonCenterPosX = self.ui.Image_BG:getContentSize().width * 0.5
 end
 
-function MessageBoxUI:showBox(content, okcall, cancelcall)
+function MessageBoxUI:showBox(content, okcall, cancelcall, parentNode)
 	self:hideBox()
 	self.okcall = okcall
 	self.cancelcall = cancelcall
@@ -26,7 +26,11 @@ function MessageBoxUI:showBox(content, okcall, cancelcall)
 		self.ui.Button_Cancel:setVisible(true)
 	end
 
-	_MyG.APP:getCurView():addChild(self)
+	if parentNode == nil then
+		_MyG.APP:getCurView():addChild(self)
+	else
+		parentNode:addChild(self)
+	end
 	return self
 end
 

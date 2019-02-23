@@ -115,6 +115,12 @@
     <Filter Include="Classes\lua_modules\foundation">
       <UniqueIdentifier>{24430528-c672-4085-88e4-ec5885d0f46b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\assets">
+      <UniqueIdentifier>{aa5b1078-53c2-4b64-8d79-73a4498d80d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\lua_modules\assets">
+      <UniqueIdentifier>{0f0faefc-3342-4d9d-b135-0b03acdf0d78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -512,6 +518,21 @@
     <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\assets\GameAssetsManager.h">
+      <Filter>Classes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\assets\GameAssetsManagerEvent.h">
+      <Filter>Classes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\assets\GameAssetsManagerEventListener.h">
+      <Filter>Classes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\assets\GameManifest.h">
+      <Filter>Classes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\assets\game_assets_tolua.h">
+      <Filter>Classes\lua_modules\assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -856,6 +877,21 @@
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp">
       <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\assets\GameAssetsManagerEvent.cpp">
+      <Filter>Classes\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\assets\GameAssetsManagerEventListener.cpp">
+      <Filter>Classes\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\assets\GameManifest.cpp">
+      <Filter>Classes\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\assets\GameAssetsManager.cpp">
+      <Filter>Classes\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\assets\game_assets_tolua.cpp">
+      <Filter>Classes\lua_modules\assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

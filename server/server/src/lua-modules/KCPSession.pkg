@@ -1,0 +1,13 @@
+//tolua++ -L basic.lua -o lua_uvtcp.cpp uvtcp.pkg
+
+
+$#include "kcp/KCPSession.h"
+
+namespace net_uv {
+
+class KCPSession : public Session
+{
+public:
+};
+
+}

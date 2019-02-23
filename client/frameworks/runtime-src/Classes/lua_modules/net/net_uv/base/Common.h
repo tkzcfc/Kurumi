@@ -58,7 +58,7 @@ void printMemInfo();
 #if OPEN_NET_UV_DEBUG == 1
 #define CHECK_UV_ASSERT(r) if(r != 0) { auto str = net_getUVError(r); NET_UV_LOG(NET_UV_L_ERROR, str.c_str()); assert(0); }
 #else
-#define CHECK_UV_ASSERT(r) assert(0);
+#define CHECK_UV_ASSERT(r)
 #endif
 
 //»’÷æ ‰≥ˆ
