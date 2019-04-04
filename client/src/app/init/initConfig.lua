@@ -15,8 +15,8 @@ if targetPlatform == cc.PLATFORM_OS_WINDOWS then
 end
 
 
--- _MyG.StartScene = "GameScene"
-_MyG.StartScene = "LoginScene"
+_MyG.StartScene = "GameScene"
+-- _MyG.StartScene = "LoginScene"
 
 if not _MyG.DEBUG then
     -- _MyG.GAME_IP = "www.kurumi.xin"

@@ -2,15 +2,6 @@ local LoadingUI = class("LoadingUI", cc.Node)
 
 
 function LoadingUI:ctor()
-    -- local function onNodeEvent(event)
-    --     if event == "enter" then
-    --         self:onEnter()
-    --     elseif event == "exit" then
-    --         self:onExit()
-    --     end
-    -- end
-    -- self:registerScriptHandler(onNodeEvent)
-
     self.ui = _MyG.loadStudioFile("LoadingScene", self)
 
     self:addChild(self.ui.root)

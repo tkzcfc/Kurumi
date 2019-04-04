@@ -6,16 +6,16 @@ local ShengBoConfig = require("app.config.monster.ShengBoConfig")
 
 function Monster_Shengbo:ctor()
 	Monster_Shengbo.super.ctor(self)
-	
-	self:setActorType(AT_MONSTER)
 
 	self:loadConfig(ShengBoConfig)
-
-	self:override_forceSwitchClean()
 
 	self:initFSM()
 	self.FSM:start("State_Stand")
 	self.AI = require("app.AI.AIM_ShengBo"):new()
+
+	self:enableDefaultPhysics()
+	self:enableUpdate()
+	changeParticleSystemPositionType(self.armature, 2)
 end
 
 function Monster_Shengbo:onEnter()
@@ -26,36 +26,29 @@ function Monster_Shengbo:onEnter()
 	end
 end
 
-function Monster_Shengbo:override_loadArmature(filePath)
-	changeParticleSystemPositionType(self:getArmature())
-end
+-- function Monster_Shengbo:override_attOtherActorCallback(otherActor)
 
-function Monster_Shengbo:override_updateArmatureInfo()
-end
+-- 	local stateName = self.FSM:getCurState():getStateName()
 
-function Monster_Shengbo:override_attOtherActorCallback(otherActor)
+-- 	if stateName == "State_Kill" then
+-- 		otherActor:override_beAttacked(self, true)
+-- 	else
+-- 		otherActor:override_beAttacked(self, false)
+-- 	end
+-- end
 
-	local stateName = self.FSM:getCurState():getStateName()
+-- function Monster_Shengbo:override_beAttacked(attackActor, isPickUp)
+-- 	Monster_Shengbo.super.override_beAttacked(self, attackActor, isPickUp)
 
-	if stateName == "State_Kill" then
-		otherActor:override_beAttacked(self, true)
-	else
-		otherActor:override_beAttacked(self, false)
-	end
-end
+-- 	if not isPickUp then
+-- 		self:handle("CMD_Hit")
+-- 	else
+-- 		self:handle("CMD_Collapase")
+-- 	end
+-- end
 
-function Monster_Shengbo:override_beAttacked(attackActor, isPickUp)
-	Monster_Shengbo.super.override_beAttacked(self, attackActor, isPickUp)
-
-	if not isPickUp then
-		self:handle("CMD_Hit")
-	else
-		self:handle("CMD_Collapase")
-	end
-end
-
-function Monster_Shengbo:override_logicUpdate(time)
-	Monster_Shengbo.super.override_logicUpdate(self, time)
+function Monster_Shengbo:override_update(delta)
+	Monster_Shengbo.super.override_update(self, delta)
 	local curStateName = self.FSM:getCurState():getStateName()
 	-- 奔跑状态
 	if curStateName == "State_Run" then
@@ -170,7 +163,6 @@ end
 
 --强制切换清理
 function Monster_Shengbo:override_forceSwitchClean()
-	Monster_Shengbo.super.override_forceSwitchClean(self)
 	
 	if self.b2Body then
 		self:clearForceXY()

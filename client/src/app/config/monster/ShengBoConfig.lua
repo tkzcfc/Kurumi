@@ -28,17 +28,17 @@ local ShengBoConfig =
 ShengBoConfig.BaseConfig = 
 {
 	-- 移动速度
-	MoveVelocity = 500.0 / PIXEL_TO_METER,
+	MoveVelocity = 500.0 / BOX2D_PIXEL_TO_METER,
 
 	-- 受到攻击时冲力
-	HitImpluse = -150.0 / PIXEL_TO_METER,
+	HitImpluse = -150.0 / BOX2D_PIXEL_TO_METER,
 
 	-- 受到攻击并向后抛 
 	-- 抛起冲力(瞬间冲力)
-	CollapseYImpluse = 500.0 / PIXEL_TO_METER,
+	CollapseYImpluse = 500.0 / BOX2D_PIXEL_TO_METER,
 
 	-- 向后冲力
-	CollapseXImpluse = -100.0 / PIXEL_TO_METER,
+	CollapseXImpluse = -100.0 / BOX2D_PIXEL_TO_METER,
 
 }
 

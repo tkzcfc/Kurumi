@@ -25,6 +25,10 @@ function GameScene:onCreate(args)
     self.world.uiNode:addChild(controlUI, 1)
 
     _MyG.PlayerController:setPlayer(role)
+
+
+    local m = require("app.actor.monster.Monster_Shengbo"):create(world)
+    self.world.mapActorNode:addChild(m)
 end
 
 function GameScene:onKeyBackReleased()

@@ -13,6 +13,11 @@ function SelectScene:onCreate()
     self:randomYun()
 end
 
+function SelectScene:onExit()
+    SelectScene.super.onExit(self)
+    cc.UserDefault:getInstance():setIntegerForKey("selectPageIndex", self.curPageIndex)
+end
+
 function SelectScene:initPageView()
     self.totalPageCount = 15
     
@@ -34,7 +39,7 @@ function SelectScene:initPageView()
         end
     end
 
-    self.curPageIndex = 0
+    self.curPageIndex = cc.UserDefault:getInstance():getIntegerForKey("selectPageIndex", 0)
     self.ui.PageView:removePage(template)
     self.ui.PageView:setCurrentPageIndex(self.curPageIndex)
 

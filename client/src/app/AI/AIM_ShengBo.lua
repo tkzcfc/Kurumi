@@ -23,9 +23,11 @@ end
 
 function AIM_ShengBo:override_AIUpdate(time)
 	AIM_ShengBo.super.override_AIUpdate(self, time)
-	if self.enemy == nil and getGameWord() then
-		self.enemy = getGameWord():getLocalPlayer()
-	end
+	-- if self.enemy == nil then
+
+	-- 	local world = self.owner:getGameWorld()
+	-- 	self.enemy = world.
+	-- end
 end
 
 --左移
