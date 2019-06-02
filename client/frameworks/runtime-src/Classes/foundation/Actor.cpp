@@ -1,11 +1,17 @@
 #include "Actor.h"
 #include "foundation/GameWorldBase.h"
+#include "ecs/components/FilterComponent.h"
 
 Actor::Actor(GameWorldBase* world)
 	: m_gameWorld(world)
 {
 	CC_ASSERT(m_gameWorld != NULL);
 	m_entity = world->getWorld()->createEntity();
+
+	auto& component = m_entity.addComponent<FilterComponent>();
+	component.m_filterData = 0;
+	component.m_owner = this;
+
 	m_entity.activate();
 }
 

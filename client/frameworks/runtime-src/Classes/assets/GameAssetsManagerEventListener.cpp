@@ -99,7 +99,7 @@ bool GameAssetsManagerEventListener::init(const GameAssetsManager *gameAssetsMan
 		if (m_luaHandle.isvalid())
 		{
 			m_luaHandle.ppush();
-			m_luaHandle.pushusertype(eventAssetsManagerEx, "GameAssetsManagerEvent");
+			m_luaHandle.pushusertype<GameAssetsManagerEvent>(eventAssetsManagerEx, "GameAssetsManagerEvent");
 			m_luaHandle.pcall();
 		}
 	};

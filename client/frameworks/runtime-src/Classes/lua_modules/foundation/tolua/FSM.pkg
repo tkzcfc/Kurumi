@@ -4,7 +4,7 @@ $#include "foundation/FSM.h"
 class QFSMState
 {
 public:
-	QFSMState(SK stateName, LuaFunction enterFunc, LuaFunction leaveFunc);
+	QFSMState(std::string stateName, LuaFunction enterFunc, LuaFunction leaveFunc);
 
 	virtual ~QFSMState();
 

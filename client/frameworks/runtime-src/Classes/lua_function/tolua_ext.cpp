@@ -282,6 +282,13 @@ int tolua_ext_check_isfunction(lua_State* L, int lo, const char* type, int def, 
 
 //////////////////////////////////////////////////////////////////////////
 /// function
+void tolua_ext_function_to_luaval(lua_State* L, LuaFunction& func, const char* type)
+{
+	if (func.isvalid() == false)
+		return;
+	func.ppush();
+}
+
 void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type)
 {
 	LuaFunction* handle = (LuaFunction*)funcPtr;
@@ -310,7 +317,7 @@ void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def)
 
 //////////////////////////////////////////////////////////////////////////
 ///map
-void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& v)
+void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -325,7 +332,7 @@ void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::str
 	}
 }
 
-void tolua_ext_map_string_int_to_luaval(lua_State* L, const std::map<std::string, int>& v)
+void tolua_ext_map_string_int_to_luaval(lua_State* L, const std::map<std::string, int>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -340,7 +347,7 @@ void tolua_ext_map_string_int_to_luaval(lua_State* L, const std::map<std::string
 	}
 }
 
-void tolua_ext_map_string_float_to_luaval(lua_State* L, const std::map<std::string, float>& v)
+void tolua_ext_map_string_float_to_luaval(lua_State* L, const std::map<std::string, float>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -355,7 +362,7 @@ void tolua_ext_map_string_float_to_luaval(lua_State* L, const std::map<std::stri
 	}
 }
 
-void tolua_ext_map_string_double_to_luaval(lua_State* L, const std::map<std::string, double>& v)
+void tolua_ext_map_string_double_to_luaval(lua_State* L, const std::map<std::string, double>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -370,7 +377,7 @@ void tolua_ext_map_string_double_to_luaval(lua_State* L, const std::map<std::str
 	}
 }
 
-const std::map<std::string, std::string>& tolua_ext_luaval_to_map_string_string(lua_State* L, int lo, int)
+std::map<std::string, std::string>& tolua_ext_luaval_to_map_string_string(lua_State* L, int lo, int)
 {
 	static std::map<std::string, std::string> outValue;
 	outValue.clear();
@@ -412,7 +419,7 @@ const std::map<std::string, std::string>& tolua_ext_luaval_to_map_string_string(
 	return outValue;
 }
 
-const std::map<std::string, int>& tolua_ext_luaval_to_map_string_int(lua_State* L, int lo, int)
+std::map<std::string, int>& tolua_ext_luaval_to_map_string_int(lua_State* L, int lo, int)
 {
 	static std::map<std::string, int> outValue;
 	outValue.clear();
@@ -437,7 +444,7 @@ const std::map<std::string, int>& tolua_ext_luaval_to_map_string_int(lua_State* 
 		//  -2 => value; 
 		//  -3 => key; 
 		//  -4 => table
-		printf("%s = %s\n", lua_tostring(L, -1), lua_typename(L, lua_type(L, -2)));
+		//printf("%s = %s\n", lua_tostring(L, -1), lua_typename(L, lua_type(L, -2)));
 		if (lua_type(L, -1) == LUA_TSTRING && lua_type(L, -2) == LUA_TNUMBER)
 		{
 			const char* key = lua_tostring(L, -1);
@@ -455,7 +462,7 @@ const std::map<std::string, int>& tolua_ext_luaval_to_map_string_int(lua_State* 
 	return outValue;
 }
 
-const std::map<std::string, float>& tolua_ext_luaval_to_map_string_float(lua_State* L, int lo, int)
+std::map<std::string, float>& tolua_ext_luaval_to_map_string_float(lua_State* L, int lo, int)
 {
 	static std::map<std::string, float> outValue;
 	outValue.clear();
@@ -497,7 +504,7 @@ const std::map<std::string, float>& tolua_ext_luaval_to_map_string_float(lua_Sta
 	return outValue;
 }
 
-const std::map<std::string, double>& tolua_ext_luaval_to_map_string_double(lua_State* L, int lo, int)
+std::map<std::string, double>& tolua_ext_luaval_to_map_string_double(lua_State* L, int lo, int)
 {
 	static std::map<std::string, double> outValue;
 	outValue.clear();
@@ -550,7 +557,7 @@ const std::map<std::string, double>& tolua_ext_luaval_to_map_string_double(lua_S
 
 //////////////////////////////////////////////////////////////////////////
 ///vector
-void tolua_ext_vector_string_to_luaval(lua_State* L, const std::vector<std::string>& v)
+void tolua_ext_vector_string_to_luaval(lua_State* L, const std::vector<std::string>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -568,7 +575,7 @@ void tolua_ext_vector_string_to_luaval(lua_State* L, const std::vector<std::stri
 	}
 }
 
-void tolua_ext_vector_int_to_luaval(lua_State* L, const std::vector<int>& v)
+void tolua_ext_vector_int_to_luaval(lua_State* L, const std::vector<int>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -586,7 +593,7 @@ void tolua_ext_vector_int_to_luaval(lua_State* L, const std::vector<int>& v)
 	}
 }
 
-void tolua_ext_vector_float_to_luaval(lua_State* L, const std::vector<float>& v)
+void tolua_ext_vector_float_to_luaval(lua_State* L, const std::vector<float>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -604,7 +611,7 @@ void tolua_ext_vector_float_to_luaval(lua_State* L, const std::vector<float>& v)
 	}
 }
 
-void tolua_ext_vector_double_to_luaval(lua_State* L, const std::vector<double>& v)
+void tolua_ext_vector_double_to_luaval(lua_State* L, const std::vector<double>& v, const char*)
 {
 	if (nullptr == L)
 		return;
@@ -622,7 +629,21 @@ void tolua_ext_vector_double_to_luaval(lua_State* L, const std::vector<double>& 
 	}
 }
 
-const std::vector<std::string>& tolua_ext_luaval_to_vector_string(lua_State* L, int lo, int)
+
+void tolua_ext_vector_vec2_to_luaval(lua_State* L, const std::vector<Vec2>& v, const char*)
+{
+	if (NULL == L)
+		return;
+	lua_newtable(L);
+	for (int i = 1; i <= v.size(); ++i)
+	{
+		lua_pushnumber(L, i);
+		tolua_ext_vec2_value_to_luaval(L, v[i - 1], "");
+		lua_rawset(L, -3);
+	}
+}
+
+std::vector<std::string>& tolua_ext_luaval_to_vector_string(lua_State* L, int lo, int)
 {
 	static std::vector<std::string> outValue;
 	outValue.clear();
@@ -649,7 +670,7 @@ const std::vector<std::string>& tolua_ext_luaval_to_vector_string(lua_State* L, 
 	return outValue;
 }
 
-const std::vector<int>& tolua_ext_luaval_to_vector_int(lua_State* L, int lo, int)
+std::vector<int>& tolua_ext_luaval_to_vector_int(lua_State* L, int lo, int)
 {
 	static std::vector<int> outValue;
 	outValue.clear();
@@ -660,7 +681,7 @@ const std::vector<int>& tolua_ext_luaval_to_vector_int(lua_State* L, int lo, int
 	lua_pushvalue(L, lo);
 	int len = lua_objlen(L, -1);
 	outValue.reserve(len);
-	stackDump(L);
+	//stackDump(L);
 	for (int i = 1; i <= len; i++)
 	{
 		lua_pushinteger(L, i);
@@ -677,7 +698,7 @@ const std::vector<int>& tolua_ext_luaval_to_vector_int(lua_State* L, int lo, int
 	return outValue;
 }
 
-const std::vector<float>& tolua_ext_luaval_to_vector_float(lua_State* L, int lo, int)
+std::vector<float>& tolua_ext_luaval_to_vector_float(lua_State* L, int lo, int)
 {
 	static std::vector<float> outValue;
 	outValue.clear();
@@ -704,7 +725,7 @@ const std::vector<float>& tolua_ext_luaval_to_vector_float(lua_State* L, int lo,
 	return outValue;
 }
 
-const std::vector<double>& tolua_ext_luaval_to_vector_double(lua_State* L, int lo, int)
+std::vector<double>& tolua_ext_luaval_to_vector_double(lua_State* L, int lo, int)
 {
 	static std::vector<double> outValue;
 	outValue.clear();
@@ -731,7 +752,37 @@ const std::vector<double>& tolua_ext_luaval_to_vector_double(lua_State* L, int l
 	return outValue;
 }
 
-void tolua_ext_vec2_value_to_luaval(lua_State* L, const Vec2& v)
+std::vector<Vec2>& tolua_ext_luaval_to_vector_vec2(lua_State* L, int lo, int)
+{
+	static std::vector<Vec2> outValue;
+	outValue.clear();
+
+	if (nullptr == L || lua_gettop(L) < lo)
+		return outValue;
+
+	if (tolua_ext_check_is_table(L, lo, NULL, 0, NULL) == 0)
+	{
+		return outValue;
+	}
+
+	size_t len = lua_objlen(L, lo);
+	Vec2 value;
+	for (size_t i = 1; i <= len; i++)
+	{
+		lua_pushnumber(L, i);
+		lua_gettable(L, lo);
+		if (lua_istable(L, lua_gettop(L)))
+		{
+			value = tolua_ext_luaval_to_vec2_value(L, lua_gettop(L), 0);
+			outValue.push_back(value);
+		}
+		lua_pop(L, 1);
+	}
+
+	return outValue;
+}
+
+void tolua_ext_vec2_value_to_luaval(lua_State* L, const Vec2& v, const char*)
 {
 	if (NULL == L)
 		return;
@@ -744,7 +795,7 @@ void tolua_ext_vec2_value_to_luaval(lua_State* L, const Vec2& v)
 	lua_rawset(L, -3);									/* table[key] = value, L: table */
 }
 
-void tolua_ext_vec3_value_to_luaval(lua_State* L, const Vec3& v)
+void tolua_ext_vec3_value_to_luaval(lua_State* L, const Vec3& v, const char*)
 {
 	if (NULL == L)
 		return;
@@ -760,7 +811,7 @@ void tolua_ext_vec3_value_to_luaval(lua_State* L, const Vec3& v)
 	lua_rawset(L, -3);									 /* table[key] = value, L: table */
 }
 
-void tolua_ext_size_value_to_luaval(lua_State* L, const Size& v)
+void tolua_ext_size_value_to_luaval(lua_State* L, const Size& v, const char*)
 {
 	if (NULL == L)
 		return;
@@ -773,7 +824,7 @@ void tolua_ext_size_value_to_luaval(lua_State* L, const Size& v)
 	lua_rawset(L, -3);                                  /* table[key] = value, L: table */
 }
 
-void tolua_ext_rect_value_to_luaval(lua_State* L, const Rect& v)
+void tolua_ext_rect_value_to_luaval(lua_State* L, const Rect& v, const char*)
 {
 	if (NULL == L)
 		return;
@@ -792,7 +843,7 @@ void tolua_ext_rect_value_to_luaval(lua_State* L, const Rect& v)
 	lua_rawset(L, -3);                                  /* table[key] = value, L: table */
 }
 
-void tolua_ext_b2vec2_to_luaval(lua_State* L, const b2Vec2& v)
+void tolua_ext_b2vec2_to_luaval(lua_State* L, const b2Vec2& v, const char*)
 {
 	if (NULL == L)
 		return;
@@ -900,7 +951,7 @@ Rect tolua_ext_luaval_to_rect_value(lua_State* L, int lo, int)
 
 	return outValue;
 }
-
+//
 b2Vec2 tolua_ext_luaval_to_b2vec2(lua_State* L, int lo, int)
 {
 	b2Vec2 outValue;
@@ -920,5 +971,3 @@ b2Vec2 tolua_ext_luaval_to_b2vec2(lua_State* L, int lo, int)
 
 	return outValue;
 }
-
-

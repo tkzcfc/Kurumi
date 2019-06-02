@@ -74,7 +74,7 @@ public:
 	public: \
 	SystemHelper_##TYPE() \
 	{ \
-		typeId = anax::ComponentTypeId<TYPE>(); \
+		typeId = anax::SystemTypeId<TYPE>(); \
 		CCLOG("%s : %d", #TYPE, typeId); \
 	} \
 	virtual void addSystem(anax::World* world, void* sys) \
@@ -124,6 +124,11 @@ public:
 		return GComponentHelperMap[component]->hasComponent(entity);
 	}
 
+	static unsigned int getComponentTypeID(const std::string& component)
+	{
+		return (unsigned int)GComponentHelperMap[component]->typeId;
+	}
+
 	static void addSystem(anax::World* world, const std::string& systemName, void* sys)
 	{
 		GSystemHelperMap[systemName]->addSystem(world, sys);
@@ -142,6 +147,11 @@ public:
 	static anax::World* getSystemWorld(const std::string& systemName, void* sys)
 	{
 		return GSystemHelperMap[systemName]->getWorld(sys);
+	}
+
+	static unsigned int getSystemTypeID(const std::string& systemName)
+	{
+		return (unsigned int)GSystemHelperMap[systemName]->typeId;
 	}
 
 	static void implementation();

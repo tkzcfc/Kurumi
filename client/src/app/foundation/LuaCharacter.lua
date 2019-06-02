@@ -207,6 +207,25 @@ function LuaCharacter:enablePhysics(position, size)
 	self.collisionFilterComponent = collisionFilterComponent
 end
 
+function LuaCharacter:getSystem(systemName)
+	local gameWorld = self:getGameWorld()
+	if gameWorld == nil then
+		return
+	end
+
+	local world = gameWorld:getWorld()
+	if world == nil then
+		return
+	end
+
+	local filterSystem = world:getSystemByID(AnaxHelper:getSystemTypeID(systemName))
+	if filterSystem == nil then
+		return
+	end
+	
+	return tolua.cast(filterSystem, systemName)
+end
+
 function LuaCharacter:changeCategoryBits(bit)
 	if self.b2Body then
 		local fixtureList = self.b2Body:GetFixtureList()

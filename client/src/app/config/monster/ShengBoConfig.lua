@@ -42,6 +42,12 @@ ShengBoConfig.BaseConfig =
 
 }
 
+-- AI
+ShengBoConfig.AI_CONFIG = 
+{
+	
+}
+
 --跟随配置
 ShengBoConfig.FOLLOW_CONFIG = 
 {

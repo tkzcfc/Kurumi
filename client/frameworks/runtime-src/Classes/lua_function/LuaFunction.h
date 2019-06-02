@@ -11,6 +11,7 @@ extern "C"
 }
 #endif
 #include <string>
+#include "tolua_ext.h"
 
 class LuaRef {
 public:
@@ -108,8 +109,12 @@ public:
 		pusharg(args...);
 	}
 
-	void pushusertype(void* v, const char* type);
-
+	template<typename T>
+	void pushusertype(void* v, const char* type)
+	{
+		tolua_ext_object_to_luaval<T>(L, v, type);
+	}
+	
 	bool retbool(int index = 0, bool defaultvalue = false);
 
 	int retint(int index = 0, int defaultvalue = 0);

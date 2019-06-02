@@ -27,6 +27,8 @@ namespace anax
         /// \return The amount of entities that are alive (attached to the world)
         /// \note This count includes the deactivated entities
         int getEntityCount();
+		
+		void* getSystemByID(unsigned int typeID);
 	}
 }
 

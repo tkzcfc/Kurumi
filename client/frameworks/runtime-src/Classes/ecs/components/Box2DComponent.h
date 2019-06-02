@@ -7,7 +7,6 @@
 
 using namespace cocos2d;
 
-class GameActor;
 class Box2DComponent : public anax::Component, public Ref
 {
 public:

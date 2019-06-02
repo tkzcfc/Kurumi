@@ -51,15 +51,15 @@ public:
 		m_enterFunc = [this](QFSMState* state, QFSM* fsm)
 		{			
 			m_lua_enterFunc.ppush();
-			m_lua_enterFunc.pushusertype(state, "QFSMState");
-			m_lua_enterFunc.pushusertype(fsm, "QFSM");
+			m_lua_enterFunc.pushusertype<QFSMState>(state, "QFSMState");
+			m_lua_enterFunc.pushusertype<QFSM>(fsm, "QFSM");
 			m_lua_enterFunc.pcall();
 		};
 		m_leaveFunc = [this](QFSMState* state, QFSM* fsm)
 		{
 			m_lua_leaveFunc.ppush();
-			m_lua_leaveFunc.pushusertype(state, "QFSMState");
-			m_lua_leaveFunc.pushusertype(fsm, "QFSM");
+			m_lua_leaveFunc.pushusertype<QFSMState>(state, "QFSMState");
+			m_lua_leaveFunc.pushusertype<QFSM>(fsm, "QFSM");
 			m_lua_leaveFunc.pcall();
 		};
 	}

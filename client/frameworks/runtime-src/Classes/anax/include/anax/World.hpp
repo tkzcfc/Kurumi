@@ -105,6 +105,16 @@ namespace anax
 		template <typename TSystem>
 		TSystem* getSystem();
 
+		detail::BaseSystem* getSystemByID(detail::TypeId typeID)
+		{
+			auto it = m_systems.find(typeID);
+			if (it != m_systems.end())
+			{
+				return it->second.get();
+			}
+			return NULL;
+		}
+
         /// Creates an Entity
         /// \return A new entity for which you can use.
         Entity createEntity();

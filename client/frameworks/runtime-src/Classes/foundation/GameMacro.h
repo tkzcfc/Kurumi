@@ -8,10 +8,11 @@ using namespace cocos2d;
 
 enum BOX2D_FILTER_MASK
 {
-	B2DM_GROUND	  = 1 << 1, // 地面
-	B2DM_SIDE_WALL = 1 << 2, // 墙壁
-	B2DM_CHARACTER = 1 << 3, // 角色
-	B2DM_SKILL	  = 1 << 4, // 技能
+	B2DM_GROUND		= 1 << 1, // 地面
+	B2DM_SIDE_WALL	= 1 << 2, // 墙壁
+	B2DM_PLAYER		= 1 << 3, // 玩家
+	B2DM_MONSTER	= 1 << 4, // 怪物
+	B2DM_SKILL		= 1 << 5, // 技能
 };
 
 #define GAMEWORLD_NODE_MAP 0

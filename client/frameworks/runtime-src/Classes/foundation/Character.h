@@ -20,6 +20,10 @@ public:
 
 	void setPositionAndSyncPhysicsTransform(const Vec2& inPos);
 
+	void setCategoryBits(unsigned short categoryBits);
+
+	unsigned short getCategoryBits();
+
 public:
 
 	virtual bool init()override;
@@ -37,6 +41,8 @@ protected:
 	QFSM m_fsm;
 
 	cocostudio::Armature* m_armature;
+
+	unsigned short m_categoryBits;
 };
 
 QFSM* Character::getFSM()

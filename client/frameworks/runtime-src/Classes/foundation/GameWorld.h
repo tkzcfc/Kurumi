@@ -63,6 +63,8 @@ protected:
 	class ArmatureCollisionSystem* m_armatureCollisionSystem;
 
 	class UpdateSystem* m_updateSystem;
+
+	class FilterSystem* m_filterSystem;
 };
 
 

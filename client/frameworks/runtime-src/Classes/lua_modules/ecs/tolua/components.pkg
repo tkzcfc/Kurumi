@@ -3,6 +3,8 @@ $#include "ecs/components/Box2DComponent.h"
 $#include "ecs/components/MapFollowComponent.h"
 $#include "ecs/components/OrientationComponent.h"
 $#include "ecs/components/UpdateComponent.h"
+$#include "ecs/components/FilterComponent.h"
+$#include "foundation/Actor.h"
 
 
 $using namespace cocos2d;
@@ -110,8 +112,18 @@ public:
 
 
 
+/// FilterComponent
+class FilterComponent : public anax::Component
+{
+public:
+	FilterComponent();
 
+	virtual ~FilterComponent();
 
+	Actor* m_owner;
+
+	int m_filterData;
+};
 
 
 

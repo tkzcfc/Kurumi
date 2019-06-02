@@ -1,6 +1,6 @@
-local Monster_Base = require("app.actor.monster.Monster_Base")
+local AICharacter = require("app.actor.monster.AICharacter")
 
-local Monster_Shengbo = class("Monster_Shengbo", Monster_Base)
+local Monster_Shengbo = class("Monster_Shengbo", AICharacter)
 
 local ShengBoConfig = require("app.config.monster.ShengBoConfig")
 
@@ -11,20 +11,14 @@ function Monster_Shengbo:ctor()
 
 	self:initFSM()
 	self.FSM:start("State_Stand")
-	self.AI = require("app.AI.AIM_ShengBo"):new()
 
 	self:enableDefaultPhysics()
-	self:enableUpdate()
 	changeParticleSystemPositionType(self.armature, 2)
+
+	self.bhTree:execute( require("app.AI.AI_Run_export"), self, true )
 end
 
-function Monster_Shengbo:onEnter()
-	Monster_Shengbo.super.onEnter(self)
-	if self.AI then
-		self.AI:setOwner(self)
-		self.AI:start()
-	end
-end
+
 
 -- function Monster_Shengbo:override_attOtherActorCallback(otherActor)
 
@@ -52,11 +46,7 @@ function Monster_Shengbo:override_update(delta)
 	local curStateName = self.FSM:getCurState():getStateName()
 	-- 奔跑状态
 	if curStateName == "State_Run" then
-		if self.startMoveCMD then
-			self:setVelocityXByImpulse(self:getVelocityByMoveOrientation(ShengBoConfig.BaseConfig.MoveVelocity))
-		else
-			self:clearForceX()
-		end
+		self:setVelocityXByImpulse(self:getVelocityByMoveOrientation(ShengBoConfig.BaseConfig.MoveVelocity))
 	else
 		if self.isCollapse then
 			if not self:isInAir() then

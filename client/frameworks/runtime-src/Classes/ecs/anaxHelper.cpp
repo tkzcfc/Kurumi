@@ -5,11 +5,13 @@
 #include "ecs/components/MapFollowComponent.h"
 #include "ecs/components/OrientationComponent.h"
 #include "ecs/components/UpdateComponent.h"
+#include "ecs/components/FilterComponent.h"
 
 #include "ecs/system/ArmatureCollisionSystem.h"
 #include "ecs/system/Box2DSystem.h"
 #include "ecs/system/MapFollowSystem.h"
 #include "ecs/system/UpdateSystem.h"
+#include "ecs/system/FilterSystem.h"
 
 
 std::unordered_map<std::string, SystemHelper*> AnaxHelper::GSystemHelperMap;
@@ -24,12 +26,14 @@ void AnaxHelper::implementation()
 	IMPLEMENTATION_COMPONENT(MapFollowComponent);
 	IMPLEMENTATION_COMPONENT(OrientationComponent);
 	IMPLEMENTATION_COMPONENT(UpdateComponent);
+	IMPLEMENTATION_COMPONENT(FilterComponent);
 
 
 	IMPLEMENTATION_SYSTEM(ArmatureCollisionSystem);
 	IMPLEMENTATION_SYSTEM(Box2DSystem);
 	IMPLEMENTATION_SYSTEM(MapFollowSystem);
 	IMPLEMENTATION_SYSTEM(UpdateSystem);
+	IMPLEMENTATION_SYSTEM(FilterSystem);
 
 
 #if (COCOS2D_DEBUG == 1)

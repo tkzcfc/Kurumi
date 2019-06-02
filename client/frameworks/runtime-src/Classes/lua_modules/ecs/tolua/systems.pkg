@@ -2,6 +2,8 @@ $#include "ecs/system/ArmatureCollisionSystem.h"
 $#include "ecs/system/Box2DSystem.h"
 $#include "ecs/system/MapFollowSystem.h"
 $#include "ecs/system/UpdateSystem.h"
+$#include "ecs/system/FilterSystem.h"
+
 
 
 ////////////////////////////////////////////ArmatureCollisionSystem/////////////////////////////////
@@ -83,8 +85,19 @@ public:
 };
 
 
+////////////////////////////////////////////UpdateSystem/////////////////////////////////
+class FilterSystem : public anax::System
+{
+public:
 
+	FilterSystem();
 
+	virtual ~FilterSystem();
+
+	std::vector<Actor*> getAllActorByFilterData(int filterData);
+
+	Actor* randomGetActorByFilterData(int filterData);
+};
 
 
 

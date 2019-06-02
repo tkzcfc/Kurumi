@@ -10,6 +10,7 @@
 Character::Character(GameWorldBase* world)
 	: Actor(world)
 	, m_armature(NULL)
+	, m_categoryBits(BOX2D_FILTER_MASK::B2DM_PLAYER)
 {}
 
 Character::~Character()
@@ -100,7 +101,7 @@ void Character::enableBox2DComponent(const Vec2& bodyPos, const Size& characterS
 
 	b2Filter filter;
 	filter.groupIndex = -1;
-	filter.categoryBits = BOX2D_FILTER_MASK::B2DM_CHARACTER;
+	filter.categoryBits = m_categoryBits;
 	filter.maskBits = BOX2D_FILTER_MASK::B2DM_GROUND | BOX2D_FILTER_MASK::B2DM_SIDE_WALL;
 
 	// ÊµÌå¾ØÐÎ
@@ -137,4 +138,24 @@ void Character::setPositionAndSyncPhysicsTransform(const Vec2& inPos)
 		Box2DComponent& component = this->m_entity.getComponent<Box2DComponent>();
 		component.m_body->SetTransform(b2Vec2(inPos.x / BOX2D_PIXEL_TO_METER, inPos.y / BOX2D_PIXEL_TO_METER), component.m_body->GetAngle());
 	}
+}
+
+void Character::setCategoryBits(unsigned short categoryBits)
+{
+	m_categoryBits = categoryBits;
+	if (this->m_entity.hasComponent<Box2DComponent>())
+	{
+		Box2DComponent& component = this->m_entity.getComponent<Box2DComponent>();
+		for (auto fixture = component.m_body->GetFixtureList(); fixture != NULL; fixture = fixture->GetNext())
+		{
+			auto filterData = fixture->GetFilterData();
+			filterData.categoryBits = categoryBits;
+			fixture->SetFilterData(filterData);
+		}
+	}
+}
+
+unsigned short Character::getCategoryBits()
+{
+	return m_categoryBits;
 }

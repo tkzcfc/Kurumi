@@ -3,6 +3,7 @@
 #include "ecs/system/MapFollowSystem.h"
 #include "ecs/system/ArmatureCollisionSystem.h"
 #include "ecs/system/UpdateSystem.h"
+#include "ecs/system/FilterSystem.h"
 
 GameWorld::GameWorld()
 	: m_box2DSystem(NULL)
@@ -12,6 +13,7 @@ GameWorld::GameWorld()
 	, m_gameMap(NULL)
 	, m_mapFollowSystem(NULL)
 	, m_armatureCollisionSystem(NULL)
+	, m_filterSystem(NULL)
 	, m_bDebugEnable(true)
 {}
 
@@ -46,6 +48,9 @@ bool GameWorld::init()
 
 	m_updateSystem = new UpdateSystem();
 	m_world.addSystem<UpdateSystem>(*m_updateSystem);
+
+	m_filterSystem = new FilterSystem();
+	m_world.addSystem<FilterSystem>(*m_filterSystem);
 
 	return true;
 }
@@ -170,6 +175,7 @@ void GameWorld::onWorldDestroy()
 	CC_SAFE_DELETE(m_mapFollowSystem);
 	CC_SAFE_DELETE(m_armatureCollisionSystem);
 	CC_SAFE_DELETE(m_updateSystem);
+	CC_SAFE_DELETE(m_filterSystem);
 	GameWorldBase::onWorldDestroy();
 }
 

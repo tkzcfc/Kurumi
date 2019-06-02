@@ -268,11 +268,6 @@ void LuaFunction::pushlstring(const char* v, unsigned int len)
 	lua_pushlstring(L, v, len);
 }
 
-void LuaFunction::pushusertype(void* v, const char* type)
-{
-	tolua_pushusertype(L, (void*)v, type);
-}
-
 void LuaFunction::clear_ret()
 {
 	for (int i = 0; i < MAX_RET_ARGS_COUNT; ++i)

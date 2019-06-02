@@ -50,14 +50,14 @@ void TCPLuaServer::update(float)
 {
 	m_server->updateFrame();
 }
-
+ 
 void TCPLuaServer::onServerCloseCall(net_uv::Server* svr)
 {
 	auto handle = getLuaHandle("onServerCloseCall");
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
+		handle->pushusertype<net_uv::TCPServer>(svr, "net_uv::TCPServer");
 		handle->pcall();
 	}
 }
@@ -68,8 +68,8 @@ void TCPLuaServer::onServerNewConnectCall(net_uv::Server* svr, net_uv::Session* 
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::TCPServer>(svr, "net_uv::TCPServer");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pcall();
 	}
 }
@@ -80,8 +80,8 @@ void TCPLuaServer::onServerRecvCall(net_uv::Server* svr, net_uv::Session* sessio
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::TCPServer>(svr, "net_uv::TCPServer");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pushlstring(data, len);
 		handle->pusharg(len);
 		handle->pcall();
@@ -94,8 +94,8 @@ void TCPLuaServer::onServerDisconnectCall(net_uv::Server* svr, net_uv::Session* 
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::TCPServer>(svr, "net_uv::TCPServer");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pcall();
 	}
 }

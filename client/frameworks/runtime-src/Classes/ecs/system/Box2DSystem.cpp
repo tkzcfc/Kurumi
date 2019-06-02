@@ -40,7 +40,7 @@ bool Box2DSystem::initPhysics(const Vec2 & gravity, const Size& worldSize, float
 	b2Filter filter;
 	filter.groupIndex = 0;
 	filter.categoryBits = BOX2D_FILTER_MASK::B2DM_GROUND;
-	filter.maskBits = BOX2D_FILTER_MASK::B2DM_CHARACTER | BOX2D_FILTER_MASK::B2DM_SKILL;
+	filter.maskBits = BOX2D_FILTER_MASK::B2DM_PLAYER | BOX2D_FILTER_MASK::B2DM_SKILL | BOX2D_FILTER_MASK::B2DM_MONSTER;
 
 	// Define the ground box shape.
 	b2EdgeShape groundBox;
@@ -103,7 +103,7 @@ void Box2DSystem::initWall(const Size& worldSize, float letf_offset, float right
 	b2Filter filter;
 	filter.groupIndex = 0;
 	filter.categoryBits = BOX2D_FILTER_MASK::B2DM_SIDE_WALL;
-	filter.maskBits = BOX2D_FILTER_MASK::B2DM_CHARACTER;
+	filter.maskBits = BOX2D_FILTER_MASK::B2DM_PLAYER | BOX2D_FILTER_MASK::B2DM_MONSTER;
 
 	// ÊµÌå¾ØÐÎ
 	b2PolygonShape shape;

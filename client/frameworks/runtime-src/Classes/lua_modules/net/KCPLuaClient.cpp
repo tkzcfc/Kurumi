@@ -118,8 +118,8 @@ void KCPLuaClient::onClientConnectCall(net_uv::Client* client, net_uv::Session* 
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::KCPClient");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPClient>(client, "net_uv::KCPClient");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pusharg(status);
 		handle->pcall();
 	}
@@ -131,8 +131,8 @@ void KCPLuaClient::onClientDisconnectCall(net_uv::Client* client, net_uv::Sessio
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::KCPClient");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPClient>(client, "net_uv::KCPClient");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pcall();
 	}
 }
@@ -143,8 +143,8 @@ void KCPLuaClient::onClientRecvCall(net_uv::Client* client, net_uv::Session* ses
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::KCPClient");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPClient>(client, "net_uv::KCPClient");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pushlstring(data, len);
 		handle->pusharg(len);
 		handle->pcall();
@@ -157,7 +157,7 @@ void KCPLuaClient::onClientCloseCall(net_uv::Client* client)
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPSession>(client, "net_uv::KCPSession");
 		handle->pcall();
 	}
 }
@@ -168,8 +168,8 @@ void KCPLuaClient::onClientRemoveSessionCall(net_uv::Client* client, net_uv::Ses
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::KCPClient");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPClient>(client, "net_uv::KCPClient");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pcall();
 	}
 }

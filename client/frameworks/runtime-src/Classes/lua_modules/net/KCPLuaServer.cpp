@@ -57,7 +57,7 @@ void KCPLuaServer::onServerCloseCall(net_uv::Server* svr)
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
+		handle->pushusertype<net_uv::KCPServer>(svr, "net_uv::KCPServer");
 		handle->pcall();
 	}
 }
@@ -68,8 +68,8 @@ void KCPLuaServer::onServerNewConnectCall(net_uv::Server* svr, net_uv::Session* 
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPServer>(svr, "net_uv::KCPServer");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pcall();
 	}
 }
@@ -80,8 +80,8 @@ void KCPLuaServer::onServerRecvCall(net_uv::Server* svr, net_uv::Session* sessio
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPServer>(svr, "net_uv::KCPServer");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pushlstring(data, len);
 		handle->pusharg(len);
 		handle->pcall();
@@ -94,8 +94,8 @@ void KCPLuaServer::onServerDisconnectCall(net_uv::Server* svr, net_uv::Session* 
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(svr, "net_uv::KCPServer");
-		handle->pushusertype(session, "net_uv::KCPSession");
+		handle->pushusertype<net_uv::KCPServer>(svr, "net_uv::KCPServer");
+		handle->pushusertype<net_uv::KCPSession>(session, "net_uv::KCPSession");
 		handle->pcall();
 	}
 }

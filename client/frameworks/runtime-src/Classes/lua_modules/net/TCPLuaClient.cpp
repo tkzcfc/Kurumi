@@ -136,8 +136,8 @@ void TCPLuaClient::onClientConnectCall(net_uv::Client* client, net_uv::Session* 
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::TCPClient");
-		handle->pushusertype(session, "net_uv::TCPSession");
+		handle->pushusertype<net_uv::TCPClient>(client, "net_uv::TCPClient");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pusharg(status);
 		handle->pcall();
 	}
@@ -149,8 +149,8 @@ void TCPLuaClient::onClientDisconnectCall(net_uv::Client* client, net_uv::Sessio
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::TCPClient");
-		handle->pushusertype(session, "net_uv::TCPSession");
+		handle->pushusertype<net_uv::TCPClient>(client, "net_uv::TCPClient");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pcall();
 	}
 }
@@ -161,8 +161,8 @@ void TCPLuaClient::onClientRecvCall(net_uv::Client* client, net_uv::Session* ses
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::TCPClient");
-		handle->pushusertype(session, "net_uv::TCPSession");
+		handle->pushusertype<net_uv::TCPClient>(client, "net_uv::TCPClient");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pushlstring(data, len);
 		handle->pusharg(len);
 		handle->pcall();
@@ -175,7 +175,7 @@ void TCPLuaClient::onClientCloseCall(net_uv::Client* client)
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::TCPClient");
+		handle->pushusertype<net_uv::TCPClient>(client, "net_uv::TCPClient");
 		handle->pcall();
 	}
 }
@@ -186,8 +186,8 @@ void TCPLuaClient::onClientRemoveSessionCall(net_uv::Client* client, net_uv::Ses
 	if (handle && handle->isvalid())
 	{
 		handle->ppush();
-		handle->pushusertype(client, "net_uv::TCPClient");
-		handle->pushusertype(session, "net_uv::TCPSession");
+		handle->pushusertype<net_uv::TCPClient>(client, "net_uv::TCPClient");
+		handle->pushusertype<net_uv::TCPSession>(session, "net_uv::TCPSession");
 		handle->pcall();
 	}
 }

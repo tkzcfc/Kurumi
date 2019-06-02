@@ -533,6 +533,12 @@
     <ClInclude Include="..\Classes\lua_modules\assets\game_assets_tolua.h">
       <Filter>Classes\lua_modules\assets</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\FilterComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\FilterSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -892,6 +898,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\assets\game_assets_tolua.cpp">
       <Filter>Classes\lua_modules\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\FilterSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

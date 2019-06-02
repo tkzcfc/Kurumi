@@ -500,7 +500,7 @@ void GameAssetsManager::setVerifyLuaCallback(const LuaFunction& handle)
 	{
 		_verifyLuaHandle.ppush();
 		_verifyLuaHandle.pusharg(path.c_str());
-		_verifyLuaHandle.pushusertype(&asset, "GameManifestAsset");
+		_verifyLuaHandle.pushusertype<GameManifestAsset>((void*)&asset, "GameManifestAsset");
 		_verifyLuaHandle.pcall(1);
 
 		return _verifyLuaHandle.retbool();
