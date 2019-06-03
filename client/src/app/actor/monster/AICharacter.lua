@@ -29,11 +29,11 @@ function AICharacter:onExit()
 	end
 end
 
-function AICharacter:ai_hasTarget()
+function AICharacter:ai_has_target()
 	return self.hatredTarget ~= nil
 end
 
-function AICharacter:ai_findTarget()
+function AICharacter:ai_find_target()
 	local filterSystem = self:getSystem("FilterSystem")
 	if filterSystem == nil then
 		self.hatredTarget = nil
@@ -43,27 +43,52 @@ function AICharacter:ai_findTarget()
 	return true
 end
 
--- 空闲
-function AICharacter:ai_on_free()
+function AICharacter:ai_is_free()
 	return true
 end
 
--- 追击
-function AICharacter:ai_on_pursuit()
+function AICharacter:ai_is_escape()
+	return true
+end
+
+function AICharacter:ai_is_attack()
+	return true
+end
+
+-- 空闲
+function AICharacter:ai_do_free_tree()
+	local data = require("app.AI.export.free_export")
+
+	local newtree = BehaviorTree:new()
+
+	newtree:execute(data, self, false)
+
+	self.bhTree:doPauseUntil(function(delta)
+		newtree:update(delta)
+		return newtree:isFinish()
+	end)
 	return true
 end
 
 -- 逃跑
-function AICharacter:ai_on_escape()
+function AICharacter:ai_do_escape_tree()
+	return true
+end
+
+-- 攻击
+function AICharacter:ai_do_attack_tree()
 	return true
 end
 
 function AICharacter:ai_rand_move(time)
-	return self:ai_move_by_time( math.random(0.5, tonumber(time) ) )
 end
 
-function AICharacter:ai_move_by_time(time)
-	time = tonumber(time)
+function AICharacter:ai_can_attack()
+	return false
+end
+
+function AICharacter:ai_move_by_time(minTime, maxTime)
+	local time = math.random(minTime, maxTime)
 
 	if not self:handle("CMD_MoveStart") then
 		return true
@@ -71,13 +96,7 @@ function AICharacter:ai_move_by_time(time)
 
 	local curTime = 0
 	self.moveToLeft = math.random(0, 1) == 0
-	print("self.moveToLeft", self.moveToLeft)
-
-	if not self:ai_hasTarget() then
-		self:ai_findTarget()
-		print("self:ai_findTarget", self:ai_hasTarget())
-	end
-
+	
 	self.bhTree:doPauseUntil(function(delta)
 		curTime = curTime + delta
 

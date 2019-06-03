@@ -2,7 +2,9 @@ local BehaviorTree = class("BehaviorTree")
 
 BehaviorTree.DEBUG = true
 
-
+if table.unpack == nil then
+	table.unpack = unpack
+end
 
 ----------------------------------------------------------------------------------------------------------------------------
 --Public Function Begin
@@ -87,9 +89,9 @@ end
 
 function BehaviorTree:bt_call(curNode)
 	if BehaviorTree.DEBUG then
-		print("call '" .. curNode.func .. "(" .. curNode.arg .. ")'")
+		print("call '" .. curNode.func .. "(" .. table.concat(curNode.arg, ", ") .. ")'")
 	end
-	return self.object[curNode.func](self.object, curNode.arg)
+	return self.object[curNode.func]( self.object, table.unpack(curNode.arg) )
 end
 
 function BehaviorTree:bt_stop()
@@ -118,7 +120,10 @@ end
 
 -- Wait
 function BehaviorTree:Wait(node)
-	node.arg = tonumber(node.arg)
+	local waitTime = node.arg[1]
+	if waitTime ~= -1 and node.arg[2] then
+		waitTime = math.random(waitTime, node.arg[2])
+	end
 
 	local curTime = 0
 	while(true)
@@ -130,7 +135,7 @@ function BehaviorTree:Wait(node)
 			break
 		end
 
-		if node.arg ~= -1 and curTime >= node.arg then
+		if waitTime ~= -1 and curTime >= waitTime then
 			break
 		end
 	end
@@ -154,11 +159,36 @@ function BehaviorTree:Selector(node)
 	return return_value
 end
 
+function BehaviorTree.getRandomSelectorIndex(weight, begin)
+  local totalVale = 0
+
+  for i=begin,#weight do
+    totalVale = totalVale + weight[i]
+  end
+
+  local randValue = math.random(1, totalVale)
+
+  local tmp = 0
+  for i=begin,#weight do
+    if tmp <= randValue and randValue <= tmp + weight[i] then
+      return i
+    end
+    tmp = tmp + weight[i]
+  end
+
+  error("error in 'getRandomSelectorIndex'")
+end
+
 -- RandomSelector
 function BehaviorTree:RandomSelector(node)
-	local childrenTmp = node.children
-	if childrenTmp == nil or #childrenTmp < 0 then
-		return false
+	local childrenTmp = {}
+	local weightTmp = {}
+	for k,v in pairs(node.children) do
+		childrenTmp[k] = v
+	end
+
+	for k,v in pairs(node.arg) do
+		weightTmp[k] = v
 	end
 
 	local return_value = false
@@ -174,19 +204,22 @@ function BehaviorTree:RandomSelector(node)
 		return false
 	end
 
+	if #weightTmp ~= #childrenTmp then
+		error("#weightTmp ~= #childrenTmp")
+		return false
+	end
+
 	local curIndex = 1
 	local count = #childrenTmp
 
 	while(true)
 	do
-		local randIndex = math.random(curIndex, count)
-		local randChild = childrenTmp[randIndex]
-		local tmpChild = childrenTmp[curIndex]
+		local randIndex = self.getRandomSelectorIndex(weightTmp, curIndex)
 
-		if tmpChild ~= randChild then
-			childrenTmp[curIndex] = randChild
-			childrenTmp[randIndex] = tmpChild
-		end
+		local randChild = childrenTmp[randIndex]
+
+		weightTmp[curIndex], weightTmp[randIndex] = weightTmp[randIndex], weightTmp[curIndex]
+		childrenTmp[curIndex], childrenTmp[randIndex] = childrenTmp[randIndex], childrenTmp[curIndex]
 
 		return_value = self:bt_run(randChild)
 

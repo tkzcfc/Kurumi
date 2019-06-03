@@ -15,9 +15,8 @@ function Monster_Shengbo:ctor()
 	self:enableDefaultPhysics()
 	changeParticleSystemPositionType(self.armature, 2)
 
-	self.bhTree:execute( require("app.AI.AI_Run_export"), self, true )
+	self.bhTree:execute( require("app.AI.export.base_export"), self, true )
 end
-
 
 
 -- function Monster_Shengbo:override_attOtherActorCallback(otherActor)
@@ -128,21 +127,6 @@ function Monster_Shengbo:initFSM()
 	self.FSM:addTranslation("State_Collapase_Down", "CMD_Collapase_EndToDead", "State_Collapase_EndToDead")
 
 	self.FSM:addTranslation("State_Collapase_EndToStand", "State_Collapase_EndToStand_stop", "State_Stand")
-
-
-end
-
---强制切换清理
-function Monster_Shengbo:override_forceSwitchClean()
-	
-	if self.b2Body then
-		self:clearForceXY()
-	end
-	local armature = self:getArmature()
-	if armature then
-		armature:setPosition({x = 0, y = 0})
-		armature:stopAllActions()
-	end
 end
 
 function Monster_Shengbo:enter_State_Stand()
