@@ -15,6 +15,8 @@ function Role_Dao:ctor()
 	self.skill_01_durationTime = 0
 
 	self.skill_10_durationTime = 0
+
+	self:setFilterData(BOX2D_FILTER_MASK.B2DM_PLAYER)
 end
 
 function Role_Dao:onEnter()

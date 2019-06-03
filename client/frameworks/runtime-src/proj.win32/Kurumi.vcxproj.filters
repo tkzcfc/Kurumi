@@ -103,9 +103,6 @@
     <Filter Include="Classes\ecs\components">
       <UniqueIdentifier>{632d610d-9633-446f-a0aa-b8e4b33cb3aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\ecs\util">
-      <UniqueIdentifier>{5227d723-c2db-45cc-aa1b-c13f8b915c7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\foundation">
       <UniqueIdentifier>{f49a5fea-0ae5-4f95-91b7-a70ccb7313c1}</UniqueIdentifier>
     </Filter>
@@ -457,9 +454,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\DNSCache.h">
       <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\util\ComLuaFunctionUtil.h">
-      <Filter>Classes\ecs\util</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\components\MapFollowComponent.h">
       <Filter>Classes\ecs\components</Filter>
@@ -835,9 +829,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\DNSCache.cpp">
       <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\util\ComLuaFunctionUtil.cpp">
-      <Filter>Classes\ecs\util</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\MapFollowSystem.cpp">
       <Filter>Classes\ecs\system</Filter>

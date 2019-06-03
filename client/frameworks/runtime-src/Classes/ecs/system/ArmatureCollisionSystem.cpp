@@ -106,10 +106,10 @@ void ArmatureCollisionSystem::collisionTest()
 								collisionComponentA.m_attCollisionCall.ppush();
 								collisionComponentA.m_attCollisionCall.pcall();
 							}
-							if (collisionComponentB.m_attCollisionCall.isvalid())
+							if (collisionComponentB.m_defCollisionCall.isvalid())
 							{
-								collisionComponentB.m_attCollisionCall.ppush();
-								collisionComponentB.m_attCollisionCall.pcall();
+								collisionComponentB.m_defCollisionCall.ppush();
+								collisionComponentB.m_defCollisionCall.pcall();
 							}
 						}
 					}
@@ -138,10 +138,10 @@ void ArmatureCollisionSystem::collisionTest()
 								collisionComponentB.m_attCollisionCall.ppush();
 								collisionComponentB.m_attCollisionCall.pcall();
 							}
-							if (collisionComponentA.m_attCollisionCall.isvalid())
+							if (collisionComponentA.m_defCollisionCall.isvalid())
 							{
-								collisionComponentA.m_attCollisionCall.ppush();
-								collisionComponentA.m_attCollisionCall.pcall();
+								collisionComponentA.m_defCollisionCall.ppush();
+								collisionComponentA.m_defCollisionCall.pcall();
 							}
 						}
 					}

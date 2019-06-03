@@ -64,38 +64,19 @@ function Monster_Shengbo:getVelocityByMoveOrientation(value)
 	return value
 end
 
-function Monster_Shengbo:moveLeft()
-	self.startMoveCMD = true
-	self.moveToLeft = true
-	local ret = self:handle("CMD_MoveStart")
-	return ret
-end
+----------------------------------------AI----------------------------------------
 
-function Monster_Shengbo:moveRight()
-	self.startMoveCMD = true
-	self.moveToLeft = false
-	local ret = self:handle("CMD_MoveStart")
-	return ret
-end
-
-function Monster_Shengbo:moveStop()
-	self.startMoveCMD = false
-	self:clearForceX()
-	local ret = self:handle("CMD_MoveStand")
-	return ret
-end
-
-function Monster_Shengbo:attack1()
+function Monster_Shengbo:ai_do_attack1()
 	local ret = self:handle("CMD_Attack1")
 	return ret
 end
 
-function Monster_Shengbo:attack2()
+function Monster_Shengbo:ai_do_attack2()
 	local ret = self:handle("CMD_Attack2")
 	return ret
 end
 
-function Monster_Shengbo:skill()
+function Monster_Shengbo:ai_do_skill()
 	local ret = self:handle("CMD_Skill")
 	return ret
 end

@@ -7,6 +7,7 @@ local Skill_Base = class("Skill_Base", LuaCharacter)
 
 function Skill_Base:ctor()
 	Skill_Base.super.ctor(self)
+	self:setFilterData(BOX2D_FILTER_MASK.B2DM_PLAYER)
 end
 
 -- 设置宿主

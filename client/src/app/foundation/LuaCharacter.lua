@@ -2,7 +2,6 @@ local LuaCharacter = myClass("LuaCharacter", Character)
 
 
 function LuaCharacter:ctor()
-
 	self:registerLuaHandle("beginContactCall", function(...) return self:override_beginContact(...) end)
 	self:registerLuaHandle("endContactCall", function(...) return self:override_endContact(...) end)
 
@@ -59,6 +58,47 @@ function LuaCharacter:enableDefaultPhysics()
 	end
 	-- 重力*5
 	self.box2DComponent.m_body:SetGravityScale(5.0)
+end
+
+function LuaCharacter:setFilterData(filterData)
+	local filterComponent = self:getComponent("FilterComponent")
+	if filterComponent then
+		filterComponent.m_filterData = filterData
+	end
+
+	-- 碰撞过滤器
+	local collisionFilterComponent = self:getComponent("CollisionFilterComponent")
+	if collisionFilterComponent then
+		collisionFilterComponent.m_groupIndex = filterData
+	end
+end
+
+function LuaCharacter:getComponent(componentName)
+	local component = self:getAnaxComponent(componentName)
+	if component == nil then
+		print("get component '" .. componentName .. "' fail")
+		return
+	end
+	return tolua.cast(component, componentName)
+end
+
+function LuaCharacter:getSystem(systemName)
+	local gameWorld = self:getGameWorld()
+	if gameWorld == nil then
+		return
+	end
+
+	local world = gameWorld:getWorld()
+	if world == nil then
+		return
+	end
+	local typeID = AnaxHelper:getSystemTypeID(systemName)
+	local filterSystem = world:getSystemByID(typeID)
+	if filterSystem == nil then
+		return
+	end
+
+	return tolua.cast(filterSystem, systemName)
 end
 
 -----------------------------------------override-----------------------------------------
@@ -176,15 +216,8 @@ function LuaCharacter:enablePhysics(position, size)
 	-- 启用刚体
 	self:enableBox2DComponent(position, size)
 
-	local box2DComponent = self:getAnaxComponent("Box2DComponent")
+	local box2DComponent = self:getComponent("Box2DComponent")
 	if box2DComponent == nil then
-		print("getAnaxComponent Box2DComponent fail")
-		return
-	end
-
-	box2DComponent = tolua.cast(box2DComponent, "Box2DComponent")
-	if box2DComponent == nil then
-		print("cast to Box2DComponent fail")
 		return
 	end
 
@@ -195,35 +228,13 @@ function LuaCharacter:enablePhysics(position, size)
 	self.b2Body = box2DComponent.m_body
 
 	-- 设置碰撞回调
-	local armatureCollisionComponent = self:getAnaxComponent("ArmatureCollisionComponent")
-	armatureCollisionComponent = tolua.cast(armatureCollisionComponent, "ArmatureCollisionComponent")
+	local armatureCollisionComponent = self:getComponent("ArmatureCollisionComponent")
+	if armatureCollisionComponent then
+		return
+	end
+
 	armatureCollisionComponent.m_attCollisionCall = function(...) self:override_attCollisionCallback(...) end
 	armatureCollisionComponent.m_defCollisionCall = function(...) self:override_defCollisionCallback(...) end
-	self.armatureCollisionComponent = armatureCollisionComponent
-
-	-- 碰撞过滤器
-	local collisionFilterComponent = self:getAnaxComponent("CollisionFilterComponent")
-	collisionFilterComponent = tolua.cast(collisionFilterComponent, "CollisionFilterComponent")
-	self.collisionFilterComponent = collisionFilterComponent
-end
-
-function LuaCharacter:getSystem(systemName)
-	local gameWorld = self:getGameWorld()
-	if gameWorld == nil then
-		return
-	end
-
-	local world = gameWorld:getWorld()
-	if world == nil then
-		return
-	end
-
-	local filterSystem = world:getSystemByID(AnaxHelper:getSystemTypeID(systemName))
-	if filterSystem == nil then
-		return
-	end
-	
-	return tolua.cast(filterSystem, systemName)
 end
 
 function LuaCharacter:changeCategoryBits(bit)

@@ -11,7 +11,14 @@ Character::Character(GameWorldBase* world)
 	: Actor(world)
 	, m_armature(NULL)
 	, m_categoryBits(BOX2D_FILTER_MASK::B2DM_PLAYER)
-{}
+{
+	// 碰撞组件
+	ArmatureCollisionComponent& collisionComponent = m_entity.addComponent<ArmatureCollisionComponent>();
+
+	// 碰撞过滤器
+	CollisionFilterComponent& filterComponent = m_entity.addComponent<CollisionFilterComponent>();
+	filterComponent.m_collisionEnable = true;
+}
 
 Character::~Character()
 {}
@@ -63,13 +70,6 @@ void Character::loadArmature(const std::string& filepath)
 	armatureComponent.m_armature->getAnimation()->playWithIndex(0);
 
 	changeParticleSystemPositionType(m_armature, (int)ParticleSystem::PositionType::GROUPED);
-
-	// 碰撞组件
-	ArmatureCollisionComponent& collisionComponent = m_entity.addComponent<ArmatureCollisionComponent>();
-
-	// 碰撞过滤器
-	CollisionFilterComponent& filterComponent = m_entity.addComponent<CollisionFilterComponent>();
-
 	this->m_entity.activate();
 }
 

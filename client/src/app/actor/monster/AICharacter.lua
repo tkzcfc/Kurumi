@@ -7,6 +7,8 @@ function AICharacter:ctor()
 	AICharacter.super.ctor(self)
 	self.bhTree = BehaviorTree:new()
 	self:enableUpdate()
+
+	self:setFilterData(BOX2D_FILTER_MASK.B2DM_MONSTER)
 end
 
 function AICharacter:loadConfig(config)
@@ -28,7 +30,7 @@ function AICharacter:onExit()
 end
 
 function AICharacter:ai_hasTarget()
-	return self.hatredTarget == nil
+	return self.hatredTarget ~= nil
 end
 
 function AICharacter:ai_findTarget()
@@ -70,6 +72,11 @@ function AICharacter:ai_move_by_time(time)
 	local curTime = 0
 	self.moveToLeft = math.random(0, 1) == 0
 	print("self.moveToLeft", self.moveToLeft)
+
+	if not self:ai_hasTarget() then
+		self:ai_findTarget()
+		print("self:ai_findTarget", self:ai_hasTarget())
+	end
 
 	self.bhTree:doPauseUntil(function(delta)
 		curTime = curTime + delta
