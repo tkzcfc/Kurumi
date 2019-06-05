@@ -7,7 +7,7 @@
 #include "foundation/GameMacro.h"
 #include "foundation/ParticleSystemHelper.h"
 
-Character::Character(GameWorldBase* world)
+Character::Character(GameWorld* world)
 	: Actor(world)
 	, m_armature(NULL)
 	, m_categoryBits(BOX2D_FILTER_MASK::B2DM_PLAYER)
@@ -23,7 +23,7 @@ Character::Character(GameWorldBase* world)
 Character::~Character()
 {}
 
-Character* Character::create(GameWorldBase* world)
+Character* Character::create(GameWorld* world)
 {
 	Character* character = new Character(world);
 	if (character && character->init())
@@ -49,7 +49,16 @@ void Character::killEntity()
 		auto sys = m_gameWorld->getWorld()->getSystem<Box2DSystem>();
 		if (sys)
 		{
-			sys->addDiscardB2Body(m_entity.getComponent<Box2DComponent>().m_body);
+			auto body = m_entity.getComponent<Box2DComponent>().m_body;
+			if (body)
+			{
+				auto fixtureList = body->GetFixtureList();
+				for (auto it = fixtureList; it != NULL; it = fixtureList->GetNext())
+				{
+					it->SetUserData(NULL);
+				}
+				sys->addDiscardB2Body(body);
+			}
 		}
 	}
 	Actor::killEntity();

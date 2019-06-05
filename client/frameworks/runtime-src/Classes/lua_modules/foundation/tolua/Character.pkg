@@ -5,7 +5,7 @@ class Character : public Actor
 {
 public:
 
-	static Character* create(GameWorldBase* world);
+	static Character* create(GameWorld* world);
 
 	void loadArmature(std::string filepath);
 

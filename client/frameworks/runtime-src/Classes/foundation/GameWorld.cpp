@@ -1,4 +1,5 @@
 #include "GameWorld.h"
+#include "foundation/Actor.h"
 #include "ecs/system/Box2DSystem.h"
 #include "ecs/system/MapFollowSystem.h"
 #include "ecs/system/ArmatureCollisionSystem.h"
@@ -38,9 +39,19 @@ GameWorld* GameWorld::create()
 
 bool GameWorld::init()
 {
-	if (GameWorldBase::init() == false)
+	if (Node::init() == false)
 	{
 		return false;
+	}
+
+	_scheduler->schedule(CC_SCHEDULE_SELECTOR(GameWorld::logicUpdate), this, 1.0f / 60.0f, false);
+
+	m_admin = m_world.createEntity();
+
+	for (int i = GAMEWORLD_NODE_MAP; i < GAMEWORLD_NODE_MAX; ++i)
+	{
+		m_nodeArr[i] = Node::create();
+		this->addChild(m_nodeArr[i], i - 1);
 	}
 
 	m_armatureCollisionSystem = new ArmatureCollisionSystem();
@@ -55,45 +66,50 @@ bool GameWorld::init()
 	return true;
 }
 
-void GameWorld::enableBox2DPhysics(bool enable, float left_offset, float right_offset, float top_offset, float bottom_offset)
+void GameWorld::onExit()
 {
-	if (enable)
+	for (auto i = 0; i < GAMEWORLD_NODE_MAX; ++i)
 	{
-		CC_ASSERT(m_gameMap != NULL);
+		m_nodeArr[i]->removeAllChildren();
+	}
 
-		if (m_box2DSystem == NULL)
-		{
-			auto mapSize = Size(m_gameMap->getMapWidth(), m_gameMap->getMapHeight() * 2);
+	m_world.removeAllSystems();
+	onWorldDestroy();
 
-			m_box2DSystem = new Box2DSystem();
-			m_box2DSystem->initPhysics(Vec2(0.0f, -10.0f), mapSize, left_offset, right_offset, top_offset, bottom_offset);
-			m_world.addSystem<Box2DSystem>(*m_box2DSystem);
-			m_world.refresh();
+	Node::onExit();
+}
+
+void GameWorld::destroy(class Actor* actor)
+{
+	if (!m_destroyActorList.contains(actor))
+	{
+		m_destroyActorList.pushBack(actor);
+	}
+}
+
+void GameWorld::initWorld(GameMap* gameMap, float left_offset, float right_offset, float top_offset, float bottom_offset)
+{
+	setGameMap(gameMap);
+
+	CC_ASSERT(m_gameMap != NULL);
+	CC_ASSERT(m_box2DSystem == NULL);
+
+	auto mapSize = Size(m_gameMap->getMapWidth(), m_gameMap->getMapHeight() * 2);
+
+	m_box2DSystem = new Box2DSystem();
+	m_box2DSystem->initPhysics(Vec2(0.0f, -10.0f), mapSize, left_offset, right_offset, top_offset, bottom_offset);
+	m_world.addSystem<Box2DSystem>(*m_box2DSystem);
+	m_world.refresh();
 
 #ifdef ENABLE_BOX2D_DEBUG_DRAW
-			m_physicsDebugDraw = new GLESDebugDraw(BOX2D_PIXEL_TO_METER);
-			m_physicsDebugDraw->AppendFlags(b2Draw::e_shapeBit);
-			//m_physicsDebugDraw->AppendFlags(b2Draw::e_jointBit);
-			//m_physicsDebugDraw->AppendFlags(b2Draw::e_aabbBit);
-			//m_physicsDebugDraw->AppendFlags(b2Draw::e_pairBit);
-			//m_physicsDebugDraw->AppendFlags(b2Draw::e_centerOfMassBit);
-			m_box2DSystem->getBox2DWorld()->SetDebugDraw(m_physicsDebugDraw);
+	m_physicsDebugDraw = new GLESDebugDraw(BOX2D_PIXEL_TO_METER);
+	m_physicsDebugDraw->AppendFlags(b2Draw::e_shapeBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_jointBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_aabbBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_pairBit);
+	//m_physicsDebugDraw->AppendFlags(b2Draw::e_centerOfMassBit);
+	m_box2DSystem->getBox2DWorld()->SetDebugDraw(m_physicsDebugDraw);
 #endif
-
-		}
-	}
-	else
-	{
-		if (m_box2DSystem)
-		{
-			m_world.removeSystem<Box2DSystem>();
-			CC_SAFE_DELETE(m_box2DSystem);
-
-#ifdef ENABLE_BOX2D_DEBUG_DRAW
-			CC_SAFE_DELETE(m_physicsDebugDraw);
-#endif
-		}
-	}
 }
 
 void GameWorld::setGameMap(GameMap* gameMap)
@@ -153,17 +169,8 @@ void GameWorld::logicUpdate(float delta)
 
 	m_updateSystem->update(delta);
 	m_updateSystem->lastUpdate(delta);
-
-	if (m_box2DSystem != NULL)
-	{
-		m_box2DSystem->updateWorld(delta);
-	}
-
-	if (m_mapFollowSystem != NULL)
-	{
-		m_mapFollowSystem->update();
-	}
-
+	m_box2DSystem->updateWorld(delta);
+	m_mapFollowSystem->update();
 	m_armatureCollisionSystem->collisionTest();
 
 	callLuaLogicUpdate(delta);
@@ -176,8 +183,41 @@ void GameWorld::onWorldDestroy()
 	CC_SAFE_DELETE(m_armatureCollisionSystem);
 	CC_SAFE_DELETE(m_updateSystem);
 	CC_SAFE_DELETE(m_filterSystem);
-	GameWorldBase::onWorldDestroy();
+	auto handle = getLuaHandle("onWorldDestroy");
+	if (handle)
+	{
+		handle->ppush();
+		handle->pcall();
+	}
 }
+
+void GameWorld::clearDestroyList()
+{
+	if (m_destroyActorList.empty())
+	{
+		return;
+	}
+	for (auto &it : m_destroyActorList)
+	{
+		it->removeFromParent();
+	}
+	m_destroyActorList.clear();
+}
+
+void GameWorld::callLuaLogicUpdate(float delta)
+{
+	auto logicUpdateHandle = getLuaHandle("logicUpdate");
+	if (logicUpdateHandle != NULL)
+	{
+		logicUpdateHandle->ppush();
+		logicUpdateHandle->pusharg(delta);
+		logicUpdateHandle->pcall();
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 #ifdef ENABLE_BOX2D_DEBUG_DRAW
 

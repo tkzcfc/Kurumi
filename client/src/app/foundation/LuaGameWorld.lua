@@ -11,8 +11,7 @@ function LuaGameWorld:loadMap(mapID)
 	local mapConfig = require("app.config.MapConfig")
     local map = mapConfig:loadMap(mapID)
 
-    self:setGameMap(map)
-    self:enableBox2DPhysics(true, 20.0, 20.0, 0.0, map:getMinPosY())
+    self:initWorld(map, 20.0, 20.0, 0.0, map:getMinPosY())
 
     self.mapActorNode = map:getActorNode()
 end

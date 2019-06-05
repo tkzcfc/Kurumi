@@ -30,6 +30,7 @@ LOCAL_SRC_FILES  += ../../../Classes/anax/src/anax/ClassReflect.cpp \
 # ecs-system
 LOCAL_SRC_FILES  += ../../../Classes/ecs/system/ArmatureCollisionSystem.cpp \
                     ../../../Classes/ecs/system/Box2DSystem.cpp \
+                    ../../../Classes/ecs/system/FilterSystem.cpp \
                     ../../../Classes/ecs/system/MapFollowSystem.cpp \
                     ../../../Classes/ecs/system/UpdateSystem.cpp \
 
@@ -42,10 +43,8 @@ LOCAL_SRC_FILES  += ../../../Classes/foundation/Actor.cpp \
                     ../../../Classes/foundation/GameMap.cpp \
                     ../../../Classes/foundation/GameMath.cpp \
                     ../../../Classes/foundation/GameWorld.cpp \
-                    ../../../Classes/foundation/GameWorldBase.cpp \
                     ../../../Classes/foundation/GLES-Render.cpp \
                     ../../../Classes/foundation/ParticleSystemHelper.cpp \
-                    ../../../Classes/foundation/PhysicsActor.cpp \
 
 # assets
 LOCAL_SRC_FILES  += ../../../Classes/assets/GameAssetsManager.cpp \

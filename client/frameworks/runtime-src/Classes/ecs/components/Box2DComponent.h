@@ -14,16 +14,7 @@ public:
 	{}
 
 	virtual ~Box2DComponent() 
-	{
-		if (m_body)
-		{
-			auto fixtureList = m_body->GetFixtureList();
-			for (auto it = fixtureList; it != NULL; it = fixtureList->GetNext())
-			{
-				it->SetUserData(NULL);
-			}
-		}
-	}
+	{}
 
 	b2Body* m_body;
 

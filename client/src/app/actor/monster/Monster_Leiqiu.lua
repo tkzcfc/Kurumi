@@ -21,7 +21,7 @@ end
 
 function Monster_Leiqiu:override_update(delta)
 	if self.durtime < 0 then
-		self:runAction(cc.RemoveSelf:create())
+		self:destroy()
 		return
 	end
 	self.durtime = self.durtime - delta

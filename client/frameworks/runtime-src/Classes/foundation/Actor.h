@@ -10,11 +10,11 @@ class Actor : public Node , public LuaFunctionBond
 {
 public:
 
-	Actor(GameWorldBase* world);
+	Actor(GameWorld* world);
 
 	virtual ~Actor();
 
-	static Actor* create(GameWorldBase* world);
+	static Actor* create(GameWorld* world);
 	
 	virtual void onExit()override;
 
@@ -22,9 +22,13 @@ public:
 
 	void destroy();
 
+	void setFilterData(int inValue);
+
+	int getFilterData();
+
 public:
 
-	inline GameWorldBase* getGameWorld();
+	inline GameWorld* getGameWorld();
 
 	inline anax::Entity* getEntity();
 
@@ -45,11 +49,11 @@ protected:
 
 	anax::Entity m_entity;
 
-	GameWorldBase* m_gameWorld;
+	GameWorld* m_gameWorld;
 
 };
 
-GameWorldBase* Actor::getGameWorld()
+GameWorld* Actor::getGameWorld()
 {
 	return m_gameWorld;
 }

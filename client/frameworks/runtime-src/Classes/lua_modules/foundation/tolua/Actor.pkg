@@ -5,15 +5,19 @@ class Actor : public cc.Node
 {
 public:
 
-	static Actor* create(GameWorldBase* world);
+	static Actor* create(GameWorld* world);
 	
 public:
 
 	void destroy();
 
+	void setFilterData(int inValue);
+
+	int getFilterData();
+
 public:
 
-	inline GameWorldBase* getGameWorld();
+	inline GameWorld* getGameWorld();
 
 	inline anax::Entity* getEntity();
 
@@ -36,17 +40,6 @@ public:
 
 	void clearLuaHandle();
 };
-
-
-/*
-class PhysicsActor : public Actor
-{
-public:
-	static PhysicsActor* create();
-
-	void syncPhysicsTransform(float x, float y, float angle);
-};
-*/
 
 
 

@@ -172,6 +172,9 @@ end
 -- 离开地面
 function LuaCharacter:override_endContact()
 	self.isInAir = true
+	if self.shadowNode then
+		self.shadowNode:setVisible(false)
+	end
 end
 
 function LuaCharacter:override_orientationTurn(orientation)

@@ -8,11 +8,11 @@ class Character : public Actor
 {
 public:
 
-	Character(GameWorldBase* world);
+	Character(GameWorld* world);
 
 	virtual ~Character();
 
-	static Character* create(GameWorldBase* world);
+	static Character* create(GameWorld* world);
 
 	void loadArmature(const std::string& filepath);
 

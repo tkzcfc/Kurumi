@@ -485,16 +485,10 @@
     <ClInclude Include="..\Classes\foundation\GameWorld.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\GameWorldBase.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\foundation\GameMacro.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\Actor.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\PhysicsActor.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\Character.h">
@@ -848,16 +842,10 @@
     <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\foundation\GameWorldBase.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\foundation\GameWorld.cpp">
       <Filter>Classes\foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\Actor.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\PhysicsActor.cpp">
       <Filter>Classes\foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\Character.cpp">

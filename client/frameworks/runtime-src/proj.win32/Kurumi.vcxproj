@@ -237,10 +237,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\foundation\GameMap.h" />
     <ClInclude Include="..\Classes\foundation\GameMath.h" />
     <ClInclude Include="..\Classes\foundation\GameWorld.h" />
-    <ClInclude Include="..\Classes\foundation\GameWorldBase.h" />
     <ClInclude Include="..\Classes\foundation\GLES-Render.h" />
     <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h" />
-    <ClInclude Include="..\Classes\foundation\PhysicsActor.h" />
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
     <ClInclude Include="..\Classes\ide-support\lua_debugger.h" />
     <ClInclude Include="..\Classes\ide-support\RuntimeLuaImpl.h" />
@@ -361,10 +359,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\foundation\GameMap.cpp" />
     <ClCompile Include="..\Classes\foundation\GameMath.cpp" />
     <ClCompile Include="..\Classes\foundation\GameWorld.cpp" />
-    <ClCompile Include="..\Classes\foundation\GameWorldBase.cpp" />
     <ClCompile Include="..\Classes\foundation\GLES-Render.cpp" />
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp" />
-    <ClCompile Include="..\Classes\foundation\PhysicsActor.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
     <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp" />
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp" />
