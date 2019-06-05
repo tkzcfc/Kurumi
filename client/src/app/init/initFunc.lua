@@ -14,3 +14,7 @@ _MyG.loadStudioFile = function(fileName, target)
     end)
     return root
 end
+
+_MyG.randomf = function(min, max)
+    return min + (max - min) * math.random()
+end

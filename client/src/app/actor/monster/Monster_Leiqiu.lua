@@ -5,44 +5,34 @@ local Monster_Leiqiu = class("Monster_Leiqiu", Monster_Base)
 function Monster_Leiqiu:ctor()
 	Monster_Leiqiu.super.ctor(self)
 	
-	self:setActorType(AT_MONSTER)
-
 	self:loadConfig(require("app.config.monster.LeiQiuConfig"))
 
 	self:initFSM()
 	self.FSM:start("State_Leiqiu1")
-	self.runTime = 0.0
+	self.durtime = 0.0
+
+	self:enableDefaultPhysics()
 end
 
-function Monster_Leiqiu:onEnter()
-	Monster_Leiqiu.super.onEnter(self)
+function Monster_Leiqiu:override_attCollisionCallback(otherActor)
+	Monster_Leiqiu.super.override_attCollisionCallback(self, otherActor)
+	self.isPickUp = false
 end
 
-function Monster_Leiqiu:override_attOtherActorCallback(otherActor)
-	otherActor:override_beAttacked(self, false)
-end
-
-function Monster_Leiqiu:override_loadArmature(filePath)
-	--changeParticleSystemPositionType(self:getArmature())
-end
-
-function Monster_Leiqiu:override_logicUpdate(time)
-	Monster_Leiqiu.super.override_logicUpdate(self, time)
-
-	if self.runTime > 0.8 then
-		getGameWord():removeActor(self)
+function Monster_Leiqiu:override_update(delta)
+	if self.durtime < 0 then
+		self:runAction(cc.RemoveSelf:create())
 		return
 	end
-	self.runTime = self.runTime + time
+	self.durtime = self.durtime - delta
 
-	self:setVelocityXByImpulse(self:getVelocityByOrientation(900 / PIXEL_TO_METER))
+	self:setVelocityXByImpulse_Ext(900 / BOX2D_PIXEL_TO_METER)
 end
 
-function Monster_Leiqiu:start(height)
-	local armature = self:getArmature()
-	armature:setPosition({x = 0, y = height})
-	armature:stopAllActions()
-	self.runTime = 0.0
+function Monster_Leiqiu:start(posx, posy, durtime)
+	self.durtime = durtime
+	self:setPositionAndSyncPhysicsTransform({x = posx, y = 0})
+	self.armature:setPositionY(posy)
 end
 
 function Monster_Leiqiu:initFSM()

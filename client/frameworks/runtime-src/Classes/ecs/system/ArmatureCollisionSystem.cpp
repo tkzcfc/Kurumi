@@ -1,6 +1,7 @@
 #include "ArmatureCollisionSystem.h"
 #include "cocostudio/CocoStudio.h"
 #include "foundation/GameMath.h"
+#include "foundation/Actor.h"
 
 using namespace cocostudio;
 
@@ -104,11 +105,13 @@ void ArmatureCollisionSystem::collisionTest()
 							if (collisionComponentA.m_attCollisionCall.isvalid())
 							{
 								collisionComponentA.m_attCollisionCall.ppush();
+								collisionComponentA.m_attCollisionCall.pushusertype<Actor>(entityB->getUserdata(), "Actor");
 								collisionComponentA.m_attCollisionCall.pcall();
 							}
 							if (collisionComponentB.m_defCollisionCall.isvalid())
 							{
 								collisionComponentB.m_defCollisionCall.ppush();
+								collisionComponentB.m_defCollisionCall.pushusertype<Actor>(entityA->getUserdata(), "Actor");
 								collisionComponentB.m_defCollisionCall.pcall();
 							}
 						}
@@ -136,11 +139,13 @@ void ArmatureCollisionSystem::collisionTest()
 							if (collisionComponentB.m_attCollisionCall.isvalid())
 							{
 								collisionComponentB.m_attCollisionCall.ppush();
+								collisionComponentB.m_attCollisionCall.pushusertype<Actor>(entityA->getUserdata(), "Actor");
 								collisionComponentB.m_attCollisionCall.pcall();
 							}
 							if (collisionComponentA.m_defCollisionCall.isvalid())
 							{
 								collisionComponentA.m_defCollisionCall.ppush();
+								collisionComponentA.m_defCollisionCall.pushusertype<Actor>(entityB->getUserdata(), "Actor");
 								collisionComponentA.m_defCollisionCall.pcall();
 							}
 						}

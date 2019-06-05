@@ -6,6 +6,22 @@ if table.unpack == nil then
 	table.unpack = unpack
 end
 
+local function concat(arg)
+  local data = ""
+  for _, v in ipairs(arg) do
+    if data == "" then
+      data = data .. tostring(v)
+    else
+      data = data .. "," .. tostring(v)
+    end
+  end
+  return data
+end
+
+local function randomf(min, max)
+    return min + (max - min) * math.random()
+end
+
 ----------------------------------------------------------------------------------------------------------------------------
 --Public Function Begin
 ----------------------------------------------------------------------------------------------------------------------------
@@ -89,7 +105,7 @@ end
 
 function BehaviorTree:bt_call(curNode)
 	if BehaviorTree.DEBUG then
-		print("call '" .. curNode.func .. "(" .. table.concat(curNode.arg, ", ") .. ")'")
+		print("call '" .. curNode.func .. "(" .. concat(curNode.arg, ", ") .. ")'")
 	end
 	return self.object[curNode.func]( self.object, table.unpack(curNode.arg) )
 end
@@ -122,7 +138,7 @@ end
 function BehaviorTree:Wait(node)
 	local waitTime = node.arg[1]
 	if waitTime ~= -1 and node.arg[2] then
-		waitTime = math.random(waitTime, node.arg[2])
+		waitTime = randomf(waitTime, node.arg[2])
 	end
 
 	local curTime = 0
@@ -166,17 +182,17 @@ function BehaviorTree.getRandomSelectorIndex(weight, begin)
     totalVale = totalVale + weight[i]
   end
 
-  local randValue = math.random(1, totalVale)
+  local randValue = randomf(0.0, totalVale)
 
   local tmp = 0
   for i=begin,#weight do
-    if tmp <= randValue and randValue <= tmp + weight[i] then
+    if tmp <= randValue and randValue <= tmp + weight[i] and weight[i] ~= 0 then
       return i
     end
     tmp = tmp + weight[i]
   end
 
-  error("error in 'getRandomSelectorIndex'")
+  return begin
 end
 
 -- RandomSelector

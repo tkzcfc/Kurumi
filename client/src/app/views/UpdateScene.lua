@@ -13,7 +13,13 @@ function UpdateScene:onCreate()
     self:setPercent(0)
 
     self:setUpdateTip("更新检查中...")
-    self:doUpdate()
+
+    local targetPlatform = cc.Application:getInstance():getTargetPlatform()
+    if targetPlatform == cc.PLATFORM_OS_WINDOWS then
+        self:noUpdateAndEnterNextScene()
+    else
+        self:doUpdate()
+    end
 end
 
 function UpdateScene:doUpdate()
@@ -140,6 +146,7 @@ function UpdateScene:onExit()
     print("exit")
     if self.assetsManager then
         self.assetsManager:release()
+        self.assetsManager = nil
     end
 end
 

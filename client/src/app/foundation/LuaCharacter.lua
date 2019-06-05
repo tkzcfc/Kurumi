@@ -147,10 +147,11 @@ function LuaCharacter:override_movementEventCallFunc(armature, movementType, mov
 	end
 end
 
-function LuaCharacter:override_attCollisionCallback()
+function LuaCharacter:override_attCollisionCallback(otherActor)
 end
 
-function LuaCharacter:override_defCollisionCallback()
+function LuaCharacter:override_defCollisionCallback(otherActor)
+	self:setOrientation(otherActor:getOrientation() * -1)
 end
 
 function LuaCharacter:override_syncArmaturePhysicsTransform(_x, _y, _a)
@@ -187,6 +188,7 @@ function LuaCharacter:loadConfig(config)
 
 	self.stateConfig = config.StateConfig or {}
 	self.soundConfig = config.SoundConfig or {}
+	self.config = config
 
 	self:clearState()
 	for k,v in pairs(self.stateConfig) do
@@ -229,7 +231,7 @@ function LuaCharacter:enablePhysics(position, size)
 
 	-- 设置碰撞回调
 	local armatureCollisionComponent = self:getComponent("ArmatureCollisionComponent")
-	if armatureCollisionComponent then
+	if armatureCollisionComponent == nil then
 		return
 	end
 
@@ -438,6 +440,16 @@ function LuaCharacter:clearForceXY()
 end
 
 function LuaCharacter:setVelocityXByImpulse(velo_x)
+	if self.b2Body == nil then
+		return
+	end
+	local curVelocity = self.b2Body:GetLinearVelocity()
+	velo_x = velo_x - curVelocity.x
+	velo_x = velo_x * self.b2Body:GetMass()
+	self.b2Body:ApplyLinearImpulse({x = velo_x, y = 0}, self.b2Body:GetWorldCenter(), true)
+end
+
+function LuaCharacter:setVelocityXByImpulse_Ext(velo_x)
 	if self.b2Body == nil then
 		return
 	end

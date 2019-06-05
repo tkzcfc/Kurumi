@@ -45,7 +45,8 @@ ShengBoConfig.BaseConfig =
 -- AI
 ShengBoConfig.AI_CONFIG = 
 {
-	
+	ATTACK_MIN_RANGE = 400,
+	ATTACK_INTERVAL = 1.0,
 }
 
 --跟随配置

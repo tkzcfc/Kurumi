@@ -191,6 +191,10 @@ namespace anax
         /// this entity has attached to it
         detail::ComponentTypeList getComponentTypeList() const;
 
+		void* getUserdata() const { return m_userdata; }
+
+		void setUserdata(void* userdata) { m_userdata = userdata; }
+
         /// Comparison operator
         bool operator==(const Entity& entity) const;
         bool operator!=(const Entity& entity) const { return !operator==(entity); }
@@ -212,6 +216,8 @@ namespace anax
         /// to not be null, as long as this entity is not null.
         /// \see isNull() To determine if the entity is null or not.
         World* m_world;
+
+		void* m_userdata;
     };
 
     template <typename T, typename... Args>

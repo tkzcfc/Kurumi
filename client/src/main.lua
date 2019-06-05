@@ -1,5 +1,8 @@
 _MyG = {}
 
+GAME_ORI_LEFT = -1
+GAME_ORI_RIGHT = 1
+
 cc.FileUtils:getInstance():setPopupNotify(false)
 cc.FileUtils:getInstance():addSearchPath("src/")
 cc.FileUtils:getInstance():addSearchPath("res/")

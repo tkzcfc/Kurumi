@@ -31,13 +31,15 @@
 namespace anax
 {
     Entity::Entity() : 
-        m_world(nullptr)
+        m_world(nullptr),
+		m_userdata(nullptr)
     {
     }
 
     Entity::Entity(World& world, Entity::Id id) : 
         m_id(id),
-        m_world(&world)
+		m_world(&world),
+		m_userdata(nullptr)
     {
     }
 

@@ -40,8 +40,8 @@ public:
 		: m_defCacheDirty(true)
 		, m_attCacheDirty(true)
 	{
-		m_defRectCache.reserve(10);
-		m_attRectCache.reserve(10);
+		m_defRectCache.reserve(5);
+		m_attRectCache.reserve(5);
 	}
 	virtual ~ArmatureCollisionComponent() {}
 

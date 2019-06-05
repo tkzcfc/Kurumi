@@ -65,25 +65,59 @@ function Role_Dao:override_update(delta)
 	self:runMoveLogic(delta)
 end
 
+function Role_Dao:override_attCollisionCallback(otherActor)
+	Role_Dao.super.override_attCollisionCallback(self, otherActor)
+	
+	local stateName = self.FSM:getCurState():getStateName()
+
+	if stateName == "State_Attack4" 
+	or stateName == "State_Upcut" then
+		self.isPickUp = true
+	else
+		self.isPickUp = false
+	end
+end
+
+function Role_Dao:override_defCollisionCallback(otherActor)
+	Role_Dao.super.override_defCollisionCallback(self, otherActor)
+
+	if not otherActor.isPickUp then
+		if self:handle("CMD_Hit") then
+			self:clearStateData()
+			self:clearForceX()
+
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.HitImpluse)
+		end
+	else
+		if self:handle("CMD_Collapse") then
+			self:clearStateData()
+			self:clearForceX()
+
+			local implusex = self:getVelocityByOrientation(CommonActorConfig.CollapseXImpluse)
+			self:setVelocityXYByImpulse(implusex, CommonActorConfig.CollapseYImpluse)
+		end
+	end
+end
+
 function Role_Dao:runMoveLogic(delta)
 	local curStateName = self.FSM:getCurStateName()
 	-- 奔跑状态
 	if curStateName == "State_Run" or curStateName == "State_Run2" then
 		if self.startMoveCMD then
-			self:setVelocityXByImpulse(CommonActorConfig.MoveImpulse)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.MoveImpulse)
 		end
 	-- 普通攻击
 	elseif curStateName == "State_Attack1" then
 		if self.startMoveCMD then
-			self:setVelocityXByImpulse(CommonActorConfig.Attacl_1_MoveImpulse)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.Attacl_1_MoveImpulse)
 		else
-			self:setVelocityXByImpulse(CommonActorConfig.Attacl_1_MoveImpulse * 0.4)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.Attacl_1_MoveImpulse * 0.4)
 		end
 	elseif curStateName == "State_Attack4" then
 		if self.startMoveCMD then
-			self:setVelocityXByImpulse(CommonActorConfig.Attacl_4_MoveImpulse)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.Attacl_4_MoveImpulse)
 		else
-			self:setVelocityXByImpulse(CommonActorConfig.Attacl_4_MoveImpulse * 0.3)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.Attacl_4_MoveImpulse * 0.3)
 		end
 	-- 跳跃相关逻辑
 	elseif curStateName == "State_JumpUp" then
@@ -91,7 +125,7 @@ function Role_Dao:runMoveLogic(delta)
 			self:handle("CMD_JumpDownStart")
 		end
 		if self.startMoveCMD then
-			self:setVelocityXByImpulse(CommonActorConfig.JumMoveImpulse)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.JumMoveImpulse)
 		end
 	elseif curStateName == "State_JumpDown" then
 		if not self.isInAir then
@@ -103,11 +137,11 @@ function Role_Dao:runMoveLogic(delta)
 			end
 		end
 		if self.startMoveCMD then
-			self:setVelocityXByImpulse(CommonActorConfig.JumMoveImpulse)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.JumMoveImpulse)
 		end
 	elseif curStateName == "State_DownCut" then
 		if self.startMoveCMD then
-			self:setVelocityXByImpulse(CommonActorConfig.DownCutImpulse)
+			self:setVelocityXByImpulse_Ext(CommonActorConfig.DownCutImpulse)
 		end
 	elseif curStateName == "State_KAttack4_Begin" then
 		self.skill_01_durationTime = self.skill_01_durationTime + delta
@@ -116,9 +150,9 @@ function Role_Dao:runMoveLogic(delta)
 			self:handle("CMD_To_Skill_01_Stop")
 		else
 			if self.startMoveCMD then
-				self:setVelocityXByImpulse(CommonActorConfig.SKill_01_Impulse)
+				self:setVelocityXByImpulse_Ext(CommonActorConfig.SKill_01_Impulse)
 			else
-				self:setVelocityXByImpulse(CommonActorConfig.SKill_01_Impulse * 0.3)
+				self:setVelocityXByImpulse_Ext(CommonActorConfig.SKill_01_Impulse * 0.3)
 			end
 		end
 	elseif curStateName == "State_KAttack4_End" then
@@ -129,6 +163,10 @@ function Role_Dao:runMoveLogic(delta)
 		if self.skill_10_durationTime > CommonActorConfig.SKill_10_DurationTime then
 			self.skill_10_durationTime = 0
 			self:handle("CMD_To_Skill_10_Stop")
+		end
+	elseif curStateName == "State_Collapse1" or curStateName == "State_Collapse2" then
+		if not self.isInAir then
+			self:handle("CMD_To_Collapse3")
 		end
 	end
 
@@ -163,19 +201,20 @@ function Role_Dao:changeRole(name)
 	self:enableUpdate()
 end
 
-function Role_Dao:setVelocityXInStartMoveCMD(impulse)				
-	if self.startMoveCMD then
-		self:setVelocityXByImpulse(self:getVelocityByOrientation(impulse))
-	else
-		self:clearForceX()
-	end
+function Role_Dao:clearStateData()
+	--空中连跳次数
+	self.continueJumpCount=0
+
+	self.skill_01_durationTime = 0
+
+	self.skill_10_durationTime = 0
 end
 
 function Role_Dao:move_x(value)
 	if value > 0 then
-		self:setOrientation(1)
+		self:setOrientation(GAME_ORI_RIGHT)
 	else
-		self:setOrientation(-1)
+		self:setOrientation(GAME_ORI_LEFT)
 	end
 	self:handle("CMD_MoveStart")
 	self.startMoveCMD = true
@@ -337,6 +376,7 @@ function Role_Dao:initFSM()
 	self.FSM:addTranslation("State_Attack4", "CMD_Collapse", "State_Collapse1")
 
 	self.FSM:addTranslation("State_Collapse1", "State_Collapse1_stop", "State_Collapse2")
+	self.FSM:addTranslation("State_Collapse1", "CMD_To_Collapse3", "State_Collapse3")
 	self.FSM:addTranslation("State_Collapse2", "CMD_To_Collapse3", "State_Collapse3")
 	self.FSM:addTranslation("State_Collapse3", "State_Collapse3_stop", "State_Stand")
 
@@ -391,6 +431,41 @@ end
 
 function Role_Dao:enter_State_JumpUp()
 	self:setVelocityYByImpulse(CommonActorConfig.JumpImpulse)
+end
+
+function Role_Dao:enter_State_Collapse1()
+	self:lockOrientation()
+end
+
+function Role_Dao:leave_State_Collapse1()
+	self:unLockOrientation()
+end
+
+function Role_Dao:enter_State_Collapse2()
+	self:lockOrientation()
+end
+
+function Role_Dao:leave_State_Collapse2()
+	self:unLockOrientation()
+	self:clearForceX()
+end
+
+function Role_Dao:enter_State_Collapse3()
+	self:lockOrientation()
+	self:clearForceX()
+end
+
+function Role_Dao:leave_State_Collapse3()
+	self:unLockOrientation()
+end
+
+function Role_Dao:enter_State_Hit()
+	self:lockOrientation()
+end
+
+function Role_Dao:leave_State_Hit()
+	self:unLockOrientation()
+	self:clearForceX()
 end
 
 function Role_Dao:leave_State_Attack1()
@@ -448,7 +523,7 @@ function Role_Dao:enter_State_Skill_10_Begin()
 
 		skill:setPositionAndSyncPhysicsTransform(pos)
 		-- skill:setActorPositionInValidRect({x = self:getPositionX() + space_role + curIndex * space_skill, y = self:getPositionY() + 500})
-		skill:setVelocityXByImpulse(move_velocity)
+		skill:setVelocityXByImpulse_Ext(move_velocity)
 		self:getParent():addChild(skill)
 	end
 	local delay = cc.DelayTime:create(0.3)

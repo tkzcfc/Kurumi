@@ -7,6 +7,7 @@ Actor::Actor(GameWorldBase* world)
 {
 	CC_ASSERT(m_gameWorld != NULL);
 	m_entity = world->getWorld()->createEntity();
+	m_entity.setUserdata(this);
 
 	auto& component = m_entity.addComponent<FilterComponent>();
 	component.m_filterData = 0;

@@ -1,8 +1,9 @@
-local AICharacter = require("app.actor.monster.AICharacter")
-
-local Monster_Shengbo = class("Monster_Shengbo", AICharacter)
-
+local Monster_Base = require("app.actor.monster.Monster_Base")
+local AIController = require("app.AI.AIController")
 local ShengBoConfig = require("app.config.monster.ShengBoConfig")
+
+local Monster_Shengbo = class("Monster_Shengbo", Monster_Base)
+
 
 function Monster_Shengbo:ctor()
 	Monster_Shengbo.super.ctor(self)
@@ -12,72 +13,52 @@ function Monster_Shengbo:ctor()
 	self:initFSM()
 	self.FSM:start("State_Stand")
 
+	self:initAI()
+
 	self:enableDefaultPhysics()
 	changeParticleSystemPositionType(self.armature, 2)
-
-	self.bhTree:execute( require("app.AI.export.base_export"), self, true )
 end
 
+function Monster_Shengbo:initAI()
+	self.aiController = AIController:new()
+	self.aiController:start(self, "base", "shengbo", true)
+end
 
--- function Monster_Shengbo:override_attOtherActorCallback(otherActor)
+function Monster_Shengbo:override_attCollisionCallback(otherActor)
+	Monster_Shengbo.super.override_attCollisionCallback(self, otherActor)
 
--- 	local stateName = self.FSM:getCurState():getStateName()
+	local stateName = self.FSM:getCurState():getStateName()
 
--- 	if stateName == "State_Kill" then
--- 		otherActor:override_beAttacked(self, true)
--- 	else
--- 		otherActor:override_beAttacked(self, false)
--- 	end
--- end
+	if stateName == "State_Kill" then
+		self.isPickUp = true
+	else
+		self.isPickUp = false
+	end
+end
 
--- function Monster_Shengbo:override_beAttacked(attackActor, isPickUp)
--- 	Monster_Shengbo.super.override_beAttacked(self, attackActor, isPickUp)
+function Monster_Shengbo:override_defCollisionCallback(otherActor)
+	Monster_Shengbo.super.override_defCollisionCallback(self, otherActor)
 
--- 	if not isPickUp then
--- 		self:handle("CMD_Hit")
--- 	else
--- 		self:handle("CMD_Collapase")
--- 	end
--- end
+	if not otherActor.isPickUp then
+		self:handle("CMD_Hit")
+	else
+		self:handle("CMD_Collapase")
+	end
+end
 
 function Monster_Shengbo:override_update(delta)
 	Monster_Shengbo.super.override_update(self, delta)
 	local curStateName = self.FSM:getCurState():getStateName()
 	-- 奔跑状态
 	if curStateName == "State_Run" then
-		self:setVelocityXByImpulse(self:getVelocityByMoveOrientation(ShengBoConfig.BaseConfig.MoveVelocity))
+		self:setVelocityXByImpulse(self:getVelocityByMoveOrientation(self.config.BaseConfig.MoveVelocity))
 	else
 		if self.isCollapse then
-			if not self:isInAir() then
+			if not self.isInAir then
 				self:handle("CMD_Collapase_EndToStand")
 			end
 		end
 	end
-end
-
---------------------------------------Logic--------------------------------------
-function Monster_Shengbo:getVelocityByMoveOrientation(value)
-	if self.moveToLeft then
-		return -value
-	end
-	return value
-end
-
-----------------------------------------AI----------------------------------------
-
-function Monster_Shengbo:ai_do_attack1()
-	local ret = self:handle("CMD_Attack1")
-	return ret
-end
-
-function Monster_Shengbo:ai_do_attack2()
-	local ret = self:handle("CMD_Attack2")
-	return ret
-end
-
-function Monster_Shengbo:ai_do_skill()
-	local ret = self:handle("CMD_Skill")
-	return ret
 end
 
 --------------------------------------FSM--------------------------------------
@@ -145,8 +126,8 @@ function Monster_Shengbo:enter_State_Hit()
 	self:lockOrientation()
 	self:clearForceX()
 	--
-	local impluse = self:getVelocityByOrientation(ShengBoConfig.BaseConfig.HitImpluse)
-	self:setVelocityXByImpulse(impluse)
+	local impluse = ShengBoConfig.BaseConfig.HitImpluse
+	self:setVelocityXByImpulse_Ext(impluse)
 end
 
 function Monster_Shengbo:leave_State_Hit()
