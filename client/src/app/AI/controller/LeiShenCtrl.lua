@@ -6,10 +6,6 @@ function LeiShenCtrl:ctor()
 	LeiShenCtrl.super.ctor(self)
 end
 
-function LeiShenCtrl:ai_can_attack()
-	return true
-end
-
 -- 向前发出雷球
 function LeiShenCtrl:ai_do_skill1()
 	self.pawn:handle("CMD_Skill1")
@@ -24,6 +20,7 @@ end
 
 -- 变成一个光球
 function LeiShenCtrl:ai_do_skill3(time)
+	time = time or 1.0
 	if self.pawn:handle("CMD_Skill3") then
 		
 		local curTime = 0.0
@@ -54,7 +51,7 @@ function LeiShenCtrl:ai_do_skill5()
 	end
 
 	if self.hatredTarget == nil then
-		self.pawn.skill5EndPos = nil
+		self.pawn.skill5EndPosX = nil
 	else
 		local hatredPosx = self.hatredTarget:getPositionX()
 		local pawnPosx = self.pawn:getPositionX()
@@ -72,9 +69,9 @@ function LeiShenCtrl:ai_do_skill5()
 		end
 
 		if distance > 0 then
-			self.pawn.skill5EndPos = {x = pawnPosx + move_distance, y = 0}
+			self.pawn.skill5EndPosX = pawnPosx + move_distance
 		else
-			self.pawn.skill5EndPos = {x = pawnPosx - move_distance, y = 0}
+			self.pawn.skill5EndPosX = pawnPosx - move_distance
 		end
 	end
 

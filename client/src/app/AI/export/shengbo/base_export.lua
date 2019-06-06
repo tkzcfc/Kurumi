@@ -19,14 +19,12 @@ return {
                     ["name"] = "Selector",
                     ["func"] = "",
                     ["arg"] = {
-                        [1] = "",
                     },
                 },
             },
             ["type"] = "Start",
             ["name"] = "",
             ["arg"] = {
-                [1] = "",
             },
         },
     },

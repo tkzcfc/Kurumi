@@ -35,7 +35,6 @@ return {
                                                     ["name"] = "Sequence_1",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                             },
@@ -43,7 +42,6 @@ return {
                                             ["name"] = "Filter_5",
                                             ["func"] = "ai_can_attack",
                                             ["arg"] = {
-                                                [1] = "",
                                             },
                                         },
                                         [2] = {
@@ -51,11 +49,10 @@ return {
                                                 [1] = {
                                                     ["children"] = {
                                                         [1] = {
-                                                            ["type"] = "True",
+                                                            ["type"] = "False",
                                                             ["name"] = "return true",
                                                             ["func"] = "",
                                                             ["arg"] = {
-                                                                [1] = "",
                                                             },
                                                         },
                                                     },
@@ -64,7 +61,7 @@ return {
                                                     ["func"] = "",
                                                     ["arg"] = {
                                                         [1] = 0.3,
-                                                        [2] = 1,
+                                                        [2] = 0.5,
                                                     },
                                                 },
                                                 [2] = {
@@ -90,7 +87,6 @@ return {
                                                                             ["name"] = "Filter_2",
                                                                             ["func"] = "ai_is_ori_left",
                                                                             ["arg"] = {
-                                                                                [1] = "",
                                                                             },
                                                                         },
                                                                         [2] = {
@@ -108,7 +104,6 @@ return {
                                                                     ["name"] = "Selector_4",
                                                                     ["func"] = "",
                                                                     ["arg"] = {
-                                                                        [1] = "",
                                                                     },
                                                                 },
                                                             },
@@ -161,7 +156,6 @@ return {
                                                                             ["name"] = "Filter_2",
                                                                             ["func"] = "ai_is_ori_left",
                                                                             ["arg"] = {
-                                                                                [1] = "",
                                                                             },
                                                                         },
                                                                         [2] = {
@@ -200,15 +194,13 @@ return {
                                                                     ["name"] = "Selector_4",
                                                                     ["func"] = "",
                                                                     ["arg"] = {
-                                                                        [1] = "",
                                                                     },
                                                                 },
                                                                 [2] = {
                                                                     ["type"] = "Action",
-                                                                    ["name"] = "Action_11",
+                                                                    ["name"] = "shun yi",
                                                                     ["func"] = "ai_do_skill5",
                                                                     ["arg"] = {
-                                                                        [1] = "",
                                                                     },
                                                                 },
                                                             },
@@ -216,7 +208,7 @@ return {
                                                             ["name"] = "RandomSelector_3",
                                                             ["func"] = "",
                                                             ["arg"] = {
-                                                                [1] = 6,
+                                                                [1] = 4,
                                                                 [2] = 1,
                                                             },
                                                         },
@@ -225,7 +217,6 @@ return {
                                                     ["name"] = "Selector_5",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                             },
@@ -242,7 +233,6 @@ return {
                                     ["name"] = "",
                                     ["func"] = "",
                                     ["arg"] = {
-                                        [1] = "",
                                     },
                                 },
                             },
@@ -250,7 +240,6 @@ return {
                             ["name"] = "have target ????",
                             ["func"] = "ai_has_target",
                             ["arg"] = {
-                                [1] = "",
                             },
                         },
                         [2] = {
@@ -260,7 +249,6 @@ return {
                                     ["name"] = "Action_2",
                                     ["func"] = "ai_find_target",
                                     ["arg"] = {
-                                        [1] = "",
                                     },
                                 },
                                 [2] = {
@@ -272,7 +260,6 @@ return {
                                                     ["name"] = "return true",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                             },
@@ -307,7 +294,6 @@ return {
                             ["name"] = "no target",
                             ["func"] = "",
                             ["arg"] = {
-                                [1] = "",
                             },
                         },
                     },
@@ -315,14 +301,12 @@ return {
                     ["name"] = "have target ????",
                     ["func"] = "",
                     ["arg"] = {
-                        [1] = "",
                     },
                 },
             },
             ["type"] = "Start",
             ["name"] = "",
             ["arg"] = {
-                [1] = "",
             },
         },
     },

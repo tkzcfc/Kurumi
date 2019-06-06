@@ -44,7 +44,6 @@ return {
                                                     ["name"] = "Sequence_1",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                                 [2] = {
@@ -70,7 +69,6 @@ return {
                                                     ["name"] = "Sequence_2",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                                 [4] = {
@@ -97,7 +95,6 @@ return {
                                                     ["name"] = "Sequence_10",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                                 [3] = {
@@ -123,7 +120,6 @@ return {
                                                     ["name"] = "Sequence_3",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                             },
@@ -174,7 +170,6 @@ return {
                                                             ["name"] = "Sequence_1",
                                                             ["func"] = "",
                                                             ["arg"] = {
-                                                                [1] = "",
                                                             },
                                                         },
                                                         [2] = {
@@ -200,7 +195,6 @@ return {
                                                             ["name"] = "Sequence_2",
                                                             ["func"] = "",
                                                             ["arg"] = {
-                                                                [1] = "",
                                                             },
                                                         },
                                                         [4] = {
@@ -227,7 +221,6 @@ return {
                                                             ["name"] = "Sequence_10",
                                                             ["func"] = "",
                                                             ["arg"] = {
-                                                                [1] = "",
                                                             },
                                                         },
                                                         [3] = {
@@ -253,7 +246,6 @@ return {
                                                             ["name"] = "Sequence_3",
                                                             ["func"] = "",
                                                             ["arg"] = {
-                                                                [1] = "",
                                                             },
                                                         },
                                                     },
@@ -300,7 +292,6 @@ return {
                                                     ["name"] = "Sequence_1",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                                 [2] = {
@@ -326,7 +317,6 @@ return {
                                                     ["name"] = "Sequence_2",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                                 [4] = {
@@ -353,7 +343,6 @@ return {
                                                     ["name"] = "Sequence_10",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                                 [3] = {
@@ -379,7 +368,6 @@ return {
                                                     ["name"] = "Sequence_3",
                                                     ["func"] = "",
                                                     ["arg"] = {
-                                                        [1] = "",
                                                     },
                                                 },
                                             },
@@ -398,7 +386,6 @@ return {
                                     ["name"] = "Selector_2",
                                     ["func"] = "",
                                     ["arg"] = {
-                                        [1] = "",
                                     },
                                 },
                             },
@@ -406,7 +393,6 @@ return {
                             ["name"] = "Selector_1",
                             ["func"] = "",
                             ["arg"] = {
-                                [1] = "",
                             },
                         },
                     },
@@ -414,14 +400,12 @@ return {
                     ["name"] = "Sequence_1",
                     ["func"] = "",
                     ["arg"] = {
-                        [1] = "",
                     },
                 },
             },
             ["type"] = "Start",
             ["name"] = "",
             ["arg"] = {
-                [1] = "",
             },
         },
     },

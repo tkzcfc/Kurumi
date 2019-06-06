@@ -58,54 +58,6 @@ function Monster_LeiShen:override_update(delta)
 	end
 end
 
---------------------------------------Logic--------------------------------------
-
-function Monster_LeiShen:skill1()
-	local ret = self:handle("CMD_Skill1")
-	return ret
-end
-
-function Monster_LeiShen:skill2()
-	local ret = self:handle("CMD_Skill2")
-	return ret
-end
-
-function Monster_LeiShen:skill3()
-	local ret = self:handle("State_Kill3")
-	if ret then
-		local call = cc.CallFunc:create(function()
-			self:handle("CMD_Skill3_Finish")
-		end)
-
-		self:getArmature():stopAllActions()
-		local q = cc.Sequence:create(cc.DelayTime:create(2.0), call)
-		self:getArmature():runAction(q)
-	end
-	return ret
-end
-
-function Monster_LeiShen:skill5(endPos)
-	local ret = self:handle("CMD_Kill5_1")
-	if ret then
-		self.skill5EndPos = endPos
-	end
-	return ret
-end
-
-function Monster_LeiShen:skill6()
-	local ret = self:handle("CMD_Kill6")
-	if ret then
-		local callfunc = cc.CallFunc:create(function()
-			self:handle("CMD_Kill6_Finish")
-		end)
-
-		local q = cc.Sequence:create(cc.DelayTime:create(0.6), callfunc)
-		self:getArmature():stopAllActions()
-		self:getArmature():runAction(q)
-	end
-	return ret
-end
-
 --------------------------------------------FSM--------------------------------
 
 function Monster_LeiShen:initFSM()
@@ -252,16 +204,19 @@ end
 function Monster_LeiShen:leave_State_Kill5_1()
 	self:unLockOrientation()
 
-	-- if self.skill5EndPos == nil then
-	-- 	local movex = math.random(200, 1000)
-	-- 	if math.random(1, 2) == 1 then
-	-- 		movex = -movex
-	-- 	end
-	-- 	self.skill5EndPos = movex
-	-- end
+	if self.skill5EndPosX == nil then
+		local movex = math.random(200, 600)
+		if math.random(1, 2) == 1 then
+			movex = -movex
+		end
+		self.skill5EndPosX = self:getPositionX() + movex
+	end
 
-	-- self:setActorPositionInValidRect({x = self.skill5EndPos, y = self:getPositionY()})
-	-- self.skill5EndPos = nil
+	self.skill5EndPosX = math.max(self.skill5EndPosX, 200)
+	self.skill5EndPosX = math.min(self.skill5EndPosX, self:getGameWorld():getGameMap():getMapWidth() - 200)
+
+	self:setPositionAndSyncPhysicsTransform({x = self.skill5EndPosX, y = self:getPositionY()})
+	self.skill5EndPosX = nil
 end
 
 function Monster_LeiShen:enter_State_Kill5_2()

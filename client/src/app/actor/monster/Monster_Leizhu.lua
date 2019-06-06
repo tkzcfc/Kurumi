@@ -5,7 +5,7 @@ local Monster_Leizhu = class("Monster_Leizhu", Monster_Base)
 function Monster_Leizhu:ctor()
 	Monster_Leizhu.super.ctor(self)
 	
-	self:loadConfig(require("app.config.monster.LeiQiuConfig"))
+	self:loadConfig(require("app.config.monster.LeiZhuConfig"))
 
 	self.FSM:start("State_Skill")
 	self.durtime = 0.0
