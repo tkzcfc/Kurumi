@@ -18,4 +18,8 @@ public:
 	inline QFSM* getFSM();
 
 	inline ccs.Armature* getArmature();
+	
+	inline float getCharacterWidth();
+
+	inline float getCharacterHeight();
 };

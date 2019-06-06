@@ -1,6 +1,6 @@
 /*
 ** Lua binding: foundation
-** Generated automatically by tolua++-1.0.92 on 06/05/19 21:58:13.
+** Generated automatically by tolua++-1.0.92 on 06/06/19 22:57:33.
 */
 
 #ifndef __cplusplus
@@ -4201,6 +4201,70 @@ static int tolua_foundation_Character_getArmature00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getCharacterWidth of class  Character */
+#ifndef TOLUA_DISABLE_tolua_foundation_Character_getCharacterWidth00
+static int tolua_foundation_Character_getCharacterWidth00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Character",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Character* self = (Character*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getCharacterWidth'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getCharacterWidth();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getCharacterWidth'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getCharacterHeight of class  Character */
+#ifndef TOLUA_DISABLE_tolua_foundation_Character_getCharacterHeight00
+static int tolua_foundation_Character_getCharacterHeight00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Character",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Character* self = (Character*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getCharacterHeight'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getCharacterHeight();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getCharacterHeight'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: create of class  GameWorld */
 #ifndef TOLUA_DISABLE_tolua_foundation_GameWorld_create00
 static int tolua_foundation_GameWorld_create00(lua_State* tolua_S)
@@ -4396,6 +4460,78 @@ static int tolua_foundation_GameWorld_setGameMap00(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'setGameMap'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getValidWorldX of class  GameWorld */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameWorld_getValidWorldX00
+static int tolua_foundation_GameWorld_getValidWorldX00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameWorld",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameWorld* self = (GameWorld*)  tolua_tousertype(tolua_S,1,0);
+  int inValue = ((int)  tolua_tonumber(tolua_S,2,0));
+  int actorRadius = ((int)  tolua_tonumber(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValidWorldX'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getValidWorldX(inValue,actorRadius);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getValidWorldX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getValidWorldY of class  GameWorld */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameWorld_getValidWorldY00
+static int tolua_foundation_GameWorld_getValidWorldY00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameWorld",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameWorld* self = (GameWorld*)  tolua_tousertype(tolua_S,1,0);
+  int inValue = ((int)  tolua_tonumber(tolua_S,2,0));
+  int actorRadius = ((int)  tolua_tonumber(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValidWorldY'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getValidWorldY(inValue,actorRadius);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getValidWorldY'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4810,6 +4946,8 @@ TOLUA_API int tolua_foundation_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setPositionAndSyncPhysicsTransform",tolua_foundation_Character_setPositionAndSyncPhysicsTransform00);
    tolua_function(tolua_S,"getFSM",tolua_foundation_Character_getFSM00);
    tolua_function(tolua_S,"getArmature",tolua_foundation_Character_getArmature00);
+   tolua_function(tolua_S,"getCharacterWidth",tolua_foundation_Character_getCharacterWidth00);
+   tolua_function(tolua_S,"getCharacterHeight",tolua_foundation_Character_getCharacterHeight00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"GameWorld","GameWorld","cc.Node",NULL);
   tolua_beginmodule(tolua_S,"GameWorld");
@@ -4819,6 +4957,8 @@ TOLUA_API int tolua_foundation_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setDebugEnable",tolua_foundation_GameWorld_setDebugEnable00);
    tolua_function(tolua_S,"isEnableDebug",tolua_foundation_GameWorld_isEnableDebug00);
    tolua_function(tolua_S,"setGameMap",tolua_foundation_GameWorld_setGameMap00);
+   tolua_function(tolua_S,"getValidWorldX",tolua_foundation_GameWorld_getValidWorldX00);
+   tolua_function(tolua_S,"getValidWorldY",tolua_foundation_GameWorld_getValidWorldY00);
    tolua_function(tolua_S,"getGameMap",tolua_foundation_GameWorld_getGameMap00);
    tolua_function(tolua_S,"getWorld",tolua_foundation_GameWorld_getWorld00);
    tolua_function(tolua_S,"getAdmin",tolua_foundation_GameWorld_getAdmin00);

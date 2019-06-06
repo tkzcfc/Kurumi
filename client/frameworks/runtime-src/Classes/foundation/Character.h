@@ -36,6 +36,10 @@ public:
 
 	inline cocostudio::Armature* getArmature();
 
+	inline float getCharacterWidth();
+
+	inline float getCharacterHeight();
+
 protected:
 
 	QFSM m_fsm;
@@ -43,6 +47,8 @@ protected:
 	cocostudio::Armature* m_armature;
 
 	unsigned short m_categoryBits;
+
+	Size m_characterSize;
 };
 
 QFSM* Character::getFSM()
@@ -53,4 +59,14 @@ QFSM* Character::getFSM()
 cocostudio::Armature* Character::getArmature()
 {
 	return m_armature;
+}
+
+float Character::getCharacterWidth()
+{
+	return m_characterSize.width;
+}
+
+float Character::getCharacterHeight()
+{
+	return m_characterSize.height;
 }

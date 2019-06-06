@@ -19,6 +19,10 @@ public:
 	bool isEnableDebug();
 	
 	void setGameMap(GameMap* gameMap);
+	
+	int getValidWorldX(int inValue, int actorRadius);
+
+	int getValidWorldY(int inValue, int actorRadius);
 
 public:
 

@@ -212,8 +212,7 @@ function Monster_LeiShen:leave_State_Kill5_1()
 		self.skill5EndPosX = self:getPositionX() + movex
 	end
 
-	self.skill5EndPosX = math.max(self.skill5EndPosX, 200)
-	self.skill5EndPosX = math.min(self.skill5EndPosX, self:getGameWorld():getGameMap():getMapWidth() - 200)
+	self.skill5EndPosX = self:getGameWorld():getValidWorldX(self.skill5EndPosX, self:getCharacterWidth())
 
 	self:setPositionAndSyncPhysicsTransform({x = self.skill5EndPosX, y = self:getPositionY()})
 	self.skill5EndPosX = nil

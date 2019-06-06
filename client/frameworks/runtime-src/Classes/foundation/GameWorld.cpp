@@ -89,6 +89,11 @@ void GameWorld::destroy(class Actor* actor)
 
 void GameWorld::initWorld(GameMap* gameMap, float left_offset, float right_offset, float top_offset, float bottom_offset)
 {
+	m_offsetX.x = left_offset;
+	m_offsetX.y = right_offset;
+	m_offsetY.x = bottom_offset;
+	m_offsetY.y = top_offset;
+
 	setGameMap(gameMap);
 
 	CC_ASSERT(m_gameMap != NULL);
@@ -141,6 +146,26 @@ void GameWorld::setGameMap(GameMap* gameMap)
 	m_mapFollowSystem->resetGameMap(gameMap);
 
 	m_armatureCollisionSystem->setDebugDrawNode(m_gameMap->getDrawNode());
+}
+
+int GameWorld::getValidWorldX(int inValue, int actorRadius)
+{
+	if (m_gameMap == NULL)
+		return inValue;
+	
+	inValue = MAX(m_offsetX.x + actorRadius, inValue);
+	inValue = MIN(m_gameMap->getMapWidth() - m_offsetX.y - actorRadius, inValue);
+	return inValue;
+}
+
+int GameWorld::getValidWorldY(int inValue, int actorRadius)
+{
+	if (m_gameMap == NULL)
+		return inValue;
+
+	inValue = MAX(m_offsetY.x + actorRadius, inValue);
+	inValue = MIN(m_gameMap->getMapHeight() - m_offsetY.y - actorRadius, inValue);
+	return inValue;
 }
 
 void GameWorld::setDebugEnable(bool enable)

@@ -37,6 +37,10 @@ public:
 
 	void setGameMap(GameMap* gameMap);
 
+	int getValidWorldX(int inValue, int actorRadius);
+
+	int getValidWorldY(int inValue, int actorRadius);
+
 public:
 
 	inline GameMap* getGameMap();
@@ -77,6 +81,9 @@ protected:
 	Node* m_nodeArr[GAMEWORLD_NODE_MAX];
 
 	Vector<class Actor*> m_destroyActorList;
+
+	Vec2 m_offsetX;
+	Vec2 m_offsetY;
 
 protected:
 

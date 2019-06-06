@@ -95,6 +95,8 @@ void Character::enableBox2DComponent(const Vec2& bodyPos, const Size& characterS
 		return;
 	}
 
+	m_characterSize = characterSize;
+
 	b2BodyDef bodydef;
 	bodydef.bullet = false;
 	bodydef.allowSleep = true;

@@ -1,6 +1,6 @@
 local BehaviorTree = class("BehaviorTree")
 
-BehaviorTree.DEBUG = true
+BehaviorTree.DEBUG = false
 
 if table.unpack == nil then
 	table.unpack = unpack

@@ -27,8 +27,11 @@ function GameScene:onCreate(args)
     _MyG.PlayerController:setPlayer(role)
 
 
-    -- local m = require("app.actor.monster.Monster_Shengbo"):create(world)
-    -- self.world.mapActorNode:addChild(m)
+    for i = 1, 3 do
+        local m = require("app.actor.monster.Monster_Shengbo"):create(world)
+        self.world.mapActorNode:addChild(m)
+    end
+
     local m = require("app.actor.monster.Monster_LeiShen"):create(world)
     self.world.mapActorNode:addChild(m)
 end
