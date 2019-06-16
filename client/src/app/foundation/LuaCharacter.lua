@@ -50,8 +50,11 @@ function LuaCharacter:enableLastUpdate()
 	end
 end
 
-function LuaCharacter:enableDefaultPhysics()
-	self:enablePhysics({x = 1200, y = 700}, {width = 100, height = 150})
+function LuaCharacter:enableDefaultPhysics(pos, size)
+	pos = pos or {x = 1200, y = 700}
+	size = size or {width = 100, height = 150}
+	
+	self:enablePhysics(pos, size)
 
 	if self.box2DComponent == nil then
 		return

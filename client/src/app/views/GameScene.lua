@@ -18,6 +18,7 @@ function GameScene:onCreate(args)
     local role = require("app.actor.role.Role_Dao"):create(world)
     role:changeRole("hero_lanse_dao")
     role:setIsLocalPlayer(true)
+    role:setValidWorldPosition({x = 0, y = 0})
     self.world.mapActorNode:addChild(role)
 
 	local controlUI = require("app.ui.ControlUI"):create()
@@ -27,12 +28,14 @@ function GameScene:onCreate(args)
     _MyG.PlayerController:setPlayer(role)
 
 
-    for i = 1, 3 do
-        local m = require("app.actor.monster.Monster_Shengbo"):create(world)
-        self.world.mapActorNode:addChild(m)
-    end
+    -- for i = 1, 3 do
+    --     local m = require("app.actor.monster.Monster_Shengbo"):create(world)
+--         m:setValidWorldPosition({x = 0, y = 0})
+    --     self.world.mapActorNode:addChild(m)
+    -- end
 
     local m = require("app.actor.monster.Monster_LeiShen"):create(world)
+    m:setValidWorldPosition({x = 0, y = 0})
     self.world.mapActorNode:addChild(m)
 end
 

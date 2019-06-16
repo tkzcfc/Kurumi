@@ -37,9 +37,9 @@ public:
 
 	void setGameMap(GameMap* gameMap);
 
-	int getValidWorldX(int inValue, int actorRadius);
+	float getValidWorldX(float inValue, float actorRadius);
 
-	int getValidWorldY(int inValue, int actorRadius);
+	float getValidWorldY(float inValue, float actorRadius);
 
 public:
 

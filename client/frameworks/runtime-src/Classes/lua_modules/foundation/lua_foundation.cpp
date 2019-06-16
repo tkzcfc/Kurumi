@@ -1,6 +1,6 @@
 /*
 ** Lua binding: foundation
-** Generated automatically by tolua++-1.0.92 on 06/06/19 22:57:33.
+** Generated automatically by tolua++-1.0.92 on 06/15/19 16:43:55.
 */
 
 #ifndef __cplusplus
@@ -923,6 +923,177 @@ static int tolua_foundation_GameMap_setViewSize00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getValidWorldX of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_getValidWorldX00
+static int tolua_foundation_GameMap_getValidWorldX00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+  float inValue = ((float)  tolua_tonumber(tolua_S,2,0));
+  float actorRadius = ((float)  tolua_tonumber(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValidWorldX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getValidWorldX(inValue,actorRadius);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getValidWorldX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getValidWorldY of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_getValidWorldY00
+static int tolua_foundation_GameMap_getValidWorldY00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+  float inValue = ((float)  tolua_tonumber(tolua_S,2,0));
+  float actorRadius = ((float)  tolua_tonumber(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValidWorldY'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getValidWorldY(inValue,actorRadius);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getValidWorldY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setOpenAreaMinx of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_setOpenAreaMinx00
+static int tolua_foundation_GameMap_setOpenAreaMinx00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+  float value = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setOpenAreaMinx'", NULL);
+#endif
+  {
+   self->setOpenAreaMinx(value);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setOpenAreaMinx'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setOpenAreaMaxX of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_setOpenAreaMaxX00
+static int tolua_foundation_GameMap_setOpenAreaMaxX00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+  float value = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setOpenAreaMaxX'", NULL);
+#endif
+  {
+   self->setOpenAreaMaxX(value);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setOpenAreaMaxX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setEnableViewPosLimit of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_setEnableViewPosLimit00
+static int tolua_foundation_GameMap_setEnableViewPosLimit00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+  bool enable = ((bool)  tolua_toboolean(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setEnableViewPosLimit'", NULL);
+#endif
+  {
+   self->setEnableViewPosLimit(enable);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setEnableViewPosLimit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: getActorNode of class  GameMap */
 #ifndef TOLUA_DISABLE_tolua_foundation_GameMap_getActorNode00
 static int tolua_foundation_GameMap_getActorNode00(lua_State* tolua_S)
@@ -1140,6 +1311,102 @@ static int tolua_foundation_GameMap_getMinPosY00(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'getMinPosY'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isEnableViewPosLimit of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_isEnableViewPosLimit00
+static int tolua_foundation_GameMap_isEnableViewPosLimit00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isEnableViewPosLimit'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isEnableViewPosLimit();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isEnableViewPosLimit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getOpenAreaMinX of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_getOpenAreaMinX00
+static int tolua_foundation_GameMap_getOpenAreaMinX00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getOpenAreaMinX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getOpenAreaMinX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getOpenAreaMinX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getOpenAreaMaxX of class  GameMap */
+#ifndef TOLUA_DISABLE_tolua_foundation_GameMap_getOpenAreaMaxX00
+static int tolua_foundation_GameMap_getOpenAreaMaxX00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GameMap",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GameMap* self = (GameMap*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getOpenAreaMaxX'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getOpenAreaMaxX();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getOpenAreaMaxX'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4137,6 +4404,72 @@ static int tolua_foundation_Character_setPositionAndSyncPhysicsTransform00(lua_S
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setValidWorldPosition of class  Character */
+#ifndef TOLUA_DISABLE_tolua_foundation_Character_setValidWorldPosition00
+static int tolua_foundation_Character_setValidWorldPosition00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Character",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"Vec2",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Character* self = (Character*)  tolua_tousertype(tolua_S,1,0);
+  Vec2 inPos = (  tolua_ext_luaval_to_vec2_value(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setValidWorldPosition'", NULL);
+#endif
+  {
+   self->setValidWorldPosition(inPos);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setValidWorldPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setValidWorldPositionX of class  Character */
+#ifndef TOLUA_DISABLE_tolua_foundation_Character_setValidWorldPositionX00
+static int tolua_foundation_Character_setValidWorldPositionX00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Character",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Character* self = (Character*)  tolua_tousertype(tolua_S,1,0);
+  float inPosX = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setValidWorldPositionX'", NULL);
+#endif
+  {
+   self->setValidWorldPositionX(inPosX);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setValidWorldPositionX'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: getFSM of class  Character */
 #ifndef TOLUA_DISABLE_tolua_foundation_Character_getFSM00
 static int tolua_foundation_Character_getFSM00(lua_State* tolua_S)
@@ -4482,13 +4815,13 @@ static int tolua_foundation_GameWorld_getValidWorldX00(lua_State* tolua_S)
 #endif
  {
   GameWorld* self = (GameWorld*)  tolua_tousertype(tolua_S,1,0);
-  int inValue = ((int)  tolua_tonumber(tolua_S,2,0));
-  int actorRadius = ((int)  tolua_tonumber(tolua_S,3,0));
+  float inValue = ((float)  tolua_tonumber(tolua_S,2,0));
+  float actorRadius = ((float)  tolua_tonumber(tolua_S,3,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValidWorldX'", NULL);
 #endif
   {
-   int tolua_ret = (int)  self->getValidWorldX(inValue,actorRadius);
+   float tolua_ret = (float)  self->getValidWorldX(inValue,actorRadius);
    tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
   }
  }
@@ -4518,13 +4851,13 @@ static int tolua_foundation_GameWorld_getValidWorldY00(lua_State* tolua_S)
 #endif
  {
   GameWorld* self = (GameWorld*)  tolua_tousertype(tolua_S,1,0);
-  int inValue = ((int)  tolua_tonumber(tolua_S,2,0));
-  int actorRadius = ((int)  tolua_tonumber(tolua_S,3,0));
+  float inValue = ((float)  tolua_tonumber(tolua_S,2,0));
+  float actorRadius = ((float)  tolua_tonumber(tolua_S,3,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getValidWorldY'", NULL);
 #endif
   {
-   int tolua_ret = (int)  self->getValidWorldY(inValue,actorRadius);
+   float tolua_ret = (float)  self->getValidWorldY(inValue,actorRadius);
    tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
   }
  }
@@ -4818,6 +5151,11 @@ TOLUA_API int tolua_foundation_open (lua_State* tolua_S)
    tolua_function(tolua_S,"loadMapFile",tolua_foundation_GameMap_loadMapFile00);
    tolua_function(tolua_S,"setViewPos",tolua_foundation_GameMap_setViewPos00);
    tolua_function(tolua_S,"setViewSize",tolua_foundation_GameMap_setViewSize00);
+   tolua_function(tolua_S,"getValidWorldX",tolua_foundation_GameMap_getValidWorldX00);
+   tolua_function(tolua_S,"getValidWorldY",tolua_foundation_GameMap_getValidWorldY00);
+   tolua_function(tolua_S,"setOpenAreaMinx",tolua_foundation_GameMap_setOpenAreaMinx00);
+   tolua_function(tolua_S,"setOpenAreaMaxX",tolua_foundation_GameMap_setOpenAreaMaxX00);
+   tolua_function(tolua_S,"setEnableViewPosLimit",tolua_foundation_GameMap_setEnableViewPosLimit00);
    tolua_function(tolua_S,"getActorNode",tolua_foundation_GameMap_getActorNode00);
    tolua_function(tolua_S,"lockMapY",tolua_foundation_GameMap_lockMapY00);
    tolua_function(tolua_S,"unlockMapY",tolua_foundation_GameMap_unlockMapY00);
@@ -4825,6 +5163,9 @@ TOLUA_API int tolua_foundation_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getMapHeight",tolua_foundation_GameMap_getMapHeight00);
    tolua_function(tolua_S,"getRootNode",tolua_foundation_GameMap_getRootNode00);
    tolua_function(tolua_S,"getMinPosY",tolua_foundation_GameMap_getMinPosY00);
+   tolua_function(tolua_S,"isEnableViewPosLimit",tolua_foundation_GameMap_isEnableViewPosLimit00);
+   tolua_function(tolua_S,"getOpenAreaMinX",tolua_foundation_GameMap_getOpenAreaMinX00);
+   tolua_function(tolua_S,"getOpenAreaMaxX",tolua_foundation_GameMap_getOpenAreaMaxX00);
   tolua_endmodule(tolua_S);
   #ifdef __cplusplus
   tolua_cclass(tolua_S,"b2MassData","b2MassData","",tolua_collect_b2MassData);
@@ -4944,6 +5285,8 @@ TOLUA_API int tolua_foundation_open (lua_State* tolua_S)
    tolua_function(tolua_S,"loadArmature",tolua_foundation_Character_loadArmature00);
    tolua_function(tolua_S,"enableBox2DComponent",tolua_foundation_Character_enableBox2DComponent00);
    tolua_function(tolua_S,"setPositionAndSyncPhysicsTransform",tolua_foundation_Character_setPositionAndSyncPhysicsTransform00);
+   tolua_function(tolua_S,"setValidWorldPosition",tolua_foundation_Character_setValidWorldPosition00);
+   tolua_function(tolua_S,"setValidWorldPositionX",tolua_foundation_Character_setValidWorldPositionX00);
    tolua_function(tolua_S,"getFSM",tolua_foundation_Character_getFSM00);
    tolua_function(tolua_S,"getArmature",tolua_foundation_Character_getArmature00);
    tolua_function(tolua_S,"getCharacterWidth",tolua_foundation_Character_getCharacterWidth00);

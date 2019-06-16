@@ -6,6 +6,7 @@
 #include "ecs/components/OrientationComponent.h"
 #include "ecs/components/UpdateComponent.h"
 #include "ecs/components/FilterComponent.h"
+#include "ecs/components/PropertyComponent.h"
 
 #include "ecs/system/ArmatureCollisionSystem.h"
 #include "ecs/system/Box2DSystem.h"
@@ -27,6 +28,7 @@ void AnaxHelper::implementation()
 	IMPLEMENTATION_COMPONENT(OrientationComponent);
 	IMPLEMENTATION_COMPONENT(UpdateComponent);
 	IMPLEMENTATION_COMPONENT(FilterComponent);
+	IMPLEMENTATION_COMPONENT(PropertyComponent);
 
 
 	IMPLEMENTATION_SYSTEM(ArmatureCollisionSystem);

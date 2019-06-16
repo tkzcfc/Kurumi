@@ -9,6 +9,13 @@ function AIController:ctor()
 	self.updateInterval = 0.0
 	self.doAttackInterval = 0.0
 	self.scriptDirName = ""
+
+	self.onActorDestroyCall = function(actor)
+		if self.hatredTarget == actor then
+			self.hatredTarget = nil
+		end
+	end
+	_MyG.EventDispatcher:register("onActorDestroy", self.onActorDestroyCall)
 end
 
 function AIController:start(pawn, scriptname, dirname, loop)
@@ -75,6 +82,7 @@ function AIController:onExit()
 		self.bhTree = nil
 	end
 	self.pawn = nil
+	_MyG.EventDispatcher:unRegister("onActorDestroy", self.onActorDestroyCall)
 end
 
 function AIController:require(name)

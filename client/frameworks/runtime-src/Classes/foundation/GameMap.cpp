@@ -5,10 +5,13 @@
 GameMap::GameMap()
 	: m_minPosY(0.0f)
 	, m_actorNode(NULL)
-	, m_lockMapY(false)
+	, m_lockMapY(true)
 	, m_fixNodeBeginX(0.0f)
 	, m_save_view_x(-1.0f)
 	, m_save_view_y(-1.0f)
+	, m_enableViewPosLimit(false)
+	, m_openAreaMinX(0)
+	, m_openAreaMaxX(0)
 {
 	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
@@ -46,7 +49,6 @@ bool GameMap::init()
 	m_drawNode = DrawNode::create();
 	this->addChild(m_drawNode, 0xffff);
 #endif
-
 	return true;
 }
 
@@ -89,6 +91,7 @@ void GameMap::loadMapFile(const std::string& filepath, const std::string& actorN
 	rootNode->addChild(m_actorNode, targetNode->getLocalZOrder());	
 
 	m_mapSize = rootNode->getContentSize();
+	m_openAreaMaxX = m_mapSize.width;
 	m_mapNodeSize[GameMapNodeType::STAGE_NODE] = m_mapSize;
 
 	changeParticleSystemPositionType(rootNode, (int)ParticleSystem::PositionType::GROUPED);
@@ -97,18 +100,40 @@ void GameMap::loadMapFile(const std::string& filepath, const std::string& actorN
 
 	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
-		m_mapNodeMoveSize[i].width = MAX(m_mapNodeSize[i].width - m_viewSize.width, 0.0f);
-		m_mapNodeMoveSize[i].height = MAX(m_mapNodeSize[i].height - m_viewSize.height, 0.0f);
+		m_mapNodeMoveSize[i].width = MAX(m_mapNodeSize[i].width, 0.0f);
+		m_mapNodeMoveSize[i].height = MAX(m_mapNodeSize[i].height, 0.0f);
 	}
+
+//#if COCOS2D_DEBUG == 1
+//	DrawNode* draw = DrawNode::create();
+//	for (auto i = -10; i <= 50; ++i)
+//	{
+//		std::string show = StringUtils::format("(%d)", i * 100);
+//		Label* label = Label::create(show, "", 20);
+//		label->setColor(Color3B::RED);
+//		label->setPosition(i * 100, 200);
+//		rootNode->addChild(label, 0xffff);
+//
+//		draw->drawLine(Vec2(i * 100, 0), Vec2(i * 100, m_viewSize.height), Color4F::BLUE);
+//	}
+//	rootNode->addChild(draw, 0xffff);
+//#endif
 }
 
 void GameMap::setViewPos(float x, float y)
 {
+	CC_ASSERT(m_mapSize.width > 0.0f && m_mapSize.height > 0.0f);
+
 	y = y - m_minPosY;
-	x = MAX(x, 0.0f);
-	x = MIN(x, m_mapSize.width);
-	y = MAX(y, 0.0f);
-	y = MIN(y, m_mapSize.height);
+
+	if (m_enableViewPosLimit)
+	{
+		x = MAX(x, 0.0f);
+		x = MIN(x, m_mapSize.width);
+		y = MAX(y, 0.0f);
+		y = MIN(y, m_mapSize.height);
+	}
+
 	if (fabs(m_save_view_x - x) < 0.0001f && fabs(m_save_view_y - y) < 0.0001f)
 	{
 		return;
@@ -117,19 +142,17 @@ void GameMap::setViewPos(float x, float y)
 	float percent_x = 0.0f;
 	float percent_y = y / m_mapSize.height;
 
-	bool fix_player_to_center_x = false;
-	if (x <= m_halfViewSize.width)
+	if (x <= m_halfViewSize.width + m_openAreaMinX)
 	{
-		percent_x = 0.0f;
+		percent_x = m_openAreaMinX / m_mapSize.width;
 	}
-	else if(x >= m_mapSize.width - m_halfViewSize.width)
+	else if (x >= m_openAreaMaxX - m_halfViewSize.width)
 	{
-		percent_x = 1.0f;
+		percent_x = (m_openAreaMaxX - m_viewSize.width) / m_mapSize.width;
 	}
 	else
 	{
-		fix_player_to_center_x = true;
-		percent_x = x / m_mapSize.width;;
+		percent_x = (x - m_halfViewSize.width) / m_mapSize.width;
 	}
 
 	float curx, cury;
@@ -146,14 +169,7 @@ void GameMap::setViewPos(float x, float y)
 		}
 		else
 		{
-			if (fix_player_to_center_x)
-			{
-				curx = x - m_halfViewSize.width;
-			}
-			else
-			{
-				curx = percent_x * m_mapNodeMoveSize[i].width;
-			}
+			curx = percent_x * m_mapNodeMoveSize[i].width;
 		}
 		if (m_lockMapY)
 		{
@@ -194,5 +210,41 @@ void GameMap::setViewSize(float width, float height)
 	}
 }
 
+float GameMap::getValidWorldX(float inValue, float actorRadius)
+{
+	float minX = MAX(m_openAreaMinX, 0);
+	float maxX = MIN(m_openAreaMaxX, m_mapSize.width);
 
+	inValue = MAX(minX + actorRadius, inValue);
+	inValue = MIN(maxX - actorRadius, inValue);
 
+	return inValue;
+}
+
+float GameMap::getValidWorldY(float inValue, float actorRadius)
+{
+	inValue = MAX(actorRadius, inValue);
+	inValue = MIN(m_mapSize.height - actorRadius, inValue);
+	return inValue;
+}
+
+void GameMap::setOpenAreaMinx(float value)
+{
+	m_openAreaMinX = value;
+	m_save_view_x = -1000.0f;
+	m_save_view_y = -1000.0f;
+}
+
+void GameMap::setOpenAreaMaxX(float value)
+{
+	m_openAreaMaxX = value;
+	m_save_view_x = -1000.0f;
+	m_save_view_y = -1000.0f;
+}
+
+void GameMap::setEnableViewPosLimit(bool enable)
+{
+	m_enableViewPosLimit = enable;
+	m_save_view_x = -1000.0f;
+	m_save_view_y = -1000.0f;
+}

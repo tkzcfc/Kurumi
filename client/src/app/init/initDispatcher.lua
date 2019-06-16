@@ -18,5 +18,6 @@ _MyG.INPUT_KEY = inputDispatcherKey
 
 _MyG.PlayerDispatcher = require("app.common.dispatcher"):new()
 _MyG.InputDispatcher = require("app.common.dispatcher"):new()
+_MyG.EventDispatcher = require("app.common.dispatcher"):new()
 _MyG.PlayerController = require("app.common.PlayerController"):new()
 

@@ -12,6 +12,10 @@ public:
 	void enableBox2DComponent(Vec2 bodyPos, Size characterSize);
 	
 	void setPositionAndSyncPhysicsTransform(Vec2 inPos);
+	
+	void setValidWorldPosition(Vec2 inPos);
+
+	void setValidWorldPositionX(float inPosX);
 
 public:
 

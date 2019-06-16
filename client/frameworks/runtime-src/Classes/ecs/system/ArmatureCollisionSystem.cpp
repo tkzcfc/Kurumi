@@ -156,6 +156,7 @@ void ArmatureCollisionSystem::collisionTest()
 	}
 }
 
+#if ENABLE_ARMATURE_COLLISION_DRAW_DEBUG == 1
 void ArmatureCollisionSystem::debugDraw()
 {
 	if (m_debugDraw == NULL)
@@ -195,6 +196,7 @@ void ArmatureCollisionSystem::debugDraw()
 		}
 	}
 }
+#endif
 
 bool ArmatureCollisionSystem::AABBTest(const anax::Entity* entityA, const anax::Entity* entityB)
 {

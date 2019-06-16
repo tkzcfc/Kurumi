@@ -4,7 +4,7 @@
         "android": "Android我是强更新描述",
         "ios": "IOS我是强更新描述"
     },
-    "remoteManifestUrl": "http://47.75.218.200:1000/91/download/project_dev.manifest",
+    "remoteManifestUrl": "http://47.75.218.200:1000/91/project_dev.manifest",
     "searchPaths": [],
     "assets": {
         "res/map/map8/map8_5.png": {
@@ -1040,8 +1040,8 @@
             "md5": "ffb2881a273d539ccfecba5749d65408"
         },
         "src/app/config/monster/ShengBoConfig.lua": {
-            "fileSize": 2504,
-            "md5": "7a171e92d9cebf1c86fcbb51b3747321"
+            "fileSize": 1271,
+            "md5": "73568d6e37a7248ecfdfd3c591e7bec4"
         },
         "res/map/map12/map12_d.png": {
             "fileSize": 57066,
@@ -1152,8 +1152,8 @@
             "md5": "457c745969fc87e214aa2f1a8e930369"
         },
         "src/app/AI/export/shengbo/attack_export.lua": {
-            "fileSize": 28607,
-            "md5": "a0acf4273285877d2ee538cc73bbd38d"
+            "fileSize": 27615,
+            "md5": "4937b2025a7d535678d62f49b9fb5ddc"
         },
         "res/map/map1/map1qjc20.png": {
             "fileSize": 11445,
@@ -1891,6 +1891,10 @@
             "fileSize": 4515,
             "md5": "9d2249e29e8961c08ce3de36a708631b"
         },
+        "src/app/AI/export/leishen/shunyi_export.lua": {
+            "fileSize": 6268,
+            "md5": "4b80efd03a6565d3f1fca365df2999b6"
+        },
         "res/uianimation/jingneng_effect0.plist": {
             "fileSize": 1219,
             "md5": "07e0af966410c78cbe92ce8328c1420b"
@@ -2532,8 +2536,8 @@
             "md5": "2fdc0e47054c83c11afa644e20963457"
         },
         "src/app/config/monster/LeiShenConfig.lua": {
-            "fileSize": 2453,
-            "md5": "9b8b0741c14b5b2321ef2457ad84d154"
+            "fileSize": 1310,
+            "md5": "d58c11f8f0bd8dd557f330d9e0f23920"
         },
         "res/map/map4/m4shan1.png": {
             "fileSize": 22734,
@@ -2562,6 +2566,10 @@
         "res/audio/shanyan_skill_pthq.ogg": {
             "fileSize": 17916,
             "md5": "6490676f8cd9674a0214a437c10f39af"
+        },
+        "src/app/AI/export/leishen/shunyi.json": {
+            "fileSize": 4173,
+            "md5": "8ea0c83ab9c77a554c5d44d53be0a354"
         },
         "res/audio/shuimenhuanggui_atk1.ogg": {
             "fileSize": 7587,
@@ -2736,8 +2744,8 @@
             "md5": "bc0f86327832010b81003083ad8fe867"
         },
         "src/app/views/GameScene.lua": {
-            "fileSize": 5328,
-            "md5": "5fa8dfe8c996ca7eedc5aeb1a2edf238"
+            "fileSize": 5519,
+            "md5": "df5426e4ca6a52f2274a2580dbfbb67e"
         },
         "res/map/map8/map8_22.png": {
             "fileSize": 10171,
@@ -3865,7 +3873,7 @@
         },
         "src/app/actor/monster/Monster_Leizhu.lua": {
             "fileSize": 901,
-            "md5": "03327eeec7692e8640c263aa9f1aab2c"
+            "md5": "f1392b54bfa10bf5eb76fa4a88531eb4"
         },
         "res/ui/fragment/02.png": {
             "fileSize": 369699,
@@ -3884,8 +3892,8 @@
             "md5": "7bcb3fe676fa7c45deec5d65143f95d6"
         },
         "src/app/foundation/LuaGameWorld.lua": {
-            "fileSize": 625,
-            "md5": "7f6ea7c5a0e420e63e18770b0c9fc3dc"
+            "fileSize": 842,
+            "md5": "07ecd00d55f12f106c01fa1b92946608"
         },
         "res/role/baiji/skilleff/gongj_skill2_2.plist": {
             "fileSize": 16825,
@@ -4262,6 +4270,10 @@
         "res/ui/strengthen.json": {
             "fileSize": 493588,
             "md5": "33fe021534a3cccf6f558fba3f3aa46c"
+        },
+        "src/app/AI/export/shengbo/free.json": {
+            "fileSize": 9214,
+            "md5": "cb0596a59956070d636e43c3eff8ca5a"
         },
         "res/uianimation/kaplz.png": {
             "fileSize": 283,
@@ -4795,6 +4807,10 @@
             "fileSize": 3071,
             "md5": "44c138febd9f435fba210e5f69095b83"
         },
+        "src/app/AI/export/leishen/base.json": {
+            "fileSize": 922,
+            "md5": "6d763b0793de874a31981f7e36a5ecb1"
+        },
         "res/audio/jiluohaiyao_atk1.ogg": {
             "fileSize": 13292,
             "md5": "d27b6893afb1e2d3e3d95a3f040b42b7"
@@ -5148,8 +5164,8 @@
             "md5": "517ed807a87ebf0eff7cec6178495c0d"
         },
         "src/app/AI/controller/LeiShenCtrl.lua": {
-            "fileSize": 2592,
-            "md5": "ef065181e357d1b4b4051d817cfe85ea"
+            "fileSize": 2531,
+            "md5": "ffe27d77234d23477a1dccf7500cef6a"
         },
         "res/ui/task.json": {
             "fileSize": 49030,
@@ -5235,21 +5251,13 @@
             "fileSize": 290049,
             "md5": "f938bcb87e6332467f4ff7288f040752"
         },
-        "res/audio/changqiangwushi_atk1.ogg": {
-            "fileSize": 8176,
-            "md5": "b68c8f71a83a5b702e6fc2f5e5366a13"
-        },
-        "res/audio/baiji_atk_fantan.ogg": {
-            "fileSize": 7126,
-            "md5": "edbf06e5f902f442f2aaf3912fb37d94"
-        },
         "res/zhuc_ldpi/huos1.plist": {
             "fileSize": 2587,
             "md5": "244446f264a240a97f92af96de3fe6fd"
         },
-        "res/map/map8/map8_3.png": {
-            "fileSize": 10942,
-            "md5": "16bee9135f4c4d159c61e126719db130"
+        "res/audio/changqiangwushi_atk1.ogg": {
+            "fileSize": 8176,
+            "md5": "b68c8f71a83a5b702e6fc2f5e5366a13"
         },
         "src/packages/mvc/init.lua": {
             "fileSize": 94,
@@ -5259,37 +5267,33 @@
             "fileSize": 2329,
             "md5": "e85d8ff477cb72f7d7cdcef73d72ee16"
         },
-        "res/audio/shanyan_skill_chongzhuang.ogg": {
-            "fileSize": 9495,
-            "md5": "9bd356196e28e22ff03bdc0e365bcad7"
-        },
         "src/cocos/ui/DeprecatedUIFunc.lua": {
             "fileSize": 7325,
             "md5": "795aa3f15afa0db3c3936e4607f2d502"
+        },
+        "res/audio/baiji_atk_fantan.ogg": {
+            "fileSize": 7126,
+            "md5": "edbf06e5f902f442f2aaf3912fb37d94"
         },
         "src/cocos/ui/DeprecatedUIEnum.lua": {
             "fileSize": 4963,
             "md5": "d4b60748ba0fb557339e88f17d1372db"
         },
-        "res/map_pr/ParallaxRatio_00.json": {
-            "fileSize": 54,
-            "md5": "fab2b73de1fac8ee5b8e1d6796be3628"
+        "res/map/map8/map8_3.png": {
+            "fileSize": 10942,
+            "md5": "16bee9135f4c4d159c61e126719db130"
         },
         "src/cocos/network/NetworkConstants.lua": {
             "fileSize": 511,
             "md5": "037a9d6ed7ae01a1336215c3f05c7b14"
         },
-        "res/ui/fragment/ghui08.png": {
-            "fileSize": 52357,
-            "md5": "f2b0291bb64b54ee60801e5678a5ce57"
-        },
         "src/cocos/network/DeprecatedNetworkEnum.lua": {
             "fileSize": 522,
             "md5": "01ed31489d348143eec7d398667da333"
         },
-        "res/ui/fragment/ntjnui04.png": {
-            "fileSize": 173626,
-            "md5": "fa1b162632452a81e9ac99498d2cd1fd"
+        "res/audio/shanyan_skill_chongzhuang.ogg": {
+            "fileSize": 9495,
+            "md5": "9bd356196e28e22ff03bdc0e365bcad7"
         },
         "src/cocos/network/DeprecatedNetworkClass.lua": {
             "fileSize": 564,
@@ -5299,9 +5303,37 @@
             "fileSize": 3198,
             "md5": "02938d1c6c1a331eb7736b1a928095ec"
         },
+        "res/map_pr/ParallaxRatio_00.json": {
+            "fileSize": 54,
+            "md5": "fab2b73de1fac8ee5b8e1d6796be3628"
+        },
         "src/cocos/framework/package_support.lua": {
             "fileSize": 4006,
             "md5": "056968e3932c34393eba0543ad6211fe"
+        },
+        "res/ui/fragment/ghui08.png": {
+            "fileSize": 52357,
+            "md5": "f2b0291bb64b54ee60801e5678a5ce57"
+        },
+        "src/cocos/framework/extends/UIWidget.lua": {
+            "fileSize": 1562,
+            "md5": "32b00b7823337d83f15ec0091e43baba"
+        },
+        "res/ui/fragment/ntjnui04.png": {
+            "fileSize": 173626,
+            "md5": "fa1b162632452a81e9ac99498d2cd1fd"
+        },
+        "src/cocos/framework/extends/UITextField.lua": {
+            "fileSize": 1625,
+            "md5": "edbf3f3bfcdfc1fa6c3c909a4ac02641"
+        },
+        "src/cocos/framework/extends/UISlider.lua": {
+            "fileSize": 1392,
+            "md5": "090f6cc4cf4f150d91faecd81617aaea"
+        },
+        "src/cocos/framework/extends/UIScrollView.lua": {
+            "fileSize": 2042,
+            "md5": "03fafcdb8edfae5481e4582889c980b5"
         },
         "res/audio/baiji_gong_skyatk_3.ogg": {
             "fileSize": 10023,
@@ -5315,26 +5347,6 @@
             "fileSize": 5824,
             "md5": "432bf85ce6acb5ad11d34ee1d82be642"
         },
-        "src/cocos/framework/extends/UIWidget.lua": {
-            "fileSize": 1562,
-            "md5": "32b00b7823337d83f15ec0091e43baba"
-        },
-        "src/cocos/framework/extends/UITextField.lua": {
-            "fileSize": 1625,
-            "md5": "edbf3f3bfcdfc1fa6c3c909a4ac02641"
-        },
-        "res/role/pvp_role/hero_pk_gong_xiuluo.png": {
-            "fileSize": 14511,
-            "md5": "9376873ea7d365204b279068f581d831"
-        },
-        "src/cocos/framework/extends/UISlider.lua": {
-            "fileSize": 1392,
-            "md5": "090f6cc4cf4f150d91faecd81617aaea"
-        },
-        "src/cocos/framework/extends/UIScrollView.lua": {
-            "fileSize": 2042,
-            "md5": "03fafcdb8edfae5481e4582889c980b5"
-        },
         "src/cocos/framework/extends/UIEditBox.lua": {
             "fileSize": 1442,
             "md5": "9307dd1c5b67bbd8518412c2695bffba"
@@ -5343,17 +5355,17 @@
             "fileSize": 2151,
             "md5": "2d657416adb9541a4034d93294daf1c2"
         },
+        "res/role/pvp_role/hero_pk_gong_xiuluo.png": {
+            "fileSize": 14511,
+            "md5": "9376873ea7d365204b279068f581d831"
+        },
         "src/cocos/framework/extends/NodeEx.lua": {
             "fileSize": 5161,
             "md5": "8adb6cc28df93a4713dd8956b453a792"
         },
-        "res/map/map15/ren10.plist": {
-            "fileSize": 15486,
-            "md5": "6d6764ab18a30b3e485fba10df534a5b"
-        },
-        "src/app/views/MainScene.lua": {
-            "fileSize": 678,
-            "md5": "f6ee4ef473747948ff93e7d7b99aca2c"
+        "src/app/ui/LoadingUI.lua": {
+            "fileSize": 917,
+            "md5": "79fb70423fa82fde3c249db228f4b96f"
         },
         "src/cocos/framework/audio.lua": {
             "fileSize": 5647,
@@ -5363,17 +5375,37 @@
             "fileSize": 6766,
             "md5": "0767caadd6460498d9b4458e1518d379"
         },
-        "res/ui/fragment/newgntp05.png": {
-            "fileSize": 3153,
-            "md5": "68863ffcfbf8989b6805793904a53c8b"
-        },
         "src/cocos/extension/DeprecatedExtensionFunc.lua": {
             "fileSize": 1351,
             "md5": "767d15a232e5b69b4f4bd30329d31ccd"
         },
+        "res/map/map15/ren10.plist": {
+            "fileSize": 15486,
+            "md5": "6d6764ab18a30b3e485fba10df534a5b"
+        },
         "src/cocos/extension/DeprecatedExtensionClass.lua": {
             "fileSize": 4838,
             "md5": "4680cbe5597845050f979315bf9b288b"
+        },
+        "src/cocos/controller/ControllerConstants.lua": {
+            "fileSize": 727,
+            "md5": "ec71a0f02b11769725420f79afdecf11"
+        },
+        "src/cocos/cocostudio/StudioConstants.lua": {
+            "fileSize": 208,
+            "md5": "cf15865a5ca60bcdbe29ab2364a24824"
+        },
+        "res/ui/fragment/newgntp05.png": {
+            "fileSize": 3153,
+            "md5": "68863ffcfbf8989b6805793904a53c8b"
+        },
+        "src/cocos/cocosdenshion/DeprecatedCocosDenshionFunc.lua": {
+            "fileSize": 912,
+            "md5": "b2a937b827f4534fe93fedb18c3afc60"
+        },
+        "src/cocos/cocosdenshion/DeprecatedCocosDenshionClass.lua": {
+            "fileSize": 661,
+            "md5": "394e23992d05bd21a80f6480dc7aa689"
         },
         "res/audio/qingfangzhu_common_shouji.ogg": {
             "fileSize": 9885,
@@ -5387,13 +5419,13 @@
             "fileSize": 23017,
             "md5": "df867e66fb7e7fd818c16a6aabba08be"
         },
-        "src/cocos/controller/ControllerConstants.lua": {
-            "fileSize": 727,
-            "md5": "ec71a0f02b11769725420f79afdecf11"
+        "src/cocos/cocos2d/functions.lua": {
+            "fileSize": 19857,
+            "md5": "b38e8ede244a867cc90d41b305f0c45b"
         },
-        "src/cocos/cocostudio/StudioConstants.lua": {
-            "fileSize": 208,
-            "md5": "cf15865a5ca60bcdbe29ab2364a24824"
+        "src/cocos/cocos2d/Opengl.lua": {
+            "fileSize": 6853,
+            "md5": "fcfa59dc2f11ce8b34dd5433b2cba7b3"
         },
         "res/map/map12/map12_b2.png": {
             "fileSize": 3267,
@@ -5415,9 +5447,9 @@
             "fileSize": 11147,
             "md5": "60c2a2b22a8b1feb6e199d522d13184f"
         },
-        "src/cocos/cocosdenshion/DeprecatedCocosDenshionFunc.lua": {
-            "fileSize": 912,
-            "md5": "b2a937b827f4534fe93fedb18c3afc60"
+        "res/cont/c_but_home.png": {
+            "fileSize": 2911,
+            "md5": "309b1cf6aba09ba63df851c547df18cf"
         },
         "res/ui/fragment/fbxmap14.png": {
             "fileSize": 27657,
@@ -5439,17 +5471,17 @@
             "fileSize": 74580,
             "md5": "4cfc83b9ed012429bcd34769c6d86683"
         },
-        "src/cocos/cocosdenshion/DeprecatedCocosDenshionClass.lua": {
-            "fileSize": 661,
-            "md5": "394e23992d05bd21a80f6480dc7aa689"
+        "src/cocos/cocos2d/json.lua": {
+            "fileSize": 15353,
+            "md5": "af25b930d1202aea87039ddf380488b2"
         },
         "src/cocos/cocosbuilder/DeprecatedCocosBuilderClass.lua": {
             "fileSize": 1176,
             "md5": "66d1418e6996754dcc6def1ecc0f2bb9"
         },
-        "src/cocos/cocos2d/Opengl.lua": {
-            "fileSize": 6853,
-            "md5": "fcfa59dc2f11ce8b34dd5433b2cba7b3"
+        "src/cocos/cocos2d/DrawPrimitives.lua": {
+            "fileSize": 12024,
+            "md5": "52ed23a28af37410a9d2518a6d4f6557"
         },
         "res/audio/baiji_skill_jifengzhan.ogg": {
             "fileSize": 14887,
@@ -5459,9 +5491,9 @@
             "fileSize": 9253,
             "md5": "818dc38ebc95a4eb76b4fb76a6b9e1b2"
         },
-        "res/cont/c_but_home.png": {
-            "fileSize": 2911,
-            "md5": "309b1cf6aba09ba63df851c547df18cf"
+        "src/cocos/cocos2d/DeprecatedOpenglEnum.lua": {
+            "fileSize": 11934,
+            "md5": "686a2e1cd0366cb3e98abd85e99139db"
         },
         "res/ui/fragment/zdsbui01.png": {
             "fileSize": 123176,
@@ -5470,22 +5502,6 @@
         "res/uianimation/zgao0.png": {
             "fileSize": 62392,
             "md5": "0f24ddcfb0003e05d9ad9b738bc1e704"
-        },
-        "src/cocos/cocos2d/json.lua": {
-            "fileSize": 15353,
-            "md5": "af25b930d1202aea87039ddf380488b2"
-        },
-        "src/cocos/cocos2d/functions.lua": {
-            "fileSize": 19857,
-            "md5": "b38e8ede244a867cc90d41b305f0c45b"
-        },
-        "src/cocos/cocos2d/DrawPrimitives.lua": {
-            "fileSize": 12024,
-            "md5": "52ed23a28af37410a9d2518a6d4f6557"
-        },
-        "src/cocos/cocos2d/DeprecatedOpenglEnum.lua": {
-            "fileSize": 11934,
-            "md5": "686a2e1cd0366cb3e98abd85e99139db"
         },
         "res/uianimation/land_background_21.plist": {
             "fileSize": 1230,
@@ -5507,6 +5523,22 @@
             "fileSize": 4996,
             "md5": "d43a516e1d36a0ea258bb259a1026537"
         },
+        "src/app/views/MainScene.lua": {
+            "fileSize": 678,
+            "md5": "f6ee4ef473747948ff93e7d7b99aca2c"
+        },
+        "src/app/views/LoginScene.lua": {
+            "fileSize": 2728,
+            "md5": "a1697f3fcbef04d259bb9b2d1431aee9"
+        },
+        "src/app/views/LoadResource.lua": {
+            "fileSize": 15035,
+            "md5": "b55d136ee10bfa18ed6df7882127c114"
+        },
+        "src/app/views/LaunchScene.lua": {
+            "fileSize": 619,
+            "md5": "811d0c7a589bda59732e9fb4b441bd8a"
+        },
         "res/uianimation/daoling_effect.ExportJson": {
             "fileSize": 13500,
             "md5": "659d18dd24c4a0b7083d1d930c07add4"
@@ -5523,33 +5555,9 @@
             "fileSize": 4752,
             "md5": "ce90b474524bb36c82833acd3d23a741"
         },
-        "src/app/views/LoginScene.lua": {
-            "fileSize": 2728,
-            "md5": "a1697f3fcbef04d259bb9b2d1431aee9"
-        },
-        "src/app/views/LoadResource.lua": {
-            "fileSize": 15035,
-            "md5": "b55d136ee10bfa18ed6df7882127c114"
-        },
-        "src/app/views/LaunchScene.lua": {
-            "fileSize": 619,
-            "md5": "811d0c7a589bda59732e9fb4b441bd8a"
-        },
-        "src/app/ui/LoadingUI.lua": {
-            "fileSize": 917,
-            "md5": "79fb70423fa82fde3c249db228f4b96f"
-        },
-        "res/role/baiji/skilleff/skill4_stond.plist": {
-            "fileSize": 9997,
-            "md5": "2541e01ecb5d6f2fd841766bef5a9e6a"
-        },
         "src/app/models/net/registerMsg.lua": {
             "fileSize": 325,
             "md5": "b367143b18be7117b84ca1a9841b32e7"
-        },
-        "res/audio/ye_skill_xuanzhuanzadi.ogg": {
-            "fileSize": 20092,
-            "md5": "abeec17f42bbf6c03d756235ba65ec6c"
         },
         "src/app/init/preInit.lua": {
             "fileSize": 60,
@@ -5560,20 +5568,24 @@
             "md5": "f3095c7dba4abc92210b3f629aaf9323"
         },
         "src/app/init/initDispatcher.lua": {
-            "fileSize": 701,
-            "md5": "c6955806fafa1c5901ec176fffc5cb64"
+            "fileSize": 764,
+            "md5": "89938719c2360c2997827336a1b26668"
+        },
+        "res/role/baiji/skilleff/skill4_stond.plist": {
+            "fileSize": 9997,
+            "md5": "2541e01ecb5d6f2fd841766bef5a9e6a"
         },
         "src/app/init/init.lua": {
             "fileSize": 759,
             "md5": "ecad3b64318a708821e963f8cf66ab71"
         },
+        "res/audio/ye_skill_xuanzhuanzadi.ogg": {
+            "fileSize": 20092,
+            "md5": "abeec17f42bbf6c03d756235ba65ec6c"
+        },
         "res/ui/fragment/w3.png": {
             "fileSize": 45434,
             "md5": "cadff347b555d855310ae74d35910772"
-        },
-        "res/map/map14/m.json": {
-            "fileSize": 144680,
-            "md5": "c81dd4c791fe601b39406c7ac7517bb1"
         },
         "res/npc/zhucheng_nvzhu0.png": {
             "fileSize": 66809,
@@ -5582,6 +5594,26 @@
         "src/app/config/monster/LeiQiuConfig.lua": {
             "fileSize": 234,
             "md5": "cb5737befe560c29a82ab28a3e0ccc37"
+        },
+        "src/app/config/GamePhase.lua": {
+            "fileSize": 197,
+            "md5": "c67b534664b5426289a92b169c4e1010"
+        },
+        "src/app/config/dao_skill/Skill_YunShi.lua": {
+            "fileSize": 207,
+            "md5": "d2bc3ca96a547f417023efd06cb89f3a"
+        },
+        "res/map/map14/m.json": {
+            "fileSize": 144680,
+            "md5": "c81dd4c791fe601b39406c7ac7517bb1"
+        },
+        "src/app/config/dao_skill/Skill_BaDaoZhan.lua": {
+            "fileSize": 174,
+            "md5": "06572e5489a58997176bab24d842bc00"
+        },
+        "res/ui/fragment/jjcjm27.png": {
+            "fileSize": 174678,
+            "md5": "adda3f3a2b0ed5bef8bf858ac542cf7c"
         },
         "res/uianimation/kapdhb.plist": {
             "fileSize": 3069,
@@ -5594,22 +5626,6 @@
         "res/Default/Button_Press.png": {
             "fileSize": 1153,
             "md5": "ea5e72abd451a76f62a2906abb7ef4bf"
-        },
-        "src/app/config/GamePhase.lua": {
-            "fileSize": 197,
-            "md5": "c67b534664b5426289a92b169c4e1010"
-        },
-        "src/app/config/dao_skill/Skill_YunShi.lua": {
-            "fileSize": 207,
-            "md5": "d2bc3ca96a547f417023efd06cb89f3a"
-        },
-        "src/app/config/dao_skill/Skill_BaDaoZhan.lua": {
-            "fileSize": 174,
-            "md5": "06572e5489a58997176bab24d842bc00"
-        },
-        "res/ui/fragment/jjcjm27.png": {
-            "fileSize": 174678,
-            "md5": "adda3f3a2b0ed5bef8bf858ac542cf7c"
         },
         "src/app/common/GlobalMsgRecipient.lua": {
             "fileSize": 734,
@@ -5624,8 +5640,24 @@
             "md5": "a5a956dd64c3f4e6d602843f2f3db03b"
         },
         "src/app/AI/export/shengbo/free_export.lua": {
-            "fileSize": 21083,
-            "md5": "964262d0f3bc857c42c213d4f5e5b46a"
+            "fileSize": 20166,
+            "md5": "3a344b55d3ef8b7d78f1637ec63d137b"
+        },
+        "res/uianimation/jinjiedh.png": {
+            "fileSize": 2563,
+            "md5": "df0f7d41d11f3d4968f62cae63697981"
+        },
+        "src/app/AI/export/shengbo/base.json": {
+            "fileSize": 922,
+            "md5": "6d763b0793de874a31981f7e36a5ecb1"
+        },
+        "src/app/AI/export/shengbo/attack.json": {
+            "fileSize": 13749,
+            "md5": "b504b5ad8bca302903fdc3a109e3a279"
+        },
+        "src/app/AI/export/leishen/free_export.lua": {
+            "fileSize": 22190,
+            "md5": "2b677b85134b1fefea87127eeb023369"
         },
         "res/ui/fragment/fbmap02.png": {
             "fileSize": 67678,
@@ -5635,9 +5667,9 @@
             "fileSize": 1671,
             "md5": "0f89b98ff6232af47fbdaf97d7ccece0"
         },
-        "res/uianimation/jinjiedh.png": {
-            "fileSize": 2563,
-            "md5": "df0f7d41d11f3d4968f62cae63697981"
+        "src/app/AI/export/leishen/free.json": {
+            "fileSize": 9810,
+            "md5": "d48c6bec495b4eb03b0bf1cdff8edf9c"
         },
         "res/role/baiji/skilleff/sklli7_12138_e1.plist": {
             "fileSize": 10310,
@@ -5647,9 +5679,9 @@
             "fileSize": 41692,
             "md5": "8075e208f296438334ae275e6eea4c79"
         },
-        "src/app/AI/export/leishen/free_export.lua": {
-            "fileSize": 23205,
-            "md5": "6fcf2ba2287afe495567cf6229b8bbeb"
+        "src/app/AI/export/leishen/base_export.lua": {
+            "fileSize": 964,
+            "md5": "fc4eca2ddf8e27505e3ee9cdfc945c1a"
         },
         "res/role/baiji/hero_shizhuak_dao.ExportJson": {
             "fileSize": 9166525,
@@ -5659,25 +5691,25 @@
             "fileSize": 21905,
             "md5": "4587152d27d0426c35c53afffada4267"
         },
-        "src/app/AI/export/leishen/base_export.lua": {
-            "fileSize": 964,
-            "md5": "fc4eca2ddf8e27505e3ee9cdfc945c1a"
-        },
         "res/role/baiji/hero_luocha_dao.ExportJson": {
             "fileSize": 9165007,
             "md5": "8cedbaad08639a5a755ff91841b4d60d"
         },
+        "res/ui/fragment/zhuozi.png": {
+            "fileSize": 13360,
+            "md5": "25ff00ecfd0dd68af64934b97e03fcba"
+        },
         "src/app/AI/BehaviorTree.lua": {
-            "fileSize": 7147,
-            "md5": "8f0b623476b82ca91dd75fcf80011435"
+            "fileSize": 7148,
+            "md5": "ad7de8d59ba6fab374678b185477102e"
         },
         "res/audio/shuihufa_skill_zlcj.ogg": {
             "fileSize": 27787,
             "md5": "1482a586ec2df05b0e3f9e1f961c8576"
         },
         "src/app/AI/AIController.lua": {
-            "fileSize": 5886,
-            "md5": "b166ae1fd60ea1c0c58a932254d144ce"
+            "fileSize": 6163,
+            "md5": "07412f14c76ea55bd19c86173aeab187"
         },
         "src/app/actor/role/skill_dao/Skill_YunShi.lua": {
             "fileSize": 1559,
@@ -5712,8 +5744,8 @@
             "md5": "206238db87821d36abca5b651eea6b4f"
         },
         "src/app/actor/monster/Monster_LeiShen.lua": {
-            "fileSize": 9250,
-            "md5": "c17a268865c8789c5521e31a975a19de"
+            "fileSize": 8087,
+            "md5": "dacf2df57c9c6ee61f7ef83cb9107e65"
         },
         "res/ui/fragment/ghui24.png": {
             "fileSize": 27753,
@@ -6456,8 +6488,8 @@
             "md5": "57514dee7326e1b97f74d87cf2ad8260"
         },
         "src/app/AI/export/leishen/attack_export.lua": {
-            "fileSize": 1482,
-            "md5": "457b9112a19cfb5fd69caf5eb9c9f724"
+            "fileSize": 29203,
+            "md5": "1d0fea9003769fde4ec4b51c7a79f3f0"
         },
         "res/audio/luobaiwushi_skill_shangtiao.ogg": {
             "fileSize": 10475,
@@ -6884,8 +6916,8 @@
             "md5": "1e61be066c7fc9ca31345f96dffd35ce"
         },
         "src/app/AI/export/shengbo/base_export.lua": {
-            "fileSize": 964,
-            "md5": "fc4eca2ddf8e27505e3ee9cdfc945c1a"
+            "fileSize": 902,
+            "md5": "168b4b9bb05cd2c2869b8125c0d41d3f"
         },
         "res/map/map7/hx20.png": {
             "fileSize": 109,
@@ -8003,9 +8035,9 @@
             "fileSize": 27415,
             "md5": "089ebbabe2767012da5fa43ee74ea64f"
         },
-        "res/ui/fragment/zhuozi.png": {
-            "fileSize": 13360,
-            "md5": "25ff00ecfd0dd68af64934b97e03fcba"
+        "src/app/AI/export/leishen/attack.json": {
+            "fileSize": 14642,
+            "md5": "935612068ffc5ff1900f48c00c1f890c"
         },
         "res/audio/shangren_common_siwang.ogg": {
             "fileSize": 6256,
@@ -8064,8 +8096,8 @@
             "md5": "ca83179b3cf5047f76a3d7c6a0112465"
         },
         "src/app/foundation/LuaCharacter.lua": {
-            "fileSize": 13720,
-            "md5": "f033dd38b79c29869458ca77391a5d18"
+            "fileSize": 13773,
+            "md5": "d673ebf68ffaea0947779cd71a988d0d"
         },
         "res/ui/fragment/w2_n.png": {
             "fileSize": 59628,
@@ -9433,12 +9465,12 @@
         }
     },
     "restartLevel": 1,
-    "remoteVersionUrl": "http://47.75.218.200:1000/91/download/version_dev.manifest",
+    "remoteVersionUrl": "http://47.75.218.200:1000/91/version_dev.manifest",
     "strongUpdateURL": {
         "android": "www.baidu.com",
         "ios": "www.google.com"
     },
-    "version": "0.0.0",
+    "version": "0.0.1",
     "engineVersion": "3.x dev",
     "strongUpdateVer": {
         "android": 0,

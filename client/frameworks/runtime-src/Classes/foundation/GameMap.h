@@ -30,6 +30,18 @@ public:
 
 	void setViewSize(float width, float height);
 
+	float getValidWorldX(float inValue, float actorRadius);
+
+	float getValidWorldY(float inValue, float actorRadius);
+
+	void setOpenAreaMinx(float value);
+
+	void setOpenAreaMaxX(float value);
+
+	void setEnableViewPosLimit(bool enable);
+
+public:
+
 	inline Node* getActorNode() { return m_actorNode; }
 
 	inline void lockMapY() { m_lockMapY = true; }
@@ -43,6 +55,12 @@ public:
 	inline Node* getRootNode() { return m_mapNode[GameMapNodeType::STAGE_NODE]; }
 
 	inline float getMinPosY() {	return m_minPosY; }
+
+	inline bool isEnableViewPosLimit() { return m_enableViewPosLimit; }
+
+	inline float getOpenAreaMinX() { return m_openAreaMinX; }
+
+	inline float getOpenAreaMaxX() { return m_openAreaMaxX; }
 
 #if COCOS2D_DEBUG == 1 
 	inline DrawNode* getDrawNode() { return m_drawNode; }
@@ -75,4 +93,8 @@ private:
 #if COCOS2D_DEBUG == 1 
 	DrawNode* m_drawNode;
 #endif
+
+	bool m_enableViewPosLimit;
+	float m_openAreaMinX;
+	float m_openAreaMaxX;
 };

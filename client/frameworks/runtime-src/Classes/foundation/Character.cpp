@@ -3,6 +3,7 @@
 #include "ecs/components/Box2DComponent.h"
 #include "ecs/components/UpdateComponent.h"
 #include "ecs/components/MapFollowComponent.h"
+#include "ecs/components/PropertyComponent.h"
 #include "ecs/system/Box2DSystem.h"
 #include "foundation/GameMacro.h"
 #include "foundation/ParticleSystemHelper.h"
@@ -18,6 +19,8 @@ Character::Character(GameWorld* world)
 	// Åö×²¹ýÂËÆ÷
 	CollisionFilterComponent& filterComponent = m_entity.addComponent<CollisionFilterComponent>();
 	filterComponent.m_collisionEnable = true;
+
+	PropertyComponent& propertyComponent = m_entity.addComponent<PropertyComponent>();
 }
 
 Character::~Character()
@@ -169,4 +172,30 @@ void Character::setCategoryBits(unsigned short categoryBits)
 unsigned short Character::getCategoryBits()
 {
 	return m_categoryBits;
+}
+
+void Character::setValidWorldPosition(const Vec2& inPos)
+{
+	if (m_gameWorld == NULL)
+	{
+		CC_ASSERT(0);
+		return;
+	}
+	Vec2 v;
+	v.x = m_gameWorld->getValidWorldX(inPos.x, m_characterSize.width);
+	v.y = m_gameWorld->getValidWorldY(inPos.x, m_characterSize.height);
+	this->setPositionAndSyncPhysicsTransform(v);
+}
+
+void Character::setValidWorldPositionX(float inPosX)
+{
+	if (m_gameWorld == NULL)
+	{
+		CC_ASSERT(0);
+		return;
+	}
+	Vec2 v;
+	v.x = m_gameWorld->getValidWorldX(inPosX, m_characterSize.width);
+	v.y = this->getPositionY();
+	this->setPositionAndSyncPhysicsTransform(v);
 }

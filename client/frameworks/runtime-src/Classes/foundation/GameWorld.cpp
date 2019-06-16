@@ -148,24 +148,20 @@ void GameWorld::setGameMap(GameMap* gameMap)
 	m_armatureCollisionSystem->setDebugDrawNode(m_gameMap->getDrawNode());
 }
 
-int GameWorld::getValidWorldX(int inValue, int actorRadius)
+float GameWorld::getValidWorldX(float inValue, float actorRadius)
 {
 	if (m_gameMap == NULL)
 		return inValue;
-	
-	inValue = MAX(m_offsetX.x + actorRadius, inValue);
-	inValue = MIN(m_gameMap->getMapWidth() - m_offsetX.y - actorRadius, inValue);
-	return inValue;
+
+	return m_gameMap->getValidWorldX(inValue, actorRadius + MAX(m_offsetX.x, m_offsetX.y));
 }
 
-int GameWorld::getValidWorldY(int inValue, int actorRadius)
+float GameWorld::getValidWorldY(float inValue, float actorRadius)
 {
 	if (m_gameMap == NULL)
 		return inValue;
 
-	inValue = MAX(m_offsetY.x + actorRadius, inValue);
-	inValue = MIN(m_gameMap->getMapHeight() - m_offsetY.y - actorRadius, inValue);
-	return inValue;
+	return m_gameMap->getValidWorldY(inValue, actorRadius + MAX(m_offsetY.x, m_offsetY.y));
 }
 
 void GameWorld::setDebugEnable(bool enable)
@@ -225,6 +221,13 @@ void GameWorld::clearDestroyList()
 	for (auto &it : m_destroyActorList)
 	{
 		it->removeFromParent();
+		auto handle = getLuaHandle("onActorDestroy");
+		if (handle)
+		{
+			handle->ppush();
+			handle->pushusertype<Actor>(it, "Actor");
+			handle->pcall();
+		}
 	}
 	m_destroyActorList.clear();
 }

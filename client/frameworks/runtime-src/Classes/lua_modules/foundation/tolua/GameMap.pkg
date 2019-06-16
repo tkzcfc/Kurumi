@@ -11,6 +11,19 @@ public:
 	void setViewPos(float x, float y);
 
 	void setViewSize(float width, float height);
+	
+	
+	
+	float getValidWorldX(float inValue, float actorRadius);
+
+	float getValidWorldY(float inValue, float actorRadius);
+
+	void setOpenAreaMinx(float value);
+
+	void setOpenAreaMaxX(float value);
+
+	void setEnableViewPosLimit(bool enable);
+	
 
 	cc.Node* getActorNode();
 
@@ -25,6 +38,13 @@ public:
 	cc.Node* getRootNode();
 
 	float getMinPosY();
+	
+	inline bool isEnableViewPosLimit();
+
+	inline float getOpenAreaMinX();
+
+	inline float getOpenAreaMaxX();
+
 
 };
 

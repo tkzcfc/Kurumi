@@ -21,7 +21,9 @@ public:
 
 protected:
 
+#if ENABLE_ARMATURE_COLLISION_DRAW_DEBUG == 1
 	void debugDraw();
+#endif
 
 	bool AABBTest(const anax::Entity* entityA, const anax::Entity* entityB);
 

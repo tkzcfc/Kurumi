@@ -20,6 +20,10 @@ public:
 
 	void setPositionAndSyncPhysicsTransform(const Vec2& inPos);
 
+	void setValidWorldPosition(const Vec2& inPos);
+
+	void setValidWorldPositionX(float inPosX);
+
 	void setCategoryBits(unsigned short categoryBits);
 
 	unsigned short getCategoryBits();
