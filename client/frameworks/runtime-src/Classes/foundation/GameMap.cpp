@@ -5,7 +5,7 @@
 GameMap::GameMap()
 	: m_minPosY(0.0f)
 	, m_actorNode(NULL)
-	, m_lockMapY(true)
+	, m_lockMapY(false)
 	, m_fixNodeBeginX(0.0f)
 	, m_save_view_x(-1.0f)
 	, m_save_view_y(-1.0f)
@@ -101,7 +101,7 @@ void GameMap::loadMapFile(const std::string& filepath, const std::string& actorN
 	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
 	{
 		m_mapNodeMoveSize[i].width = MAX(m_mapNodeSize[i].width, 0.0f);
-		m_mapNodeMoveSize[i].height = MAX(m_mapNodeSize[i].height, 0.0f);
+		m_mapNodeMoveSize[i].height = MAX(m_mapNodeSize[i].height - m_viewSize.height, 0.0f);
 	}
 
 //#if COCOS2D_DEBUG == 1
@@ -140,7 +140,7 @@ void GameMap::setViewPos(float x, float y)
 	}
 
 	float percent_x = 0.0f;
-	float percent_y = y / m_mapSize.height;
+	float percent_y = y / m_viewSize.height;
 
 	if (x <= m_halfViewSize.width + m_openAreaMinX)
 	{
