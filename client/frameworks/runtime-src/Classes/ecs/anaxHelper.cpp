@@ -38,7 +38,7 @@ void AnaxHelper::implementation()
 	IMPLEMENTATION_SYSTEM(FilterSystem);
 
 
-#if (COCOS2D_DEBUG == 1)
+#if G_DEBUG
 	CCLOG("[--------------------component begin--------------------]");
 	for (auto& it : GComponentHelperMap)
 	{

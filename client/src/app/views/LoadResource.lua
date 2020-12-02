@@ -84,7 +84,7 @@ function LoadResource:setNextSceneInfo(sceneID, transition, time, more, args)
 	self.nextSceneInfo["more"] = more
 	self.nextSceneInfo["args"] = args
 
-	local preSceneID = _MyG.GameSceneSwither:getPreSceneID()
+	local preSceneID = _MyG.ScenesManager:getPreSceneID()
 	if preSceneID and _MyG.SceneResourceLoadConfig[preSceneID].ReleaseResourceFunc then
 		_MyG.SceneResourceLoadConfig[preSceneID].ReleaseResourceFunc(self)
 	end
@@ -243,7 +243,7 @@ end
 
 function LoadResource:loadFinish()
 	log_print("执行完毕,进入下一场景...")
-	_MyG.GameSceneSwither:runScene(self.nextSceneInfo["sceneID"], 
+	_MyG.ScenesManager:runScene(self.nextSceneInfo["sceneID"], 
 									self.nextSceneInfo["transition"], 
 									self.nextSceneInfo["time"],
 									self.nextSceneInfo["more"],

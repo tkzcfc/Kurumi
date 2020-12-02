@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game_assets
-** Generated automatically by tolua++-1.0.92 on 04/14/19 19:43:58.
+** Generated automatically by tolua++-1.0.92 on 11/08/20 13:52:49.
 */
 
 #ifndef __cplusplus
@@ -9,6 +9,8 @@
 #include "string.h"
 
 #include "tolua++.h"
+#include "tolua_fix.h"
+#include <string>
 
 /* Exported function */
 TOLUA_API int  tolua_game_assets_open (lua_State* tolua_S);
@@ -24,14 +26,14 @@ static void tolua_reg_types (lua_State* tolua_S)
 {
  tolua_usertype(tolua_S,"GameManifest");
  tolua_usertype(tolua_S,"GameManifestAsset");
- tolua_usertype(tolua_S,"LuaFunction");
  tolua_usertype(tolua_S,"cc.EventCustom");
  tolua_usertype(tolua_S,"GameAssetsManager");
  tolua_usertype(tolua_S,"cc.Ref");
  tolua_usertype(tolua_S,"GameManifest::AssetDiff");
- tolua_usertype(tolua_S,"GameAssetsManagerEvent");
+ tolua_usertype(tolua_S,"LUA_FUNCTION");
  tolua_usertype(tolua_S,"cc.EventListenerCustom");
  tolua_usertype(tolua_S,"GameAssetsManagerEventListener");
+ tolua_usertype(tolua_S,"GameAssetsManagerEvent");
 }
 
 /* method: getEventCode of class  GameAssetsManagerEvent */
@@ -299,7 +301,7 @@ static int tolua_game_assets_GameAssetsManagerEventListener_create00(lua_State* 
  if (
      !tolua_isusertable(tolua_S,1,"GameAssetsManagerEventListener",0,&tolua_err) ||
      !tolua_isusertype(tolua_S,2,"GameAssetsManager",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
@@ -307,7 +309,7 @@ static int tolua_game_assets_GameAssetsManagerEventListener_create00(lua_State* 
 #endif
  {
   GameAssetsManager* gameAssetsManager = ((GameAssetsManager*)  tolua_tousertype(tolua_S,2,0));
-  LuaFunction handle = (  LuaFunction(tolua_S,3,0));
+  LUA_FUNCTION handle = (  toluafix_ref_function(tolua_S,3,0));
   {
    GameAssetsManagerEventListener* tolua_ret = (GameAssetsManagerEventListener*)  GameAssetsManagerEventListener::create(gameAssetsManager,handle);
     tolua_ext_object_to_luaval<GameAssetsManagerEventListener>(tolua_S,(void*)tolua_ret,"GameAssetsManagerEventListener");
@@ -685,7 +687,7 @@ static int tolua_game_assets_GameAssetsManager_setVersionCompareLuaHandle00(lua_
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GameAssetsManager",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
@@ -693,7 +695,7 @@ static int tolua_game_assets_GameAssetsManager_setVersionCompareLuaHandle00(lua_
 #endif
  {
   GameAssetsManager* self = (GameAssetsManager*)  tolua_tousertype(tolua_S,1,0);
-  LuaFunction handle = (  LuaFunction(tolua_S,2,0));
+  LUA_FUNCTION handle = (  toluafix_ref_function(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setVersionCompareLuaHandle'", NULL);
 #endif
@@ -718,7 +720,7 @@ static int tolua_game_assets_GameAssetsManager_setVerifyLuaCallback00(lua_State*
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GameAssetsManager",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
@@ -726,7 +728,7 @@ static int tolua_game_assets_GameAssetsManager_setVerifyLuaCallback00(lua_State*
 #endif
  {
   GameAssetsManager* self = (GameAssetsManager*)  tolua_tousertype(tolua_S,1,0);
-  LuaFunction handle = (  LuaFunction(tolua_S,2,0));
+  LUA_FUNCTION handle = (  toluafix_ref_function(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setVerifyLuaCallback'", NULL);
 #endif
@@ -751,7 +753,7 @@ static int tolua_game_assets_GameAssetsManager_setUpdateDownloadFilePercentLuaCa
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GameAssetsManager",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,2,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
@@ -759,7 +761,7 @@ static int tolua_game_assets_GameAssetsManager_setUpdateDownloadFilePercentLuaCa
 #endif
  {
   GameAssetsManager* self = (GameAssetsManager*)  tolua_tousertype(tolua_S,1,0);
-  LuaFunction handle = (  LuaFunction(tolua_S,2,0));
+  LUA_FUNCTION handle = (  toluafix_ref_function(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setUpdateDownloadFilePercentLuaCallback'", NULL);
 #endif

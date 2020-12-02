@@ -1,0 +1,1 @@
+"simulator/win32/Kurumi.exe" -workdir %CD%

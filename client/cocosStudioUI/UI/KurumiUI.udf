@@ -31,11 +31,15 @@
     <Item Key="TabsParamsKey">
       <Value ctype="TabsInfo">
         <OpenedDocuments>
-          <FilePathData Path="UpdateScene.csd" />
-          <FilePathData Path="ScrollMessageBox.csd" />
-          <FilePathData Path="LaunchScene.csd" />
+          <FilePathData Path="scenes/UI_MainScene.csd" />
+          <FilePathData Path="ui/UI_MessageBox.csd" />
+          <FilePathData Path="windows/login/UI_LoginWindow.csd" />
+          <FilePathData Path="scenes/UI_UpdateScene.csd" />
+          <FilePathData Path="windows/home/UI_CreateWindow.csd" />
+          <FilePathData Path="windows/home/UI_MapWindow.csd" />
+          <FilePathData Path="windows/general/playerControlUI.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="UpdateScene.csd" />
+        <ActiveDocument Path="windows/home/UI_MapWindow.csd" />
       </Value>
     </Item>
   </Properties>

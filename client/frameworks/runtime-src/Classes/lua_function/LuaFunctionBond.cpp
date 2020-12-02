@@ -12,12 +12,12 @@ LuaFunctionBond::~LuaFunctionBond()
 	m_luaHandleMap.clear();
 }
 
-void LuaFunctionBond::registerLuaHandle(const std::string& name, const LuaFunction& handle)
+void LuaFunctionBond::registerLuaHandle(const std::string& name, int handle)
 {
 	auto it = m_luaHandleMap.find(name);
 	if (it != m_luaHandleMap.end())
 	{
-		*it->second = handle;
+		it->second->ref(handle);
 	}
 	else
 	{
@@ -31,7 +31,7 @@ void LuaFunctionBond::unregisterLuaHandle(const std::string& name)
 	auto it = m_luaHandleMap.find(name);
 	if (it != m_luaHandleMap.end())
 	{
-		it->second->invalid();
+		it->second->unref();
 	}
 }
 
@@ -39,7 +39,7 @@ void LuaFunctionBond::clearLuaHandle()
 {
 	for (const auto& it : m_luaHandleMap)
 	{
-		it.second->invalid();
+		it.second->unref();
 	}
 }
 

@@ -11,7 +11,7 @@ public:
 
 	virtual ~LuaFunctionBond();
 
-	void registerLuaHandle(const std::string& name, const LuaFunction& handle);
+	void registerLuaHandle(const std::string& name, int handle);
 
 	void unregisterLuaHandle(const std::string& name);
 

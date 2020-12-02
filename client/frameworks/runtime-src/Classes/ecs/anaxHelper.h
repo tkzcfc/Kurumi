@@ -1,10 +1,8 @@
 #pragma once
 
-#include "anax/anax.hpp"
+#include "GCommon.h"
 #include <unordered_map>
-#include "cocos2d.h"
 
-using namespace cocos2d;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 /// Component

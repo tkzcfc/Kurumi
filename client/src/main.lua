@@ -3,41 +3,46 @@ _MyG = {}
 GAME_ORI_LEFT = -1
 GAME_ORI_RIGHT = 1
 
+
 cc.FileUtils:getInstance():setPopupNotify(false)
 cc.FileUtils:getInstance():addSearchPath("src/")
 cc.FileUtils:getInstance():addSearchPath("res/")
 
 local cacheLoadedTab = {}
 local cachePreloadedTab = {}
-local gAppInstance = nil
 
-local function runApp(sceneName)
-    require("app.init.preInit")
-    _MyG.APP = gAppInstance
-
-    if sceneName == nil then
-        sceneName = _MyG.DefaultScene
-    end
-
-    gAppInstance:run(sceneName)
-end
-
+-- @brief 重启APP
 function restartApp(sceneName)
-    for k,v in pairs(package.loaded) do
-        if not cacheLoadedTab[k] then
-            package.loaded[k] = nil
-            print("remove loaded:", k)
+    local schedulerid
+
+    local function restartAppEx()
+        if G_SysEventEmitter then
+            G_SysEventEmitter:emit("event_restartApp")
         end
+        -- clean fullpath cache
+        cc.FileUtils:getInstance():purgeCachedEntries()
+        
+        for k,v in pairs(package.loaded) do
+            if not cacheLoadedTab[k] then
+                package.loaded[k] = nil
+                print("remove loaded:", k)
+            end
+        end
+    
+        for k,v in pairs(package.preload) do
+            if not cachePreloadedTab[k] then
+                package.preload[k] = nil
+                print("remove preload:", k)
+            end
+        end
+        G_AppInstance:run(sceneName)
     end
 
-    for k,v in pairs(package.preload) do
-        if not cachePreloadedTab[k] then
-            package.preload[k] = nil
-            print("remove preload:", k)
-        end
-    end
-
-    runApp(sceneName)
+    local scheduler = cc.Director:getInstance():getScheduler()
+    schedulerid = scheduler:scheduleScriptFunc(function (dt)
+        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(schedulerid)
+        restartAppEx()
+    end, 1 / 60.0, false)
 end
 
 
@@ -70,8 +75,8 @@ local function main()
         cachePreloadedTab[k] = true
     end
 
-    gAppInstance = require("app.MyApp"):create()
-    runApp()
+    cc.exports.G_AppInstance = require("app.MyApp"):create()
+    G_AppInstance:run("SplashScene")
 end
 
 __G__TRACKBACK__ = function(msg)

@@ -16,36 +16,6 @@
     <Filter Include="Classes\lua_modules">
       <UniqueIdentifier>{954b3c46-e100-44c2-85dc-185446f6f7ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\lua_modules\net">
-      <UniqueIdentifier>{fbd44448-655c-4bb9-9d18-d13248ce8303}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\libuv">
-      <UniqueIdentifier>{1696151b-f636-4cf7-bdbd-7fe311071133}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\libuv\include">
-      <UniqueIdentifier>{146ba874-6f55-43ea-a6aa-caf5853de9c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\libuv\src">
-      <UniqueIdentifier>{fc4aff81-9a0d-41db-9645-904d164f70cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\libuv\src\win">
-      <UniqueIdentifier>{a7695fd4-2651-431c-b1a2-56bca77b0423}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\net_uv">
-      <UniqueIdentifier>{86c81648-bc17-4904-87a8-3d973ea5e9ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\net_uv\base">
-      <UniqueIdentifier>{cb86da24-31d4-40b6-9627-3367e18c858e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\net_uv\common">
-      <UniqueIdentifier>{082fc5e3-a05a-4a17-b99d-40127655ee26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\net_uv\tcp">
-      <UniqueIdentifier>{6478a8f3-3e76-474d-8da9-75e0b80252dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\net\net_uv\kcp">
-      <UniqueIdentifier>{f5b42d36-e23f-4480-8828-106dd37a6342}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\lua_modules\bit">
       <UniqueIdentifier>{4cf09d61-5a7c-43ff-b277-fc3356a394fb}</UniqueIdentifier>
     </Filter>
@@ -118,6 +88,15 @@
     <Filter Include="Classes\lua_modules\assets">
       <UniqueIdentifier>{0f0faefc-3342-4d9d-b135-0b03acdf0d78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\lua_modules\http">
+      <UniqueIdentifier>{0e4147f9-b2a4-4e14-bcd1-575eb895a6be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\lua_modules\md5">
+      <UniqueIdentifier>{dc134f6c-dc63-42ce-a631-f664942a38b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ext">
+      <UniqueIdentifier>{e89ccd5f-c451-4d73-8e13-0ab722d33729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -164,102 +143,6 @@
     <ClInclude Include="..\Classes\lua_modules\lfs\lfs.h">
       <Filter>Classes\lua_modules\lfs</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\KCPLuaServer.h">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\lua_net.h">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\TCPLuaClient.h">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\TCPLuaServer.h">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\KCPLuaClient.h">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\pthread-barrier.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\stdint-msvc2008.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\tree.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-aix.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-bsd.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-darwin.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-errno.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-linux.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-os390.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-posix.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-sunos.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-threadpool.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-unix.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-version.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\uv-win.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\include\android-ifaddrs.h">
-      <Filter>Classes\lua_modules\net\libuv\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\uv-common.h">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\heap-inl.h">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\queue.h">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\atomicops-inl.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\handle-inl.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\internal.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\req-inl.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\stream-inl.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\winapi.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\libuv\src\win\winsock.h">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\pbc\src\descriptor.pbc.h">
       <Filter>Classes\lua_modules\pbc\src</Filter>
     </ClInclude>
@@ -295,99 +178,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\lua_modules.h">
       <Filter>Classes\lua_modules</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\md5.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Misc.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Mutex.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Runnable.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Server.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Session.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\SessionManager.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Socket.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Buffer.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Client.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Common.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Config.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\Macros.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\common\NetUVThreadMsg.h">
-      <Filter>Classes\lua_modules\net\net_uv\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\common\NetHeart.h">
-      <Filter>Classes\lua_modules\net\net_uv\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPConfig.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPServer.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPSession.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPSocket.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPSocketManager.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPUtils.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\ikcp.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPClient.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\kcp\KCPCommon.h">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPServer.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPSession.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPSocket.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPUtils.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPClient.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPCommon.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\tcp\TCPConfig.h">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\anax\include\anax\Component.hpp">
       <Filter>Classes\anax\include</Filter>
@@ -451,9 +241,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\system\ArmatureCollisionSystem.h">
       <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\net\net_uv\base\DNSCache.h">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\components\MapFollowComponent.h">
       <Filter>Classes\ecs\components</Filter>
@@ -530,6 +317,30 @@
     <ClInclude Include="..\Classes\ecs\components\PropertyComponent.h">
       <Filter>Classes\ecs\components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\http\lua_http.hpp">
+      <Filter>Classes\lua_modules\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\md5\lua_md5.hpp">
+      <Filter>Classes\lua_modules\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\md5\md5.h">
+      <Filter>Classes\lua_modules\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\CTools.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ext\MyButton.h">
+      <Filter>Classes\ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\TransformComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GCommon.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GMath.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -571,120 +382,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\lfs\lfs.c">
       <Filter>Classes\lua_modules\lfs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\lua_net.cpp">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\TCPLuaClient.cpp">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\TCPLuaServer.cpp">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\KCPLuaClient.cpp">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\KCPLuaServer.cpp">
-      <Filter>Classes\lua_modules\net</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\threadpool.c">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\uv-common.c">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\uv-data-getter-setters.c">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\version.c">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\fs-poll.c">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\inet.c">
-      <Filter>Classes\lua_modules\net\libuv\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\core.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\detect-wakeup.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\dl.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\error.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\fs.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\fs-event.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\getaddrinfo.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\getnameinfo.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\handle.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\loop-watcher.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\pipe.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\poll.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\process.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\process-stdio.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\req.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\signal.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\snprintf.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\stream.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\tcp.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\thread.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\timer.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\tty.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\udp.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\util.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\winapi.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\winsock.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\libuv\src\win\async.c">
-      <Filter>Classes\lua_modules\net\libuv\src\win</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\pbc\binding\lua\pbc-lua.c">
       <Filter>Classes\lua_modules\pbc\binding\lua</Filter>
@@ -731,72 +428,6 @@
     <ClCompile Include="..\Classes\lua_modules\lua_modules.cpp">
       <Filter>Classes\lua_modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\md5.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Misc.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Mutex.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Runnable.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Server.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Session.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\SessionManager.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Socket.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Client.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\Common.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPServer.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPSession.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPSocket.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPSocketManager.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPUtils.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\ikcp.c">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\kcp\KCPClient.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\kcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\tcp\TCPServer.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\tcp\TCPSession.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\tcp\TCPSocket.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\tcp\TCPUtils.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\tcp\TCPClient.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\tcp</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\anax\src\anax\detail\EntityIdPool.cpp">
       <Filter>Classes\anax\src\anax\detail</Filter>
     </ClCompile>
@@ -823,9 +454,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\ArmatureCollisionSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\net\net_uv\base\DNSCache.cpp">
-      <Filter>Classes\lua_modules\net\net_uv\base</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\MapFollowSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
@@ -883,6 +511,21 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\FilterSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\http\lua_http.cpp">
+      <Filter>Classes\lua_modules\http</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\md5\md5.cpp">
+      <Filter>Classes\lua_modules\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\md5\lua_md5.cpp">
+      <Filter>Classes\lua_modules\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\CTools.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ext\MyButton.cpp">
+      <Filter>Classes\ext</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

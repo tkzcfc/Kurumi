@@ -2,9 +2,7 @@
 
 #include "cocos2d.h"
 #include "Box2D/Box2D.h"
-
 #include "tolua++.h"
-
 #include <map>
 #include <string.h>
 #include <vector>
@@ -12,7 +10,6 @@
 
 using namespace cocos2d;
 
-class LuaFunction;
 
 #define DEF_VEC_2_VALUE
 #define DEF_VEC_3_VALUE
@@ -53,6 +50,7 @@ struct Rect
 };
 #endif
 
+class LuaFunction;
 
 int tolua_ext_pushusertype_ccobject(lua_State* L,
                                              int uid,
@@ -71,12 +69,11 @@ int tolua_ext_remove_cclass_by_refid(lua_State* L, void* ptr);
 int tolua_ext_check_is_table(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
 int tolua_ext_check_isfunction(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
 
-
 // function
-void tolua_ext_function_to_luaval(lua_State* L, LuaFunction& func, const char* type);
-void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type);
-
-void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def);
+//void tolua_ext_function_to_luaval(lua_State* L, LuaFunction& func, const char* type);
+//void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type);
+//
+//void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def);
 
 // map
 void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& v, const char*);
@@ -108,14 +105,12 @@ void tolua_ext_vec2_value_to_luaval(lua_State* L, const Vec2& v, const char*);
 void tolua_ext_vec3_value_to_luaval(lua_State* L, const Vec3& v, const char*);
 void tolua_ext_size_value_to_luaval(lua_State* L, const Size& v, const char*);
 void tolua_ext_rect_value_to_luaval(lua_State* L, const Rect& v, const char*);
-
 void tolua_ext_b2vec2_to_luaval(lua_State* L, const b2Vec2& v, const char*);
 
 Vec2			tolua_ext_luaval_to_vec2_value(lua_State* L, int lo, int);
 Vec3			tolua_ext_luaval_to_vec3_value(lua_State* L, int lo, int);
 Size			tolua_ext_luaval_to_size_value(lua_State* L, int lo, int);
 Rect			tolua_ext_luaval_to_rect_value(lua_State* L, int lo, int);
-
 b2Vec2			tolua_ext_luaval_to_b2vec2(lua_State* L, int lo, int);
 
 
@@ -335,3 +330,34 @@ std::map<std::string, T*> tolua_ext_luaval_to_ccmap_string_key(lua_State* L, int
 	lua_pop(L, 1);
 	return outValue;
 }
+
+
+
+
+
+
+std::string tolua_ext_checkString(lua_State* L, int idx);
+
+
+// get opt string field.
+// error if field exists but with other (not string nor nil) type.
+std::string tolua_ext_optStringField(lua_State* L, int idx, const char* field, const char* def);
+
+// check string field.
+// error if field not exists or not a string type.
+std::string tolua_ext_checkStringField(lua_State* L, int idx, const char* field);
+
+// get string filed, convert to string if possiable.
+// error if field not exists or can't convert to string.
+std::string tolua_ext_getStringField(lua_State* L, int idx, const char* field);
+
+
+// get opt boolean field.
+// error if field exists but with other (not boolean nor nil) type.
+bool tolua_ext_optBooleanField(lua_State* L, int idx, const char* field, bool def);
+
+
+//bool tolua_ext_checkBooleanField(lua_State* L, int idx, const char* field);
+
+
+bool tolua_ext_getBooleanField(lua_State* L, int idx, const char* field);

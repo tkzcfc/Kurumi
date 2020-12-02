@@ -479,37 +479,43 @@ const std::string& GameAssetsManager::getStoragePath() const
     return _storagePath;
 }
 
-void GameAssetsManager::setVersionCompareLuaHandle(const LuaFunction& handle)
+void GameAssetsManager::setVersionCompareLuaHandle(int handle)
 {
-	_versionCompareLuaHandle = std::move(handle);
+	_versionCompareLuaHandle = handle;
 	this->setVersionCompareHandle([this](const std::string& versionA, const std::string& versionB)->int
 	{
-		_versionCompareLuaHandle.ppush();
-		_versionCompareLuaHandle.pusharg(versionA.c_str());
-		_versionCompareLuaHandle.pusharg(versionB.c_str());
-		_versionCompareLuaHandle.pcall(1);
-
-		return _versionCompareLuaHandle.retint();
+		if (_versionCompareLuaHandle.isvalid())
+		{
+			_versionCompareLuaHandle.ppush();
+			_versionCompareLuaHandle.pusharg(versionA.c_str());
+			_versionCompareLuaHandle.pusharg(versionB.c_str());
+			return _versionCompareLuaHandle.pcall();
+		}
+		CC_ASSERT(false);
+		return 0;
 	});
 }
 
-void GameAssetsManager::setVerifyLuaCallback(const LuaFunction& handle)
+void GameAssetsManager::setVerifyLuaCallback(int handle)
 {
-	_verifyLuaHandle = std::move(handle);
+	_verifyLuaHandle = handle;
 	this->setVerifyCallback([this](const std::string& path, GameManifest::Asset asset)->bool
 	{
-		_verifyLuaHandle.ppush();
-		_verifyLuaHandle.pusharg(path.c_str());
-		_verifyLuaHandle.pushusertype<GameManifestAsset>((void*)&asset, "GameManifestAsset");
-		_verifyLuaHandle.pcall(1);
-
-		return _verifyLuaHandle.retbool();
+		if (_versionCompareLuaHandle.isvalid())
+		{
+			_verifyLuaHandle.ppush();
+			_verifyLuaHandle.pusharg(path.c_str());
+			_verifyLuaHandle.pushusertype<GameManifestAsset>((void*)&asset, "GameManifestAsset");
+			return (bool)_verifyLuaHandle.pcall();
+		}
+		CC_ASSERT(false);
+		return false;
 	});
 }
 
-void GameAssetsManager::setUpdateDownloadFilePercentLuaCallback(const LuaFunction& handle)
+void GameAssetsManager::setUpdateDownloadFilePercentLuaCallback(int handle)
 {
-	_updateDownloadFilePercentLuaHandle = std::move(handle);
+	_updateDownloadFilePercentLuaHandle = handle;
 }
 
 void GameAssetsManager::setStoragePath(const std::string& storagePath)
@@ -1574,7 +1580,9 @@ void GameAssetsManager::updateDownloadFilePercent()
 		_updateDownloadFilePercent = curDownloadFilePercent;
 		if (_updateDownloadFilePercentLuaHandle.isvalid())
 		{
-			_updateDownloadFilePercentLuaHandle(_updateDownloadFilePercent);
+			_updateDownloadFilePercentLuaHandle.ppush();
+			_updateDownloadFilePercentLuaHandle.pusharg(_updateDownloadFilePercent);
+			_updateDownloadFilePercentLuaHandle.pcall();
 		}
 	}
 }

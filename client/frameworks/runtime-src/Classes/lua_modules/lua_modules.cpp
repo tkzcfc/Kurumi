@@ -2,6 +2,10 @@
 #include "lua_modules.h"
 
 
+#include "LuaBasicConversions.h"
+#include "ext/MyButton.h"
+
+
 #if __cplusplus
 extern "C" {
 #endif
@@ -19,26 +23,22 @@ extern int luaopen_protobuf_c(lua_State *L);
 } /// extern "C"
 #endif
 
-#include "net/lua_net.h"
-//#include "game/lua_game.h"
 #include "foundation/lua_foundation.h"
 #include "ecs/lua_ecs.h"
 #include "assets/game_assets_tolua.h"
+#include "http/lua_http.hpp"
+#include "md5/lua_md5.hpp"
 
 static luaL_Reg modules[] = {
     { "cjson", luaopen_cjson_safe },
 	{ "bit", luaopen_bit },
+	{ "http", luaopen_http },
+	{ "md5", luaopen_md5 },
     { NULL, NULL }
 };
 
 void preload_lua_modules(lua_State *L)
 {
-	// net
-	luaopen_net(L);
-
-	// game
-	//luaopen_game(L);
-
 	// foundation
 	luaopen_foundation(L);
 
@@ -62,4 +62,9 @@ void preload_lua_modules(lua_State *L)
         lua_setfield(L, -2, lib->name);
     }
     lua_pop(L, 2);
+
+
+	std::string typeName = typeid(MyButton).name();
+	g_luaType[typeName] = "MyButton";
+	g_typeCast["MyButton"] = "MyButton";
 }

@@ -7,6 +7,8 @@ $pfile "Actor.pkg"
 $pfile "Character.pkg"
 $pfile "GameWorld.pkg"
 $pfile "GameMacro.pkg"
+$pfile "CTools.pkg"
+$pfile "MyButton.pkg"
 
 $using namespace cocostudio;
 

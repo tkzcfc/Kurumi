@@ -3,9 +3,9 @@ local AppBase = class("AppBase")
 
 function AppBase:ctor(configs)
     self.configs_ = {
-        viewsRoot  = "app.views",
+        viewsRoot  = "app.scenes",
         modelsRoot = "app.models",
-        defaultSceneName = "LaunchScene",
+        defaultSceneName = "UpdateScene",
     }
 
     for k, v in pairs(configs or {}) do
@@ -36,14 +36,23 @@ function AppBase:run(initSceneName)
     self:enterScene(initSceneName)
 end
 
-function AppBase:enterScene(sceneName, transition, time, more, args)
-    local view = self:createView(sceneName, args)
+function AppBase:enterScene(sceneName, transition, time, more)
+    local view = self:createView(sceneName)
     view:showWithScene(transition, time, more)
-    self.curView = view
     return view
 end
 
-function AppBase:createView(name, args)
+function AppBase:pushScene(sceneName, args, transition, time, more)
+    local view = self:createView(sceneName)
+    view:pushScene(transition, time, more)
+    return view
+end
+
+function AppBase:popScene()
+    display.popScene()
+end
+
+function AppBase:createView(name)
     for _, root in ipairs(self.configs_.viewsRoot) do
         local packageName = string.format("%s.%s", root, name)
         local status, view = xpcall(function()
@@ -55,7 +64,7 @@ function AppBase:createView(name, args)
         end)
         local t = type(view)
         if status and (t == "table" or t == "userdata") then
-            return view:create(self, name, args)
+            return view:create(self, name)
         end
     end
     error(string.format("AppBase:createView() - not found view \"%s\" in search paths \"%s\"",
@@ -63,10 +72,6 @@ function AppBase:createView(name, args)
 end
 
 function AppBase:onCreate()
-end
-
-function AppBase:getCurView()
-    return self.curView
 end
 
 return AppBase

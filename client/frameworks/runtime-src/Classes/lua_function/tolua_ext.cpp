@@ -1,9 +1,25 @@
 #include "tolua_ext.h"
 #include "LuaFunction.h"
+#include "tolua_fix.h"
 
-
+#ifdef TOLUA_REFID_PTR_MAPPING
+#define TOLUA_EXT_REFID_PTR_MAPPING TOLUA_REFID_PTR_MAPPING
+#else
 #define TOLUA_EXT_REFID_PTR_MAPPING "toluafix_refid_ptr_mapping"
+#endif
+
+#ifdef TOLUA_REFID_TYPE_MAPPING
+#define TOLUA_EXT_REFID_TYPE_MAPPING TOLUA_REFID_TYPE_MAPPING
+#else
 #define TOLUA_EXT_REFID_TYPE_MAPPING "toluafix_refid_type_mapping"
+#endif
+
+#ifdef TOLUA_REFID_FUNCTION_MAPPING
+#define TOLUA_EXT_REFID_FUNCTION_MAPPING TOLUA_REFID_FUNCTION_MAPPING
+#else
+#define TOLUA_EXT_REFID_FUNCTION_MAPPING "toluafix_refid_function_mapping"
+#endif
+
 
 static std::unordered_map<void*, std::string> g_refidTypeMap;
 
@@ -280,42 +296,42 @@ int tolua_ext_check_isfunction(lua_State* L, int lo, const char* type, int def, 
 	return 0;
 }
 
+///////////////////////////////////////////////////////////////////////////// function
+//void tolua_ext_function_to_luaval(lua_State* L, LuaFunction& func, const char* type)
+//{
+//	if (func.isvalid() == false)
+//		return;
+//	func.ppush();
+//}
+//
+//void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type)
+//{
+//	LuaFunction* handle = (LuaFunction*)funcPtr;
+//	if (handle == NULL || handle->isvalid() == false)
+//	{
+//		lua_pushnil(L);
+//		return;
+//	}
+//	handle->push();
+//}
+//
+//void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def)
+//{
+//	static LuaFunction* pHandle = NULL;
+//
+//	if (pHandle == NULL)
+//	{
+//		pHandle = new LuaFunction(L, narg, 0);
+//	}
+//	else
+//	{
+//		*pHandle = std::move(LuaFunction(L, narg, 0));
+//	}
+//	return pHandle;
+//}
+
 //////////////////////////////////////////////////////////////////////////
-/// function
-void tolua_ext_function_to_luaval(lua_State* L, LuaFunction& func, const char* type)
-{
-	if (func.isvalid() == false)
-		return;
-	func.ppush();
-}
 
-void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type)
-{
-	LuaFunction* handle = (LuaFunction*)funcPtr;
-	if (handle == NULL || handle->isvalid() == false)
-	{
-		lua_pushnil(L);
-		return;
-	}
-	handle->push();
-}
-
-void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def)
-{
-	static LuaFunction* pHandle = NULL;
-
-	if (pHandle == NULL)
-	{
-		pHandle = new LuaFunction(L, narg, 0);
-	}
-	else
-	{
-		*pHandle = std::move(LuaFunction(L, narg, 0));
-	}
-	return pHandle;
-}
-
-//////////////////////////////////////////////////////////////////////////
 ///map
 void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& v, const char*)
 {
@@ -843,6 +859,7 @@ void tolua_ext_rect_value_to_luaval(lua_State* L, const Rect& v, const char*)
 	lua_rawset(L, -3);                                  /* table[key] = value, L: table */
 }
 
+
 void tolua_ext_b2vec2_to_luaval(lua_State* L, const b2Vec2& v, const char*)
 {
 	if (NULL == L)
@@ -951,6 +968,7 @@ Rect tolua_ext_luaval_to_rect_value(lua_State* L, int lo, int)
 
 	return outValue;
 }
+
 //
 b2Vec2 tolua_ext_luaval_to_b2vec2(lua_State* L, int lo, int)
 {
@@ -970,4 +988,84 @@ b2Vec2 tolua_ext_luaval_to_b2vec2(lua_State* L, int lo, int)
 	lua_pop(L, 1);
 
 	return outValue;
+}
+
+
+
+
+std::string tolua_ext_optStringField(lua_State* L, int idx, const char* field, const char* def)
+{
+	lua_getfield(L, idx, field);
+	size_t len;
+	const char* s = luaL_optlstring(L, -1, def, &len);
+	if (s == nullptr)
+		luaL_error(L, "requires field '%s' to be a valid string", field);
+	std::string r(s, len);
+	lua_pop(L, 1);
+	return r;
+}
+
+std::string tolua_ext_checkStringField(lua_State* L, int idx, const char* field)
+{
+	return tolua_ext_optStringField(L, idx, field, nullptr);
+}
+
+
+std::string tolua_ext_getStringField(lua_State* L, int idx, const char* field)
+{
+	lua_getfield(L, idx, field);
+	size_t len;
+	const char* s = lua_tolstring(L, -1, &len);
+	if (s == nullptr)
+		luaL_error(L, "requires field '%s' to be a valid string", field);
+	std::string r(s, len);
+	lua_pop(L, 1);
+	return r;
+}
+
+
+bool tolua_ext_optBooleanField(lua_State* L, int idx, const char* field, bool def)
+{
+	lua_getfield(L, idx, field);
+	bool v;
+	switch (lua_type(L, -1))
+	{
+	case LUA_TBOOLEAN:
+		v = lua_toboolean(L, -1);
+		lua_pop(L, 1);
+		return v;
+	case LUA_TNIL:
+		lua_pop(L, 1);
+		return def;
+	default:
+		lua_pop(L, 1);
+		luaL_error(L, "expected field '%s' to be a boolean or nil value");
+		return false; // luaL_error never returns, so we can go to this line.
+	}
+}
+
+
+bool ctolua_ext_heckBooleanField(lua_State* L, int idx, const char* field)
+{
+	lua_getfield(L, idx, field);
+	luaL_checktype(L, -1, LUA_TBOOLEAN);
+	bool v = lua_toboolean(L, -1);
+	lua_pop(L, 1);
+	return v;
+}
+
+
+bool tolua_ext_getBooleanField(lua_State* L, int idx, const char* field)
+{
+	lua_getfield(L, idx, field);
+	bool v = lua_toboolean(L, -1);
+	lua_pop(L, 1);
+	return v;
+}
+
+std::string tolua_ext_checkString(lua_State* L, int idx)
+{
+	size_t len;
+	const char* s = luaL_checklstring(L, idx, &len);
+	return std::string(s, len);
 }

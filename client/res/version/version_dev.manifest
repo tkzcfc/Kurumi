@@ -1,13 +1,13 @@
 {
-    "packageUrl": "http://47.75.218.200:1000/91/ResourceDir/",
+    "packageUrl": "http://127.0.0.1:7878/v_0_0_1/",
     "strongUpdateDes": {
         "android": "Android我是强更新描述",
         "ios": "IOS我是强更新描述"
     },
-    "remoteManifestUrl": "http://47.75.218.200:1000/91/project_dev.manifest",
-    "searchPaths": [],
+    "remoteManifestUrl": "http://127.0.0.1:7878/v_0_0_1/project_dev.manifest",
+    "searchPaths": {},
     "restartLevel": 1,
-    "remoteVersionUrl": "http://47.75.218.200:1000/91/version_dev.manifest",
+    "remoteVersionUrl": "http://127.0.0.1:7878/v_0_0_1/version_dev.manifest",
     "strongUpdateURL": {
         "android": "www.baidu.com",
         "ios": "www.google.com"

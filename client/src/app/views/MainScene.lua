@@ -13,7 +13,7 @@ function MainScene:onCreate()
 end
 
 function MainScene:onClickEnter()
-    _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_SELECT)
+    _MyG.ScenesManager:enterScene(_MyG.SCENE_ID_SELECT)
 end
 
 function MainScene:onKeyBackReleased()

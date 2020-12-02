@@ -1,6 +1,6 @@
 /*
 ** Lua binding: foundation
-** Generated automatically by tolua++-1.0.92 on 06/15/19 16:43:55.
+** Generated automatically by tolua++-1.0.92 on 11/15/20 22:18:09.
 */
 
 #ifndef __cplusplus
@@ -9,6 +9,8 @@
 #include "string.h"
 
 #include "tolua++.h"
+#include "tolua_fix.h"
+#include <string>
 
 /* Exported function */
 TOLUA_API int  tolua_foundation_open (lua_State* tolua_S);
@@ -22,6 +24,8 @@ TOLUA_API int  tolua_foundation_open (lua_State* tolua_S);
 #include "foundation/Character.h"
 #include "foundation/GameWorld.h"
 #include "foundation/GameMacro.h"
+#include "foundation/CTools.h"
+#include "ext/MyButton.h"
 using namespace cocostudio;
 
 /* function to release collected object via destructor */
@@ -76,7 +80,8 @@ static void tolua_reg_types (lua_State* tolua_S)
 {
  tolua_usertype(tolua_S,"QFSMState");
  tolua_usertype(tolua_S,"b2BodyType");
- tolua_usertype(tolua_S,"b2Shape");
+ tolua_usertype(tolua_S,"anax::Entity");
+ tolua_usertype(tolua_S,"CTools");
  tolua_usertype(tolua_S,"ccs.Armature");
  tolua_usertype(tolua_S,"b2Fixture");
  tolua_usertype(tolua_S,"b2Filter");
@@ -85,16 +90,18 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"anax::Component");
  tolua_usertype(tolua_S,"Size");
  tolua_usertype(tolua_S,"Actor");
- tolua_usertype(tolua_S,"LuaFunction");
+ tolua_usertype(tolua_S,"ccui.Button");
+ tolua_usertype(tolua_S,"b2Vec2");
  tolua_usertype(tolua_S,"anax::World");
  tolua_usertype(tolua_S,"b2MassData");
  tolua_usertype(tolua_S,"Vec2");
  tolua_usertype(tolua_S,"Character");
- tolua_usertype(tolua_S,"anax::Entity");
+ tolua_usertype(tolua_S,"b2Shape");
+ tolua_usertype(tolua_S,"MyButton");
  tolua_usertype(tolua_S,"GameMap");
  tolua_usertype(tolua_S,"b2Body");
  tolua_usertype(tolua_S,"cc.Node");
- tolua_usertype(tolua_S,"b2Vec2");
+ tolua_usertype(tolua_S,"LUA_FUNCTION");
 }
 
 /* method: new of class  QFSMState */
@@ -106,8 +113,8 @@ static int tolua_foundation_QFSMState_new00(lua_State* tolua_S)
  if (
      !tolua_isusertable(tolua_S,1,"QFSMState",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
-     (tolua_isvaluenil(tolua_S,4,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,4,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,4,&tolua_err) || !toluafix_isfunction(tolua_S,4,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
@@ -115,8 +122,8 @@ static int tolua_foundation_QFSMState_new00(lua_State* tolua_S)
 #endif
  {
   std::string stateName = ((std::string)  tolua_tocppstring(tolua_S,2,0));
-  LuaFunction enterFunc = (  LuaFunction(tolua_S,3,0));
-  LuaFunction leaveFunc = (  LuaFunction(tolua_S,4,0));
+  LUA_FUNCTION enterFunc = (  toluafix_ref_function(tolua_S,3,0));
+  LUA_FUNCTION leaveFunc = (  toluafix_ref_function(tolua_S,4,0));
   {
    QFSMState* tolua_ret = (QFSMState*)  Mtolua_new((QFSMState)(stateName,enterFunc,leaveFunc));
     tolua_ext_object_to_luaval<QFSMState>(tolua_S,(void*)tolua_ret,"QFSMState");
@@ -140,8 +147,8 @@ static int tolua_foundation_QFSMState_new00_local(lua_State* tolua_S)
  if (
      !tolua_isusertable(tolua_S,1,"QFSMState",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
-     (tolua_isvaluenil(tolua_S,4,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,4,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,4,&tolua_err) || !toluafix_isfunction(tolua_S,4,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
@@ -149,8 +156,8 @@ static int tolua_foundation_QFSMState_new00_local(lua_State* tolua_S)
 #endif
  {
   std::string stateName = ((std::string)  tolua_tocppstring(tolua_S,2,0));
-  LuaFunction enterFunc = (  LuaFunction(tolua_S,3,0));
-  LuaFunction leaveFunc = (  LuaFunction(tolua_S,4,0));
+  LUA_FUNCTION enterFunc = (  toluafix_ref_function(tolua_S,3,0));
+  LUA_FUNCTION leaveFunc = (  toluafix_ref_function(tolua_S,4,0));
   {
    QFSMState* tolua_ret = (QFSMState*)  Mtolua_new((QFSMState)(stateName,enterFunc,leaveFunc));
     tolua_ext_object_to_luaval<QFSMState>(tolua_S,(void*)tolua_ret,"QFSMState");
@@ -354,8 +361,8 @@ static int tolua_foundation_QFSM_addState00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"QFSM",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
-     (tolua_isvaluenil(tolua_S,4,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,4,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,4,&tolua_err) || !toluafix_isfunction(tolua_S,4,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
@@ -364,8 +371,8 @@ static int tolua_foundation_QFSM_addState00(lua_State* tolua_S)
  {
   QFSM* self = (QFSM*)  tolua_tousertype(tolua_S,1,0);
   std::string stateName = ((std::string)  tolua_tocppstring(tolua_S,2,0));
-  LuaFunction enterFunc = (  LuaFunction(tolua_S,3,0));
-  LuaFunction leaveFunc = (  LuaFunction(tolua_S,4,0));
+  LUA_FUNCTION enterFunc = (  toluafix_ref_function(tolua_S,3,0));
+  LUA_FUNCTION leaveFunc = (  toluafix_ref_function(tolua_S,4,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'addState'", NULL);
 #endif
@@ -4181,7 +4188,7 @@ static int tolua_foundation_Actor_registerLuaHandle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"Actor",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
@@ -4190,7 +4197,7 @@ static int tolua_foundation_Actor_registerLuaHandle00(lua_State* tolua_S)
  {
   Actor* self = (Actor*)  tolua_tousertype(tolua_S,1,0);
   const std::string name = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
-  LuaFunction handle = (  LuaFunction(tolua_S,3,0));
+  LUA_FUNCTION handle = (  toluafix_ref_function(tolua_S,3,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'registerLuaHandle'", NULL);
 #endif
@@ -5009,7 +5016,7 @@ static int tolua_foundation_GameWorld_registerLuaHandle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"GameWorld",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_isfunction(tolua_S,3,"LuaFunction",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !toluafix_isfunction(tolua_S,3,"LUA_FUNCTION",0,&tolua_err)) ||
      !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
@@ -5018,7 +5025,7 @@ static int tolua_foundation_GameWorld_registerLuaHandle00(lua_State* tolua_S)
  {
   GameWorld* self = (GameWorld*)  tolua_tousertype(tolua_S,1,0);
   const std::string name = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
-  LuaFunction handle = (  LuaFunction(tolua_S,3,0));
+  LUA_FUNCTION handle = (  toluafix_ref_function(tolua_S,3,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'registerLuaHandle'", NULL);
 #endif
@@ -5096,6 +5103,228 @@ static int tolua_foundation_GameWorld_clearLuaHandle00(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'clearLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isInRect of class  CTools */
+#ifndef TOLUA_DISABLE_tolua_foundation_CTools_isInRect00
+static int tolua_foundation_CTools_isInRect00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"CTools",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"cc.Node",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Node* InNode = ((Node*)  tolua_tousertype(tolua_S,2,0));
+  float InX = ((float)  tolua_tonumber(tolua_S,3,0));
+  float InY = ((float)  tolua_tonumber(tolua_S,4,0));
+  {
+   bool tolua_ret = (bool)  CTools::isInRect(InNode,InX,InY);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isInRect'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: create of class  MyButton */
+#ifndef TOLUA_DISABLE_tolua_foundation_MyButton_create00
+static int tolua_foundation_MyButton_create00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"MyButton",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   MyButton* tolua_ret = (MyButton*)  MyButton::create();
+    tolua_ext_object_to_luaval<MyButton>(tolua_S,(void*)tolua_ret,"MyButton");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'create'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: registerStateChangedCall of class  MyButton */
+#ifndef TOLUA_DISABLE_tolua_foundation_MyButton_registerStateChangedCall00
+static int tolua_foundation_MyButton_registerStateChangedCall00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"MyButton",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !toluafix_isfunction(tolua_S,2,"LUA_FUNCTION",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  MyButton* self = (MyButton*)  tolua_tousertype(tolua_S,1,0);
+  LUA_FUNCTION call = (  toluafix_ref_function(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'registerStateChangedCall'", NULL);
+#endif
+  {
+   self->registerStateChangedCall(call);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'registerStateChangedCall'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: enableTouchScaleEffect of class  MyButton */
+#ifndef TOLUA_DISABLE_tolua_foundation_MyButton_enableTouchScaleEffect00
+static int tolua_foundation_MyButton_enableTouchScaleEffect00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"MyButton",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  MyButton* self = (MyButton*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'enableTouchScaleEffect'", NULL);
+#endif
+  {
+   self->enableTouchScaleEffect();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'enableTouchScaleEffect'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: disenableTouchScaleEffect of class  MyButton */
+#ifndef TOLUA_DISABLE_tolua_foundation_MyButton_disenableTouchScaleEffect00
+static int tolua_foundation_MyButton_disenableTouchScaleEffect00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"MyButton",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  MyButton* self = (MyButton*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'disenableTouchScaleEffect'", NULL);
+#endif
+  {
+   self->disenableTouchScaleEffect();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'disenableTouchScaleEffect'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setScaleOnPressed of class  MyButton */
+#ifndef TOLUA_DISABLE_tolua_foundation_MyButton_setScaleOnPressed00
+static int tolua_foundation_MyButton_setScaleOnPressed00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"MyButton",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  MyButton* self = (MyButton*)  tolua_tousertype(tolua_S,1,0);
+  float scale = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setScaleOnPressed'", NULL);
+#endif
+  {
+   self->setScaleOnPressed(scale);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setScaleOnPressed'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getScaleOnPressed of class  MyButton */
+#ifndef TOLUA_DISABLE_tolua_foundation_MyButton_getScaleOnPressed00
+static int tolua_foundation_MyButton_getScaleOnPressed00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"MyButton",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  MyButton* self = (MyButton*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getScaleOnPressed'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->getScaleOnPressed();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getScaleOnPressed'.",&tolua_err);
  return 0;
 #endif
 }
@@ -5322,6 +5551,19 @@ TOLUA_API int tolua_foundation_open (lua_State* tolua_S)
   tolua_constant(tolua_S,"GAMEWORLD_NODE_MAP",GAMEWORLD_NODE_MAP);
   tolua_constant(tolua_S,"GAMEWORLD_NODE_UI",GAMEWORLD_NODE_UI);
   tolua_constant(tolua_S,"GAMEWORLD_NODE_MAX",GAMEWORLD_NODE_MAX);
+  tolua_cclass(tolua_S,"CTools","CTools","",NULL);
+  tolua_beginmodule(tolua_S,"CTools");
+   tolua_function(tolua_S,"isInRect",tolua_foundation_CTools_isInRect00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"MyButton","MyButton","ccui.Button",NULL);
+  tolua_beginmodule(tolua_S,"MyButton");
+   tolua_function(tolua_S,"create",tolua_foundation_MyButton_create00);
+   tolua_function(tolua_S,"registerStateChangedCall",tolua_foundation_MyButton_registerStateChangedCall00);
+   tolua_function(tolua_S,"enableTouchScaleEffect",tolua_foundation_MyButton_enableTouchScaleEffect00);
+   tolua_function(tolua_S,"disenableTouchScaleEffect",tolua_foundation_MyButton_disenableTouchScaleEffect00);
+   tolua_function(tolua_S,"setScaleOnPressed",tolua_foundation_MyButton_setScaleOnPressed00);
+   tolua_function(tolua_S,"getScaleOnPressed",tolua_foundation_MyButton_getScaleOnPressed00);
+  tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;
 }

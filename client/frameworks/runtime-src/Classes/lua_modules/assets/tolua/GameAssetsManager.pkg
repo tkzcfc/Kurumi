@@ -72,9 +72,9 @@ public:
      */
     void setMaxConcurrentTask( int max);
 
-	void setVersionCompareLuaHandle( LuaFunction handle);
+	void setVersionCompareLuaHandle( LUA_FUNCTION handle);
 
-	void setVerifyLuaCallback( LuaFunction handle);
+	void setVerifyLuaCallback( LUA_FUNCTION handle);
 	
-	void setUpdateDownloadFilePercentLuaCallback( LuaFunction handle);
+	void setUpdateDownloadFilePercentLuaCallback( LUA_FUNCTION handle);
 };

@@ -41,7 +41,7 @@ public:
 		m_fsm = NULL;
 	}
 
-	QFSMState(const SK& stateName, const LuaFunction& enterFunc, const LuaFunction& leaveFunc)
+	QFSMState(const SK& stateName, int enterFunc, int leaveFunc)
 	{
 		m_stateName = stateName;
 		m_lua_enterFunc = enterFunc;
@@ -188,7 +188,7 @@ public:
 	}
 
 	// Ìí¼Ó×´Ì¬
-	bool addState(const SK& stateName, const LuaFunction& enterFunc, const LuaFunction& leaveFunc)
+	bool addState(const SK& stateName, int enterFunc, int leaveFunc)
 	{
 		auto state = getStateByKey(stateName);
 		if (state == NULL)

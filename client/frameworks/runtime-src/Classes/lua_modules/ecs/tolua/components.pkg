@@ -33,9 +33,9 @@ public:
 	//virtual ~ArmatureCollisionComponent() {}
 
 	// 作为攻击者碰撞回调
-	LuaFunction m_attCollisionCall;
+	LUA_FUNCTION m_attCollisionCall;
 	// 作为受击者碰撞回调
-	LuaFunction m_defCollisionCall;
+	LUA_FUNCTION m_defCollisionCall;
 
 	bool m_defCacheDirty;
 	bool m_attCacheDirty;
@@ -67,7 +67,7 @@ public:
 
 	b2Body* m_body;
 
-	LuaFunction m_syncPhysicsTransformCall;
+	LUA_FUNCTION m_syncPhysicsTransformCall;
 };
 
 ////////////////////////////////////////////MapFollowComponent/////////////////////////////////
@@ -95,7 +95,7 @@ public:
 
 	bool m_lockOrientation;
 
-	LuaFunction m_orientationTurnCall;
+	LUA_FUNCTION m_orientationTurnCall;
 };
 
 ///UpdateComponent
@@ -106,8 +106,8 @@ public:
 	UpdateComponent();
 	virtual ~UpdateComponent();
 
-	LuaFunction m_updateCall;
-	LuaFunction m_lastUpdateCall;
+	LUA_FUNCTION m_updateCall;
+	LUA_FUNCTION m_lastUpdateCall;
 };
 
 

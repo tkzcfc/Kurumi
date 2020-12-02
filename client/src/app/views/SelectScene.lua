@@ -126,13 +126,13 @@ function SelectScene:onClickSelectMap(sender)
     {
         mapID = "map"..sender.mapIndex
     }
-    _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_GAME_MAP, nil, nil, nil, args)
+    _MyG.ScenesManager:enterScene(_MyG.SCENE_ID_GAME_MAP, nil, nil, nil, args)
     --SCENE_ID_GAME_MAP
 end
 
 function SelectScene:onKeyBackReleased()
     _MyG.MessageBox:showBox("返回城镇？", function() 
-        _MyG.GameSceneSwither:enterScene(_MyG.SCENE_ID_MAIN)
+        _MyG.ScenesManager:enterScene(_MyG.SCENE_ID_MAIN)
     end, function() end)
 end
 

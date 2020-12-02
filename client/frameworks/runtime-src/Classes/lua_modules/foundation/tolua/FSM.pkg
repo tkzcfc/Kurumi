@@ -4,7 +4,7 @@ $#include "foundation/FSM.h"
 class QFSMState
 {
 public:
-	QFSMState(std::string stateName, LuaFunction enterFunc, LuaFunction leaveFunc);
+	QFSMState(std::string stateName, LUA_FUNCTION enterFunc, LUA_FUNCTION leaveFunc);
 
 	virtual ~QFSMState();
 
@@ -21,7 +21,7 @@ public:
 
 	~QFSM();
 
-	bool addState(std::string stateName, LuaFunction enterFunc, LuaFunction leaveFunc);
+	bool addState(std::string stateName, LUA_FUNCTION enterFunc, LUA_FUNCTION leaveFunc);
 
 	bool addTranslation(std::string fromStateName, std::string eventName, std::string toStateName);
 

@@ -276,6 +276,28 @@ function display.runScene(newScene, transition, time, more)
     end
 end
 
+-- FC-Fix
+function display.pushScene(newScene, transition, time, more)
+    if director:getRunningScene() then
+        if transition then
+            newScene = display.wrapScene(newScene, transition, time, more)
+        end
+        director:pushScene(newScene)
+    else
+        director:runWithScene(newScene)
+    end
+end
+
+-- FC-Fix
+function display.popScene()
+    if director:getRunningScene() then
+        director:popScene()
+        -- local scene = sharedDirector:getRunningScene()
+    -- else
+        -- director:runWithScene(newScene)
+    end
+end
+
 function display.getRunningScene()
     return director:getRunningScene()
 end

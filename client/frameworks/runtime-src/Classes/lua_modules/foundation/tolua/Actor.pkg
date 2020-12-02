@@ -34,7 +34,7 @@ public:
 	
 	
 	///LuaFunctionBond
-	void registerLuaHandle(const std::string& name, LuaFunction handle);
+	void registerLuaHandle(const std::string& name, LUA_FUNCTION handle);
 
 	void unregisterLuaHandle(const std::string& name);
 

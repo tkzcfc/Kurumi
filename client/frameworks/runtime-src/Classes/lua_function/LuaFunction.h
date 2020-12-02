@@ -10,74 +10,30 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-#include <string>
+#include "tolua_fix.h"
 #include "tolua_ext.h"
+#include "CCLuaEngine.h"
 
-class LuaRef {
-public:
-	LuaRef();
-
-	LuaRef(lua_State* aL, int index);
-
-	LuaRef(const LuaRef& other);
-
-	LuaRef& operator=(const LuaRef& rhs);
-
-	LuaRef(LuaRef&& other);
-
-	LuaRef& operator=(LuaRef&& rhs);
-
-	virtual ~LuaRef();
-
-	explicit operator bool() const;
-
-	void reset(lua_State* aL, int index);
-
-	void push() const;
-
-	inline lua_State* state() const;
-
-protected:
-
-	void unref() const;
-
-protected:
-
-	lua_State* L;
-
-	int m_ref;
-};
-
-lua_State* LuaRef::state() const
-{
-	return L;
-}
-
-
-
-class LuaFunction : public LuaRef
+class LuaFunction
 {
 public:
 	LuaFunction();
 
-	LuaFunction(lua_State* aL, int index, int);
+	explicit LuaFunction(int handle);
 
-	LuaFunction(const LuaFunction& other);
+	LuaFunction(const LuaFunction& other) = delete;
 
-	LuaFunction& operator=(const LuaFunction& rhs);
+	LuaFunction& operator=(const LuaFunction& rhs) = delete;
 
 	LuaFunction(LuaFunction&& other);
 
 	LuaFunction& operator=(LuaFunction&& rhs);
 
+	LuaFunction& operator=(int handle);
+
 	virtual ~LuaFunction();
 
-
 	void operator()();
-
-	void ppush();
-
-	void pcall(int nresults = 0);
 
 	template<typename...Args>
 	void operator()(Args&...args)
@@ -86,6 +42,18 @@ public:
 		pusharg(args...);
 		pcall();
 	}
+
+	void ppush();
+
+	int pcall();
+
+	int pcallEx(int argc);
+
+	bool isvalid();
+
+	void ref(int handle);
+
+	void unref();
 
 	void pusharg(bool v);
 
@@ -103,89 +71,30 @@ public:
 
 	void pushlstring(const char* v, unsigned int len);
 
-	template<typename T, typename... Args>
-	inline void pusharg(T first, Args... args) {
-		pusharg(first);
-		pusharg(args...);
-	}
+	void pushfunction(int handle);
+
+	void pushnil();
+
+	void pushobject(cocos2d::Ref* objectValue, const char* typeName);
 
 	template<typename T>
 	void pushusertype(void* v, const char* type)
 	{
-		tolua_ext_object_to_luaval<T>(L, v, type);
-	}
-	
-	bool retbool(int index = 0, bool defaultvalue = false);
-
-	int retint(int index = 0, int defaultvalue = 0);
-
-	std::string retstring(int index = 0, const std::string& defaultvalue = "");
-
-	void* retuserdata(int index = 0);
-
-	void* retlightuserdata(int index = 0);
-
-	int checktype(int index = 0);
-
-	inline int retcount();
-
-	inline bool isvalid();
-
-	inline void invalid();
-
-private:
-
-	void clear_ret();
-
-private:
-	mutable int m_trackback;
-
-	const static unsigned int MAX_RET_ARGS_COUNT = 5;
-
-	union LuaRetValue
-	{
-		std::string* stringValue;
-		int numberValue;
-		bool boolValue;
-		void* userdata;
-	};
-	struct LuaRetData
-	{
-		LuaRetData()
+		if (m_stack != NULL)
 		{
-			type = LUA_TNONE;
+			tolua_ext_object_to_luaval<T>(m_stack->getLuaState(), v, type);
+			m_argCount++;
 		}
-		union LuaRetValue value;
-		
-		/*
-		#define LUA_TNONE		(-1)
-		#define LUA_TNIL		0
-		#define LUA_TBOOLEAN		1
-		#define LUA_TLIGHTUSERDATA	2
-		#define LUA_TNUMBER		3
-		#define LUA_TSTRING		4
-		#define LUA_TUSERDATA		7
-		*/
-		int type;
-	};
-	LuaRetData m_retValues[MAX_RET_ARGS_COUNT];
-	int m_retCount;
+	}
 
-	bool m_isValid;
+	void pushLuaValue(const LuaValue& value);
+
+	void pushLuaValueDict(const LuaValueDict& dict);
+
+	void pushLuaValueArray(const LuaValueArray& array);
+
+private:
+	cocos2d::LuaStack* m_stack;
+	int m_argCount;
+	int m_luaHandle;
 };
-
-int LuaFunction::retcount()
-{
-	return m_retCount;
-}
-
-bool LuaFunction::isvalid()
-{
-	return (m_isValid && m_ref != LUA_NOREF);
-}
-
-void LuaFunction::invalid()
-{
-	m_isValid = false;
-}
-

@@ -1,7 +1,7 @@
 
 local ViewBase = class("ViewBase", cc.Node)
 
-function ViewBase:ctor(app, name, args)
+function ViewBase:ctor(app, name)
     self:enableNodeEvents()
     self.app_ = app
     self.name_ = name
@@ -17,7 +17,7 @@ function ViewBase:ctor(app, name, args)
         self:createResoueceBinding(binding)
     end
 
-    if self.onCreate then self:onCreate(args) end
+    if self.onCreate then self:onCreate() end
 end
 
 function ViewBase:getApp()
@@ -62,6 +62,14 @@ function ViewBase:showWithScene(transition, time, more)
     local scene = display.newScene(self.name_)
     scene:addChild(self)
     display.runScene(scene, transition, time, more)
+    return self
+end
+
+function ViewBase:pushScene(transition, time, more)
+    self:setVisible(true)
+    local scene = display.newScene(self.name_)
+    scene:addChild(self)
+    display.pushScene(scene, transition, time, more)
     return self
 end
 

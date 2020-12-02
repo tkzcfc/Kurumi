@@ -118,11 +118,11 @@ public:
      */
     void setMaxConcurrentTask(const int max) {_maxConcurrentTask = max;};
 
-	void setVersionCompareLuaHandle(const LuaFunction& handle);
+	void setVersionCompareLuaHandle(int handle);
 
-	void setVerifyLuaCallback(const LuaFunction& handle);
+	void setVerifyLuaCallback(int handle);
 
-	void setUpdateDownloadFilePercentLuaCallback(const LuaFunction& handle);
+	void setUpdateDownloadFilePercentLuaCallback(int handle);
     
     /** @brief Set the handle function for comparing manifests versions
      * @param handle    The compare function

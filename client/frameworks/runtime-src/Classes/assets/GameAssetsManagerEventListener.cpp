@@ -51,7 +51,7 @@ GameAssetsManagerEventListener* GameAssetsManagerEventListener::create(GameAsset
     return ret;
 }
 
-GameAssetsManagerEventListener* GameAssetsManagerEventListener::create(GameAssetsManager* gameAssetsManager, const LuaFunction& handle)
+GameAssetsManagerEventListener* GameAssetsManagerEventListener::create(GameAssetsManager* gameAssetsManager, int handle)
 {
 	GameAssetsManagerEventListener* ret = new GameAssetsManagerEventListener();
 	if (ret && ret->init(gameAssetsManager, handle))
@@ -85,7 +85,7 @@ bool GameAssetsManagerEventListener::init(const GameAssetsManager *gameAssetsMan
     return ret;
 }
 
-bool GameAssetsManagerEventListener::init(const GameAssetsManager *gameAssetsManager, const LuaFunction& handle)
+bool GameAssetsManagerEventListener::init(const GameAssetsManager *gameAssetsManager, int handle)
 {
 	bool ret = false;
 
@@ -95,7 +95,6 @@ bool GameAssetsManagerEventListener::init(const GameAssetsManager *gameAssetsMan
 	auto func = [this](EventCustom *event) -> void
 	{
 		GameAssetsManagerEvent *eventAssetsManagerEx = dynamic_cast<GameAssetsManagerEvent*>(event);
-		
 		if (m_luaHandle.isvalid())
 		{
 			m_luaHandle.ppush();

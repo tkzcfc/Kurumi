@@ -61,7 +61,7 @@ public:
      */
     static GameAssetsManagerEventListener* create(GameAssetsManager *gameAssetsManager, const std::function<void(GameAssetsManagerEvent*)>& callback);
     
-	static GameAssetsManagerEventListener* create(GameAssetsManager* gameAssetsManager, const LuaFunction& handle);
+	static GameAssetsManagerEventListener* create(GameAssetsManager* gameAssetsManager, int handle);
 
     /// Overrides
     virtual bool checkAvailable() override;
@@ -74,7 +74,7 @@ CC_CONSTRUCTOR_ACCESS:
     /** Initializes event with type and callback function */
     bool init(const GameAssetsManager *gameAssetsManager, const std::function<void(GameAssetsManagerEvent*)>& callback);
 
-	bool init(const GameAssetsManager *gameAssetsManager, const LuaFunction& callback);
+	bool init(const GameAssetsManager *gameAssetsManager, int callback);
     
 protected:
     static const std::string LISTENER_ID;
