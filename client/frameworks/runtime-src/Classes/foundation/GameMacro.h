@@ -1,6 +1,31 @@
 #pragma once
 
+#include <assert.h>
+
+#ifdef COCOS2D_DEBUG
+#define G_TARGET_SERVER 0
+#define G_DEBUG COCOS2D_DEBUG
+#define G_LOG_I CCLOG
+#define G_LOG_W CCLOG
+#define G_LOG_E CCLOG
+#define G_LOG_F CCLOG
+#define G_ASSERT assert
+#else
+#define G_TARGET_SERVER 1
+#define G_DEBUG _DEBUG
+#define G_LOG_I(...) do {} while (0)
+#define G_LOG_W(...) do {} while (0)
+#define G_LOG_E(...) do {} while (0)
+#define G_LOG_F(...) do {} while (0)
+#define G_ASSERT assert
+#endif
+
+
+
+
 #include "cocos2d.h"
+#include <string>
+#include <unordered_map>
 
 using namespace cocos2d;
 

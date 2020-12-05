@@ -97,6 +97,24 @@
     <Filter Include="Classes\ext">
       <UniqueIdentifier>{e89ccd5f-c451-4d73-8e13-0ab722d33729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\foundation\math">
+      <UniqueIdentifier>{f0f9df3d-6c6b-42da-a539-b11f7a861565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\foundation\physics">
+      <UniqueIdentifier>{6b9665a6-54e7-4d51-b235-8cbcc0e1923a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs\utils">
+      <UniqueIdentifier>{7a3eb1c2-fe6b-4aaa-8fa9-0332c73ff8b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs\utils\physics">
+      <UniqueIdentifier>{787702de-faf7-4ce2-922d-2432ba9159a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\foundation\animator">
+      <UniqueIdentifier>{4bddeb0c-ef4a-49c3-ad7c-3256a063b951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\foundation\file">
+      <UniqueIdentifier>{b626e33d-9c88-44a7-9fca-516b2c6e37e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -230,29 +248,11 @@
     <ClInclude Include="..\Classes\ecs\anaxHelper.h">
       <Filter>Classes\ecs</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\Box2DSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\Box2DComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h">
       <Filter>Classes\ecs\components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\ArmatureCollisionSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\MapFollowComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\MapFollowSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\ecs\lua_ecs.h">
       <Filter>Classes\lua_modules\ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\OrientationComponent.h">
-      <Filter>Classes\ecs\components</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\FSM.h">
       <Filter>Classes\foundation</Filter>
@@ -263,29 +263,11 @@
     <ClInclude Include="..\Classes\foundation\GLES-Render.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\GameMap.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\GameWorld.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\foundation\GameMacro.h">
       <Filter>Classes\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\Actor.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\Character.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\UpdateComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\UpdateSystem.h">
-      <Filter>Classes\ecs\system</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\Box2DHelper.h">
       <Filter>Classes\foundation</Filter>
@@ -307,15 +289,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\assets\game_assets_tolua.h">
       <Filter>Classes\lua_modules\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\FilterComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\FilterSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\PropertyComponent.h">
-      <Filter>Classes\ecs\components</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\http\lua_http.hpp">
       <Filter>Classes\lua_modules\http</Filter>
@@ -340,6 +313,63 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GMath.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GArmature.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\math\GVec2.h">
+      <Filter>Classes\foundation\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\math\GMat2.h">
+      <Filter>Classes\foundation\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\math\GVec3.h">
+      <Filter>Classes\foundation\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\math\GMath.h">
+      <Filter>Classes\foundation\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\math\GMathCommon.h">
+      <Filter>Classes\foundation\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\math\GCollision.h">
+      <Filter>Classes\foundation\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\physics\GManifold.h">
+      <Filter>Classes\foundation\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\physics\GShape.h">
+      <Filter>Classes\foundation\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\BodyComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\physics\GShape.h">
+      <Filter>Classes\ecs\utils\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\PhysicsSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\ShapeComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\PhysicsUtils.h">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\physics\GBody.h">
+      <Filter>Classes\foundation\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\animator\GAnimData.h">
+      <Filter>Classes\foundation\animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\file\GFileUtiles.h">
+      <Filter>Classes\foundation\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\animator\GAnimCMD.h">
+      <Filter>Classes\foundation\animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -449,15 +479,6 @@
     <ClCompile Include="..\Classes\anax\src\anax\ClassReflect.cpp">
       <Filter>Classes\anax\src\anax</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\Box2DSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\ArmatureCollisionSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\MapFollowSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\ecs\lua_ecs.cpp">
       <Filter>Classes\lua_modules\ecs</Filter>
     </ClCompile>
@@ -467,26 +488,11 @@
     <ClCompile Include="..\Classes\foundation\GLES-Render.cpp">
       <Filter>Classes\foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\foundation\GameMap.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\foundation\GameWorld.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\Actor.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\Character.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ecs\anaxHelper.cpp">
       <Filter>Classes\ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\UpdateSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\Box2DHelper.cpp">
       <Filter>Classes\foundation</Filter>
@@ -509,9 +515,6 @@
     <ClCompile Include="..\Classes\lua_modules\assets\game_assets_tolua.cpp">
       <Filter>Classes\lua_modules\assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\FilterSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\http\lua_http.cpp">
       <Filter>Classes\lua_modules\http</Filter>
     </ClCompile>
@@ -526,6 +529,33 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ext\MyButton.cpp">
       <Filter>Classes\ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\math\GCollision.cpp">
+      <Filter>Classes\foundation\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\physics\GManifold.cpp">
+      <Filter>Classes\foundation\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\PhysicsUtils.cpp">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\physics\GBody.cpp">
+      <Filter>Classes\foundation\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\animator\GAnimData.cpp">
+      <Filter>Classes\foundation\animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\file\GFileUtiles.cpp">
+      <Filter>Classes\foundation\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\animator\GAnimCMD.cpp">
+      <Filter>Classes\foundation\animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

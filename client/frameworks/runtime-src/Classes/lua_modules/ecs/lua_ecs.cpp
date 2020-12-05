@@ -2614,4 +2614,5 @@
 
 #include "lua_ecs.h"
 TOLUA_API int luaopen_ecs(lua_State* tolua_S) {
+	return 0;
 };
