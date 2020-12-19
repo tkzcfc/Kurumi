@@ -32,8 +32,12 @@ GAnimData::~GAnimData()
 GAnimData::GAnimData()
 {}
 
-bool GAnimData::initWithFile(const std::string& file)
+bool GAnimData::initWithFile(const std::string& roleName)
 {
+	char szBuf[128];
+	sprintf(szBuf, "out_json/%s.json", roleName.c_str());
+
+	std::string file = szBuf;
 	std::string fileContent;
 	if (!GFileUtiles::readFileString(file, fileContent) || fileContent.empty())
 		return false;
@@ -55,30 +59,42 @@ bool GAnimData::initWithFile(const std::string& file)
 		return false;
 	}
 
+	json.HasMember("");
+	if (!json.HasMember("armatureName"))
+	{
+		G_LOG_E("'%s' no 'armatureName'\n", file.c_str());
+		return false;
+	}
+	auto armatureName = json.FindMember("armatureName");
+	if (!armatureName->value.IsString())
+	{
+		G_LOG_E("'%s' no 'armatureName'\n", file.c_str());
+		return false;
+	}
+	m_armatureName = armatureName->value.GetString();
+
 	m_names.resize(memberCount);
 	m_aniDatas.resize(memberCount);
 
 	uint32_t curIndex = 0;
 	uint32_t duration;
 	rapidjson::Value::MemberIterator member;
-	rapidjson::Value::MemberIterator for_it;
 	rapidjson::Value::MemberIterator for_mem;
-	rapidjson::Value::MemberIterator for_it_info;
 	for (auto it = json.MemberBegin(); it != json.MemberEnd(); ++it)
 	{
 		if (it->name.IsString())
 		{
+			auto& jsonData = it->value;
+			if (!jsonData.IsObject()) continue;
+
 			auto name = it->name.GetString();
 			m_names[curIndex] = name;
 
 			auto & aniData = m_aniDatas[curIndex];
 
 			curIndex++;
-
-			//
-			auto& jsonData = it->value;
-
-			G_ASSERT(json.HasMember("duration"));
+			
+			G_ASSERT(jsonData.HasMember("duration"));
 			member = jsonData.FindMember("duration");
 			duration = member->value.GetUint();
 
@@ -89,6 +105,7 @@ bool GAnimData::initWithFile(const std::string& file)
 			aniData.kfaabbs = new GKfAABB*[duration];
 			aniData.kfcollisions = new GKfCollisions*[duration];
 			aniData.events = new GKfEvent*[duration];
+			aniData.isLoop = false;
 
 			for (uint32_t i = 0; i < duration; ++i)
 			{
@@ -97,17 +114,24 @@ bool GAnimData::initWithFile(const std::string& file)
 				aniData.events[i] = NULL;
 			}
 
+			if (jsonData.HasMember("loop"))
+			{
+				member = jsonData.FindMember("loop");
+				aniData.isLoop = member->value.IsTrue();
+			}
+
 			if (jsonData.HasMember("events"))
 			{
 				member = jsonData.FindMember("events");
-				for (auto for_it = member->value.MemberBegin(); for_it != member->value.MemberEnd(); ++for_it)
+				for (uint32_t i = 0; i < member->value.Size(); ++i)
 				{
-					G_ASSERT(for_it->value.HasMember("i"));
-					for_mem = for_it->value.FindMember("i");
+					auto& tmpValue = member->value[i];
+					G_ASSERT(tmpValue.HasMember("i"));
+					for_mem = tmpValue.FindMember("i");
 					uint32_t frame = for_mem->value.GetUint();
 					if (frame < duration)
 					{
-						for_mem = for_it->value.FindMember("name");
+						for_mem = tmpValue.FindMember("name");
 						if (aniData.events[frame] == NULL)
 							aniData.events[frame] = new GKfEvent();
 						aniData.events[frame]->names.push_back(for_mem->value.GetString());
@@ -122,10 +146,11 @@ bool GAnimData::initWithFile(const std::string& file)
 			if (jsonData.HasMember("aabbs"))
 			{
 				member = jsonData.FindMember("aabbs");
-				for (auto for_it = member->value.MemberBegin(); for_it != member->value.MemberEnd(); ++for_it)
+				for (uint32_t i = 0; i < member->value.Size(); ++i)
 				{
-					G_ASSERT(for_it->value.HasMember("i"));
-					for_mem = for_it->value.FindMember("i");
+					auto& tmpValue = member->value[i];
+					G_ASSERT(tmpValue.HasMember("i"));
+					for_mem = tmpValue.FindMember("i");
 					uint32_t frame = for_mem->value.GetUint();
 					if (frame < duration)
 					{
@@ -133,20 +158,20 @@ bool GAnimData::initWithFile(const std::string& file)
 						{
 							auto aabb = new GKfAABB();
 
-							G_ASSERT(for_it->value.HasMember("x"));
-							for_mem = for_it->value.FindMember("x");
+							G_ASSERT(tmpValue.HasMember("x"));
+							for_mem = tmpValue.FindMember("x");
 							aabb->x = (float32)for_mem->value.GetDouble();
 
-							G_ASSERT(for_it->value.HasMember("y"));
-							for_mem = for_it->value.FindMember("y");
+							G_ASSERT(tmpValue.HasMember("y"));
+							for_mem = tmpValue.FindMember("y");
 							aabb->y = (float32)for_mem->value.GetDouble();
 
-							G_ASSERT(for_it->value.HasMember("w"));
-							for_mem = for_it->value.FindMember("w");
+							G_ASSERT(tmpValue.HasMember("w"));
+							for_mem = tmpValue.FindMember("w");
 							aabb->w = (float32)for_mem->value.GetDouble();
 
-							G_ASSERT(for_it->value.HasMember("h"));
-							for_mem = for_it->value.FindMember("h");
+							G_ASSERT(tmpValue.HasMember("h"));
+							for_mem = tmpValue.FindMember("h");
 							aabb->h = (float32)for_mem->value.GetDouble();
 
 							aniData.kfaabbs[frame] = aabb;
@@ -166,24 +191,27 @@ bool GAnimData::initWithFile(const std::string& file)
 			if (jsonData.HasMember("collisions"))
 			{
 				member = jsonData.FindMember("collisions");
-				for (auto for_it = member->value.MemberBegin(); for_it != member->value.MemberEnd(); ++for_it)
+				for (uint32_t i = 0; i < member->value.Size(); ++i)
 				{
-					G_ASSERT(for_it->value.HasMember("i"));
-					for_mem = for_it->value.FindMember("i");
+					auto& tmpValue = member->value[i];
+					G_ASSERT(tmpValue.HasMember("i"));
+					for_mem = tmpValue.FindMember("i");
 					uint32_t frame = for_mem->value.GetUint();
 					if (frame < duration)
 					{
-						G_ASSERT(for_it->value.HasMember("infos"));
-						for_mem = for_it->value.FindMember("infos");
+						G_ASSERT(tmpValue.HasMember("infos"));
+						for_mem = tmpValue.FindMember("infos");
 						if (!for_mem->value.Empty())
 						{
 							if (aniData.kfcollisions[frame] == NULL)
 							{
 								auto collisions = new GKfCollisions();
-								for (auto for_it_info = for_mem->value.MemberBegin(); for_it_info != for_mem->value.MemberEnd(); ++for_it_info)
+								
+								for(uint32_t info_i = 0; info_i < for_mem->value.Size(); ++info_i)
 								{
-									G_ASSERT(for_it_info->value.HasMember("name"));
-									auto tmp = for_it_info->value.FindMember("name");
+									auto& tmpInfo = for_mem->value[info_i];
+									G_ASSERT(tmpInfo.HasMember("name"));
+									auto tmp = tmpInfo.FindMember("name");
 									auto rtype = getRectType(tmp->value.GetString());
 									if (rtype != kAniRectType::RECT_COUNT)
 									{
@@ -195,39 +223,39 @@ bool GAnimData::initWithFile(const std::string& file)
 										{
 											auto rect = new GAniRect();
 
-											G_ASSERT(for_it_info->value.HasMember("x1"));
-											tmp = for_it_info->value.FindMember("x1");
+											G_ASSERT(tmpInfo.HasMember("x1"));
+											tmp = tmpInfo.FindMember("x1");
 											rect->v[0].x = (float32)tmp->value.GetDouble();
 
-											G_ASSERT(for_it_info->value.HasMember("y1"));
-											tmp = for_it_info->value.FindMember("y1");
+											G_ASSERT(tmpInfo.HasMember("y1"));
+											tmp = tmpInfo.FindMember("y1");
 											rect->v[0].y = (float32)tmp->value.GetDouble();
 
 
-											G_ASSERT(for_it_info->value.HasMember("x2"));
-											tmp = for_it_info->value.FindMember("x2");
+											G_ASSERT(tmpInfo.HasMember("x2"));
+											tmp = tmpInfo.FindMember("x2");
 											rect->v[1].x = (float32)tmp->value.GetDouble();
 
-											G_ASSERT(for_it_info->value.HasMember("y2"));
-											tmp = for_it_info->value.FindMember("y2");
+											G_ASSERT(tmpInfo.HasMember("y2"));
+											tmp = tmpInfo.FindMember("y2");
 											rect->v[1].y = (float32)tmp->value.GetDouble();
 
 
-											G_ASSERT(for_it_info->value.HasMember("x3"));
-											tmp = for_it_info->value.FindMember("x3");
+											G_ASSERT(tmpInfo.HasMember("x3"));
+											tmp = tmpInfo.FindMember("x3");
 											rect->v[2].x = (float32)tmp->value.GetDouble();
 
-											G_ASSERT(for_it_info->value.HasMember("y3"));
-											tmp = for_it_info->value.FindMember("y3");
+											G_ASSERT(tmpInfo.HasMember("y3"));
+											tmp = tmpInfo.FindMember("y3");
 											rect->v[2].y = (float32)tmp->value.GetDouble();
 
 
-											G_ASSERT(for_it_info->value.HasMember("x4"));
-											tmp = for_it_info->value.FindMember("x4");
+											G_ASSERT(tmpInfo.HasMember("x4"));
+											tmp = tmpInfo.FindMember("x4");
 											rect->v[3].x = (float32)tmp->value.GetDouble();
 
-											G_ASSERT(for_it_info->value.HasMember("y4"));
-											tmp = for_it_info->value.FindMember("y4");
+											G_ASSERT(tmpInfo.HasMember("y4"));
+											tmp = tmpInfo.FindMember("y4");
 											rect->v[3].y = (float32)tmp->value.GetDouble();
 
 											collisions->rect[rtype] = rect;
@@ -266,10 +294,13 @@ const std::vector<std::string>& GAnimData::names()
 
 GAnimationData* GAnimData::getAniData(const std::string& aniName)
 {
+	if (aniName.empty())
+		return NULL;
+
 	int32_t index = -1;
 	for (uint32_t i = 0; i < m_names.size(); ++i)
 	{
-		if (m_names[i].compare(aniName) == 0)
+		if (m_names[i] == aniName)
 		{
 			index = i;
 			break;
@@ -278,6 +309,11 @@ GAnimationData* GAnimData::getAniData(const std::string& aniName)
 	if (index < 0) return NULL;
 
 	return &m_aniDatas[index];
+}
+
+const std::string& GAnimData::getArmatureName()
+{
+	return m_armatureName;
 }
 
 
@@ -318,18 +354,18 @@ GAnimDataCache::~GAnimDataCache()
 	m_aniDataCache.clear();
 }
 
-GAnimData* GAnimDataCache::getOrCreate(const std::string& filename)
+GAnimData* GAnimDataCache::getOrCreate(const std::string& roleName)
 {
-	auto it = m_aniDataCache.find(filename);
+	auto it = m_aniDataCache.find(roleName);
 	if (it != m_aniDataCache.end())
 	{
 		return it->second;
 	}
 
-	GAnimData* data = GAnimData::create(filename);
+	GAnimData* data = GAnimData::create(roleName);
 	G_ASSERT(data != NULL);
 
-	m_aniDataCache[filename] = data;
+	m_aniDataCache[roleName] = data;
 
 	return data;
 }

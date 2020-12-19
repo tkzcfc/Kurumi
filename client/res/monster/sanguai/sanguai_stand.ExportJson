@@ -1,0 +1,3623 @@
+{
+  "content_scale": 1.0,
+  "armature_data": [
+    {
+      "strVersion": "1.2.0.1",
+      "version": 1.201,
+      "name": "sanguai_stand",
+      "bone_data": [
+        {
+          "name": "RECT_HIT",
+          "parent": "",
+          "x": -0.80879867076873779,
+          "y": -2000.0,
+          "z": 54,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 3.1590461730957031E-05,
+          "arrow_y": 3.5122095141559839E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "rect_hurt.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": -0.9411926,
+                  "y": -1.01678467,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RECT_ATK_B",
+          "parent": "",
+          "x": -64.446037292480469,
+          "y": -2000.25,
+          "z": 53,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": -2.7298927307128906E-05,
+          "arrow_y": -4.0227314457297325E-07,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "rect_attack_b.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": -0.470611572,
+                  "y": 0.4537964,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RECT_ATK_A",
+          "parent": "",
+          "x": 62.083343505859375,
+          "y": -2000.5833740234375,
+          "z": 52,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "rect_attack_a.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": -1.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer16",
+          "parent": "",
+          "x": 40.5,
+          "y": -8.32666015625,
+          "z": 51,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "plist": "sanguai_yan1.plist",
+              "displayType": 2
+            }
+          ]
+        },
+        {
+          "name": "Layer15",
+          "parent": "",
+          "x": 386.9232177734375,
+          "y": 0.671800971031189,
+          "z": 50,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao7.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer14",
+          "parent": "",
+          "x": 335.38473510742188,
+          "y": 136.82571411132813,
+          "z": 49,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao6.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer13",
+          "parent": "",
+          "x": 113.84620666503906,
+          "y": 127.59492492675781,
+          "z": 48,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer10",
+          "parent": "",
+          "x": 62.0,
+          "y": 275.87335205078125,
+          "z": 47,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer9",
+          "parent": "",
+          "x": 322.0,
+          "y": 206.87335205078125,
+          "z": 46,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer2",
+          "parent": "",
+          "x": 49.0,
+          "y": 127.87335205078125,
+          "z": 45,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer1",
+          "parent": "",
+          "x": -65.0,
+          "y": 116.87335205078125,
+          "z": 44,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer12",
+          "parent": "",
+          "x": 106.66667175292969,
+          "y": 343.12225341796875,
+          "z": 43,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.6632251,
+          "kY": -0.6632251,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_shenti2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer11",
+          "parent": "",
+          "x": 352.0,
+          "y": 187.87335205078125,
+          "z": 42,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer7",
+          "parent": "",
+          "x": 167.5001220703125,
+          "y": 181.09185791015625,
+          "z": 41,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer6",
+          "parent": "",
+          "x": 162.50013732910156,
+          "y": 204.84188842773438,
+          "z": 40,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer5",
+          "parent": "",
+          "x": 138.57147216796875,
+          "y": 159.19529724121094,
+          "z": 39,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao7",
+          "parent": "",
+          "x": 169.16668701171875,
+          "y": 151.61390686035156,
+          "z": 38,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao7.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao6",
+          "parent": "",
+          "x": 74.166671752929688,
+          "y": 184.53057861328125,
+          "z": 37,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao6.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao5",
+          "parent": "",
+          "x": 101.5,
+          "y": 104.93666076660156,
+          "z": 36,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_san1",
+          "parent": "",
+          "x": -17.475795745849609,
+          "y": 176.49710083007813,
+          "z": 35,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0174532924,
+          "kY": -0.0174532924,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer28",
+          "parent": "",
+          "x": -10.152314186096191,
+          "y": 121.22196197509766,
+          "z": 30,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -1.48259044,
+          "kY": 1.48259044,
+          "arrow_x": 46.116806030273438,
+          "arrow_y": 5.1107585932186339E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_qugan1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 25.5206146,
+                  "y": -2.02466774,
+                  "cX": 0.9999999,
+                  "cY": 0.9999999,
+                  "kX": 1.48259044,
+                  "kY": -1.482591
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer24",
+          "parent": "Layer28",
+          "x": 37.2462272644043,
+          "y": -6.1176290512084961,
+          "z": 32,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 2.95565987,
+          "kY": -2.95565987,
+          "arrow_x": 32.027851104736328,
+          "arrow_y": -5.9397370932856575E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_shoubi1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 20.79515,
+                  "y": 1.46458435,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.47306931,
+                  "kY": 1.47306848
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer25",
+          "parent": "Layer24",
+          "x": 31.375328063964844,
+          "y": -0.2500368058681488,
+          "z": 33,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -1.49193513,
+          "kY": 1.49193513,
+          "arrow_x": 33.130928039550781,
+          "arrow_y": 1.769513801264111E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_shoubi2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.2092876,
+                  "y": -6.158615,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.106132388,
+                  "kY": -0.106132314
+                }
+              ]
+            },
+            {
+              "name": "sanguai_shoubi3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.2092876,
+                  "y": -6.158615,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.106132388,
+                  "kY": -0.106132388
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer27",
+          "parent": "Layer25",
+          "x": 31.898727416992188,
+          "y": 0.96093875169754028,
+          "z": 34,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.491622627,
+          "kY": 0.491622627,
+          "arrow_x": 17.908201217651367,
+          "arrow_y": -8.7205007730517536E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_shou1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 11.0103836,
+                  "y": -0.5598755,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.301049,
+                  "kY": -0.301048934
+                }
+              ]
+            },
+            {
+              "name": "sanguai_shou2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 11.0103836,
+                  "y": -0.5598755,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.301049,
+                  "kY": -0.301049
+                }
+              ]
+            },
+            {
+              "name": "sanguai_shou3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 11.0103836,
+                  "y": -0.5598755,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.301049,
+                  "kY": -0.301049
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer31",
+          "parent": "Layer28",
+          "x": -6.0490147006930783E-06,
+          "y": 5.6452812714269385E-05,
+          "z": 31,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 2.84065485,
+          "kY": -2.84065485,
+          "arrow_x": 39.96337890625,
+          "arrow_y": 1.338966831099242E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_qunzi.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 21.64569,
+                  "y": 8.213357,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.30570424,
+                  "kY": 1.30570519
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer44",
+          "parent": "Layer31",
+          "x": 12.645266532897949,
+          "y": 7.4001774787902832,
+          "z": 25,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.250915647,
+          "kY": 0.250915647,
+          "arrow_x": 37.267807006835938,
+          "arrow_y": -1.7743291209626477E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_kuzi2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 31.8777,
+                  "y": -0.9998398,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.10714829,
+                  "kY": 1.10715
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer30",
+          "parent": "Layer44",
+          "x": 34.407291412353516,
+          "y": -2.5020511150360107,
+          "z": 10,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.463647485,
+          "kY": -0.463647485,
+          "arrow_x": 31.081069946289062,
+          "arrow_y": -2.1914640910836169E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 18.1235886,
+                  "y": 1.52587891E-05,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 4.712389,
+                  "kY": 1.57079637
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer34",
+          "parent": "Layer30",
+          "x": 31.081090927124023,
+          "y": 0.27028155326843262,
+          "z": 8,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.109792829,
+          "kY": -0.109792829,
+          "arrow_x": 34.532241821289062,
+          "arrow_y": -4.1203866203431971E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui6.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.1873569,
+                  "y": -1.83772278,
+                  "cX": 1.00000012,
+                  "cY": 1.00000012,
+                  "kX": -1.558416,
+                  "kY": 1.55841637
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer35",
+          "parent": "Layer34",
+          "x": 35.695751190185547,
+          "y": -0.68748694658279419,
+          "z": 7,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -1.50073576,
+          "kY": 1.50073576,
+          "arrow_x": 18.130281448364258,
+          "arrow_y": 1.3926648534834385E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_jiao7.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 7.743454,
+                  "y": 0.192184448,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.471397,
+                  "kY": 1.47139716
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao6.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 7.743454,
+                  "y": 0.192184448,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.471397,
+                  "kY": 1.471397
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer37",
+          "parent": "Layer35",
+          "x": 14.165804862976074,
+          "y": 0.65269845724105835,
+          "z": 9,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.1798535,
+          "kY": 0.1798535,
+          "arrow_x": -9.5367431640625E-07,
+          "arrow_y": 6.5215863287448883E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_daizi.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": -0.270278931,
+                  "y": 2.16216278,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer38",
+          "parent": "Layer35",
+          "x": 0.5076410174369812,
+          "y": -7.3246607780456543,
+          "z": 6,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.0772736445,
+          "kY": 0.0772736445,
+          "arrow_x": 18.475517272949219,
+          "arrow_y": 1.8216553144156933E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_xiezi.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 7.551819,
+                  "y": 1.65276337,
+                  "cX": 1.2,
+                  "cY": 1.0999999,
+                  "kX": -0.102579713,
+                  "kY": 0.102579869
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer32",
+          "parent": "Layer31",
+          "x": 12.929576873779297,
+          "y": -8.2278461456298828,
+          "z": 24,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.184961319,
+          "kY": -0.184961319,
+          "arrow_x": 33.763019561767578,
+          "arrow_y": 3.5189875688956818E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_kuzi1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 30.07161,
+                  "y": 0.409275055,
+                  "cX": 1.00000012,
+                  "cY": 1.00000012,
+                  "kX": -1.54302561,
+                  "kY": 1.54302561
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer30_Copy49",
+          "parent": "Layer32",
+          "x": 31.94352912902832,
+          "y": -1.711113452911377,
+          "z": 5,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0277706385,
+          "kY": -0.0277706385,
+          "arrow_x": 31.081069946289062,
+          "arrow_y": -2.1914640910836169E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 17.334116,
+                  "y": -2.10524845,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 4.712389,
+                  "kY": 1.57079637
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer34_Copy53",
+          "parent": "Layer30_Copy49",
+          "x": 29.291597366333008,
+          "y": -1.7823318243026733,
+          "z": 4,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.109792709,
+          "kY": -0.109792709,
+          "arrow_x": 34.532241821289062,
+          "arrow_y": -4.1203866203431971E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui6.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.1873569,
+                  "y": -1.83772278,
+                  "cX": 1.00000012,
+                  "cY": 1.00000012,
+                  "kX": -1.558416,
+                  "kY": 1.55841637
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer35_Copy51",
+          "parent": "Layer34_Copy53",
+          "x": 37.422542572021484,
+          "y": -0.020578218623995781,
+          "z": 2,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -1.50073588,
+          "kY": 1.50073588,
+          "arrow_x": 18.130281448364258,
+          "arrow_y": 1.3926648534834385E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_jiao7.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 7.743454,
+                  "y": 0.192184448,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.471397,
+                  "kY": 1.47139716
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao6.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 7.743454,
+                  "y": 0.192184448,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.471397,
+                  "kY": 1.471397
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer37_Copy50",
+          "parent": "Layer35_Copy51",
+          "x": 14.001015663146973,
+          "y": 0.087796986103057861,
+          "z": 3,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.17985338,
+          "kY": 0.17985338,
+          "arrow_x": -9.5367431640625E-07,
+          "arrow_y": 6.5215863287448883E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_daizi.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": -0.270278931,
+                  "y": 2.16216278,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer38_Copy52",
+          "parent": "Layer35_Copy51",
+          "x": 2.1081802845001221,
+          "y": -7.3011064529418945,
+          "z": 1,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.0772735253,
+          "kY": 0.0772735253,
+          "arrow_x": 18.475517272949219,
+          "arrow_y": 1.8216553144156933E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_xiezi.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 6.531667,
+                  "y": 1.28319943,
+                  "cX": 1.2,
+                  "cY": 1.0999999,
+                  "kX": -0.102579713,
+                  "kY": 0.102579869
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer29",
+          "parent": "Layer28",
+          "x": 47.050651550292969,
+          "y": 0.082643337547779083,
+          "z": 29,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.476698518,
+          "kY": -0.476698518,
+          "arrow_x": 52.5372200012207,
+          "arrow_y": 3.2568514143349603E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tou1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.68222,
+                  "y": 0.228256226,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 1.00589144,
+                  "kY": -1.00589156
+                }
+              ]
+            },
+            {
+              "name": "sanguai_tou2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.68222,
+                  "y": 0.228256226,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 1.00589144,
+                  "kY": -1.00589144
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao4",
+          "parent": "",
+          "x": 90.5,
+          "y": 115.93666076660156,
+          "z": 28,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao3",
+          "parent": "",
+          "x": 117.0,
+          "y": 86.436660766601562,
+          "z": 27,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao1",
+          "parent": "",
+          "x": 45.112644195556641,
+          "y": 124.79832458496094,
+          "z": 26,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.122173049,
+          "kY": -0.122173049,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer40",
+          "parent": "",
+          "x": -14.514545440673828,
+          "y": 83.330039978027344,
+          "z": 23,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 1.52734542,
+          "kY": -1.52734542,
+          "arrow_x": 26.769449234008789,
+          "arrow_y": 1.1111467756563798E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.2257843,
+                  "y": 0.299428,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.5273453,
+                  "kY": 1.52734566
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer41",
+          "parent": "Layer40",
+          "x": 26.314617156982422,
+          "y": 0.25255298614501953,
+          "z": 17,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0365065336,
+          "kY": -0.0365065336,
+          "arrow_x": 33.489189147949219,
+          "arrow_y": -2.4772209599177586E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 15.5927658,
+                  "y": -1.5771246,
+                  "cX": 1.00000012,
+                  "cY": 1.00000012,
+                  "kX": -1.563852,
+                  "kY": 1.56385159
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer43",
+          "parent": "Layer41",
+          "x": 32.781776428222656,
+          "y": 0.0782661885023117,
+          "z": 18,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.00694429874,
+          "kY": -0.00694429874,
+          "arrow_x": 16.666669845581055,
+          "arrow_y": -1.2741756108880509E-05,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_jiao5.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 6.93102646,
+                  "y": -0.8557596,
+                  "cX": 0.99999994,
+                  "cY": 0.99999994,
+                  "kX": -1.22173035,
+                  "kY": 1.22173059
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 6.93102646,
+                  "y": -0.8557596,
+                  "cX": 0.99999994,
+                  "cY": 0.99999994,
+                  "kX": -1.22173035,
+                  "kY": 1.22173035
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 6.93102646,
+                  "y": -0.8557596,
+                  "cX": 0.99999994,
+                  "cY": 0.99999994,
+                  "kX": -1.22173035,
+                  "kY": 1.22173035
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer45",
+          "parent": "",
+          "x": 15.135402679443359,
+          "y": 83.858467102050781,
+          "z": 21,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 1.01308751,
+          "kY": -1.01308751,
+          "arrow_x": 30.522514343261719,
+          "arrow_y": 2.8136028049630113E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 14.2579727,
+                  "y": 0.115459442,
+                  "cX": 0.99999994,
+                  "cY": 0.99999994,
+                  "kX": -0.437128663,
+                  "kY": 0.4371289
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer46",
+          "parent": "Layer45",
+          "x": 30.4688663482666,
+          "y": -0.57094109058380127,
+          "z": 22,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 1.05090451,
+          "kY": -1.05090451,
+          "arrow_x": 23.288200378417969,
+          "arrow_y": 2.7870009944308549E-07,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_tui4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 11.8843689,
+                  "y": -4.890293,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.40076673,
+                  "kY": 1.40076685
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer47",
+          "parent": "Layer46",
+          "x": 26.517990112304688,
+          "y": -0.59290152788162231,
+          "z": 20,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.579401255,
+          "kY": 0.579401255,
+          "arrow_x": 20.846645355224609,
+          "arrow_y": 2.6928264560410753E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "sanguai_jiao3.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 10.0705109,
+                  "y": -2.8950386,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.48459065,
+                  "kY": 1.48459089
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 10.0705109,
+                  "y": -2.8950386,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -1.48459065,
+                  "kY": 1.48459065
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_jiao2",
+          "parent": "",
+          "x": 15.925519943237305,
+          "y": 11.501686096191406,
+          "z": 19,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.05235988,
+          "kY": 0.05235988,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_jiao4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_dao2",
+          "parent": "",
+          "x": -47.750160217285156,
+          "y": 117.31252288818359,
+          "z": 16,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.17453292,
+          "kY": -0.17453292,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer4",
+          "parent": "",
+          "x": 97.692352294921875,
+          "y": 295.287109375,
+          "z": 15,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_shenti1.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Layer8",
+          "parent": "",
+          "x": 70.000015258789062,
+          "y": 142.21034240722656,
+          "z": 14,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_dao4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "yingzi",
+          "parent": "",
+          "x": 37.692314147949219,
+          "y": 322.97940063476562,
+          "z": 13,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_shenti2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_san2",
+          "parent": "",
+          "x": -2.3447494506835938,
+          "y": 162.36659240722656,
+          "z": 12,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 0.0,
+          "kY": 0.0,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_san2.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sanguai_jiao2_Copy63",
+          "parent": "",
+          "x": 15.925519943237305,
+          "y": 11.501686096191406,
+          "z": 11,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": -0.05235988,
+          "kY": 0.05235988,
+          "arrow_x": 0.0,
+          "arrow_y": 0.0,
+          "effectbyskeleton": false,
+          "display_data": [
+            {
+              "name": "sanguai_jiao4.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "animation_data": [
+    {
+      "name": "sanguai_stand",
+      "mov_data": [
+        {
+          "name": "fstand",
+          "dr": 80,
+          "lp": true,
+          "to": 0,
+          "drTW": 0,
+          "twE": 0,
+          "sc": 1.0,
+          "mov_bone_data": [
+            {
+              "name": "RECT_HIT",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": -4.6153836250305176,
+                  "y": 2143.846923828125,
+                  "z": 0,
+                  "cX": 2.69999957,
+                  "cY": 4.29999828,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": -4.6153836250305176,
+                  "y": 2143.846923828125,
+                  "z": 0,
+                  "cX": 2.69999957,
+                  "cY": 4.29999828,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                }
+              ]
+            },
+            {
+              "name": "sanguai_san1",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -4.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer27",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0349065848,
+                  "kY": -0.0349065848,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0048370361328125,
+                  "y": 0.2563629150390625,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.06981317,
+                  "kY": -0.06981317,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0349065848,
+                  "kY": -0.0349065848,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer25",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer24",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer31",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer28",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -4.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer29",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "sanguai_dao1",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -3.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.05235988,
+                  "kY": -0.05235988,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -5.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.104719758,
+                  "kY": -0.104719758,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -3.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.05235988,
+                  "kY": -0.05235988,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer44",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer32",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer40",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -4.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer46",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0349065848,
+                  "kY": -0.0349065848,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.104719758,
+                  "kY": -0.104719758,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0349065848,
+                  "kY": -0.0349065848,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer45",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -1.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -0.0174532924,
+                  "kY": 0.0174532924,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -3.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -0.0349065848,
+                  "kY": 0.0349065848,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -1.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -0.0174532924,
+                  "kY": 0.0174532924,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Layer47",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": -0.22369384765625,
+                  "y": -0.1253204345703125,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -0.0174532924,
+                  "kY": 0.0174532924,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": -1.357879638671875,
+                  "y": -0.2506103515625,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -0.06981317,
+                  "kY": 0.06981317,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": -0.22369384765625,
+                  "y": -0.1253204345703125,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": -0.0174532924,
+                  "kY": 0.0174532924,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "sanguai_jiao2",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer43",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": -1.0256118774414063,
+                  "y": 0.0071258544921875,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": -1.0256118774414063,
+                  "y": 0.0071258544921875,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": -1.0256118774414063,
+                  "y": 0.0071258544921875,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "Layer41",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": -0.5123291015625,
+                  "y": 0.02227783203125,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": -1.5369720458984375,
+                  "y": 0.06683349609375,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": -3.33013916015625,
+                  "y": 0.144805908203125,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": -1.5369720458984375,
+                  "y": 0.06683349609375,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                },
+                {
+                  "dI": 0,
+                  "x": -0.5123291015625,
+                  "y": 0.02227783203125,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "color": {
+                    "a": 255,
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                  }
+                }
+              ]
+            },
+            {
+              "name": "sanguai_dao2",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.05235988,
+                  "kY": -0.05235988,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.25640869140625,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.104719758,
+                  "kY": -0.104719758,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.05235988,
+                  "kY": -0.05235988,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            },
+            {
+              "name": "sanguai_san2",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -4.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 40,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": -2.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 60,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 79,
+                  "twE": 0,
+                  "tweenFrame": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "texture_data": [
+    {
+      "name": "ditu",
+      "width": 209.0,
+      "height": 301.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao1",
+      "width": 54.0,
+      "height": 23.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_san1",
+      "width": 125.0,
+      "height": 204.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tou1",
+      "width": 94.0,
+      "height": 92.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_qugan1",
+      "width": 41.0,
+      "height": 58.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_qunzi",
+      "width": 58.0,
+      "height": 50.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_kuzi1",
+      "width": 30.0,
+      "height": 19.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_kuzi2",
+      "width": 38.0,
+      "height": 24.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tui2",
+      "width": 24.0,
+      "height": 24.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tui3",
+      "width": 39.0,
+      "height": 29.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tui4",
+      "width": 23.0,
+      "height": 30.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao3",
+      "width": 19.0,
+      "height": 29.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao4",
+      "width": 27.0,
+      "height": 23.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tui1",
+      "width": 31.0,
+      "height": 36.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao5",
+      "width": 28.0,
+      "height": 32.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shoubi1",
+      "width": 24.0,
+      "height": 46.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shoubi2",
+      "width": 38.0,
+      "height": 50.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shou1",
+      "width": 23.0,
+      "height": 18.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao2",
+      "width": 119.0,
+      "height": 72.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_san2",
+      "width": 108.0,
+      "height": 51.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao1",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao2",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao4",
+      "width": 62.0,
+      "height": 19.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shou2",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao3",
+      "width": 21.0,
+      "height": 26.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao5",
+      "width": 124.0,
+      "height": 128.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao6",
+      "width": 158.0,
+      "height": 157.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_dao7",
+      "width": 196.0,
+      "height": 224.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shoubi3",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tou2",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shou3",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shenti2",
+      "width": 200.0,
+      "height": 213.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_shenti1",
+      "width": 219.0,
+      "height": 244.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_san4",
+      "width": 48.0,
+      "height": 162.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_san5",
+      "width": 147.0,
+      "height": 189.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_san3",
+      "width": 168.0,
+      "height": 155.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "rect_attack_a",
+      "width": 64.0,
+      "height": 64.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": "rect_collide.plist"
+    },
+    {
+      "name": "rect_attack_b",
+      "width": 64.0,
+      "height": 64.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": "rect_collide.plist"
+    },
+    {
+      "name": "rect_hurt",
+      "width": 64.0,
+      "height": 64.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": "rect_collide.plist"
+    },
+    {
+      "name": "sanguai_tui5",
+      "width": 21.0,
+      "height": 40.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_tui6",
+      "width": 20.0,
+      "height": 34.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_xiezi",
+      "width": 27.0,
+      "height": 17.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao7",
+      "width": 22.0,
+      "height": 28.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_daizi",
+      "width": 9.0,
+      "height": 18.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    },
+    {
+      "name": "sanguai_jiao6",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    }
+  ],
+  "config_file_path": [
+    "rect_collide.plist",
+    "sanguai0.plist"
+  ]
+}

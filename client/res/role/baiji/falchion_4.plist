@@ -7,158 +7,158 @@
             <key>daob4_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,440},{16,66}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{16,66}}</string>
-                <key>sourceSize</key>
-                <string>{16,66}</string>
-            </dict>
-            <key>daos4_1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{20,440},{65,191}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{65,191}}</string>
-                <key>sourceSize</key>
-                <string>{65,191}</string>
-            </dict>
-            <key>daos4_2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,221},{81,217}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{81,217}}</string>
-                <key>sourceSize</key>
-                <string>{81,217}</string>
-            </dict>
-            <key>daos4_3.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{85,2},{53,117}}</string>
-                <key>offset</key>
-                <string>{2,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{4,1},{53,117}}</string>
-                <key>sourceSize</key>
-                <string>{57,119}</string>
-            </dict>
-            <key>daos4_4.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{213,2},{51,204}}</string>
-                <key>offset</key>
-                <string>{2,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{4,1},{51,204}}</string>
-                <key>sourceSize</key>
-                <string>{55,206}</string>
-            </dict>
-            <key>daos4_5.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,2},{81,217}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,1},{81,217}}</string>
-                <key>sourceSize</key>
-                <string>{81,219}</string>
-            </dict>
-            <key>daos4_6.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{419,2},{72,162}}</string>
-                <key>offset</key>
-                <string>{-1,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{72,162}}</string>
-                <key>sourceSize</key>
-                <string>{76,164}</string>
-            </dict>
-            <key>daos4_d1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{213,167},{54,129}}</string>
-                <key>offset</key>
-                <string>{1,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{3,1},{54,129}}</string>
-                <key>sourceSize</key>
-                <string>{58,131}</string>
-            </dict>
-            <key>daos4_d2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{213,55},{56,147}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{56,147}}</string>
-                <key>sourceSize</key>
-                <string>{56,147}</string>
-            </dict>
-            <key>daos4_d4.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{213,113},{52,141}}</string>
-                <key>offset</key>
-                <string>{6,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{12,0},{52,141}}</string>
-                <key>sourceSize</key>
-                <string>{64,141}</string>
-            </dict>
-            <key>daos4_d5.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{362,55},{55,146}}</string>
+                <string>{{225,2},{20,63}}</string>
                 <key>offset</key>
                 <string>{0,-1}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,2},{55,146}}</string>
+                <string>{{0,2},{20,63}}</string>
                 <key>sourceSize</key>
-                <string>{55,148}</string>
+                <string>{20,65}</string>
+            </dict>
+            <key>daos4_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,205},{56,186}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{56,186}}</string>
+                <key>sourceSize</key>
+                <string>{56,186}</string>
+            </dict>
+            <key>daos4_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,85},{81,221}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{81,221}}</string>
+                <key>sourceSize</key>
+                <string>{81,221}</string>
+            </dict>
+            <key>daos4_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{208,299},{35,92}}</string>
+                <key>offset</key>
+                <string>{0,1}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{35,92}}</string>
+                <key>sourceSize</key>
+                <string>{35,94}</string>
+            </dict>
+            <key>daos4_4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,168},{35,205}}</string>
+                <key>offset</key>
+                <string>{0,2}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{35,205}}</string>
+                <key>sourceSize</key>
+                <string>{35,209}</string>
+            </dict>
+            <key>daos4_5.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{81,221}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{81,221}}</string>
+                <key>sourceSize</key>
+                <string>{81,221}</string>
+            </dict>
+            <key>daos4_6.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{39,385},{83,144}}</string>
+                <key>offset</key>
+                <string>{0,2}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{83,144}}</string>
+                <key>sourceSize</key>
+                <string>{83,148}</string>
+            </dict>
+            <key>daos4_d1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,385},{35,121}}</string>
+                <key>offset</key>
+                <string>{0,2}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{35,121}}</string>
+                <key>sourceSize</key>
+                <string>{35,125}</string>
+            </dict>
+            <key>daos4_d2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,263},{56,151}}</string>
+                <key>offset</key>
+                <string>{0,-1}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,2},{56,151}}</string>
+                <key>sourceSize</key>
+                <string>{56,153}</string>
+            </dict>
+            <key>daos4_d4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{209,168},{35,129}}</string>
+                <key>offset</key>
+                <string>{0,2}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{35,129}}</string>
+                <key>sourceSize</key>
+                <string>{35,133}</string>
+            </dict>
+            <key>daos4_d5.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,321},{55,150}}</string>
+                <key>offset</key>
+                <string>{0,1}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{55,150}}</string>
+                <key>sourceSize</key>
+                <string>{55,152}</string>
             </dict>
             <key>daos4_d6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{419,166},{53,128}}</string>
+                <string>{{155,263},{51,120}}</string>
                 <key>offset</key>
-                <string>{-1,0}</string>
+                <string>{-2,2}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,1},{53,128}}</string>
+                <string>{{0,0},{51,120}}</string>
                 <key>sourceSize</key>
-                <string>{55,130}</string>
+                <string>{55,124}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -168,9 +168,9 @@
             <key>realTextureFileName</key>
             <string>falchion_4.png</string>
             <key>size</key>
-            <string>{512,512}</string>
+            <string>{256,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:1bf9831f6bcf2d343943ddd4b7e3f42c$</string>
+            <string>$TexturePacker:SmartUpdate:2516e187d8e7c0a4a0286b40e3399456$</string>
             <key>textureFileName</key>
             <string>falchion_4.png</string>
         </dict>

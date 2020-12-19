@@ -12,7 +12,11 @@ public:
 	}
 
 	// äÖÈ¾×ø±ê
+#if G_TARGET_SERVER
 	GVec2 position;
+#else
+	Vec2 position;
+#endif
 	// Âß¼­×ø±ê
 	GVec3 logicPos;
 	// Ëõ·Å

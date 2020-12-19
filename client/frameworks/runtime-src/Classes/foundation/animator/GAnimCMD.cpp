@@ -71,7 +71,7 @@ bool GAnimCMD::init(rapidjson::Value& jsonValue)
 		if (it->value.IsObject() && it->value.HasMember("action"))
 		{
 			member = it->value.FindMember("action");
-			if (member->value.MemberCount() > 0)
+			if (member->value.Size() > 0)
 			{
 				name = it->name.GetString();
 				if (m_cmdData.find(name) == m_cmdData.end())
@@ -79,30 +79,29 @@ bool GAnimCMD::init(rapidjson::Value& jsonValue)
 					m_cmdData[name] = data;
 					auto& kfData = m_cmdData[name];
 
-					kfData.actions.resize(member->value.MemberCount());
-					kfData.audios.resize(member->value.MemberCount());
+					kfData.actions.resize(member->value.Size());
+					kfData.audios.resize(member->value.Size());
 
-					
-					for (auto it_for = member->value.MemberBegin(); it_for != member->value.MemberEnd(); ++it_for)
+					for (uint32_t i = 0; i < member->value.Size(); ++i)
 					{
-						kfData.actions[it_for->name.GetUint()] = it_for->value.GetString();
+						kfData.actions[i] = member->value[i].GetString();
 					}
 
 					if (it->value.HasMember("audio"))
 					{
 						member = it->value.FindMember("audio");
-						for (auto it_for = member->value.MemberBegin(); it_for != member->value.MemberEnd(); ++it_for)
+
+						for (uint32_t i = 0; i < member->value.Size(); ++i)
 						{
-							auto tmp = it_for->name.GetUint();
-							if (kfData.actions.size() <= tmp)
+							if (kfData.actions.size() <= i)
 							{
-								G_ASSERT(false);
+								//G_ASSERT(false);
 							}
 							else
 							{
-								audio = it_for->value.GetString();
-								if(audio.empty() == false && audio != "N")
-									kfData.actions[tmp] = audio;
+								audio = member->value[i].GetString();
+								if (audio.empty() == false && audio != "N")
+									kfData.audios[i] = audio;
 							}
 						}
 					}
@@ -170,6 +169,11 @@ GAnimCMD* GAnimCMDCache::getOrCreate(const std::string& roleName)
 	return it->second;
 }
 
+const std::vector<std::string>& GAnimCMDCache::getAllRole()
+{
+	return m_roleListCache;
+}
+
 void GAnimCMDCache::init()
 {
 	do 
@@ -206,6 +210,12 @@ void GAnimCMDCache::init()
 					G_ASSERT(false);
 				}
 			}
+		}
+
+		m_roleListCache.reserve(m_roleListCache.size());
+		for (auto& it : m_cmdCache)
+		{
+			m_roleListCache.push_back(it.first);
 		}
 		return;
 	} while (false);

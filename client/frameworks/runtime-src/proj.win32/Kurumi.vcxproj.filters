@@ -115,6 +115,9 @@
     <Filter Include="Classes\foundation\file">
       <UniqueIdentifier>{b626e33d-9c88-44a7-9fca-516b2c6e37e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\test">
+      <UniqueIdentifier>{0c10596b-6987-4449-807c-295d14bb0248}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -371,6 +374,36 @@
     <ClInclude Include="..\Classes\foundation\animator\GAnimCMD.h">
       <Filter>Classes\foundation\animator</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureRenderSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureDebugSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\GlobalSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\ArmatureUtils.h">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\CollisionSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\test\TestArmature.h">
+      <Filter>Classes\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\TransformSyncSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\UniqueComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\InitSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -556,6 +589,33 @@
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\animator\GAnimCMD.cpp">
       <Filter>Classes\foundation\animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureRenderSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureDebugSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\GlobalSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\ArmatureUtils.cpp">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\CollisionSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\test\TestArmature.cpp">
+      <Filter>Classes\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\TransformSyncSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\InitSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp">
+      <Filter>Classes\ecs\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

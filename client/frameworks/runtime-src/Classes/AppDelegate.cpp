@@ -16,6 +16,13 @@
 
 #include "lua_modules/lua_modules.h"
 
+
+#define RUN_WITH_DEBUG 1
+
+#if RUN_WITH_DEBUG
+#include "test/TestArmature.h"
+#endif
+
 using namespace CocosDenshion;
 
 USING_NS_CC;
@@ -61,6 +68,11 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	AnaxHelper::implementation();
 
+#if RUN_WITH_DEBUG
+	FileUtils::getInstance()->addSearchPath("res/");
+	Director::getInstance()->runWithScene(TestArmature::createScene());
+	Director::getInstance()->setDisplayStats(true);
+#else
     // register lua module
     auto engine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(engine);
@@ -89,7 +101,7 @@ bool AppDelegate::applicationDidFinishLaunching()
         return false;
     }
 #endif
-
+#endif
     return true;
 }
 

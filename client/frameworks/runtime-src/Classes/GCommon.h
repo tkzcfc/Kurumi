@@ -11,6 +11,8 @@
 #if G_TARGET_SERVER
 
 #else
-	#include "cocos2d.h"
-	using namespace cocos2d;
+#include "cocos2d.h"
+#include "cocostudio/CocoStudio.h"
+
+using namespace cocos2d;
 #endif

@@ -36,7 +36,7 @@ private:
 
 	bool init(rapidjson::Value& jsonValue);
 
-private:
+public:
 
 	std::unordered_map<std::string, GKfAniCMDData> m_cmdData;
 	std::string anime;
@@ -54,6 +54,8 @@ public:
 
 	GAnimCMD* getOrCreate(const std::string& roleName);
 
+	const std::vector<std::string>& getAllRole();
+
 private:
 
 	GAnimCMDCache();
@@ -65,4 +67,5 @@ private:
 	static GAnimCMDCache* instance;
 
 	std::unordered_map<std::string, GAnimCMD*> m_cmdCache;
+	std::vector<std::string> m_roleListCache;
 };

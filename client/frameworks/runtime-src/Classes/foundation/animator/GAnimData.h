@@ -82,13 +82,15 @@ class GAnimData
 {
 public:
 
-	static GAnimData* create(const std::string& file);
+	static GAnimData* create(const std::string& roleName);
 
 	virtual ~GAnimData();
 
 	const std::vector<std::string>& names();
 
 	GAnimationData* getAniData(const std::string& aniName);
+
+	const std::string& getArmatureName();
 
 protected:
 
@@ -98,6 +100,7 @@ protected:
 
 	std::vector<std::string> m_names;
 	std::vector<GAnimationData> m_aniDatas;
+	std::string m_armatureName;
 };
 
 
@@ -113,7 +116,7 @@ public:
 
 	static void destroy();
 
-	GAnimData* getOrCreate(const std::string& filename);
+	GAnimData* getOrCreate(const std::string& roleName);
 
 private:
 
