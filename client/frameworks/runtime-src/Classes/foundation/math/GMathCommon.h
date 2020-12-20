@@ -14,13 +14,13 @@ const float32	G_EPSILON = 0.0001f;
 
 
 
-inline bool equal(float32 a, float32 b)
+inline bool equal_real(real a, real b)
 {
 	return(std::abs(a - b) <= G_EPSILON);
 }
 
 
-inline float32 sqr(float32 a)
+inline real sqr_real(real a)
 {
 	return(a * a);
 }

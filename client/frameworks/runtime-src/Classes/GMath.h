@@ -5,8 +5,8 @@
 #include <algorithm>    /* max, min */
 typedef float	float32;
 typedef double	float64;
-const float32	PI = 3.141592741f;
-const float32	EPSILON = 0.0001f;
+const float32	G_PI = 3.141592741f;
+const float32	G_EPSILON = 0.0001f;
 
 
 /*

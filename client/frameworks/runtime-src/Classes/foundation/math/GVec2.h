@@ -33,6 +33,10 @@ public:
 		y = y_;
 	}
 
+	void setzero()
+	{
+		x = y = 0.0f;
+	}
 
 	GVec2 operator-(void) const
 	{

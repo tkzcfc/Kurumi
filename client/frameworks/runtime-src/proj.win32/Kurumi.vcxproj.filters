@@ -100,9 +100,6 @@
     <Filter Include="Classes\foundation\math">
       <UniqueIdentifier>{f0f9df3d-6c6b-42da-a539-b11f7a861565}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\foundation\physics">
-      <UniqueIdentifier>{6b9665a6-54e7-4d51-b235-8cbcc0e1923a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\ecs\utils">
       <UniqueIdentifier>{7a3eb1c2-fe6b-4aaa-8fa9-0332c73ff8b1}</UniqueIdentifier>
     </Filter>
@@ -260,19 +257,10 @@
     <ClInclude Include="..\Classes\foundation\FSM.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\GameMath.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\GLES-Render.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\GameMacro.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\Box2DHelper.h">
       <Filter>Classes\foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h">
@@ -317,9 +305,6 @@
     <ClInclude Include="..\Classes\GMath.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\GArmature.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\foundation\math\GVec2.h">
       <Filter>Classes\foundation\math</Filter>
     </ClInclude>
@@ -335,15 +320,6 @@
     <ClInclude Include="..\Classes\foundation\math\GMathCommon.h">
       <Filter>Classes\foundation\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\math\GCollision.h">
-      <Filter>Classes\foundation\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\physics\GManifold.h">
-      <Filter>Classes\foundation\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\physics\GShape.h">
-      <Filter>Classes\foundation\physics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ecs\components\BodyComponent.h">
       <Filter>Classes\ecs\components</Filter>
     </ClInclude>
@@ -358,9 +334,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\utils\PhysicsUtils.h">
       <Filter>Classes\ecs\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\foundation\physics\GBody.h">
-      <Filter>Classes\foundation\physics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\animator\GAnimData.h">
       <Filter>Classes\foundation\animator</Filter>
@@ -403,6 +376,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h">
       <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\physics\GManifold.h">
+      <Filter>Classes\ecs\utils\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\physics\GCollision.h">
+      <Filter>Classes\ecs\utils\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\test\TestPhysics.h">
+      <Filter>Classes\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -515,20 +497,11 @@
     <ClCompile Include="..\Classes\lua_modules\ecs\lua_ecs.cpp">
       <Filter>Classes\lua_modules\ecs</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\foundation\GameMath.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\GLES-Render.cpp">
-      <Filter>Classes\foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\anaxHelper.cpp">
       <Filter>Classes\ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\Box2DHelper.cpp">
-      <Filter>Classes\foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp">
       <Filter>Classes\foundation</Filter>
@@ -563,20 +536,11 @@
     <ClCompile Include="..\Classes\ext\MyButton.cpp">
       <Filter>Classes\ext</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\foundation\math\GCollision.cpp">
-      <Filter>Classes\foundation\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\physics\GManifold.cpp">
-      <Filter>Classes\foundation\physics</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\utils\PhysicsUtils.cpp">
       <Filter>Classes\ecs\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\foundation\physics\GBody.cpp">
-      <Filter>Classes\foundation\physics</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\animator\GAnimData.cpp">
       <Filter>Classes\foundation\animator</Filter>
@@ -616,6 +580,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp">
       <Filter>Classes\ecs\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\physics\GShape.cpp">
+      <Filter>Classes\ecs\utils\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\physics\GManifold.cpp">
+      <Filter>Classes\ecs\utils\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\physics\GCollision.cpp">
+      <Filter>Classes\ecs\utils\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\test\TestPhysics.cpp">
+      <Filter>Classes\test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

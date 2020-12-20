@@ -20,6 +20,11 @@
 #define G_ASSERT assert
 #endif
 
+#if G_TARGET_SERVER
+#define G_TARGET_CLIENT 0
+#else
+#define G_TARGET_CLIENT 1
+#endif
 
 
 
