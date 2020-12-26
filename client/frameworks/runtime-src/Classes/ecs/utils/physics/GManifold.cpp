@@ -12,13 +12,13 @@ void GManifold::Reset(class BodyComponent* a, class BodyComponent* b)
 
 void GManifold::Solve(void)
 {
-	GCollision::Dispatch[bodyA->shape->getType()][bodyB->shape->getType()](this);
+	GCollision::Dispatch[bodyA->shape->getType()][bodyB->shape->getType()](this, bodyA, bodyB);
 }
 
 void GManifold::Initialize(const GVec2& gravity, float dt)
 {
 	// Calculate average restitution
-	e = MIN(bodyA->restitution, bodyB->restitution);
+	e = std::min(bodyA->restitution, bodyB->restitution);
 
 	// Calculate static and dynamic friction
 	sf = std::sqrt(bodyA->staticFriction * bodyB->staticFriction);
@@ -32,6 +32,7 @@ void GManifold::Initialize(const GVec2& gravity, float dt)
 
 		GVec2 rv = bodyB->velocity + cross(bodyB->angularVelocity, rb) -
 			bodyA->velocity - cross(bodyA->angularVelocity, ra);
+
 
 		// Determine if we should perform a resting collision or not
 		// The idea is if the only thing moving this object is gravity,
@@ -49,7 +50,6 @@ void GManifold::ApplyImpulse(void)
 		InfiniteMassCorrection();
 		return;
 	}
-
 	for (uint32_t i = 0; i < contact_count; ++i)
 	{
 		// Calculate radii from COM to contact
@@ -114,7 +114,7 @@ void GManifold::PositionalCorrection(void)
 {
 	const real k_slop = 0.05f; // Penetration allowance
 	const real percent = 0.4f; // Penetration percentage to correct
-	GVec2 correction = (MAX(penetration - k_slop, 0.0f) / (bodyA->im + bodyB->im)) * normal * percent;
+	GVec2 correction = (std::max(penetration - k_slop, 0.0f) / (bodyA->im + bodyB->im)) * normal * percent;
 	bodyA->position -= correction * bodyA->im;
 	bodyB->position += correction * bodyB->im;
 }

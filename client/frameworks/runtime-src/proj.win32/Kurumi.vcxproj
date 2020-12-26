@@ -221,6 +221,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\BodyComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\ShapeComponent.h" />
+    <ClInclude Include="..\Classes\ecs\components\SIMPhysComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\TransformComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\UniqueComponent.h" />
     <ClInclude Include="..\Classes\ecs\system\ArmatureDebugSystem.h" />
@@ -230,6 +231,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\ecs\system\GlobalSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\InitSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\PhysicsSystem.h" />
+    <ClInclude Include="..\Classes\ecs\system\SIMPhysSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\TransformSyncSystem.h" />
     <ClInclude Include="..\Classes\ecs\utils\ArmatureUtils.h" />
     <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h" />
@@ -254,7 +256,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
     <ClInclude Include="..\Classes\ide-support\lua_debugger.h" />
     <ClInclude Include="..\Classes\ide-support\RuntimeLuaImpl.h" />
-    <ClInclude Include="..\Classes\GMath.h" />
     <ClInclude Include="..\Classes\lua_function\LuaFunction.h" />
     <ClInclude Include="..\Classes\lua_function\LuaFunctionBond.h" />
     <ClInclude Include="..\Classes\lua_function\tolua_ext.h" />
@@ -282,6 +283,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua_modules\pbc\src\varint.h" />
     <ClInclude Include="..\Classes\test\TestArmature.h" />
     <ClInclude Include="..\Classes\test\TestPhysics.h" />
+    <ClInclude Include="..\Classes\test\TestSIMPhys.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SimulatorWin.h" />
@@ -309,6 +311,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\ecs\system\GlobalSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\InitSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp" />
+    <ClCompile Include="..\Classes\ecs\system\SIMPhysSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\TransformSyncSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\ArmatureUtils.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp" />
@@ -355,6 +358,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua_modules\pbc\src\wmessage.cpp" />
     <ClCompile Include="..\Classes\test\TestArmature.cpp" />
     <ClCompile Include="..\Classes\test\TestPhysics.cpp" />
+    <ClCompile Include="..\Classes\test\TestSIMPhys.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimulatorWin.cpp" />
     <ClCompile Include="stdafx.cpp" />

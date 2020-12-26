@@ -23,17 +23,18 @@
 #include "GShape.h"
 
 class GManifold;
-typedef void (*CollisionCallback)(GManifold *m);
+class BodyComponent;
+typedef void (*CollisionCallback)(GManifold *m, BodyComponent*, BodyComponent*);
 
 class GCollision
 {
 public:
 	static CollisionCallback Dispatch[GShape::eCount][GShape::eCount];
 
-	static void circletoCircle(GManifold *m);
-	static void circletoPolygon(GManifold *m);
-	static void polygontoCircle(GManifold *m);
-	static void polygontoPolygon(GManifold *m);
+	static void circletoCircle(GManifold *m, BodyComponent* a, BodyComponent* b);
+	static void circletoPolygon(GManifold *m, BodyComponent* a, BodyComponent* b);
+	static void polygontoCircle(GManifold *m, BodyComponent* a, BodyComponent* b);
+	static void polygontoPolygon(GManifold *m, BodyComponent* a, BodyComponent* b);
 
 	// 检测2个矩形是否相交
 	static bool isRectIntersect(const GVec2* A, const GVec2* B);

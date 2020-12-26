@@ -41,7 +41,7 @@ static void IntegrateVelocity(BodyComponent *b, real dt)
 
 //////////////////////////////////////////////////////////////////////////
 
-GVec2 PhysicsSystem::Gravity = GVec2(0.0f, -98.0f);
+GVec2 PhysicsSystem::Gravity = GVec2(0.0f, -50.0f);
 
 PhysicsSystem::PhysicsSystem(uint32_t iterations)
 {
@@ -62,6 +62,9 @@ PhysicsSystem::~PhysicsSystem()
 
 void PhysicsSystem::update(float32 dt)
 {
+	m_bodies.clear();
+	m_contacts.clear();
+
 	auto& entities = this->getEntities();
 
 	for (auto& it : entities)
@@ -121,9 +124,6 @@ void PhysicsSystem::update(float32 dt)
 		b->force.setzero();
 		b->torque = 0;
 	}
-
-	m_bodies.clear();
-	m_contacts.clear();
 }
 
 
@@ -134,6 +134,17 @@ void PhysicsSystem::debugDraw(DrawNode* drawNode)
 	for (auto& it : entities)
 	{
 		it.getComponent<BodyComponent>().shape->debugDraw(drawNode);
+	}
+
+	for (auto& m : m_contacts)
+	{
+		const auto& normal = m->normal;
+		for (uint32_t j = 0; j < m->contact_count; ++j)
+		{
+			const auto& c = m->contacts[j];
+			drawNode->drawLine(Vec2(c.x * PHYSICS_PIXEL_TO_METER, c.y * PHYSICS_PIXEL_TO_METER), Vec2(c.x * PHYSICS_PIXEL_TO_METER + normal.x * 10.0f, c.y * PHYSICS_PIXEL_TO_METER + normal.y * 10.0f), Color4F::GREEN);
+			//drawNode->drawPoint(Vec2(c.x, c.y), 5.0f, Color4F::BLUE);
+		}
 	}
 }
 #endif

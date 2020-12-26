@@ -16,6 +16,7 @@ public:
 	;
 	GMat2()
 	{
+		this->set(0);
 	}
 
 

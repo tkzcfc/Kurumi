@@ -31,8 +31,6 @@ public:
 	virtual void debugDraw(DrawNode* drawNode) = 0;
 #endif
 
-	// 从模型到世界的方向矩阵
-	GMat2 u; // Orientation matrix from model to world
 	class BodyComponent* body;
 };
 
@@ -58,6 +56,11 @@ public:
 class GPolygonShape : public GShape
 {
 public:
+
+	GPolygonShape();
+
+	virtual ~GPolygonShape();
+
 	virtual void setRotation(real radians)override;
 
 #if G_TARGET_CLIENT
@@ -77,4 +80,5 @@ public:
 	uint32_t m_vertexCount;
 	GVec2 m_vertices[MaxPolyVertexCount];
 	GVec2 m_normals[MaxPolyVertexCount];
+	GMat2 u; // Orientation matrix from model to world
 };

@@ -302,9 +302,6 @@
     <ClInclude Include="..\Classes\GCommon.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GMath.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\foundation\math\GVec2.h">
       <Filter>Classes\foundation\math</Filter>
     </ClInclude>
@@ -384,6 +381,15 @@
       <Filter>Classes\ecs\utils\physics</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\test\TestPhysics.h">
+      <Filter>Classes\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\SIMPhysComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\SIMPhysSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\test\TestSIMPhys.h">
       <Filter>Classes\test</Filter>
     </ClInclude>
   </ItemGroup>
@@ -591,6 +597,12 @@
       <Filter>Classes\ecs\utils\physics</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\test\TestPhysics.cpp">
+      <Filter>Classes\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\SIMPhysSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\test\TestSIMPhys.cpp">
       <Filter>Classes\test</Filter>
     </ClCompile>
   </ItemGroup>

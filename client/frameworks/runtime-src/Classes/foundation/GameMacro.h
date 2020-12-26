@@ -34,7 +34,7 @@
 
 using namespace cocos2d;
 
-#define BOX2D_PIXEL_TO_METER 30.0f
+#define PHYSICS_PIXEL_TO_METER 100.0f
 
 enum BOX2D_FILTER_MASK
 {

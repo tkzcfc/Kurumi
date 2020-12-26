@@ -14,9 +14,9 @@ void GCircle::setRotation(real radians)
 void GCircle::debugDraw(DrawNode* drawNode)
 {
 	if(body->bodyType == GBodyType::STATIC_BODY)
-		drawNode->drawCircle(Vec2(body->position.x, body->position.y), radius, body->radians, 100, true, Color4F::RED);
+		drawNode->drawCircle(Vec2(body->position.x, body->position.y) * PHYSICS_PIXEL_TO_METER, radius * PHYSICS_PIXEL_TO_METER, body->radians, 100, true, Color4F::RED);
 	else
-		drawNode->drawCircle(Vec2(body->position.x, body->position.y), radius, body->radians, 100, true, Color4F::WHITE);
+		drawNode->drawCircle(Vec2(body->position.x, body->position.y) * PHYSICS_PIXEL_TO_METER, radius * PHYSICS_PIXEL_TO_METER, body->radians, 100, true, Color4F::WHITE);
 }
 #endif
 
@@ -27,6 +27,15 @@ GShape::Type GCircle::getType(void) const
 
 
 //////////////////////////////////////////////////////////////////////////
+
+
+GPolygonShape::GPolygonShape()
+{
+	m_vertexCount = 0;
+}
+
+GPolygonShape::~GPolygonShape()
+{}
 
 void GPolygonShape::setRotation(real radians)
 {
@@ -41,8 +50,8 @@ void GPolygonShape::debugDraw(DrawNode* drawNode)
 	for (uint32_t i = 0; i < m_vertexCount; ++i)
 	{
 		v = body->position + u * m_vertices[i];
-		vertices[i].x = v.x;
-		vertices[i].y = v.y;
+		vertices[i].x = v.x * PHYSICS_PIXEL_TO_METER;
+		vertices[i].y = v.y * PHYSICS_PIXEL_TO_METER;
 	}
 	if(body->bodyType == GBodyType::STATIC_BODY)
 		drawNode->drawPoly(vertices, m_vertexCount, true, Color4F::RED);
@@ -74,7 +83,7 @@ void GPolygonShape::set(GVec2 *vertices, uint32_t count)
 {
 	// No hulls with less than 3 vertices (ensure actual polygon)
 	assert(count > 2 && count <= MaxPolyVertexCount);
-	count = MIN((uint32_t)count, MaxPolyVertexCount);
+	count = std::min((int32_t)count, MaxPolyVertexCount);
 
 	// Find the right most point on the hull
 	int32_t rightMost = 0;

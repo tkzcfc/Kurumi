@@ -22,6 +22,7 @@
 #if RUN_WITH_DEBUG
 #include "test/TestArmature.h"
 #include "test/TestPhysics.h"
+#include "test/TestSIMPhys.h"
 #endif
 
 using namespace CocosDenshion;
@@ -72,7 +73,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if RUN_WITH_DEBUG
 	FileUtils::getInstance()->addSearchPath("res/");
 	//Director::getInstance()->runWithScene(TestArmature::createScene());
-	Director::getInstance()->runWithScene(TestPhysics::createScene());
+	//Director::getInstance()->runWithScene(TestPhysics::createScene());
+	Director::getInstance()->runWithScene(TestSIMPhys::createScene());
 	Director::getInstance()->setDisplayStats(true);
 #else
     // register lua module

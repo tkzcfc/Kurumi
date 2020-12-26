@@ -29,7 +29,7 @@ static inline real Random(real l, real h)
 
 TestPhysics::TestPhysics()
 {
-	m_physicsSystem = new PhysicsSystem(4);
+	m_physicsSystem = new PhysicsSystem(10);
 }
 
 TestPhysics::~TestPhysics()
@@ -54,15 +54,21 @@ bool TestPhysics::init()
 
 	auto winSize = Director::getInstance()->getWinSize();
 
-	auto entity = m_world.createEntity();
-	PhysicsSystem::createCircleBody(entity, 50.0f, 1);
-	//PhysicsSystem::setStatic(entity);
-	PhysicsSystem::setPosition(entity, winSize.width * 0.5f, 300.0f);
+	anax::Entity entity;
+	entity = m_world.createEntity();
+	PhysicsSystem::createCircleBody(entity, 50.0f / PHYSICS_PIXEL_TO_METER, 1);
+	PhysicsSystem::setStatic(entity);
+	PhysicsSystem::setPosition(entity, winSize.width * 0.5f / PHYSICS_PIXEL_TO_METER, 300.0f / PHYSICS_PIXEL_TO_METER);
 	entity.activate();
 
+	//Random(1, 2);
+	//Random(1, 2);
+	//Random(1, 2);
+	//spawnPolygon(Vec2(winSize.width * 0.5f, 300.0f));
+
 	entity = m_world.createEntity();
-	PhysicsSystem::createBoxBody(entity, winSize.width * 0.8f * 0.5f, 10.0f);
-	PhysicsSystem::setPosition(entity, winSize.width * 0.5f, 100.0f);
+	PhysicsSystem::createBoxBody(entity, winSize.width * 0.8f * 0.5f / PHYSICS_PIXEL_TO_METER, 10.0f / PHYSICS_PIXEL_TO_METER);
+	PhysicsSystem::setPosition(entity, winSize.width * 0.5f / PHYSICS_PIXEL_TO_METER, 100.0f / PHYSICS_PIXEL_TO_METER);
 	PhysicsSystem::setStatic(entity);
 	PhysicsSystem::setRotation(entity, 0.0f);
 	entity.activate();
@@ -95,8 +101,8 @@ bool TestPhysics::init()
 void TestPhysics::spawnCircle(const Vec2& pos)
 {
 	auto entity = m_world.createEntity();
-	PhysicsSystem::createCircleBody(entity, Random(1.0f, 3.0f) * 10.0f);
-	PhysicsSystem::setPosition(entity, pos.x, pos.y);
+	PhysicsSystem::createCircleBody(entity, Random(1.0f, 3.0f) * 10.0f / PHYSICS_PIXEL_TO_METER);
+	PhysicsSystem::setPosition(entity, pos.x / PHYSICS_PIXEL_TO_METER, pos.y / PHYSICS_PIXEL_TO_METER);
 
 	entity.activate();
 }
@@ -105,13 +111,13 @@ void TestPhysics::spawnPolygon(const Vec2& pos)
 {
 	uint32_t count = (uint32_t)Random(3, MaxPolyVertexCount);
 	GVec2 *vertices = new GVec2[count];
-	real e = Random(5 * 10.0f, 10 * 10.0f);
+	real e = Random(50.0f / PHYSICS_PIXEL_TO_METER, 100.0f / PHYSICS_PIXEL_TO_METER);
 	for (uint32_t i = 0; i < count; ++i)
 		vertices[i].set(Random(-e, e), Random(-e, e));
 
 	auto entity = m_world.createEntity();
 	PhysicsSystem::createPolygonBody(entity, vertices, count);
-	PhysicsSystem::setPosition(entity, pos.x, pos.y);
+	PhysicsSystem::setPosition(entity, pos.x / PHYSICS_PIXEL_TO_METER, pos.y / PHYSICS_PIXEL_TO_METER);
 	PhysicsSystem::setRotation(entity, Random(-G_PI, G_PI));
 
 	auto& component = entity.getComponent<BodyComponent>();
@@ -127,9 +133,9 @@ void TestPhysics::spawnPolygon(const Vec2& pos)
 void TestPhysics::logicUpdate(float dt)
 {
 	m_world.refresh();
-	//m_drawNode->clear();
+	m_drawNode->clear();
 	m_physicsSystem->update(dt);
-	//m_physicsSystem->debugDraw(m_drawNode);
+	m_physicsSystem->debugDraw(m_drawNode);
 }
 
 
