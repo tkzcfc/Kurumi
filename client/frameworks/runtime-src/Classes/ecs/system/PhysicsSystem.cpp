@@ -41,7 +41,7 @@ static void IntegrateVelocity(BodyComponent *b, real dt)
 
 //////////////////////////////////////////////////////////////////////////
 
-GVec2 PhysicsSystem::Gravity = GVec2(0.0f, -50.0f);
+GVec2 PhysicsSystem::Gravity = GVec2(0.0f, -30.0f);
 
 PhysicsSystem::PhysicsSystem(uint32_t iterations)
 {
