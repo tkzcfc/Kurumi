@@ -115,6 +115,9 @@
     <Filter Include="Classes\test">
       <UniqueIdentifier>{0c10596b-6987-4449-807c-295d14bb0248}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\foundation\fsm">
+      <UniqueIdentifier>{e4265a7f-411c-420f-a843-9ab330e7426e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -254,9 +257,6 @@
     <ClInclude Include="..\Classes\lua_modules\ecs\lua_ecs.h">
       <Filter>Classes\lua_modules\ecs</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\foundation\FSM.h">
-      <Filter>Classes\foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h">
       <Filter>Classes\lua_modules\foundation</Filter>
     </ClInclude>
@@ -391,6 +391,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\test\TestSIMPhys.h">
       <Filter>Classes\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GState.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GTranslation.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GFSM.h">
+      <Filter>Classes\foundation\fsm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -604,6 +613,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\test\TestSIMPhys.cpp">
       <Filter>Classes\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GTranslation.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GState.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GFSM.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

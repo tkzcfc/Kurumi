@@ -244,7 +244,9 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\foundation\animator\GAnimData.h" />
     <ClInclude Include="..\Classes\foundation\CTools.h" />
     <ClInclude Include="..\Classes\foundation\file\GFileUtiles.h" />
-    <ClInclude Include="..\Classes\foundation\FSM.h" />
+    <ClInclude Include="..\Classes\foundation\fsm\GFSM.h" />
+    <ClInclude Include="..\Classes\foundation\fsm\GState.h" />
+    <ClInclude Include="..\Classes\foundation\fsm\GTranslation.h" />
     <ClInclude Include="..\Classes\foundation\GameMacro.h" />
     <ClInclude Include="..\Classes\foundation\math\GMat2.h" />
     <ClInclude Include="..\Classes\foundation\math\GMath.h" />
@@ -324,6 +326,9 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\foundation\animator\GAnimData.cpp" />
     <ClCompile Include="..\Classes\foundation\CTools.cpp" />
     <ClCompile Include="..\Classes\foundation\file\GFileUtiles.cpp" />
+    <ClCompile Include="..\Classes\foundation\fsm\GFSM.cpp" />
+    <ClCompile Include="..\Classes\foundation\fsm\GState.cpp" />
+    <ClCompile Include="..\Classes\foundation\fsm\GTranslation.cpp" />
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
     <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp" />
