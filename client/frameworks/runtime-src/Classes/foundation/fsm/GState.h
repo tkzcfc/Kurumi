@@ -13,7 +13,7 @@ public:
 
 	virtual void onEnter(){}
 
-	virtual void onLeave(){}
+	virtual void onExit(){}
 
 	virtual void onStay() {}
 
@@ -30,6 +30,10 @@ public:
 	bool changeToState(const FStateKeyType& toStateName);
 
 protected:
+
+	virtual void onEnterEx() {}
+
+	virtual void onExitEx() {}
 
 	void onStayEx();
 

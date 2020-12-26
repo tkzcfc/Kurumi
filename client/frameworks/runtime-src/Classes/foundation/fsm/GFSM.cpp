@@ -66,12 +66,12 @@ bool GFSM::changeToStateByName(const FStateKeyType& stateName)
 void GFSM::changeToState(GState* state)
 {
 	if(m_curState)
-		m_curState->onLeave();
+		m_curState->onExitEx();
 
 	m_runStateTime = 0.0f;
 	m_preState = m_curState;
 	m_curState = state;
-	m_curState->onEnter();
+	m_curState->onEnterEx();
 }
 
 void GFSM::setEntryStateByName(const FStateKeyType& stateName)

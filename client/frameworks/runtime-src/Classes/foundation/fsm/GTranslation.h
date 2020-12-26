@@ -24,6 +24,10 @@ public:
 
 	virtual bool progressEvent(GState* curState, const FEventNameType& evetName);
 
+	virtual void onEnter(GState* curState) {}
+
+	virtual void onExit(GState* curState) {}
+
 public:
 
 	void setToState(const FStateKeyType& toState);

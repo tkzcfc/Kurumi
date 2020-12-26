@@ -65,6 +65,24 @@ bool GState::changeToState(const FStateKeyType& toStateName)
 	return m_fsm->changeToStateByName(toStateName);
 }
 
+void GState::onEnterEx()
+{
+	this->onEnter();
+	for (auto it : m_translationArr)
+	{
+		it->onExit(this);
+	}
+}
+
+void GState::onExitEx()
+{
+	this->onExit();
+	for (auto it : m_translationArr)
+	{
+		it->onExit(this);
+	}
+}
+
 void GState::onStayEx() 
 {
 	if(m_translationArr.empty())
