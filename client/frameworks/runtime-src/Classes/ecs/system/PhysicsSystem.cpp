@@ -1,5 +1,6 @@
 #include "PhysicsSystem.h"
 #include "ecs/utils/physics/GManifold.h"
+#include "ecs/utils/CommonUtils.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -126,10 +127,13 @@ void PhysicsSystem::update(float32 dt)
 	}
 }
 
-
-#if G_TARGET_CLIENT
-void PhysicsSystem::debugDraw(DrawNode* drawNode)
+void PhysicsSystem::debugDraw()
 {
+#if G_TARGET_CLIENT
+	auto drawNode = CommonUtils::getDebugDraw(this->getWorld());
+	if (drawNode == NULL)
+		return;
+
 	auto& entities = this->getEntities();
 	for (auto& it : entities)
 	{
@@ -146,8 +150,8 @@ void PhysicsSystem::debugDraw(DrawNode* drawNode)
 			//drawNode->drawPoint(Vec2(c.x, c.y), 5.0f, Color4F::BLUE);
 		}
 	}
-}
 #endif
+}
 
 
 class GManifold* PhysicsSystem::get()

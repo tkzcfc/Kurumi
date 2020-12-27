@@ -1,6 +1,7 @@
 #include "TestArmature.h"
 #include "foundation/animator/GAnimCMD.h"
 #include "ecs/utils/ArmatureUtils.h"
+#include "ecs/utils/CommonUtils.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
@@ -41,7 +42,8 @@ bool TestArmature::init()
 	m_world.addSystem<CollisionSystem>(m_collisionSystem);
 	m_world.addSystem<GlobalSystem>(m_globalSystem);
 	m_world.addSystem<TransformSyncSystem>(m_transformSyncSystem);
-
+	m_world.addSystem<RenderSyncSystem>(m_renderSyncSystem);
+	
 	m_isFirst = true;
 
 	this->runAction(Sequence::createWithTwoActions(
@@ -57,6 +59,9 @@ bool TestArmature::init()
 
 	m_drawNode = DrawNode::create();
 	this->addChild(m_drawNode);
+
+	auto& admin = CommonUtils::getAdmin(m_world);
+	admin.getComponent<DebugComponent>().debugDrawNode = m_drawNode;
 
 	return true;
 }
@@ -234,8 +239,8 @@ void TestArmature::logicUpdate(float delta)
 	m_drawNode->clear();
 	m_armatureSystem.update(delta);
 	m_transformSyncSystem.sync();
-	m_transformSyncSystem.syncRender();
+	m_renderSyncSystem.sync();
 	m_armatureRenderSystem.render();
-	m_armatureDebugSystem.render(m_drawNode);
+	m_armatureDebugSystem.debugDraw();
 }
 

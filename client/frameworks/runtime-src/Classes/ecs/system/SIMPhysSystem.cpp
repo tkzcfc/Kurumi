@@ -1,11 +1,17 @@
 #include "SIMPhysSystem.h"
+#include "ecs/utils/CommonUtils.h"
 
 
-SIMPhysSystem::SIMPhysSystem(const GVec2& gravity)
-	: m_gravity(gravity)
+SIMPhysSystem::SIMPhysSystem()
 {
+	m_gravity = GVec2(0.0f, -50.0f);
 	m_static_bodies.reserve(30);
 	m_dynamic_bodies.reserve(30);
+}
+
+void SIMPhysSystem::setGravity(const GVec2& gravity)
+{
+	m_gravity = gravity;
 }
 
 void SIMPhysSystem::update(float dt)
@@ -95,9 +101,15 @@ bool SIMPhysSystem::collision(SIMPhysComponent* component, float32 dx, float32 d
 	return mark;
 }
 
-#if G_TARGET_CLIENT
-void SIMPhysSystem::debugDraw(DrawNode* drawNode)
+
+void SIMPhysSystem::debugDraw()
 {
+#if G_TARGET_CLIENT
+	auto drawNode = CommonUtils::getDebugDraw(this->getWorld());
+	
+	if (drawNode == NULL)
+		return;
+
 	for (auto& it : m_static_bodies)
 	{
 		drawNode->drawRect(Vec2(it->position.x, it->position.y), Vec2(it->position.x + it->size.x, it->position.y + it->size.y), Color4F::RED);
@@ -106,8 +118,8 @@ void SIMPhysSystem::debugDraw(DrawNode* drawNode)
 	{
 		drawNode->drawRect(Vec2(it->position.x, it->position.y), Vec2(it->position.x + it->size.x, it->position.y + it->size.y), Color4F::BLUE);
 	}
-}
 #endif
+}
 
 void SIMPhysSystem::applyForce(anax::Entity& entity, const GVec2& f)
 {

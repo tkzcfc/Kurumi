@@ -32,10 +32,12 @@ public:
 	// 线性速度
 	GVec2 linearVelocity;
 
-		// 力
+	// 力
 	GVec2 force;
 
-		// postion + size = rect
+	// postion + size = rect
 	GVec2 position;
 	GVec2 size;
 };
+
+DEFINE_COMPONENT(SIMPhysComponent);

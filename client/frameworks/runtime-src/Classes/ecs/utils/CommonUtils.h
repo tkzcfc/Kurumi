@@ -9,4 +9,9 @@ public:
 
 	static anax::Entity& getAdmin(anax::World& world);
 
+
+#if G_TARGET_CLIENT
+	static DrawNode* getDebugDraw(anax::World& world);
+#endif
+
 };

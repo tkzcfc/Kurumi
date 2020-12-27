@@ -118,6 +118,12 @@
     <Filter Include="Classes\foundation\fsm">
       <UniqueIdentifier>{e4265a7f-411c-420f-a843-9ab330e7426e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\foundation\render">
+      <UniqueIdentifier>{e4d48ef9-0e75-4447-b05a-0c2237d83b5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game">
+      <UniqueIdentifier>{5aff2268-bd0b-453e-8063-0841e20509d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -368,9 +374,6 @@
     <ClInclude Include="..\Classes\ecs\components\UniqueComponent.h">
       <Filter>Classes\ecs\components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\InitSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h">
       <Filter>Classes\ecs\utils</Filter>
     </ClInclude>
@@ -400,6 +403,27 @@
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\fsm\GFSM.h">
       <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\RenderSyncSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\MapComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\render\GMapLayer.h">
+      <Filter>Classes\foundation\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\InitSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\GGameLayer.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\GGameWorld.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\DebugComponent.h">
+      <Filter>Classes\ecs\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -622,6 +646,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\fsm\GFSM.cpp">
       <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\RenderSyncSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\render\GMapLayer.cpp">
+      <Filter>Classes\foundation\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GGameLayer.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GGameWorld.cpp">
+      <Filter>Classes\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

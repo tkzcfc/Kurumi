@@ -1,4 +1,5 @@
 #include "TestSIMPhys.h"
+#include "ecs/utils/CommonUtils.h"
 
 
 cocos2d::Scene* TestSIMPhys::createScene()
@@ -30,13 +31,11 @@ static inline real Random(real l, real h)
 
 TestSIMPhys::TestSIMPhys()
 {
-	m_physicsSystem = new SIMPhysSystem(GVec2(0, -50.0f));
 }
 
 TestSIMPhys::~TestSIMPhys()
 {
 	m_world.clear();
-	delete m_physicsSystem;
 }
 
 bool TestSIMPhys::init()
@@ -49,12 +48,15 @@ bool TestSIMPhys::init()
 
 	_scheduler->schedule(CC_SCHEDULE_SELECTOR(TestSIMPhys::logicUpdate), this, 1.0f / 60.0f, false);
 
-
-	m_physicsSystem = new SIMPhysSystem(GVec2(0.0f, -500.0f));
-	m_world.addSystem(*m_physicsSystem);
+	m_physicsSystem.setGravity(GVec2(0, -500.0f));
+	m_world.addSystem(m_physicsSystem);
+	m_world.addSystem(m_globalSystem);
 
 	m_drawNode = DrawNode::create();
 	this->addChild(m_drawNode);
+
+	auto& admin = CommonUtils::getAdmin(m_world);
+	admin.getComponent<DebugComponent>().debugDrawNode = m_drawNode;
 
 	auto winSize = Director::getInstance()->getWinSize();
 
@@ -155,8 +157,8 @@ void TestSIMPhys::logicUpdate(float dt)
 {
 	m_world.refresh();
 	m_drawNode->clear();
-	m_physicsSystem->update(dt);
-	m_physicsSystem->debugDraw(m_drawNode);
+	m_physicsSystem.update(dt);
+	m_physicsSystem.debugDraw();
 
 	if (m_moveDir == MoveDir::MOVE_TO_LEFT)
 	{

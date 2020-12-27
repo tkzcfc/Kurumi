@@ -2,6 +2,7 @@
 
 #include "ecs/anaxHelper.h"
 #include "ecs/components/UniqueComponent.h"
+#include "ecs/components/DebugComponent.h"
 
 class GlobalSystem : public anax::System<anax::Requires<UniqueComponent>>
 {

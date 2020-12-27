@@ -65,3 +65,5 @@ public:
 
 	GShape* shape;
 };
+
+DEFINE_COMPONENT(BodyComponent);

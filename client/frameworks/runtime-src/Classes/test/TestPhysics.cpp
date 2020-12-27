@@ -1,4 +1,5 @@
 #include "TestPhysics.h"
+#include "ecs/utils/CommonUtils.h"
 
 cocos2d::Scene* TestPhysics::createScene()
 {
@@ -48,9 +49,13 @@ bool TestPhysics::init()
 
 	_scheduler->schedule(CC_SCHEDULE_SELECTOR(TestPhysics::logicUpdate), this, 1.0f / 60.0f, false);
 	m_world.addSystem(*m_physicsSystem);
+	m_world.addSystem(m_globalSystem);
 
 	m_drawNode = DrawNode::create();
 	this->addChild(m_drawNode);
+
+	auto& admin = CommonUtils::getAdmin(m_world);
+	admin.getComponent<DebugComponent>().debugDrawNode = m_drawNode;
 
 	auto winSize = Director::getInstance()->getWinSize();
 
@@ -135,7 +140,7 @@ void TestPhysics::logicUpdate(float dt)
 	m_world.refresh();
 	m_drawNode->clear();
 	m_physicsSystem->update(dt);
-	m_physicsSystem->debugDraw(m_drawNode);
+	m_physicsSystem->debugDraw();
 }
 
 

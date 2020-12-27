@@ -16,9 +16,7 @@ public:
 
 	void update(float32 dt);
 
-#if G_TARGET_CLIENT
-	void debugDraw(DrawNode* drawNode);
-#endif
+	void debugDraw();
 
 private:
 

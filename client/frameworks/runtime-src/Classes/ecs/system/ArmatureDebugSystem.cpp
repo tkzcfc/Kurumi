@@ -1,10 +1,11 @@
 #include "ArmatureDebugSystem.h"
 #include "CollisionSystem.h"
+#include "ecs/utils/CommonUtils.h"
 
-#if  G_TARGET_SERVER
-#else
-void ArmatureDebugSystem::render(cocos2d::DrawNode* drawNode)
+void ArmatureDebugSystem::debugDraw()
 {
+#if G_TARGET_CLIENT
+	auto drawNode = CommonUtils::getDebugDraw(this->getWorld());
 	if (drawNode == NULL)
 		return;
 
@@ -83,6 +84,5 @@ void ArmatureDebugSystem::render(cocos2d::DrawNode* drawNode)
 
 		} while (0);
 	}
-}
 #endif
-
+}

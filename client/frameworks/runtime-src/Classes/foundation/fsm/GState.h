@@ -31,9 +31,9 @@ public:
 
 protected:
 
-	virtual void onEnterEx() {}
+	void onEnterEx();
 
-	virtual void onExitEx() {}
+	void onExitEx();
 
 	void onStayEx();
 

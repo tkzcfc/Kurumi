@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "ecs/system/SIMPhysSystem.h"
+#include "ecs/system/GlobalSystem.h"
 
 USING_NS_CC;
 
@@ -32,7 +33,8 @@ public:
 
 protected:
 
-	SIMPhysSystem* m_physicsSystem;
+	SIMPhysSystem m_physicsSystem;
+	GlobalSystem m_globalSystem;
 
 	anax::World m_world;
 	anax::Entity m_player;

@@ -3,8 +3,7 @@
 #include "foundation/animator/GAnimData.h"
 #include "ecs/utils/CommonUtils.h"
 
-#if  G_TARGET_SERVER
-#else
+#if  G_TARGET_CLIENT
 
 // ‘ –ÌŒÛ≤Ó∑∂Œß5÷°◊Û”“
 static const int32_t disparityThreshold = 5;

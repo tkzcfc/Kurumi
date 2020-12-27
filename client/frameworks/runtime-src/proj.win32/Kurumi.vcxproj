@@ -220,6 +220,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\ecs\anaxHelper.h" />
     <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\BodyComponent.h" />
+    <ClInclude Include="..\Classes\ecs\components\DebugComponent.h" />
+    <ClInclude Include="..\Classes\ecs\components\MapComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\ShapeComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\SIMPhysComponent.h" />
     <ClInclude Include="..\Classes\ecs\components\TransformComponent.h" />
@@ -231,6 +233,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\ecs\system\GlobalSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\InitSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\PhysicsSystem.h" />
+    <ClInclude Include="..\Classes\ecs\system\RenderSyncSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\SIMPhysSystem.h" />
     <ClInclude Include="..\Classes\ecs\system\TransformSyncSystem.h" />
     <ClInclude Include="..\Classes\ecs\utils\ArmatureUtils.h" />
@@ -254,6 +257,9 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\foundation\math\GVec2.h" />
     <ClInclude Include="..\Classes\foundation\math\GVec3.h" />
     <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h" />
+    <ClInclude Include="..\Classes\foundation\render\GMapLayer.h" />
+    <ClInclude Include="..\Classes\game\GGameLayer.h" />
+    <ClInclude Include="..\Classes\game\GGameWorld.h" />
     <ClInclude Include="..\Classes\GCommon.h" />
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
     <ClInclude Include="..\Classes\ide-support\lua_debugger.h" />
@@ -313,6 +319,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\ecs\system\GlobalSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\InitSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp" />
+    <ClCompile Include="..\Classes\ecs\system\RenderSyncSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\SIMPhysSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\system\TransformSyncSystem.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\ArmatureUtils.cpp" />
@@ -330,6 +337,9 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\foundation\fsm\GState.cpp" />
     <ClCompile Include="..\Classes\foundation\fsm\GTranslation.cpp" />
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp" />
+    <ClCompile Include="..\Classes\foundation\render\GMapLayer.cpp" />
+    <ClCompile Include="..\Classes\game\GGameLayer.cpp" />
+    <ClCompile Include="..\Classes\game\GGameWorld.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />
     <ClCompile Include="..\Classes\ide-support\RuntimeLuaImpl.cpp" />
     <ClCompile Include="..\Classes\lua_function\LuaFunction.cpp" />

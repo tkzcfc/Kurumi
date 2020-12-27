@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "ecs/system/PhysicsSystem.h"
+#include "ecs/system/GlobalSystem.h"
 
 USING_NS_CC;
 
@@ -41,6 +42,7 @@ protected:
 protected:
 
 	PhysicsSystem* m_physicsSystem;
+	GlobalSystem m_globalSystem;
 
 	anax::World m_world;
 

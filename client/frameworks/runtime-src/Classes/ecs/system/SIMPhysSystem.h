@@ -5,15 +5,15 @@
 class SIMPhysSystem : public anax::System<anax::Requires<SIMPhysComponent>>
 {
 public:
-	SIMPhysSystem(const GVec2& gravity);
+	SIMPhysSystem();
+
+	void setGravity(const GVec2& gravity);
 
 	void update(float dt);
 
 	bool collision(SIMPhysComponent* component, float32 dx, float32 dy);
 
-#if G_TARGET_CLIENT
-	void debugDraw(DrawNode* drawNode);
-#endif
+	void debugDraw();
 
 public:
 
@@ -33,3 +33,5 @@ private:
 	std::vector<SIMPhysComponent*> m_dynamic_bodies;
 	GVec2 m_gravity;
 };
+
+DEFINE_SYSTEM(SIMPhysSystem);

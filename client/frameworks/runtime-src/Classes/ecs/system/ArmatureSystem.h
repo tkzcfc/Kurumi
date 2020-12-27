@@ -13,11 +13,11 @@ public:
 
 	void update(float32 delta);
 
-	void step();
-
 	float32 curTime;
 
 private:
+
+	void step();
 
 	void stepAni(ArmatureComponent& component);
 
