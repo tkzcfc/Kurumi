@@ -23,6 +23,7 @@
 #include "test/TestArmature.h"
 #include "test/TestPhysics.h"
 #include "test/TestSIMPhys.h"
+#include "game/GGameLayer.h"
 #endif
 
 using namespace CocosDenshion;
@@ -74,7 +75,12 @@ bool AppDelegate::applicationDidFinishLaunching()
 	FileUtils::getInstance()->addSearchPath("res/");
 	//Director::getInstance()->runWithScene(TestArmature::createScene());
 	//Director::getInstance()->runWithScene(TestPhysics::createScene());
-	Director::getInstance()->runWithScene(TestSIMPhys::createScene());
+	//Director::getInstance()->runWithScene(TestSIMPhys::createScene());
+
+	auto scene = cocos2d::Scene::create();
+	scene->addChild(GGameLayer::create());
+	Director::getInstance()->runWithScene(scene);
+
 	Director::getInstance()->setDisplayStats(true);
 #else
     // register lua module

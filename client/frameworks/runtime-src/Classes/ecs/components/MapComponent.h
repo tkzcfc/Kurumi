@@ -6,7 +6,6 @@
 #include "foundation/render/GMapLayer.h"
 #endif
 
-// ¹Ç÷À¶¯»­×é¼þ
 class MapComponent : public anax::Component
 {
 public:
@@ -15,9 +14,18 @@ public:
 #if G_TARGET_CLIENT
 		render = NULL;
 #endif
+		mapWidth = 0.0f;
+		mapHeight = 0.0f;
+		minPosy = 0.0f;
+		maxPosy = 0.0f;
 	}
 
 #if G_TARGET_CLIENT
 	GMapLayer* render;
 #endif
+	float32 mapWidth;
+	float32 mapHeight;
+	
+	float32 minPosy;
+	float32 maxPosy;
 };

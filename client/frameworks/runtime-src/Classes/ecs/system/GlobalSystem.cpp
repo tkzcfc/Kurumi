@@ -6,6 +6,7 @@ void GlobalSystem::initialize()
 
 	admin.addComponent<UniqueComponent>();
 	admin.addComponent<DebugComponent>();
+	admin.addComponent<MapComponent>();
 
 	admin.activate();
 }

@@ -1,6 +1,7 @@
 #include "ArmatureRenderSystem.h"
 #include "foundation/animator/GAnimCMD.h"
 #include "foundation/animator/GAnimData.h"
+#include "ecs/components/MapComponent.h"
 #include "ecs/utils/CommonUtils.h"
 
 #if  G_TARGET_CLIENT
@@ -21,10 +22,10 @@ void ArmatureRenderSystem::render()
 			if (render == NULL)
 			{
 				auto& admin = CommonUtils::getAdmin(this->getWorld());
-				auto uniqueComponent = admin.getComponent<UniqueComponent>();
+				auto mapComponent = admin.getComponent<MapComponent>();
 
 				render = cocostudio::Armature::create();
-				uniqueComponent.stageNode->addChild(render);
+				mapComponent.render->getActorNode()->addChild(render);
 
 				renderComponent.render = render;
 			}
@@ -69,9 +70,9 @@ void ArmatureRenderSystem::render()
 						//CCLOG("kArmatureRenderAction::RUN_3(PAUSE) %s", component.curAniName.c_str());
 					}
 				}break;
-				// ×·¸ÏÂß¼­äÖÈ¾Ö¡
+				// ×·¸ÏÂß¼­Ö¡
 				case kArmatureRenderAction::PURSUE:
-				// µÈ´ıÂß¼­äÖÈ¾Ö¡
+				// µÈ´ıÂß¼­Ö¡
 				case kArmatureRenderAction::AWAIT:
 				{
 					if (component.playing)

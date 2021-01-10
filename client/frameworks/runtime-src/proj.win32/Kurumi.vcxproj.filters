@@ -413,9 +413,6 @@
     <ClInclude Include="..\Classes\foundation\render\GMapLayer.h">
       <Filter>Classes\foundation\render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\InitSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\game\GGameLayer.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
@@ -424,6 +421,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\components\DebugComponent.h">
       <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\render\GVirtualCamera.h">
+      <Filter>Classes\foundation\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -614,9 +614,6 @@
     <ClCompile Include="..\Classes\ecs\system\TransformSyncSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\InitSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp">
       <Filter>Classes\ecs\utils</Filter>
     </ClCompile>
@@ -658,6 +655,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\game\GGameWorld.cpp">
       <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\render\GVirtualCamera.cpp">
+      <Filter>Classes\foundation\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

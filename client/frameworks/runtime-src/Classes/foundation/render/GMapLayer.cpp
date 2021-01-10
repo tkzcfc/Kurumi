@@ -1,32 +1,25 @@
 ﻿#include "GMapLayer.h"
 #include "foundation/ParticleSystemHelper.h"
 #include "cocostudio/CocoStudio.h"
+#include "json/document.h"
+#include "json/stringbuffer.h"
 
 GMapLayer::GMapLayer()
-	: m_minPosY(0.0f)
-	, m_actorNode(NULL)
-	, m_lockMapY(false)
-	, m_fixNodeBeginX(0.0f)
-	, m_save_view_x(-1.0f)
-	, m_save_view_y(-1.0f)
-	, m_enableViewPosLimit(false)
-	, m_openAreaMinX(0)
-	, m_openAreaMaxX(0)
+	: m_actorNode(NULL)
+	, m_drawNode(NULL)
+	, m_rootNode(NULL)
+	, m_camera(NULL)
 {
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
-	{
-		m_mapNode[i] = NULL;
-	}
 }
 
 GMapLayer::~GMapLayer()
 {
 }
 
-GMapLayer * GMapLayer::create()
+GMapLayer * GMapLayer::create(int mapId)
 {
 	GMapLayer * ret = new (std::nothrow) GMapLayer();
-	if (ret && ret->init())
+	if (ret && ret->init() && ret->initWithMapID(mapId))
 	{
 		ret->autorelease();
 	}
@@ -42,209 +35,153 @@ bool GMapLayer::init()
 	if (!Node::init())
 		return false;
 
-	m_viewSize = Director::getInstance()->getVisibleSize();
-	m_halfViewSize = m_viewSize * 0.5f;
+	m_rootNode = Node::create();
+	this->addChild(m_rootNode);
 
-#if COCOS2D_DEBUG == 1
 	m_drawNode = DrawNode::create();
-	this->addChild(m_drawNode, 0xffff);
-#endif
+	m_rootNode->addChild(m_drawNode, 0xffff);
+
 	return true;
 }
 
-void GMapLayer::loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName, float minPosY)
+bool GMapLayer::initWithMapID(int mapId)
 {
-	if (m_actorNode)
-		return;
+	auto cfgFile = StringUtils::format("map_export/mi_%d.json", mapId);
+	auto mapFile = StringUtils::format("map/map%d/m.json", mapId);
 
-	m_minPosY = minPosY;
+	if (!FileUtils::getInstance()->isFileExist(mapFile))
+		return false;
 
-	Node* rootNode = cocostudio::SceneReader::getInstance()->createNodeWithSceneFile(filepath);
-	addChild(rootNode);
+	auto content = FileUtils::getInstance()->getStringFromFile(cfgFile);
+	if (content.empty())
+		return false;
 
-	if (m_actorNode && m_actorNode->getParent())
+	rapidjson::Document json;
+	rapidjson::StringStream stream(content.c_str());
+
+	json.ParseStream<0>(stream);
+	if (json.HasParseError())
 	{
-		m_actorNode->removeFromParent();
-		m_actorNode = NULL;
+		CCLOG("GetParseError %d\n", json.GetParseError());
+		return false;
 	}
 
-	Node* targetNode = NULL;
+	if (json.HasMember("infos") == false)
+		return false;
 
-	auto& child = rootNode->getChildren();
-	for (auto& it : child)
+	auto it = json.FindMember("infos");
+	auto& arr = it->value;
+	if (arr.IsArray() == false)
+		return false;
+
+	Node* mapRender = cocostudio::SceneReader::getInstance()->createNodeWithSceneFile(mapFile);
+	if (mapRender == NULL)
+		return false;
+
+	auto& child = mapRender->getChildren();
+	if (child.empty())
+		return false;
+
+	m_actorNode = NULL;
+	for (auto i = 0; i < arr.Size(); ++i)
 	{
-		//CCLOG("[T%d][Z%d][Z%d] : [%s] X[%f]Y[%f]", it->getTag(), it->getLocalZOrder(), (int)it->getGlobalZOrder(), it->getName().c_str(), it->getPositionX(), it->getPositionY());
-		if (!actorNodeName.empty() && strstr(it->getName().c_str(), actorNodeName.c_str()))
+		auto& item = arr[i];
+		std::string name = item.FindMember("name")->value.GetString();
+
+		auto node = mapRender->getChildByName(name);
+		if (node && !item.FindMember("ignore")->value.GetBool())
 		{
-			targetNode = it;
-		}
-		if (!fixNodeName.empty() && strstr(it->getName().c_str(), fixNodeName.c_str()))
-		{
-			m_fixNodeBeginX = it->getPositionX();
-			m_mapNode[GameMapNodeType::FIX_NODE] = it;
-			m_mapNodeSize[GameMapNodeType::FIX_NODE] = it->getContentSize();
-		}
-	}
-	CC_ASSERT(targetNode != NULL);
+			SubMapNodeInfo nodeInfo;
+			nodeInfo.isActor = false;
+			nodeInfo.ignore = false;
+			nodeInfo.node = node;
+			nodeInfo.size.width = item.FindMember("w")->value.GetDouble();
+			nodeInfo.size.height = item.FindMember("h")->value.GetDouble();
 
-	m_actorNode = Node::create();
-	rootNode->addChild(m_actorNode, targetNode->getLocalZOrder());
+			if (item.HasMember("actor") && item.FindMember("actor")->value.GetBool())
+			{
+				CC_ASSERT(m_actorNode == NULL);
+				m_actorNode = Node::create();
+				node->addChild(m_actorNode, 0xff);
 
-	m_mapSize = rootNode->getContentSize();
-	m_openAreaMaxX = m_mapSize.width;
-	m_mapNodeSize[GameMapNodeType::STAGE_NODE] = m_mapSize;
-
-	changeParticleSystemPositionType(rootNode, (int)ParticleSystem::PositionType::GROUPED);
-
-	m_mapNode[GameMapNodeType::STAGE_NODE] = rootNode;
-
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
-	{
-		m_mapNodeMoveSize[i].width = MAX(m_mapNodeSize[i].width, 0.0f);
-		m_mapNodeMoveSize[i].height = MAX(m_mapNodeSize[i].height - m_viewSize.height, 0.0f);
-	}
-
-	//#if COCOS2D_DEBUG == 1
-	//	DrawNode* draw = DrawNode::create();
-	//	for (auto i = -10; i <= 50; ++i)
-	//	{
-	//		std::string show = StringUtils::format("(%d)", i * 100);
-	//		Label* label = Label::create(show, "", 20);
-	//		label->setColor(Color3B::RED);
-	//		label->setPosition(i * 100, 200);
-	//		rootNode->addChild(label, 0xffff);
-	//
-	//		draw->drawLine(Vec2(i * 100, 0), Vec2(i * 100, m_viewSize.height), Color4F::BLUE);
-	//	}
-	//	rootNode->addChild(draw, 0xffff);
-	//#endif
-}
-
-void GMapLayer::setViewPos(float x, float y)
-{
-	CC_ASSERT(m_mapSize.width > 0.0f && m_mapSize.height > 0.0f);
-
-	y = y - m_minPosY;
-
-	if (m_enableViewPosLimit)
-	{
-		x = MAX(x, 0.0f);
-		x = MIN(x, m_mapSize.width);
-		y = MAX(y, 0.0f);
-		y = MIN(y, m_mapSize.height);
-	}
-
-	if (fabs(m_save_view_x - x) < 0.0001f && fabs(m_save_view_y - y) < 0.0001f)
-	{
-		return;
-	}
-
-	float percent_x = 0.0f;
-	float percent_y = y / m_viewSize.height;
-
-	if (x <= m_halfViewSize.width + m_openAreaMinX)
-	{
-		percent_x = m_openAreaMinX / m_mapSize.width;
-	}
-	else if (x >= m_openAreaMaxX - m_halfViewSize.width)
-	{
-		percent_x = (m_openAreaMaxX - m_viewSize.width) / m_mapSize.width;
-	}
-	else
-	{
-		percent_x = (x - m_halfViewSize.width) / m_mapSize.width;
-	}
-
-	float curx, cury;
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
-	{
-		if (m_mapNode[i] == NULL)
-			continue;
-		curx = 0.0f;
-		if (i == GameMapNodeType::FIX_NODE)
-		{
-			curx = percent_x * m_mapNodeMoveSize[i].width;
-			curx = curx + m_mapNode[GameMapNodeType::STAGE_NODE]->getPositionX();
-			curx = curx - m_fixNodeBeginX;
-		}
-		else
-		{
-			curx = percent_x * m_mapNodeMoveSize[i].width;
-		}
-		if (m_lockMapY)
-		{
-			m_mapNode[i]->setPositionX(-curx);
-		}
-		else
-		{
-			cury = percent_y * m_mapNodeMoveSize[i].height;
-			m_mapNode[i]->setPosition(-curx, -cury);
+				m_mapSize = nodeInfo.size;
+				nodeInfo.isActor = true;
+			}
+			m_arrSubMapNodeInfo.emplace_back(nodeInfo);
 		}
 	}
+	if (m_actorNode == NULL)
+		return false;
 
-#if COCOS2D_DEBUG == 1
-	if (m_lockMapY)
+	m_rootNode->setContentSize(m_mapSize);
+	m_rootNode->addChild(mapRender);
+
+	for (auto& info : m_arrSubMapNodeInfo)
 	{
-		m_drawNode->setPositionX(m_mapNode[GameMapNodeType::STAGE_NODE]->getPositionX());
+		info.originPos = info.node->getPosition();
+		info.diffSize = info.size - m_mapSize;
+		info.ignore = std::fabsf(info.diffSize.width) < 1.0f && std::fabsf(info.diffSize.height) < 1.0f;
 	}
-	else
+
+	// camera
+	m_camera = GVirtualCamera::create();
+	m_camera->setCall([=](float px, float py, float scale)
 	{
-		m_drawNode->setPosition(m_mapNode[GameMapNodeType::STAGE_NODE]->getPosition());
-	}
-#endif
+		m_rootNode->setPosition(-px, -py);
+		m_rootNode->setScale(scale);
 
-	m_save_view_y = y;
-	m_save_view_x = x;
+		float scalex = 0.0f, scaley = 0.0f;
+
+		if (m_diffMapViewSize.width > 0.0f)
+		{
+			scalex = px / m_diffMapViewSize.width;
+			if (scale > 1.0f)
+			{
+				scalex = scalex / scale;
+			}
+			scalex = MAX(scalex, 0.0f);
+			scalex = MIN(scalex, 1.0f);
+		}
+		if (m_diffMapViewSize.height > 0.0f)
+		{
+			scaley = py / m_diffMapViewSize.height;
+			if (scale > 1.0f)
+			{
+				scaley = scaley / scale;
+			}
+			scaley = MAX(scaley, 0.0f);
+			scaley = MIN(scaley, 1.0f);
+		}
+
+		scalex = -scalex;
+		scaley = -scaley;
+
+		for (auto& info : m_arrSubMapNodeInfo)
+		{
+			if (info.ignore == false)
+			{
+				float tmpx = info.diffSize.width * scalex + info.originPos.x;
+				float tmpy = info.diffSize.height * scaley + info.originPos.y;
+				info.node->setPosition(tmpx, tmpy);
+			}
+		}
+	});
+	m_camera->setWorldSize(m_mapSize);
+	m_camera->setEnableCollision(true);
+	this->addComponent(m_camera);
+
+	this->setViewSize(Director::getInstance()->getVisibleSize());
+
+	changeParticleSystemPositionType(mapRender, (int)ParticleSystem::PositionType::GROUPED);
+
+	return true;
 }
 
-void GMapLayer::setViewSize(float width, float height)
+void GMapLayer::setViewSize(const Size& size)
 {
-	m_viewSize.width = width;
-	m_viewSize.height = height;
-	m_halfViewSize = m_viewSize * 0.5f;
-
-	for (int i = 0; i < (int)GameMapNodeType::COUNT; ++i)
+	m_diffMapViewSize = m_mapSize - size;
+	if (m_camera)
 	{
-		m_mapNodeMoveSize[i].width = MAX(m_mapNodeMoveSize[i].width - m_viewSize.width, 0.0f);
-		m_mapNodeMoveSize[i].height = MAX(m_mapNodeMoveSize[i].height - m_viewSize.height, 0.0f);
+		m_camera->setViewPortSize(size);
 	}
-}
-
-float GMapLayer::getValidWorldX(float inValue, float actorRadius)
-{
-	float minX = MAX(m_openAreaMinX, 0);
-	float maxX = MIN(m_openAreaMaxX, m_mapSize.width);
-
-	inValue = MAX(minX + actorRadius, inValue);
-	inValue = MIN(maxX - actorRadius, inValue);
-
-	return inValue;
-}
-
-float GMapLayer::getValidWorldY(float inValue, float actorRadius)
-{
-	inValue = MAX(actorRadius, inValue);
-	inValue = MIN(m_mapSize.height - actorRadius, inValue);
-	return inValue;
-}
-
-void GMapLayer::setOpenAreaMinx(float value)
-{
-	m_openAreaMinX = value;
-	m_save_view_x = -1000.0f;
-	m_save_view_y = -1000.0f;
-}
-
-void GMapLayer::setOpenAreaMaxX(float value)
-{
-	m_openAreaMaxX = value;
-	m_save_view_x = -1000.0f;
-	m_save_view_y = -1000.0f;
-}
-
-void GMapLayer::setEnableViewPosLimit(bool enable)
-{
-	m_enableViewPosLimit = enable;
-	m_save_view_x = -1000.0f;
-	m_save_view_y = -1000.0f;
 }

@@ -1,14 +1,7 @@
 #pragma once
 
 #include "foundation/GameMacro.h"
-
-
-enum GameMapNodeType
-{
-	STAGE_NODE,
-	FIX_NODE,
-	COUNT
-};
+#include "foundation/render/GVirtualCamera.h"
 
 class GMapLayer : public Node
 {
@@ -17,83 +10,46 @@ public:
 
 	virtual ~GMapLayer();
 
-	static GMapLayer * create();
+	static GMapLayer * create(int mapId);
 
 	virtual bool init()override;
 
-public:
+private:
 
-	void loadMapFile(const std::string& filepath, const std::string& actorNodeName, const std::string& fixNodeName, float minPosY);
-
-	void setViewPos(float x, float y);
-
-	void setViewSize(float width, float height);
-
-	float getValidWorldX(float inValue, float actorRadius);
-
-	float getValidWorldY(float inValue, float actorRadius);
-
-	void setOpenAreaMinx(float value);
-
-	void setOpenAreaMaxX(float value);
-
-	void setEnableViewPosLimit(bool enable);
+	bool initWithMapID(int mapId);
 
 public:
 
-	inline Node* getActorNode() { return m_actorNode; }
-
-	inline void lockMapY() { m_lockMapY = true; }
-
-	inline void unlockMapY() { m_lockMapY = false; }
+	void setViewSize(const Size& size);
 
 	inline float getMapWidth() { return m_mapSize.width; }
 
 	inline float getMapHeight() { return m_mapSize.height; }
 
-	inline Node* getRootNode() { return m_mapNode[GameMapNodeType::STAGE_NODE]; }
+	inline Node* getActorNode() { return m_actorNode; }
 
-	inline float getMinPosY() { return m_minPosY; }
-
-	inline bool isEnableViewPosLimit() { return m_enableViewPosLimit; }
-
-	inline float getOpenAreaMinX() { return m_openAreaMinX; }
-
-	inline float getOpenAreaMaxX() { return m_openAreaMaxX; }
-
-#if COCOS2D_DEBUG == 1 
 	inline DrawNode* getDrawNode() { return m_drawNode; }
-#else
-	inline DrawNode* getDrawNode() { return NULL; }
-#endif
+
+	inline GVirtualCamera* getVirtualCamera() { return m_camera; }
 
 private:
 
-
-	Size m_mapNodeSize[GameMapNodeType::COUNT];
-	Size m_mapNodeMoveSize[GameMapNodeType::COUNT];
-
-	Node* m_mapNode[GameMapNodeType::COUNT];
-
 	Node* m_actorNode;
-
-	float m_fixNodeBeginX;
+	DrawNode* m_drawNode;
+	Node* m_rootNode;
+	GVirtualCamera* m_camera;
 
 	Size m_mapSize;
-	Size m_viewSize;
-	Size m_halfViewSize;
-	bool m_lockMapY;
+	Size m_diffMapViewSize;
 
-	float m_save_view_x;
-	float m_save_view_y;
-
-	float m_minPosY;
-
-#if COCOS2D_DEBUG == 1 
-	DrawNode* m_drawNode;
-#endif
-
-	bool m_enableViewPosLimit;
-	float m_openAreaMinX;
-	float m_openAreaMaxX;
+	struct SubMapNodeInfo
+	{
+		bool isActor;
+		bool ignore;
+		Node* node;
+		Size size;
+		Size diffSize;
+		Vec2 originPos;
+	};
+	std::vector<SubMapNodeInfo> m_arrSubMapNodeInfo;
 };
