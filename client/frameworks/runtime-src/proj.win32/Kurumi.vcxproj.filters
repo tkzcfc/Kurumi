@@ -332,12 +332,6 @@
     <ClInclude Include="..\Classes\ecs\system\PhysicsSystem.h">
       <Filter>Classes\ecs\system</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\ShapeComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\utils\PhysicsUtils.h">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\foundation\animator\GAnimData.h">
       <Filter>Classes\foundation\animator</Filter>
     </ClInclude>
@@ -424,6 +418,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\render\GVirtualCamera.h">
       <Filter>Classes\foundation\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\InputComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\InputSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\PropertyComponent.h">
+      <Filter>Classes\ecs\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -578,9 +581,6 @@
     <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ecs\utils\PhysicsUtils.cpp">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\foundation\animator\GAnimData.cpp">
       <Filter>Classes\foundation\animator</Filter>
     </ClCompile>
@@ -658,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\render\GVirtualCamera.cpp">
       <Filter>Classes\foundation\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\InputSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

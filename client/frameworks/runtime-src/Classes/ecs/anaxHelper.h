@@ -8,6 +8,19 @@
 /// Component
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+class BaseComponent : public anax::Component
+{
+public:
+
+	BaseComponent() {}
+
+	virtual ~BaseComponent(){}
+
+	virtual void serialize() {}
+
+	virtual void deserialize() {}
+};
+
 class ComponentHelper
 {
 public:

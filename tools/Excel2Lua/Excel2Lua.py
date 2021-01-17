@@ -415,7 +415,7 @@ def exportDir(workDir, outDir):
     for file in outFileArr:
         fsize = os.path.getsize(os.path.abspath(file))
         # 大于100kb才进行优化
-        if fsize > 1024 * 100:
+        if fsize < 1024 * 100:
             print("%s start..." % file)
             luaexe = os.path.abspath("luajit.exe")
             luafile = os.path.abspath("DataTableOptimizer.lua")

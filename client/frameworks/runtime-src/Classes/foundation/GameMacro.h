@@ -56,3 +56,9 @@ enum BOX2D_FILTER_MASK
 #else
 #define ENABLE_ARMATURE_COLLISION_DRAW_DEBUG 0
 #endif
+
+
+#define G_BIT_SET(b, flag) (b |= flag)
+#define G_BIT_GET(b, flag) (b & flag)
+#define G_BIT_CLEAR(b, flag) (b &= ~flag)
+#define G_BIT_EQUAL(b, flag) ((b & flag) == flag)

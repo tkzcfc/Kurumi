@@ -188,9 +188,12 @@ bool GGameWorld::spawnPlayer()
 {
 	anax::Entity entity;
 
+	static int s_index = -1;
+	s_index++;
+
 	ActorIdentityInfo info;
 	info.bodySize = GVec2(40.0f, 120.0f);
-	info.originPos = GVec2(300.0f, 200.0f);
+	info.originPos = GVec2(300.0f + s_index * 500, 200.0f);
 	info.roleName = "A1044";
 	CommonUtils::spawnActor(m_world, info, &entity);
 	
@@ -239,6 +242,7 @@ void GGameWorld::render()
 {
 #if G_TARGET_CLIENT
 	m_armatureRenderSystem.render();
+	m_transformSyncSystem.syncRender();
 
 #if G_DEBUG
 	if (m_debugDrawNode)

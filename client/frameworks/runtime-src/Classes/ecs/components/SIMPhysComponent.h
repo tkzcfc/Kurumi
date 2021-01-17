@@ -3,7 +3,7 @@
 #include "ecs/anaxHelper.h"
 #include "foundation/math/GMath.h"
 
-class SIMPhysComponent : public anax::Component
+class SIMPhysComponent : public BaseComponent
 {
 public:
 	SIMPhysComponent()
@@ -39,5 +39,3 @@ public:
 	GVec2 position;
 	GVec2 size;
 };
-
-DEFINE_COMPONENT(SIMPhysComponent);

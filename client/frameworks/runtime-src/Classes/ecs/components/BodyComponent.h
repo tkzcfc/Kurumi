@@ -9,7 +9,7 @@ enum GBodyType
 	DYNAMIC_BODY
 };
 
-class BodyComponent : public anax::Component
+class BodyComponent : public BaseComponent
 {
 public:
 	BodyComponent()
@@ -65,5 +65,3 @@ public:
 
 	GShape* shape;
 };
-
-DEFINE_COMPONENT(BodyComponent);

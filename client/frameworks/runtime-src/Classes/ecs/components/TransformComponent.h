@@ -2,7 +2,7 @@
 
 #include "ecs/anaxHelper.h"
 
-class TransformComponent : public anax::Component
+class TransformComponent : public BaseComponent
 {
 public:
 	TransformComponent()
@@ -25,6 +25,4 @@ public:
 	float32 rotation;
 };
 
-
-DEFINE_COMPONENT(TransformComponent);
 

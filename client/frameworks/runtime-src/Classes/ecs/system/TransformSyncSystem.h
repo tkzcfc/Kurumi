@@ -10,6 +10,8 @@ class TransformSyncSystem : public anax::System<anax::Requires<TransformComponen
 public:
 
 	void sync();
+
+	void syncRender();
 };
 
 DEFINE_SYSTEM(TransformSyncSystem);

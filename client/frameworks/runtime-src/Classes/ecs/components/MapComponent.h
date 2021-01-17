@@ -6,7 +6,7 @@
 #include "foundation/render/GMapLayer.h"
 #endif
 
-class MapComponent : public anax::Component
+class MapComponent : public BaseComponent
 {
 public:
 	MapComponent()

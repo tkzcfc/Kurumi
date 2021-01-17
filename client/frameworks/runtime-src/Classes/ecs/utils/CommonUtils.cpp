@@ -1,8 +1,9 @@
 #include "CommonUtils.h"
 
+#include "ecs/components/TransformComponent.h"
+#include "ecs/components/DebugComponent.h"
 #include "ecs/system/GlobalSystem.h"
 #include "ecs/system/SIMPhysSystem.h"
-#include "ecs/components/DebugComponent.h"
 #include "ecs/utils/ArmatureUtils.h"
 
 #include "foundation/file/GFileUtiles.h"
@@ -77,12 +78,16 @@ bool CommonUtils::spawnActor(anax::World& world, ActorIdentityInfo& info, anax::
 {
 	auto entity = world.createEntity();
 
+	// 位置信息
+	auto& transform = entity.addComponent<TransformComponent>();
+
 	// 物理信息
 	SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
 
 	// 动画信息
 	ArmatureUtils::initAnimationComponent(entity);
 	ArmatureUtils::changeRole(entity, info.roleName);
+	ArmatureUtils::playAnimationCMD(entity, "ANI_NAME_FIGHT_STAND", kArmaturePlayMode::LOOP);
 
 	*outActor = entity;
 

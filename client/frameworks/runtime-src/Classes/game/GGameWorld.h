@@ -27,7 +27,7 @@ public:
 	void render();
 
 private:
-
+	
 	// 初始化世界边界碰撞
 	bool initBorder();
 

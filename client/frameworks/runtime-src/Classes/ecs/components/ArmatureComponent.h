@@ -9,8 +9,18 @@ enum kArmaturePlayMode
 	LOOP
 };
 
+enum class kArmatureRenderAction
+{
+	NONE,
+	PAUSE,		// 暂停
+	PURSUE,		// 追赶逻辑渲染帧
+	AWAIT,		// 等待逻辑渲染帧
+	RUN,		// 正常执行
+};
+
+
 // 骨骼动画组件
-class ArmatureComponent : public anax::Component
+class ArmatureComponent : public BaseComponent
 {
 public:
 	ArmatureComponent() 
@@ -32,12 +42,6 @@ public:
 	// 角色名,用于获取动画命令
 	std::string roleName;
 
-#if G_TARGET_SERVER
-#else
-	// 创建 cocostudio::Armature 的名称
-	//std::string armatureName;
-#endif
-
 	int32_t cmdIndex;
 	int32_t cmdCount;
 
@@ -45,32 +49,25 @@ public:
 	bool playing;
 };
 
-#if G_TARGET_SERVER
-#else
-enum class kArmatureRenderAction
-{
-	NONE,
-	PAUSE,		// 暂停
-	PURSUE,		// 追赶逻辑渲染帧
-	AWAIT,		// 等待逻辑渲染帧
-	RUN,		// 正常执行
-};
 // 骨骼动画渲染组件
-class ArmatureRenderComponent : public anax::Component
+class ArmatureRenderComponent : public BaseComponent
 {
 public:
-
 	ArmatureRenderComponent()
 	{
+#if G_TARGET_CLIENT
 		actionType = kArmatureRenderAction::NONE;
 		render = NULL;
+#endif
 	}
 
+#if G_TARGET_CLIENT
 	cocostudio::Armature* render;
 	kArmatureRenderAction actionType;
 	std::string m_cacheRoleName;
-};
 #endif
+};
+
 
 
 //
@@ -115,12 +112,4 @@ public:
 //	bool m_collisionEnable;
 //};
 
-DEFINE_COMPONENT(ArmatureComponent);
-//DEFINE_COMPONENT(ArmatureCollisionComponent);
-//DEFINE_COMPONENT(CollisionFilterComponent);
-
-#if G_TARGET_SERVER
-#else
-DEFINE_COMPONENT(ArmatureRenderComponent);
-#endif
 

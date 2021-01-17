@@ -3,7 +3,7 @@
 #include "ecs/anaxHelper.h"
 
 
-class UniqueComponent : public anax::Component
+class UniqueComponent : public BaseComponent
 {
 public:
 	UniqueComponent()
@@ -17,8 +17,3 @@ public:
 	cocos2d::Node* mapNode;
 #endif
 };
-
-DEFINE_COMPONENT(UniqueComponent);
-
-
-

@@ -3,7 +3,7 @@
 #include "ecs/anaxHelper.h"
 
 
-class DebugComponent : public anax::Component
+class DebugComponent : public BaseComponent
 {
 public:
 
