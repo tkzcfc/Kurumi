@@ -3,23 +3,24 @@
 #include "ecs/anaxHelper.h"
 #include "foundation/animator/GAnimData.h"
 
-enum kArmaturePlayMode
+enum class kArmaturePlayMode
 {
 	ONCE = 0,
-	LOOP
+	LOOP,
+	DEFAULT
 };
 
 enum class kArmatureRenderAction
 {
 	NONE,
-	PAUSE,		// ÔİÍ£
-	PURSUE,		// ×·¸ÏÂß¼­äÖÈ¾Ö¡
-	AWAIT,		// µÈ´ıÂß¼­äÖÈ¾Ö¡
-	RUN,		// Õı³£Ö´ĞĞ
+	PAUSE,		// æš‚åœ
+	PURSUE,		// è¿½èµ¶é€»è¾‘æ¸²æŸ“å¸§
+	AWAIT,		// ç­‰å¾…é€»è¾‘æ¸²æŸ“å¸§
+	RUN,		// æ­£å¸¸æ‰§è¡Œ
 };
 
 
-// ¹Ç÷À¶¯»­×é¼ş
+// éª¨éª¼åŠ¨ç”»ç»„ä»¶
 class ArmatureComponent : public BaseComponent
 {
 public:
@@ -28,18 +29,21 @@ public:
 		curFrameIndex = 0;
 		cmdIndex = 0;
 		cmdCount = 0;
-		mode = kArmaturePlayMode::ONCE;
+		mode = kArmaturePlayMode::DEFAULT;
 		playing = false;
+		onFinishCall = NULL;
+		curTime = 0.0f;
+		timeScale = 1.0f;
 	}
-	// µ±Ç°Ö¡
+	// å½“å‰å¸§
 	uint32_t curFrameIndex;
-	// µ±Ç°¶¯×÷¶¯»­Ãû
+	// å½“å‰åŠ¨ä½œåŠ¨ç”»å
 	std::string curAniName;
-	// ¶¯»­ÎÄ¼ş,ÓÃÓÚ»ñÈ¡¶¯»­ÎÄ¼şÊı¾İ
+	// åŠ¨ç”»æ–‡ä»¶,ç”¨äºè·å–åŠ¨ç”»æ–‡ä»¶æ•°æ®
 	//std::string aniFile;
-	// µ±Ç°¶¯»­ÃüÁî
+	// å½“å‰åŠ¨ç”»å‘½ä»¤
 	std::string curAniCMD;
-	// ½ÇÉ«Ãû,ÓÃÓÚ»ñÈ¡¶¯»­ÃüÁî
+	// è§’è‰²å,ç”¨äºè·å–åŠ¨ç”»å‘½ä»¤
 	std::string roleName;
 
 	int32_t cmdIndex;
@@ -47,9 +51,14 @@ public:
 
 	kArmaturePlayMode mode;
 	bool playing;
+
+	std::function<void()> onFinishCall;
+
+	float32 curTime;
+	float32 timeScale;
 };
 
-// ¹Ç÷À¶¯»­äÖÈ¾×é¼ş
+// éª¨éª¼åŠ¨ç”»æ¸²æŸ“ç»„ä»¶
 class ArmatureRenderComponent : public BaseComponent
 {
 public:
@@ -71,7 +80,7 @@ public:
 
 
 //
-//// ¹Ç÷À¶¯»­Åö×²×é¼ş
+//// éª¨éª¼åŠ¨ç”»ç¢°æ’ç»„ä»¶
 //class ArmatureCollisionComponent : public anax::Component, public Ref
 //{
 //public:
@@ -84,20 +93,20 @@ public:
 //	}
 //	virtual ~ArmatureCollisionComponent() {}
 //
-//	// ×÷Îª¹¥»÷ÕßÅö×²»Øµ÷
+//	// ä½œä¸ºæ”»å‡»è€…ç¢°æ’å›è°ƒ
 //	LuaFunction m_attCollisionCall;
-//	// ×÷ÎªÊÜ»÷ÕßÅö×²»Øµ÷
+//	// ä½œä¸ºå—å‡»è€…ç¢°æ’å›è°ƒ
 //	LuaFunction m_defCollisionCall;
 //
 //	bool m_defCacheDirty;
 //	bool m_attCacheDirty;
 //
-//	// Åö×²¾ØĞÎ»º´æ
+//	// ç¢°æ’çŸ©å½¢ç¼“å­˜
 //	std::vector<ArmatureCollisionRect> m_defRectCache;
 //	std::vector<ArmatureCollisionRect> m_attRectCache;
 //};
 //
-//// ¹Ç÷À¶¯»­Åö×²¹ıÂË×é¼ş
+//// éª¨éª¼åŠ¨ç”»ç¢°æ’è¿‡æ»¤ç»„ä»¶
 //class CollisionFilterComponent : public anax::Component, public Ref
 //{
 //public:

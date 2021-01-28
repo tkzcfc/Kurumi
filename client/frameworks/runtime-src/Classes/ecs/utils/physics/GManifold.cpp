@@ -18,7 +18,7 @@ void GManifold::Solve(void)
 void GManifold::Initialize(const GVec2& gravity, float dt)
 {
 	// Calculate average restitution
-	e = std::min(bodyA->restitution, bodyB->restitution);
+	e = MIN(bodyA->restitution, bodyB->restitution);
 
 	// Calculate static and dynamic friction
 	sf = std::sqrt(bodyA->staticFriction * bodyB->staticFriction);
@@ -114,7 +114,7 @@ void GManifold::PositionalCorrection(void)
 {
 	const real k_slop = 0.05f; // Penetration allowance
 	const real percent = 0.4f; // Penetration percentage to correct
-	GVec2 correction = (std::max(penetration - k_slop, 0.0f) / (bodyA->im + bodyB->im)) * normal * percent;
+	GVec2 correction = (MAX(penetration - k_slop, 0.0f) / (bodyA->im + bodyB->im)) * normal * percent;
 	bodyA->position -= correction * bodyA->im;
 	bodyB->position += correction * bodyB->im;
 }

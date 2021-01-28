@@ -16,23 +16,23 @@ public:
 	bool isStatic;
 
 
-	// ¼ò»¯ÔËËã,Ö±½Ó½«ÖÊÁ¿ÊÓÎª1
+	// ç®€åŒ–è¿ç®—,ç›´æŽ¥å°†è´¨é‡è§†ä¸º1
 	//float32 mass
 	//float32 invMass
 
-	// ¼ò»¯ÔËËã,ºöÂÔ×èÄá
-	// ÏßÐÔ×èÄá
+	// ç®€åŒ–è¿ç®—,å¿½ç•¥é˜»å°¼
+	// çº¿æ€§é˜»å°¼
 	//float32 linearDamping;
 
-	// ÔÚÃ»ÓÐ¿ÕÆø×èÁ¦µÄµØ·½£¬ÖÊÁ¿²»»áÓ°ÏìÏÂ½µËÙ¶È¡£
-	// ÒªÄ£ÄâÕæÊµµÄÇé¿ö¿ÉÒÔÊ¹ÓÃÖØÁ¦ÏµÊý,»òÕßÊ¹ÓÃ×èÄáÄ£Äâ¿ÕÆøÄ¦²Áµ¼ÖÂµÄ¼õËÙÇé¿ö
+	// åœ¨æ²¡æœ‰ç©ºæ°”é˜»åŠ›çš„åœ°æ–¹ï¼Œè´¨é‡ä¸ä¼šå½±å“ä¸‹é™é€Ÿåº¦ã€‚
+	// è¦æ¨¡æ‹ŸçœŸå®žçš„æƒ…å†µå¯ä»¥ä½¿ç”¨é‡åŠ›ç³»æ•°,æˆ–è€…ä½¿ç”¨é˜»å°¼æ¨¡æ‹Ÿç©ºæ°”æ‘©æ“¦å¯¼è‡´çš„å‡é€Ÿæƒ…å†µ
 	float32 gravityScale;
 
 
-	// ÏßÐÔËÙ¶È
+	// çº¿æ€§é€Ÿåº¦
 	GVec2 linearVelocity;
 
-	// Á¦
+	// åŠ›
 	GVec2 force;
 
 	// postion + size = rect

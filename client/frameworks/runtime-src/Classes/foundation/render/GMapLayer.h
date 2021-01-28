@@ -1,6 +1,9 @@
 #pragma once
 
 #include "foundation/GameMacro.h"
+
+#if G_TARGET_CLIENT
+
 #include "foundation/render/GVirtualCamera.h"
 
 class GMapLayer : public Node
@@ -53,3 +56,5 @@ private:
 	};
 	std::vector<SubMapNodeInfo> m_arrSubMapNodeInfo;
 };
+
+#endif

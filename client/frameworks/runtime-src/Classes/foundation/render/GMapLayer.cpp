@@ -1,4 +1,7 @@
-﻿#include "GMapLayer.h"
+#include "GMapLayer.h"
+
+#if G_TARGET_CLIENT
+
 #include "foundation/ParticleSystemHelper.h"
 #include "cocostudio/CocoStudio.h"
 #include "json/document.h"
@@ -185,3 +188,5 @@ void GMapLayer::setViewSize(const Size& size)
 		m_camera->setViewPortSize(size);
 	}
 }
+
+#endif

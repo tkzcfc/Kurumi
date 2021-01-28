@@ -2,6 +2,7 @@
 
 #include "GGameWorld.h"
 
+#if G_TARGET_CLIENT
 
 class GGameLayer : public Node
 {
@@ -16,3 +17,4 @@ public:
 	GGameWorld* m_world;
 };
 
+#endif

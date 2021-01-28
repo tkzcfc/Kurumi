@@ -1,56 +1,35 @@
 #include "anaxHelper.h"
-
-#include "ecs/components/ArmatureComponent.h"
-//#include "ecs/components/Box2DComponent.h"
-//#include "ecs/components/MapFollowComponent.h"
-//#include "ecs/components/OrientationComponent.h"
-//#include "ecs/components/UpdateComponent.h"
-//#include "ecs/components/FilterComponent.h"
-//#include "ecs/components/PropertyComponent.h"
-
-//#include "ecs/system/ArmatureCollisionSystem.h"
-//#include "ecs/system/Box2DSystem.h"
-//#include "ecs/system/MapFollowSystem.h"
-//#include "ecs/system/UpdateSystem.h"
-//#include "ecs/system/FilterSystem.h"
-
+#include "ECSDefine.h"
 
 std::unordered_map<std::string, SystemHelper*> AnaxHelper::GSystemHelperMap;
 std::unordered_map<std::string, ComponentHelper*> AnaxHelper::GComponentHelperMap;
 
 void AnaxHelper::implementation()
 {
-	//IMPLEMENTATION_COMPONENT(ArmatureComponent);
-	//IMPLEMENTATION_COMPONENT(ArmatureCollisionComponent);
-	//IMPLEMENTATION_COMPONENT(CollisionFilterComponent);
-	//IMPLEMENTATION_COMPONENT(Box2DComponent);
-	//IMPLEMENTATION_COMPONENT(MapFollowComponent);
-	//IMPLEMENTATION_COMPONENT(OrientationComponent);
-	//IMPLEMENTATION_COMPONENT(UpdateComponent);
-	//IMPLEMENTATION_COMPONENT(FilterComponent);
-	//IMPLEMENTATION_COMPONENT(PropertyComponent);
+	// IMPLEMENT_BEGIN
+	IMPLEMENTATION_COMPONENT(ArmatureComponent);
+	IMPLEMENTATION_COMPONENT(ArmatureRenderComponent);
+	IMPLEMENTATION_COMPONENT(BodyComponent);
+	IMPLEMENTATION_COMPONENT(DebugComponent);
+	IMPLEMENTATION_COMPONENT(GlobalComponent);
+	IMPLEMENTATION_COMPONENT(InputComponent);
+	IMPLEMENTATION_COMPONENT(MapComponent);
+	IMPLEMENTATION_COMPONENT(PropertyComponent);
+	IMPLEMENTATION_COMPONENT(SIMPhysComponent);
+	IMPLEMENTATION_COMPONENT(TransformComponent);
+	IMPLEMENTATION_SYSTEM(ArmatureDebugSystem);
+	#if G_TARGET_CLIENT
+	IMPLEMENTATION_SYSTEM(ArmatureRenderSystem);
+	#endif
+	IMPLEMENTATION_SYSTEM(ArmatureSystem);
+	IMPLEMENTATION_SYSTEM(CollisionSystem);
+	IMPLEMENTATION_SYSTEM(GlobalSystem);
+	IMPLEMENTATION_SYSTEM(InputSystem);
+	IMPLEMENTATION_SYSTEM(PhysicsSystem);
+	IMPLEMENTATION_SYSTEM(RenderSyncSystem);
+	IMPLEMENTATION_SYSTEM(SIMPhysSystem);
+	IMPLEMENTATION_SYSTEM(TransformSyncSystem);
+	// IMPLEMENT_END
 
-
-	//IMPLEMENTATION_SYSTEM(ArmatureCollisionSystem);
-	//IMPLEMENTATION_SYSTEM(Box2DSystem);
-	//IMPLEMENTATION_SYSTEM(MapFollowSystem);
-	//IMPLEMENTATION_SYSTEM(UpdateSystem);
-	//IMPLEMENTATION_SYSTEM(FilterSystem);
-
-
-#if G_DEBUG
-	CCLOG("[--------------------component begin--------------------]");
-	for (auto& it : GComponentHelperMap)
-	{
-		CCLOG("|register component[%s]->[%d]|", it.first.c_str(), it.second->typeId);
-	}
-	CCLOG("[--------------------component end--------------------]\n\n");
-	CCLOG("[--------------------system begin--------------------]");
-	for (auto& it : GSystemHelperMap)
-	{
-		CCLOG("|register system[%s]->[%d]|", it.first.c_str(), it.second->typeId);
-	}
-	CCLOG("[--------------------system end--------------------]");
-#endif
 }
 

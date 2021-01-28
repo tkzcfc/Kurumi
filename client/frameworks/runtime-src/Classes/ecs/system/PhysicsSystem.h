@@ -38,27 +38,27 @@ private:
 	std::vector<CacheInfo> m_contactsPool;
 public:
 
-	// @brief Ê©¼ÓÁ¦
+	// @brief æ–½åŠ åŠ›
 	static void applyForce(anax::Entity& entity, const GVec2& f);
 	static void applyForce(BodyComponent* body, const GVec2& f);
 
-	// @brief Ê©¼Ó³åÁ¦
+	// @brief æ–½åŠ å†²åŠ›
 	static void applyImpulse(anax::Entity& entity, const GVec2& impulse, const GVec2& contactVector);
 	static void applyImpulse(BodyComponent* body, const GVec2& impulse, const GVec2& contactVector);
 
-	// @brief ÉèÖÃÎïÌåÎª¾²Ì¬ÎïÌå
+	// @brief è®¾ç½®ç‰©ä½“ä¸ºé™æ€ç‰©ä½“
 	static void setStatic(anax::Entity& entity);
 	static void setStatic(BodyComponent* body);
 
-	// @brief Ğı×ªÉèÖÃ
+	// @brief æ—‹è½¬è®¾ç½®
 	static void setRotation(anax::Entity& entity, real radians);
 	static void setRotation(BodyComponent* body, real radians);
 
-	// @brief Î»ÖÃÉèÖÃ
+	// @brief ä½ç½®è®¾ç½®
 	static void setPosition(anax::Entity& entity, real posx, real posy);
 	static void setPosition(BodyComponent* body, real posx, real posy);
 
-	// @param density ÃÜ¶È
+	// @param density å¯†åº¦
 	static void createCircleBody(anax::Entity& entity, real radius, real density  = 1.0f);
 
 	static void createPolygonBody(anax::Entity& entity, GVec2 *vertices, uint32_t count, real density = 1.0f);
@@ -71,5 +71,3 @@ public:
 
 	static GVec2 Gravity;
 };
-
-DEFINE_SYSTEM(PhysicsSystem);

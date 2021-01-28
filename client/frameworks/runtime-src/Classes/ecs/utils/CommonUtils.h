@@ -1,32 +1,32 @@
 #pragma once
 
 #include "ecs/anaxHelper.h"
-#include "ecs/components/UniqueComponent.h"
+#include "ecs/components/GlobalComponent.h"
 
-// ÑİÔ±Éí·İĞÅÏ¢
+// æ¼”å‘˜èº«ä»½ä¿¡æ¯
 struct ActorIdentityInfo
 {
-	// ÉíÌå³ß´ç
+	// èº«ä½“å°ºå¯¸
 	GVec2 bodySize;
-	// ³öÉúµã
+	// å‡ºç”Ÿç‚¹
 	GVec2 originPos;
-	// ½ÇÉ«Ãû
+	// è§’è‰²å
 	std::string roleName;
 };
 
-class CommonUtils
+
+namespace CommonUtils
 {
-public:
+	anax::Entity& getAdmin(anax::World& world);
 
-	static anax::Entity& getAdmin(anax::World& world);
+	static GlobalComponent& getGlobalComponent(anax::World& world);
 
-	static bool initMapSize(anax::Entity& admin, int mapId);
+	bool initMapSize(anax::Entity& admin, int mapId);
 
 #if G_TARGET_CLIENT
-	static DrawNode* getDebugDraw(anax::World& world);
+	DrawNode* getDebugDraw(anax::World& world);
 #endif
 
-	// ÑİÔ±´´½¨
-	static bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);
-
-};
+	// æ¼”å‘˜åˆ›å»º
+	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);
+}

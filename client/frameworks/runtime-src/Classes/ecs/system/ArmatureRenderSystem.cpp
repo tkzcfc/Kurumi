@@ -6,7 +6,7 @@
 
 #if  G_TARGET_CLIENT
 
-// ÔÊÐíÎó²î·¶Î§5Ö¡×óÓÒ
+// å…è®¸è¯¯å·®èŒƒå›´5å¸§å·¦å³
 static const int32_t disparityThreshold = 5;
 
 void ArmatureRenderSystem::render()
@@ -64,15 +64,15 @@ void ArmatureRenderSystem::render()
 					if (component.playing)
 					{
 						animation->resume();
-						animation->setAnimationScale(1.0f);
+						animation->setAnimationScale(component.timeScale * 1.0f);
 						animation->play(component.curAniName, component.curFrameIndex);
 						renderComponent.actionType = kArmatureRenderAction::RUN;
 						//CCLOG("kArmatureRenderAction::RUN_3(PAUSE) %s", component.curAniName.c_str());
 					}
 				}break;
-				// ×·¸ÏÂß¼­Ö¡
+				// è¿½èµ¶é€»è¾‘å¸§
 				case kArmatureRenderAction::PURSUE:
-				// µÈ´ýÂß¼­Ö¡
+				// ç­‰å¾…é€»è¾‘å¸§
 				case kArmatureRenderAction::AWAIT:
 				{
 					if (component.playing)
@@ -82,14 +82,14 @@ void ArmatureRenderSystem::render()
 							int32_t diff = animation->getCurrentFrameIndex() - component.curFrameIndex;
 							if (std::labs(diff) <= 2)
 							{
-								animation->setAnimationScale(1.0f);
+								animation->setAnimationScale(component.timeScale * 1.0f);
 								renderComponent.actionType = kArmatureRenderAction::RUN;
 								//CCLOG("kArmatureRenderAction::RUN_1 %s", component.curAniName.c_str());
 							}
 						}
 						else
 						{
-							animation->setAnimationScale(1.0f);
+							animation->setAnimationScale(component.timeScale * 1.0f);
 							animation->play(component.curAniName, component.curFrameIndex);
 							renderComponent.actionType = kArmatureRenderAction::RUN;
 							//CCLOG("kArmatureRenderAction::RUN_2 %s", component.curAniName.c_str());
@@ -122,24 +122,29 @@ void ArmatureRenderSystem::render()
 								if (false == isLoop)
 								{
 									int32_t diff = animation->getCurrentFrameIndex() - component.curFrameIndex;
-									if (diff > disparityThreshold)// ¼õËÙ
+									if (diff > disparityThreshold)// å‡é€Ÿ
 									{
 										//CCLOG("kArmatureRenderAction::AWAIT %d", diff);
-										animation->setAnimationScale(0.9f);
+										animation->setAnimationScale(component.timeScale * 0.9f);
 										renderComponent.actionType = kArmatureRenderAction::AWAIT;
 									}
-									else if (diff < -disparityThreshold)// ¼ÓËÙ
+									else if (diff < -disparityThreshold)// åŠ é€Ÿ
 									{
 										//CCLOG("kArmatureRenderAction::PURSUE %d", diff);
-										animation->setAnimationScale(1.1f);
+										animation->setAnimationScale(component.timeScale * 1.1f);
 										renderComponent.actionType = kArmatureRenderAction::PURSUE;
 									}
 								}
+							}
+							else
+							{
+								animation->setAnimationScale(component.timeScale);
 							}
 						}
 						else
 						{
 							animation->play(component.curAniName, component.curFrameIndex);
+							animation->setAnimationScale(component.timeScale);
 							//CCLOG("kArmatureRenderAction::RUN_4(RUN) %s", component.curAniName.c_str());
 						}
 					}

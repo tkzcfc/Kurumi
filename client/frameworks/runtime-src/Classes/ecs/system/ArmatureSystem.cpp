@@ -5,31 +5,23 @@
 const static float32 ANI_FPS = 1 / 60.0f;
 
 ArmatureSystem::ArmatureSystem()
-{
-	curTime = 0.0f;
-}
+{}
 
 ArmatureSystem::~ArmatureSystem()
 {}
 
 void ArmatureSystem::update(float32 delta)
 {
-	curTime += delta;
-	int count =  0;
-	while (curTime > ANI_FPS)
-	{
-		this->step();
-		curTime -= ANI_FPS;
-		count++;
-	}
-}
-
-void ArmatureSystem::step()
-{
 	const auto& entities = this->getEntities();
 	for (auto it : entities)
 	{
-		stepAni(it.getComponent<ArmatureComponent>());
+		auto& component = it.getComponent<ArmatureComponent>();
+		component.curTime = component.curTime + delta * component.timeScale;
+		while (component.curTime > ANI_FPS)
+		{
+			stepAni(component);
+			component.curTime -= ANI_FPS;
+		}		
 	}
 }
 
@@ -51,28 +43,36 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 
 	if (component.curFrameIndex >= aniData->duration)
 	{
-		component.curFrameIndex--;
+		component.curFrameIndex = aniData->duration - 1;
 		auto cmd = GAnimCMDCache::getInstance()->getOrCreate(component.roleName);
 		if (cmd == NULL)
 		{
-			// Ñ­»·¶¯»­
-			if (aniData->isLoop)
+			// åªæ’­æ”¾ä¸€æ¬¡,æ’­æ”¾å®Œæ¯•å®šæ ¼åˆ°æœ€åŽä¸€å¸§
+			if (component.mode == kArmaturePlayMode::ONCE)
 			{
-				component.curFrameIndex = 0;
+				component.playing = false;
 			}
 			else
 			{
-				// Ö»²¥·ÅÒ»´Î,²¥·ÅÍê±Ï¶¨¸ñµ½×îºóÒ»Ö¡
-				if (component.mode == kArmaturePlayMode::ONCE)
-					component.playing = false;
-				else// Ñ­»·²¥·ÅÔò¿ªÊ¼ÐÂÒ»ÂÖµÄ²¥·Å
+				// å¾ªçŽ¯åŠ¨ç”»
+				if (aniData->isLoop)
+				{
 					component.curFrameIndex = 0;
+				}
+				else
+				{
+					// ä¸æ˜¯å¾ªçŽ¯åŠ¨ç”»,æ’­æ”¾å®Œæ¯•å®šæ ¼åˆ°æœ€åŽä¸€å¸§
+					if (component.mode == kArmaturePlayMode::DEFAULT)
+						component.playing = false;
+					else// å¾ªçŽ¯æ’­æ”¾åˆ™å¼€å§‹æ–°ä¸€è½®çš„æ’­æ”¾
+						component.curFrameIndex = 0;
+				}
 			}
 		}
 		else
 		{
 			auto cmdData = cmd->get(component.curAniCMD);
-			// ÕÒ²»µ½¶ÔÓ¦µÄ¶¯×÷ÃüÁî
+			// æ‰¾ä¸åˆ°å¯¹åº”çš„åŠ¨ä½œå‘½ä»¤
 			if (cmdData == NULL)
 			{
 				G_LOG_F("Play invalid animation command, '%s'", component.curAniCMD.c_str());
@@ -86,28 +86,49 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 			
 			auto index = cmdData->seekIndex(component.curAniName);
 			component.cmdCount = cmdData->actions.size();
-			// ¶¯×÷ÃüÁîÖ´ÐÐÍê±Ï
+			// åŠ¨ä½œå‘½ä»¤æ‰§è¡Œå®Œæ¯•
 			if (index >= component.cmdCount - 1)
 			{
+				component.curTime = 0.0f;
+				if (component.onFinishCall != NULL)
+				{
+					component.onFinishCall();
+				}
+
 				if (component.mode == kArmaturePlayMode::ONCE)
 				{
+					// åªæ’­æ”¾ä¸€æ¬¡,æ’­æ”¾å®Œæ¯•å®šæ ¼åˆ°æœ€åŽä¸€å¸§
 					component.cmdIndex = component.cmdCount - 1;
-					if (aniData->isLoop)
-						component.curFrameIndex = 0;
-					else
-						component.playing = false;
+					component.playing = false;
 				}
 				else
 				{
-					component.curFrameIndex = 0;
-					component.curAniName = cmdData->actions[0];
-					component.cmdIndex = 0;
+					if (component.mode == kArmaturePlayMode::LOOP)
+					{
+						component.curFrameIndex = 0;
+						component.curAniName = cmdData->actions[0];
+						component.cmdIndex = 0;
+					}
+					else
+					{
+						if (aniData->isLoop)
+						{
+							// å¦‚æžœæœ€åŽä¸€ä¸ªåŠ¨ç”»æ˜¯å¾ªçŽ¯åŠ¨ç”»,åˆ™å¾ªçŽ¯æ’­æ”¾ä»–
+							component.curFrameIndex = 0;
+						}
+						else
+						{
+							// ä¸æ˜¯å¾ªçŽ¯åŠ¨ç”»,æ’­æ”¾å®Œæ¯•å®šæ ¼åˆ°æœ€åŽä¸€å¸§
+							component.cmdIndex = component.cmdCount - 1;
+							component.playing = false;
+						}
+					}
 				}
 			}
 			else
 			{
 				index++;
-				// Ö´ÐÐÏÂÒ»¸ö¶¯×÷
+				// æ‰§è¡Œä¸‹ä¸€ä¸ªåŠ¨ä½œ
 				component.curFrameIndex = 0;
 				component.curAniName = cmdData->actions[index];
 				component.cmdIndex = index;
@@ -121,7 +142,7 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 
 void ArmatureSystem::runAction(ArmatureComponent& component, struct GAnimationData* aniData)
 {
-	// ÊÂ¼þ´¥·¢
+	// äº‹ä»¶è§¦å‘
 #if G_DEBUG
 	//auto event = aniData->events[component.curFrameIndex];
 	//if (event)
@@ -133,7 +154,7 @@ void ArmatureSystem::runAction(ArmatureComponent& component, struct GAnimationDa
 	//}
 #endif
 
-	// Ö´ÐÐµÄµÚÒ»Ö¡²¢ÇÒÊÇÖ´ÐÐµÄ¶¯×÷ÃüÁîÔò²¥·ÅµÚÒ»¸ö¶¯×÷µÄÒôÐ§
+	// æ‰§è¡Œçš„ç¬¬ä¸€å¸§å¹¶ä¸”æ˜¯æ‰§è¡Œçš„åŠ¨ä½œå‘½ä»¤åˆ™æ’­æ”¾ç¬¬ä¸€ä¸ªåŠ¨ä½œçš„éŸ³æ•ˆ
 	if (component.curFrameIndex == 0)
 	{
 		auto cmd = GAnimCMDCache::getInstance()->getOrCreate(component.roleName);

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "cocos2d.h"
+#include "foundation/GameMacro.h"
 
-using namespace cocos2d;
+#if G_TARGET_CLIENT
 
 extern void changeParticleSystemPositionType(Node* root, int type);
+
+#endif

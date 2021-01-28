@@ -1,4 +1,5 @@
 #include "GGameLayer.h"
+#if G_TARGET_CLIENT
 
 bool GGameLayer::init()
 {
@@ -21,3 +22,4 @@ void GGameLayer::update(float delta)
 	m_world->render();
 }
 
+#endif

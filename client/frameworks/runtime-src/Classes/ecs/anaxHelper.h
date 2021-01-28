@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GCommon.h"
+#include "opmsg/GOPMsg.h"
 #include <unordered_map>
 
 
@@ -86,7 +87,7 @@ public:
 	SystemHelper_##TYPE() \
 	{ \
 		typeId = anax::SystemTypeId<TYPE>(); \
-		CCLOG("%s : %d", #TYPE, typeId); \
+		G_LOG_I("%s : %d", #TYPE, typeId); \
 	} \
 	virtual void addSystem(anax::World* world, void* sys) \
 	{ \

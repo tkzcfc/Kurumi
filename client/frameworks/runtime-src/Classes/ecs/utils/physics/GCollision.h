@@ -36,7 +36,7 @@ public:
 	static void polygontoCircle(GManifold *m, BodyComponent* a, BodyComponent* b);
 	static void polygontoPolygon(GManifold *m, BodyComponent* a, BodyComponent* b);
 
-	// ¼ì²â2¸ö¾ØĞÎÊÇ·ñÏà½»
+	// æ£€æµ‹2ä¸ªçŸ©å½¢æ˜¯å¦ç›¸äº¤
 	static bool isRectIntersect(const GVec2* A, const GVec2* B);
 	
 };

@@ -33,12 +33,12 @@ void SIMPhysSystem::update(float dt)
 
 	for (auto b : m_dynamic_bodies)
 	{
-		// ¼ò»¯ÔËËã,Ö±½Ó½«ÖÊÁ¿ÊÓÎª1
+		// ç®€åŒ–è¿ç®—,ç›´æŽ¥å°†è´¨é‡è§†ä¸º1
 		// Integrate velocities
 		//b->linearVelocity += dt * b->invMass * (b->gravityScale * b->mass * gravity + b->force);
 		b->linearVelocity += dt * (b->gravityScale * m_gravity + b->force);
 
-		// ¼ò»¯ÔËËã,ºöÂÔ×èÄá
+		// ç®€åŒ–è¿ç®—,å¿½ç•¥é˜»å°¼
 		// Apply damping
 		//b->linearVelocity *= 1.0f / (1.0f + dt * b->linearDamping);
 
@@ -138,7 +138,7 @@ void SIMPhysSystem::applyImpulse(anax::Entity& entity, const GVec2& impulse)
 
 void SIMPhysSystem::applyImpulse(SIMPhysComponent* component, const GVec2& impulse)
 {
-	// ¼ò»¯ÔËËã,Ö±½Ó½«ÖÊÁ¿ÊÓÎª1
+	// ç®€åŒ–è¿ç®—,ç›´æŽ¥å°†è´¨é‡è§†ä¸º1
 	//component->linearVelocity += body->im * impulse;
 	component->linearVelocity += impulse;
 }

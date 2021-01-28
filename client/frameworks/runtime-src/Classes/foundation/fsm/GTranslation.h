@@ -10,6 +10,7 @@ static const FStateKeyType FStateKeyInvalid = "";
 static const FEventNameType FEventNameInvalid = -1;
 
 class GState;
+/// 状态转换通道
 class GTranslation
 {
 public:
@@ -20,13 +21,11 @@ public:
 
 	virtual ~GTranslation();
 
+protected:
+
 	virtual bool polling(GState* curState);
 
 	virtual bool progressEvent(GState* curState, const FEventNameType& evetName);
-
-	virtual void onEnter(GState* curState) {}
-
-	virtual void onExit(GState* curState) {}
 
 public:
 
@@ -43,6 +42,7 @@ public:
 	void* getUserData();
 
 private:
+	friend class GState;
 	FStateKeyType m_toState;
 	FEventNameType m_eventName;
 	void* m_userData;
@@ -54,6 +54,8 @@ class GDelayTranslation : public GTranslation
 public:
 
 	GDelayTranslation(const FStateKeyType& toState, const float delayTime);
+
+protected:
 
 	virtual bool polling(GState* curState)override;
 

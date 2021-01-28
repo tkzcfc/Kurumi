@@ -4,6 +4,7 @@ GFSM::GFSM()
 {
 	m_preState = NULL;
 	m_curState = NULL;
+	m_anyState = NULL;
 	m_frameTime = 0.0f;
 	m_runStateTime = 0.0f;
 }
@@ -25,7 +26,7 @@ void GFSM::addState(GState* state)
 	auto s = getStateByKey(stateName);
 	assert(s == NULL);
 
-	if(s == NULL) return;
+	if(s != NULL) return;
 
 	state->setFSM(this);
 	m_stateDict.insert(std::pair<FStateKeyType, GState*>(stateName, state));
@@ -34,7 +35,7 @@ void GFSM::addState(GState* state)
 void GFSM::addTranslation(const FStateKeyType& fromStateName, GTranslation* translation)
 {
 	auto state = getStateByKey(fromStateName);
-	assert(state == NULL);
+	assert(state != NULL);
 
 	if(state)
 		state->addTranslation(translation);
@@ -43,7 +44,7 @@ void GFSM::addTranslation(const FStateKeyType& fromStateName, GTranslation* tran
 bool GFSM::removeTranslation(const FStateKeyType& fromStateName, GTranslation* translation)
 {
 	auto state = getStateByKey(fromStateName);
-	assert(state == NULL);
+	assert(state != NULL);
 
 	if(state == NULL)
 		return false;
@@ -54,7 +55,7 @@ bool GFSM::removeTranslation(const FStateKeyType& fromStateName, GTranslation* t
 bool GFSM::changeToStateByName(const FStateKeyType& stateName)
 {
 	auto state = getStateByKey(stateName);
-	assert(state == NULL);
+	assert(state != NULL);
 
 	if(state == NULL)
 		return false;
@@ -77,7 +78,7 @@ void GFSM::changeToState(GState* state)
 void GFSM::setEntryStateByName(const FStateKeyType& stateName)
 {
 	auto state = getStateByKey(stateName);
-	assert(state == NULL);
+	assert(state != NULL);
 	if(state == NULL)
 		return;
 	setEntryState(state);
@@ -114,9 +115,14 @@ void GFSM::update(float dt)
 	{
 		m_curState->onStayEx();
 	}
+
+	if (m_anyState)
+	{
+		m_anyState->onStayEx();
+	}
 }
 
-GState* GFSM::getStateByKey(const FStateKeyType& stateName)
+GState* GFSM::getStateByKey(const FStateKeyType& stateName) const
 {
 	auto it = m_stateDict.find(stateName);
 	if (it == m_stateDict.end())
@@ -124,6 +130,21 @@ GState* GFSM::getStateByKey(const FStateKeyType& stateName)
 		return NULL;
 	}
 	return it->second;
+}
+
+void GFSM::setAnyState(GState* state)
+{
+	if (m_anyState)
+	{
+		delete m_anyState;
+		m_anyState = NULL;
+	}
+	if (state == NULL)
+		return;
+
+	assert(state->getFSM() == NULL);
+	state->setFSM(this);
+	m_anyState = state;
 }
 
 void GFSM::clear()
@@ -134,4 +155,10 @@ void GFSM::clear()
 		delete it->second;
 	}
 	m_stateDict.clear();
+
+	if (m_anyState)
+	{
+		delete m_anyState;
+		m_anyState = NULL;
+	}
 }

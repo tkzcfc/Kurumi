@@ -13,5 +13,3 @@ public:
 
 	void syncRender();
 };
-
-DEFINE_SYSTEM(TransformSyncSystem);

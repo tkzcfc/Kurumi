@@ -6,6 +6,7 @@ GState::GState(const FStateKeyType& stateName)
 {
 	m_stateName = stateName;
 	m_fsm = NULL;
+	m_delegate = NULL;
 }
 
 GState::~GState()
@@ -68,19 +69,17 @@ bool GState::changeToState(const FStateKeyType& toStateName)
 void GState::onEnterEx()
 {
 	this->onEnter();
-	for (auto it : m_translationArr)
-	{
-		it->onExit(this);
-	}
+	
+	if(m_delegate)
+		m_delegate->onEnter(this);
 }
 
 void GState::onExitEx()
 {
 	this->onExit();
-	for (auto it : m_translationArr)
-	{
-		it->onExit(this);
-	}
+
+	if (m_delegate)
+		m_delegate->onExit(this);
 }
 
 void GState::onStayEx() 
@@ -99,5 +98,14 @@ void GState::onStayEx()
 			}
 		}
 		onStay();
-	}	
+	}
+
+	if (m_delegate)
+		m_delegate->onStay(this);
 }
+
+void GState::setDelegate(GStateDelegate* delegate)
+{
+	m_delegate = delegate;
+}
+

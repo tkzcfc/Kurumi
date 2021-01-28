@@ -11,17 +11,17 @@ public:
 	{
 	}
 
-	// 渲染坐标
+	// 娓叉煋鍧愭爣
 #if G_TARGET_SERVER
 	GVec2 position;
 #else
 	Vec2 position;
 #endif
-	// 逻辑坐标
+	// 閫昏緫鍧愭爣
 	GVec3 logicPos;
-	// 缩放
+	// 缂╂斁
 	float32 scale;
-	// 旋转
+	// 鏃嬭浆
 	float32 rotation;
 };
 

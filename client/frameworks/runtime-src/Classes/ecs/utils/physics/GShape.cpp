@@ -83,7 +83,7 @@ void GPolygonShape::set(GVec2 *vertices, uint32_t count)
 {
 	// No hulls with less than 3 vertices (ensure actual polygon)
 	assert(count > 2 && count <= MaxPolyVertexCount);
-	count = std::min((int32_t)count, MaxPolyVertexCount);
+	count = MIN((int32_t)count, MaxPolyVertexCount);
 
 	// Find the right most point on the hull
 	int32_t rightMost = 0;

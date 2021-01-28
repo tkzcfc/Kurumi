@@ -11,5 +11,3 @@ public:
 
 	GAnimationData* getAnimData(ArmatureComponent& component);
 };
-
-DEFINE_SYSTEM(CollisionSystem);

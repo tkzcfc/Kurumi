@@ -9,5 +9,3 @@ class RenderSyncSystem : public anax::System<anax::Requires<TransformComponent, 
 public:
 	void sync();
 };
-
-DEFINE_SYSTEM(RenderSyncSystem);

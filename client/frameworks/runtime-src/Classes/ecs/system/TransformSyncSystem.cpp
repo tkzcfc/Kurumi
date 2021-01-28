@@ -9,7 +9,7 @@ void TransformSyncSystem::sync()
 		auto& simphys = it.getComponent<SIMPhysComponent>();
 		transform.logicPos.x = simphys.position.x;
 		transform.logicPos.y = simphys.position.y;
-		// Âß¼­×ø±ê×ªÆÁÄ»×ø±ê
+		// é€»è¾‘åæ ‡è½¬å±å¹•åæ ‡
 		transform.position.x = transform.logicPos.x;
 		transform.position.y = transform.logicPos.y;
 	}

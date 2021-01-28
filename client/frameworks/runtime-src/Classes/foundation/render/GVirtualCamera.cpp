@@ -1,6 +1,8 @@
 #include "GVirtualCamera.h"
 
 
+#if G_TARGET_CLIENT
+
 GVirtualCamera * GVirtualCamera::create()
 {
 	GVirtualCamera * ret = new (std::nothrow) GVirtualCamera();
@@ -181,3 +183,4 @@ void GVirtualCamera::onRemove()
 	Component::onRemove();
 }
 
+#endif

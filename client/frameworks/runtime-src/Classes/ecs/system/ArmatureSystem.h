@@ -13,11 +13,7 @@ public:
 
 	void update(float32 delta);
 
-	float32 curTime;
-
 private:
-
-	void step();
 
 	void stepAni(ArmatureComponent& component);
 
@@ -25,5 +21,3 @@ private:
 	
 	void playAudio(const std::string& audioName);
 };
-
-DEFINE_SYSTEM(ArmatureSystem);

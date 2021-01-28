@@ -23,6 +23,7 @@ GTranslation::~GTranslation()
 bool GTranslation::polling(GState* curState)
 {
 	assert(m_toState != FStateKeyInvalid);
+	assert(getToState() != curState->getStateName());
 	return false;
 }
 

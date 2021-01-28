@@ -124,6 +124,12 @@
     <Filter Include="Classes\game">
       <UniqueIdentifier>{5aff2268-bd0b-453e-8063-0841e20509d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\ecs\utils\animator">
+      <UniqueIdentifier>{4d790cc9-1a13-4444-946e-ca6045587b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\foundation\allocator">
+      <UniqueIdentifier>{3e8147c9-f9cb-416d-b405-5297473a2219}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -428,6 +434,27 @@
     <ClInclude Include="..\Classes\ecs\components\PropertyComponent.h">
       <Filter>Classes\ecs\components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\animator\PlayerStateMachine.h">
+      <Filter>Classes\ecs\utils\animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\allocator\GBlockAllocator.h">
+      <Filter>Classes\foundation\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GAnimatorTranslation.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GAnimatorCondition.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GAnimatorParams.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GAnimatorState.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\foundation\fsm\GAnimatorStateMachine.h">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -661,6 +688,30 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\InputSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\animator\PlayerStateMachine.cpp">
+      <Filter>Classes\ecs\utils\animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\allocator\GBlockAllocator.cpp">
+      <Filter>Classes\foundation\allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GAnimatorTranslation.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GAnimatorCondition.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GAnimatorParams.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GAnimatorState.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\fsm\GAnimatorStateMachine.cpp">
+      <Filter>Classes\foundation\fsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GGameWorld_Init.cpp">
+      <Filter>Classes\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -32,35 +32,35 @@ public:
 
 	GBodyType bodyType;
 
-	// Î»ÖÃ
+	// ä½ç½®
 	GVec2 position;
-	// ËÙ¶È
+	// é€Ÿåº¦
 	GVec2 velocity;
 
-	// ½ÇËÙ¶È
+	// è§’é€Ÿåº¦
 	real angularVelocity;
-	// Å¤¾Ø
+	// æ‰­çŸ©
 	real torque;
-	// Ğı×ª(»¡¶ÈÖÆ)
+	// æ—‹è½¬(å¼§åº¦åˆ¶)
 	real radians;
-	// Á¦
+	// åŠ›
 	GVec2 force;
 
-	// ×ª¶¯¹ßĞÔ,Óë½ÇËÙ¶È¼ÆËãÏà¹Ø
+	// è½¬åŠ¨æƒ¯æ€§,ä¸è§’é€Ÿåº¦è®¡ç®—ç›¸å…³
 	real I;
-	//  1 / ×ª¶¯¹ßĞÔ
+	//  1 / è½¬åŠ¨æƒ¯æ€§
 	real iI;
-	// ÖÊÁ¿
+	// è´¨é‡
 	real m;
-	//  1 / ÖÊÁ¿
+	//  1 / è´¨é‡
 	real im;
 
 	// http://gamedev.tutsplus.com/tutorials/implementation/how-to-create-a-custom-2d-physics-engine-friction-scene-and-jump-table/
-	// ¾²Ì¬Ä¦²ÁÁ¦
+	// é™æ€æ‘©æ“¦åŠ›
 	real staticFriction;
-	// ¶¯Ì¬Ä¦²ÁÁ¦
+	// åŠ¨æ€æ‘©æ“¦åŠ›
 	real dynamicFriction;
-	// µ¯Á¦
+	// å¼¹åŠ›
 	real restitution;
 
 	GShape* shape;

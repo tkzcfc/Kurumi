@@ -1,6 +1,9 @@
 #pragma once
 
 #include <assert.h>
+#include <string>
+#include <vector>
+#include <unordered_map>
 
 #ifdef COCOS2D_DEBUG
 #define G_TARGET_SERVER 0
@@ -17,48 +20,41 @@
 #define G_LOG_W(...) do {} while (0)
 #define G_LOG_E(...) do {} while (0)
 #define G_LOG_F(...) do {} while (0)
-#define G_ASSERT assert
 #endif
 
 #if G_TARGET_SERVER
 #define G_TARGET_CLIENT 0
+#include "GLibBase.h"
 #else
 #define G_TARGET_CLIENT 1
-#endif
-
-
-
 #include "cocos2d.h"
-#include <string>
-#include <unordered_map>
 
 using namespace cocos2d;
+#endif
 
-#define PHYSICS_PIXEL_TO_METER 100.0f
-
-enum BOX2D_FILTER_MASK
-{
-	B2DM_GROUND		= 1 << 1, // ����
-	B2DM_SIDE_WALL	= 1 << 2, // ǽ��
-	B2DM_PLAYER		= 1 << 3, // ���
-	B2DM_MONSTER	= 1 << 4, // ����
-	B2DM_SKILL		= 1 << 5, // ����
-};
-
-#define GAMEWORLD_NODE_MAP 0
-#define GAMEWORLD_NODE_UI  1
-#define GAMEWORLD_NODE_MAX 2
-
-
-#if COCOS2D_DEBUG == 1 
-#define ENABLE_ARMATURE_COLLISION_DRAW_DEBUG 1
-#define ENABLE_BOX2D_DEBUG_DRAW
-#else
-#define ENABLE_ARMATURE_COLLISION_DRAW_DEBUG 0
+#ifndef G_FORCEINLINE
+#define G_FORCEINLINE inline
 #endif
 
 
-#define G_BIT_SET(b, flag) (b |= flag)
-#define G_BIT_GET(b, flag) (b & flag)
-#define G_BIT_CLEAR(b, flag) (b &= ~flag)
-#define G_BIT_EQUAL(b, flag) ((b & flag) == flag)
+//! 位操作相关
+#define G_BIT_SET(b, flag) ((b) |= (flag))
+#define G_BIT_GET(b, flag) ((b) & (flag))
+#define G_BIT_CLEAR(b, flag) ((b) &= ~(flag))
+#define G_BIT_EQUAL(b, flag) (((b) & (flag)) == (flag))
+#define G_BIT_NO_EQUAL(b, flag) (((b) & (flag)) != (flag))
+
+
+// 获取数组长度
+#define G_ARRAY_LEN(array) sizeof(array) / sizeof(array[0])
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+//! 在地图中战斗的玩家最大个数
+#define G_FIGHT_MAX_PLAYER_COUNT 4
+
+//! 物理引擎对应渲染像素比
+#define PHYSICS_PIXEL_TO_METER 100.0f
+
+

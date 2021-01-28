@@ -33,5 +33,3 @@ private:
 	std::vector<SIMPhysComponent*> m_dynamic_bodies;
 	GVec2 m_gravity;
 };
-
-DEFINE_SYSTEM(SIMPhysSystem);

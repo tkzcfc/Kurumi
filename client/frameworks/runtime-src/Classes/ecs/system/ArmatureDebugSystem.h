@@ -11,5 +11,3 @@ public:
 	void debugDraw();
 
 };
-
-DEFINE_SYSTEM(ArmatureDebugSystem);

@@ -10,86 +10,97 @@
 #include "json/document.h"
 #include "json/stringbuffer.h"
 
-anax::Entity& CommonUtils::getAdmin(anax::World& world)
+namespace CommonUtils
 {
-	auto sys = world.getSystem<GlobalSystem>();
-	G_ASSERT(sys != NULL);
-
-	return sys->admin;
-}
-
-bool CommonUtils::initMapSize(anax::Entity& admin, int mapId)
-{
-	char szPath[256] = { 0 };
-	sprintf(szPath, "map_export/mi_%d.json", mapId);
-
-	std::string content;
-	if (!GFileUtiles::readFileString(szPath, content))
-		return false;
-
-	if (content.empty())
-		return false;
-
-	rapidjson::Document json;
-	rapidjson::StringStream stream(content.c_str());
-
-	json.ParseStream<0>(stream);
-	if (json.HasParseError())
+	anax::Entity& getAdmin(anax::World& world)
 	{
-		CCLOG("GetParseError %d\n", json.GetParseError());
-		return false;
+		auto sys = world.getSystem<GlobalSystem>();
+		G_ASSERT(sys != NULL);
+
+		return sys->admin;
 	}
 
-	if (json.HasMember("infos") == false)
-		return false;
-
-	auto it = json.FindMember("infos");
-	auto& arr = it->value;
-	if (arr.IsArray() == false)
-		return false;
-
-	for (auto i = 0; i < arr.Size(); ++i)
+	GlobalComponent& getGlobalComponent(anax::World& world)
 	{
-		auto& item = arr[i];
-		if (!item.FindMember("ignore")->value.GetBool() && item.HasMember("actor") && item.FindMember("actor")->value.GetBool())
+		auto sys = world.getSystem<GlobalSystem>();
+		G_ASSERT(sys != NULL);
+
+		return sys->admin.getComponent<GlobalComponent>();
+	}
+
+	bool initMapSize(anax::Entity& admin, int mapId)
+	{
+		char szPath[256] = { 0 };
+		sprintf(szPath, "map_export/mi_%d.json", mapId);
+
+		std::string content;
+		if (!GFileUtiles::readFileString(szPath, content))
+			return false;
+
+		if (content.empty())
+			return false;
+
+		rapidjson::Document json;
+		rapidjson::StringStream stream(content.c_str());
+
+		json.ParseStream<0>(stream);
+		if (json.HasParseError())
 		{
-			auto& component = admin.getComponent<MapComponent>();
-			component.mapWidth = item.FindMember("w")->value.GetDouble();
-			component.mapHeight = item.FindMember("h")->value.GetDouble();
-			component.minPosy = (float)item.FindMember("miny")->value.GetDouble();
-			component.maxPosy = (float)item.FindMember("maxy")->value.GetDouble();
-			return true;
+			G_LOG_E("initMapSize : GetParseError %d\n", json.GetParseError());
+			return false;
 		}
+
+		if (json.HasMember("infos") == false)
+			return false;
+
+		auto it = json.FindMember("infos");
+		auto& arr = it->value;
+		if (arr.IsArray() == false)
+			return false;
+
+		for (auto i = 0; i < arr.Size(); ++i)
+		{
+			auto& item = arr[i];
+			if (!item.FindMember("ignore")->value.GetBool() && item.HasMember("actor") && item.FindMember("actor")->value.GetBool())
+			{
+				auto& component = admin.getComponent<MapComponent>();
+				component.mapWidth = (float)item.FindMember("w")->value.GetDouble();
+				component.mapHeight = (float)item.FindMember("h")->value.GetDouble();
+				component.minPosy = (float)item.FindMember("miny")->value.GetDouble();
+				component.maxPosy = (float)item.FindMember("maxy")->value.GetDouble();
+				return true;
+			}
+		}
+		return false;
 	}
-	return false;
-}
 
 
 #if G_TARGET_CLIENT
-DrawNode* CommonUtils::getDebugDraw(anax::World& world)
-{
-	auto& admin = CommonUtils::getAdmin(world);
-	auto& component = admin.getComponent<DebugComponent>();
-	return component.debugDrawNode;
-}
+	DrawNode* getDebugDraw(anax::World& world)
+	{
+		auto& admin = getAdmin(world);
+		auto& component = admin.getComponent<DebugComponent>();
+		return component.debugDrawNode;
+	}
 #endif
 
-bool CommonUtils::spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor)
-{
-	auto entity = world.createEntity();
+	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor)
+	{
+		auto entity = world.createEntity();
 
-	// 位置信息
-	auto& transform = entity.addComponent<TransformComponent>();
+		// 浣嶇疆淇℃伅
+		auto& transform = entity.addComponent<TransformComponent>();
 
-	// 物理信息
-	SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
+		// 鐗╃悊淇℃伅
+		SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
 
-	// 动画信息
-	ArmatureUtils::initAnimationComponent(entity);
-	ArmatureUtils::changeRole(entity, info.roleName);
-	ArmatureUtils::playAnimationCMD(entity, "ANI_NAME_FIGHT_STAND", kArmaturePlayMode::LOOP);
+		// 鍔ㄧ敾淇℃伅
+		ArmatureUtils::initAnimationComponent(entity);
+		ArmatureUtils::changeRole(entity, info.roleName);
+		ArmatureUtils::playAnimationCMD(entity, "ANI_NAME_FIGHT_STAND", kArmaturePlayMode::LOOP);
 
-	*outActor = entity;
+		*outActor = entity;
 
-	return true;
+		return true;
+	}
 }

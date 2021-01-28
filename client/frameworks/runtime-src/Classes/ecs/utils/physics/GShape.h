@@ -48,7 +48,7 @@ public:
 
 	virtual Type getType(void) const override;
 
-	// �뾶
+	// 半径
 	real radius;
 };
 

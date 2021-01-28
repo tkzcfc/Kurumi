@@ -2,7 +2,8 @@
 
 #include "GMathCommon.h"
 
-class GVec2 {
+class GVec2 
+{
 public:
 	union {
 		float32 m[1][1];
@@ -129,23 +130,13 @@ public:
 			y *= invLen;
 		}
 	}
-}
-;
+};
+
+
+
 inline GVec2 operator*(float s, const GVec2 & v)
 {
 	return(GVec2(s * v.x, s * v.y));
-}
-
-
-inline GVec2 min(const GVec2 & a, const GVec2 & b)
-{
-	return(GVec2(std::min(a.x, b.x), std::min(a.y, b.y)));
-}
-
-
-inline GVec2 max(const GVec2 & a, const GVec2 & b)
-{
-	return(GVec2(std::max(a.x, b.x), std::max(a.y, b.y)));
 }
 
 

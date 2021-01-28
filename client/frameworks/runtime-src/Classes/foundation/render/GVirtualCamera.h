@@ -1,5 +1,9 @@
 #pragma once
 
+#include "foundation/GameMacro.h"
+
+#if G_TARGET_CLIENT
+
 #include "cocos2d.h"
 
 
@@ -19,21 +23,21 @@ public:
 
 	const Vec2& getCenter();
 	
-	// ÉèÖÃÊÓ¿Ú´óĞ¡
+	// è®¾ç½®è§†å£å¤§å°
 	void setViewPortSize(const Size& viewSize);
 
-	// ÉèÖÃÊÀ½ç´óĞ¡
+	// è®¾ç½®ä¸–ç•Œå¤§å°
 	void setWorldSize(const Size& worldSize);
 
-	// ·µ»ØÒ»¸öÓĞĞ§Î»ÖÃ
+	// è¿”å›ä¸€ä¸ªæœ‰æ•ˆä½ç½®
 	Vec2 validPosition(Vec2& pos);
 	void validPositionFast(Vec2& pos);
 
-	// ÉèÖÃÃªµãÎ»ÖÃ
+	// è®¾ç½®é”šç‚¹ä½ç½®
 	void setCameraAnchorPoint(const Vec2& anchorPoint);
 
 
-	// ÉèÖÃ°üÎ§ÉãÏñ»úµÄ°üÎ§ºĞ
+	// è®¾ç½®åŒ…å›´æ‘„åƒæœºçš„åŒ…å›´ç›’
 	/*
 								(max.x, max.y)
 	-----------BoundingBox-------
@@ -47,7 +51,7 @@ public:
 	*/
 	void setCameraBoundingBox(const Vec2& min, const Vec2& max);
 
-	// ÊÇ·ñÆôÓÃ°üÎ§ºĞÅö×²
+	// æ˜¯å¦å¯ç”¨åŒ…å›´ç›’ç¢°æ’
 	void setEnableCollision(bool enable);
 	bool isEnableCollision();
 
@@ -89,3 +93,4 @@ public:
 	Vec2 m_cameraAnchorPoint;
 };
 
+#endif

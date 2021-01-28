@@ -8,6 +8,8 @@
 #include "ecs/system/PhysicsSystem.h"
 #include "ecs/system/SIMPhysSystem.h"
 #include "ecs/system/TransformSyncSystem.h"
+#include "ecs/system/InputSystem.h"
+#include "opmsg/GOPMsgQue.h"
 
 
 class GGameWorld
@@ -17,21 +19,24 @@ public:
 	GGameWorld();
 
 #if G_TARGET_CLIENT
-	bool init(int mapId, Node* rootNode);
+	bool init(int32_t mapId, Node* rootNode);
 #else
-	bool init(int mapId);
+	bool init(int32_t mapId);
 #endif
 	
-	void updateLogic(float32 dt);
+	void update(float32 dt);
 
 	void render();
 
 private:
+
+	// 逻辑更新
+	void updateLogic();
 	
-	// ��ʼ������߽���ײ
+	// 初始化世界边界碰撞
 	bool initBorder();
 
-	bool initAdmin(int mapId);
+	bool initAdmin(int32_t mapId);
 
 	bool initTest();
 
@@ -39,15 +44,28 @@ private:
 
 	bool spawnPlayer();
 
+	G_FORCEINLINE uint32_t getGameLogicFrame() const;
+
+public:
+
+	// 每一帧的时间长度
+	static float32 GGameFrameLen;
+
 private:
 
+	// ecs world
 	anax::World m_world;
 
+	// admin
+	GlobalComponent* m_pGlobal;
+
+	// ecs 相关系统
 	ArmatureSystem m_armatureSystem;
 	CollisionSystem m_collisionSystem;
 	GlobalSystem m_globalSystem;
 	SIMPhysSystem m_SIMPhysSystem;
 	TransformSyncSystem m_transformSyncSystem;
+	InputSystem m_inputSystem;
 
 #if G_TARGET_CLIENT
 	ArmatureDebugSystem m_armatureDebugSystem;
@@ -57,7 +75,16 @@ private:
 	Node* m_rootNode;
 	GVirtualCamera* m_camera;
 #endif
+	
+	// 输出消息队列
+	GOPMsgQue m_inputQue;
+	// 输出消息队列
+	GOPMsgQue m_outputQue;
 
 	std::vector<anax::Entity> m_players;
 };
 
+uint32_t GGameWorld::getGameLogicFrame() const
+{
+	return m_pGlobal->gameLogicFrame;
+}

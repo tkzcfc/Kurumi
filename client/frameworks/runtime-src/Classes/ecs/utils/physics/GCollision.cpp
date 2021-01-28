@@ -54,12 +54,12 @@ static bool GameMath_Tmp(const GVec2& IS, const GVec2* A, const GVec2* B)
 		float tmp = (IS.x * B[i].x + IS.y * B[i].y) / (IS.x * IS.x + IS.y * IS.y);
 		vv[i] = tmp * IS.x * IS.x + tmp * IS.y * IS.y;
 	}
-	//±íÊ¾ÔÝÊ±²»ÖªµÀÊÇ·ñÅö×²
+	//è¡¨ç¤ºæš‚æ—¶ä¸çŸ¥é“æ˜¯å¦ç¢°æ’ž
 	if (MAX(MAX(v[0], v[1]), MAX(v[2], v[3])) > MIN(MIN(vv[0], vv[1]), MIN(vv[2], vv[3])) && MIN(MIN(v[0], v[1]), MIN(v[2], v[3])) < MAX(MAX(vv[0], vv[1]), MAX(vv[2], vv[3])))
 	{
 		return false;
 	}
-	//±íÊ¾ÖªµÀÎ´Åö×²
+	//è¡¨ç¤ºçŸ¥é“æœªç¢°æ’ž
 	else
 	{
 		return true;
@@ -425,7 +425,7 @@ void GCollision::polygontoPolygon(GManifold *m, BodyComponent* a, BodyComponent*
 }
 
 //////////////////////////////////////////////////////////////////////////
-/// ¼ì²â2¸ö¾ØÐÎÊÇ·ñÏà½»
+/// æ£€æµ‹2ä¸ªçŸ©å½¢æ˜¯å¦ç›¸äº¤
 bool GCollision::isRectIntersect(const GVec2* A, const GVec2* B)
 {
 	static GVec2 Ax, Ay, Bx, By;

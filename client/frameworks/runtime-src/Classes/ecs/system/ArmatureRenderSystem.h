@@ -14,5 +14,4 @@ private:
 	void pause(cocostudio::ArmatureAnimation* animation, ArmatureComponent& component, ArmatureRenderComponent& renderComponent);
 };
 
-DEFINE_SYSTEM(ArmatureRenderSystem);
 #endif
