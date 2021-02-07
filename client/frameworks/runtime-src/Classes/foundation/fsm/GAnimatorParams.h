@@ -42,6 +42,34 @@ public:
 
 	void resetAllTrigger();
 
+
+	/////////////////////////////////////////////////////////////////////
+	/// 优化代码
+	/////////////////////////////////////////////////////////////////////
+
+	// 将key转换成缓存下标,提高查找效率
+	int hashKey(const std::string& key);
+
+	ParamType getParamType(int hash);
+
+	void setBool(int hash, bool value);
+
+	void setInteger(int hash, int value);
+
+	void setTrigger(int hash, int value);
+
+	void setFloat(int hash, float value);
+
+	void resetTrigger(int hash);
+
+	bool getBool(int hash);
+
+	int getInteger(int hash);
+
+	int getTrigger(int hash);
+
+	float getFloat(int hash);
+
 private:
 
 	struct Param
@@ -65,7 +93,15 @@ private:
 		return &it->second;
 	}
 
+	inline Param* getParam(int hash)
+	{
+		if (hash < 0)
+			return NULL;
+		return m_hashCache[hash];
+	}
+
 private:
 
 	std::unordered_map<std::string, Param> m_params;
+	std::vector<Param*> m_hashCache;
 };

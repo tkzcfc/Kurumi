@@ -7,6 +7,8 @@ class GAnimatorStateMachine;
 class GAnimatorState : public GState
 {
 public:
+
+	GAnimatorState() = delete;
 	
 	GAnimatorState(GAnimatorStateMachine* stateMachine, const FStateKeyType& stateName);
 
@@ -15,6 +17,8 @@ public:
 	virtual void onExit() override;
 
 	virtual void onStay() override;
+
+public:
 
 	inline GAnimatorStateMachine* getStateMachine() const;
 

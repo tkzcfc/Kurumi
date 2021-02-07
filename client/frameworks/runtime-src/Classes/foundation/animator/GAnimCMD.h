@@ -1,7 +1,6 @@
 #pragma once
 
 #include "foundation/GameMacro.h"
-#include "json/document.h"
 
 struct GKfAniCMDData
 {

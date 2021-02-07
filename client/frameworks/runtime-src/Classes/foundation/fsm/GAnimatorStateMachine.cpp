@@ -1,27 +1,17 @@
 #include "GAnimatorStateMachine.h"
-#include "json/stringbuffer.h"
-#include "json/document.h"
 #include "foundation/GameMacro.h"
-
 
 ///////////////////////////////////////////////////////////////////////////
 
-static GAnimatorState* createStateWithJson(rapidjson::Value& value, GAnimatorStateMachine* stateMachine, GAnimatorParams* params, bool isAnyState)
+static GAnimatorState* initStateWithJson(rapidjson::Value& value, GAnimatorState* pState, GAnimatorParams* params, bool isAnyState)
 {
-	GAnimatorState* pState = NULL;
-	if (isAnyState)
+	if (!isAnyState)
 	{
-		pState = new GAnimatorState(stateMachine, "AnyState");
-	}
-	else
-	{
-		auto state = value.FindMember("state")->value.GetString();
 		auto loop = value.FindMember("loop")->value.GetBool();
 		auto motion = value.FindMember("motion")->value.GetString();
-		auto speed = value.FindMember("speed")->value.GetFloat();
+		auto speed = (float)value.FindMember("speed")->value.GetDouble();
 		auto multiplier = value.FindMember("multiplier")->value.GetString();
 
-		pState = new GAnimatorState(stateMachine, state);
 		pState->setLoop(loop);
 
 		assert(speed > 0.0f);
@@ -35,12 +25,12 @@ static GAnimatorState* createStateWithJson(rapidjson::Value& value, GAnimatorSta
 
 	if (value.HasMember("transitions"))
 	{
-		auto transitions = value.FindMember("transitions")->value.GetArray();
+		auto& transitions = value.FindMember("transitions")->value;
 		for (rapidjson::SizeType j = 0U; j < transitions.Size(); j++)
 		{
 			auto toState = transitions[j].FindMember("toState")->value.GetString();
 			auto hasExitTime = transitions[j].FindMember("hasExitTime")->value.GetBool();
-			auto conditions = transitions[j].FindMember("conditions")->value.GetArray();
+			auto& conditions = transitions[j].FindMember("conditions")->value;
 
 			auto pTransition = new GAnimatorTranslation(toState);
 			pTransition->setHasExitTime(hasExitTime);
@@ -48,24 +38,51 @@ static GAnimatorState* createStateWithJson(rapidjson::Value& value, GAnimatorSta
 			for (rapidjson::SizeType k = 0U; k < conditions.Size(); k++)
 			{
 				auto k_param = conditions[k].FindMember("param")->value.GetString();
-				auto k_value = conditions[k].FindMember("value")->value.GetInt();
-				auto k_fvalue = conditions[k].FindMember("value")->value.GetFloat();
 				auto k_logic = conditions[k].FindMember("logic")->value.GetInt();
+				int useparam = 0;
+				if(conditions[k].HasMember("useparam"))
+					useparam = conditions[k].FindMember("useparam")->value.GetInt();
 
-				if (k_logic == (int)GLogicType::EQUAL)
-					pTransition->addCondition(GAnimatorCondition(params, k_param, k_value, k_fvalue, GLogicType::EQUAL));
-				else if (k_logic == (int)GLogicType::NOTEQUAL)
-					pTransition->addCondition(GAnimatorCondition(params, k_param, k_value, k_fvalue, GLogicType::NOTEQUAL));
-				else if (k_logic == (int)GLogicType::GREATER)
-					pTransition->addCondition(GAnimatorCondition(params, k_param, k_value, k_fvalue, GLogicType::GREATER));
-				else if (k_logic == (int)GLogicType::LESS)
-					pTransition->addCondition(GAnimatorCondition(params, k_param, k_value, k_fvalue, GLogicType::LESS));
-				else if (k_logic == (int)GLogicType::GREATER_EQUAL)
-					pTransition->addCondition(GAnimatorCondition(params, k_param, k_value, k_fvalue, GLogicType::GREATER_EQUAL));
-				else if (k_logic == (int)GLogicType::LESS_EQUAL)
-					pTransition->addCondition(GAnimatorCondition(params, k_param, k_value, k_fvalue, GLogicType::LESS_EQUAL));
-				else
+				if (k_logic < (int)GLogicType::EQUAL || k_logic >= (int)GLogicType::NONE)
+				{
 					assert(false);
+					continue;
+				}
+				auto condition = GAnimatorCondition(params, k_param);
+				if (useparam == 1)
+				{
+					condition.initConditionP(conditions[k].FindMember("rparam")->value.GetString(), (GLogicType)k_logic);
+					pTransition->addCondition(condition);
+				}
+				else
+				{
+					auto k_value = conditions[k].FindMember("value")->value.GetInt();
+					auto k_fvalue = conditions[k].FindMember("value")->value.GetDouble();
+					if (params->getParamType(k_param) == ParamType::BOOLEAN)
+					{
+						condition.initConditionB(k_value != 0, (GLogicType)k_logic);
+						pTransition->addCondition(condition);
+					}
+					else if (params->getParamType(k_param) == ParamType::INTEGER)
+					{
+						condition.initConditionI(k_value, (GLogicType)k_logic);
+						pTransition->addCondition(condition);
+					}
+					else if (params->getParamType(k_param) == ParamType::FLOAT)
+					{
+						condition.initConditionF((float)k_fvalue, (GLogicType)k_logic);
+						pTransition->addCondition(condition);
+					}
+					else if (params->getParamType(k_param) == ParamType::TRIGGER)
+					{
+						condition.initConditionT();
+						pTransition->addCondition(condition);
+					}
+					else
+					{
+						assert(false);
+					}
+				}
 			}
 			pState->addTranslation(pTransition);
 		}
@@ -144,13 +161,13 @@ bool GAnimatorStateMachine::initWithJson(const std::string& content)
 				auto type = value.FindMember("type")->value.GetInt();
 				auto param = value.FindMember("param")->value.GetString();
 				if (type == (int)ParamType::BOOLEAN)
-					m_params->setBool(param, (bool)value.FindMember("init")->value.GetInt());
+					m_params->setBool(param, value.FindMember("init")->value.GetInt() != 0);
 				else if (type == (int)ParamType::INTEGER)
 					m_params->setInteger(param, value.FindMember("init")->value.GetInt());
 				else if (type == (int)ParamType::TRIGGER)
 					m_params->setTrigger(param, value.FindMember("init")->value.GetInt());
 				else if (type == (int)ParamType::FLOAT)
-					m_params->setFloat(param, value.FindMember("init")->value.GetFloat());
+					m_params->setFloat(param, (float)value.FindMember("init")->value.GetDouble());
 				else
 					assert(0);
 			}
@@ -161,15 +178,22 @@ bool GAnimatorStateMachine::initWithJson(const std::string& content)
 	for (rapidjson::SizeType i = 0U; i < statesMember->value.Size(); i++)
 	{
 		auto& value = statesMember->value[i];
-		m_fsm->addState(createStateWithJson(value, this, m_params.get(), false));
+		{
+			auto state = value.FindMember("state")->value.GetString();
+			auto pState = newState(state);
+			m_fsm->addState(initStateWithJson(value, pState, m_params.get(), false));
+		}
 	}
 
 	// anyState
 	if (json.HasMember("anyState"))
 	{
 		auto& value = json.FindMember("anyState")->value;
-		if(value.HasMember("transitions") && value.FindMember("transitions")->value.Size() > 0)
-			m_fsm->setAnyState(createStateWithJson(value, this, m_params.get(), true));
+		if (value.HasMember("transitions") && value.FindMember("transitions")->value.Size() > 0)
+		{
+			auto pState = newState("anyState");
+			m_fsm->setAnyState(initStateWithJson(value, pState, m_params.get(), true));
+		}
 	}
 	
 	// defaultState
@@ -212,3 +236,21 @@ void GAnimatorStateMachine::resetAnimComplete()
 	m_animCompleteState = NULL;
 	m_animComplete = false;
 }
+
+void GAnimatorStateMachine::registerStateGenLogic(const FStateKeyType& stateName, const GStateGenInterface& func)
+{
+	m_stateFactory[stateName] = func;
+}
+
+GAnimatorState* GAnimatorStateMachine::newState(const FStateKeyType& stateName)
+{
+	auto it = m_stateFactory.find(stateName);
+	if (it == m_stateFactory.end())
+	{
+		return new GAnimatorState(this, stateName);
+	}
+	auto pState = it->second(this, stateName);
+	assert(pState != NULL);
+	return pState;
+}
+

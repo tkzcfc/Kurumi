@@ -29,6 +29,9 @@
 #define G_TARGET_CLIENT 1
 #include "cocos2d.h"
 
+#include "json/document.h"
+#include "json/stringbuffer.h"
+
 using namespace cocos2d;
 #endif
 
@@ -38,14 +41,14 @@ using namespace cocos2d;
 
 
 //! 位操作相关
-#define G_BIT_SET(b, flag) ((b) |= (flag))
-#define G_BIT_GET(b, flag) ((b) & (flag))
-#define G_BIT_CLEAR(b, flag) ((b) &= ~(flag))
-#define G_BIT_EQUAL(b, flag) (((b) & (flag)) == (flag))
-#define G_BIT_NO_EQUAL(b, flag) (((b) & (flag)) != (flag))
+#define G_BIT_SET(b, flag) (b) |= (flag)
+#define G_BIT_GET(b, flag) (b) & (flag)
+#define G_BIT_CLEAR(b, flag) (b) &= ~(flag)
+#define G_BIT_EQUAL(b, flag) ((b) & (flag)) == (flag)
+#define G_BIT_NO_EQUAL(b, flag) ((b) & (flag)) != (flag)
 
 
-// 获取数组长度
+//! 获取数组长度
 #define G_ARRAY_LEN(array) sizeof(array) / sizeof(array[0])
 
 
@@ -58,3 +61,7 @@ using namespace cocos2d;
 #define PHYSICS_PIXEL_TO_METER 100.0f
 
 
+inline bool str_equal(const char* str1, const char* str2)
+{
+	return strcmp(str1, str2) == 0;
+}

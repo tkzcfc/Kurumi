@@ -8,6 +8,10 @@ class GStateDelegate
 {
 public:
 
+	GStateDelegate() {}
+
+	virtual ~GStateDelegate() {};
+
 	virtual void onEnter(GState* state) = 0;
 
 	virtual void onExit(GState* state) = 0;
@@ -19,6 +23,9 @@ class GFSM;
 class GState
 {
 public:
+
+	GState() = delete;
+
 	GState(const FStateKeyType& stateName);
 
 	virtual ~GState();
@@ -50,6 +57,12 @@ public:
 	void setDelegate(GStateDelegate* delegate);
 
 	inline GStateDelegate* getDelegate() const;
+
+	inline int getTranslationCount() const;
+
+	inline GTranslation* getTranslationByIndex(int index) const;
+
+	inline const std::vector<GTranslation*>& getTranslation() const;
 
 protected:
 
@@ -86,4 +99,19 @@ const FStateKeyType& GState::getStateName() const
 GStateDelegate* GState::getDelegate() const
 {
 	return m_delegate;
+}
+
+int GState::getTranslationCount() const
+{
+	return (int)m_translationArr.size();
+}
+
+GTranslation* GState::getTranslationByIndex(int index) const
+{
+	return m_translationArr[index];
+}
+
+const std::vector<GTranslation*>& GState::getTranslation() const
+{
+	return m_translationArr;
 }

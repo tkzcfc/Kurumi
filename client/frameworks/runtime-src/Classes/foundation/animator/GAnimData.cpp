@@ -1,7 +1,9 @@
 #include "GAnimData.h"
 #include "foundation/file/GFileUtiles.h"
+#if G_TARGET_CLIENT
 #include "json/stringbuffer.h"
 #include "json/document.h"
+#endif
 
 static kAniRectType getRectType(const std::string& name)
 {

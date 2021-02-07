@@ -62,9 +62,9 @@ void InputSystem::afterInput()
 		// ◊Û“∆
 		if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_LEFT))
 		{
-			//property.stateMachine->params().setBool
 			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_FACE_CAHGNE))
-				property.faceRight = false;
+				G_BIT_CLEAR(property.status, PS_IS_FACE_R);
+
 			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_MOVE_X))
 				SIMPhysSystem::applyForce(&simPhys, GVec2(-property.moveForce.x, 0.0f));
 		}
@@ -72,14 +72,15 @@ void InputSystem::afterInput()
 		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_RIGHT))
 		{
 			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_FACE_CAHGNE))
-				property.faceRight = false;
+				G_BIT_CLEAR(property.status, (G_BIT_TYPE)PS_IS_FACE_R);
 			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_MOVE_X))
 				SIMPhysSystem::applyForce(&simPhys, GVec2(property.moveForce.x, 0.0f));
 		}
 		// …œ“∆
 		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_UP))
 		{
-			if (!property.isInAir)
+			
+			if (G_BIT_NO_EQUAL(property.status, PS_IS_IN_AIR))
 			{
 
 			}
@@ -87,7 +88,7 @@ void InputSystem::afterInput()
 		// œ¬“∆
 		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_DOWN))
 		{
-			if (!property.isInAir)
+			if (G_BIT_NO_EQUAL(property.status, PS_IS_IN_AIR))
 			{
 			}
 		}

@@ -121,28 +121,6 @@ void SIMPhysSystem::debugDraw()
 #endif
 }
 
-void SIMPhysSystem::applyForce(anax::Entity& entity, const GVec2& f)
-{
-	applyForce(&entity.getComponent<SIMPhysComponent>(), f);
-}
-
-void SIMPhysSystem::applyForce(SIMPhysComponent* component, const GVec2& f)
-{
-	component->force += f;
-}
-
-void SIMPhysSystem::applyImpulse(anax::Entity& entity, const GVec2& impulse)
-{
-	applyImpulse(&entity.getComponent<SIMPhysComponent>(), impulse);
-}
-
-void SIMPhysSystem::applyImpulse(SIMPhysComponent* component, const GVec2& impulse)
-{
-	// 简化运算,直接将质量视为1
-	//component->linearVelocity += body->im * impulse;
-	component->linearVelocity += impulse;
-}
-
 void SIMPhysSystem::createBox(anax::Entity& entity, const GVec2& origin, const GVec2& size, const GVec2& anchor)
 {
 	G_ASSERT(entity.hasComponent<SIMPhysComponent>() == false);
