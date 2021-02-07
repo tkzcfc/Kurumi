@@ -1,0 +1,96 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.maze;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "MazeProto";
+//迷宫
+
+	//成就或者日常任务
+    message MazeInfo{
+		required int32 layer = 1;//当前层
+		required bool isOpen=2;//是否开启
+		optional int64 updateTime = 3;//下次刷新时间
+		optional int32 sit = 4;//玩家当前位置
+		optional int32 nextSit = 5;//玩笑选中的下一个位置
+		repeated int32 buffPackage = 6;//buff背包
+		repeated protobuf.common.Hero heroHelpPackeage =7;//援助英雄背包
+		repeated MazeHero heroPackeage = 8;//自己英雄背包 id和血量
+		repeated int32 queue = 9;//玩家当前阵容
+		repeated int32 pathWay = 10;//玩家当前行走路径
+		repeated MazeMarket mazeMarket = 11;//迷宫商店
+		optional int32 mapNumber = 12;//迷宫编号
+		repeated int32 haveReceiveSit = 13;//已经领取过宝箱的位置
+		repeated protobuf.common.KVint3232 sitType = 14;//位置对应 位置的状态类型（时光之巅）
+		repeated protobuf.common.KVint3232 fogNumber = 15;//迷雾开放坐标
+    }
+	
+	//敌人阵容 答应后的奖励内容
+	message MazeEnemy{
+		optional int32 enemySit = 1;//敌人位置
+		optional protobuf.common.LineupDetail enemyLineup=2;//敌方阵容
+		repeated protobuf.common.KVint3264 awards = 3;//奖励
+		optional double chageValue = 4;//阵容战斗力调整值
+	}
+	
+	//援军和敌人信息
+	message MazeHelpEnemy{
+		repeated MazeEnemy enemyInfo = 1;//敌人信息
+		repeated MazeHelpHero helpInfo =2;//援军信息
+		repeated protobuf.common.KVint32List32 bossBuff = 3;//可选bossbuff
+	}
+	
+	message MazeHero{
+		required int32 heroId = 1;//唯一英雄id
+		required int32 lastHp = 2;//血量
+		required bool isHelpHero = 3;//是否是助阵英雄
+		required int32 energy = 4;//当前玩家能量
+	}
+	
+	message MazeUpdate{
+		repeated MazeHero heroPackeage = 1;//自己英雄背包 id和血量
+		optional int32 mapNumber = 2;//地图编号
+		repeated protobuf.common.Hero heroHelpPackeage = 3;//自己助阵英雄背包信息
+	}
+	
+	//选择下个位置 返回消息
+	message MazeNext{
+		optional protobuf.common.KVint3233 info =1;//标记消息 type=类型，key=坐标
+		repeated protobuf.common.KVint3264 awards = 2;//最后一个位置奖励
+		optional int32 mazeType = 4;//地图类型
+	}
+	
+	//迷宫商店,位置对应商店物品
+	message MazeMarket{
+		optional int32 sit =1;//迷宫对应位置
+		repeated MazeShop market = 2;//商店物品
+	}
+	
+	//迷宫商品
+	message MazeShop{
+		optional int32 marketId = 1;//商品id
+		optional bool isShop = 2;//是否已经出售
+		optional int32 itemId = 3;//物品id
+	}
+	
+	//援助英雄 位置对应援助英雄配置id
+	message MazeHelpHero{
+		optional int32 sit =1;//迷宫对应位置
+		repeated protobuf.common.Hero hero = 2;//英雄信息
+	}
+	
+	message MazeKVint {
+		required int32 key = 1;//目标位置
+		required int32 value = 2;//传入的值
+		required int32 type = 3;//确定下一步或者移动到位置
+		required int32 mapId = 4;//类型 对应地图id
+	}
+	
+	message TopTimeInfo {
+		repeated protobuf.common.KVint32List32 openMap = 1;//已经开放地图
+	}
+	
+	
+	
+	

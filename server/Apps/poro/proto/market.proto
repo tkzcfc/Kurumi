@@ -1,0 +1,49 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.market;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "MarketProto";
+
+//市场和许愿池
+
+	
+	 //市场
+  message Market{
+    required int32 id=1;//市场id
+    repeated protobuf.common.KVint3233 items=2;//商品信息（id,剩余购买次数）
+	repeated protobuf.common.KVint3264 limit=5;//限时商品额外时间信息（id,结束时间戳
+	optional int64 time=3;//下次免费刷新时间
+	repeated protobuf.common.KVint3232 refreshCost=4;//刷新消耗物品
+  }
+     //查看许愿池抽奖记录
+  message WishLotteryRecord{
+    repeated Record record=1;
+  }
+
+    message Record{
+    required  string name=1;//玩家名字
+	required  int32 itemId=2;//奖品id
+	required  int32 itemNum=3;//数量
+	optional  bool isChat = 4;//是否发生聊天
+  }
+  
+      //许愿池
+  message Wish{
+    required int32 id=1;//市场id
+    repeated Item items=2;//商品信息
+	optional int64 time=3;//下次免费刷新时间
+	repeated protobuf.common.KVint3232 refreshCost=4;//刷新消耗物品
+	optional int64 forceTime=5;//强制刷新时间
+  }
+    message Item{
+    required int32 itemId=1;//物品id
+    required int32 itemNum=2;//物品数量
+	required int32 times=3;//次数
+	optional int32 id=4;//配置id
+  }
+  //许愿池抽奖
+    message WishLottery{
+    repeated protobuf.common.KVint3232 items=1;//获得物品
+  }

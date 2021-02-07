@@ -1,0 +1,81 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.battle;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "BattleProto";
+
+//战斗
+
+
+	 //更新刷新时间，在客户端检测到到跟新时间了，可以调用此指令，获取下发最新的信息。
+	message FreshReplyInfo {
+	required int32 type = 1; //请求更新的数据类型。
+	//活动副本
+	repeated protobuf.common.KVint3232 carbonDayCnt = 2; //活动副本的次数<攻击次数，购买次数>
+	repeated protobuf.common.Id32 carbonPass = 5; //活动副本已经通过的
+	//勇者试炼
+	optional bool isOpenBrave = 3; //是否已经开启了勇者试炼
+	//剩余时间，统一用这个记录时间。
+	optional int64 nextFreshTime = 4; //下次刷新的时间。
+	optional int32 upId = 6; //up召唤英雄id
+	optional int32 braveSelectType = 7; // 远征难度选择类型（简单、普通、困难）
+	optional int32 bravePassType = 8; // 远征通关类型（简单、普通、困难）
+	optional int32 bravePhase = 9; // 远征期数
+  }
+	message iconinfo {
+	required int32 level = 1;//
+	required string name = 2;//
+	required string head = 3;// 头像
+	optional string guildName = 4; //公会名称，或爬塔层数。
+	optional string serverName = 5; //服务器名称。
+	optional string playerid = 6;//玩家id。
+	optional int32 power = 7; //战斗力
+	optional int32 headFrame = 8;// 头像框
+ }
+ 
+    //阵容模板
+  message SetLineupTemplate{
+	repeated protobuf.common.LineupTemplate lineup=1;//阵容
+  }
+	   //战斗展示请求
+ message BattleRequest {
+	required int32 type = 1; //战斗类型
+	optional string beAttackId = 2; //参数是string的被攻击者id
+	optional bool needLineup = 3; //是否需要下发布阵信息，需要下发布阵的战斗才会用。
+ }
+ 
+ //战斗展示下发对象
+ message BattleInfo {
+	required int32 type = 1; //战斗类型 或勇者试炼的请求类型。
+	required int64 randseed = 2; //随机种子
+	optional string enemyid = 3; //副本id。试炼id，玩家id
+	optional string teamName = 4;//队伍名字、试炼名字
+	repeated protobuf.common.LineupDetail enemylinup = 5; //对方的详细阵营
+	repeated iconinfo showinfo = 6; //队员信息，pvp用
+	repeated protobuf.common.KVint3264 enemyblood = 7; //队伍剩余血量，pve的boss用 (勇者试练 目前自己上阵队伍的血量)
+	repeated protobuf.common.KVint3264 herohps = 8; //勇者试炼记录自己英雄的剩余血量  (勇者试练 自己所有已经打过的英雄的血量)
+ }
+
+ //单场战斗开始请求
+ message BattleStart {
+	required int32 type = 1; //战斗类型
+	required string enemyId = 2; //对方id
+	required bool result = 3; //战斗结果
+	required string sign = 4; //战斗校验
+	repeated int64 damage = 5;//每个敌人收到的伤害。公会boss，勇者试炼要用。
+	repeated int64 maxhp = 6; //每个敌人剩余的血量，公会boss，勇者试炼要用。
+	optional int64 mydamage = 11; //我方给对方造成的总伤害。
+	optional int32 lineupindex = 7; //我的阵营索引
+	repeated protobuf.common.KVint3264 lineupblood = 8; //我的剩余血量。勇者试炼，上发英雄剩余的血量<唯一id，剩余血量>
+	optional int32 lineuppet = 9; //勇者试炼，宠物id。
+	optional int32 attackCnt = 10; //扫荡次数。
+ }
+ //战斗结束请求
+ message BattleEnd {
+	required int32 type = 1; //战斗类型
+	required string enemyId = 2; //对方id
+	repeated protobuf.common.KVint3232 rewards = 3; //获取的物品奖励。
+	repeated string points = 4; //竞技场积分<我的积分变化，对方积分变化>
+ }

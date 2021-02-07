@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+ import "common.proto";
+ package protobuf.foundation;
+
+ option java_package = "xag.idgo.core.proto";
+ option java_outer_classname = "FoundationProto";
+
+ message FoundationResponse {
+     repeated int32 id = 1;  // 已经领取的编号
+     required bool buy = 2; // 是否购买 true:购买 false:未购买
+     required int32 chargeId = 3; // 充值ID
+     required int32 goodsId = 4; // 商品ID
+ }

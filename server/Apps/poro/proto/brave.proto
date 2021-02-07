@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.brave;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "BraveProto";
+
+//勇者试炼
+
+ message braveBoxList {
+	repeated bool state = 1; //最新状态
+	repeated protobuf.common.KVint3232 items = 2; //领取的奖励物品，在拿取的时候才有。
+ }
+
+   //战斗展示下发对象
+ message BraveInfo {
+	repeated enemyinfo showinfo = 1; //敌人信息
+	required protobuf.common.LineupTemplate attackLineup = 2; //自己的进攻阵营
+	repeated protobuf.common.KVint3264 herohps = 3; //勇者试炼记录自己英雄的剩余血量
+	repeated protobuf.common.KVint3232 heroEns = 4; //勇者试炼记录自己英雄的能量
+ }
+ 
+ message enemyinfo {
+	required int32 level = 1;//
+	required string name = 2;//
+	required string head = 3;// 头像
+	required int32 lasthp = 4;// 剩余血量，0死亡，1没死亡
+	optional string serverName = 5; //服务器名称。
+	optional int32 power = 7; //战斗力
+	optional int32 headFrame = 8;// 头像框
+	repeated int32 buflist = 9;//本层的buf列表，可能没有。
+	optional int32 selected = 10; //激活的buf
+	repeated protobuf.common.KVint3232 herolist = 11;//已经复活的英雄配置id。
+ }
+

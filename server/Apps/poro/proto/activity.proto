@@ -1,0 +1,143 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.activity;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "ActivityProto";
+
+//活动与充值
+
+		//精彩活动
+	message Wonderful {
+		optional int32 checkinid = 1; //签到的配置id
+		optional int32 checkinidLogin = 2; //签到的登陆天数
+		optional int32 checkinidGot = 3; //签到的领取天数
+		optional int64 checkinNexttime = 4;//签到下次时间戳。
+		optional int32 monthlastdays = 5; //月卡剩余多少天, 0可以购买
+		optional int32 month1lastdays = 6; //小月卡剩余多少天，0可以购买
+		optional LimitActivity giftweekmonth = 7; //周礼包。月礼包。
+		optional protobuf.common.KVint3232 checkinItem = 8; //签到奖品发放。
+		optional int32 vipExtraAward = 9; //=1 vip升级后下发，=0 正常签到奖励
+	}
+	message ChargePage {
+		optional int32 monthlastdays = 1; //月卡剩余多少天, 0可以购买
+		optional int32 month1lastdays = 2; //小月卡剩余多少天，0可以购买
+		repeated int32 isBuyed = 3; //已经购买过一次的chargeid。
+	}
+	//限时活动
+	message LimitActivity{
+		repeated Activity activitys=1;//限时活动列表
+	}
+	message Activity{
+	 required int32 id=1;//活动id
+	 required int64 time=2;//活动显示结束时间
+	 repeated ActivityGood goods=3;//具体活动列表
+	 optional int64 rewardendtime = 4; //活动奖励持续发送结束时间，目前只有周卡在用
+	 //1.4.1客户端需要
+	 required int32 name = 10;//活动名称
+	 required int32 desc = 11;//描述
+	 required string icon = 12;//左侧图标
+	 required string img = 13;//标题图片
+	 repeated protobuf.common.KVint3232 limitGoods = 14;//限时商品，仅用于展示
+	 required int32 type=15;//用于标记属于什么活动
+	 required int32 extraDropid=16;//额外掉落id
+	 optional int32 bossId=17;//boss活动当前bossID
+	 optional BattleGuess guess=18;//战事竞猜活动信息
+	 optional int32 round=19;//最大完成轮数
+	 optional int32 curRound=20;//当前完成轮数
+	}
+    message ActivityGood{
+		required int32 goodId=1;//id
+		required int32 finish=2;//完成次数
+		optional int32 value=3;//当前进度
+		//1.4.1客户端需要
+		required int32 taskValue=10;//任务值
+		repeated protobuf.common.KVint3232 goods = 11;//商品些的id
+		required int32 name = 12;//名字
+		required int32 limit = 13;//限制次数
+		required int32 taskvice = 14;//任务副配置
+		required int32 chargeid = 15;//充值id
+		required int32 lastdays = 16;//持续奖励，仅周卡
+		required int32 goActive = 17; //前往活动id,仅道具兑换
+		required int32 goSystem = 18; //前往系统id,仅道具兑换
+		optional string priceRMB = 19; //人民币原价，价格（元）
+		optional string priceDol = 20; //美元原价，价格(美元)
+		optional string speGoods = 21; //特殊活动前端展示
+		optional int32 taskEvent = 22; //消耗物品id(仅弹出礼包)
+		optional int32 firstChargeMoney=23;//充值累计金额
+		optional int32 firstChargeNext=24;//后续充值活动
+	}
+	 
+	message ReplyChargeGoods{
+		required string orderId = 1;//订单号
+		repeated protobuf.common.KVint3264 items = 2;//物品
+	}
+	message VideoSeeReply{
+	    required int32 canSee = 1;//当日还能看的次数
+	    repeated protobuf.common.KVint3264 items = 2;//获得物品
+	}
+	message iconinfo {
+	required int32 level = 1;//
+	required string name = 2;//
+	required string head = 3;// 头像
+	optional string serverName = 4; //服务器名称。
+	optional string playerid = 5;//玩家id。
+	optional int32 headFrame = 6;// 头像框
+ }
+ 	message BattleGuess {
+	required bool isJoin = 1;//是否是参赛者
+	required int32 wheel= 2;//第几轮
+	required int64 endTime = 3;// 本轮结束时间
+	repeated iconinfo player = 4;//参赛者信息
+ }
+ //进入竞猜请求返回
+ message ReplyEntryGuess{
+	required int32 state = 1;//当前竞猜状态（0--没有参加竞猜，1--押注红队，2--押注蓝队）
+	required bool isEnd = 2;//本轮竞猜是否截止
+	required int64 endTime = 3;// 本轮结束时间
+	}
+	//设置战事活动阵容
+ message SetLineup {
+	repeated protobuf.common.LineupTemplate lineup=1;//阵容引用
+  }
+  //记录
+   	message Record {
+	required int32 state = 1;//本轮状态（0--没开启，1--开启但没结束，2--结束）
+	repeated OneRecord player = 2;//参赛者信息
+	required int32 wheel = 3;//第几轮
+ }
+ 	message OneRecord {
+	required iconinfo attack = 1;//攻击方
+	required iconinfo defense = 2;//防守方
+	repeated bool oneVictory = 3;//单场战斗攻击是否胜利
+ }
+ message ActivityExchange{
+	required int32 goodId = 1;//ActivityGoods配置id
+	repeated protobuf.common.KVint3232 items = 2;//获得物品
+	optional protobuf.common.Hero hero = 3;//获得英雄
+ }
+  message KingEventRequest{
+	required int32 goodId = 1;//ActivityGoods配置id
+	repeated int32 heros = 2;//英雄唯一id
+ }
+ 
+ //累计签到信息
+  message SigninToTal{
+	optional int32 alreadyReceivedId = 1;//已领取奖励id
+	optional int32 alreadyReceivedNumber = 2;//已领取奖励签到数量
+	optional int32 number = 3;//当前玩家签到数量
+ }
+ 
+   message KingEventReply{
+	repeated protobuf.common.KVint3264 items = 1;//活动获得物品
+	repeated protobuf.common.KVint3264 heroItems = 2;//英雄返回物品
+ }
+ 
+ //首充奖励信息
+    message FirstChargeMsgReply{
+	optional int32 goodId = 1;//当前已获得首充奖励的编号
+	optional int32 haveChargePrice = 2;//已经充值金额
+	repeated protobuf.common.KVint3264 items = 3;//获得物品
+ }
+ 

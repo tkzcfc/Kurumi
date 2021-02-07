@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.pet;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "PetProto";
+
+// 宠物
+
+ //进阶
+  message ReplyTierUp{
+   required int32 id = 1;//进阶前宠物ID
+   required protobuf.common.Pet pet= 2;//进阶后宠物
+   repeated protobuf.common.KVint3264 items = 3;//消耗物品
+  }
+  //升级
+  message ReplyLvUp{
+   required int32 id = 1;//宠物ID
+   required int32 lv = 2;//当前等级
+   repeated protobuf.common.KVint3264 items = 3;//消耗物品
+  }
+  message PetList{
+	repeated protobuf.common.Pet pets=1;//玩家宠物列表
+  }
+    //升级
+  message ReplySkillUp{
+   required int32 id = 1;//宠物ID
+   required protobuf.common.KVint3232 skill=2;//宠物技能及对应等级
+   repeated protobuf.common.KVint3264 items = 3;//消耗物品
+  }
+     //重生
+ message  ReplyRebirth{
+	required int32 key = 1;//宠物ID
+	repeated protobuf.common.KVint3264 items = 2;//返回物品
+ }

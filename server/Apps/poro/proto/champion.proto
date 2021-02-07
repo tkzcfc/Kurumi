@@ -1,0 +1,81 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.champion;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "ChampionProto";
+//冠军试炼
+
+  
+   //田忌赛马防守阵营
+  message ChampionLineup {
+	optional int32 type = 1; //类型，0:设置阵营；1：拉取阵营。
+	repeated protobuf.common.LineupTemplate lineup=2;//阵容引用
+  }
+  //多场战斗开始请求（田忌赛马+组队竞技的）
+ message BattleStartM {
+	required int32 type = 1; //战斗类型
+	required string enemyId = 2; //对方id
+	required bool result = 3; //本次战斗胜负
+	required string sign = 4; //战斗校验
+	repeated bool perResult = 5; //单场胜负
+	repeated protobuf.common.LineupTemplate perLineup = 6; //单场进攻阵营
+ }
+  
+   message iconinfo {
+	required int32 level = 1;//
+	required string name = 2;//
+	required string head = 3;// 头像
+	optional string guildName = 4; //公会名称
+	optional string serverName = 5; //服务器名称。
+	optional string playerid = 6;//玩家id。
+	optional int32 rank = 7;//排名
+	optional int64 rankPoints = 8;//排名的积分，伤害可能很大。
+	optional int32 power = 9; //战斗力
+	optional int32 headFrame = 10;// 头像框
+ }
+ //玩家列表信息
+ message playerInfoList {
+	repeated iconinfo showinfo = 1; //就这样子
+ }
+  //战斗录像（多场的田忌赛马记录,只是展示信息，不包括阵容）
+ message BattleHistory {
+	required string attackName = 2;//进攻方名字
+	required int32 attackLvl = 3;//等级
+	required string attackHead = 4;//头像
+	required string attackId = 5; //攻击者id
+	optional int32 atHeadFrame = 6;// 头像框
+
+	required string defenseId = 7; //pvp防守方id
+	required string defenseName = 8;//pvp防守方名字
+	required int32 defenseLvl = 9;//pvp等级
+	required string defenseHead = 10;//pvp头像
+	optional int32 deHeadFrame = 11;// 防守方头像框
+
+	required bool victory = 14;//进攻方是否胜利
+	optional int32 attackPoint = 15;//攻击方的积分变化
+	optional int32 defensePoint = 16;//防守方的积分变化
+	required int64 time = 17; //时间戳
+	repeated bool oneVictory = 18; //单场攻击方是否胜利
+ }
+ message BattleHistoryList {
+	repeated BattleHistory battles = 1;
+ }
+ 
+  message BattleVideoList {
+	repeated BattleLineupDetail videos = 1;
+ }
+ //战斗详情（双方阵容及随机种子）
+  message BattleLineupDetail{
+    required int64 seed = 1; //随机种子
+	required bool victory = 2;//进攻方是否胜利
+    required protobuf.common.LineupDetail attacker = 3; //单场进攻的阵营
+	required protobuf.common.LineupDetail defineer = 4; //单场pvp防守的阵营
+  }
+    //多场战斗开始请求（田忌赛马+组队竞技的）
+ message NewBattleStartM {
+	required int32 type = 1; //战斗类型
+	required string enemyId = 2; //对方id
+	repeated protobuf.common.LineupTemplate perLineup = 6; //单场进攻阵营
+ }

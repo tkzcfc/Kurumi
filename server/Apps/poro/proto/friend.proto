@@ -1,0 +1,74 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.friend;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "FriendProto";
+
+//好友
+
+
+	message iconinfo {
+	required int32 level = 1;//
+	required string name = 2;//
+	required string head = 3;// 头像
+	optional int32 gid = 4; //玩家的gid。
+	optional int64 lastlogintime=5; //最后登陆时间,如果是999，表示正在线上。
+	optional string playerid = 6;//玩家id。
+	optional bool heartSend = 7;//是否已经发了爱心。
+	optional int32 heartgot = 8;// 0，没有收到，1已经收到未收取，2已经收取
+	optional bool isShadow = 9;// 好友里面用到，是否屏蔽
+	optional int32 bossid = 10; //boss的配置id。
+	optional int32 blood = 11; //血量，百分比，等于0就是死了。
+	optional bool isFriend = 12; //是否是好友
+	optional int32 headFrame = 13;// 头像框
+	optional int32 serverid = 14;//当前服务器id
+	optional int32 maxpower = 15;//综合战斗力
+	optional int32 hangMaxMap = 16;//解锁的最大挂机副本
+ }
+ //玩家列表信息
+ message playerInfoList {
+	repeated iconinfo showinfo = 1; //就这样子
+ }
+  //好友的信息。
+ message playerFriends {
+	optional int32 type = 1;//可选，如果有：0-登陆下发；1-增加；2-减少；3-跟新；4-申请增加；5-体力数据；6-boss被打死
+	repeated iconinfo showinfo = 2; //好友信息
+	optional int64 searchFreshTime = 3; //下次可以搜寻boss的时间
+	optional int32 tiliCnt = 4; //体力剩余数量
+	optional int64 tiliFreshTime = 5;//如果体力没有满，下一次回复体力的时间。
+	optional bool hasApplyPlayer = 6;//是否有好友申请。
+	optional int32 heartToday = 7;//今天收到的心
+ }
+   //boss的伤害。
+  message BossDamage {
+	required string playerid=1; //玩家id
+	required int64 totaldamage = 2; //总伤害
+	required string playername = 3; //玩家名字
+	required string playerhead = 4; //玩家图标
+	required int32 power = 5; //玩家战力
+	required int32 playerlvl = 6;//玩家等级。
+	optional int32 headFrame = 7;// 头像框
+  }
+  //boss相关信息。
+  message GuildBossInfo {
+	repeated BossDamage playerdamages=1; //玩家伤害list
+  }
+  //进入好友boss搜寻界面
+  message EnterBossReply {
+    required int64 finishTime = 1;//赛季结束时间
+	required int32 season = 2;//当前赛季
+	optional int64 nextSearchTime =3;//下次可以搜寻boss的时间
+	optional protobuf.common.KVint3232 boss=4;//boss信息（key:id,value:血量百分比）
+  }
+  
+    //好友拒绝相关信息。
+  message FriendRefuseReply {
+	repeated FriendRefuseInfo refuseInfo=1; 
+  }
+  
+  message FriendRefuseInfo {
+    required string playerId = 1;//拒绝用户
+	required int32 season = 2;//拒绝状态 1 正常拒绝，2好友已满
+  }

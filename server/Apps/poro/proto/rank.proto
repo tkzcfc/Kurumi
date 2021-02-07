@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+import "common.proto";
+package protobuf.rank;
+
+option java_package = "xag.idgo.core.proto";
+option java_outer_classname = "RankProto";
+
+//排行榜
+
+	//排行榜信息
+  message RankInfo {
+	required int32 rankid = 1; //排行榜id
+	optional int32 myrank = 2; //我的排行榜位置
+	optional int64 mypoint = 3; //我的排行榜积分，伤害可能很大，用64的
+	optional int64 mypower = 5; //我的战力
+	optional string myserver = 6; //我的服务器
+	repeated iconinfo ranks = 4; //排行榜信息
+}
+
+   message iconinfo {
+	required int32 level = 1;//
+	required string name = 2;//
+	required string head = 3;// 头像
+	optional string serverName = 4; //服务器名称。
+	optional int32 rank = 5;//排名
+	optional int64 rankPoints = 6;//排名的积分，伤害可能很大。
+	optional int32 power = 7; //战斗力
+	optional string id = 8; //玩家id
+	required int32 headFrame = 9;// 头像框
+ }
