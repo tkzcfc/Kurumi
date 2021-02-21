@@ -12,6 +12,8 @@ struct ActorIdentityInfo
 	GVec2 originPos;
 	// 角色名
 	std::string roleName;
+	// uuid
+	uint32_t uuid;
 };
 
 
@@ -19,7 +21,7 @@ namespace CommonUtils
 {
 	anax::Entity& getAdmin(anax::World& world);
 
-	static GlobalComponent& getGlobalComponent(anax::World& world);
+	GlobalComponent& getGlobalComponent(anax::World& world);
 
 	bool initMapSize(anax::Entity& admin, int mapId);
 

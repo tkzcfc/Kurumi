@@ -1,14 +1,51 @@
 #include "InputSystem.h"
 #include "ecs/system/SIMPhysSystem.h"
+#include "ecs/components/TransformComponent.h"
+#include "ecs/utils/CommonUtils.h"
+
+const static G_BIT_TYPE Move_Keys = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
+
+void InputSystem::update()
+{
+	beforeInput();
+
+	auto& globalCom = CommonUtils::getGlobalComponent(getWorld());
+
+	if (globalCom.inputQue.check(globalCom.gameLogicFrame))
+	{
+		auto msg = globalCom.inputQue.popMsg();
+		input(msg);
+		globalCom.inputQue.freeMsg(msg);
+	}
+
+	afterInput();
+}
 
 void InputSystem::beforeInput()
 {
-	// 保存上一帧输入状态
 	auto& entities = this->getEntities();
+
+	// 保存上一帧输入状态
 	for (auto& entity : entities)
 	{
 		auto& inputComponent = entity.getComponent<InputComponent>();
 		inputComponent.lastKeyDown = inputComponent.keyDown;
+	}
+
+	// 检测是否位于空中
+	for (auto& entity : entities)
+	{
+		auto& propertyCom = entity.getComponent<PropertyComponent>();
+		auto& simphysCom = entity.getComponent<SIMPhysComponent>();
+		if (float_equal(simphysCom.linearVelocity.y, 0.0f))
+		{
+			G_BIT_CLEAR(propertyCom.status, G_PS_IS_IN_AIR);
+			propertyCom.jumpCount = 0;
+		}
+		else
+		{
+			G_BIT_SET(propertyCom.status, G_PS_IS_IN_AIR);
+		}
 	}
 }
 
@@ -56,49 +93,9 @@ void InputSystem::afterInput()
 	for (auto& entity : entities)
 	{
 		auto& input = entity.getComponent<InputComponent>();
-		auto& simPhys = entity.getComponent<SIMPhysComponent>();
 		auto& property = entity.getComponent<PropertyComponent>();
+		property.stateMachine->updateInput();
 
-		// 左移
-		if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_LEFT))
-		{
-			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_FACE_CAHGNE))
-				G_BIT_CLEAR(property.status, PS_IS_FACE_R);
-
-			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_MOVE_X))
-				SIMPhysSystem::applyForce(&simPhys, GVec2(-property.moveForce.x, 0.0f));
-		}
-		// 右移
-		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_RIGHT))
-		{
-			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_FACE_CAHGNE))
-				G_BIT_CLEAR(property.status, (G_BIT_TYPE)PS_IS_FACE_R);
-			if (G_BIT_NO_EQUAL(property.lockStatus, LOCK_S_MOVE_X))
-				SIMPhysSystem::applyForce(&simPhys, GVec2(property.moveForce.x, 0.0f));
-		}
-		// 上移
-		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_UP))
-		{
-			
-			if (G_BIT_NO_EQUAL(property.status, PS_IS_IN_AIR))
-			{
-
-			}
-		}
-		// 下移
-		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_DOWN))
-		{
-			if (G_BIT_NO_EQUAL(property.status, PS_IS_IN_AIR))
-			{
-			}
-		}
-		else if (G_BIT_EQUAL(input.keyDown, G_KEY_JUMP))
-		{
-			/*if (property.arrBeginTime[TIME_S_JUMP])
-			{
-			}*/
-		}
-		
 		// 自动复原按键
 		G_BIT_CLEAR(input.keyDown, keys);
 	}

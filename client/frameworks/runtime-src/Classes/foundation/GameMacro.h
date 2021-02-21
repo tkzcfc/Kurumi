@@ -65,3 +65,8 @@ inline bool str_equal(const char* str1, const char* str2)
 {
 	return strcmp(str1, str2) == 0;
 }
+
+inline bool float_equal(float a, float b)
+{
+	return std::fabsf(a - b) < 0.0001f;
+}

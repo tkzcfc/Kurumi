@@ -7,7 +7,6 @@
 #include "ecs/system/CollisionSystem.h"
 #include "ecs/system/GlobalSystem.h"
 #include "ecs/system/TransformSyncSystem.h"
-#include "ecs/system/RenderSyncSystem.h"
 
 USING_NS_CC;
 
@@ -42,7 +41,6 @@ protected:
 	CollisionSystem m_collisionSystem;
 	GlobalSystem m_globalSystem;
 	TransformSyncSystem m_transformSyncSystem;
-	RenderSyncSystem m_renderSyncSystem;
 
 	anax::World m_world;
 

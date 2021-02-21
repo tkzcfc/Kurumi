@@ -146,6 +146,8 @@ namespace anim
 		"UKE",
 		"COUNT",
 		// NAME_END
+
+
 	};
 
 	static GANI_STATE_TYPE getStateType(const char* name)
@@ -156,6 +158,6 @@ namespace anim
 				return (GANI_STATE_TYPE)i;
 		}
 		assert(0);
-		GANI_STATE_TYPE::COUNT;
+		return GANI_STATE_TYPE::COUNT;
 	}
 }

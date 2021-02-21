@@ -34,6 +34,8 @@ void GGameWorld::updateLogic()
 
 	m_armatureSystem.update(GGameFrameLen);
 	m_collisionSystem.update();
+	m_inputSystem.update();
+	m_updateSystem.update(GGameFrameLen);
 
 #if G_TARGET_CLIENT
 	/*auto& admin = m_globalSystem.admin;
@@ -60,15 +62,6 @@ void GGameWorld::updateLogic()
 	}
 	m_camera->setPosition(viewPos);*/
 #endif
-
-	m_inputSystem.beforeInput();
-	if (m_inputQue.check(m_pGlobal->gameLogicFrame))
-	{
-		auto msg = m_inputQue.popMsg();
-		m_inputSystem.input(msg);
-		m_inputQue.freeMsg(msg);
-	}
-	m_inputSystem.afterInput();
 }
 
 void GGameWorld::render()

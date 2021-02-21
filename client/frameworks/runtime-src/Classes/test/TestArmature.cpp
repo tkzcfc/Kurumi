@@ -42,7 +42,6 @@ bool TestArmature::init()
 	m_world.addSystem<CollisionSystem>(m_collisionSystem);
 	m_world.addSystem<GlobalSystem>(m_globalSystem);
 	m_world.addSystem<TransformSyncSystem>(m_transformSyncSystem);
-	m_world.addSystem<RenderSyncSystem>(m_renderSyncSystem);
 	
 	m_isFirst = true;
 
@@ -50,9 +49,10 @@ bool TestArmature::init()
 		DelayTime::create(0.1),
 		CallFunc::create([=]() 
 	{
-		auto& component = m_globalSystem.admin.getComponent<UniqueComponent>();
-		component.stageNode = Node::create();
-		this->addChild(component.stageNode);
+		auto& global = CommonUtils::getGlobalComponent(m_world);
+		
+		global.stageNode = global.mapRender->getActorNode();
+		//this->addChild(global.stageNode);
 		spawnPlayer();
 	}
 	)));
@@ -60,8 +60,8 @@ bool TestArmature::init()
 	m_drawNode = DrawNode::create();
 	this->addChild(m_drawNode);
 
-	auto& admin = CommonUtils::getAdmin(m_world);
-	admin.getComponent<DebugComponent>().debugDrawNode = m_drawNode;
+	auto& global = CommonUtils::getGlobalComponent(m_world);
+	global.debugDrawNode = m_drawNode;
 
 	return true;
 }
@@ -239,7 +239,6 @@ void TestArmature::logicUpdate(float delta)
 	m_drawNode->clear();
 	m_armatureSystem.update(delta);
 	m_transformSyncSystem.sync();
-	m_renderSyncSystem.sync();
 	m_armatureRenderSystem.render();
 	m_armatureDebugSystem.debugDraw();
 }

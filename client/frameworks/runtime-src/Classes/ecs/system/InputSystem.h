@@ -10,11 +10,15 @@ class InputSystem : public anax::System< anax::Requires<InputComponent, SIMPhysC
 {
 public:
 
+	void update();
+	
+private:
+
 	// 输入之前
 	void beforeInput();
 
 	void input(GOPMsg_Base* msg);
-	
+
 	// 输入之后
 	void afterInput();
 

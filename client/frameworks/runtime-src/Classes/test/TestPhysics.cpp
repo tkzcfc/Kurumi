@@ -54,8 +54,8 @@ bool TestPhysics::init()
 	m_drawNode = DrawNode::create();
 	this->addChild(m_drawNode);
 
-	auto& admin = CommonUtils::getAdmin(m_world);
-	admin.getComponent<DebugComponent>().debugDrawNode = m_drawNode;
+	auto& global = CommonUtils::getGlobalComponent(m_world);
+	global.debugDrawNode = m_drawNode;
 
 	auto winSize = Director::getInstance()->getWinSize();
 

@@ -1,7 +1,8 @@
 #include "CommonUtils.h"
 
 #include "ecs/components/TransformComponent.h"
-#include "ecs/components/DebugComponent.h"
+#include "ecs/components/PropertyComponent.h"
+#include "ecs/components/InputComponent.h"
 #include "ecs/system/GlobalSystem.h"
 #include "ecs/system/SIMPhysSystem.h"
 #include "ecs/utils/ArmatureUtils.h"
@@ -29,7 +30,7 @@ namespace CommonUtils
 	bool initMapSize(anax::Entity& admin, int mapId)
 	{
 		char szPath[256] = { 0 };
-		sprintf(szPath, "map_export/mi_%d.json", mapId);
+		sprintf(szPath, "json/map/mi_%d.json", mapId);
 
 		std::string content;
 		if (!GFileUtiles::readFileString(szPath, content))
@@ -61,7 +62,7 @@ namespace CommonUtils
 			auto& item = arr[i];
 			if (!item.FindMember("ignore")->value.GetBool() && item.HasMember("actor") && item.FindMember("actor")->value.GetBool())
 			{
-				auto& component = admin.getComponent<MapComponent>();
+				auto& component = admin.getComponent<GlobalComponent>();
 				component.mapWidth = (float)item.FindMember("w")->value.GetDouble();
 				component.mapHeight = (float)item.FindMember("h")->value.GetDouble();
 				component.minPosy = (float)item.FindMember("miny")->value.GetDouble();
@@ -76,9 +77,7 @@ namespace CommonUtils
 #if G_TARGET_CLIENT
 	DrawNode* getDebugDraw(anax::World& world)
 	{
-		auto& admin = getAdmin(world);
-		auto& component = admin.getComponent<DebugComponent>();
-		return component.debugDrawNode;
+		return getGlobalComponent(world).debugDrawNode;
 	}
 #endif
 
@@ -88,6 +87,8 @@ namespace CommonUtils
 
 		// 位置信息
 		auto& transform = entity.addComponent<TransformComponent>();
+		
+		auto& input = entity.addComponent<InputComponent>();
 
 		// 物理信息
 		SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
@@ -96,6 +97,17 @@ namespace CommonUtils
 		ArmatureUtils::initAnimationComponent(entity);
 		ArmatureUtils::changeRole(entity, info.roleName);
 		ArmatureUtils::playAnimationCMD(entity, "ANI_NAME_FIGHT_STAND", kArmaturePlayMode::LOOP);
+
+
+		std::string content;
+		GFileUtiles::readFileString("json/runtimeData.json", content);
+		//
+		auto& propertyCom = entity.addComponent<PropertyComponent>();
+		propertyCom.uuid = info.uuid;
+		propertyCom.moveForce = GVec2(100.0f, 10.0f);
+		propertyCom.jumpIm = GVec2(0.0f, 300.0f);
+		propertyCom.stateMachine->init(entity);
+		propertyCom.stateMachine->initWithJson(content);
 
 		*outActor = entity;
 

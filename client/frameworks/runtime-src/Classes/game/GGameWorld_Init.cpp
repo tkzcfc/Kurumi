@@ -23,7 +23,7 @@ bool GGameWorld::init(int32_t mapId)
 {
 	do
 	{
-		m_SIMPhysSystem.setGravity(GVec2(0.0f, -50.0f));
+		m_SIMPhysSystem.setGravity(GVec2(0.0f, -98.0f));
 
 		m_world.addSystem(m_armatureSystem);
 		m_world.addSystem(m_collisionSystem);
@@ -31,6 +31,7 @@ bool GGameWorld::init(int32_t mapId)
 		m_world.addSystem(m_SIMPhysSystem);
 		m_world.addSystem(m_transformSyncSystem);
 		m_world.addSystem(m_inputSystem);
+		m_world.addSystem(m_updateSystem);
 
 		// 客户端所需渲染系统
 #if G_TARGET_CLIENT
@@ -39,6 +40,8 @@ bool GGameWorld::init(int32_t mapId)
 
 		m_rootNode = rootNode;
 #endif
+		m_pGlobal = &m_globalSystem.admin.getComponent<GlobalComponent>();
+
 		if (!this->initAdmin(mapId))
 			break;
 
@@ -47,8 +50,6 @@ bool GGameWorld::init(int32_t mapId)
 
 		if (!this->initTest())
 			break;
-
-		m_pGlobal = &m_globalSystem.admin.getComponent<GlobalComponent>();
 
 		return true;
 	} while (0);
@@ -59,10 +60,8 @@ bool GGameWorld::init(int32_t mapId)
 // 初始化世界边界碰撞
 bool GGameWorld::initBorder()
 {
-	auto& admin = m_globalSystem.admin;
-	auto& mapComponent = admin.getComponent<MapComponent>();
-	auto mapWidth = mapComponent.mapWidth;
-	auto mapHeight = mapComponent.mapHeight;
+	auto mapWidth = m_pGlobal->mapWidth;
+	auto mapHeight = m_pGlobal->mapHeight;
 
 	float32 space = 0.0f;
 	float32 width = 10.0f;
@@ -107,38 +106,62 @@ bool GGameWorld::initTest()
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event*)
 	{
+		auto frame = m_pGlobal->gameLogicFrame + 1;
 		if (keyCode == EventKeyboard::KeyCode::KEY_A)
 		{
-			if (static_h_dir == MOVE_DIR::STOP)
-				static_h_dir = MOVE_DIR::LEFT;
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+			msg->key = G_KEY_MOVE_LEFT;
 		}
 		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
 		{
-			if (static_h_dir == MOVE_DIR::STOP)
-				static_h_dir = MOVE_DIR::RIGHT;
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+			msg->key = G_KEY_MOVE_RIGHT;
 		}
 		if (keyCode == EventKeyboard::KeyCode::KEY_W)
 		{
-			if (static_v_dir == MOVE_DIR::STOP)
-				static_v_dir = MOVE_DIR::TOP;
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+			msg->key = G_KEY_MOVE_UP;
 		}
 		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
 		{
-			if (static_v_dir == MOVE_DIR::STOP)
-				static_v_dir = MOVE_DIR::BOTTOM;
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+			msg->key = G_KEY_MOVE_DOWN;
+		}
+		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
+		{
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+			msg->key = G_KEY_JUMP;
 		}
 	};
 	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event*)
 	{
-		if (keyCode == EventKeyboard::KeyCode::KEY_A || keyCode == EventKeyboard::KeyCode::KEY_D)
+		auto frame = m_pGlobal->gameLogicFrame + 1;
+		if (keyCode == EventKeyboard::KeyCode::KEY_A)
 		{
-			static_h_dir = MOVE_DIR::STOP;
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+			msg->key = G_KEY_MOVE_LEFT;
 		}
-
-		if (keyCode == EventKeyboard::KeyCode::KEY_W || keyCode == EventKeyboard::KeyCode::KEY_S)
+		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
 		{
-			static_v_dir = MOVE_DIR::STOP;
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+			msg->key = G_KEY_MOVE_RIGHT;
 		}
+		if (keyCode == EventKeyboard::KeyCode::KEY_W)
+		{
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+			msg->key = G_KEY_MOVE_UP;
+		}
+		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
+		{
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+			msg->key = G_KEY_MOVE_DOWN;
+		}
+		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
+		{
+			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+			msg->key = G_KEY_JUMP;
+		}
+		
 	};
 	m_rootNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, m_rootNode);
 #endif
@@ -148,29 +171,23 @@ bool GGameWorld::initTest()
 
 bool GGameWorld::initAdmin(int32_t mapId)
 {
-	auto& admin = m_globalSystem.admin;
-
-	/// 初始化地图组件
-	auto& mapComponent = admin.getComponent<MapComponent>();
-
-	if (CommonUtils::initMapSize(admin, mapId) == false)
+	/// 初始化地图
+	if (CommonUtils::initMapSize(m_globalSystem.admin, mapId) == false)
 		return false;
 
 #if G_TARGET_CLIENT
 	// 初始化地图渲染
 	auto mapLayer = GMapLayer::create(mapId);
 	m_rootNode->addChild(mapLayer);
-	mapComponent.render = mapLayer;
+	m_pGlobal->mapRender = mapLayer;
 
 	m_camera = mapLayer->getVirtualCamera();
 
-	G_ASSERT(std::fabs(mapLayer->getMapWidth() - mapComponent.mapWidth) < 1.0f);
-	G_ASSERT(std::fabs(mapLayer->getMapHeight() - mapComponent.mapHeight) < 1.0f);
+	G_ASSERT(std::fabs(mapLayer->getMapWidth() - m_pGlobal->mapWidth) < 1.0f);
+	G_ASSERT(std::fabs(mapLayer->getMapHeight() - m_pGlobal->mapHeight) < 1.0f);
 
-	/// DebugComponent
-	auto& debugComponent = admin.getComponent<DebugComponent>();
 	m_debugDrawNode = mapLayer->getDrawNode();
-	debugComponent.debugDrawNode = m_debugDrawNode;
+	m_pGlobal->debugDrawNode = m_debugDrawNode;
 #endif
 
 	if (!initBorder())
@@ -181,7 +198,7 @@ bool GGameWorld::initAdmin(int32_t mapId)
 
 bool GGameWorld::initPlayer()
 {
-	for (auto i = 0; i < 4; ++i)
+	for (auto i = 0; i < 1; ++i)
 	{
 		spawnPlayer();
 	}
@@ -199,8 +216,9 @@ bool GGameWorld::spawnPlayer()
 	info.bodySize = GVec2(40.0f, 120.0f);
 	info.originPos = GVec2(300.0f + s_index * 500, 200.0f);
 	info.roleName = "A1044";
+	info.uuid = s_index + 1;
 	CommonUtils::spawnActor(m_world, info, &entity);
-	
+		
 	entity.activate();
 	m_players.push_back(entity);
 	return true;

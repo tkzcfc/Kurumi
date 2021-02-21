@@ -49,7 +49,7 @@ bool GMapLayer::init()
 
 bool GMapLayer::initWithMapID(int mapId)
 {
-	auto cfgFile = StringUtils::format("map_export/mi_%d.json", mapId);
+	auto cfgFile = StringUtils::format("json/map/mi_%d.json", mapId);
 	auto mapFile = StringUtils::format("map/map%d/m.json", mapId);
 
 	if (!FileUtils::getInstance()->isFileExist(mapFile))

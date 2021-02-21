@@ -58,9 +58,6 @@ void SIMPhysSystem::update(float dt)
 	}
 }
 
-//if e.x + dx < e2.x + e2.w and e2.x < e.x + dx + e.w and
-//	e.y + dy < e2.y + e2.h and e2.y < e.y + dy + e.h then
-
 bool SIMPhysSystem::collision(SIMPhysComponent* component, float32 dx, float32 dy)
 {
 	float32 minx = component->position.x + dx;

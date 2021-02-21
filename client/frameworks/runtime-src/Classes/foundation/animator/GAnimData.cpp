@@ -37,7 +37,7 @@ GAnimData::GAnimData()
 bool GAnimData::initWithFile(const std::string& roleName)
 {
 	char szBuf[128];
-	sprintf(szBuf, "out_json/%s.json", roleName.c_str());
+	sprintf(szBuf, "json/ani/%s.json", roleName.c_str());
 
 	std::string file = szBuf;
 	std::string fileContent;
