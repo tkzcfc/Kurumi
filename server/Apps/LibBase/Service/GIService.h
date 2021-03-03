@@ -3,6 +3,15 @@
 #include "GClassTypeId.h"
 #include "GPlatformMacros.h"
 
+// 服务启动成功
+static const uint32_t SCODE_START_SUCCESS = 0;
+// 服务启动失败,且此服务不影响系统正常运行,系统输出启动失败信息就行了
+static const uint32_t SCODE_START_FAIL_RUN = 1;
+// 服务启动失败,系统运行不需要此服务,不算错误
+static const uint32_t SCODE_START_FAIL_NO_ERR = 2;
+// 服务启动失败,且此服务为系统重要服务,即将推出APP
+static const uint32_t SCODE_START_FAIL_EXIT_APP = 3;
+
 class GIService
 {
 public:
@@ -20,7 +29,7 @@ public:
 
 public:
 
-	virtual bool onInit() = 0;
+	virtual uint32_t onInit() = 0;
 
 	virtual void onStartService() = 0;
 
@@ -67,4 +76,4 @@ detail::GTypeId GServiceTypeId()
 	return detail::GClassTypeId<GIService>::GetTypeId<T>();
 }
 
-#define G_DEFINE_SERVICE(SNAME) const char* serviceName() const { return #SNAME; }
+#define G_DEFINE_SERVICE(SNAME) const char* serviceName() const override { return #SNAME; }

@@ -13,10 +13,10 @@ public:
 	G_DEFINE_SERVICE(ServiceA);
 
 
-	bool onInit()
+	uint32_t onInit()
 	{
 		m_time = 0.0f;
-		return true;
+		return SCODE_START_SUCCESS;
 	}
 
 	void onStartService()

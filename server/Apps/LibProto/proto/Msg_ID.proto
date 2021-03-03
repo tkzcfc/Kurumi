@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+option optimize_for = LITE_RUNTIME;
+
+enum MessageID {
+	MSG_BEGIN					= 0;
+	
+	// gateServer
+	MSG_LOGIN_GATE_ACK			= 100001;
+	
+	MSG_REG_SERVER_NODE_REQ		= 200001;
+	MSG_REG_SERVER_NODE_ACK		= 200002;
+}

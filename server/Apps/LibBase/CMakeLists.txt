@@ -5,9 +5,12 @@ file(GLOB_RECURSE LibBase_HPP
 	
 file(GLOB_RECURSE LibBase_CPP 
 	*.cpp)
+	
+file(GLOB_RECURSE LibBase_CC
+	*.cc)
 
 # STATIC SHARED
-add_library(${PROJECT_NAME} STATIC ${LibBase_HPP} ${LibBase_CPP})
+add_library(${PROJECT_NAME} STATIC ${LibBase_HPP} ${LibBase_CPP} ${LibBase_CC})
 
 target_link_libraries(
 	${PROJECT_NAME}
@@ -15,7 +18,7 @@ target_link_libraries(
 	easyloggingpp
 	net_uv
 	libuv
-	protobuf-lite
 )
+#protobuf-lite
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

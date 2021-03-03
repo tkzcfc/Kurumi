@@ -1,8 +1,10 @@
 #include "GServiceMgr.h"
 #include "GScheduler.h"
+#include "GApplication.h"
 
 GServiceMgr::GServiceMgr()
 	: m_onStopFinishCall(NULL)
+	, m_startFail(false)
 {
 }
 
@@ -16,7 +18,7 @@ void GServiceMgr::start()
 	for (auto& it : m_arrService)
 	{
 		it->m_status = GIService::GServiceStatus::RUNNING;
-		LOG(WARNING) << "Service [" << it->serviceName() << "] started.";
+		LOG(INFO) << "Service [" << it->serviceName() << "] started.";
 		it->onStartService();
 	}
 }
@@ -25,10 +27,7 @@ void GServiceMgr::stopAllService(const std::function<void()>& call)
 {
 	for (auto it : m_arrService)
 	{
-		LOG(WARNING) << "Stopping service [" << it->serviceName() << "].";
-		it->stopService([=]() {
-			LOG(WARNING) << "Service [" << it->serviceName() << "] stopped.";
-		});
+		it->stopService();
 	}
 
 	m_onStopFinishCall = call;
@@ -37,7 +36,7 @@ void GServiceMgr::stopAllService(const std::function<void()>& call)
 	{
 		if (getRunningCount() <= 0)
 		{
-			LOG(WARNING) << "All services stopped.";
+			LOG(INFO) << "All services stopped.";
 			GScheduler::getInstance()->unScheduleSeletorByObject(this);
 			if (m_onStopFinishCall)
 			{
@@ -55,18 +54,47 @@ void GServiceMgr::update(float dt)
 		if(!it->isStop())
 			it->onUpdate(dt);
 	}
+
+	while (false == m_destroyService.empty())
+	{
+		auto pService = m_destroyService.back();
+
+		for (auto it = m_arrService.begin(); it != m_arrService.end(); ++it)
+		{
+			if (*it == pService)
+			{
+				pService->onDestroy();
+				delete pService;
+				m_arrService.erase(it);
+				break;
+			}
+		}
+
+		for (auto it = m_serviceMap.begin(); it != m_serviceMap.end(); ++it)
+		{
+			if (it->second == pService)
+			{
+				m_serviceMap.erase(it);
+				break;
+			}
+		}
+
+		m_destroyService.pop_back();
+	}
 }
 
 void GServiceMgr::destroy()
 {
-	for (auto& it : m_arrService)
+	if (m_arrService.empty() == false)
 	{
-		it->onDestroy();
-	}
-
-	for (auto& it : m_arrService)
-	{
-		delete it;
+		for (int32_t i = m_arrService.size() - 1; i >= 0; --i)
+		{
+			m_arrService[i]->onDestroy();
+		}
+		for (int32_t i = m_arrService.size() - 1; i >= 0; --i)
+		{
+			delete m_arrService[i];
+		}
 	}
 	m_arrService.clear();
 	m_serviceMap.clear();
@@ -87,4 +115,13 @@ int32_t GServiceMgr::getRunningCount()
 			count++;
 	}
 	return count;
+}
+
+void GServiceMgr::setStartFail()
+{
+	if (m_startFail)
+		return;
+
+	m_startFail = true;
+	GApplication::getInstance()->end();
 }

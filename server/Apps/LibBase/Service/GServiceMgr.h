@@ -25,6 +25,9 @@ public:
 	TService* addService(Types&&... args);
 
 	template <class TService>
+	bool removeService();
+
+	template <class TService>
 	bool doesServiceExist() const;
 
 	bool doesServiceExist(detail::GTypeId typeId) const;
@@ -35,24 +38,45 @@ public:
 	int32_t getRunningCount();
 
 private:
+
+	void setStartFail();
+
+private:
 	std::vector<GIService*> m_arrService;
 	std::map<detail::GTypeId, GIService*> m_serviceMap;
 	std::function<void()> m_onStopFinishCall;
+	std::vector<GIService*> m_destroyService;
+	bool m_startFail;
 };
 
 
 template <class TService, class... Types>
 TService* GServiceMgr::addService(Types&&... args)
 {
+	if (m_startFail)
+		return NULL;
+
 	static_assert(std::is_base_of<GIService, TService>(), "Template argument does not inherit from GIService");
 
 	G_ASSERT(!doesServiceExist<TService>());
 
 	TService* service = new TService(std::forward<Types>(args)...);
+	G_ASSERT(strcmp(service->serviceName(), "GIService") != 0);
+
 	service->m_serviceMgr = this;
-	if (!service->onInit())
+
+	auto code = service->onInit();
+	if (SCODE_START_SUCCESS != code)
 	{
-		LOG(ERROR) << "Failed to start service [" << service->serviceName() << "]";
+		if (code == SCODE_START_FAIL_EXIT_APP)
+		{
+			this->setStartFail();
+		}
+		else if (code == SCODE_START_FAIL_RUN)
+		{
+			LOG(ERROR) << "Failed to start service [" << service->serviceName() << "]";
+		}
+
 		service->onDestroy();
 		delete service;
 		return NULL;
@@ -60,6 +84,22 @@ TService* GServiceMgr::addService(Types&&... args)
 	m_serviceMap[GServiceTypeId<TService>()] = service;
 	m_arrService.push_back(service);
 	return service;
+}
+
+template <class TService>
+bool GServiceMgr::removeService()
+{
+	auto pService = getService<TService>();
+	if (pService == NULL)
+	{
+		return false;
+	}
+
+	pService->stopService([=]() {
+		m_destroyService.push_back(pService);
+	});
+
+	return true;
 }
 
 template <class TService>

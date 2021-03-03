@@ -11,7 +11,7 @@ macro(G_add_console name)
 
     add_executable(${name} ${_Sources})
 
-    target_link_libraries(${name} PRIVATE LibBase)
+    target_link_libraries(${name} PRIVATE LibBase LibProto)
 
     set(GameBinDir ${CMAKE_BINARY_DIR}/Bin)
 
@@ -37,7 +37,10 @@ macro(G_add_console name)
 endmacro()
 
 add_subdirectory(LibBase)
+add_subdirectory(LibProto)
 add_subdirectory(Test)
 add_subdirectory(FightServer)
+add_subdirectory(GateServer)
+add_subdirectory(GameServer)
 
 

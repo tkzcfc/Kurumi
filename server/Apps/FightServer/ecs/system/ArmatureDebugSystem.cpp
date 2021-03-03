@@ -31,10 +31,15 @@ void ArmatureDebugSystem::debugDraw()
 		GKfAABB* aabb = data->kfaabbs[component.curFrameIndex];
 		if (aabb)
 		{
-			lb.x = aabb->x + transform.position.x;
-			lb.y = aabb->y + transform.position.y;
-			rt.x = lb.x + aabb->w;
-			rt.y = lb.y + aabb->h;
+			float x1 = aabb->x * transform.scale + transform.position.x;
+			float y1 = aabb->y * transform.scale + transform.position.y;
+			float x2 = (aabb->x + aabb->w) * transform.scale + transform.position.x;
+			float y2 = (aabb->y + aabb->h) * transform.scale + transform.position.y;
+
+			lb.x = MIN(x1, x2);
+			lb.y = MIN(y1, y2);
+			rt.x = MAX(x1, x2);
+			rt.y = MAX(y1, y2);
 			drawNode->drawRect(lb, rt, cocos2d::Color4F::GRAY);
 		}
 
@@ -47,8 +52,8 @@ void ArmatureDebugSystem::debugDraw()
 
 			for (int32_t i = 0; i < 4; ++i)
 			{
-				pVertex[i].x = pRect->v[i].x + transform.position.x;
-				pVertex[i].y = pRect->v[i].y + transform.position.y;
+				pVertex[i].x = pRect->v[i].x * transform.scale + transform.position.x;
+				pVertex[i].y = pRect->v[i].y * transform.scale + transform.position.y;
 			}
 			drawNode->drawPoly(pVertex, 4, true, Color4F::GREEN);
 
@@ -62,8 +67,8 @@ void ArmatureDebugSystem::debugDraw()
 
 			for (int32_t i = 0; i < 4; ++i)
 			{
-				pVertex[i].x = pRect->v[i].x + transform.position.x;
-				pVertex[i].y = pRect->v[i].y + transform.position.y;
+				pVertex[i].x = pRect->v[i].x * transform.scale + transform.position.x;
+				pVertex[i].y = pRect->v[i].y * transform.scale + transform.position.y;
 			}
 			drawNode->drawPoly(pVertex, 4, true, Color4F::BLUE);
 
@@ -77,8 +82,8 @@ void ArmatureDebugSystem::debugDraw()
 
 			for (int32_t i = 0; i < 4; ++i)
 			{
-				pVertex[i].x = pRect->v[i].x + transform.position.x;
-				pVertex[i].y = pRect->v[i].y + transform.position.y;
+				pVertex[i].x = pRect->v[i].x * transform.scale + transform.position.x;
+				pVertex[i].y = pRect->v[i].y * transform.scale + transform.position.y;
 			}
 			drawNode->drawPoly(pVertex, 4, true, Color4F::BLUE);
 

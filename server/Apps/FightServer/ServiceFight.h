@@ -26,8 +26,10 @@ struct FightWorldInfo
 class ServiceFight : public GIService
 {
 public:
+	
+	G_DEFINE_SERVICE(ServiceFight);
 
-	virtual bool onInit() override;
+	virtual uint32_t onInit() override;
 
 	virtual void onStartService() override;
 

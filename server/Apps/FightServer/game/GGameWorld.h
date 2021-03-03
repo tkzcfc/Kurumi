@@ -9,6 +9,8 @@
 #include "ecs/system/SIMPhysSystem.h"
 #include "ecs/system/TransformSyncSystem.h"
 #include "ecs/system/InputSystem.h"
+#include "ecs/system/UpdateSystem.h"
+#include "ecs/system/BuffSystem.h"
 #include "opmsg/GOPMsgQue.h"
 
 
@@ -66,21 +68,17 @@ private:
 	SIMPhysSystem m_SIMPhysSystem;
 	TransformSyncSystem m_transformSyncSystem;
 	InputSystem m_inputSystem;
+	UpdateSystem m_updateSystem;
+	BuffSystem m_buffSystem;
 
 #if G_TARGET_CLIENT
 	ArmatureDebugSystem m_armatureDebugSystem;
 	ArmatureRenderSystem m_armatureRenderSystem;
 
-	DrawNode* m_debugDrawNode;
 	Node* m_rootNode;
 	GVirtualCamera* m_camera;
 #endif
 	
-	// 输出消息队列
-	GOPMsgQue m_inputQue;
-	// 输出消息队列
-	GOPMsgQue m_outputQue;
-
 	std::vector<anax::Entity> m_players;
 };
 

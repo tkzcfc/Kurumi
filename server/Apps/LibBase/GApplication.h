@@ -34,7 +34,7 @@ public:
 
 	G_FORCEINLINE int32_t getFPS() const;
 
-	G_FORCEINLINE const std::string& getAppName() const;
+	G_FORCEINLINE const char* getAppName() const;
 
 private:
 
@@ -88,7 +88,7 @@ int32_t GApplication::getFPS() const
 	return m_fps;
 }
 
-const std::string& GApplication::getAppName() const
+const char* GApplication::getAppName() const
 {
-	return m_appName;
+	return m_appName.c_str();
 }

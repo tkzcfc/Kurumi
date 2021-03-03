@@ -18,7 +18,7 @@ bool GGameLayer::init()
 void GGameLayer::update(float delta)
 {
 	Node::update(delta);
-	m_world->updateLogic(delta);
+	m_world->update(delta);
 	m_world->render();
 }
 

@@ -124,7 +124,7 @@ bool GAnimatorStateMachine::initWithJson(const std::string& content)
 	json.ParseStream<0>(stream);
 	if (json.HasParseError())
 	{
-		G_LOG_E("'%s' GetParseError %d\n", file, json.GetParseError());
+		G_LOG_E("'%s' GetParseError %d\n", "GAnimatorStateMachine::initWithJson", json.GetParseError());
 		return false;
 	}
 

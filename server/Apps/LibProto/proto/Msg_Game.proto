@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+option optimize_for = LITE_RUNTIME;
+
+// 网关登录
+message LoginGateAck
+{
+	required int32 code = 1;	// 0 : 成功 其他失败
+}
+
+// 游戏登录请求
+message LoginReq
+{
+	required string account = 1;	// 账号
+	required string password = 2; 	// 密码
+	required int32 platform = 3;	// 平台
+}
+// 游戏登录返回
+message LoginAck
+{
+	required int32 code = 1;	// 0:成功 1:账号不存在 2:密码错误
+}
+
+
+
+
+ 

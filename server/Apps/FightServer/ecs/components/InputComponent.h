@@ -13,11 +13,6 @@ public:
 		keyDown = G_KEY_NONE;
 	}
 
-	void reset()
-	{
-
-	}
-	
 	// 上一帧按键状态
 	G_BIT_TYPE lastKeyDown;
 	// 按下的键

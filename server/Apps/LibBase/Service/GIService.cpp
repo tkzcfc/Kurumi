@@ -17,22 +17,24 @@ void GIService::stopService(const std::function<void()>& call)
 {
 	if (m_status == GServiceStatus::RUNNING)
 	{
+		LOG(INFO) << "Stopping service [" << this->serviceName() << "].";
 		m_stopCallback = call;
 		m_status = GServiceStatus::STOP_ING;
 		this->onStopService();
 
-		if (m_stopCallback)
+		GScheduler::getInstance()->scheduleSelector([=](float)
 		{
-			GScheduler::getInstance()->scheduleSelector([=](float)
+			if (this->isStop())
 			{
-				if (this->isStop())
+				LOG(INFO) << "Service [" << this->serviceName() << "] stopped.";
+				GScheduler::getInstance()->unScheduleSeletorByObject(this);
+				if (m_stopCallback)
 				{
-					GScheduler::getInstance()->unScheduleSeletorByObject(this);
 					m_stopCallback();
 					m_stopCallback = NULL;
 				}
-			}, this, 0.0f, false, "check");
-		}
+			}
+		}, this, 0.0f, false, "check");
 	}
 }
 

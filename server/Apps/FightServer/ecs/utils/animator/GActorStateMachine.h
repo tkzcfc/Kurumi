@@ -4,12 +4,17 @@
 #include "ecs/anaxHelper.h"
 #include "GAniStateDef.h"
 
+
 class GActorStateMachine : public GAnimatorStateMachine
 {
 	typedef GAnimatorStateMachine Super;
 public:
 	
-	virtual void init(const anax::Entity& entity);
+	virtual void setEntity(const anax::Entity& entity);
+
+	virtual void updateInput();
+
+public:
 
 	// 使用json初始化动画状态机
 	virtual bool initWithJson(const std::string& content) override;
@@ -37,33 +42,34 @@ public:
 	virtual void onStateExit(GAnimatorState* state) override;
 
 	G_FORCEINLINE anax::Entity& entity();
-	
+
 protected:
 	anax::Entity m_entity;
-
-
+	anim::GANI_STATE_TYPE m_curStateType;
+public:
+	///! 参数hash
 	//! 是否处于战斗状态
-	int m_hash_isFight;
+	int HASH_IS_FIGHT;
 	//! 是否处于空中
-	int m_hash_isInAir;
+	int HASH_IS_INAIR;
 	//! 是否死亡
-	int m_hash_isDeath;
+	int HASH_IS_DEATH;
 	//! 当前状态是否可以打断
-	int m_hash_canBreak;
+	int HASH_CAN_BREAK;
 	// 是否处于跳跃状态
-	int m_hash_isJump;
+	int HASH_IS_JUMP;
 	// 是否在处于移动状态
-	int m_hash_isRun;
+	int HASH_IS_RUN;
 
+	//! 跳跃键按下后,此值置为true
+	int HASH_KEY_DOWN_JUMP;
 
 	//! 是否要切换到被受击状态
-	int m_hash_toHit;
+	int HASH_TO_HIT;
 	//! 是否要切换到站立状态
-	int m_hash_toStand;
+	int HASH_TO_STAND;
 	//! 是否要切换到下落状态
-	int m_hash_toJumpDown;
-
-	anim::GANI_STATE_TYPE m_curStateType;
+	int HASH_TO_JUMP_DOWN;
 };
 
 anax::Entity& GActorStateMachine::entity()

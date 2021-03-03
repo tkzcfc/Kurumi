@@ -7,7 +7,6 @@ class TransformComponent : public BaseComponent
 public:
 	TransformComponent()
 		: scale(1.0f)
-		, rotation(.0f)
 	{
 	}
 
@@ -21,8 +20,6 @@ public:
 	GVec3 logicPos;
 	// 缩放
 	float32 scale;
-	// 旋转
-	float32 rotation;
 };
 
 

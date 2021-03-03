@@ -1,12 +1,17 @@
 #include "CommonUtils.h"
 
 #include "ecs/components/TransformComponent.h"
-#include "ecs/components/DebugComponent.h"
+#include "ecs/components/PropertyComponent.h"
+#include "ecs/components/InputComponent.h"
 #include "ecs/system/GlobalSystem.h"
 #include "ecs/system/SIMPhysSystem.h"
+#include "ecs/system/UUIDSystem.h"
 #include "ecs/utils/ArmatureUtils.h"
 
 #include "foundation/file/GFileUtiles.h"
+
+#include "ecs/utils/animator/GActorStateMachine.h"
+#include "ecs/utils/animator/dao/DaoStateMachine.h"
 
 namespace CommonUtils
 {
@@ -29,7 +34,7 @@ namespace CommonUtils
 	bool initMapSize(anax::Entity& admin, int mapId)
 	{
 		char szPath[256] = { 0 };
-		sprintf(szPath, "map_export/mi_%d.json", mapId);
+		sprintf(szPath, "json/map/mi_%d.json", mapId);
 
 		std::string content;
 		if (!GFileUtiles::readFileString(szPath, content))
@@ -61,7 +66,7 @@ namespace CommonUtils
 			auto& item = arr[i];
 			if (!item.FindMember("ignore")->value.GetBool() && item.HasMember("actor") && item.FindMember("actor")->value.GetBool())
 			{
-				auto& component = admin.getComponent<MapComponent>();
+				auto& component = admin.getComponent<GlobalComponent>();
 				component.mapWidth = (float)item.FindMember("w")->value.GetDouble();
 				component.mapHeight = (float)item.FindMember("h")->value.GetDouble();
 				component.minPosy = (float)item.FindMember("miny")->value.GetDouble();
@@ -76,29 +81,79 @@ namespace CommonUtils
 #if G_TARGET_CLIENT
 	DrawNode* getDebugDraw(anax::World& world)
 	{
-		auto& admin = getAdmin(world);
-		auto& component = admin.getComponent<DebugComponent>();
-		return component.debugDrawNode;
+		return getGlobalComponent(world).debugDrawNode;
 	}
 #endif
 
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor)
 	{
+		// 读取动画状态机文件内容
+		std::string fsmContent;
+		if (!GFileUtiles::readFileString(info.anifsm, fsmContent) || fsmContent.empty())
+			return false;
+		
 		auto entity = world.createEntity();
 
-		// 位置信息
+		// 添加变换组件
 		auto& transform = entity.addComponent<TransformComponent>();
+		
+		// 添加输入组件
+		auto& input = entity.addComponent<InputComponent>();
 
-		// 物理信息
-		SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
+		// 添加物理组件
+		SIMPhysSystem::createBox(entity, info.originPos / PHYSICS_PIXEL_TO_METER, info.bodySize / PHYSICS_PIXEL_TO_METER, GVec2(0.5f, 0.5f));
 
-		// 动画信息
+		// 添加动画组件
 		ArmatureUtils::initAnimationComponent(entity);
+		// 动画角色切换
 		ArmatureUtils::changeRole(entity, info.roleName);
+		// 默认动画播放
 		ArmatureUtils::playAnimationCMD(entity, "ANI_NAME_FIGHT_STAND", kArmaturePlayMode::LOOP);
+		
+		// 添加属性组件
+		auto& propertyCom = entity.addComponent<PropertyComponent>();
+		propertyCom.uuid = info.uuid;
+		propertyCom.moveForce = info.moveForce;
+		propertyCom.jumpIm = info.jumpIm;
+		
+		// 创建动画状态机
+		std::shared_ptr<GActorStateMachine> stateMachine = NULL;
+
+		//if (info.roleName == "")
+		//{
+		//	stateMachine = std::make_shared<GActorStateMachine>();
+		//}
+		//else
+			stateMachine = std::make_shared<GActorStateMachine>();
+
+		// 动画状态机初始化
+		stateMachine->setEntity(entity);
+		if (!stateMachine->initWithJson(fsmContent))
+		{
+			entity.kill();
+			return false;
+		}
+
+		propertyCom.stateMachine = stateMachine;
 
 		*outActor = entity;
 
 		return true;
+	}
+
+	GUUID genUUID()
+	{
+		static GUUID sg_GUUID_Seed = 1;
+		return sg_GUUID_Seed++;
+	}
+
+	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity)
+	{
+		auto pSys = world.getSystem<UUIDSystem>();
+		if (pSys)
+		{
+			return pSys->query(uuid, pEntity);
+		}
+		return false;
 	}
 }

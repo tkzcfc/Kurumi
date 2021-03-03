@@ -2,13 +2,14 @@
 
 
 // 每一帧的时间长度
-float32 GGameWorld::GGameFrameLen = 1 / 60.0f;
+float32 GGameWorld::GGameFrameLen = 1 / 40.0f;
 
 
 GGameWorld::GGameWorld()
 {
 #if G_TARGET_CLIENT
-	m_debugDrawNode = NULL;
+	m_rootNode = NULL;
+	m_camera = NULL;
 #endif
 	m_pGlobal = NULL;
 }
@@ -29,14 +30,19 @@ void GGameWorld::updateLogic()
 {
 	m_world.refresh();
 
-	m_SIMPhysSystem.update(GGameFrameLen);
-	m_transformSyncSystem.sync();
+	m_buffSystem.removeInvalid();
 
 	m_armatureSystem.update(GGameFrameLen);
 	m_collisionSystem.update();
+	m_inputSystem.update();
+	m_buffSystem.update();
+	m_updateSystem.update(GGameFrameLen);
+	m_SIMPhysSystem.update(GGameFrameLen);
+
+	m_transformSyncSystem.sync();
 
 #if G_TARGET_CLIENT
-	auto& admin = m_globalSystem.admin;
+	/*auto& admin = m_globalSystem.admin;
 	auto& mapComponent = admin.getComponent<MapComponent>();
 
 	const float step = 5.0f;
@@ -58,17 +64,8 @@ void GGameWorld::updateLogic()
 	{
 		viewPos.y -= step;
 	}
-	m_camera->setPosition(viewPos);
+	m_camera->setPosition(viewPos);*/
 #endif
-
-	m_inputSystem.beforeInput();
-	if (m_inputQue.check(m_pGlobal->gameLogicFrame))
-	{
-		auto msg = m_inputQue.popMsg();
-		m_inputSystem.input(msg);
-		m_inputQue.freeMsg(msg);
-	}
-	m_inputSystem.afterInput();
 }
 
 void GGameWorld::render()
@@ -78,9 +75,10 @@ void GGameWorld::render()
 	m_transformSyncSystem.syncRender();
 
 #if G_DEBUG
-	if (m_debugDrawNode)
+	auto debugDrawNode = CommonUtils::getDebugDraw(m_world);
+	if (debugDrawNode)
 	{
-		m_debugDrawNode->clear();
+		debugDrawNode->clear();
 		m_armatureDebugSystem.debugDraw();
 		m_SIMPhysSystem.debugDraw();
 	}

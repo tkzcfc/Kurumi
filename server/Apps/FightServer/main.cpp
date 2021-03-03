@@ -66,6 +66,11 @@ public:
 	virtual void onEnter()
 	{
 		GAnimatorState::onEnter();
+
+		G_LOG_I("log info test %s %d %f", "aa", 100000, 3.141592f);
+		G_LOG_W("log wa test %s %d %f", "aa", 100000, 3.141592f);
+		G_LOG_E("log err test %s %d %f", "aa", 100000, 3.141592f);
+		G_LOG_F("log fatal test %s %d %f", "aa", 100000, 3.141592f);
 		LOG(INFO) << "GAnimatorStateB --------------- > onEnter";
 	}
 };
@@ -87,20 +92,24 @@ int main(int argc, char** argv)
 
 	LOG(INFO) << "-----------application run-----------";
 	GApplication app("FightServer");
+	app.getServiceMgr()->addService<GConfigService>();
+	app.getServiceMgr()->addService<GSlaveNodeService>();
+	app.getServiceMgr()->addService<GMasterNodeService>();
+	app.getServiceMgr()->addService<GNetService>();
 
-	TestStateMachine* machine = new TestStateMachine();
-	machine->registerStateGenLogic("StateB", [](GAnimatorStateMachine* machine, const FStateKeyType& name) -> GAnimatorState*
-	{
-		return new GAnimatorStateB(machine, name);
-	});
-	machine->initWithJson(GFileSystem::readStringFromFile("runtimeData.json"));
+	//TestStateMachine* machine = new TestStateMachine();
+	//machine->registerStateGenLogic("StateB", [](GAnimatorStateMachine* machine, const FStateKeyType& name) -> GAnimatorState*
+	//{
+	//	return new GAnimatorStateB(machine, name);
+	//});
+	//machine->initWithJson(GFileSystem::readStringFromFile("runtimeData.json"));
 
-	app.getScheduler()->scheduleSelector([=](float dt) 
-	{
-		machine->update(dt);
-	}, 0.0f, false, "update");
+	//app.getScheduler()->scheduleSelector([=](float dt) 
+	//{
+	//	machine->update(dt);
+	//}, 0.0f, false, "update");
 
-	app.getServiceMgr()->addService<ServiceFight>();
+	//app.getServiceMgr()->addService<ServiceFight>();
 
 	app.run();
 	LOG(INFO) << "-----------application exit-----------";

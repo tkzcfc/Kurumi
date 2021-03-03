@@ -3,11 +3,11 @@
 #define ERR_GEN_WORD_NO_MEM -1
 #define ERR_GEN_WORD_INIT_FAIL -2
 
-bool ServiceFight::onInit()
+uint32_t ServiceFight::onInit()
 {
 	m_seed = 0;
 	m_arrFightInfo.reserve(20);
-	return true;
+	return SCODE_START_SUCCESS;
 }
 
 void ServiceFight::onStartService()

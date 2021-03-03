@@ -16,15 +16,21 @@
 #else
 #define G_TARGET_SERVER 1
 #define G_DEBUG _DEBUG
-#define G_LOG_I(...) do {} while (0)
-#define G_LOG_W(...) do {} while (0)
-#define G_LOG_E(...) do {} while (0)
-#define G_LOG_F(...) do {} while (0)
+#define G_LOG_I(format, ...) flog::log_i(format, ##__VA_ARGS__)
+#define G_LOG_W(format, ...) flog::log_w(format, ##__VA_ARGS__)
+#define G_LOG_E(format, ...) flog::log_e(format, ##__VA_ARGS__)
+#define G_LOG_F(format, ...) flog::log_f(format, ##__VA_ARGS__)
 #endif
+
+void log_i(const char * format, ...);
+void log_w(const char * format, ...);
+void log_e(const char * format, ...);
+void log_f(const char * format, ...);
 
 #if G_TARGET_SERVER
 #define G_TARGET_CLIENT 0
 #include "GLibBase.h"
+#include "GLog.h"
 #else
 #define G_TARGET_CLIENT 1
 #include "cocos2d.h"
@@ -65,3 +71,12 @@ inline bool str_equal(const char* str1, const char* str2)
 {
 	return strcmp(str1, str2) == 0;
 }
+
+inline bool float_equal(float a, float b)
+{
+	return std::abs(a - b) <= 0.0001f;
+}
+
+
+typedef uint32_t GUUID;
+#define INVALID_UUID 0U

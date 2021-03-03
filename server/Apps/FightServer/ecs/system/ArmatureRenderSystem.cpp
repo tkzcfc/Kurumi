@@ -1,7 +1,6 @@
 #include "ArmatureRenderSystem.h"
 #include "foundation/animator/GAnimCMD.h"
 #include "foundation/animator/GAnimData.h"
-#include "ecs/components/MapComponent.h"
 #include "ecs/utils/CommonUtils.h"
 
 #if  G_TARGET_CLIENT
@@ -21,11 +20,10 @@ void ArmatureRenderSystem::render()
 		{
 			if (render == NULL)
 			{
-				auto& admin = CommonUtils::getAdmin(this->getWorld());
-				auto mapComponent = admin.getComponent<MapComponent>();
+				auto mapRender = CommonUtils::getGlobalComponent(this->getWorld()).mapRender;
 
 				render = cocostudio::Armature::create();
-				mapComponent.render->getActorNode()->addChild(render);
+				mapRender->getActorNode()->addChild(render);
 
 				renderComponent.render = render;
 			}

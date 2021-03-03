@@ -73,6 +73,8 @@ void GApplication::end()
 		{
 			uv_timer_stop(&m_updateTimer);
 			uv_close((uv_handle_t*)&m_updateTimer, NULL);
+			uv_timer_stop(&m_fpsTimer);
+			uv_close((uv_handle_t*)&m_fpsTimer, NULL);			
 			uv_stop(m_loop);
 		});
 	}
