@@ -2,7 +2,30 @@ syntax = "proto2";
 
 option optimize_for = LITE_RUNTIME;
 
+package svr_msg;
 
 
+//============================================================================================
+//                 GameSVR <==> FightSVR
+//============================================================================================
+
+message FightPlayerSpawnInfo
+{
+	required string playerID = 1;
+}
+
+// 新战斗请求
+message NewFightReq
+{
+	required int32 mapId = 1;					// 地图ID
+	repeated FightPlayerSpawnInfo players = 2; 	// players
+}
+
+// 新战斗回复
+message NewFightAck
+{
+	required int32 code = 1;	// 0:成功
+	required int32 uuid = 2;	// 战斗uuid
+}
 
  

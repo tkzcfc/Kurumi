@@ -1,26 +1,27 @@
 #pragma once
 
 #include "GLibBase.h"
-#include "game/GGameWorld.h"
+#include "GameLogic.h"
+#include "GameProto.h"
 
-// 战斗玩家信息
-struct FightPlayerInfo
-{
-	// 玩家id
-	int64_t id;
-	// 是否在线
-	bool online;
-};
-struct FightWorldInfo
-{
-	// 在线人数
-	int32_t onlineCount;
-	// 世界id
-	int32_t worldId;
-	// 世界逻辑
-	GGameWorld* logicWorld;
-	FightPlayerInfo players[G_FIGHT_MAX_PLAYER_COUNT];
-};
+//// 战斗玩家信息
+//struct FightPlayerInfo
+//{
+//	// 玩家id
+//	int64_t id;
+//	// 是否在线
+//	bool online;
+//};
+//struct FightWorldInfo
+//{
+//	// 在线人数
+//	int32_t onlineCount;
+//	// 世界id
+//	int32_t worldId;
+//	// 世界逻辑
+//	GGameWorld* logicWorld;
+//	FightPlayerInfo players[G_FIGHT_MAX_PLAYER_COUNT];
+//};
 
 /// 战斗服务
 class ServiceFight : public GIService
@@ -39,20 +40,28 @@ public:
 
 	virtual void onDestroy() override;
 
-private:
+protected:
 
-	// 创建新的世界
-	int32_t genNewWorld(int32_t mapId, FightPlayerInfo* arrInfo, int32_t playerCount);
+	void onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFightReq& msg);
 
-	// 更新世界在线人数
-	void updateWorldOnlineCount(FightWorldInfo* info);
+	void onMsg_JoinFightReq(uint32_t sessionID, const msg::JoinFightReq& msg);
 
-	// 销毁世界
-	void destroyWorld(int32_t worldId);
+	void onMsg_ExitFightReq(uint32_t sessionID, const msg::ExitFightReq& msg);
 
 private:
-	std::vector<FightWorldInfo> m_arrFightInfo;
 
-	int32_t m_seed;
+	// 销毁战斗
+	void destroyFight(int32_t uuid);
+
+	// 统计当前正在战斗的数量
+	int32_t curFightCount();
+
+	// 清除无效战斗
+	void clearInvalid();
+
+private:
+	std::vector<GameLogic*> m_arrFightInfo;
+	GNetService* m_pNetService;
+	GSlaveNodeService* m_pSlaveNode;
 };
 

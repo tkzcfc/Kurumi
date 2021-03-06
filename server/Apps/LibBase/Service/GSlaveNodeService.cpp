@@ -112,11 +112,11 @@ void GSlaveNodeService::onDestroy()
 	auto scheduler = GApplication::getInstance()->getScheduler();
 	if (scheduler)
 	{
-		scheduler->unScheduleSeletorByObject(this);
+		scheduler->unScheduleTarget(this);
 	}
 }
 
-void GSlaveNodeService::sendToMsg(uint32_t msgID, char* data, uint32_t len)
+void GSlaveNodeService::sendMsg(uint32_t msgID, char* data, uint32_t len)
 {
 	m_msgMgr->sendMsg(0, msgID, data, len);
 }
@@ -145,9 +145,9 @@ void GSlaveNodeService::onConnectCallback(net_uv::Client* client, net_uv::Sessio
 		if (m_stopReconnect == false)
 		{
 			auto scheduler = GApplication::getInstance()->getScheduler();
-			scheduler->scheduleSelector([=](float) 
+			scheduler->schedule([=](float) 
 			{
-				scheduler->unScheduleSeletorByKey(this, "reconnect");
+				scheduler->unSchedule(this, "reconnect");
 				m_client->connect(m_nodeIP.c_str(), m_nodePort, 0);
 			}, this, 5.0f, false, "reconnect");
 		}
@@ -197,7 +197,7 @@ void GSlaveNodeService::onRecvMsg(uint32_t sessionID, uint32_t msgID, char* data
 		}
 	}break;
 	default:
-		m_noticeCenter->emitEvent(StringUtils::msgKey(msgID), data, len);
+		m_noticeCenter->emitEvent(StringUtils::msgKey(msgID), sessionID, data, len);
 		break;
 	}
 }

@@ -25,6 +25,8 @@
 #include <google/protobuf/extension_set.h>
 // @@protoc_insertion_point(includes)
 
+namespace msg {
+
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_Msg_5fGame_2eproto();
 void protobuf_AssignDesc_Msg_5fGame_2eproto();
@@ -33,6 +35,14 @@ void protobuf_ShutdownFile_Msg_5fGame_2eproto();
 class LoginGateAck;
 class LoginReq;
 class LoginAck;
+class JoinFightReq;
+class JoinFightAck;
+class PlayerReadyNotify;
+class PlayerExitFightNotify;
+class RunNextFrameReq;
+class RunNextFrameAck;
+class ExitFightReq;
+class ExitFightAck;
 
 // ===================================================================
 
@@ -96,7 +106,7 @@ class LoginGateAck : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 code() const;
   inline void set_code(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:LoginGateAck)
+  // @@protoc_insertion_point(class_scope:msg.LoginGateAck)
  private:
   inline void set_has_code();
   inline void clear_has_code();
@@ -203,7 +213,7 @@ class LoginReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 platform() const;
   inline void set_platform(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:LoginReq)
+  // @@protoc_insertion_point(class_scope:msg.LoginReq)
  private:
   inline void set_has_account();
   inline void clear_has_account();
@@ -292,7 +302,7 @@ class LoginAck : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 code() const;
   inline void set_code(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:LoginAck)
+  // @@protoc_insertion_point(class_scope:msg.LoginAck)
  private:
   inline void set_has_code();
   inline void clear_has_code();
@@ -312,6 +322,739 @@ class LoginAck : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static LoginAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class JoinFightReq : public ::google::protobuf::MessageLite {
+ public:
+  JoinFightReq();
+  virtual ~JoinFightReq();
+
+  JoinFightReq(const JoinFightReq& from);
+
+  inline JoinFightReq& operator=(const JoinFightReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const JoinFightReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const JoinFightReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(JoinFightReq* other);
+
+  // implements Message ----------------------------------------------
+
+  JoinFightReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const JoinFightReq& from);
+  void MergeFrom(const JoinFightReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 fightUUID = 1;
+  inline bool has_fightuuid() const;
+  inline void clear_fightuuid();
+  static const int kFightUUIDFieldNumber = 1;
+  inline ::google::protobuf::int32 fightuuid() const;
+  inline void set_fightuuid(::google::protobuf::int32 value);
+
+  // required string playerID = 2;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIDFieldNumber = 2;
+  inline const ::std::string& playerid() const;
+  inline void set_playerid(const ::std::string& value);
+  inline void set_playerid(const char* value);
+  inline void set_playerid(const char* value, size_t size);
+  inline ::std::string* mutable_playerid();
+  inline ::std::string* release_playerid();
+  inline void set_allocated_playerid(::std::string* playerid);
+
+  // required int32 frame = 3;
+  inline bool has_frame() const;
+  inline void clear_frame();
+  static const int kFrameFieldNumber = 3;
+  inline ::google::protobuf::int32 frame() const;
+  inline void set_frame(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.JoinFightReq)
+ private:
+  inline void set_has_fightuuid();
+  inline void clear_has_fightuuid();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  inline void set_has_frame();
+  inline void clear_has_frame();
+
+  ::std::string* playerid_;
+  ::google::protobuf::int32 fightuuid_;
+  ::google::protobuf::int32 frame_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static JoinFightReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class JoinFightAck : public ::google::protobuf::MessageLite {
+ public:
+  JoinFightAck();
+  virtual ~JoinFightAck();
+
+  JoinFightAck(const JoinFightAck& from);
+
+  inline JoinFightAck& operator=(const JoinFightAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const JoinFightAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const JoinFightAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(JoinFightAck* other);
+
+  // implements Message ----------------------------------------------
+
+  JoinFightAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const JoinFightAck& from);
+  void MergeFrom(const JoinFightAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.JoinFightAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static JoinFightAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerReadyNotify : public ::google::protobuf::MessageLite {
+ public:
+  PlayerReadyNotify();
+  virtual ~PlayerReadyNotify();
+
+  PlayerReadyNotify(const PlayerReadyNotify& from);
+
+  inline PlayerReadyNotify& operator=(const PlayerReadyNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerReadyNotify& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerReadyNotify* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerReadyNotify* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerReadyNotify* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerReadyNotify& from);
+  void MergeFrom(const PlayerReadyNotify& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string pid = 1;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 1;
+  inline const ::std::string& pid() const;
+  inline void set_pid(const ::std::string& value);
+  inline void set_pid(const char* value);
+  inline void set_pid(const char* value, size_t size);
+  inline ::std::string* mutable_pid();
+  inline ::std::string* release_pid();
+  inline void set_allocated_pid(::std::string* pid);
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerReadyNotify)
+ private:
+  inline void set_has_pid();
+  inline void clear_has_pid();
+
+  ::std::string* pid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerReadyNotify* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerExitFightNotify : public ::google::protobuf::MessageLite {
+ public:
+  PlayerExitFightNotify();
+  virtual ~PlayerExitFightNotify();
+
+  PlayerExitFightNotify(const PlayerExitFightNotify& from);
+
+  inline PlayerExitFightNotify& operator=(const PlayerExitFightNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerExitFightNotify& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerExitFightNotify* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerExitFightNotify* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerExitFightNotify* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerExitFightNotify& from);
+  void MergeFrom(const PlayerExitFightNotify& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string pid = 1;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 1;
+  inline const ::std::string& pid() const;
+  inline void set_pid(const ::std::string& value);
+  inline void set_pid(const char* value);
+  inline void set_pid(const char* value, size_t size);
+  inline ::std::string* mutable_pid();
+  inline ::std::string* release_pid();
+  inline void set_allocated_pid(::std::string* pid);
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerExitFightNotify)
+ private:
+  inline void set_has_pid();
+  inline void clear_has_pid();
+
+  ::std::string* pid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerExitFightNotify* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class RunNextFrameReq : public ::google::protobuf::MessageLite {
+ public:
+  RunNextFrameReq();
+  virtual ~RunNextFrameReq();
+
+  RunNextFrameReq(const RunNextFrameReq& from);
+
+  inline RunNextFrameReq& operator=(const RunNextFrameReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const RunNextFrameReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const RunNextFrameReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(RunNextFrameReq* other);
+
+  // implements Message ----------------------------------------------
+
+  RunNextFrameReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const RunNextFrameReq& from);
+  void MergeFrom(const RunNextFrameReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 frame = 1;
+  inline bool has_frame() const;
+  inline void clear_frame();
+  static const int kFrameFieldNumber = 1;
+  inline ::google::protobuf::uint32 frame() const;
+  inline void set_frame(::google::protobuf::uint32 value);
+
+  // repeated string input = 2;
+  inline int input_size() const;
+  inline void clear_input();
+  static const int kInputFieldNumber = 2;
+  inline const ::std::string& input(int index) const;
+  inline ::std::string* mutable_input(int index);
+  inline void set_input(int index, const ::std::string& value);
+  inline void set_input(int index, const char* value);
+  inline void set_input(int index, const char* value, size_t size);
+  inline ::std::string* add_input();
+  inline void add_input(const ::std::string& value);
+  inline void add_input(const char* value);
+  inline void add_input(const char* value, size_t size);
+  inline const ::google::protobuf::RepeatedPtrField< ::std::string>& input() const;
+  inline ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_input();
+
+  // @@protoc_insertion_point(class_scope:msg.RunNextFrameReq)
+ private:
+  inline void set_has_frame();
+  inline void clear_has_frame();
+
+  ::google::protobuf::RepeatedPtrField< ::std::string> input_;
+  ::google::protobuf::uint32 frame_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static RunNextFrameReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class RunNextFrameAck : public ::google::protobuf::MessageLite {
+ public:
+  RunNextFrameAck();
+  virtual ~RunNextFrameAck();
+
+  RunNextFrameAck(const RunNextFrameAck& from);
+
+  inline RunNextFrameAck& operator=(const RunNextFrameAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const RunNextFrameAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const RunNextFrameAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(RunNextFrameAck* other);
+
+  // implements Message ----------------------------------------------
+
+  RunNextFrameAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const RunNextFrameAck& from);
+  void MergeFrom(const RunNextFrameAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 frame = 1;
+  inline bool has_frame() const;
+  inline void clear_frame();
+  static const int kFrameFieldNumber = 1;
+  inline ::google::protobuf::uint32 frame() const;
+  inline void set_frame(::google::protobuf::uint32 value);
+
+  // repeated string inputs = 2;
+  inline int inputs_size() const;
+  inline void clear_inputs();
+  static const int kInputsFieldNumber = 2;
+  inline const ::std::string& inputs(int index) const;
+  inline ::std::string* mutable_inputs(int index);
+  inline void set_inputs(int index, const ::std::string& value);
+  inline void set_inputs(int index, const char* value);
+  inline void set_inputs(int index, const char* value, size_t size);
+  inline ::std::string* add_inputs();
+  inline void add_inputs(const ::std::string& value);
+  inline void add_inputs(const char* value);
+  inline void add_inputs(const char* value, size_t size);
+  inline const ::google::protobuf::RepeatedPtrField< ::std::string>& inputs() const;
+  inline ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_inputs();
+
+  // @@protoc_insertion_point(class_scope:msg.RunNextFrameAck)
+ private:
+  inline void set_has_frame();
+  inline void clear_has_frame();
+
+  ::google::protobuf::RepeatedPtrField< ::std::string> inputs_;
+  ::google::protobuf::uint32 frame_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static RunNextFrameAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class ExitFightReq : public ::google::protobuf::MessageLite {
+ public:
+  ExitFightReq();
+  virtual ~ExitFightReq();
+
+  ExitFightReq(const ExitFightReq& from);
+
+  inline ExitFightReq& operator=(const ExitFightReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ExitFightReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const ExitFightReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(ExitFightReq* other);
+
+  // implements Message ----------------------------------------------
+
+  ExitFightReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const ExitFightReq& from);
+  void MergeFrom(const ExitFightReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 fightUUID = 1;
+  inline bool has_fightuuid() const;
+  inline void clear_fightuuid();
+  static const int kFightUUIDFieldNumber = 1;
+  inline ::google::protobuf::int32 fightuuid() const;
+  inline void set_fightuuid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.ExitFightReq)
+ private:
+  inline void set_has_fightuuid();
+  inline void clear_has_fightuuid();
+
+  ::google::protobuf::int32 fightuuid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static ExitFightReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class ExitFightAck : public ::google::protobuf::MessageLite {
+ public:
+  ExitFightAck();
+  virtual ~ExitFightAck();
+
+  ExitFightAck(const ExitFightAck& from);
+
+  inline ExitFightAck& operator=(const ExitFightAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ExitFightAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const ExitFightAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(ExitFightAck* other);
+
+  // implements Message ----------------------------------------------
+
+  ExitFightAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const ExitFightAck& from);
+  void MergeFrom(const ExitFightAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.ExitFightAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static ExitFightAck* default_instance_;
 };
 // ===================================================================
 
@@ -534,8 +1277,494 @@ inline void LoginAck::set_code(::google::protobuf::int32 value) {
   code_ = value;
 }
 
+// -------------------------------------------------------------------
+
+// JoinFightReq
+
+// required int32 fightUUID = 1;
+inline bool JoinFightReq::has_fightuuid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void JoinFightReq::set_has_fightuuid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void JoinFightReq::clear_has_fightuuid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void JoinFightReq::clear_fightuuid() {
+  fightuuid_ = 0;
+  clear_has_fightuuid();
+}
+inline ::google::protobuf::int32 JoinFightReq::fightuuid() const {
+  return fightuuid_;
+}
+inline void JoinFightReq::set_fightuuid(::google::protobuf::int32 value) {
+  set_has_fightuuid();
+  fightuuid_ = value;
+}
+
+// required string playerID = 2;
+inline bool JoinFightReq::has_playerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void JoinFightReq::set_has_playerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void JoinFightReq::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void JoinFightReq::clear_playerid() {
+  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
+    playerid_->clear();
+  }
+  clear_has_playerid();
+}
+inline const ::std::string& JoinFightReq::playerid() const {
+  return *playerid_;
+}
+inline void JoinFightReq::set_playerid(const ::std::string& value) {
+  set_has_playerid();
+  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
+    playerid_ = new ::std::string;
+  }
+  playerid_->assign(value);
+}
+inline void JoinFightReq::set_playerid(const char* value) {
+  set_has_playerid();
+  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
+    playerid_ = new ::std::string;
+  }
+  playerid_->assign(value);
+}
+inline void JoinFightReq::set_playerid(const char* value, size_t size) {
+  set_has_playerid();
+  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
+    playerid_ = new ::std::string;
+  }
+  playerid_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* JoinFightReq::mutable_playerid() {
+  set_has_playerid();
+  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
+    playerid_ = new ::std::string;
+  }
+  return playerid_;
+}
+inline ::std::string* JoinFightReq::release_playerid() {
+  clear_has_playerid();
+  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = playerid_;
+    playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void JoinFightReq::set_allocated_playerid(::std::string* playerid) {
+  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
+    delete playerid_;
+  }
+  if (playerid) {
+    set_has_playerid();
+    playerid_ = playerid;
+  } else {
+    clear_has_playerid();
+    playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int32 frame = 3;
+inline bool JoinFightReq::has_frame() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void JoinFightReq::set_has_frame() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void JoinFightReq::clear_has_frame() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void JoinFightReq::clear_frame() {
+  frame_ = 0;
+  clear_has_frame();
+}
+inline ::google::protobuf::int32 JoinFightReq::frame() const {
+  return frame_;
+}
+inline void JoinFightReq::set_frame(::google::protobuf::int32 value) {
+  set_has_frame();
+  frame_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JoinFightAck
+
+// required int32 code = 1;
+inline bool JoinFightAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void JoinFightAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void JoinFightAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void JoinFightAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 JoinFightAck::code() const {
+  return code_;
+}
+inline void JoinFightAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PlayerReadyNotify
+
+// required string pid = 1;
+inline bool PlayerReadyNotify::has_pid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PlayerReadyNotify::set_has_pid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PlayerReadyNotify::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PlayerReadyNotify::clear_pid() {
+  if (pid_ != &::google::protobuf::internal::kEmptyString) {
+    pid_->clear();
+  }
+  clear_has_pid();
+}
+inline const ::std::string& PlayerReadyNotify::pid() const {
+  return *pid_;
+}
+inline void PlayerReadyNotify::set_pid(const ::std::string& value) {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  pid_->assign(value);
+}
+inline void PlayerReadyNotify::set_pid(const char* value) {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  pid_->assign(value);
+}
+inline void PlayerReadyNotify::set_pid(const char* value, size_t size) {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  pid_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* PlayerReadyNotify::mutable_pid() {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  return pid_;
+}
+inline ::std::string* PlayerReadyNotify::release_pid() {
+  clear_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = pid_;
+    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void PlayerReadyNotify::set_allocated_pid(::std::string* pid) {
+  if (pid_ != &::google::protobuf::internal::kEmptyString) {
+    delete pid_;
+  }
+  if (pid) {
+    set_has_pid();
+    pid_ = pid;
+  } else {
+    clear_has_pid();
+    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
+// PlayerExitFightNotify
+
+// required string pid = 1;
+inline bool PlayerExitFightNotify::has_pid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PlayerExitFightNotify::set_has_pid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PlayerExitFightNotify::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PlayerExitFightNotify::clear_pid() {
+  if (pid_ != &::google::protobuf::internal::kEmptyString) {
+    pid_->clear();
+  }
+  clear_has_pid();
+}
+inline const ::std::string& PlayerExitFightNotify::pid() const {
+  return *pid_;
+}
+inline void PlayerExitFightNotify::set_pid(const ::std::string& value) {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  pid_->assign(value);
+}
+inline void PlayerExitFightNotify::set_pid(const char* value) {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  pid_->assign(value);
+}
+inline void PlayerExitFightNotify::set_pid(const char* value, size_t size) {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  pid_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* PlayerExitFightNotify::mutable_pid() {
+  set_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    pid_ = new ::std::string;
+  }
+  return pid_;
+}
+inline ::std::string* PlayerExitFightNotify::release_pid() {
+  clear_has_pid();
+  if (pid_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = pid_;
+    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void PlayerExitFightNotify::set_allocated_pid(::std::string* pid) {
+  if (pid_ != &::google::protobuf::internal::kEmptyString) {
+    delete pid_;
+  }
+  if (pid) {
+    set_has_pid();
+    pid_ = pid;
+  } else {
+    clear_has_pid();
+    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
+// RunNextFrameReq
+
+// required uint32 frame = 1;
+inline bool RunNextFrameReq::has_frame() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RunNextFrameReq::set_has_frame() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RunNextFrameReq::clear_has_frame() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RunNextFrameReq::clear_frame() {
+  frame_ = 0u;
+  clear_has_frame();
+}
+inline ::google::protobuf::uint32 RunNextFrameReq::frame() const {
+  return frame_;
+}
+inline void RunNextFrameReq::set_frame(::google::protobuf::uint32 value) {
+  set_has_frame();
+  frame_ = value;
+}
+
+// repeated string input = 2;
+inline int RunNextFrameReq::input_size() const {
+  return input_.size();
+}
+inline void RunNextFrameReq::clear_input() {
+  input_.Clear();
+}
+inline const ::std::string& RunNextFrameReq::input(int index) const {
+  return input_.Get(index);
+}
+inline ::std::string* RunNextFrameReq::mutable_input(int index) {
+  return input_.Mutable(index);
+}
+inline void RunNextFrameReq::set_input(int index, const ::std::string& value) {
+  input_.Mutable(index)->assign(value);
+}
+inline void RunNextFrameReq::set_input(int index, const char* value) {
+  input_.Mutable(index)->assign(value);
+}
+inline void RunNextFrameReq::set_input(int index, const char* value, size_t size) {
+  input_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* RunNextFrameReq::add_input() {
+  return input_.Add();
+}
+inline void RunNextFrameReq::add_input(const ::std::string& value) {
+  input_.Add()->assign(value);
+}
+inline void RunNextFrameReq::add_input(const char* value) {
+  input_.Add()->assign(value);
+}
+inline void RunNextFrameReq::add_input(const char* value, size_t size) {
+  input_.Add()->assign(reinterpret_cast<const char*>(value), size);
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+RunNextFrameReq::input() const {
+  return input_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+RunNextFrameReq::mutable_input() {
+  return &input_;
+}
+
+// -------------------------------------------------------------------
+
+// RunNextFrameAck
+
+// required uint32 frame = 1;
+inline bool RunNextFrameAck::has_frame() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RunNextFrameAck::set_has_frame() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RunNextFrameAck::clear_has_frame() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RunNextFrameAck::clear_frame() {
+  frame_ = 0u;
+  clear_has_frame();
+}
+inline ::google::protobuf::uint32 RunNextFrameAck::frame() const {
+  return frame_;
+}
+inline void RunNextFrameAck::set_frame(::google::protobuf::uint32 value) {
+  set_has_frame();
+  frame_ = value;
+}
+
+// repeated string inputs = 2;
+inline int RunNextFrameAck::inputs_size() const {
+  return inputs_.size();
+}
+inline void RunNextFrameAck::clear_inputs() {
+  inputs_.Clear();
+}
+inline const ::std::string& RunNextFrameAck::inputs(int index) const {
+  return inputs_.Get(index);
+}
+inline ::std::string* RunNextFrameAck::mutable_inputs(int index) {
+  return inputs_.Mutable(index);
+}
+inline void RunNextFrameAck::set_inputs(int index, const ::std::string& value) {
+  inputs_.Mutable(index)->assign(value);
+}
+inline void RunNextFrameAck::set_inputs(int index, const char* value) {
+  inputs_.Mutable(index)->assign(value);
+}
+inline void RunNextFrameAck::set_inputs(int index, const char* value, size_t size) {
+  inputs_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* RunNextFrameAck::add_inputs() {
+  return inputs_.Add();
+}
+inline void RunNextFrameAck::add_inputs(const ::std::string& value) {
+  inputs_.Add()->assign(value);
+}
+inline void RunNextFrameAck::add_inputs(const char* value) {
+  inputs_.Add()->assign(value);
+}
+inline void RunNextFrameAck::add_inputs(const char* value, size_t size) {
+  inputs_.Add()->assign(reinterpret_cast<const char*>(value), size);
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+RunNextFrameAck::inputs() const {
+  return inputs_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+RunNextFrameAck::mutable_inputs() {
+  return &inputs_;
+}
+
+// -------------------------------------------------------------------
+
+// ExitFightReq
+
+// required int32 fightUUID = 1;
+inline bool ExitFightReq::has_fightuuid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ExitFightReq::set_has_fightuuid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ExitFightReq::clear_has_fightuuid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ExitFightReq::clear_fightuuid() {
+  fightuuid_ = 0;
+  clear_has_fightuuid();
+}
+inline ::google::protobuf::int32 ExitFightReq::fightuuid() const {
+  return fightuuid_;
+}
+inline void ExitFightReq::set_fightuuid(::google::protobuf::int32 value) {
+  set_has_fightuuid();
+  fightuuid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// ExitFightAck
+
+// required int32 code = 1;
+inline bool ExitFightAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ExitFightAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ExitFightAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ExitFightAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 ExitFightAck::code() const {
+  return code_;
+}
+inline void ExitFightAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
 
 // @@protoc_insertion_point(namespace_scope)
+
+}  // namespace msg
 
 // @@protoc_insertion_point(global_scope)
 

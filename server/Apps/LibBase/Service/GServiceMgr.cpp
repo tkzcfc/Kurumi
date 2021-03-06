@@ -32,12 +32,12 @@ void GServiceMgr::stopAllService(const std::function<void()>& call)
 
 	m_onStopFinishCall = call;
 
-	GScheduler::getInstance()->scheduleSelector([=](float)
+	GScheduler::getInstance()->schedule([=](float)
 	{
 		if (getRunningCount() <= 0)
 		{
 			LOG(INFO) << "All services stopped.";
-			GScheduler::getInstance()->unScheduleSeletorByObject(this);
+			GScheduler::getInstance()->unSchedule(this, "check");
 			if (m_onStopFinishCall)
 			{
 				m_onStopFinishCall();
@@ -98,7 +98,7 @@ void GServiceMgr::destroy()
 	}
 	m_arrService.clear();
 	m_serviceMap.clear();
-	GScheduler::getInstance()->unScheduleSeletorByObject(this);
+	GScheduler::getInstance()->unScheduleTarget(this);
 }
 
 bool GServiceMgr::doesServiceExist(detail::GTypeId typeId) const

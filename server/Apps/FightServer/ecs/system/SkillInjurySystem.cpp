@@ -10,7 +10,7 @@ static const int SKILL_ATTACK_DELAY = 10;
 // ·结果范围：[攻击*0.1, 攻击]
 inline int32_t ADdiff(int32_t att, int32_t def)
 {
-	return clampi32(att * 0.1f, att, att - def);
+	return clampi32(att / 10, att, att - def);
 }
 
 

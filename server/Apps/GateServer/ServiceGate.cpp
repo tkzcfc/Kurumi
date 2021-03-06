@@ -1,6 +1,4 @@
 #include "ServiceGate.h"
-#include "pb/Msg_ID.pb.h"
-#include "pb/Msg_Game.pb.h"
 
 // 网关服务
 
@@ -105,14 +103,14 @@ void ServiceGate::onConnectCallback(net_uv::Client* client, net_uv::Session* ses
 	// 0:failed 1:succeeded 2:timed out
 	if (status == 1)
 	{
-		LoginGateAck ack;
-		ack.set_code(0);
+		msg::LoginGateAck ack;
+		ack.set_code(err::Code::SUCCESS);
 		SEND_PB_MSG(m_msgMgr, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
 	}
 	else
 	{
-		LoginGateAck ack;
-		ack.set_code(1);
+		msg::LoginGateAck ack;
+		ack.set_code(err::Code::GATE_CONNECT_FAIL);
 		SEND_PB_MSG(m_msgMgr, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
 
 		m_client->disconnect(session->getSessionID());
@@ -139,5 +137,5 @@ void ServiceGate::onRemoveSessionCall(net_uv::Client* client, net_uv::Session* s
 
 void ServiceGate::onRecvMsg(uint32_t sessionID, uint32_t msgID, char* data, uint32_t len)
 {
-	m_pNetService->sendToMsg(sessionID, msgID, data, len);
+	m_pNetService->sendMsg(sessionID, msgID, data, len);
 }

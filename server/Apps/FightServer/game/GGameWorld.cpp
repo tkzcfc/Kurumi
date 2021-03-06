@@ -26,6 +26,12 @@ void GGameWorld::update(float32 dt)
 	}
 }
 
+void GGameWorld::input(const std::string& data)
+{
+	GOPMsg_Base* msgBase = (GOPMsg_Base*)data.c_str();
+	m_pGlobal->inputQue.addMsg(msgBase);
+}
+
 void GGameWorld::updateLogic()
 {
 	m_world.refresh();
@@ -38,6 +44,7 @@ void GGameWorld::updateLogic()
 	m_buffSystem.update();
 	m_updateSystem.update(GGameFrameLen);
 	m_SIMPhysSystem.update(GGameFrameLen);
+	m_skillInjurySystem.update();
 
 	m_transformSyncSystem.sync();
 

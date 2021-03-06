@@ -31,7 +31,7 @@ public:
 
 public:
 
-	void sendToMsg(uint32_t sessionID, uint32_t msgID, char* data, uint32_t len);
+	void sendMsg(uint32_t sessionID, uint32_t msgID, char* data, uint32_t len);
 
 	void disconnect(uint32_t sessionID);
 

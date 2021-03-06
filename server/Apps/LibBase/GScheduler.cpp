@@ -1,6 +1,6 @@
 #include "GScheduler.h"
 
-#define OPEN_DEBUG_SCHEDULER 1
+#define OPEN_DEBUG_SCHEDULER 0
 
 
 #define SCHEDULER_TIMER_ITERATOR(vec)\
@@ -80,7 +80,7 @@ void GScheduler::update(float delay)
 	}	
 }
 
-void GScheduler::schedule(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, unsigned int repeat, float delay, bool paused/* = false*/, bool infinite/* = false*/)
+void GScheduler::scheduleSelector(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, unsigned int repeat, float delay, bool paused/* = false*/, bool infinite/* = false*/)
 {
     if(pfnSelector == NULL || pTarget == NULL)
         return;
@@ -90,12 +90,17 @@ void GScheduler::schedule(GScheduler_SEL pfnSelector, GObject *pTarget, float fI
     selectorData->release();
 }
 
-void GScheduler::schedule(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, bool bPaused/* = false*/)
+void GScheduler::scheduleSelector(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, bool bPaused/* = false*/)
 {
-    this->schedule(pfnSelector, pTarget, fInterval, 0, 0.0f, bPaused, true);
+    this->scheduleSelector(pfnSelector, pTarget, fInterval, 0, 0.0f, bPaused, true);
 }
 
-void GScheduler::scheduleSelector(const duSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite/* = false*/)
+void GScheduler::scheduleSelectorOnce(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval)
+{
+	this->scheduleSelector(pfnSelector, pTarget, fInterval, 1, 0.0f, false, false);
+}
+
+void GScheduler::schedule(const duSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite/* = false*/)
 {
     if(callback == NULL)
         return;
@@ -106,23 +111,33 @@ void GScheduler::scheduleSelector(const duSchedulerFunc& callback, void *target,
     callbackData->release();
 }
 
-void GScheduler::scheduleSelector(const duSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key)
+void GScheduler::schedule(const duSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key)
 {
-    this->scheduleSelector(callback, target, interval, 0, 0.0f, paused, key, true);
+    this->schedule(callback, target, interval, 0, 0.0f, paused, key, true);
 }
 
-void GScheduler::scheduleSelector(const duSchedulerFunc& callback, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite/* = false*/)
+void GScheduler::scheduleOnce(const duSchedulerFunc& callback, void *target, float interval, const std::string& key)
 {
-    this->scheduleSelector(callback, NULL, interval, repeat, delay, paused, key, infinite);
+	this->schedule(callback, target, interval, 1, 0.0f, false, key, false);
 }
 
-void GScheduler::scheduleSelector(const duSchedulerFunc& callback, float interval, bool paused, const std::string& key)
+void GScheduler::scheduleGlobal(const duSchedulerFunc& callback, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite/* = false*/)
 {
-    this->scheduleSelector(callback, NULL, interval, 0, 0.0f, paused, key, true);
+    this->schedule(callback, NULL, interval, repeat, delay, paused, key, infinite);
+}
+
+void GScheduler::scheduleGlobal(const duSchedulerFunc& callback, float interval, bool paused, const std::string& key)
+{
+    this->schedule(callback, NULL, interval, 0, 0.0f, paused, key, true);
+}
+
+void GScheduler::scheduleGlobalOnce(const duSchedulerFunc& callback, float interval, const std::string& key)
+{
+	this->schedule(callback, NULL, interval, 1, 0.0f, false, key, false);
 }
 
 //pause
-void GScheduler::pauseSchedule(GObject* pTarget)
+void GScheduler::pauseByObject(GObject* pTarget)
 {
     std::vector<SchedulerTimerPtr>::iterator itTimer;
     HashSchedulerUpdateEntry *data, *tmp;
@@ -150,7 +165,7 @@ void GScheduler::pauseSchedule(GObject* pTarget)
     }
 }
 
-void GScheduler::pauseSchedule(GObject *pTarget, GScheduler_SEL pfnSelector)
+void GScheduler::pauseByObject(GObject *pTarget, GScheduler_SEL pfnSelector)
 {
     std::vector<SchedulerTimerPtr>::iterator itTimer;
     HashSchedulerUpdateEntry *data, *tmp;
@@ -216,13 +231,13 @@ void GScheduler::pauseSchedule(void *pTarget, const std::string& key)
     }
 }
 
-void GScheduler::pauseSchedule(const std::string& key)
+void GScheduler::pauseGlobalSchedule(const std::string& key)
 {
     this->pauseSchedule(NULL, key);
 }
 
 //resume
-void GScheduler::resumeSchedule(GObject* pTarget)
+void GScheduler::resumeByObject(GObject* pTarget)
 {
     std::vector<SchedulerTimerPtr>::iterator itTimer;
     HashSchedulerUpdateEntry *data, *tmp;
@@ -251,7 +266,7 @@ void GScheduler::resumeSchedule(GObject* pTarget)
     }
 }
 
-void GScheduler::resumeSchedule(GObject *pTarget, GScheduler_SEL pfnSelector)
+void GScheduler::resumeByObject(GObject *pTarget, GScheduler_SEL pfnSelector)
 {
     std::vector<SchedulerTimerPtr>::iterator itTimer;
     HashSchedulerUpdateEntry *data, *tmp;
@@ -321,7 +336,7 @@ void GScheduler::resumeSchedule(void *pTarget, const std::string& key)
     }
 }
 
-void GScheduler::resumeSchedule(const std::string& key)
+void GScheduler::resumeGlobalSchedule(const std::string& key)
 {
     this->resumeSchedule(NULL, key);
 }
@@ -378,7 +393,7 @@ void GScheduler::unScheduleByObject(GObject *pTarget)
     }
 }
 
-void GScheduler::unScheduleSeletorByKey(void *pTarget, const std::string& key)
+void GScheduler::unSchedule(void *pTarget, const std::string& key)
 {
     HashSchedulerUpdateEntry* hashData;
     SchedulerTimerPtr curTimer = NULL;
@@ -414,12 +429,12 @@ void GScheduler::unScheduleSeletorByKey(void *pTarget, const std::string& key)
     }
 }
 
-void GScheduler::unScheduleSeletorByKey(const std::string& key)
+void GScheduler::unScheduleGlobal(const std::string& key)
 {
-    this->unScheduleSeletorByKey(NULL, key);
+    this->unSchedule(NULL, key);
 }
 
-void GScheduler::unScheduleSeletorByObject(void *pTarget)
+void GScheduler::unScheduleTarget(void *pTarget)
 {
     HashSchedulerUpdateEntry* hashData;
     HASH_FIND_PTR(m_currentRunEntry, &pTarget, hashData);

@@ -32,6 +32,8 @@ bool GGameWorld::init(int32_t mapId)
 		m_world.addSystem(m_transformSyncSystem);
 		m_world.addSystem(m_inputSystem);
 		m_world.addSystem(m_updateSystem);
+		m_world.addSystem(m_skillInjurySystem);
+		m_world.addSystem(m_UUIDSystem);
 
 		// 客户端所需渲染系统
 #if G_TARGET_CLIENT

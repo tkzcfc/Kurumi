@@ -26,6 +26,8 @@ public:
 
 	G_FORCEINLINE float getDeltaTime() const;
 
+	G_FORCEINLINE float getRunTime() const;
+
 	G_FORCEINLINE uint32_t getDeltaTimeMillisecond() const;
 
 	G_FORCEINLINE GScheduler* getScheduler() const;
@@ -49,6 +51,7 @@ private:
 	uint64_t m_lastTime;
 	uint32_t m_deltaTimeMilli;
 	float m_deltaTime;
+	float m_runTime;
 
 	int32_t m_fps;
 	int32_t m_fpst;
@@ -66,6 +69,11 @@ private:
 float GApplication::getDeltaTime() const
 {
 	return m_deltaTime;
+}
+
+float GApplication::getRunTime() const
+{
+	return m_runTime;
 }
 
 uint32_t GApplication::getDeltaTimeMillisecond() const

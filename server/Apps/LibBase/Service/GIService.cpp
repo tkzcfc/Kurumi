@@ -10,7 +10,7 @@ GIService::GIService()
 
 GIService::~GIService()
 {
-	GScheduler::getInstance()->unScheduleSeletorByObject(this);
+	GScheduler::getInstance()->unScheduleTarget(this);
 }
 
 void GIService::stopService(const std::function<void()>& call)
@@ -22,12 +22,12 @@ void GIService::stopService(const std::function<void()>& call)
 		m_status = GServiceStatus::STOP_ING;
 		this->onStopService();
 
-		GScheduler::getInstance()->scheduleSelector([=](float)
+		GScheduler::getInstance()->schedule([=](float)
 		{
 			if (this->isStop())
 			{
 				LOG(INFO) << "Service [" << this->serviceName() << "] stopped.";
-				GScheduler::getInstance()->unScheduleSeletorByObject(this);
+				GScheduler::getInstance()->unSchedule(this, "check");
 				if (m_stopCallback)
 				{
 					m_stopCallback();

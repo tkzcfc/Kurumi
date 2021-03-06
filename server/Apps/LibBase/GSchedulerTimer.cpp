@@ -148,7 +148,7 @@ void TimerTargetCallback::trigger(float dt)
 
 void TimerTargetCallback::cancel()
 {
-    m_Scheduler->unScheduleSeletorByKey(m_Object, m_Key);
+	m_Scheduler->unSchedule(m_Object, m_Key);
 }
 
 bool TimerTargetCallback::isEqual(SchedulerTimer* otherTimer)

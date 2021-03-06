@@ -18,6 +18,7 @@ GApplication::GApplication(const std::string& appName)
 	m_fps = 0;
 	m_fpst = 0;
 	m_appName = appName;
+	m_runTime = 0.0f;
 
 	init();
 }
@@ -92,6 +93,7 @@ void GApplication::mainLoop()
 	m_deltaTimeMilli = (uint32_t)(uv_now(m_loop) - m_lastTime);
 	m_deltaTime = m_deltaTimeMilli / 1000.0f;
 	m_lastTime = uv_now(m_loop);
+	m_runTime += m_deltaTime;
 
 	m_scheduler->update(m_deltaTime);
 	m_serviceMgr->update(m_deltaTime);

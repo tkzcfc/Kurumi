@@ -28,46 +28,52 @@ public:
 public:
     
     //add
-    void schedule(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, unsigned int repeat, float delay, bool paused = false, bool infinite = false);
+    void scheduleSelector(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, unsigned int repeat, float delay, bool paused = false, bool infinite = false);
     
-    void schedule(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, bool bPaused = false);
+    void scheduleSelector(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval, bool bPaused = false);
+
+	void scheduleSelectorOnce(GScheduler_SEL pfnSelector, GObject *pTarget, float fInterval);
     
-    void scheduleSelector(const duSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite = false);
+    void schedule(const duSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite = false);
     
-    void scheduleSelector(const duSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key);
+    void schedule(const duSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key);
     
-    void scheduleSelector(const duSchedulerFunc& callback, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite = false);
+	void scheduleOnce(const duSchedulerFunc& callback, void *target, float interval, const std::string& key);
+
+    void scheduleGlobal(const duSchedulerFunc& callback, float interval, unsigned int repeat, float delay, bool paused, const std::string& key, bool infinite = false);
     
-    void scheduleSelector(const duSchedulerFunc& callback, float interval, bool paused, const std::string& key);
+    void scheduleGlobal(const duSchedulerFunc& callback, float interval, bool paused, const std::string& key);
+
+	void scheduleGlobalOnce(const duSchedulerFunc& callback, float interval, const std::string& key);
     
     //pause
-    void pauseSchedule(GObject* pTarget);
+    void pauseByObject(GObject* pTarget);
     
-    void pauseSchedule(GObject *pTarget, GScheduler_SEL pfnSelector);
+    void pauseByObject(GObject *pTarget, GScheduler_SEL pfnSelector);
     
     void pauseSchedule(void *pTarget, const std::string& key);
     
-    void pauseSchedule(const std::string& key);
+    void pauseGlobalSchedule(const std::string& key);
     
     //resume
-    void resumeSchedule(GObject* pTarget);
+    void resumeByObject(GObject* pTarget);
     
-    void resumeSchedule(GObject *pTarget, GScheduler_SEL pfnSelector);
+    void resumeByObject(GObject *pTarget, GScheduler_SEL pfnSelector);
     
     void resumeSchedule(void *pTarget, const std::string& key);
     
-    void resumeSchedule(const std::string& key);
+    void resumeGlobalSchedule(const std::string& key);
     
     //cancel
     void unScheduleBySelector(GScheduler_SEL pfnSelector, GObject *pTarget);
     
     void unScheduleByObject(GObject *pTarget);
     
-    void unScheduleSeletorByKey(void *pTarget, const std::string& key);
+    void unSchedule(void *pTarget, const std::string& key);
     
-    void unScheduleSeletorByKey(const std::string& key);
+    void unScheduleGlobal(const std::string& key);
     
-    void unScheduleSeletorByObject(void *pTarget);
+    void unScheduleTarget(void *pTarget);
     
     void unScheduleAll();
 

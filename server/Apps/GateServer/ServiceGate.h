@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLibBase.h"
+#include "GameProto.h"
 
 // 网关服务
 class ServiceGate final : public GIService
