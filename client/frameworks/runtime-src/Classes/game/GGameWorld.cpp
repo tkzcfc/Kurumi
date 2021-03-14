@@ -1,14 +1,15 @@
 #include "GGameWorld.h"
-
+#include "ecs/utils/CommonUtils.h"
 
 // 每一帧的时间长度
-float32 GGameWorld::GGameFrameLen = 1 / 60.0f;
+float32 GGameWorld::GGameFrameLen = 1 / 40.0f;
 
 
 GGameWorld::GGameWorld()
 {
 #if G_TARGET_CLIENT
-	m_debugDrawNode = NULL;
+	m_rootNode = NULL;
+	m_camera = NULL;
 #endif
 	m_pGlobal = NULL;
 }
@@ -25,17 +26,27 @@ void GGameWorld::update(float32 dt)
 	}
 }
 
+void GGameWorld::input(const std::string& data)
+{
+	GOPMsg_Base* msgBase = (GOPMsg_Base*)data.c_str();
+	m_pGlobal->inputQue.addMsg(msgBase);
+}
+
 void GGameWorld::updateLogic()
 {
 	m_world.refresh();
 
-	m_SIMPhysSystem.update(GGameFrameLen);
-	m_transformSyncSystem.sync();
+	m_buffSystem.removeInvalid();
 
 	m_armatureSystem.update(GGameFrameLen);
 	m_collisionSystem.update();
 	m_inputSystem.update();
+	m_buffSystem.update();
 	m_updateSystem.update(GGameFrameLen);
+	m_SIMPhysSystem.update(GGameFrameLen);
+	m_skillInjurySystem.update();
+
+	m_transformSyncSystem.sync();
 
 #if G_TARGET_CLIENT
 	/*auto& admin = m_globalSystem.admin;
@@ -71,9 +82,10 @@ void GGameWorld::render()
 	m_transformSyncSystem.syncRender();
 
 #if G_DEBUG
-	if (m_debugDrawNode)
+	auto debugDrawNode = CommonUtils::getDebugDraw(m_world);
+	if (debugDrawNode)
 	{
-		m_debugDrawNode->clear();
+		debugDrawNode->clear();
 		m_armatureDebugSystem.debugDraw();
 		m_SIMPhysSystem.debugDraw();
 	}

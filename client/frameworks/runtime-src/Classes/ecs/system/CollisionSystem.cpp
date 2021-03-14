@@ -1,5 +1,7 @@
 #include "CollisionSystem.h"
 #include "ecs/utils/physics/GCollision.h"
+#include "ecs/utils/CommonUtils.h"
+#include "ecs/system/SkillInjurySystem.h"
 
 void CollisionSystem::update()
 {
@@ -16,27 +18,66 @@ void CollisionSystem::update()
 
 void CollisionSystem::test(const anax::Entity& entityA, const anax::Entity& entityB)
 {
-	auto& propertyA = entityA.getComponent<PropertyComponent>();
-	auto& propertyB = entityB.getComponent<PropertyComponent>();
+	auto propertyA = entityB.getComponent<PropertyComponent>();
+	auto propertyB = entityB.getComponent<PropertyComponent>();
 
-	auto& armatureA = entityA.getComponent<ArmatureComponent>();
-	auto& armatureB = entityB.getComponent<ArmatureComponent>();
+	auto& injuryListA = entityA.getComponent<InjuryListComponent>();
+	auto& injuryListB = entityB.getComponent<InjuryListComponent>();
+
+	bool intersect = false;
+	if (G_BIT_NO_EQUAL(propertyA.status, G_PS_IS_DEATH) && G_BIT_NO_EQUAL(propertyB.status, G_PS_IS_DEATH))
+	{
+		intersect = collision(entityA, entityB);
+	}
+
+	if (intersect)
+	{
+		// 攻击碰撞开始
+		if (false == SkillInjurySystem::contain(injuryListA.victims, propertyB.uuid))
+		{
+			auto logicFrame = CommonUtils::getGlobalComponent(this->getWorld()).gameLogicFrame;
+			SkillInjurySystem::add(injuryListA.victims, propertyB.uuid, logicFrame);
+			SkillInjurySystem::add(injuryListB.attacker, propertyA.uuid, logicFrame);
+		}
+	}
+	else
+	{
+		// 攻击碰撞结束
+		if (SkillInjurySystem::contain(injuryListA.victims, propertyB.uuid))
+		{
+			SkillInjurySystem::remove(injuryListA.victims, propertyB.uuid);
+			SkillInjurySystem::remove(injuryListB.attacker, propertyA.uuid);
+		}
+	}
+}
+
+bool CollisionSystem::collision(const anax::Entity& entityA, const anax::Entity& entityB)
+{
+	auto& filterBitsA = entityA.getComponent<FilterBitsComponent>();
+	auto& filterBitsB = entityB.getComponent<FilterBitsComponent>();
+
+	// 相同组,不进行碰撞判断
+	if (filterBitsA.group == filterBitsB.group)
+		return false;
 
 	auto pAniDataA = getAnimData(entityA.getComponent<ArmatureComponent>());
 	auto pAniDataB = getAnimData(entityB.getComponent<ArmatureComponent>());
 	if (pAniDataA == NULL || pAniDataB == NULL)
-		return;
+		return false;
+
+	auto& armatureA = entityA.getComponent<ArmatureComponent>();
+	auto& armatureB = entityB.getComponent<ArmatureComponent>();
 
 	auto kfAABBA = pAniDataA->kfaabbs[armatureA.curFrameIndex];
 	auto kfAABBB = pAniDataB->kfaabbs[armatureB.curFrameIndex];
 	auto kfColiA = pAniDataA->kfcollisions[armatureA.curFrameIndex];
 	auto kfColiB = pAniDataB->kfcollisions[armatureB.curFrameIndex];
 	if (kfAABBA == NULL || kfAABBB == NULL || kfColiA == NULL || kfColiB == NULL)
-		return;
+		return false;
 
 	auto& transformA = entityA.getComponent<TransformComponent>();
 	auto& transformB = entityB.getComponent<TransformComponent>();
-	
+
 	// 计算缩放位移后的值
 	float x1a = kfAABBA->x * transformA.scale + transformA.position.x;
 	float x2a = (kfAABBA->x + kfAABBA->w) * transformA.scale + transformA.position.x;
@@ -47,7 +88,7 @@ void CollisionSystem::test(const anax::Entity& entityA, const anax::Entity& enti
 	float maxxA = x2a;
 	float minxB = x1b;
 	float maxxB = x2b;
-	if (x1a > x2a) 
+	if (x1a > x2a)
 	{
 		minxA = x2a;
 		maxxA = x1a;
@@ -58,23 +99,19 @@ void CollisionSystem::test(const anax::Entity& entityA, const anax::Entity& enti
 		maxxB = x1b;
 	}
 
+	//! 此处只检测X轴相交
 	// AABB测试失败
 	if (maxxA < minxB || maxxB < minxA)
-		return;
-
-	//if (kfAABBA->x + kfAABBA->w < kfAABBB->x || kfAABBB->x + kfAABBB->w < kfAABBA->x)
-	//{
-	//	return;
-	//}
-
+		return false;
 
 	bool intersect = false;
 	GAniRect aniRectA, aniRectB;
-	for (auto i = 0; i < kAniRectType::RECT_COUNT; ++i)
+	//! 只计算A的攻击区域与B的防御区域的碰撞
+	for (auto i = (int32_t)kAniRectType::RECT_ATK_A; i <= kAniRectType::RECT_ATK_B; ++i)
 	{
 		auto rectA = kfColiA->rect[i];
 		if (rectA == NULL)
-			break;
+			continue;
 
 		// 只计算缩放和位移
 		for (auto vi = 0; vi < 4; ++vi)
@@ -83,32 +120,51 @@ void CollisionSystem::test(const anax::Entity& entityA, const anax::Entity& enti
 			aniRectA.v[vi].y = rectA->v[vi].y * transformA.scale + transformA.position.y;
 		}
 
-		for (auto j = 0; j < kAniRectType::RECT_COUNT; ++j)
-		{
-			auto rectB = kfColiB->rect[j];
-			if (rectB == NULL)
-				break;
-
-			// 只计算缩放和位移
-			for (auto vi = 0; vi < 4; ++vi)
-			{
-				aniRectB.v[vi].x = rectB->v[vi].x * transformB.scale + transformB.position.x;
-				aniRectB.v[vi].y = rectB->v[vi].y * transformB.scale + transformB.position.y;
-			}
-
-			if (GCollision::isRectIntersect(aniRectA.v, aniRectB.v))
-			{
-				intersect = true;
-				break;
-			}
-		}
-
-		if (intersect)
+		//! 获取B的防御区域
+		auto rectB = kfColiB->rect[kAniRectType::RECT_HIT];
+		if (rectB == NULL)
 			break;
+
+		// 只计算缩放和位移
+		for (auto vi = 0; vi < 4; ++vi)
+		{
+			aniRectB.v[vi].x = rectB->v[vi].x * transformB.scale + transformB.position.x;
+			aniRectB.v[vi].y = rectB->v[vi].y * transformB.scale + transformB.position.y;
+		}
+		// 碰撞检测
+		if (GCollision::isRectIntersect(aniRectA.v, aniRectB.v))
+		{
+#if G_TARGET_CLIENT
+			///! 客户端debug
+#if G_DEBUG
+			//! 客户端绘制相应的攻击区域和防御区域
+			auto drawNode = CommonUtils::getDebugDraw(this->getWorld());
+			if (drawNode != NULL)
+			{
+				Vec2 pVertex[4];
+				// 攻击区域绘制
+				for (int32_t i = 0; i < 4; ++i)
+				{
+					pVertex[i].x = aniRectA.v[i].x;
+					pVertex[i].y = aniRectA.v[i].y;
+				}
+				drawNode->drawPoly(pVertex, 4, true, Color4F::RED);
+				// 防御区域绘制
+				for (int32_t i = 0; i < 4; ++i)
+				{
+					pVertex[i].x = aniRectB.v[i].x;
+					pVertex[i].y = aniRectB.v[i].y;
+				}
+				drawNode->drawPoly(pVertex, 4, true, Color4F::RED);
+			}
+#endif
+#endif
+			intersect = true;
+			break;
+		}
 	}
 
-	if (intersect == false)
-		return;
+	return intersect;
 }
 
 GAnimationData* CollisionSystem::getAnimData(ArmatureComponent& component)
@@ -132,16 +188,4 @@ GAnimationData* CollisionSystem::getAnimData(ArmatureComponent& component)
 	return aniData;
 }
 
-
-inline void transformVec4(const float* m, float x, float y, float z, float w, float* dst)
-{
-	dst[0] = x * m[0] + y * m[4];// + z * m[8] + w * m[12];
-	dst[1] = x * m[1] + y * m[5];// + z * m[9] + w * m[13];
-	//dst[2] = x * m[2] + y * m[6];// + z * m[10] + w * m[14];
-}
-
-//x 0 0 0
-//0 y 0 0
-//0 0 z 0
-//0 0 0 0
 

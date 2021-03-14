@@ -51,8 +51,6 @@ bool TestArmature::init()
 	{
 		auto& global = CommonUtils::getGlobalComponent(m_world);
 		
-		global.stageNode = global.mapRender->getActorNode();
-		//this->addChild(global.stageNode);
 		spawnPlayer();
 	}
 	)));

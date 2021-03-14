@@ -3,7 +3,6 @@
 #include "ecs/components/TransformComponent.h"
 #include "ecs/utils/CommonUtils.h"
 
-const static G_BIT_TYPE Move_Keys = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
 
 void InputSystem::update()
 {
@@ -11,7 +10,7 @@ void InputSystem::update()
 
 	auto& globalCom = CommonUtils::getGlobalComponent(getWorld());
 
-	if (globalCom.inputQue.check(globalCom.gameLogicFrame))
+	while (globalCom.inputQue.check(globalCom.gameLogicFrame))
 	{
 		auto msg = globalCom.inputQue.popMsg();
 		input(msg);

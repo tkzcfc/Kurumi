@@ -109,11 +109,19 @@ void SIMPhysSystem::debugDraw()
 
 	for (auto& it : m_static_bodies)
 	{
-		drawNode->drawRect(Vec2(it->position.x, it->position.y), Vec2(it->position.x + it->size.x, it->position.y + it->size.y), Color4F::RED);
+		Vec2 v1 = Vec2(it->position.x, it->position.y);
+		Vec2 v2 = Vec2(it->position.x + it->size.x, it->position.y + it->size.y);
+		v1 = v1 * PHYSICS_PIXEL_TO_METER;
+		v2 = v2 * PHYSICS_PIXEL_TO_METER;
+		drawNode->drawRect(v1, v2, Color4F::RED);
 	}
 	for (auto& it : m_dynamic_bodies)
 	{
-		drawNode->drawRect(Vec2(it->position.x, it->position.y), Vec2(it->position.x + it->size.x, it->position.y + it->size.y), Color4F::BLUE);
+		Vec2 v1 = Vec2(it->position.x, it->position.y);
+		Vec2 v2 = Vec2(it->position.x + it->size.x, it->position.y + it->size.y);
+		v1 = v1 * PHYSICS_PIXEL_TO_METER;
+		v2 = v2 * PHYSICS_PIXEL_TO_METER;
+		drawNode->drawRect(v1, v2, Color4F::BLUE);
 	}
 #endif
 }
@@ -122,13 +130,15 @@ void SIMPhysSystem::createBox(anax::Entity& entity, const GVec2& origin, const G
 {
 	G_ASSERT(entity.hasComponent<SIMPhysComponent>() == false);
 
-	GVec2 pos = origin;
-	pos.x -= (anchor.x * size.x);
-	pos.y -= (anchor.y * size.y);
+	GVec2 pos = origin / PHYSICS_PIXEL_TO_METER;
+	auto newSize = size / PHYSICS_PIXEL_TO_METER;
+
+	pos.x -= (anchor.x * newSize.x);
+	pos.y -= (anchor.y * newSize.y);
 
 	auto& component = entity.addComponent<SIMPhysComponent>();
 	component.position = pos;
-	component.size = size;
+	component.size = newSize;
 }
 
 

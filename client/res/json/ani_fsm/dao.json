@@ -1,0 +1,792 @@
+{
+	"animator": "1.0.0",
+	"mainStateMachine": {
+		"layerPos": [
+			107.57171095804653,
+			-113.99969574622128
+		],
+		"layerScale": 0.9999999999999997,
+		"anyStatePos": [
+			-210,
+			210
+		],
+		"subStates": [
+			"ATTACK2",
+			"ATTACK1",
+			"HIT",
+			"ATTACK3",
+			"ATTACK4",
+			"BLOCK",
+			"COLLAPSE",
+			"FIGHT_SQUAT",
+			"FIGHT_TURN",
+			"FIGHT_JUMPDOWN",
+			"FIGHT_JUMPUP",
+			"FIGHT_STAND",
+			"FIGHT_RUN",
+			"FIGHT_BRAKE"
+		],
+		"subStateMachines": [
+			"follow",
+			"非战斗状态",
+			"死亡"
+		]
+	},
+	"subStateMachines": [
+		{
+			"layerPos": [
+				-253.47540322580643,
+				-39.41048387096781
+			],
+			"layerScale": 0.9,
+			"anyStatePos": [
+				-360,
+				300
+			],
+			"name": "follow",
+			"position": [
+				-1200,
+				600
+			],
+			"upStateMachine": "BaseLayer",
+			"upStateMachinePos": [
+				360,
+				300
+			],
+			"subStates": [
+				"FOLLOW1",
+				"FOLLOW2",
+				"FOLLOW3",
+				"FOLLOW4"
+			],
+			"subStateMachines": []
+		},
+		{
+			"layerPos": [
+				54.22640586994311,
+				-237.28093196238906
+			],
+			"layerScale": 0.8,
+			"anyStatePos": [
+				-360,
+				300
+			],
+			"name": "非战斗状态",
+			"position": [
+				-840,
+				720
+			],
+			"upStateMachine": "BaseLayer",
+			"upStateMachinePos": [
+				480,
+				480
+			],
+			"subStates": [
+				"COMMON_STAND",
+				"COMMON_RUN",
+				"COMMON_BRAKE",
+				"COMMON_JUMPUP",
+				"COMMON_JUMPDOWN",
+				"COMMON_GLIDE",
+				"COMMON_SQUAT",
+				"COMMON_TURN"
+			],
+			"subStateMachines": []
+		},
+		{
+			"layerPos": [
+				420.4126547455295,
+				-432.2971114167813
+			],
+			"layerScale": 1,
+			"anyStatePos": [
+				-360,
+				300
+			],
+			"name": "死亡",
+			"position": [
+				-1110,
+				420
+			],
+			"upStateMachine": "BaseLayer",
+			"upStateMachinePos": [
+				360,
+				300
+			],
+			"subStates": [
+				"DEATH"
+			],
+			"subStateMachines": []
+		}
+	],
+	"defaultState": "COMMON_STAND",
+	"anyState": {
+		"transitions": [
+			{
+				"toState": "DEATH",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isDeath",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "HIT",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "toHit",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "canBreak",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "COMMON_STAND",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isFight",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "toStand",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "isDeath",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "FIGHT_STAND",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isFight",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "toStand",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "isDeath",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "FOLLOW1",
+				"hasExitTime": false,
+				"conditions": []
+			},
+			{
+				"toState": "COMMON_RUN",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isFight",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "isInAir",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "isRun",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "COMMON_JUMPUP",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isFight",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "keyDownJump",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "FIGHT_RUN",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isFight",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "isInAir",
+						"value": 0,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "isRun",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			},
+			{
+				"toState": "FIGHT_JUMPUP",
+				"hasExitTime": false,
+				"conditions": [
+					{
+						"param": "isFight",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					},
+					{
+						"param": "keyDownJump",
+						"value": 1,
+						"logic": 0,
+						"rparam": "",
+						"useparam": 0
+					}
+				]
+			}
+		]
+	},
+	"states": [
+		{
+			"position": [
+				-540,
+				-810
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "ATTACK2",
+			"motion": "ANI_NAME_ATTACK2",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-990,
+				-780
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "ATTACK1",
+			"motion": "ANI_NAME_ATTACK1",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-360,
+				480
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "HIT",
+			"motion": "ANI_NAME_HIT",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-480,
+				-1170
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "ATTACK3",
+			"motion": "ANI_NAME_ATTACK3",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-420,
+				-900
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "ATTACK4",
+			"motion": "ANI_NAME_ATTACK4",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				600,
+				-540
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "BLOCK",
+			"motion": "ANI_NAME_BLOCK",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				120,
+				-390
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "COLLAPSE",
+			"motion": "ANI_NAME_COLLAPSE",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				600,
+				-390
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_SQUAT",
+			"motion": "ANI_NAME_FIGHT_SQUAT",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				840,
+				450
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_TURN",
+			"motion": "ANI_NAME_FIGHT_TURN",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				330,
+				-120
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_JUMPDOWN",
+			"motion": "ANI_NAME_FIGHT_JUMPDOWN",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": []
+		},
+		{
+			"position": [
+				150,
+				30
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_JUMPUP",
+			"motion": "ANI_NAME_FIGHT_JUMPUP",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": [
+				{
+					"toState": "FIGHT_JUMPDOWN",
+					"hasExitTime": false,
+					"conditions": [
+						{
+							"param": "toJumpDown",
+							"value": 1,
+							"logic": 0,
+							"rparam": "",
+							"useparam": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"position": [
+				210,
+				390
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_STAND",
+			"motion": "ANI_NAME_FIGHT_STAND",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": []
+		},
+		{
+			"position": [
+				-450,
+				30
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_RUN",
+			"motion": "ANI_NAME_FIGHT_RUN",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": [
+				{
+					"toState": "FIGHT_BRAKE",
+					"hasExitTime": false,
+					"conditions": [
+						{
+							"param": "isRun",
+							"value": 0,
+							"logic": 0,
+							"rparam": "",
+							"useparam": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"position": [
+				-840,
+				-120
+			],
+			"upStateMachine": "BaseLayer",
+			"state": "FIGHT_BRAKE",
+			"motion": "ANI_NAME_FIGHT_BRAKE",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-330,
+				120
+			],
+			"upStateMachine": "follow",
+			"state": "FOLLOW1",
+			"motion": "ANI_NAME_FOLLOW1",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": [
+				{
+					"toState": "FOLLOW2",
+					"hasExitTime": true,
+					"conditions": []
+				}
+			]
+		},
+		{
+			"position": [
+				-270,
+				-60
+			],
+			"upStateMachine": "follow",
+			"state": "FOLLOW2",
+			"motion": "ANI_NAME_FOLLOW2",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": [
+				{
+					"toState": "FOLLOW3",
+					"hasExitTime": true,
+					"conditions": []
+				}
+			]
+		},
+		{
+			"position": [
+				120,
+				-150
+			],
+			"upStateMachine": "follow",
+			"state": "FOLLOW3",
+			"motion": "ANI_NAME_FOLLOW3",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": [
+				{
+					"toState": "FOLLOW4",
+					"hasExitTime": true,
+					"conditions": []
+				}
+			]
+		},
+		{
+			"position": [
+				330,
+				90
+			],
+			"upStateMachine": "follow",
+			"state": "FOLLOW4",
+			"motion": "ANI_NAME_FOLLOW4",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-750,
+				540
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_STAND",
+			"motion": "ANI_NAME_COMMON_STAND",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": []
+		},
+		{
+			"position": [
+				-600,
+				60
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_RUN",
+			"motion": "ANI_NAME_COMMON_RUN",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": [
+				{
+					"toState": "COMMON_BRAKE",
+					"hasExitTime": false,
+					"conditions": [
+						{
+							"param": "isRun",
+							"value": 0,
+							"logic": 0,
+							"rparam": "",
+							"useparam": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"position": [
+				-810,
+				240
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_BRAKE",
+			"motion": "ANI_NAME_COMMON_BRAKE",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-60,
+				180
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_JUMPUP",
+			"motion": "ANI_NAME_COMMON_JUMPUP",
+			"speed": 1,
+			"multiplier": "",
+			"loop": true,
+			"transitions": [
+				{
+					"toState": "COMMON_JUMPDOWN",
+					"hasExitTime": false,
+					"conditions": [
+						{
+							"param": "toJumpDown",
+							"value": 1,
+							"logic": 0,
+							"rparam": "",
+							"useparam": 0
+						}
+					]
+				}
+			]
+		},
+		{
+			"position": [
+				150,
+				-30
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_JUMPDOWN",
+			"motion": "ANI_NAME_COMMON_JUMPDOWN",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-480,
+				750
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_GLIDE",
+			"motion": "ANI_NAME_COMMON_GLIDE",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-120,
+				750
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_SQUAT",
+			"motion": "ANI_NAME_COMMON_SQUAT",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-210,
+				660
+			],
+			"upStateMachine": "非战斗状态",
+			"state": "COMMON_TURN",
+			"motion": "ANI_NAME_COMMON_TURN",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		},
+		{
+			"position": [
+				-540,
+				510
+			],
+			"upStateMachine": "死亡",
+			"state": "DEATH",
+			"motion": "ANI_NAME_DEATH",
+			"speed": 1,
+			"multiplier": "",
+			"loop": false,
+			"transitions": []
+		}
+	],
+	"parameters": [
+		{
+			"param": "isFight",
+			"type": 1,
+			"init": 1
+		},
+		{
+			"param": "toStand",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "isInAir",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "isDeath",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "canBreak",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "toHit",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "toJumpDown",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "isJump",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "isRun",
+			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "keyDownJump",
+			"type": 1,
+			"init": 0
+		}
+	]
+}

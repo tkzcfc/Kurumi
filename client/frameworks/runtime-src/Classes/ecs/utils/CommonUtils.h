@@ -13,7 +13,13 @@ struct ActorIdentityInfo
 	// 角色名
 	std::string roleName;
 	// uuid
-	uint32_t uuid;
+	GUUID uuid;
+	// 动画状态机文件
+	std::string anifsm;
+	// 移动力
+	GVec2 moveForce;
+	// 跳跃冲力
+	GVec2 jumpIm;
 };
 
 
@@ -31,4 +37,8 @@ namespace CommonUtils
 
 	// 演员创建
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);
+
+	GUUID genUUID();
+
+	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity = NULL);
 }

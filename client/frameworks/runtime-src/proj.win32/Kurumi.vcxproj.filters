@@ -136,6 +136,9 @@
     <Filter Include="Classes\opmsg">
       <UniqueIdentifier>{57c4aabc-274b-4ad3-90bd-15f641b69970}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\ecs\utils\buffer">
+      <UniqueIdentifier>{6fb2908c-b1a8-4d87-a048-05786a7bbebe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -395,54 +398,6 @@
     <ClInclude Include="..\Classes\foundation\fsm\GAnimatorStateMachine.h">
       <Filter>Classes\foundation\fsm</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\SIMPhysComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\TransformComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\BodyComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\GlobalComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\InputComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\components\PropertyComponent.h">
-      <Filter>Classes\ecs\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\CollisionSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\GlobalSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\InputSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\PhysicsSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\SIMPhysSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\TransformSyncSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\ArmatureDebugSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\ArmatureRenderSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\system\ArmatureSystem.h">
-      <Filter>Classes\ecs\system</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ecs\utils\animator\GActorStateMachine.h">
       <Filter>Classes\ecs\utils\animator</Filter>
     </ClInclude>
@@ -467,8 +422,77 @@
     <ClInclude Include="..\Classes\opmsg\GOPMsg.h">
       <Filter>Classes\opmsg</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\FilterBitsComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\GlobalComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\InjuryListComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\InputComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\PropertyComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\SIMPhysComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\TransformComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\ArmatureComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\BodyComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\components\BuffComponent.h">
+      <Filter>Classes\ecs\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureDebugSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureRenderSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\ArmatureSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\BuffSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\CollisionSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\GlobalSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\InputSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\PhysicsSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\SIMPhysSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\SkillInjurySystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\TransformSyncSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\ecs\system\UpdateSystem.h">
       <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\system\UUIDSystem.h">
+      <Filter>Classes\ecs\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\buff\Buff.h">
+      <Filter>Classes\ecs\utils\buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -689,33 +713,6 @@
     <ClCompile Include="..\Classes\game\GGameWorld_Init.cpp">
       <Filter>Classes\game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\ArmatureDebugSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\ArmatureRenderSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\ArmatureSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\CollisionSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\GlobalSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\InputSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\SIMPhysSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\system\TransformSyncSystem.cpp">
-      <Filter>Classes\ecs\system</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ecs\utils\animator\GActorStateMachine.cpp">
       <Filter>Classes\ecs\utils\animator</Filter>
     </ClCompile>
@@ -734,8 +731,47 @@
     <ClCompile Include="..\Classes\opmsg\GOPMsgQue.cpp">
       <Filter>Classes\opmsg</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\BuffSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\CollisionSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\GlobalSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\InputSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\PhysicsSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\SIMPhysSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\SkillInjurySystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\TransformSyncSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\UpdateSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\UUIDSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureDebugSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\system\ArmatureRenderSystem.cpp">
+      <Filter>Classes\ecs\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\buff\Buff.cpp">
+      <Filter>Classes\ecs\utils\buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

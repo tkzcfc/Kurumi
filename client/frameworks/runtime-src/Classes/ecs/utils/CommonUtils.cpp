@@ -5,9 +5,13 @@
 #include "ecs/components/InputComponent.h"
 #include "ecs/system/GlobalSystem.h"
 #include "ecs/system/SIMPhysSystem.h"
+#include "ecs/system/UUIDSystem.h"
 #include "ecs/utils/ArmatureUtils.h"
 
 #include "foundation/file/GFileUtiles.h"
+
+#include "ecs/utils/animator/GActorStateMachine.h"
+#include "ecs/utils/animator/dao/DaoStateMachine.h"
 
 namespace CommonUtils
 {
@@ -83,34 +87,73 @@ namespace CommonUtils
 
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor)
 	{
+		// 读取动画状态机文件内容
+		std::string fsmContent;
+		if (!GFileUtiles::readFileString(info.anifsm, fsmContent) || fsmContent.empty())
+			return false;
+		
 		auto entity = world.createEntity();
 
-		// 位置信息
+		// 添加变换组件
 		auto& transform = entity.addComponent<TransformComponent>();
 		
+		// 添加输入组件
 		auto& input = entity.addComponent<InputComponent>();
 
-		// 物理信息
+		// 添加物理组件
 		SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
 
-		// 动画信息
+		// 添加动画组件
 		ArmatureUtils::initAnimationComponent(entity);
+		// 动画角色切换
 		ArmatureUtils::changeRole(entity, info.roleName);
+		// 默认动画播放
 		ArmatureUtils::playAnimationCMD(entity, "ANI_NAME_FIGHT_STAND", kArmaturePlayMode::LOOP);
-
-
-		std::string content;
-		GFileUtiles::readFileString("json/runtimeData.json", content);
-		//
+		
+		// 添加属性组件
 		auto& propertyCom = entity.addComponent<PropertyComponent>();
 		propertyCom.uuid = info.uuid;
-		propertyCom.moveForce = GVec2(100.0f, 10.0f);
-		propertyCom.jumpIm = GVec2(0.0f, 300.0f);
-		propertyCom.stateMachine->init(entity);
-		propertyCom.stateMachine->initWithJson(content);
+		propertyCom.moveForce = info.moveForce;
+		propertyCom.jumpIm = info.jumpIm;
+		
+		// 创建动画状态机
+		std::shared_ptr<GActorStateMachine> stateMachine = NULL;
+
+		//if (info.roleName == "")
+		//{
+		//	stateMachine = std::make_shared<GActorStateMachine>();
+		//}
+		//else
+			stateMachine = std::make_shared<GActorStateMachine>();
+
+		// 动画状态机初始化
+		stateMachine->setEntity(entity);
+		if (!stateMachine->initWithJson(fsmContent))
+		{
+			entity.kill();
+			return false;
+		}
+
+		propertyCom.stateMachine = stateMachine;
 
 		*outActor = entity;
 
 		return true;
+	}
+
+	GUUID genUUID()
+	{
+		static GUUID sg_GUUID_Seed = 1;
+		return sg_GUUID_Seed++;
+	}
+
+	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity)
+	{
+		auto pSys = world.getSystem<UUIDSystem>();
+		if (pSys)
+		{
+			return pSys->query(uuid, pEntity);
+		}
+		return false;
 	}
 }

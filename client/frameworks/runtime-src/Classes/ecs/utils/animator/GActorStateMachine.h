@@ -10,7 +10,7 @@ class GActorStateMachine : public GAnimatorStateMachine
 	typedef GAnimatorStateMachine Super;
 public:
 	
-	virtual void init(const anax::Entity& entity);
+	virtual void setEntity(const anax::Entity& entity);
 
 	virtual void updateInput();
 

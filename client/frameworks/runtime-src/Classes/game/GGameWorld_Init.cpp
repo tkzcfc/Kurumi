@@ -23,7 +23,7 @@ bool GGameWorld::init(int32_t mapId)
 {
 	do
 	{
-		m_SIMPhysSystem.setGravity(GVec2(0.0f, -98.0f));
+		m_SIMPhysSystem.setGravity(GVec2(0.0f, -9.0f));
 
 		m_world.addSystem(m_armatureSystem);
 		m_world.addSystem(m_collisionSystem);
@@ -32,6 +32,8 @@ bool GGameWorld::init(int32_t mapId)
 		m_world.addSystem(m_transformSyncSystem);
 		m_world.addSystem(m_inputSystem);
 		m_world.addSystem(m_updateSystem);
+		m_world.addSystem(m_skillInjurySystem);
+		m_world.addSystem(m_UUIDSystem);
 
 		// 客户端所需渲染系统
 #if G_TARGET_CLIENT
@@ -57,7 +59,7 @@ bool GGameWorld::init(int32_t mapId)
 }
 
 
-// 初始化世界边界碰撞
+// 初始化世界边界碰撞体
 bool GGameWorld::initBorder()
 {
 	auto mapWidth = m_pGlobal->mapWidth;
@@ -168,7 +170,6 @@ bool GGameWorld::initTest()
 	return true;
 }
 
-
 bool GGameWorld::initAdmin(int32_t mapId)
 {
 	/// 初始化地图
@@ -179,15 +180,14 @@ bool GGameWorld::initAdmin(int32_t mapId)
 	// 初始化地图渲染
 	auto mapLayer = GMapLayer::create(mapId);
 	m_rootNode->addChild(mapLayer);
-	m_pGlobal->mapRender = mapLayer;
 
 	m_camera = mapLayer->getVirtualCamera();
 
 	G_ASSERT(std::fabs(mapLayer->getMapWidth() - m_pGlobal->mapWidth) < 1.0f);
 	G_ASSERT(std::fabs(mapLayer->getMapHeight() - m_pGlobal->mapHeight) < 1.0f);
 
-	m_debugDrawNode = mapLayer->getDrawNode();
-	m_pGlobal->debugDrawNode = m_debugDrawNode;
+	m_pGlobal->debugDrawNode = mapLayer->getDrawNode();
+	m_pGlobal->mapRender = mapLayer;
 #endif
 
 	if (!initBorder())
@@ -209,16 +209,21 @@ bool GGameWorld::spawnPlayer()
 {
 	anax::Entity entity;
 
-	static int s_index = -1;
+	static int s_index = 0;
 	s_index++;
 
 	ActorIdentityInfo info;
 	info.bodySize = GVec2(40.0f, 120.0f);
-	info.originPos = GVec2(300.0f + s_index * 500, 200.0f);
-	info.roleName = "A1044";
-	info.uuid = s_index + 1;
-	CommonUtils::spawnActor(m_world, info, &entity);
-		
+	info.originPos = GVec2(300.0f + s_index * 200, 200.0f);
+	info.roleName = "R1022";
+	info.uuid = CommonUtils::genUUID();
+	info.anifsm = "json/ani_fsm/dao_runtime.json";
+	info.moveForce = GVec2(5.0f, 10.0f);
+	info.jumpIm = GVec2(0.0f, 10.0f);
+
+	if (!CommonUtils::spawnActor(m_world, info, &entity))
+		return false;
+
 	entity.activate();
 	m_players.push_back(entity);
 	return true;

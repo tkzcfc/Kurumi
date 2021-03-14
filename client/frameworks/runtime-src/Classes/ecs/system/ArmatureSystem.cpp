@@ -105,9 +105,12 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 				{
 					if (component.mode == kArmaturePlayMode::LOOP)
 					{
+						//component.curFrameIndex = 0;
+						//component.curAniName = cmdData->actions[0];
+						//component.cmdIndex = 0;
+						
+						// 循环动画,循环播放最后一个,不全部循环了
 						component.curFrameIndex = 0;
-						component.curAniName = cmdData->actions[0];
-						component.cmdIndex = 0;
 					}
 					else
 					{

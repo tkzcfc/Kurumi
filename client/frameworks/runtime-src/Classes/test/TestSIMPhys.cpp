@@ -48,7 +48,7 @@ bool TestSIMPhys::init()
 
 	_scheduler->schedule(CC_SCHEDULE_SELECTOR(TestSIMPhys::logicUpdate), this, 1.0f / 60.0f, false);
 
-	m_physicsSystem.setGravity(GVec2(0, -500.0f));
+	m_physicsSystem.setGravity(GVec2(0, -9.8f));
 	m_world.addSystem(m_physicsSystem);
 	m_world.addSystem(m_globalSystem);
 
@@ -133,7 +133,7 @@ bool TestSIMPhys::init()
 		{
 			auto &component = m_player.getComponent<SIMPhysComponent>();
 			if(component.linearVelocity.y == 0.0f)
-				SIMPhysSystem::applyImpulse(m_player, GVec2(0.0f, 400.0f));
+				SIMPhysSystem::applyImpulse(m_player, GVec2(0.0f, 6.0f));
 		}
 	};
 	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event*)
@@ -162,11 +162,11 @@ void TestSIMPhys::logicUpdate(float dt)
 
 	if (m_moveDir == MoveDir::MOVE_TO_LEFT)
 	{
-		SIMPhysSystem::applyForce(m_player, GVec2(-200.0f, 0.0f));
+		SIMPhysSystem::applyForce(m_player, GVec2(-2, 0.0f));
 	}
 	else if (m_moveDir == MoveDir::MOVE_TO_RIGHT)
 	{
-		SIMPhysSystem::applyForce(m_player, GVec2(200.0f, 0.0f));
+		SIMPhysSystem::applyForce(m_player, GVec2(2, 0.0f));
 	}
 }
 

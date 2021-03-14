@@ -17,8 +17,6 @@ public:
 		gameLogicFrame = 0U;
 
 #if G_TARGET_CLIENT
-		stageNode = NULL;
-		mapNode = NULL;
 		mapRender = NULL;
 		debugDrawNode = NULL;
 #endif
@@ -29,8 +27,6 @@ public:
 	}
 
 #if G_TARGET_CLIENT
-	cocos2d::Node* stageNode;
-	cocos2d::Node* mapNode;
 	GMapLayer*	mapRender;
 	DrawNode* debugDrawNode;
 #endif

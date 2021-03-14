@@ -1,17 +1,6 @@
 #pragma once
 
-#include "ecs/system/ArmatureDebugSystem.h"
-#include "ecs/system/ArmatureRenderSystem.h"
-#include "ecs/system/ArmatureSystem.h"
-#include "ecs/system/CollisionSystem.h"
-#include "ecs/system/GlobalSystem.h"
-#include "ecs/system/PhysicsSystem.h"
-#include "ecs/system/SIMPhysSystem.h"
-#include "ecs/system/TransformSyncSystem.h"
-#include "ecs/system/InputSystem.h"
-#include "ecs/system/UpdateSystem.h"
-#include "opmsg/GOPMsgQue.h"
-
+#include "ecs/ECSDefine.h"
 
 class GGameWorld
 {
@@ -27,7 +16,13 @@ public:
 	
 	void update(float32 dt);
 
+	void input(const std::string& data);
+
 	void render();
+
+public:
+
+	G_FORCEINLINE uint32_t getGameLogicFrame() const;
 
 private:
 
@@ -44,8 +39,6 @@ private:
 	bool initPlayer();
 
 	bool spawnPlayer();
-
-	G_FORCEINLINE uint32_t getGameLogicFrame() const;
 
 public:
 
@@ -68,12 +61,15 @@ private:
 	TransformSyncSystem m_transformSyncSystem;
 	InputSystem m_inputSystem;
 	UpdateSystem m_updateSystem;
+	BuffSystem m_buffSystem;
+	SkillInjurySystem m_skillInjurySystem;
+	UUIDSystem m_UUIDSystem;
+
 
 #if G_TARGET_CLIENT
 	ArmatureDebugSystem m_armatureDebugSystem;
 	ArmatureRenderSystem m_armatureRenderSystem;
 
-	DrawNode* m_debugDrawNode;
 	Node* m_rootNode;
 	GVirtualCamera* m_camera;
 #endif

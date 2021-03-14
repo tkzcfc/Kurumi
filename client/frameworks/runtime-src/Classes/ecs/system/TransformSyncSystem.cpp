@@ -7,8 +7,8 @@ void TransformSyncSystem::sync()
 	{
 		auto& transform = it.getComponent<TransformComponent>();
 		auto& simphys = it.getComponent<SIMPhysComponent>();
-		transform.logicPos.x = simphys.position.x;
-		transform.logicPos.z = simphys.position.y;
+		transform.logicPos.x = simphys.position.x * PHYSICS_PIXEL_TO_METER;
+		transform.logicPos.z = simphys.position.y * PHYSICS_PIXEL_TO_METER;
 		
 		// 逻辑坐标转屏幕坐标
 		transform.position.x = transform.logicPos.x;

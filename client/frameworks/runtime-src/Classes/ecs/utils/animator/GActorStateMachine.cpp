@@ -8,7 +8,7 @@
 
 using namespace anim;
 
-void GActorStateMachine::init(const anax::Entity& entity)
+void GActorStateMachine::setEntity(const anax::Entity& entity)
 {
 	m_entity = entity;
 	m_entity.getComponent<ArmatureComponent>().onFinishCall = [=]()
@@ -21,7 +21,10 @@ void GActorStateMachine::init(const anax::Entity& entity)
 bool GActorStateMachine::initWithJson(const std::string& content)
 {
 	if (!Super::initWithJson(content))
+	{
+		G_ASSERT(0);
 		return false;
+	}
 
 	HASH_IS_FIGHT	= params().hashKey("isFight");
 	HASH_IS_INAIR	= params().hashKey("isInAir");
@@ -73,7 +76,7 @@ void GActorStateMachine::updateInput()
 	auto& property = m_entity.getComponent<PropertyComponent>();
 
 	//! 判断是否按下了移动按键
-	if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN))
+	if (G_BIT_GET(input.keyDown, G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN))
 		params().setBool(HASH_IS_RUN, true);
 	else
 		params().setBool(HASH_IS_RUN, false);
@@ -111,6 +114,8 @@ void GActorStateMachine::onAnimFinished()
 
 	auto completeState = getCompleteState();
 
+	if (m_curStateType == anim::COMMON_JUMPDOWN || m_curStateType == anim::FIGHT_JUMPDOWN)
+		return;
 	// 没有下一个动画
 	if (completeState->getTranslationCount() <= 0)
 	{
@@ -145,6 +150,10 @@ void GActorStateMachine::onStateEnter(GAnimatorState* state)
 			auto& property = m_entity.getComponent<PropertyComponent>();
 			SIMPhysSystem::applyImpulse(&simPhys, property.jumpIm);
 			property.jumpCount++;
+		}
+		if (m_curStateType == COMMON_JUMPDOWN || m_curStateType == FIGHT_JUMPDOWN)
+		{
+			params().setBool(HASH_TO_JUMP_DOWN, false);
 		}
 		params().setBool(HASH_IS_JUMP, true);
 	}break;
@@ -182,6 +191,11 @@ void GActorStateMachine::onStateStay(GAnimatorState* state)
 	{
 		if(m_entity.getComponent<SIMPhysComponent>().linearVelocity.y < 0.0f)
 			params().setBool(HASH_TO_JUMP_DOWN, true);
+	}
+	if (m_curStateType == COMMON_JUMPDOWN || m_curStateType == FIGHT_JUMPDOWN)
+	{
+		if (G_BIT_NO_EQUAL(m_entity.getComponent<PropertyComponent>().status, G_PS_IS_IN_AIR))
+			params().setBool(HASH_TO_STAND, true);
 	}
 
 	if (m_curStateType == COMMON_RUN || m_curStateType == FIGHT_RUN)

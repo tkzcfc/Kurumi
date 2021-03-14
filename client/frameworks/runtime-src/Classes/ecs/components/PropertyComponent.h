@@ -16,6 +16,8 @@ static const G_BIT_TYPE G_PS_IS_NONE		= 0;
 static const G_BIT_TYPE G_PS_IS_IN_AIR		= G_FIXED_VALUE << 1;		// 是否处于空中
 static const G_BIT_TYPE G_PS_IS_FACE_R		= G_FIXED_VALUE << 2;		// 是否面朝右边
 static const G_BIT_TYPE G_PS_IS_DEATH		= G_FIXED_VALUE << 3;		// 是否死亡
+static const G_BIT_TYPE G_PS_IS_BE_ATTACK	= G_FIXED_VALUE << 4;		// 是否被攻击
+
 
 class PropertyComponent : public BaseComponent
 {
@@ -26,14 +28,19 @@ public:
 		lockStatus = G_LOCK_S_NONE;
 		status = G_PS_IS_NONE;
 		uuid = 0;
-		stateMachine = std::make_unique<GActorStateMachine>();
+		stateMachine = NULL;
 		jumpCount = 0;
 		jumpMaxCount = 2;
 		scale = 1.0f;
+
+		attack = 10;
+		armor = 10;
+		maxHP = 100;
+		HP = maxHP;
 	}
 
 	// 动画状态机
-	std::unique_ptr<GActorStateMachine> stateMachine;
+	std::shared_ptr<GActorStateMachine> stateMachine;
 
 	// 属性状态
 	G_BIT_TYPE status;
@@ -41,11 +48,20 @@ public:
 	G_BIT_TYPE lockStatus;
 	
 	// uuid
-	uint32_t uuid;
+	GUUID uuid;
 	// 移动力
 	GVec2 moveForce;
 	// 跳跃冲力
 	GVec2 jumpIm;
+
+	// 攻击力
+	int32_t attack;
+	// 防御力
+	int32_t armor;
+	// 最大血量
+	int32_t maxHP;
+	// 当前血量
+	int32_t HP;
 
 	// 当前跳跃次数,落地时自动置为0
 	int32_t jumpCount;

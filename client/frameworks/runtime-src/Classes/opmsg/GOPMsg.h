@@ -73,7 +73,6 @@ extern G_BIT_TYPE getAutoResetKeys();
 // 基础消息
 struct GOPMsg_Base
 {
-	// 逻辑帧
 	uint32_t logicFrame;
 	// 操作对象
 	int32_t uuid;

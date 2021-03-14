@@ -35,6 +35,15 @@ inline float32 clamp(float32 min, float32 max, float32 a)
 	return(a);
 }
 
+inline int32_t clampi32(int32_t min, int32_t max, int32_t a)
+{
+	if (a < min)
+		return(min);
+	if (a > max)
+		return(max);
+	return(a);
+}
+
 #ifndef MIN
 #define MIN(x,y) (((x) > (y)) ? (y) : (x))
 #endif  // MIN
