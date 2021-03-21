@@ -90,11 +90,6 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 			if (index >= component.cmdCount - 1)
 			{
 				component.curTime = 0.0f;
-				if (component.onFinishCall != NULL)
-				{
-					component.onFinishCall();
-				}
-
 				if (component.mode == kArmaturePlayMode::ONCE)
 				{
 					// 只播放一次,播放完毕定格到最后一帧
@@ -126,6 +121,11 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 							component.playing = false;
 						}
 					}
+				}
+
+				if (component.onFinishCall != NULL && component.mode == kArmaturePlayMode::ONCE)
+				{
+					component.onFinishCall();
 				}
 			}
 			else

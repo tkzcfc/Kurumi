@@ -1,5 +1,5 @@
 {
-	"defaultState": "COMMON_STAND",
+	"defaultState": "FIGHT_STAND",
 	"anyState": {
 		"transitions": [
 			{
@@ -40,7 +40,7 @@
 				"hasExitTime": false,
 				"conditions": [
 					{
-						"param": "isFight",
+						"param": "isInAir",
 						"value": 0,
 						"logic": 0,
 						"rparam": "",
@@ -67,8 +67,8 @@
 				"hasExitTime": false,
 				"conditions": [
 					{
-						"param": "isFight",
-						"value": 1,
+						"param": "isInAir",
+						"value": 0,
 						"logic": 0,
 						"rparam": "",
 						"useparam": 0
@@ -95,63 +95,9 @@
 				"conditions": []
 			},
 			{
-				"toState": "COMMON_RUN",
-				"hasExitTime": false,
-				"conditions": [
-					{
-						"param": "isFight",
-						"value": 0,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					},
-					{
-						"param": "isInAir",
-						"value": 0,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					},
-					{
-						"param": "isRun",
-						"value": 1,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					}
-				]
-			},
-			{
-				"toState": "COMMON_JUMPUP",
-				"hasExitTime": false,
-				"conditions": [
-					{
-						"param": "isFight",
-						"value": 0,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					},
-					{
-						"param": "keyDownJump",
-						"value": 1,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					}
-				]
-			},
-			{
 				"toState": "FIGHT_RUN",
 				"hasExitTime": false,
 				"conditions": [
-					{
-						"param": "isFight",
-						"value": 1,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					},
 					{
 						"param": "isInAir",
 						"value": 0,
@@ -172,13 +118,6 @@
 				"toState": "FIGHT_JUMPUP",
 				"hasExitTime": false,
 				"conditions": [
-					{
-						"param": "isFight",
-						"value": 1,
-						"logic": 0,
-						"rparam": "",
-						"useparam": 0
-					},
 					{
 						"param": "keyDownJump",
 						"value": 1,
@@ -269,7 +208,21 @@
 			"speed": 1,
 			"multiplier": "",
 			"loop": true,
-			"transitions": []
+			"transitions": [
+				{
+					"toState": "FIGHT_STAND",
+					"hasExitTime": false,
+					"conditions": [
+						{
+							"param": "isInAir",
+							"value": 0,
+							"logic": 0,
+							"rparam": "",
+							"useparam": 0
+						}
+					]
+				}
+			]
 		},
 		{
 			"state": "FIGHT_JUMPUP",
@@ -283,9 +236,9 @@
 					"hasExitTime": false,
 					"conditions": [
 						{
-							"param": "toJumpDown",
-							"value": 1,
-							"logic": 0,
+							"param": "yVelocity",
+							"value": 0,
+							"logic": 3,
 							"rparam": "",
 							"useparam": 0
 						}
@@ -329,7 +282,13 @@
 			"speed": 1,
 			"multiplier": "",
 			"loop": false,
-			"transitions": []
+			"transitions": [
+				{
+					"toState": "FIGHT_STAND",
+					"hasExitTime": true,
+					"conditions": []
+				}
+			]
 		},
 		{
 			"position": [
@@ -403,138 +362,6 @@
 		},
 		{
 			"position": [
-				-750,
-				540
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_STAND",
-			"motion": "ANI_NAME_COMMON_STAND",
-			"speed": 1,
-			"multiplier": "",
-			"loop": true,
-			"transitions": []
-		},
-		{
-			"position": [
-				-600,
-				60
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_RUN",
-			"motion": "ANI_NAME_COMMON_RUN",
-			"speed": 1,
-			"multiplier": "",
-			"loop": true,
-			"transitions": [
-				{
-					"toState": "COMMON_BRAKE",
-					"hasExitTime": false,
-					"conditions": [
-						{
-							"param": "isRun",
-							"value": 0,
-							"logic": 0,
-							"rparam": "",
-							"useparam": 0
-						}
-					]
-				}
-			]
-		},
-		{
-			"position": [
-				-810,
-				240
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_BRAKE",
-			"motion": "ANI_NAME_COMMON_BRAKE",
-			"speed": 1,
-			"multiplier": "",
-			"loop": false,
-			"transitions": []
-		},
-		{
-			"position": [
-				-60,
-				180
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_JUMPUP",
-			"motion": "ANI_NAME_COMMON_JUMPUP",
-			"speed": 1,
-			"multiplier": "",
-			"loop": true,
-			"transitions": [
-				{
-					"toState": "COMMON_JUMPDOWN",
-					"hasExitTime": false,
-					"conditions": [
-						{
-							"param": "toJumpDown",
-							"value": 1,
-							"logic": 0,
-							"rparam": "",
-							"useparam": 0
-						}
-					]
-				}
-			]
-		},
-		{
-			"position": [
-				150,
-				-30
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_JUMPDOWN",
-			"motion": "ANI_NAME_COMMON_JUMPDOWN",
-			"speed": 1,
-			"multiplier": "",
-			"loop": false,
-			"transitions": []
-		},
-		{
-			"position": [
-				-480,
-				750
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_GLIDE",
-			"motion": "ANI_NAME_COMMON_GLIDE",
-			"speed": 1,
-			"multiplier": "",
-			"loop": false,
-			"transitions": []
-		},
-		{
-			"position": [
-				-120,
-				750
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_SQUAT",
-			"motion": "ANI_NAME_COMMON_SQUAT",
-			"speed": 1,
-			"multiplier": "",
-			"loop": false,
-			"transitions": []
-		},
-		{
-			"position": [
-				-210,
-				660
-			],
-			"upStateMachine": "非战斗状态",
-			"state": "COMMON_TURN",
-			"motion": "ANI_NAME_COMMON_TURN",
-			"speed": 1,
-			"multiplier": "",
-			"loop": false,
-			"transitions": []
-		},
-		{
-			"position": [
 				-540,
 				510
 			],
@@ -548,11 +375,6 @@
 		}
 	],
 	"parameters": [
-		{
-			"param": "isFight",
-			"type": 1,
-			"init": 1
-		},
 		{
 			"param": "toStand",
 			"type": 1,
@@ -579,11 +401,6 @@
 			"init": 0
 		},
 		{
-			"param": "toJumpDown",
-			"type": 1,
-			"init": 0
-		},
-		{
 			"param": "isJump",
 			"type": 1,
 			"init": 0
@@ -596,6 +413,11 @@
 		{
 			"param": "keyDownJump",
 			"type": 1,
+			"init": 0
+		},
+		{
+			"param": "yVelocity",
+			"type": 4,
 			"init": 0
 		}
 	]

@@ -66,6 +66,11 @@ bool GFSM::changeToStateByName(const FStateKeyType& stateName)
 
 void GFSM::changeToState(GState* state)
 {
+	if (m_curState == state)
+	{
+		return;
+	}
+
 	if(m_curState)
 		m_curState->onExitEx();
 

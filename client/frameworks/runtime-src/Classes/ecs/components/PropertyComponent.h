@@ -31,6 +31,7 @@ public:
 		stateMachine = NULL;
 		jumpCount = 0;
 		jumpMaxCount = 2;
+		modeDefaultScale = 1.0f;
 		scale = 1.0f;
 
 		attack = 10;
@@ -68,6 +69,9 @@ public:
 	// 跳跃最大次数
 	int32_t jumpMaxCount;
 
+	// 动画模型当前缩放值
 	float32 scale;
+	// 动画模型默认缩放值
+	float32 modeDefaultScale;
 };
 

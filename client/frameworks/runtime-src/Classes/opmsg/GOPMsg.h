@@ -35,6 +35,8 @@ static const G_BIT_TYPE G_KEY_SKILL_5		= G_FIXED_VALUE << 10; // 技能5
 static const G_BIT_TYPE G_KEY_SKILL_6		= G_FIXED_VALUE << 11; // 技能6
 static const G_BIT_TYPE G_KEY_SKILL_7		= G_FIXED_VALUE << 12; // 技能7
 
+static const G_BIT_TYPE G_KEY_MOVE_MUSTER = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
+
 
 //////////////////////////////////////////////////////////////////////////////
 // 判断该键位是否自动复位
