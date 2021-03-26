@@ -50,8 +50,9 @@ using namespace cocos2d;
 
 
 //! 获取数组长度
+#ifndef G_ARRAY_LEN
 #define G_ARRAY_LEN(array) sizeof(array) / sizeof(array[0])
-
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////
 

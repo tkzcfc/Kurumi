@@ -33,14 +33,11 @@ void SIMPhysSystem::update(float dt)
 
 	for (auto b : m_dynamic_bodies)
 	{
-		// 简化运算,直接将质量视为1
 		// Integrate velocities
-		//b->linearVelocity += dt * b->invMass * (b->gravityScale * b->mass * gravity + b->force);
-		b->linearVelocity += dt * (b->gravityScale * m_gravity + b->force);
+		b->linearVelocity += dt * b->invMass * (b->gravityScale * b->mass * m_gravity + b->force);
 
-		// 简化运算,忽略阻尼
 		// Apply damping
-		//b->linearVelocity *= 1.0f / (1.0f + dt * b->linearDamping);
+		b->linearVelocity *= 1.0f / (1.0f + dt * b->linearDamping);
 
 		GVec2 df = b->linearVelocity * dt;
 

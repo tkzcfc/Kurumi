@@ -23,7 +23,7 @@ bool GGameWorld::init(int32_t mapId)
 {
 	do
 	{
-		m_SIMPhysSystem.setGravity(GVec2(0.0f, -9.0f));
+		m_SIMPhysSystem.setGravity(GVec2(0.0f, -15.0f));
 
 		m_world.addSystem(m_armatureSystem);
 		m_world.addSystem(m_collisionSystem);
@@ -218,7 +218,7 @@ bool GGameWorld::spawnPlayer()
 	info.roleName = "R1022";
 	info.uuid = CommonUtils::genUUID();
 	info.anifsm = "json/ani_fsm/dao_runtime.json";
-	info.moveForce = GVec2(5.0f, 10.0f);
+	info.moveForce = GVec2(10.0f, 10.0f);
 	info.jumpIm = GVec2(0.0f, 10.0f);
 
 	if (!CommonUtils::spawnActor(m_world, info, &entity))

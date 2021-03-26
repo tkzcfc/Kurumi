@@ -36,6 +36,8 @@ static const G_BIT_TYPE G_KEY_SKILL_6		= G_FIXED_VALUE << 11; // 技能6
 static const G_BIT_TYPE G_KEY_SKILL_7		= G_FIXED_VALUE << 12; // 技能7
 
 static const G_BIT_TYPE G_KEY_MOVE_MUSTER = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
+static const G_BIT_TYPE G_KEY_MOVE_X = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT;
+static const G_BIT_TYPE G_KEY_MOVE_Y = G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
 
 
 //////////////////////////////////////////////////////////////////////////////

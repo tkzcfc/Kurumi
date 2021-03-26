@@ -123,7 +123,7 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 					}
 				}
 
-				if (component.onFinishCall != NULL && component.mode == kArmaturePlayMode::ONCE)
+				if (component.onFinishCall != NULL)
 				{
 					component.onFinishCall();
 				}

@@ -47,7 +47,7 @@ void GActorStateMachine::playAnimation(const std::string& animName, bool loop)
 {
 	std::string curAniName = getAniName(animName.c_str(), true);
 	G_LOG_I("playAnimation %s", curAniName.c_str());
-	ArmatureUtils::playAnimationCMD(m_entity, curAniName, loop ? kArmaturePlayMode::LOOP : kArmaturePlayMode::DEFAULT);
+	ArmatureUtils::playAnimationCMD(m_entity, curAniName, loop ? kArmaturePlayMode::LOOP : kArmaturePlayMode::ONCE);
 }
 
 // 缩放动画播放速率
@@ -148,6 +148,7 @@ void GActorStateMachine::onStateEnter(GAnimatorState* state)
 		{
 			auto& simPhys = m_entity.getComponent<SIMPhysComponent>();
 			auto& property = m_entity.getComponent<PropertyComponent>();
+			simPhys.linearVelocity.y = 0.0f;
 			SIMPhysSystem::applyImpulse(&simPhys, property.jumpIm);
 			property.jumpCount++;
 		}
@@ -180,51 +181,72 @@ void GActorStateMachine::onStateExit(GAnimatorState* state)
 // 状态停留
 void GActorStateMachine::onStateStay(GAnimatorState* state)
 {
-	if (m_curStateType == FIGHT_RUN)
-	{
-		auto& input = m_entity.getComponent<InputComponent>();
-		auto& simPhys = m_entity.getComponent<SIMPhysComponent>();
-		auto& property = m_entity.getComponent<PropertyComponent>();
+	auto& input = m_entity.getComponent<InputComponent>();
+	auto& simPhys = m_entity.getComponent<SIMPhysComponent>();
+	auto& property = m_entity.getComponent<PropertyComponent>();
 
-		///! X轴移动
+	// 按下了左右移动按键
+	if (G_BIT_GET(input.keyDown, G_KEY_MOVE_X) && G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_MOVE_X))
+	{
+		// 最大速度
+		auto moveMaxVelocityX = property.moveMaxVelocityX;
+		// 移动力
+		auto moveForceX = property.moveForce.x;
+
+		if (m_curStateType != FIGHT_RUN)
+		{
+			moveMaxVelocityX *= 0.2f;
+		}
+
 		// 左移
 		if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_LEFT))
 		{
-			if (G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_MOVE_X))
-				SIMPhysSystem::applyForce(&simPhys, GVec2(-property.moveForce.x, 0.0f));
+			simPhys.linearVelocity.x = MIN(simPhys.linearVelocity.x, 0.0f);
+			simPhys.linearVelocity.x = MAX(simPhys.linearVelocity.x, -moveMaxVelocityX);
+			if (simPhys.linearVelocity.x > -moveMaxVelocityX)
+			{
+				SIMPhysSystem::applyForce(&simPhys, GVec2(-moveForceX, 0.0f));
+			}
 		}
 		// 右移
 		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_RIGHT))
 		{
-			if (G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_MOVE_X))
-				SIMPhysSystem::applyForce(&simPhys, GVec2(property.moveForce.x, 0.0f));
+			simPhys.linearVelocity.x = MAX(simPhys.linearVelocity.x, 0.0f);
+			simPhys.linearVelocity.x = MIN(simPhys.linearVelocity.x, moveMaxVelocityX);
+			if (simPhys.linearVelocity.x < moveMaxVelocityX)
+			{
+				SIMPhysSystem::applyForce(&simPhys, GVec2(moveForceX, 0.0f));
+			}
 		}
-		
-		///! Z轴移动
+	}
+	else
+	{
+		simPhys.linearVelocity.x = 0;
+	}
+
+	///! 上下移动逻辑(Z轴移动)
+	if (m_curStateType == FIGHT_RUN &&
+		G_BIT_NO_EQUAL(property.status, G_PS_IS_IN_AIR) &&
+		G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_MOVE_Y))
+	{
 		// 上移
 		if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_UP))
 		{
-			if (G_BIT_NO_EQUAL(property.status, G_PS_IS_IN_AIR) && G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_MOVE_Y))
-			{
-				// SIMPhysComponent 模拟X轴和Z轴,Y轴移动单独更改TransformComponent的逻辑坐标值
-				auto& logicPos = m_entity.getComponent<TransformComponent>().logicPos;
-				auto& global = CommonUtils::getGlobalComponent(m_entity.getWorld());
+			// SIMPhysComponent 模拟X轴和Z轴,Y轴移动单独更改TransformComponent的逻辑坐标值
+			auto& logicPos = m_entity.getComponent<TransformComponent>().logicPos;
+			auto& global = CommonUtils::getGlobalComponent(m_entity.getWorld());
 
-				logicPos.y += property.moveForce.y;
-				logicPos.y = clamp(global.minPosy, global.maxPosy, logicPos.y);
-			}
+			logicPos.y += property.moveForce.y;
+			logicPos.y = clamp(global.minPosy, global.maxPosy, logicPos.y);
 		}
 		// 下移
 		else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_DOWN))
 		{
-			if (G_BIT_NO_EQUAL(property.status, G_PS_IS_IN_AIR) && G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_MOVE_Y))
-			{
-				auto& logicPos = m_entity.getComponent<TransformComponent>().logicPos;
-				auto& global = CommonUtils::getGlobalComponent(m_entity.getWorld());
+			auto& logicPos = m_entity.getComponent<TransformComponent>().logicPos;
+			auto& global = CommonUtils::getGlobalComponent(m_entity.getWorld());
 
-				logicPos.y -= property.moveForce.y;
-				logicPos.y = clamp(global.minPosy, global.maxPosy, logicPos.y);
-			}
+			logicPos.y -= property.moveForce.y;
+			logicPos.y = clamp(global.minPosy, global.maxPosy, logicPos.y);
 		}
 	}
 }

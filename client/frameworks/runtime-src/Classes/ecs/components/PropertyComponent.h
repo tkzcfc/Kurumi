@@ -34,6 +34,8 @@ public:
 		modeDefaultScale = 1.0f;
 		scale = 1.0f;
 
+		moveMaxVelocityX = 10.0f;
+
 		attack = 10;
 		armor = 10;
 		maxHP = 100;
@@ -52,6 +54,8 @@ public:
 	GUUID uuid;
 	// 移动力
 	GVec2 moveForce;
+	// X最大移动速度
+	float32 moveMaxVelocityX;
 	// 跳跃冲力
 	GVec2 jumpIm;
 
