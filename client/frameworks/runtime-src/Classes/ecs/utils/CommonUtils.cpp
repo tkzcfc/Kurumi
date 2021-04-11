@@ -115,6 +115,7 @@ namespace CommonUtils
 		propertyCom.uuid = info.uuid;
 		propertyCom.moveForce = info.moveForce;
 		propertyCom.jumpIm = info.jumpIm;
+		propertyCom.moveMaxVelocityX = info.moveMaxVelocityX;
 		
 		// 创建动画状态机
 		std::shared_ptr<GActorStateMachine> stateMachine = NULL;

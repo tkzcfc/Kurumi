@@ -20,6 +20,9 @@ struct ActorIdentityInfo
 	GVec2 moveForce;
 	// 跳跃冲力
 	GVec2 jumpIm;
+
+	// X最大移动速度
+	float32 moveMaxVelocityX;
 };
 
 

@@ -218,8 +218,9 @@ bool GGameWorld::spawnPlayer()
 	info.roleName = "R1022";
 	info.uuid = CommonUtils::genUUID();
 	info.anifsm = "json/ani_fsm/dao_runtime.json";
-	info.moveForce = GVec2(10.0f, 10.0f);
+	info.moveForce = GVec2(20.0f, 10.0f);
 	info.jumpIm = GVec2(0.0f, 10.0f);
+	info.moveMaxVelocityX = 8.0f;
 
 	if (!CommonUtils::spawnActor(m_world, info, &entity))
 		return false;
