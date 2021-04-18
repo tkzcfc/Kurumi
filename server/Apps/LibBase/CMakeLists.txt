@@ -1,7 +1,10 @@
 project(LibBase)
 
-file(GLOB_RECURSE LibBase_HPP 
+file(GLOB_RECURSE LibBase_H
 	*.h)
+	
+file(GLOB_RECURSE LibBase_HPP 
+	*.hpp)
 	
 file(GLOB_RECURSE LibBase_CPP 
 	*.cpp)
@@ -10,7 +13,7 @@ file(GLOB_RECURSE LibBase_CC
 	*.cc)
 
 # STATIC SHARED
-add_library(${PROJECT_NAME} STATIC ${LibBase_HPP} ${LibBase_CPP} ${LibBase_CC})
+add_library(${PROJECT_NAME} STATIC ${LibBase_H} ${LibBase_HPP} ${LibBase_CPP} ${LibBase_CC})
 
 target_link_libraries(
 	${PROJECT_NAME}
@@ -18,6 +21,7 @@ target_link_libraries(
 	easyloggingpp
 	net_uv
 	libuv
+	sqliter
 )
 #protobuf-lite
 

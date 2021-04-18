@@ -15,18 +15,14 @@ uint32_t GConfigService::onInit()
 		return SCODE_START_FAIL_EXIT_APP;
 	}
 
+	std::string appName = GApplication::getInstance()->getAppName();
+
+	auto it = std::find(m_reader->Sections().begin(), m_reader->Sections().end(), appName);
+	if (it == m_reader->Sections().end())
+	{
+		LOG(ERROR) << "Section '" << appName.c_str() << "' not found in '" << cfgFile.c_str() << "'";
+		return SCODE_START_FAIL_EXIT_APP;
+	}
 	return SCODE_START_SUCCESS;
 }
-
-void GConfigService::onStartService()
-{}
-
-void GConfigService::onStopService()
-{}
-
-void GConfigService::onUpdate(float)
-{}
-
-void GConfigService::onDestroy()
-{}
 

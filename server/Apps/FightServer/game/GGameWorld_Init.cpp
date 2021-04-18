@@ -15,15 +15,11 @@ static MOVE_DIR static_v_dir = MOVE_DIR::STOP;
 
 /////////////////////////////////////////////////////
 /// init
-#if G_TARGET_CLIENT
-bool GGameWorld::init(int mapId, Node* rootNode)
-#else
-bool GGameWorld::init(int32_t mapId)
-#endif
+bool GGameWorld::init(const GGameWorldInitArgs& args)
 {
 	do
 	{
-		m_SIMPhysSystem.setGravity(GVec2(0.0f, -9.0f));
+		m_SIMPhysSystem.setGravity(GVec2(0.0f, -15.0f));
 
 		m_world.addSystem(m_armatureSystem);
 		m_world.addSystem(m_collisionSystem);
@@ -40,11 +36,13 @@ bool GGameWorld::init(int32_t mapId)
 		m_world.addSystem(m_armatureDebugSystem);
 		m_world.addSystem(m_armatureRenderSystem);
 
-		m_rootNode = rootNode;
+		m_rootNode = args.rootNode;
 #endif
 		m_pGlobal = &m_globalSystem.admin.getComponent<GlobalComponent>();
-
-		if (!this->initAdmin(mapId))
+		m_pGlobal->random = std::make_unique<GRandom>(args.randomSeed, args.randomSeed + 1);
+		m_pGlobal->uuidSeed = args.uuidSeed;
+		
+		if (!this->initAdmin(args.mapId))
 			break;
 
 		if (!this->initPlayer())
@@ -72,15 +70,6 @@ bool GGameWorld::initBorder()
 	float32 h_height = mapHeight - space * 2.0f;
 	float32 v_width = mapWidth - space * 2.0f - width * 2.0f;
 	float32 v_height = width;
-
-	mapWidth /= PHYSICS_PIXEL_TO_METER;
-	mapHeight /= PHYSICS_PIXEL_TO_METER;
-	space /= PHYSICS_PIXEL_TO_METER;
-	width /= PHYSICS_PIXEL_TO_METER;
-	h_width /= PHYSICS_PIXEL_TO_METER;
-	h_height /= PHYSICS_PIXEL_TO_METER;
-	v_width /= PHYSICS_PIXEL_TO_METER;
-	v_height /= PHYSICS_PIXEL_TO_METER;
 
 	anax::Entity entity;
 
@@ -218,17 +207,18 @@ bool GGameWorld::spawnPlayer()
 {
 	anax::Entity entity;
 
-	static int s_index = -1;
+	static int s_index = 0;
 	s_index++;
 
 	ActorIdentityInfo info;
 	info.bodySize = GVec2(40.0f, 120.0f);
-	info.originPos = GVec2(300.0f + s_index * 500, 200.0f);
-	info.roleName = "A1044";
-	info.uuid = CommonUtils::genUUID();
+	info.originPos = GVec2(300.0f + s_index * 200, 200.0f);
+	info.roleName = "R1022";
+	info.uuid = CommonUtils::genUUID(m_world);
 	info.anifsm = "json/ani_fsm/dao_runtime.json";
-	info.moveForce = GVec2(1.0f, 10.0f);
-	info.jumpIm = GVec2(0.0f, 2.2f);
+	info.moveForce = GVec2(20.0f, 10.0f);
+	info.jumpIm = GVec2(0.0f, 10.0f);
+	info.moveMaxVelocityX = 8.0f;
 
 	if (!CommonUtils::spawnActor(m_world, info, &entity))
 		return false;

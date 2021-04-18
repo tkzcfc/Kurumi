@@ -22,11 +22,6 @@
 #define G_LOG_F(format, ...) flog::log_f(format, ##__VA_ARGS__)
 #endif
 
-void log_i(const char * format, ...);
-void log_w(const char * format, ...);
-void log_e(const char * format, ...);
-void log_f(const char * format, ...);
-
 #if G_TARGET_SERVER
 #define G_TARGET_CLIENT 0
 #include "GLibBase.h"
@@ -49,14 +44,15 @@ using namespace cocos2d;
 //! 位操作相关
 #define G_BIT_SET(b, flag) (b) |= (flag)
 #define G_BIT_GET(b, flag) (b) & (flag)
-#define G_BIT_CLEAR(b, flag) (b) &= ~(flag)
+#define G_BIT_REMOVE(b, flag) (b) &= ~(flag)
 #define G_BIT_EQUAL(b, flag) ((b) & (flag)) == (flag)
 #define G_BIT_NO_EQUAL(b, flag) ((b) & (flag)) != (flag)
 
 
 //! 获取数组长度
+#ifndef G_ARRAY_LEN
 #define G_ARRAY_LEN(array) sizeof(array) / sizeof(array[0])
-
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////
 

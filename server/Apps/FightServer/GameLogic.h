@@ -12,22 +12,25 @@ public:
 
 	~GameLogic();
 
-	err::Code init(int32_t mapID, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >& players);
+	err::Code init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >& players);
 	
 	void update(float dt);
-
-	G_FORCEINLINE int32_t uuid();
-
-	// 判断是否完成
-	G_FORCEINLINE bool finish();
-	
+			
 public:
 	
 	err::Code join(uint32_t sessionID, const msg::JoinFightReq& req);
 
-	void exitGame(const std::string& playerID);
+	void exitGame(int64_t playerID);
 
 	err::Code exitGameWithSessionID(uint32_t sessionID);
+
+public:
+
+	G_SYNTHESIZE_PASS_BY_REF(GGameWorldInitArgs, m_initArgs, InitArgs);
+
+	G_SYNTHESIZE(bool, m_isFinish, IsFinish);
+
+	G_SYNTHESIZE(int32_t, m_uuid, uuid);
 
 protected:
 
@@ -42,7 +45,7 @@ protected:
 	// 获取逻辑帧最慢的一个玩家
 	GamePlayer* getSlowestPlayer();
 
-	bool containPlayer(const std::string& playerID);
+	bool containPlayer(int64_t playerID);
 
 	void sendToAllPlayer(MessageID msgID, const ::google::protobuf::MessageLite& msg);
 	
@@ -50,8 +53,7 @@ protected:
 
 private:
 	std::unique_ptr<GGameWorld> m_world;
-	int32_t m_uuid;
-	bool m_isFinish;
+
 	GNetService* m_pNetService;
 	GApplication* m_pApplication;
 	
@@ -60,7 +62,7 @@ private:
 	// 本局游戏玩家数量
 	int32_t m_playerCount;
 	std::unique_ptr<GamePlayer> m_players[G_FIGHT_MAX_PLAYER_COUNT];
-	std::set<std::string> m_playerIDSet;
+	std::set<int64_t> m_playerIDSet;
 	
 	enum RUN_STATE
 	{
@@ -80,13 +82,3 @@ private:
 	// 已经执行过的历史操作记录
 	std::list<Record> m_pastRecords;
 };
-
-int32_t GameLogic::uuid()
-{
-	return m_uuid;
-}
-
-bool GameLogic::finish()
-{
-	return m_isFinish;
-}

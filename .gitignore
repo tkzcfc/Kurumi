@@ -1,4 +1,5 @@
 client/.vs/
+client/.cache/
 client/simulator/
 client/runtime/
 client/obj/
@@ -16,6 +17,9 @@ client/frameworks/runtime-src/proj.android-studio/local.properties
 client/frameworks/runtime-src/proj.android-studio/app/assets/
 client/frameworks/runtime-src/proj.android-studio/app/build/
 client/frameworks/runtime-src/proj.android-studio/app/obj/
+client/frameworks/runtime-src/proj.win32/thirdParty/libuv/Debug/
+client/frameworks/runtime-src/proj.win32/thirdParty/libuv/Debug.win32/
+client/frameworks/runtime-src/proj.win32/thirdParty/libuv/Release.win32/
 
 client/kurumi_lua.config
 client/kurumi_lua.luaproj
@@ -31,10 +35,7 @@ server/Debug/
 server/server/Debug/
 server/thirdparty/pro/glog/Debug
 
-server/Release/
-server/server/Release/
-server/thirdparty/pro/glog/Release
-server/server.VC.VC.opendb
+server/vs/
 
 
 server.zip

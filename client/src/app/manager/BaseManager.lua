@@ -17,4 +17,8 @@ end
 function BaseManager:override_onDestroy()
 end
 
+function BaseManager:log(...)
+	-- print(self.__cname .. " :", ...)
+end
+
 return BaseManager

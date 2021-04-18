@@ -4,7 +4,7 @@
 
 
 -- 是否开启热更新
-local enableHotUpdate = true
+local enableHotUpdate = false
 
 local ViewBase = cc.load("mvc").ViewBase
 local SplashScene = class("SplashScene", ViewBase)

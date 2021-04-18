@@ -30,7 +30,7 @@ end
 function ShaderManager:getProgramState(key)
     local glprogram = self:getShader(key)
     if glprogram == nil then
-    	logE("创建shader失败", key)
+    	self:log("创建shader失败", key)
     	return
     end
     return cc.GLProgramState:getOrCreateWithGLProgram(glprogram)

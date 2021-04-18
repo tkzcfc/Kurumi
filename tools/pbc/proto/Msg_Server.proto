@@ -1,0 +1,59 @@
+syntax = "proto2";
+
+option optimize_for = LITE_RUNTIME;
+
+package svr_msg;
+
+
+
+//============================================================================================
+//                 LoginSVR  <==> GameSVR
+//============================================================================================
+message CheckTokenReq
+{
+	required string account = 1;
+	required string token = 2;
+	required int64 pid = 3;
+	required uint32 session = 4;
+}
+
+message CheckTokenAck
+{
+	required int32 code = 1;
+	required int64 pid = 2;
+	required int32 session = 3;
+	required string account = 4;
+}
+
+
+
+//============================================================================================
+//                 GameSVR <==> FightSVR
+//============================================================================================
+
+message FightPlayerSpawnInfo
+{
+	required int64 playerID = 1;
+	required string role = 2;
+}
+
+// 新战斗请求
+message NewFightReq
+{
+	required int32 mapId = 1;					// 地图ID
+	repeated FightPlayerSpawnInfo players = 2; 	// players
+	required int32 tag = 3;
+	required int32 fightType = 4; // 战斗类型
+}
+
+// 新战斗回复
+message NewFightAck
+{
+	required int32 code = 1;	// 0:成功
+	required int32 uuid = 2;	// 战斗uuid
+	required int32 tag 	= 3;
+	required int32 fightType = 4; // 战斗类型
+}
+
+
+ 

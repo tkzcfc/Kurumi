@@ -1,0 +1,62 @@
+syntax = "proto2";
+
+package err;
+
+option optimize_for = LITE_RUNTIME;
+
+enum Code {
+	
+    //============================================================================================
+    // 通用系统错误
+    //============================================================================================
+	SUCCESS						= 0; 	// success
+	UNKNOWN						= 1;	// 未知错误
+	NOT_FOUND					= 2;	// 找不到对应目标
+	OVERDUE						= 3;	// 该目标已过期
+	
+	NO_MEMORY					= 100;  // 内存不足
+	OVERLOAD					= 101;	// 过载
+	PARAM_ERROR					= 102;	// 参数错误
+	
+	
+    //============================================================================================
+    // 服务器错误定义
+    //============================================================================================
+	// 
+	
+	// 登录
+	ACCOUNT_NOT_EXIST			= 100000;	// 账号不存在
+	WRONG_PASSWORD				= 100001;	// 密码错误
+	
+	GATE_CONNECT_FAIL			= 100100;	// 网关连接失败
+	
+	// 战斗
+	NOT_FOUND_FIGHT				= 110000;	// 找不到战斗ID
+	FIGHT_INIT_FAIL				= 110001;	// 服务端战斗初始化失败
+	FIGHT_NOE_FOUND_PLAYER		= 110002;	// 服务端战斗找不到对应玩家
+	FIGHT_PLAYING				= 110003;	// 此玩家已经在战斗中
+	FIGHT_PLAYER_TOO_MUCH		= 110004;	// 玩家数量过多
+	FIGHT_PLAYERID_REPEAT		= 110005;	// 玩家ID有重复的
+	FIGHT_LEAVE_GAME			= 110006;	// 玩家被踢出游戏
+	FIGHT_FRAME_ERR				= 110007;	// 客户端帧数有问题
+	FIGHT_PAST_RECORDS_INC		= 110008;	// 服务端操作记录无法追溯到对应帧
+	
+	FIGHT_SVR_BUSY				= 110100;	// 战斗服繁忙
+	FIGHT_SVR_NONE				= 110101;	// 游戏服没有可分配的战斗服
+	FIGHT_SVR_NOT_FOUND			= 110102;	// 战斗服不存在
+	
+	GAME_LOGIN_MUT_PID			= 120001;	// 玩家登录游戏服时,服务器查询到该账号有多个玩家信息
+	GAME_LOGIN_AGAIN			= 120002;	// 玩家断线重连,服务器让客户端进入登录界面重新登录
+	GAME_LOGIN_NO_FOUND_PLAYER  = 120003;  // 找不到对应玩家数据
+	
+	
+	EXIT_GAME_LOGIN_REPEAT		= 120010;	// 退出游戏,此账号在其他地方被人登录
+	EXIT_GAME_CLIENT_DIS		= 120011;	// 退出游戏,客户端与服务器连接中断
+	EXIT_GAME_PLAYER_REQ		= 120012;	// 退出游戏,客户端主动请求退出游戏
+	
+	PVP_MATCHING				= 120030;	// pvp匹配中
+	PVP_MATCH_TIMEOUT			= 120031;	// pvp匹配超时
+	PVP_MATCH_SUC				= 120032;	// pvp匹配成功
+	PVP_MATCH_SUC_NO_SVR		= 120033;	// pvp匹配成功后没有战斗服分配
+	PVP_RIVAL_EXIT				= 120034;	// pvp匹配成功后对手取消战斗
+}

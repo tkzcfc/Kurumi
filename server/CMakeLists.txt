@@ -43,6 +43,7 @@ add_subdirectory(ThirdParty/easyloggingpp)
 add_subdirectory(ThirdParty/libuv)
 add_subdirectory(ThirdParty/net_uv)
 add_subdirectory(ThirdParty/protobuf-lite)
+add_subdirectory(ThirdParty/sqliter)
 
 
 add_subdirectory(Apps)

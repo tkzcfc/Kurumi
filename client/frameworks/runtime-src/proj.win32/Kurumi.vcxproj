@@ -72,7 +72,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes\anax\include;$(ProjectDir)..\Classes;$(ProjectDir)..\Classes\runtime;$(ProjectDir)..\Classes\lua-modules;$(ProjectDir)..\Classes\protobuf-lite;$(ProjectDir)..\Classes\lua_modules\net;$(ProjectDir)..\Classes\lua_modules\net\libuv\include;$(ProjectDir)..\Classes\lua_modules\net\net_uv;$(ProjectDir)..\Classes\lua_modules\net\libuv\src;$(ProjectDir)..\Classes\lua-modules\pbc\src;$(ProjectDir)..\Classes\lua_modules\pbc;$(ProjectDir)..\Classes\lua_modules\pbc\binding;$(EngineRoot)external\win32-specific\zlib\include;$(EngineRoot)cocos\scripting\lua-bindings\auto;$(EngineRoot)cocos\scripting\lua-bindings\manual;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\lua\lua;$(EngineRoot)external\lua\tolua;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)external\curl\include\win32;$(EngineRoot)extensions;$(EngineRoot)tools\simulator\libsimulator\lib;$(EngineRoot)tools\simulator\libsimulator\lib\protobuf-lite;$(EngineRoot);%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes\anax\include;$(ProjectDir)..\thirdParty\libuv\include;$(ProjectDir)..\Classes;$(ProjectDir)..\Classes\runtime;$(ProjectDir)..\Classes\lua-modules;$(ProjectDir)..\Classes\protobuf-lite;$(ProjectDir)..\Classes\lua_modules\net;$(ProjectDir)..\Classes\lua_modules\net\libuv\include;$(ProjectDir)..\Classes\lua_modules\net\net_uv;$(ProjectDir)..\Classes\lua_modules\net\libuv\src;$(ProjectDir)..\Classes\lua-modules\pbc\src;$(ProjectDir)..\Classes\lua_modules\pbc;$(ProjectDir)..\Classes\lua_modules\pbc\binding;$(EngineRoot)external\win32-specific\zlib\include;$(EngineRoot)cocos\scripting\lua-bindings\auto;$(EngineRoot)cocos\scripting\lua-bindings\manual;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\lua\lua;$(EngineRoot)external\lua\tolua;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)external\curl\include\win32;$(EngineRoot)extensions;$(EngineRoot)tools\simulator\libsimulator\lib;$(EngineRoot)tools\simulator\libsimulator\lib\protobuf-lite;$(EngineRoot);%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -94,7 +94,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>libcurl_imp.lib;websockets.lib;libuv.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
       <ProgramDatabaseFile>$(ProjectDir)../../../simulator/win32/$(TargetName).pdb</ProgramDatabaseFile>
       <OutputFile>$(ProjectDir)../../../simulator/win32/$(TargetName)$(TargetExt)</OutputFile>
@@ -287,8 +287,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua_modules\cjson\fpconv.h" />
     <ClInclude Include="..\Classes\lua_modules\cjson\lua_cjson.h" />
     <ClInclude Include="..\Classes\lua_modules\cjson\strbuf.h" />
-    <ClInclude Include="..\Classes\lua_modules\ecs\lua_ecs.h" />
-    <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h" />
+    <ClInclude Include="..\Classes\lua_modules\game\lua_game.h" />
     <ClInclude Include="..\Classes\lua_modules\http\lua_http.hpp" />
     <ClInclude Include="..\Classes\lua_modules\lfs\lfs.h" />
     <ClInclude Include="..\Classes\lua_modules\lua_modules.h" />
@@ -305,6 +304,54 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\lua_modules\pbc\src\proto.h" />
     <ClInclude Include="..\Classes\lua_modules\pbc\src\stringpool.h" />
     <ClInclude Include="..\Classes\lua_modules\pbc\src\varint.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Buffer.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Client.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Common.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Config.h" />
+    <ClInclude Include="..\Classes\net_uv\base\DNSCache.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Loop.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Macros.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Misc.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Mutex.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Runnable.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Server.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Session.h" />
+    <ClInclude Include="..\Classes\net_uv\base\SessionManager.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Socket.h" />
+    <ClInclude Include="..\Classes\net_uv\base\Thread.h" />
+    <ClInclude Include="..\Classes\net_uv\common\NetUVThreadMsg.h" />
+    <ClInclude Include="..\Classes\net_uv\http\HttpCommon.h" />
+    <ClInclude Include="..\Classes\net_uv\http\HttpContext.h" />
+    <ClInclude Include="..\Classes\net_uv\http\HttpDetail.h" />
+    <ClInclude Include="..\Classes\net_uv\http\HttpRequest.h" />
+    <ClInclude Include="..\Classes\net_uv\http\HttpResponse.h" />
+    <ClInclude Include="..\Classes\net_uv\http\HttpServer.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\ikcp.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPClient.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPCommon.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPConfig.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPServer.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPSession.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPSocket.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPSocketManager.h" />
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPUtils.h" />
+    <ClInclude Include="..\Classes\net_uv\msg\NetMsgMgr.h" />
+    <ClInclude Include="..\Classes\net_uv\msg\NetMsgUtils.h" />
+    <ClInclude Include="..\Classes\net_uv\net_uv.h" />
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PCommon.h" />
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PMessage.h" />
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PPeer.h" />
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PPipe.h" />
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PTurn.h" />
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPClient.h" />
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPCommon.h" />
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPConfig.h" />
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPServer.h" />
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPSession.h" />
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPSocket.h" />
+    <ClInclude Include="..\Classes\net_uv\udp\UDPSocket.h" />
+    <ClInclude Include="..\Classes\net_uv_cc\CCClient.h" />
+    <ClInclude Include="..\Classes\net_uv_cc\CCNetClient.h" />
     <ClInclude Include="..\Classes\opmsg\GOPMsg.h" />
     <ClInclude Include="..\Classes\opmsg\GOPMsgQue.h" />
     <ClInclude Include="..\Classes\test\TestArmature.h" />
@@ -381,8 +428,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua_modules\cjson\fpconv.c" />
     <ClCompile Include="..\Classes\lua_modules\cjson\lua_cjson.c" />
     <ClCompile Include="..\Classes\lua_modules\cjson\strbuf.c" />
-    <ClCompile Include="..\Classes\lua_modules\ecs\lua_ecs.cpp" />
-    <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp" />
+    <ClCompile Include="..\Classes\lua_modules\game\lua_game.cpp" />
     <ClCompile Include="..\Classes\lua_modules\http\lua_http.cpp" />
     <ClCompile Include="..\Classes\lua_modules\lfs\lfs.c" />
     <ClCompile Include="..\Classes\lua_modules\lua_modules.cpp" />
@@ -402,6 +448,40 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\lua_modules\pbc\src\stringpool.cpp" />
     <ClCompile Include="..\Classes\lua_modules\pbc\src\varint.cpp" />
     <ClCompile Include="..\Classes\lua_modules\pbc\src\wmessage.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Client.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Common.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\DNSCache.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Loop.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Misc.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Mutex.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Runnable.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Server.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Session.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\SessionManager.cpp" />
+    <ClCompile Include="..\Classes\net_uv\base\Socket.cpp" />
+    <ClCompile Include="..\Classes\net_uv\http\HttpContext.cpp" />
+    <ClCompile Include="..\Classes\net_uv\http\HttpDetail.cpp" />
+    <ClCompile Include="..\Classes\net_uv\http\HttpRequest.cpp" />
+    <ClCompile Include="..\Classes\net_uv\http\HttpResponse.cpp" />
+    <ClCompile Include="..\Classes\net_uv\http\HttpServer.cpp" />
+    <ClCompile Include="..\Classes\net_uv\kcp\ikcp.c" />
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPClient.cpp" />
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPServer.cpp" />
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPSession.cpp" />
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPSocket.cpp" />
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPSocketManager.cpp" />
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPUtils.cpp" />
+    <ClCompile Include="..\Classes\net_uv\msg\NetMsgMgr.cpp" />
+    <ClCompile Include="..\Classes\net_uv\msg\NetMsgUtils.cpp" />
+    <ClCompile Include="..\Classes\net_uv\p2p\P2PPeer.cpp" />
+    <ClCompile Include="..\Classes\net_uv\p2p\P2PPipe.cpp" />
+    <ClCompile Include="..\Classes\net_uv\p2p\P2PTurn.cpp" />
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPClient.cpp" />
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPServer.cpp" />
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPSession.cpp" />
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPSocket.cpp" />
+    <ClCompile Include="..\Classes\net_uv\udp\UDPSocket.cpp" />
+    <ClCompile Include="..\Classes\net_uv_cc\CCNetClient.cpp" />
     <ClCompile Include="..\Classes\opmsg\GOPMsg.cpp" />
     <ClCompile Include="..\Classes\opmsg\GOPMsgQue.cpp" />
     <ClCompile Include="..\Classes\test\TestArmature.cpp" />

@@ -15,14 +15,12 @@ GSlaveNodeService::~GSlaveNodeService()
 
 uint32_t GSlaveNodeService::onInit()
 {
+	G_CHECK_SERVICE(GConfigService);
+
 	m_isOnline = false;
 	m_stopReconnect = false;
 
-	auto cfgService = m_serviceMgr->getService<GConfigService>();
-	if (cfgService == NULL)
-		return SCODE_START_FAIL_EXIT_APP;
-
-	auto& ini = cfgService->iniReader();
+	auto& ini = m_serviceMgr->getService<GConfigService>()->iniReader();
 	auto appName = GApplication::getInstance()->getAppName();
 
 	// 不需要此服务
@@ -33,6 +31,20 @@ uint32_t GSlaveNodeService::onInit()
 	auto port	= ini.GetInteger(appName, "SlaveNodePort", 0);
 	auto group  = ini.GetInteger(appName, "SlaveNodeGroup", 0);
 	auto isKcp  = ini.GetBoolean(appName, "SlaveNodeIsKcp", false);
+	auto description = ini.Get(appName, "SlaveNodeDesc", "");
+
+	if (description.empty())
+	{
+		description = "{}";
+	}
+	rapidjson::StringStream stream(description.c_str());
+	m_descriptionJson.ParseStream<0>(stream);
+
+	if (m_descriptionJson.HasParseError())
+	{
+		LOG(ERROR) << "[GSlaveNodeService] json parse error : " << m_descriptionJson.GetParseError();
+		return SCODE_START_FAIL_EXIT_APP;
+	}
 
 	if(ip.empty() || port <= 0)
 		return SCODE_START_FAIL_EXIT_APP;
@@ -40,6 +52,7 @@ uint32_t GSlaveNodeService::onInit()
 	m_nodeIP = ip;
 	m_nodePort = port;
 	m_groupID = group;
+	m_description = description;
 
 	if (isKcp)
 		m_client = std::make_unique<net_uv::KCPClient>();
@@ -100,7 +113,9 @@ void GSlaveNodeService::onUpdate(float)
 	case GServiceStatus::STOP_ING:
 	{
 		if (m_client->isCloseFinish())
-			m_status = GServiceStatus::STOP;
+		{
+			this->stopServiceFinish();
+		}
 	}break;
 	default:
 		break;
@@ -129,9 +144,18 @@ void GSlaveNodeService::onConnectCallback(net_uv::Client* client, net_uv::Sessio
 		LOG(INFO) << "[GSlaveNodeService] login..., GroupID: " << m_groupID;
 		m_msgMgr->onConnect(session->getSessionID());
 
-		NSMsg::RegServerReq req;
-		req.groupID = m_groupID;
-		m_msgMgr->sendMsg(session->getSessionID(), NSMsg::MSG_REG_SERVER_NODE_REQ, (char*)&req, sizeof(req));
+		auto bufLen = sizeof(NSMsg::RegServerReq) + m_description.size();
+		char* buf = new char[bufLen];
+		
+		auto req = (NSMsg::RegServerReq*)buf;
+		req->groupID = m_groupID;
+		req->infoLen = m_description.size();
+		if (m_description.size() > 0)
+			memcpy(buf + sizeof(NSMsg::RegServerReq), m_description.c_str(), m_description.size());
+
+		m_msgMgr->sendMsg(session->getSessionID(), NSMsg::MSG_REG_SERVER_NODE_REQ, (char*)req, bufLen);
+
+		delete[] buf;
 	}
 	else
 	{

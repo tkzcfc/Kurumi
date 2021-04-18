@@ -22,8 +22,10 @@ GameLogic::~GameLogic()
 	}
 }
 
-err::Code GameLogic::init(int32_t mapID, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >& players)
+err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >& players)
 {
+	this->setInitArgs(args);
+
 	m_world = std::make_unique<GGameWorld>();
 
 	if (m_world == NULL)
@@ -31,9 +33,9 @@ err::Code GameLogic::init(int32_t mapID, const ::google::protobuf::RepeatedPtrFi
 		return err::Code::NO_MEMORY;
 	}
 
-	if (!m_world->init(mapID))
+	if (!m_world->init(args))
 	{
-		LOG(ERROR) << "init map failed, mapID: " << mapID;
+		LOG(ERROR) << "init map failed, mapID: " << args.mapId;
 		return err::Code::FIGHT_INIT_FAIL;
 	}
 
@@ -50,7 +52,7 @@ err::Code GameLogic::init(int32_t mapID, const ::google::protobuf::RepeatedPtrFi
 		if (code != err::Code::SUCCESS)
 			return code;
 
-		m_playerIDSet.insert(m_players[i]->playerID());
+		m_playerIDSet.insert(m_players[i]->getPlayerID());
 	}
 	if (m_playerIDSet.size() != players.size())
 	{
@@ -74,7 +76,7 @@ void GameLogic::update(float dt)
 	// 玩家全部退出游戏,自动结束游戏
 	if (m_playerCount <= 0)
 	{
-		m_isFinish = true;
+		this->setIsFinish(true);
 		return;
 	}
 
@@ -108,9 +110,9 @@ void GameLogic::update_Ready(float dt)
 		if (m_players[i]->isOffline())
 		{
 			hasOffline = true;
-			if (m_pApplication->getRunTime() - m_players[i]->offlineTime() > 30.0f)
+			if (m_pApplication->getRunTime() - m_players[i]->getOfflineTime() > 30.0f)
 			{
-				this->exitGame(m_players[i]->playerID());
+				this->exitGame(m_players[i]->getPlayerID());
 				// 必须break
 				break;
 			}
@@ -134,8 +136,8 @@ void GameLogic::update_Run(float dt)
 	uint32_t minFrame = UINT_MAX;
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		maxFrame = MAX(maxFrame, m_players[i]->lastRecvFrame());
-		minFrame = MIN(minFrame, m_players[i]->lastRecvFrame());
+		maxFrame = MAX(maxFrame, m_players[i]->getLastRecvFrame());
+		minFrame = MIN(minFrame, m_players[i]->getLastRecvFrame());
 	}
 
 	// 服务器逻辑以网速最好的客户端逻辑帧步进
@@ -159,9 +161,9 @@ void GameLogic::update_Run(float dt)
 			if (player && player->isOffline())
 			{
 				// 离线太久,踢出游戏
-				if (m_pApplication->getRunTime() - player->offlineTime() > 60.0f)
+				if (m_pApplication->getRunTime() - player->getOfflineTime() > 60.0f)
 				{
-					this->exitGame(player->playerID());
+					this->exitGame(player->getPlayerID());
 				}
 			}
 		}
@@ -194,8 +196,8 @@ void GameLogic::update_Wait(float dt)
 	uint32_t minFrame = UINT_MAX;
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		maxFrame = MAX(maxFrame, m_players[i]->lastRecvFrame());
-		minFrame = MIN(minFrame, m_players[i]->lastRecvFrame());
+		maxFrame = MAX(maxFrame, m_players[i]->getLastRecvFrame());
+		minFrame = MIN(minFrame, m_players[i]->getLastRecvFrame());
 	}
 
 	m_waitTime += dt;
@@ -210,7 +212,7 @@ void GameLogic::update_Wait(float dt)
 		auto player = getSlowestPlayer();
 		if (player)
 		{
-			this->exitGame(player->playerID());
+			this->exitGame(player->getPlayerID());
 		}
 	}
 }
@@ -224,9 +226,9 @@ err::Code GameLogic::join(uint32_t sessionID, const msg::JoinFightReq& req)
 
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		if (m_players[i] && m_players[i]->playerID() == req.playerid())
+		if (m_players[i] && m_players[i]->getPlayerID() == req.playerid())
 		{
-			if (m_players[i]->sessionID() != GamePlayer::INVALID_SESSION_ID)
+			if (m_players[i]->getSessionID() != GamePlayer::INVALID_SESSION_ID)
 			{
 				code = err::Code::FIGHT_PLAYING;
 				break;
@@ -302,7 +304,7 @@ err::Code GameLogic::join(uint32_t sessionID, const msg::JoinFightReq& req)
 		m_pApplication->getScheduler()->scheduleOnce([=](float)
 		{
 			this->exitGame(req.playerid());
-		}, this, 0.0f, StringUtils::format("%s_exit", req.playerid().c_str()));
+		}, this, 0.0f, StringUtils::format("%d_exit", req.playerid()));
 	}
 
 	if (code != err::Code::UNKNOWN)
@@ -317,13 +319,13 @@ err::Code GameLogic::join(uint32_t sessionID, const msg::JoinFightReq& req)
 	return err::Code::FIGHT_NOE_FOUND_PLAYER;
 }
 
-void GameLogic::exitGame(const std::string& playerID)
+void GameLogic::exitGame(int64_t playerID)
 {
 	if (!containPlayer(playerID))
 		return;
 
 	msg::PlayerExitFightNotify ntf;
-	ntf.set_pid(playerID.c_str());
+	ntf.set_pid(playerID);
 	this->sendToAllPlayer(MessageID::MSG_PLAYER_EXIT_FIGHT_NTF, ntf);
 	
 	std::unique_ptr<GamePlayer> tmp[G_FIGHT_MAX_PLAYER_COUNT];
@@ -331,7 +333,7 @@ void GameLogic::exitGame(const std::string& playerID)
 
 	for (auto i = 0; i < G_FIGHT_MAX_PLAYER_COUNT; ++i)
 	{
-		if (m_players[i] && m_players[i]->playerID() == playerID)
+		if (m_players[i] && m_players[i]->getPlayerID() == playerID)
 		{
 			tmp[index].reset(m_players[i].release());
 			index++;
@@ -353,20 +355,20 @@ err::Code GameLogic::exitGameWithSessionID(uint32_t sessionID)
 {
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		if (m_players[i]->sessionID() == sessionID)
+		if (m_players[i]->getSessionID() == sessionID)
 		{
-			this->exitGame(m_players[i]->playerID());
+			this->exitGame(m_players[i]->getPlayerID());
 			return err::Code::SUCCESS;
 		}
 	}
 	return err::Code::FIGHT_LEAVE_GAME;
 }
 
-bool GameLogic::containPlayer(const std::string& playerID)
+bool GameLogic::containPlayer(int64_t playerID)
 {
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		if (m_players[i]->playerID() == playerID)
+		if (m_players[i]->getPlayerID() == playerID)
 			return true;
 	}
 	return false;
@@ -377,7 +379,7 @@ void GameLogic::sendToAllPlayer(MessageID msgID, const ::google::protobuf::Messa
 {
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		SEND_PB_MSG(m_pNetService, m_players[i]->sessionID(), msgID, msg);
+		SEND_PB_MSG(m_pNetService, m_players[i]->getSessionID(), msgID, msg);
 	}
 }
 
@@ -385,7 +387,7 @@ GamePlayer* GameLogic::getPlayerBySessionID(uint32_t sessionID)
 {
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		if (m_players[i]->sessionID() == sessionID)
+		if (m_players[i]->getSessionID() == sessionID)
 			return m_players[i].get();
 	}
 	return NULL;
@@ -398,9 +400,9 @@ GamePlayer* GameLogic::getSlowestPlayer()
 	uint32_t minFrame = UINT_MAX;
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		if (m_players[i]->lastRecvFrame() < minFrame)
+		if (m_players[i]->getLastRecvFrame() < minFrame)
 		{
-			minFrame = m_players[i]->lastRecvFrame();
+			minFrame = m_players[i]->getLastRecvFrame();
 			player = m_players[i].get();
 		}
 	}

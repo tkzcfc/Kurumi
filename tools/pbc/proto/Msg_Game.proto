@@ -1,0 +1,171 @@
+syntax = "proto2";
+
+package msg;
+
+option optimize_for = LITE_RUNTIME;
+
+
+
+
+//============================================================================================
+//                 Common
+//============================================================================================
+message Null
+{
+}
+
+message CodeAck
+{
+	required int32 code = 1;
+}
+
+
+
+
+
+
+//============================================================================================
+//                 Client <==> GateSVR
+//============================================================================================
+// 网关登录
+message LoginGateAck
+{
+	required int32 code = 1;
+}
+
+
+
+//============================================================================================
+//                 Client <==> GameSVR
+//============================================================================================
+
+// 游戏登录请求
+message LoginReq
+{
+	required string token = 1;	// token
+	required string account = 2;	// 账号
+	required int64 playerID = 3; 	// 玩家id,默认填0则自动登录或创建玩家
+}
+
+message PlayerAccountInfo
+{
+	required int64 playerID = 1; // 玩家id
+	required string name = 2;	// 玩家昵称
+}
+
+
+// 游戏登录返回
+message LoginAck
+{
+	required int32 code = 1;
+	repeated PlayerAccountInfo infos = 2; // 如果在该服存在多个玩家数据,则登录失败返回所有玩家数据
+}
+
+message ExitGameNtf
+{	
+	required int32 code = 1;
+}
+
+// pve
+message PVEFightPlayerInfo
+{
+	required int64 pid = 1;	// 玩家id
+}
+
+message StartPVEFightReq
+{
+	required int32 carbonId = 1; // 副本id
+	repeated PVEFightPlayerInfo infos = 2; // 进入副本的玩家Id 
+}
+
+message StartPVEFightAck
+{
+	required int32 code = 1;
+}
+
+// pvp
+// 开始pvp请求(匹配对手请求)
+message StartPVPFightReq
+{
+	required int64 foeId = 1; // 对手id
+}
+// pvp请求返回
+message StartPVPFightAck
+{
+	required int32 code = 1;
+}
+
+
+// 开始游戏通知
+message StartFightNTF
+{
+	required int32 code = 1;
+	optional int32 fightUUID = 2; // 战斗id
+	optional string fightIP = 3;	// 战斗服地址
+	optional int32 fightPort = 4;	// 战斗服端口
+}
+
+//============================================================================================
+//                 Client <==> FightSVR
+//============================================================================================
+// 玩家加入战斗请求
+message JoinFightReq
+{
+	required int32 fightUUID = 1;	//
+	required int64 playerID = 2;	//
+	required int32 frame = 3;		// 当前逻辑帧
+}
+// 玩家加入战斗回复
+message JoinFightAck
+{
+	required int32 code = 1;
+	
+	/////////// 世界初始化相关参数 ///////////
+	// 地图id
+	optional int32 mapId = 2;
+	// 随机数种子
+	optional uint32 randomSeed = 3;
+	// uuid种子
+	optional uint32 uuidSeed = 4;
+}
+
+// 玩家准备完毕通知
+message PlayerReadyNotify
+{
+	required int64 pid = 1;	//
+}
+
+// 玩家退出战斗通知
+message PlayerExitFightNotify
+{
+	required int64 pid = 1;
+}
+
+// 客户端请求进入下一逻辑帧
+message RunNextFrameReq
+{
+	required uint32 frame = 1;	// 输入时客户端逻辑帧
+	repeated string input = 2;
+}
+
+// 服务器回复客户端继续逻辑帧,并发送当前帧玩家所有操作信息
+message RunNextFrameAck
+{
+	required uint32 frame = 1;		// 逻辑帧下一帧帧数
+	repeated string inputs = 2;	// 下一帧的玩家输入
+}
+
+
+// 退出战斗请求
+message ExitFightReq
+{
+	required int32 fightUUID = 1;
+}
+
+// 退出战斗回复
+message ExitFightAck
+{
+	required int32 code = 1;
+}
+
+ 

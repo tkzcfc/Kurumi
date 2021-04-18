@@ -2,17 +2,28 @@
 
 #include "ecs/ECSDefine.h"
 
+struct GGameWorldInitArgs
+{
+	// 地图id
+	int32_t mapId;
+	// 随机数种子
+	uint32_t randomSeed;
+	// uuid种子
+	GUUID uuidSeed;
+
+#if G_TARGET_CLIENT
+	// 渲染根节点
+	Node* rootNode;
+#endif
+};
+
 class GGameWorld
 {
 public:
 
 	GGameWorld();
 
-#if G_TARGET_CLIENT
-	bool init(int32_t mapId, Node* rootNode);
-#else
-	bool init(int32_t mapId);
-#endif
+	bool init(const GGameWorldInitArgs& args);
 	
 	void update(float32 dt);
 

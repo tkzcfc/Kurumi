@@ -41,7 +41,7 @@ namespace CommonUtils
 	// 演员创建
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);
 
-	GUUID genUUID();
+	GUUID genUUID(anax::World& world);
 
 	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity = NULL);
 }

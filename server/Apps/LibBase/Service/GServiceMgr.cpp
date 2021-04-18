@@ -21,13 +21,18 @@ void GServiceMgr::start()
 		LOG(INFO) << "Service [" << it->serviceName() << "] started.";
 		it->onStartService();
 	}
+
+	if (m_startFail)
+	{
+		GApplication::getInstance()->end();
+	}
 }
 
 void GServiceMgr::stopAllService(const std::function<void()>& call)
 {
-	for (auto it : m_arrService)
+	for (int32_t i = m_arrService.size() - 1; i >= 0; --i)
 	{
-		it->stopService();
+		m_arrService[i]->stopService();
 	}
 
 	m_onStopFinishCall = call;
@@ -51,7 +56,7 @@ void GServiceMgr::update(float dt)
 {
 	for (auto& it : m_arrService)
 	{
-		if(!it->isStop())
+		if(it->isEnableUpdate() && false == it->isStop())
 			it->onUpdate(dt);
 	}
 
@@ -112,7 +117,9 @@ int32_t GServiceMgr::getRunningCount()
 	for (const auto& it : m_arrService)
 	{
 		if (!it->isStop())
+		{
 			count++;
+		}
 	}
 	return count;
 }
@@ -123,5 +130,4 @@ void GServiceMgr::setStartFail()
 		return;
 
 	m_startFail = true;
-	GApplication::getInstance()->end();
 }

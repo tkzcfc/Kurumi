@@ -23,11 +23,10 @@ extern int luaopen_protobuf_c(lua_State *L);
 } /// extern "C"
 #endif
 
-#include "foundation/lua_foundation.h"
-#include "ecs/lua_ecs.h"
 #include "assets/game_assets_tolua.h"
 #include "http/lua_http.hpp"
 #include "md5/lua_md5.hpp"
+#include "game/lua_game.h"
 
 static luaL_Reg modules[] = {
     { "cjson", luaopen_cjson_safe },
@@ -39,11 +38,9 @@ static luaL_Reg modules[] = {
 
 void preload_lua_modules(lua_State *L)
 {
-	// foundation
-	luaopen_foundation(L);
+	LuaFunction::setGlobalLuaState(L);
 
-	// ecs
-	luaopen_ecs(L);
+	luaopen_game(L);
 
 	//load pbc
 	luaopen_protobuf_c(L);

@@ -68,13 +68,31 @@ TService* GServiceMgr::addService(Types&&... args)
 	auto code = service->onInit();
 	if (SCODE_START_SUCCESS != code)
 	{
-		if (code == SCODE_START_FAIL_EXIT_APP)
+		switch (code)
 		{
+		case SCODE_START_SUCCESS:
+		{}break;
+
+		case SCODE_START_FAIL_EXIT_APP:
+		{
+			LOG(ERROR) << "Failed to start service [" << service->serviceName() << "], about to exit";
 			this->setStartFail();
-		}
-		else if (code == SCODE_START_FAIL_RUN)
+		}break;
+
+		case SCODE_START_FAIL_NO_ERR:
 		{
-			LOG(ERROR) << "Failed to start service [" << service->serviceName() << "]";
+			LOG(WARNING) << "Failed to start service [" << service->serviceName() << "], Service configuration not enabled";
+		}break;
+
+		case SCODE_START_FAIL_RUN:
+		{
+			LOG(WARNING) << "Failed to start service [" << service->serviceName() << "]";
+		}break;
+
+		default:
+			// unknown code
+			G_ASSERT(false);
+			break;
 		}
 
 		service->onDestroy();

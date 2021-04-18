@@ -32,11 +32,254 @@ void  protobuf_AddDesc_Msg_5fServer_2eproto();
 void protobuf_AssignDesc_Msg_5fServer_2eproto();
 void protobuf_ShutdownFile_Msg_5fServer_2eproto();
 
+class CheckTokenReq;
+class CheckTokenAck;
 class FightPlayerSpawnInfo;
 class NewFightReq;
 class NewFightAck;
 
 // ===================================================================
+
+class CheckTokenReq : public ::google::protobuf::MessageLite {
+ public:
+  CheckTokenReq();
+  virtual ~CheckTokenReq();
+
+  CheckTokenReq(const CheckTokenReq& from);
+
+  inline CheckTokenReq& operator=(const CheckTokenReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CheckTokenReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CheckTokenReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CheckTokenReq* other);
+
+  // implements Message ----------------------------------------------
+
+  CheckTokenReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CheckTokenReq& from);
+  void MergeFrom(const CheckTokenReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string account = 1;
+  inline bool has_account() const;
+  inline void clear_account();
+  static const int kAccountFieldNumber = 1;
+  inline const ::std::string& account() const;
+  inline void set_account(const ::std::string& value);
+  inline void set_account(const char* value);
+  inline void set_account(const char* value, size_t size);
+  inline ::std::string* mutable_account();
+  inline ::std::string* release_account();
+  inline void set_allocated_account(::std::string* account);
+
+  // required string token = 2;
+  inline bool has_token() const;
+  inline void clear_token();
+  static const int kTokenFieldNumber = 2;
+  inline const ::std::string& token() const;
+  inline void set_token(const ::std::string& value);
+  inline void set_token(const char* value);
+  inline void set_token(const char* value, size_t size);
+  inline ::std::string* mutable_token();
+  inline ::std::string* release_token();
+  inline void set_allocated_token(::std::string* token);
+
+  // required int64 pid = 3;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 3;
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
+
+  // required uint32 session = 4;
+  inline bool has_session() const;
+  inline void clear_session();
+  static const int kSessionFieldNumber = 4;
+  inline ::google::protobuf::uint32 session() const;
+  inline void set_session(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:svr_msg.CheckTokenReq)
+ private:
+  inline void set_has_account();
+  inline void clear_has_account();
+  inline void set_has_token();
+  inline void clear_has_token();
+  inline void set_has_pid();
+  inline void clear_has_pid();
+  inline void set_has_session();
+  inline void clear_has_session();
+
+  ::std::string* account_;
+  ::std::string* token_;
+  ::google::protobuf::int64 pid_;
+  ::google::protobuf::uint32 session_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fServer_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fServer_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fServer_2eproto();
+
+  void InitAsDefaultInstance();
+  static CheckTokenReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CheckTokenAck : public ::google::protobuf::MessageLite {
+ public:
+  CheckTokenAck();
+  virtual ~CheckTokenAck();
+
+  CheckTokenAck(const CheckTokenAck& from);
+
+  inline CheckTokenAck& operator=(const CheckTokenAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CheckTokenAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CheckTokenAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CheckTokenAck* other);
+
+  // implements Message ----------------------------------------------
+
+  CheckTokenAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CheckTokenAck& from);
+  void MergeFrom(const CheckTokenAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // required int64 pid = 2;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 2;
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
+
+  // required int32 session = 3;
+  inline bool has_session() const;
+  inline void clear_session();
+  static const int kSessionFieldNumber = 3;
+  inline ::google::protobuf::int32 session() const;
+  inline void set_session(::google::protobuf::int32 value);
+
+  // required string account = 4;
+  inline bool has_account() const;
+  inline void clear_account();
+  static const int kAccountFieldNumber = 4;
+  inline const ::std::string& account() const;
+  inline void set_account(const ::std::string& value);
+  inline void set_account(const char* value);
+  inline void set_account(const char* value, size_t size);
+  inline ::std::string* mutable_account();
+  inline ::std::string* release_account();
+  inline void set_allocated_account(::std::string* account);
+
+  // @@protoc_insertion_point(class_scope:svr_msg.CheckTokenAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+  inline void set_has_pid();
+  inline void clear_has_pid();
+  inline void set_has_session();
+  inline void clear_has_session();
+  inline void set_has_account();
+  inline void clear_has_account();
+
+  ::google::protobuf::int64 pid_;
+  ::google::protobuf::int32 code_;
+  ::google::protobuf::int32 session_;
+  ::std::string* account_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fServer_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fServer_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fServer_2eproto();
+
+  void InitAsDefaultInstance();
+  static CheckTokenAck* default_instance_;
+};
+// -------------------------------------------------------------------
 
 class FightPlayerSpawnInfo : public ::google::protobuf::MessageLite {
  public:
@@ -91,27 +334,37 @@ class FightPlayerSpawnInfo : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required string playerID = 1;
+  // required int64 playerID = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
   static const int kPlayerIDFieldNumber = 1;
-  inline const ::std::string& playerid() const;
-  inline void set_playerid(const ::std::string& value);
-  inline void set_playerid(const char* value);
-  inline void set_playerid(const char* value, size_t size);
-  inline ::std::string* mutable_playerid();
-  inline ::std::string* release_playerid();
-  inline void set_allocated_playerid(::std::string* playerid);
+  inline ::google::protobuf::int64 playerid() const;
+  inline void set_playerid(::google::protobuf::int64 value);
+
+  // required string role = 2;
+  inline bool has_role() const;
+  inline void clear_role();
+  static const int kRoleFieldNumber = 2;
+  inline const ::std::string& role() const;
+  inline void set_role(const ::std::string& value);
+  inline void set_role(const char* value);
+  inline void set_role(const char* value, size_t size);
+  inline ::std::string* mutable_role();
+  inline ::std::string* release_role();
+  inline void set_allocated_role(::std::string* role);
 
   // @@protoc_insertion_point(class_scope:svr_msg.FightPlayerSpawnInfo)
  private:
   inline void set_has_playerid();
   inline void clear_has_playerid();
+  inline void set_has_role();
+  inline void clear_has_role();
 
-  ::std::string* playerid_;
+  ::google::protobuf::int64 playerid_;
+  ::std::string* role_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
@@ -198,16 +451,36 @@ class NewFightReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >*
       mutable_players();
 
+  // required int32 tag = 3;
+  inline bool has_tag() const;
+  inline void clear_tag();
+  static const int kTagFieldNumber = 3;
+  inline ::google::protobuf::int32 tag() const;
+  inline void set_tag(::google::protobuf::int32 value);
+
+  // required int32 fightType = 4;
+  inline bool has_fighttype() const;
+  inline void clear_fighttype();
+  static const int kFightTypeFieldNumber = 4;
+  inline ::google::protobuf::int32 fighttype() const;
+  inline void set_fighttype(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:svr_msg.NewFightReq)
  private:
   inline void set_has_mapid();
   inline void clear_has_mapid();
+  inline void set_has_tag();
+  inline void clear_has_tag();
+  inline void set_has_fighttype();
+  inline void clear_has_fighttype();
 
   ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo > players_;
   ::google::protobuf::int32 mapid_;
+  ::google::protobuf::int32 tag_;
+  ::google::protobuf::int32 fighttype_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
@@ -289,18 +562,38 @@ class NewFightAck : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 uuid() const;
   inline void set_uuid(::google::protobuf::int32 value);
 
+  // required int32 tag = 3;
+  inline bool has_tag() const;
+  inline void clear_tag();
+  static const int kTagFieldNumber = 3;
+  inline ::google::protobuf::int32 tag() const;
+  inline void set_tag(::google::protobuf::int32 value);
+
+  // required int32 fightType = 4;
+  inline bool has_fighttype() const;
+  inline void clear_fighttype();
+  static const int kFightTypeFieldNumber = 4;
+  inline ::google::protobuf::int32 fighttype() const;
+  inline void set_fighttype(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:svr_msg.NewFightAck)
  private:
   inline void set_has_code();
   inline void clear_has_code();
   inline void set_has_uuid();
   inline void clear_has_uuid();
+  inline void set_has_tag();
+  inline void clear_has_tag();
+  inline void set_has_fighttype();
+  inline void clear_has_fighttype();
 
   ::google::protobuf::int32 code_;
   ::google::protobuf::int32 uuid_;
+  ::google::protobuf::int32 tag_;
+  ::google::protobuf::int32 fighttype_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
@@ -318,9 +611,337 @@ class NewFightAck : public ::google::protobuf::MessageLite {
 
 // ===================================================================
 
+// CheckTokenReq
+
+// required string account = 1;
+inline bool CheckTokenReq::has_account() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CheckTokenReq::set_has_account() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CheckTokenReq::clear_has_account() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CheckTokenReq::clear_account() {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    account_->clear();
+  }
+  clear_has_account();
+}
+inline const ::std::string& CheckTokenReq::account() const {
+  return *account_;
+}
+inline void CheckTokenReq::set_account(const ::std::string& value) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(value);
+}
+inline void CheckTokenReq::set_account(const char* value) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(value);
+}
+inline void CheckTokenReq::set_account(const char* value, size_t size) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CheckTokenReq::mutable_account() {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  return account_;
+}
+inline ::std::string* CheckTokenReq::release_account() {
+  clear_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = account_;
+    account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CheckTokenReq::set_allocated_account(::std::string* account) {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    delete account_;
+  }
+  if (account) {
+    set_has_account();
+    account_ = account;
+  } else {
+    clear_has_account();
+    account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required string token = 2;
+inline bool CheckTokenReq::has_token() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CheckTokenReq::set_has_token() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CheckTokenReq::clear_has_token() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CheckTokenReq::clear_token() {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    token_->clear();
+  }
+  clear_has_token();
+}
+inline const ::std::string& CheckTokenReq::token() const {
+  return *token_;
+}
+inline void CheckTokenReq::set_token(const ::std::string& value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void CheckTokenReq::set_token(const char* value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void CheckTokenReq::set_token(const char* value, size_t size) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CheckTokenReq::mutable_token() {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  return token_;
+}
+inline ::std::string* CheckTokenReq::release_token() {
+  clear_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = token_;
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CheckTokenReq::set_allocated_token(::std::string* token) {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  if (token) {
+    set_has_token();
+    token_ = token;
+  } else {
+    clear_has_token();
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int64 pid = 3;
+inline bool CheckTokenReq::has_pid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void CheckTokenReq::set_has_pid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void CheckTokenReq::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void CheckTokenReq::clear_pid() {
+  pid_ = GOOGLE_LONGLONG(0);
+  clear_has_pid();
+}
+inline ::google::protobuf::int64 CheckTokenReq::pid() const {
+  return pid_;
+}
+inline void CheckTokenReq::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
+}
+
+// required uint32 session = 4;
+inline bool CheckTokenReq::has_session() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void CheckTokenReq::set_has_session() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void CheckTokenReq::clear_has_session() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void CheckTokenReq::clear_session() {
+  session_ = 0u;
+  clear_has_session();
+}
+inline ::google::protobuf::uint32 CheckTokenReq::session() const {
+  return session_;
+}
+inline void CheckTokenReq::set_session(::google::protobuf::uint32 value) {
+  set_has_session();
+  session_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// CheckTokenAck
+
+// required int32 code = 1;
+inline bool CheckTokenAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CheckTokenAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CheckTokenAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CheckTokenAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 CheckTokenAck::code() const {
+  return code_;
+}
+inline void CheckTokenAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// required int64 pid = 2;
+inline bool CheckTokenAck::has_pid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CheckTokenAck::set_has_pid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CheckTokenAck::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CheckTokenAck::clear_pid() {
+  pid_ = GOOGLE_LONGLONG(0);
+  clear_has_pid();
+}
+inline ::google::protobuf::int64 CheckTokenAck::pid() const {
+  return pid_;
+}
+inline void CheckTokenAck::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
+}
+
+// required int32 session = 3;
+inline bool CheckTokenAck::has_session() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void CheckTokenAck::set_has_session() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void CheckTokenAck::clear_has_session() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void CheckTokenAck::clear_session() {
+  session_ = 0;
+  clear_has_session();
+}
+inline ::google::protobuf::int32 CheckTokenAck::session() const {
+  return session_;
+}
+inline void CheckTokenAck::set_session(::google::protobuf::int32 value) {
+  set_has_session();
+  session_ = value;
+}
+
+// required string account = 4;
+inline bool CheckTokenAck::has_account() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void CheckTokenAck::set_has_account() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void CheckTokenAck::clear_has_account() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void CheckTokenAck::clear_account() {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    account_->clear();
+  }
+  clear_has_account();
+}
+inline const ::std::string& CheckTokenAck::account() const {
+  return *account_;
+}
+inline void CheckTokenAck::set_account(const ::std::string& value) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(value);
+}
+inline void CheckTokenAck::set_account(const char* value) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(value);
+}
+inline void CheckTokenAck::set_account(const char* value, size_t size) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CheckTokenAck::mutable_account() {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  return account_;
+}
+inline ::std::string* CheckTokenAck::release_account() {
+  clear_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = account_;
+    account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CheckTokenAck::set_allocated_account(::std::string* account) {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    delete account_;
+  }
+  if (account) {
+    set_has_account();
+    account_ = account;
+  } else {
+    clear_has_account();
+    account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
 // FightPlayerSpawnInfo
 
-// required string playerID = 1;
+// required int64 playerID = 1;
 inline bool FightPlayerSpawnInfo::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -331,62 +952,84 @@ inline void FightPlayerSpawnInfo::clear_has_playerid() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void FightPlayerSpawnInfo::clear_playerid() {
-  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
-    playerid_->clear();
-  }
+  playerid_ = GOOGLE_LONGLONG(0);
   clear_has_playerid();
 }
-inline const ::std::string& FightPlayerSpawnInfo::playerid() const {
-  return *playerid_;
-}
-inline void FightPlayerSpawnInfo::set_playerid(const ::std::string& value) {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
-  playerid_->assign(value);
-}
-inline void FightPlayerSpawnInfo::set_playerid(const char* value) {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
-  playerid_->assign(value);
-}
-inline void FightPlayerSpawnInfo::set_playerid(const char* value, size_t size) {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
-  playerid_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* FightPlayerSpawnInfo::mutable_playerid() {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
+inline ::google::protobuf::int64 FightPlayerSpawnInfo::playerid() const {
   return playerid_;
 }
-inline ::std::string* FightPlayerSpawnInfo::release_playerid() {
-  clear_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
+inline void FightPlayerSpawnInfo::set_playerid(::google::protobuf::int64 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// required string role = 2;
+inline bool FightPlayerSpawnInfo::has_role() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void FightPlayerSpawnInfo::set_has_role() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void FightPlayerSpawnInfo::clear_has_role() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void FightPlayerSpawnInfo::clear_role() {
+  if (role_ != &::google::protobuf::internal::kEmptyString) {
+    role_->clear();
+  }
+  clear_has_role();
+}
+inline const ::std::string& FightPlayerSpawnInfo::role() const {
+  return *role_;
+}
+inline void FightPlayerSpawnInfo::set_role(const ::std::string& value) {
+  set_has_role();
+  if (role_ == &::google::protobuf::internal::kEmptyString) {
+    role_ = new ::std::string;
+  }
+  role_->assign(value);
+}
+inline void FightPlayerSpawnInfo::set_role(const char* value) {
+  set_has_role();
+  if (role_ == &::google::protobuf::internal::kEmptyString) {
+    role_ = new ::std::string;
+  }
+  role_->assign(value);
+}
+inline void FightPlayerSpawnInfo::set_role(const char* value, size_t size) {
+  set_has_role();
+  if (role_ == &::google::protobuf::internal::kEmptyString) {
+    role_ = new ::std::string;
+  }
+  role_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* FightPlayerSpawnInfo::mutable_role() {
+  set_has_role();
+  if (role_ == &::google::protobuf::internal::kEmptyString) {
+    role_ = new ::std::string;
+  }
+  return role_;
+}
+inline ::std::string* FightPlayerSpawnInfo::release_role() {
+  clear_has_role();
+  if (role_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
   } else {
-    ::std::string* temp = playerid_;
-    playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    ::std::string* temp = role_;
+    role_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
     return temp;
   }
 }
-inline void FightPlayerSpawnInfo::set_allocated_playerid(::std::string* playerid) {
-  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
-    delete playerid_;
+inline void FightPlayerSpawnInfo::set_allocated_role(::std::string* role) {
+  if (role_ != &::google::protobuf::internal::kEmptyString) {
+    delete role_;
   }
-  if (playerid) {
-    set_has_playerid();
-    playerid_ = playerid;
+  if (role) {
+    set_has_role();
+    role_ = role;
   } else {
-    clear_has_playerid();
-    playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    clear_has_role();
+    role_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   }
 }
 
@@ -441,6 +1084,50 @@ NewFightReq::mutable_players() {
   return &players_;
 }
 
+// required int32 tag = 3;
+inline bool NewFightReq::has_tag() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void NewFightReq::set_has_tag() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void NewFightReq::clear_has_tag() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void NewFightReq::clear_tag() {
+  tag_ = 0;
+  clear_has_tag();
+}
+inline ::google::protobuf::int32 NewFightReq::tag() const {
+  return tag_;
+}
+inline void NewFightReq::set_tag(::google::protobuf::int32 value) {
+  set_has_tag();
+  tag_ = value;
+}
+
+// required int32 fightType = 4;
+inline bool NewFightReq::has_fighttype() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void NewFightReq::set_has_fighttype() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void NewFightReq::clear_has_fighttype() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void NewFightReq::clear_fighttype() {
+  fighttype_ = 0;
+  clear_has_fighttype();
+}
+inline ::google::protobuf::int32 NewFightReq::fighttype() const {
+  return fighttype_;
+}
+inline void NewFightReq::set_fighttype(::google::protobuf::int32 value) {
+  set_has_fighttype();
+  fighttype_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // NewFightAck
@@ -487,6 +1174,50 @@ inline ::google::protobuf::int32 NewFightAck::uuid() const {
 inline void NewFightAck::set_uuid(::google::protobuf::int32 value) {
   set_has_uuid();
   uuid_ = value;
+}
+
+// required int32 tag = 3;
+inline bool NewFightAck::has_tag() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void NewFightAck::set_has_tag() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void NewFightAck::clear_has_tag() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void NewFightAck::clear_tag() {
+  tag_ = 0;
+  clear_has_tag();
+}
+inline ::google::protobuf::int32 NewFightAck::tag() const {
+  return tag_;
+}
+inline void NewFightAck::set_tag(::google::protobuf::int32 value) {
+  set_has_tag();
+  tag_ = value;
+}
+
+// required int32 fightType = 4;
+inline bool NewFightAck::has_fighttype() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void NewFightAck::set_has_fighttype() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void NewFightAck::clear_has_fighttype() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void NewFightAck::clear_fighttype() {
+  fighttype_ = 0;
+  clear_has_fighttype();
+}
+inline ::google::protobuf::int32 NewFightAck::fighttype() const {
+  return fighttype_;
+}
+inline void NewFightAck::set_fighttype(::google::protobuf::int32 value) {
+  set_has_fighttype();
+  fighttype_ = value;
 }
 
 

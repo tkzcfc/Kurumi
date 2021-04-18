@@ -76,12 +76,6 @@
     <Filter Include="Classes\foundation">
       <UniqueIdentifier>{f49a5fea-0ae5-4f95-91b7-a70ccb7313c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\lua_modules\ecs">
-      <UniqueIdentifier>{7dc02833-5242-4dbb-b6c2-9d552378778e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\lua_modules\foundation">
-      <UniqueIdentifier>{24430528-c672-4085-88e4-ec5885d0f46b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\assets">
       <UniqueIdentifier>{aa5b1078-53c2-4b64-8d79-73a4498d80d0}</UniqueIdentifier>
     </Filter>
@@ -138,6 +132,39 @@
     </Filter>
     <Filter Include="Classes\ecs\utils\buffer">
       <UniqueIdentifier>{6fb2908c-b1a8-4d87-a048-05786a7bbebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv">
+      <UniqueIdentifier>{fa6f41d0-af87-45ef-9592-8fbb1e3e7d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\base">
+      <UniqueIdentifier>{77f35190-b74d-4984-a5ed-d5c5e12f4de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\common">
+      <UniqueIdentifier>{d765dd85-c0cf-4020-826c-bd67b2eefd2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\http">
+      <UniqueIdentifier>{3675d594-8861-4ee9-a4e1-0bcbbca672dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\kcp">
+      <UniqueIdentifier>{db2fcdc4-ddb8-4b32-838e-abb047ae959e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\msg">
+      <UniqueIdentifier>{674d5650-53bf-40c8-9ffb-65188d3e2fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\p2p">
+      <UniqueIdentifier>{bba6a1f0-07bf-42b7-9aa5-eda891694d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\tcp">
+      <UniqueIdentifier>{0b34b2d4-505a-4d80-a7cb-dd7194428efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv\udp">
+      <UniqueIdentifier>{bae72725-a092-4a8f-8571-fbccbce51d8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\net_uv_cc">
+      <UniqueIdentifier>{927ae3d7-f22b-4ef8-915b-b6203734bc02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\lua_modules\game">
+      <UniqueIdentifier>{7dc02833-5242-4dbb-b6c2-9d552378778e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -271,12 +298,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ecs\anaxHelper.h">
       <Filter>Classes\ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\ecs\lua_ecs.h">
-      <Filter>Classes\lua_modules\ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua_modules\foundation\lua_foundation.h">
-      <Filter>Classes\lua_modules\foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\foundation\GameMacro.h">
       <Filter>Classes\foundation</Filter>
@@ -494,6 +515,153 @@
     <ClInclude Include="..\Classes\ecs\utils\buff\Buff.h">
       <Filter>Classes\ecs\utils\buffer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Common.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Config.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\DNSCache.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Loop.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Macros.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Misc.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Mutex.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Runnable.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Server.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Session.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\SessionManager.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Socket.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Thread.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Buffer.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\base\Client.h">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\common\NetUVThreadMsg.h">
+      <Filter>Classes\net_uv\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\http\HttpContext.h">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\http\HttpDetail.h">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\http\HttpRequest.h">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\http\HttpResponse.h">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\http\HttpServer.h">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\http\HttpCommon.h">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPClient.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPCommon.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPConfig.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPServer.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPSession.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPSocket.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPSocketManager.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\KCPUtils.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\kcp\ikcp.h">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PPipe.h">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PTurn.h">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PCommon.h">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PMessage.h">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\p2p\P2PPeer.h">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPServer.h">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPSession.h">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPSocket.h">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPClient.h">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPCommon.h">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\tcp\TCPConfig.h">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\udp\UDPSocket.h">
+      <Filter>Classes\net_uv\udp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\net_uv.h">
+      <Filter>Classes\net_uv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv_cc\CCClient.h">
+      <Filter>Classes\net_uv_cc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua_modules\game\lua_game.h">
+      <Filter>Classes\lua_modules\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv_cc\CCNetClient.h">
+      <Filter>Classes\net_uv_cc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\msg\NetMsgUtils.h">
+      <Filter>Classes\net_uv\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\net_uv\msg\NetMsgMgr.h">
+      <Filter>Classes\net_uv\msg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -601,12 +769,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\anax\src\anax\ClassReflect.cpp">
       <Filter>Classes\anax\src\anax</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\ecs\lua_ecs.cpp">
-      <Filter>Classes\lua_modules\ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua_modules\foundation\lua_foundation.cpp">
-      <Filter>Classes\lua_modules\foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\anaxHelper.cpp">
       <Filter>Classes\ecs</Filter>
@@ -772,6 +934,111 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\utils\buff\Buff.cpp">
       <Filter>Classes\ecs\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Common.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\DNSCache.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Loop.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Misc.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Mutex.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Runnable.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Server.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Session.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\SessionManager.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Socket.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\base\Client.cpp">
+      <Filter>Classes\net_uv\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\http\HttpDetail.cpp">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\http\HttpRequest.cpp">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\http\HttpResponse.cpp">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\http\HttpServer.cpp">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\http\HttpContext.cpp">
+      <Filter>Classes\net_uv\http</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPClient.cpp">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPServer.cpp">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPSession.cpp">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPSocket.cpp">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPSocketManager.cpp">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\KCPUtils.cpp">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\kcp\ikcp.c">
+      <Filter>Classes\net_uv\kcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\p2p\P2PPipe.cpp">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\p2p\P2PTurn.cpp">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\p2p\P2PPeer.cpp">
+      <Filter>Classes\net_uv\p2p</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPSession.cpp">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPSocket.cpp">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPClient.cpp">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\tcp\TCPServer.cpp">
+      <Filter>Classes\net_uv\tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\udp\UDPSocket.cpp">
+      <Filter>Classes\net_uv\udp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua_modules\game\lua_game.cpp">
+      <Filter>Classes\lua_modules\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv_cc\CCNetClient.cpp">
+      <Filter>Classes\net_uv_cc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\msg\NetMsgUtils.cpp">
+      <Filter>Classes\net_uv\msg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\net_uv\msg\NetMsgMgr.cpp">
+      <Filter>Classes\net_uv\msg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ end
 --			可以在他的任务管道添加自定义任务
 function ScenesManager:switchScene(sceneID, args, isPush)
 	if _MyG.SCENE_MAP[sceneID] == nil then
-		print("[EEROR]:<1>不存在场景ID", sceneID)
+		self:log("[EEROR]:<1>不存在场景ID", sceneID)
 		return
 	end
 
@@ -140,7 +140,7 @@ end
 -- @param isPush 是否为推入模式
 function ScenesManager:runScene(sceneID, args, isPush)
 	if _MyG.SCENE_MAP[sceneID] == nil then
-		print("[EEROR]:<2>不存在场景ID", sceneID)
+		self:log("[EEROR]:<2>不存在场景ID", sceneID)
 		return
 	end
 

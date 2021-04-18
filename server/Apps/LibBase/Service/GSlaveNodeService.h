@@ -27,8 +27,10 @@ public:
 
 	G_FORCEINLINE GNoticeCenter* noticeCenter();
 
-	void sendMsg(uint32_t msgID, char* data, uint32_t len);
+	G_FORCEINLINE const rapidjson::Document& descriptionJson();
 
+	void sendMsg(uint32_t msgID, char* data, uint32_t len);
+	
 protected:
 
 	void onConnectCallback(net_uv::Client* client, net_uv::Session* session, int32_t status);
@@ -48,6 +50,8 @@ private:
 	std::unique_ptr<net_uv::NetMsgMgr> m_msgMgr;
 	std::unique_ptr<GNoticeCenter>     m_noticeCenter;
 	std::string m_nodeIP;
+	std::string m_description;
+	rapidjson::Document m_descriptionJson;
 	uint32_t	m_nodePort;
 	int32_t		m_groupID;
 	bool		m_isOnline;
@@ -62,4 +66,8 @@ bool GSlaveNodeService::isOnline()
 GNoticeCenter* GSlaveNodeService::noticeCenter()
 {
 	return m_noticeCenter.get();
+}
+const rapidjson::Document& GSlaveNodeService::descriptionJson()
+{
+	return m_descriptionJson;
 }

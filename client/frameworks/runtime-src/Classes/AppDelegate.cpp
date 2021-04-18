@@ -17,7 +17,7 @@
 #include "lua_modules/lua_modules.h"
 
 
-#define RUN_WITH_DEBUG 1
+#define RUN_WITH_DEBUG 0
 
 #if RUN_WITH_DEBUG
 #include "test/TestArmature.h"

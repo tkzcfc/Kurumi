@@ -99,7 +99,8 @@ function Loader:init()
 		cc.exports.logF = print
 		ccui.Button = MyButton
 		-- _MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
-		_MyG.StartSceneID = _MyG.SCENE_ID_MAIN
+		-- _MyG.StartSceneID = _MyG.SCENE_ID_MAIN
+		_MyG.StartSceneID = _MyG.SCENE_ID_TEST
 	end)
 
 	self:push(function()

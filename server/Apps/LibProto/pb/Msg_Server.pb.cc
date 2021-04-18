@@ -15,6 +15,8 @@
 namespace svr_msg {
 
 void protobuf_ShutdownFile_Msg_5fServer_2eproto() {
+  delete CheckTokenReq::default_instance_;
+  delete CheckTokenAck::default_instance_;
   delete FightPlayerSpawnInfo::default_instance_;
   delete NewFightReq::default_instance_;
   delete NewFightAck::default_instance_;
@@ -32,9 +34,13 @@ void protobuf_AddDesc_Msg_5fServer_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
 #endif
+  CheckTokenReq::default_instance_ = new CheckTokenReq();
+  CheckTokenAck::default_instance_ = new CheckTokenAck();
   FightPlayerSpawnInfo::default_instance_ = new FightPlayerSpawnInfo();
   NewFightReq::default_instance_ = new NewFightReq();
   NewFightAck::default_instance_ = new NewFightAck();
+  CheckTokenReq::default_instance_->InitAsDefaultInstance();
+  CheckTokenAck::default_instance_->InitAsDefaultInstance();
   FightPlayerSpawnInfo::default_instance_->InitAsDefaultInstance();
   NewFightReq::default_instance_->InitAsDefaultInstance();
   NewFightAck::default_instance_->InitAsDefaultInstance();
@@ -59,7 +65,572 @@ struct StaticDescriptorInitializer_Msg_5fServer_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int CheckTokenReq::kAccountFieldNumber;
+const int CheckTokenReq::kTokenFieldNumber;
+const int CheckTokenReq::kPidFieldNumber;
+const int CheckTokenReq::kSessionFieldNumber;
+#endif  // !_MSC_VER
+
+CheckTokenReq::CheckTokenReq()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void CheckTokenReq::InitAsDefaultInstance() {
+}
+
+CheckTokenReq::CheckTokenReq(const CheckTokenReq& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void CheckTokenReq::SharedCtor() {
+  _cached_size_ = 0;
+  account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  pid_ = GOOGLE_LONGLONG(0);
+  session_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+CheckTokenReq::~CheckTokenReq() {
+  SharedDtor();
+}
+
+void CheckTokenReq::SharedDtor() {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    delete account_;
+  }
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void CheckTokenReq::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const CheckTokenReq& CheckTokenReq::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fServer_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fServer_2eproto();
+#endif
+  return *default_instance_;
+}
+
+CheckTokenReq* CheckTokenReq::default_instance_ = NULL;
+
+CheckTokenReq* CheckTokenReq::New() const {
+  return new CheckTokenReq;
+}
+
+void CheckTokenReq::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (has_account()) {
+      if (account_ != &::google::protobuf::internal::kEmptyString) {
+        account_->clear();
+      }
+    }
+    if (has_token()) {
+      if (token_ != &::google::protobuf::internal::kEmptyString) {
+        token_->clear();
+      }
+    }
+    pid_ = GOOGLE_LONGLONG(0);
+    session_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool CheckTokenReq::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string account = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_account()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_token;
+        break;
+      }
+
+      // required string token = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_token:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_token()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(24)) goto parse_pid;
+        break;
+      }
+
+      // required int64 pid = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_pid:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &pid_)));
+          set_has_pid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(32)) goto parse_session;
+        break;
+      }
+
+      // required uint32 session = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_session:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &session_)));
+          set_has_session();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void CheckTokenReq::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required string account = 1;
+  if (has_account()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      1, this->account(), output);
+  }
+
+  // required string token = 2;
+  if (has_token()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      2, this->token(), output);
+  }
+
+  // required int64 pid = 3;
+  if (has_pid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->pid(), output);
+  }
+
+  // required uint32 session = 4;
+  if (has_session()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->session(), output);
+  }
+
+}
+
+int CheckTokenReq::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required string account = 1;
+    if (has_account()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->account());
+    }
+
+    // required string token = 2;
+    if (has_token()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->token());
+    }
+
+    // required int64 pid = 3;
+    if (has_pid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int64Size(
+          this->pid());
+    }
+
+    // required uint32 session = 4;
+    if (has_session()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->session());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CheckTokenReq::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const CheckTokenReq*>(&from));
+}
+
+void CheckTokenReq::MergeFrom(const CheckTokenReq& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_account()) {
+      set_account(from.account());
+    }
+    if (from.has_token()) {
+      set_token(from.token());
+    }
+    if (from.has_pid()) {
+      set_pid(from.pid());
+    }
+    if (from.has_session()) {
+      set_session(from.session());
+    }
+  }
+}
+
+void CheckTokenReq::CopyFrom(const CheckTokenReq& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CheckTokenReq::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+
+  return true;
+}
+
+void CheckTokenReq::Swap(CheckTokenReq* other) {
+  if (other != this) {
+    std::swap(account_, other->account_);
+    std::swap(token_, other->token_);
+    std::swap(pid_, other->pid_);
+    std::swap(session_, other->session_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string CheckTokenReq::GetTypeName() const {
+  return "svr_msg.CheckTokenReq";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int CheckTokenAck::kCodeFieldNumber;
+const int CheckTokenAck::kPidFieldNumber;
+const int CheckTokenAck::kSessionFieldNumber;
+const int CheckTokenAck::kAccountFieldNumber;
+#endif  // !_MSC_VER
+
+CheckTokenAck::CheckTokenAck()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void CheckTokenAck::InitAsDefaultInstance() {
+}
+
+CheckTokenAck::CheckTokenAck(const CheckTokenAck& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void CheckTokenAck::SharedCtor() {
+  _cached_size_ = 0;
+  code_ = 0;
+  pid_ = GOOGLE_LONGLONG(0);
+  session_ = 0;
+  account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+CheckTokenAck::~CheckTokenAck() {
+  SharedDtor();
+}
+
+void CheckTokenAck::SharedDtor() {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    delete account_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void CheckTokenAck::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const CheckTokenAck& CheckTokenAck::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fServer_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fServer_2eproto();
+#endif
+  return *default_instance_;
+}
+
+CheckTokenAck* CheckTokenAck::default_instance_ = NULL;
+
+CheckTokenAck* CheckTokenAck::New() const {
+  return new CheckTokenAck;
+}
+
+void CheckTokenAck::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    code_ = 0;
+    pid_ = GOOGLE_LONGLONG(0);
+    session_ = 0;
+    if (has_account()) {
+      if (account_ != &::google::protobuf::internal::kEmptyString) {
+        account_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool CheckTokenAck::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 code = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &code_)));
+          set_has_code();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_pid;
+        break;
+      }
+
+      // required int64 pid = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_pid:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &pid_)));
+          set_has_pid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(24)) goto parse_session;
+        break;
+      }
+
+      // required int32 session = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_session:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &session_)));
+          set_has_session();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(34)) goto parse_account;
+        break;
+      }
+
+      // required string account = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_account:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_account()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void CheckTokenAck::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required int32 code = 1;
+  if (has_code()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->code(), output);
+  }
+
+  // required int64 pid = 2;
+  if (has_pid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->pid(), output);
+  }
+
+  // required int32 session = 3;
+  if (has_session()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->session(), output);
+  }
+
+  // required string account = 4;
+  if (has_account()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      4, this->account(), output);
+  }
+
+}
+
+int CheckTokenAck::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required int32 code = 1;
+    if (has_code()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->code());
+    }
+
+    // required int64 pid = 2;
+    if (has_pid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int64Size(
+          this->pid());
+    }
+
+    // required int32 session = 3;
+    if (has_session()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->session());
+    }
+
+    // required string account = 4;
+    if (has_account()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->account());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CheckTokenAck::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const CheckTokenAck*>(&from));
+}
+
+void CheckTokenAck::MergeFrom(const CheckTokenAck& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_code()) {
+      set_code(from.code());
+    }
+    if (from.has_pid()) {
+      set_pid(from.pid());
+    }
+    if (from.has_session()) {
+      set_session(from.session());
+    }
+    if (from.has_account()) {
+      set_account(from.account());
+    }
+  }
+}
+
+void CheckTokenAck::CopyFrom(const CheckTokenAck& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CheckTokenAck::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+
+  return true;
+}
+
+void CheckTokenAck::Swap(CheckTokenAck* other) {
+  if (other != this) {
+    std::swap(code_, other->code_);
+    std::swap(pid_, other->pid_);
+    std::swap(session_, other->session_);
+    std::swap(account_, other->account_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string CheckTokenAck::GetTypeName() const {
+  return "svr_msg.CheckTokenAck";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
 const int FightPlayerSpawnInfo::kPlayerIDFieldNumber;
+const int FightPlayerSpawnInfo::kRoleFieldNumber;
 #endif  // !_MSC_VER
 
 FightPlayerSpawnInfo::FightPlayerSpawnInfo()
@@ -78,7 +649,8 @@ FightPlayerSpawnInfo::FightPlayerSpawnInfo(const FightPlayerSpawnInfo& from)
 
 void FightPlayerSpawnInfo::SharedCtor() {
   _cached_size_ = 0;
-  playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  playerid_ = GOOGLE_LONGLONG(0);
+  role_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -87,8 +659,8 @@ FightPlayerSpawnInfo::~FightPlayerSpawnInfo() {
 }
 
 void FightPlayerSpawnInfo::SharedDtor() {
-  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
-    delete playerid_;
+  if (role_ != &::google::protobuf::internal::kEmptyString) {
+    delete role_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
@@ -120,9 +692,10 @@ FightPlayerSpawnInfo* FightPlayerSpawnInfo::New() const {
 
 void FightPlayerSpawnInfo::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (has_playerid()) {
-      if (playerid_ != &::google::protobuf::internal::kEmptyString) {
-        playerid_->clear();
+    playerid_ = GOOGLE_LONGLONG(0);
+    if (has_role()) {
+      if (role_ != &::google::protobuf::internal::kEmptyString) {
+        role_->clear();
       }
     }
   }
@@ -135,12 +708,28 @@ bool FightPlayerSpawnInfo::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required string playerID = 1;
+      // required int64 playerID = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &playerid_)));
+          set_has_playerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_role;
+        break;
+      }
+
+      // required string role = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_role:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_playerid()));
+                input, this->mutable_role()));
         } else {
           goto handle_uninterpreted;
         }
@@ -165,10 +754,15 @@ bool FightPlayerSpawnInfo::MergePartialFromCodedStream(
 
 void FightPlayerSpawnInfo::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required string playerID = 1;
+  // required int64 playerID = 1;
   if (has_playerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->playerid(), output);
+  }
+
+  // required string role = 2;
+  if (has_role()) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      1, this->playerid(), output);
+      2, this->role(), output);
   }
 
 }
@@ -177,11 +771,18 @@ int FightPlayerSpawnInfo::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required string playerID = 1;
+    // required int64 playerID = 1;
     if (has_playerid()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
+        ::google::protobuf::internal::WireFormatLite::Int64Size(
           this->playerid());
+    }
+
+    // required string role = 2;
+    if (has_role()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->role());
     }
 
   }
@@ -202,6 +803,9 @@ void FightPlayerSpawnInfo::MergeFrom(const FightPlayerSpawnInfo& from) {
     if (from.has_playerid()) {
       set_playerid(from.playerid());
     }
+    if (from.has_role()) {
+      set_role(from.role());
+    }
   }
 }
 
@@ -212,7 +816,7 @@ void FightPlayerSpawnInfo::CopyFrom(const FightPlayerSpawnInfo& from) {
 }
 
 bool FightPlayerSpawnInfo::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
@@ -220,6 +824,7 @@ bool FightPlayerSpawnInfo::IsInitialized() const {
 void FightPlayerSpawnInfo::Swap(FightPlayerSpawnInfo* other) {
   if (other != this) {
     std::swap(playerid_, other->playerid_);
+    std::swap(role_, other->role_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -235,6 +840,8 @@ void FightPlayerSpawnInfo::Swap(FightPlayerSpawnInfo* other) {
 #ifndef _MSC_VER
 const int NewFightReq::kMapIdFieldNumber;
 const int NewFightReq::kPlayersFieldNumber;
+const int NewFightReq::kTagFieldNumber;
+const int NewFightReq::kFightTypeFieldNumber;
 #endif  // !_MSC_VER
 
 NewFightReq::NewFightReq()
@@ -254,6 +861,8 @@ NewFightReq::NewFightReq(const NewFightReq& from)
 void NewFightReq::SharedCtor() {
   _cached_size_ = 0;
   mapid_ = 0;
+  tag_ = 0;
+  fighttype_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -293,6 +902,8 @@ NewFightReq* NewFightReq::New() const {
 void NewFightReq::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     mapid_ = 0;
+    tag_ = 0;
+    fighttype_ = 0;
   }
   players_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -330,6 +941,38 @@ bool NewFightReq::MergePartialFromCodedStream(
           goto handle_uninterpreted;
         }
         if (input->ExpectTag(18)) goto parse_players;
+        if (input->ExpectTag(24)) goto parse_tag;
+        break;
+      }
+
+      // required int32 tag = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_tag:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &tag_)));
+          set_has_tag();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(32)) goto parse_fightType;
+        break;
+      }
+
+      // required int32 fightType = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_fightType:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &fighttype_)));
+          set_has_fighttype();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -362,6 +1005,16 @@ void NewFightReq::SerializeWithCachedSizes(
       2, this->players(i), output);
   }
 
+  // required int32 tag = 3;
+  if (has_tag()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->tag(), output);
+  }
+
+  // required int32 fightType = 4;
+  if (has_fighttype()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->fighttype(), output);
+  }
+
 }
 
 int NewFightReq::ByteSize() const {
@@ -373,6 +1026,20 @@ int NewFightReq::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->mapid());
+    }
+
+    // required int32 tag = 3;
+    if (has_tag()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->tag());
+    }
+
+    // required int32 fightType = 4;
+    if (has_fighttype()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->fighttype());
     }
 
   }
@@ -402,6 +1069,12 @@ void NewFightReq::MergeFrom(const NewFightReq& from) {
     if (from.has_mapid()) {
       set_mapid(from.mapid());
     }
+    if (from.has_tag()) {
+      set_tag(from.tag());
+    }
+    if (from.has_fighttype()) {
+      set_fighttype(from.fighttype());
+    }
   }
 }
 
@@ -412,7 +1085,7 @@ void NewFightReq::CopyFrom(const NewFightReq& from) {
 }
 
 bool NewFightReq::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x0000000d) != 0x0000000d) return false;
 
   for (int i = 0; i < players_size(); i++) {
     if (!this->players(i).IsInitialized()) return false;
@@ -424,6 +1097,8 @@ void NewFightReq::Swap(NewFightReq* other) {
   if (other != this) {
     std::swap(mapid_, other->mapid_);
     players_.Swap(&other->players_);
+    std::swap(tag_, other->tag_);
+    std::swap(fighttype_, other->fighttype_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -439,6 +1114,8 @@ void NewFightReq::Swap(NewFightReq* other) {
 #ifndef _MSC_VER
 const int NewFightAck::kCodeFieldNumber;
 const int NewFightAck::kUuidFieldNumber;
+const int NewFightAck::kTagFieldNumber;
+const int NewFightAck::kFightTypeFieldNumber;
 #endif  // !_MSC_VER
 
 NewFightAck::NewFightAck()
@@ -459,6 +1136,8 @@ void NewFightAck::SharedCtor() {
   _cached_size_ = 0;
   code_ = 0;
   uuid_ = 0;
+  tag_ = 0;
+  fighttype_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -499,6 +1178,8 @@ void NewFightAck::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     code_ = 0;
     uuid_ = 0;
+    tag_ = 0;
+    fighttype_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -536,6 +1217,38 @@ bool NewFightAck::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(24)) goto parse_tag;
+        break;
+      }
+
+      // required int32 tag = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_tag:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &tag_)));
+          set_has_tag();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(32)) goto parse_fightType;
+        break;
+      }
+
+      // required int32 fightType = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_fightType:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &fighttype_)));
+          set_has_fighttype();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -567,6 +1280,16 @@ void NewFightAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->uuid(), output);
   }
 
+  // required int32 tag = 3;
+  if (has_tag()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->tag(), output);
+  }
+
+  // required int32 fightType = 4;
+  if (has_fighttype()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->fighttype(), output);
+  }
+
 }
 
 int NewFightAck::ByteSize() const {
@@ -585,6 +1308,20 @@ int NewFightAck::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->uuid());
+    }
+
+    // required int32 tag = 3;
+    if (has_tag()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->tag());
+    }
+
+    // required int32 fightType = 4;
+    if (has_fighttype()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->fighttype());
     }
 
   }
@@ -608,6 +1345,12 @@ void NewFightAck::MergeFrom(const NewFightAck& from) {
     if (from.has_uuid()) {
       set_uuid(from.uuid());
     }
+    if (from.has_tag()) {
+      set_tag(from.tag());
+    }
+    if (from.has_fighttype()) {
+      set_fighttype(from.fighttype());
+    }
   }
 }
 
@@ -618,7 +1361,7 @@ void NewFightAck::CopyFrom(const NewFightAck& from) {
 }
 
 bool NewFightAck::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
 
   return true;
 }
@@ -627,6 +1370,8 @@ void NewFightAck::Swap(NewFightAck* other) {
   if (other != this) {
     std::swap(code_, other->code_);
     std::swap(uuid_, other->uuid_);
+    std::swap(tag_, other->tag_);
+    std::swap(fighttype_, other->fighttype_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

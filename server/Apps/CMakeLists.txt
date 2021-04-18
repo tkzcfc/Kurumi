@@ -42,5 +42,6 @@ add_subdirectory(Test)
 add_subdirectory(FightServer)
 add_subdirectory(GateServer)
 add_subdirectory(GameServer)
+add_subdirectory(LoginServer)
 
 

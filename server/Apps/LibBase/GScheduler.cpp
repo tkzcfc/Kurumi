@@ -113,11 +113,13 @@ void GScheduler::schedule(const duSchedulerFunc& callback, void *target, float i
 
 void GScheduler::schedule(const duSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key)
 {
+	G_ASSERT(target != NULL);
     this->schedule(callback, target, interval, 0, 0.0f, paused, key, true);
 }
 
 void GScheduler::scheduleOnce(const duSchedulerFunc& callback, void *target, float interval, const std::string& key)
 {
+	G_ASSERT(target != NULL);
 	this->schedule(callback, target, interval, 1, 0.0f, false, key, false);
 }
 

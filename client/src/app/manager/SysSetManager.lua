@@ -26,7 +26,7 @@ function SysSetManager:override_onInit()
 			pair.value = v
 			pair.dirty = true
 			self.dirtyTag = true
-			print("SysSetManager 数据发生改变--->")
+			self:log("SysSetManager 数据发生改变--->")
 		end
 	end,
 	__index = function(t, k)

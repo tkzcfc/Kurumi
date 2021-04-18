@@ -146,12 +146,15 @@ private:
     }
 };
 
-
 static int http_fetch(lua_State* L)
 {
 	Request req;
     req.init(L, 1);
-	std::string filename(tolua_ext_checkString(L, 2));
+
+	size_t len;
+	const char* s = luaL_checklstring(L, 2, &len);
+	std::string filename(s, len);
+
 	int handle = toluafix_ref_function(L, 3, 0);
 
     req.req->setResponseCallback([handle, filename](cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response) mutable
@@ -240,13 +243,8 @@ static int http_request(lua_State* L)
 
 	req->req->setResponseCallback([handle](cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response) mutable
 	{
-		auto stack = LuaEngine::getInstance()->getLuaStack();
-		if (stack == NULL)
-		{
-			return;
-		}
-
-		auto luaState = stack->getLuaState();
+		auto luaState = LuaFunction::getGlobalLuaState();
+		CC_ASSERT(luaState != NULL);
 
 		LuaFunction callback(handle);
         callback.ppush();
@@ -296,7 +294,7 @@ static int http_request(lua_State* L)
 			lua_pushstring(luaState, response->getErrorBuffer());
 			lua_rawset(luaState, -3);
 		}
-        callback.pcallEx(1);
+		callback.pcall();
 	});
 
     pushRequest(L, req);

@@ -9,10 +9,9 @@ namespace NSMsg {
 
 uint32_t GMasterNodeService::onInit()
 {
-	auto cfgService = m_serviceMgr->getService<GConfigService>();
-	if (cfgService == NULL)
-		return SCODE_START_FAIL_EXIT_APP;
+	G_CHECK_SERVICE(GConfigService);
 
+	auto cfgService = m_serviceMgr->getService<GConfigService>();
 	auto& ini = cfgService->iniReader();
 	auto appName = GApplication::getInstance()->getAppName();
 
@@ -89,7 +88,9 @@ void GMasterNodeService::onUpdate(float)
 	case GServiceStatus::STOP_ING:
 	{
 		if (m_svr->isCloseFinish())
-			m_status = GServiceStatus::STOP;
+		{
+			stopServiceFinish();
+		}
 	}break;
 	default:
 		break;
@@ -99,7 +100,7 @@ void GMasterNodeService::onUpdate(float)
 void GMasterNodeService::onDestroy()
 {}
 
-void GMasterNodeService::sendToMsg(uint32_t slaveNodeID, uint32_t msgID, char* data, uint32_t len)
+void GMasterNodeService::sendMsg(uint32_t slaveNodeID, uint32_t msgID, char* data, uint32_t len)
 {
 	m_msgMgr->sendMsg(slaveNodeID, msgID, data, len);
 }
@@ -118,11 +119,17 @@ void GMasterNodeService::onDisconnectCallback(net_uv::Server* svr, net_uv::Sessi
 {
 	m_msgMgr->onDisconnect(session->getSessionID());
 
-	auto it = std::find(m_arrSlaveNodeIds.begin(), m_arrSlaveNodeIds.end(), session->getSessionID());
-	if (it != m_arrSlaveNodeIds.end())
+	for (auto it = m_arrSlaveNodInfos.begin(); it != m_arrSlaveNodInfos.end();)
 	{
-		LOG(INFO) << "SlaveNode[" << session->getSessionID() << "] off-line, GroupID: " << m_groupID;
-		m_arrSlaveNodeIds.erase(it);
+		if (it->sessionID == session->getSessionID())
+		{
+			LOG(INFO) << "SlaveNode[" << session->getSessionID() << "] off-line, GroupID: " << m_groupID;
+			it = m_arrSlaveNodInfos.erase(it);
+		}
+		else
+		{
+			++it;
+		}
 	}
 }
 
@@ -139,15 +146,36 @@ void GMasterNodeService::onRecvMsg(uint32_t sessionID, uint32_t msgID, char* dat
 			ack.code = 0;
 			m_msgMgr->sendMsg(sessionID, NSMsg::MSG_REG_SERVER_NODE_ACK, (char*)&ack, sizeof(ack));
 
-			if (std::find(m_arrSlaveNodeIds.begin(), m_arrSlaveNodeIds.end(), sessionID) == m_arrSlaveNodeIds.end())
+			bool find = false;
+			for (auto& it : m_arrSlaveNodInfos)
+			{
+				if (it.sessionID == sessionID)
+				{
+					find = true;
+					G_ASSERT(false);
+				}
+			}
+
+			if (!find)
 			{
 				LOG(INFO) << "SlaveNode[" << sessionID << "] Login successful, GroupID: " << msg->groupID;
-				m_arrSlaveNodeIds.push_back(sessionID);
+				
+				m_arrSlaveNodInfos.push_back(SlaveNodeInfo());
+
+
+				auto& node = m_arrSlaveNodInfos.back();
+				node.sessionID = sessionID;
+				node.info.assign(data + sizeof(NSMsg::RegServerReq), msg->infoLen);
+
+				rapidjson::StringStream stream(node.info.c_str());
+				node.infoJson.ParseStream<0>(stream);
+				if (node.infoJson.HasParseError())
+				{
+					LOG(ERROR) << "[GMasterNodeService] json parse error : " << node.infoJson.GetParseError();
+					G_ASSERT(0);
+				}
+
 				m_noticeCenter->emitEvent(NSMsg::MGS_KEY_REG_SLAVE_NODE, sessionID);
-			}
-			else
-			{
-				G_ASSERT(false);
 			}
 		}
 		else
@@ -160,9 +188,9 @@ void GMasterNodeService::onRecvMsg(uint32_t sessionID, uint32_t msgID, char* dat
 		}
 	}break;
 	default:
-		for (auto& it : m_arrSlaveNodeIds)
+		for (auto& it : m_arrSlaveNodInfos)
 		{
-			if (it == sessionID)
+			if (it.sessionID == sessionID)
 			{
 				m_noticeCenter->emitEvent(StringUtils::msgKey(msgID), sessionID, data, len);
 				return;
@@ -174,3 +202,12 @@ void GMasterNodeService::onRecvMsg(uint32_t sessionID, uint32_t msgID, char* dat
 	}
 }
 
+SlaveNodeInfo* GMasterNodeService::getSlaveNodeInfo(uint32_t slaveNodeID)
+{
+	for (auto & it : m_arrSlaveNodInfos)
+	{
+		if (it.sessionID == slaveNodeID)
+			return &it;
+	}
+	return NULL;
+}

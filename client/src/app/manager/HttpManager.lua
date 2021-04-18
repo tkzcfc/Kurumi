@@ -22,7 +22,7 @@ local lockMeta = {
 }
 
 local function onFetch(ok, to)
-	print("ok, to", ok, to)
+	-- print("ok, to", ok, to)
 	url_reqMap[to] = false
 
 	local t = url_fetchCalls[to]
@@ -41,10 +41,11 @@ end
 -- @param tofile 下载之后的文件位置,可选.为空则默认储存在.cache目录
 -- @return token
 function HttpManager:fetch(url, func, tofile)
-	-- print('getting '..url)
+	self:log('getting '..url)
 	local to = tofile
 	if to == nil then
-		to = prefix..md5.sum(url)
+		local ext = string.match(url, "(%.%w+)$") or ""
+		to = prefix .. md5.sum(url) .. ext
 	end
 
 	url_fetchCalls[to] = url_fetchCalls[to] or {}
@@ -57,7 +58,7 @@ function HttpManager:fetch(url, func, tofile)
 
 	-- 本地有缓存
 	if fu:isFileExist(to) then
-	  -- print('already cached as:', to)
+	  self:log('already cached as:', to)
 	  oRoutine(o_once(function()
 	  	onFetch(true, to)
 	end))
@@ -68,7 +69,7 @@ function HttpManager:fetch(url, func, tofile)
 	if url_reqMap[to] then return token end
 
 	url_reqMap[to] = true
-	-- print("http to get", url)
+	self:log("http to get", url)
 	http.fetch(url, to, onFetch)
 	return token
 end

@@ -20,6 +20,9 @@ struct ActorIdentityInfo
 	GVec2 moveForce;
 	// 跳跃冲力
 	GVec2 jumpIm;
+
+	// X最大移动速度
+	float32 moveMaxVelocityX;
 };
 
 
@@ -38,7 +41,7 @@ namespace CommonUtils
 	// 演员创建
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);
 
-	GUUID genUUID();
+	GUUID genUUID(anax::World& world);
 
 	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity = NULL);
 }

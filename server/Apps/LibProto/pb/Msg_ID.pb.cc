@@ -50,16 +50,38 @@ bool MessageID_IsValid(int value) {
     case 100001:
     case 200001:
     case 200002:
-    case 300001:
-    case 300002:
     case 300003:
     case 300004:
-    case 300005:
-    case 300006:
-    case 300007:
-    case 300008:
     case 600001:
     case 600002:
+    case 800001:
+    case 800002:
+    case 800003:
+    case 800004:
+    case 800005:
+    case 800006:
+    case 800007:
+    case 800008:
+    case 900001:
+    case 900002:
+    case 900010:
+    case 900100:
+    case 900101:
+    case 900102:
+    case 900103:
+    case 900104:
+    case 900105:
+    case 900200:
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool FightType_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
       return true;
     default:
       return false;

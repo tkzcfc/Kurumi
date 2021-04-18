@@ -1,20 +1,38 @@
 #pragma once
 
+#define IS_IN_COCOS2D_X_LUA 1
+
+#if IS_IN_COCOS2D_X_LUA
 #include "cocos2d.h"
-#include "Box2D/Box2D.h"
+//#include "Box2D/Box2D.h"
+#include "tolua_fix.h"
+#endif
+
 #include "tolua++.h"
+
 #include <map>
 #include <string.h>
 #include <vector>
 
 
-using namespace cocos2d;
 
+#if IS_IN_COCOS2D_X_LUA
+using namespace cocos2d;
 
 #define DEF_VEC_2_VALUE
 #define DEF_VEC_3_VALUE
 #define DEF_SIZE_VALUE
 #define DEF_RECT_VALUE
+
+#else
+#if _DEBUG
+#define COCOS2D_DEBUG 1
+#else
+#define COCOS2D_DEBUG 0
+#endif
+#endif
+
+typedef int LUA_FUNCTION;
 
 
 #ifndef DEF_VEC_2_VALUE
@@ -50,30 +68,24 @@ struct Rect
 };
 #endif
 
-class LuaFunction;
 
-int tolua_ext_pushusertype_ccobject(lua_State* L,
-                                             int uid,
-                                             int* p_refid,
-                                             void* ptr,
-                                             const char* type);
-
-int tolua_ext_remove_ccobject_by_refid(lua_State* L, int refid);
-
-int tolua_ext_pushusertype_cclass(lua_State* L, void* value, const char* type);
-
-int tolua_ext_remove_cclass_by_refid(lua_State* L, void* ptr);
-
+void tolua_ext_open(lua_State* L);
 
 // 
 int tolua_ext_check_is_table(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
 int tolua_ext_check_isfunction(lua_State* L, int lo, const char* type, int def, tolua_Error* err);
 
+
 // function
-//void tolua_ext_function_to_luaval(lua_State* L, LuaFunction& func, const char* type);
-//void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type);
-//
-//void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def);
+void tolua_ext_function_to_luaval(lua_State* L, void* funcPtr, const char* type);
+
+void* tolua_ext_luaval_to_function(lua_State* L, int narg, void* def);
+
+int tolua_ext_ref_function(lua_State* L, int lo, int def);
+
+void tolua_ext_get_function_by_refid(lua_State* L, int refid);
+
+void tolua_ext_remove_function_by_refid(lua_State* L, int refid);
 
 // map
 void tolua_ext_map_string_string_to_luaval(lua_State* L, const std::map<std::string, std::string>& v, const char*);
@@ -105,29 +117,28 @@ void tolua_ext_vec2_value_to_luaval(lua_State* L, const Vec2& v, const char*);
 void tolua_ext_vec3_value_to_luaval(lua_State* L, const Vec3& v, const char*);
 void tolua_ext_size_value_to_luaval(lua_State* L, const Size& v, const char*);
 void tolua_ext_rect_value_to_luaval(lua_State* L, const Rect& v, const char*);
-void tolua_ext_b2vec2_to_luaval(lua_State* L, const b2Vec2& v, const char*);
 
 Vec2			tolua_ext_luaval_to_vec2_value(lua_State* L, int lo, int);
 Vec3			tolua_ext_luaval_to_vec3_value(lua_State* L, int lo, int);
 Size			tolua_ext_luaval_to_size_value(lua_State* L, int lo, int);
 Rect			tolua_ext_luaval_to_rect_value(lua_State* L, int lo, int);
-b2Vec2			tolua_ext_luaval_to_b2vec2(lua_State* L, int lo, int);
-
 
 template <class T>
 void tolua_ext_object_to_luaval(lua_State* L, void* ret, const char* type)
 {
 	if (nullptr != ret)
 	{
+#if IS_IN_COCOS2D_X_LUA
 		if (std::is_base_of<cocos2d::Ref, T>::value)
 		{
 			// use c style cast, T may not polymorphic
 			cocos2d::Ref* dynObject = (cocos2d::Ref*)(ret);
 			int ID = (int)(dynObject->_ID);
 			int* luaID = &(dynObject->_luaID);
-			tolua_ext_pushusertype_ccobject(L, ID, luaID, (void*)ret, type);
+			toluafix_pushusertype_ccobject(L, ID, luaID, (void*)ret, type);
 		}
 		else
+#endif
 		{
 			tolua_pushusertype(L, (void*)ret, type);
 		}
@@ -176,14 +187,16 @@ void tolua_ext_object_arr_to_luaval(lua_State* L, std::vector<T*>& inValue, cons
 
 		lua_pushnumber(L, (lua_Number)indexTable);
 
+#if IS_IN_COCOS2D_X_LUA
 		if (std::is_base_of<cocos2d::Ref, T>::value)
 		{
 			cocos2d::Ref* dynObject = (cocos2d::Ref*)(obj);
 			int ID = (dynObject) ? (int)dynObject->_ID : -1;
 			int* luaID = (dynObject) ? &dynObject->_luaID : NULL;
-			tolua_ext_pushusertype_ccobject(L, ID, luaID, (void*)dynObject, classType.c_str());
+			toluafix_pushusertype_ccobject(L, ID, luaID, (void*)dynObject, classType.c_str());
 		}
 		else
+#endif
 		{
 			tolua_pushusertype(L, (void*)obj, classType.c_str());
 		}
@@ -229,14 +242,16 @@ void tolua_ext_map_string_object_to_luaval(lua_State* L, std::map<std::string, T
 
 		lua_pushstring(L, obj.first.c_str());
 
+#if IS_IN_COCOS2D_X_LUA
 		if (std::is_base_of<cocos2d::Ref, T>::value)
 		{
 			cocos2d::Ref* dynObject = (cocos2d::Ref*)(obj.second);
 			int ID = (dynObject) ? (int)dynObject->_ID : -1;
 			int* luaID = (dynObject) ? &dynObject->_luaID : NULL;
-			tolua_ext_pushusertype_ccobject(L, ID, luaID, (void*)dynObject, classType.c_str());
+			toluafix_pushusertype_ccobject(L, ID, luaID, (void*)dynObject, classType.c_str());
 		}
 		else
+#endif
 		{
 			tolua_pushusertype(L, (void*)obj.second, classType.c_str());
 		}
@@ -330,34 +345,3 @@ std::map<std::string, T*> tolua_ext_luaval_to_ccmap_string_key(lua_State* L, int
 	lua_pop(L, 1);
 	return outValue;
 }
-
-
-
-
-
-
-std::string tolua_ext_checkString(lua_State* L, int idx);
-
-
-// get opt string field.
-// error if field exists but with other (not string nor nil) type.
-std::string tolua_ext_optStringField(lua_State* L, int idx, const char* field, const char* def);
-
-// check string field.
-// error if field not exists or not a string type.
-std::string tolua_ext_checkStringField(lua_State* L, int idx, const char* field);
-
-// get string filed, convert to string if possiable.
-// error if field not exists or can't convert to string.
-std::string tolua_ext_getStringField(lua_State* L, int idx, const char* field);
-
-
-// get opt boolean field.
-// error if field exists but with other (not boolean nor nil) type.
-bool tolua_ext_optBooleanField(lua_State* L, int idx, const char* field, bool def);
-
-
-//bool tolua_ext_checkBooleanField(lua_State* L, int idx, const char* field);
-
-
-bool tolua_ext_getBooleanField(lua_State* L, int idx, const char* field);

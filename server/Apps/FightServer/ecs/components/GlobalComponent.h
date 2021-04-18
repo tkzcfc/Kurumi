@@ -2,6 +2,7 @@
 
 #include "ecs/anaxHelper.h"
 #include "opmsg/GOPMsgQue.h"
+#include "foundation/GRandom.h"
 
 #if G_TARGET_CLIENT
 #include "foundation/render/GMapLayer.h"
@@ -15,6 +16,7 @@ public:
 		fAccumilatedTime = 0.0f;
 		fNextGameTime = 0.0f;
 		gameLogicFrame = 0U;
+		uuidSeed = 0;
 
 #if G_TARGET_CLIENT
 		mapRender = NULL;
@@ -50,8 +52,14 @@ public:
 	float32 maxPosy;
 
 
-	// 输出消息队列
+	// 输入消息队列
 	GOPMsgQue inputQue;
 	// 输出消息队列
 	GOPMsgQue outputQue;
+
+	// 随机数生成器
+	std::unique_ptr<GRandom> random;
+
+	// GUUID种子
+	GUUID uuidSeed;
 };

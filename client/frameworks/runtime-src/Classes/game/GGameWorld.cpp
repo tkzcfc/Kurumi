@@ -47,32 +47,6 @@ void GGameWorld::updateLogic()
 	m_skillInjurySystem.update();
 
 	m_transformSyncSystem.sync();
-
-#if G_TARGET_CLIENT
-	/*auto& admin = m_globalSystem.admin;
-	auto& mapComponent = admin.getComponent<MapComponent>();
-
-	const float step = 5.0f;
-
-	auto viewPos = m_camera->getPosition();
-	if (static_h_dir == MOVE_DIR::LEFT)
-	{
-		viewPos.x -= step;
-	}
-	else if (static_h_dir == MOVE_DIR::RIGHT)
-	{
-		viewPos.x += step;
-	}
-	if (static_v_dir == MOVE_DIR::TOP)
-	{
-		viewPos.y += step;
-	}
-	else if (static_v_dir == MOVE_DIR::BOTTOM)
-	{
-		viewPos.y -= step;
-	}
-	m_camera->setPosition(viewPos);*/
-#endif
 }
 
 void GGameWorld::render()

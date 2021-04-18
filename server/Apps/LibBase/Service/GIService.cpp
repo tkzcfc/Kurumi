@@ -5,6 +5,7 @@ GIService::GIService()
 	: m_status(GServiceStatus::STOP)
 	, m_serviceMgr(NULL)
 	, m_stopCallback(NULL)
+	, m_enableUpdate(true)
 {
 }
 
@@ -38,7 +39,28 @@ void GIService::stopService(const std::function<void()>& call)
 	}
 }
 
+void GIService::onStartService()
+{}
+
+void GIService::onStopService()
+{
+	stopServiceFinish();
+}
+
+void GIService::onUpdate(float)
+{
+	setEnableUpdate(false);
+}
+
+void GIService::onDestroy()
+{}
+
 const char* GIService::serviceName() const
 {
 	return "GIService";
+}
+
+void GIService::stopServiceFinish()
+{
+	m_status = GServiceStatus::STOP;
 }

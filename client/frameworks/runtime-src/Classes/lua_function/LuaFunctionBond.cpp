@@ -31,7 +31,7 @@ void LuaFunctionBond::unregisterLuaHandle(const std::string& name)
 	auto it = m_luaHandleMap.find(name);
 	if (it != m_luaHandleMap.end())
 	{
-		it->second->unref();
+		it->second->invalid();
 	}
 }
 
@@ -39,7 +39,7 @@ void LuaFunctionBond::clearLuaHandle()
 {
 	for (const auto& it : m_luaHandleMap)
 	{
-		it.second->unref();
+		it.second->invalid();
 	}
 }
 

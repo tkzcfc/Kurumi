@@ -142,10 +142,10 @@ namespace CommonUtils
 		return true;
 	}
 
-	GUUID genUUID()
+	GUUID genUUID(anax::World& world)
 	{
-		static GUUID sg_GUUID_Seed = 1;
-		return sg_GUUID_Seed++;
+		auto& global = getGlobalComponent(world);
+		return global.uuidSeed++;
 	}
 
 	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity)

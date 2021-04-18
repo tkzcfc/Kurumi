@@ -63,7 +63,7 @@ int32_t GApplication::run(uint32_t interval)
 	m_scheduler->unScheduleAll();
 
 	uv_loop_delete(m_loop);
-	return 1;
+	return 0;
 }
 
 void GApplication::end()

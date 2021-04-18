@@ -1,36 +1,45 @@
 #include "GLibBase.h"
+#include "GPlayerMngService.h"
+#include "GLoginService.h"
 
 INITIALIZE_EASYLOGGINGPP;
 
-extern void initLog();
+extern void initLog(const char* logName);
 
 int main(int argc, char** argv)
 {
-	initLog();
+	auto params = cmd::get_cmd_params(argc, argv);
+	auto argName = cmd::try_get(params, "name", "GameServer");
 
-	LOG(INFO) << "-----------application run-----------";
+	// init log
+	initLog(argName.c_str());
 	
-	GApplication app("GameServer");
+	LOG(INFO) << "-----------application run-----------";
+
+	GApplication app(argName);
 	app.getServiceMgr()->addService<GConfigService>();
 	app.getServiceMgr()->addService<GSlaveNodeService>();
 	app.getServiceMgr()->addService<GMasterNodeService>();
 	app.getServiceMgr()->addService<GNetService>();
+	app.getServiceMgr()->addService<GLocalStorageService>();
+	app.getServiceMgr()->addService<GPlayerMngService>();
+	app.getServiceMgr()->addService<GLoginService>();
 	app.run();
 
 	LOG(INFO) << "-----------application exit-----------";
-
-	system("pause");
-
+	
 	return EXIT_SUCCESS;
 }
 
-void initLog()
+void initLog(const char* logName)
 {
+	auto logDir = StringUtils::format("log\\%s\\", logName);
+
 	el::Configurations conf;
 	conf.setGlobally(el::ConfigurationType::Format, "%datetime{%M-%d %H:%m:%s} [%level] %msg");
 	conf.setGlobally(el::ConfigurationType::Enabled, "true");
 	conf.setGlobally(el::ConfigurationType::ToFile, "true");
-	conf.setGlobally(el::ConfigurationType::Filename, "log_game\\log_%datetime{%Y%M%d}.log");
+	conf.setGlobally(el::ConfigurationType::Filename, logDir + "log_%datetime{%Y%M%d}.log");
 	conf.setGlobally(el::ConfigurationType::MillisecondsWidth, "3");
 	// 10MB
 	conf.setGlobally(el::ConfigurationType::MaxLogFileSize, "10485760");

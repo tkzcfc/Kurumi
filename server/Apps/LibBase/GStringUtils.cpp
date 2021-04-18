@@ -47,9 +47,29 @@ namespace StringUtils
 
 	std::string msgKey(uint32_t msgID)
 	{
-		char szbuf[64];
+		char szbuf[32];
 		sprintf(szbuf, "%u", msgID);
 		return szbuf;
 	}
+
+	void split(const std::string& str, const std::string& delimiter, std::vector<std::string>& result)
+	{
+		std::string strTmp = str;
+		size_t cutAt;
+		while ((cutAt = strTmp.find_first_of(delimiter)) != strTmp.npos)
+		{
+			if (cutAt > 0)
+			{
+				result.push_back(strTmp.substr(0, cutAt));
+			}
+			strTmp = strTmp.substr(cutAt + 1);
+		}
+
+		if (!strTmp.empty())
+		{
+			result.push_back(strTmp);
+		}
+	}
+
 }
 

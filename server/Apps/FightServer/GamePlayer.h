@@ -17,78 +17,26 @@ public:
 	// 离线
 	void offline();
 
-	G_FORCEINLINE bool isOffline() const;
-	
-	G_FORCEINLINE const std::string& playerID();
+	// 是否离线
+	G_FORCEINLINE bool isOffline();
 
-	G_FORCEINLINE uint32_t sessionID() const;
 
-	G_FORCEINLINE void setSessionID(uint32_t value);
-	
-	G_FORCEINLINE float offlineTime() const;
-
-	G_FORCEINLINE void setPing(int32_t value);
-
-	G_FORCEINLINE int32_t ping() const;
-
-	G_FORCEINLINE void setLastRecvFrame(uint32_t value);
-
-	G_FORCEINLINE uint32_t lastRecvFrame() const;
-
-private:
-	uint32_t m_sessionID;
-	// playerid
-	std::string m_playerID;
+	G_SYNTHESIZE(uint32_t, m_sessionID, SessionID);
 	// 最后一次收到客户端消息时客户端逻辑帧
-	uint32_t m_lastRecvFrame;
-	// 当前ping值
-	int32_t m_ping;
+	G_SYNTHESIZE(uint32_t, m_lastRecvFrame, LastRecvFrame);
 	// 离线的时间记录
-	float m_offlineTime;
+	G_SYNTHESIZE(float, m_offlineTime, OfflineTime);
+	// 当前ping值
+	G_SYNTHESIZE(int32_t, m_ping, Ping);
+	// playerid
+	G_SYNTHESIZE(int64_t, m_playerID, PlayerID);
+
+	// 战斗形象
+	G_SYNTHESIZE_PASS_BY_REF(std::string, m_role, Role);
 };
 
-bool GamePlayer::isOffline() const
+bool GamePlayer::isOffline()
 {
-	return m_sessionID == INVALID_SESSION_ID;
-}
-
-const std::string& GamePlayer::playerID()
-{
-	return m_playerID;
-}
-
-uint32_t GamePlayer::sessionID() const
-{
-	return m_sessionID;
-}
-
-void GamePlayer::setSessionID(uint32_t value)
-{
-	m_sessionID = value;
-}
-
-float GamePlayer::offlineTime() const
-{
-	return m_offlineTime;
-}
-
-void GamePlayer::setPing(int32_t value)
-{
-	m_ping = value;
-}
-
-int32_t GamePlayer::ping() const
-{
-	return m_ping;
-}
-
-void GamePlayer::setLastRecvFrame(uint32_t value)
-{
-	m_lastRecvFrame = value;
-}
-
-uint32_t GamePlayer::lastRecvFrame() const
-{
-	return m_lastRecvFrame;
+	return getSessionID() == INVALID_SESSION_ID;
 }
 

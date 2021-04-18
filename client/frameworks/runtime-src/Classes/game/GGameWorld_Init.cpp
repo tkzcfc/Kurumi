@@ -15,11 +15,7 @@ static MOVE_DIR static_v_dir = MOVE_DIR::STOP;
 
 /////////////////////////////////////////////////////
 /// init
-#if G_TARGET_CLIENT
-bool GGameWorld::init(int mapId, Node* rootNode)
-#else
-bool GGameWorld::init(int32_t mapId)
-#endif
+bool GGameWorld::init(const GGameWorldInitArgs& args)
 {
 	do
 	{
@@ -40,11 +36,13 @@ bool GGameWorld::init(int32_t mapId)
 		m_world.addSystem(m_armatureDebugSystem);
 		m_world.addSystem(m_armatureRenderSystem);
 
-		m_rootNode = rootNode;
+		m_rootNode = args.rootNode;
 #endif
 		m_pGlobal = &m_globalSystem.admin.getComponent<GlobalComponent>();
-
-		if (!this->initAdmin(mapId))
+		m_pGlobal->random = std::make_unique<GRandom>(args.randomSeed, args.randomSeed + 1);
+		m_pGlobal->uuidSeed = args.uuidSeed;
+		
+		if (!this->initAdmin(args.mapId))
 			break;
 
 		if (!this->initPlayer())
@@ -216,7 +214,7 @@ bool GGameWorld::spawnPlayer()
 	info.bodySize = GVec2(40.0f, 120.0f);
 	info.originPos = GVec2(300.0f + s_index * 200, 200.0f);
 	info.roleName = "R1022";
-	info.uuid = CommonUtils::genUUID();
+	info.uuid = CommonUtils::genUUID(m_world);
 	info.anifsm = "json/ani_fsm/dao_runtime.json";
 	info.moveForce = GVec2(20.0f, 10.0f);
 	info.jumpIm = GVec2(0.0f, 10.0f);

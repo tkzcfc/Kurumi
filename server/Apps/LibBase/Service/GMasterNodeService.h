@@ -17,6 +17,8 @@ namespace NSMsg{
 	struct RegServerReq
 	{
 		int32_t groupID;
+		int32_t infoLen;
+		// char info[infoLen];
 	};
 
 	struct RegServerAck
@@ -24,6 +26,13 @@ namespace NSMsg{
 		int32_t code;
 	};
 }
+
+struct SlaveNodeInfo
+{
+	uint32_t sessionID;
+	std::string info;
+	rapidjson::Document infoJson;
+};
 
 /// 服务器同步-主节点服务
 class GMasterNodeService final : public GIService
@@ -43,9 +52,11 @@ public:
 
 	G_FORCEINLINE GNoticeCenter* noticeCenter();
 
-	G_FORCEINLINE const std::vector<uint32_t>& arrSlaveNodeIds();
+	G_FORCEINLINE const std::vector<SlaveNodeInfo>& arrSlaveNodInfos();
 
-	void sendToMsg(uint32_t slaveNodeID, uint32_t msgID, char* data, uint32_t len);
+	SlaveNodeInfo* getSlaveNodeInfo(uint32_t slaveNodeID);
+
+	void sendMsg(uint32_t slaveNodeID, uint32_t msgID, char* data, uint32_t len);
 
 protected:
 
@@ -63,7 +74,7 @@ private:
 	std::unique_ptr<net_uv::NetMsgMgr> m_msgMgr;
 	std::unique_ptr<GNoticeCenter>     m_noticeCenter;
 	int32_t m_groupID;
-	std::vector<uint32_t>			   m_arrSlaveNodeIds;
+	std::vector<SlaveNodeInfo>		   m_arrSlaveNodInfos;
 };
 
 GNoticeCenter* GMasterNodeService::noticeCenter()
@@ -71,7 +82,7 @@ GNoticeCenter* GMasterNodeService::noticeCenter()
 	return m_noticeCenter.get();
 }
 
-const std::vector<uint32_t>& GMasterNodeService::arrSlaveNodeIds()
+const std::vector<SlaveNodeInfo>& GMasterNodeService::arrSlaveNodInfos()
 {
-	return m_arrSlaveNodeIds;
+	return m_arrSlaveNodInfos;
 }

@@ -101,7 +101,7 @@ namespace CommonUtils
 		auto& input = entity.addComponent<InputComponent>();
 
 		// 添加物理组件
-		SIMPhysSystem::createBox(entity, info.originPos / PHYSICS_PIXEL_TO_METER, info.bodySize / PHYSICS_PIXEL_TO_METER, GVec2(0.5f, 0.5f));
+		SIMPhysSystem::createBox(entity, info.originPos, info.bodySize, GVec2(0.5f, 0.5f));
 
 		// 添加动画组件
 		ArmatureUtils::initAnimationComponent(entity);
@@ -115,6 +115,7 @@ namespace CommonUtils
 		propertyCom.uuid = info.uuid;
 		propertyCom.moveForce = info.moveForce;
 		propertyCom.jumpIm = info.jumpIm;
+		propertyCom.moveMaxVelocityX = info.moveMaxVelocityX;
 		
 		// 创建动画状态机
 		std::shared_ptr<GActorStateMachine> stateMachine = NULL;
@@ -141,10 +142,10 @@ namespace CommonUtils
 		return true;
 	}
 
-	GUUID genUUID()
+	GUUID genUUID(anax::World& world)
 	{
-		static GUUID sg_GUUID_Seed = 1;
-		return sg_GUUID_Seed++;
+		auto& global = getGlobalComponent(world);
+		return global.uuidSeed++;
 	}
 
 	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity)

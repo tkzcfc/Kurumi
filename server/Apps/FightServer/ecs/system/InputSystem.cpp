@@ -38,7 +38,7 @@ void InputSystem::beforeInput()
 		auto& simphysCom = entity.getComponent<SIMPhysComponent>();
 		if (float_equal(simphysCom.linearVelocity.y, 0.0f))
 		{
-			G_BIT_CLEAR(propertyCom.status, G_PS_IS_IN_AIR);
+			G_BIT_REMOVE(propertyCom.status, G_PS_IS_IN_AIR);
 			propertyCom.jumpCount = 0;
 		}
 		else
@@ -63,14 +63,14 @@ void InputSystem::input(GOPMsg_Base* msg)
 				auto tempValue = inputComponent.keyDown;
 #endif
 				auto msgKey = (GOPMsg_Key*)msg;
-				G_BIT_CLEAR(inputComponent.keyDown, msgKey->key);
+				G_BIT_REMOVE(inputComponent.keyDown, msgKey->key);
 
 #if 0
 				// 验证一下上面的方法是对的不
 				for (auto i = 1; i < G_BIT_MAX_COUNT; ++i)
 				{
 					if (G_BIT_EQUAL(msgKey->key, G_FIXED_VALUE << i))
-						G_BIT_CLEAR(tempValue, G_FIXED_VALUE << i);
+						G_BIT_REMOVE(tempValue, G_FIXED_VALUE << i);
 				}
 				G_ASSERT(tempValue == inputComponent.keyDown);
 #endif
@@ -96,6 +96,6 @@ void InputSystem::afterInput()
 		property.stateMachine->updateInput();
 
 		// 自动复原按键
-		G_BIT_CLEAR(input.keyDown, keys);
+		G_BIT_REMOVE(input.keyDown, keys);
 	}
 }

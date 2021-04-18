@@ -90,11 +90,6 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 			if (index >= component.cmdCount - 1)
 			{
 				component.curTime = 0.0f;
-				if (component.onFinishCall != NULL)
-				{
-					component.onFinishCall();
-				}
-
 				if (component.mode == kArmaturePlayMode::ONCE)
 				{
 					// 只播放一次,播放完毕定格到最后一帧
@@ -105,9 +100,12 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 				{
 					if (component.mode == kArmaturePlayMode::LOOP)
 					{
+						//component.curFrameIndex = 0;
+						//component.curAniName = cmdData->actions[0];
+						//component.cmdIndex = 0;
+						
+						// 循环动画,循环播放最后一个,不全部循环了
 						component.curFrameIndex = 0;
-						component.curAniName = cmdData->actions[0];
-						component.cmdIndex = 0;
 					}
 					else
 					{
@@ -123,6 +121,11 @@ void ArmatureSystem::stepAni(ArmatureComponent& component)
 							component.playing = false;
 						}
 					}
+				}
+
+				if (component.onFinishCall != NULL)
+				{
+					component.onFinishCall();
 				}
 			}
 			else

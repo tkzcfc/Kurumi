@@ -48,8 +48,6 @@ protected:
 	anim::GANI_STATE_TYPE m_curStateType;
 public:
 	///! 参数hash
-	//! 是否处于战斗状态
-	int HASH_IS_FIGHT;
 	//! 是否处于空中
 	int HASH_IS_INAIR;
 	//! 是否死亡
@@ -68,8 +66,9 @@ public:
 	int HASH_TO_HIT;
 	//! 是否要切换到站立状态
 	int HASH_TO_STAND;
-	//! 是否要切换到下落状态
-	int HASH_TO_JUMP_DOWN;
+
+	//! Y轴速度
+	int HASH_Y_VELOCITY;
 };
 
 anax::Entity& GActorStateMachine::entity()

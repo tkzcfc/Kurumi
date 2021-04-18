@@ -50,21 +50,37 @@ bool Code_IsValid(int value) {
   switch(value) {
     case 0:
     case 1:
+    case 2:
+    case 3:
     case 100:
     case 101:
     case 102:
-    case 1000000:
-    case 1000001:
-    case 1000100:
-    case 1100000:
-    case 1100001:
-    case 1100002:
-    case 1100003:
-    case 1100004:
-    case 1100005:
-    case 1100006:
-    case 1100007:
-    case 1100008:
+    case 100000:
+    case 100001:
+    case 100100:
+    case 110000:
+    case 110001:
+    case 110002:
+    case 110003:
+    case 110004:
+    case 110005:
+    case 110006:
+    case 110007:
+    case 110008:
+    case 110100:
+    case 110101:
+    case 110102:
+    case 120001:
+    case 120002:
+    case 120003:
+    case 120010:
+    case 120011:
+    case 120012:
+    case 120030:
+    case 120031:
+    case 120032:
+    case 120033:
+    case 120034:
       return true;
     default:
       return false;

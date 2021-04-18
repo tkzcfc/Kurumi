@@ -32,9 +32,19 @@ void  protobuf_AddDesc_Msg_5fGame_2eproto();
 void protobuf_AssignDesc_Msg_5fGame_2eproto();
 void protobuf_ShutdownFile_Msg_5fGame_2eproto();
 
+class Null;
+class CodeAck;
 class LoginGateAck;
 class LoginReq;
+class PlayerAccountInfo;
 class LoginAck;
+class ExitGameNtf;
+class PVEFightPlayerInfo;
+class StartPVEFightReq;
+class StartPVEFightAck;
+class StartPVPFightReq;
+class StartPVPFightAck;
+class StartFightNTF;
 class JoinFightReq;
 class JoinFightAck;
 class PlayerReadyNotify;
@@ -45,6 +55,162 @@ class ExitFightReq;
 class ExitFightAck;
 
 // ===================================================================
+
+class Null : public ::google::protobuf::MessageLite {
+ public:
+  Null();
+  virtual ~Null();
+
+  Null(const Null& from);
+
+  inline Null& operator=(const Null& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const Null& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const Null* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(Null* other);
+
+  // implements Message ----------------------------------------------
+
+  Null* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const Null& from);
+  void MergeFrom(const Null& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:msg.Null)
+ private:
+
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[1];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static Null* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CodeAck : public ::google::protobuf::MessageLite {
+ public:
+  CodeAck();
+  virtual ~CodeAck();
+
+  CodeAck(const CodeAck& from);
+
+  inline CodeAck& operator=(const CodeAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CodeAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CodeAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CodeAck* other);
+
+  // implements Message ----------------------------------------------
+
+  CodeAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CodeAck& from);
+  void MergeFrom(const CodeAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.CodeAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static CodeAck* default_instance_;
+};
+// -------------------------------------------------------------------
 
 class LoginGateAck : public ::google::protobuf::MessageLite {
  public:
@@ -182,10 +348,22 @@ class LoginReq : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required string account = 1;
+  // required string token = 1;
+  inline bool has_token() const;
+  inline void clear_token();
+  static const int kTokenFieldNumber = 1;
+  inline const ::std::string& token() const;
+  inline void set_token(const ::std::string& value);
+  inline void set_token(const char* value);
+  inline void set_token(const char* value, size_t size);
+  inline ::std::string* mutable_token();
+  inline ::std::string* release_token();
+  inline void set_allocated_token(::std::string* token);
+
+  // required string account = 2;
   inline bool has_account() const;
   inline void clear_account();
-  static const int kAccountFieldNumber = 1;
+  static const int kAccountFieldNumber = 2;
   inline const ::std::string& account() const;
   inline void set_account(const ::std::string& value);
   inline void set_account(const char* value);
@@ -194,37 +372,25 @@ class LoginReq : public ::google::protobuf::MessageLite {
   inline ::std::string* release_account();
   inline void set_allocated_account(::std::string* account);
 
-  // required string password = 2;
-  inline bool has_password() const;
-  inline void clear_password();
-  static const int kPasswordFieldNumber = 2;
-  inline const ::std::string& password() const;
-  inline void set_password(const ::std::string& value);
-  inline void set_password(const char* value);
-  inline void set_password(const char* value, size_t size);
-  inline ::std::string* mutable_password();
-  inline ::std::string* release_password();
-  inline void set_allocated_password(::std::string* password);
-
-  // required int32 platform = 3;
-  inline bool has_platform() const;
-  inline void clear_platform();
-  static const int kPlatformFieldNumber = 3;
-  inline ::google::protobuf::int32 platform() const;
-  inline void set_platform(::google::protobuf::int32 value);
+  // required int64 playerID = 3;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIDFieldNumber = 3;
+  inline ::google::protobuf::int64 playerid() const;
+  inline void set_playerid(::google::protobuf::int64 value);
 
   // @@protoc_insertion_point(class_scope:msg.LoginReq)
  private:
+  inline void set_has_token();
+  inline void clear_has_token();
   inline void set_has_account();
   inline void clear_has_account();
-  inline void set_has_password();
-  inline void clear_has_password();
-  inline void set_has_platform();
-  inline void clear_has_platform();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
 
+  ::std::string* token_;
   ::std::string* account_;
-  ::std::string* password_;
-  ::google::protobuf::int32 platform_;
+  ::google::protobuf::int64 playerid_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
@@ -239,6 +405,104 @@ class LoginReq : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static LoginReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerAccountInfo : public ::google::protobuf::MessageLite {
+ public:
+  PlayerAccountInfo();
+  virtual ~PlayerAccountInfo();
+
+  PlayerAccountInfo(const PlayerAccountInfo& from);
+
+  inline PlayerAccountInfo& operator=(const PlayerAccountInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerAccountInfo& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerAccountInfo* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerAccountInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerAccountInfo* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerAccountInfo& from);
+  void MergeFrom(const PlayerAccountInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int64 playerID = 1;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIDFieldNumber = 1;
+  inline ::google::protobuf::int64 playerid() const;
+  inline void set_playerid(::google::protobuf::int64 value);
+
+  // required string name = 2;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 2;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerAccountInfo)
+ private:
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  inline void set_has_name();
+  inline void clear_has_name();
+
+  ::google::protobuf::int64 playerid_;
+  ::std::string* name_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerAccountInfo* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -302,7 +566,103 @@ class LoginAck : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 code() const;
   inline void set_code(::google::protobuf::int32 value);
 
+  // repeated .msg.PlayerAccountInfo infos = 2;
+  inline int infos_size() const;
+  inline void clear_infos();
+  static const int kInfosFieldNumber = 2;
+  inline const ::msg::PlayerAccountInfo& infos(int index) const;
+  inline ::msg::PlayerAccountInfo* mutable_infos(int index);
+  inline ::msg::PlayerAccountInfo* add_infos();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerAccountInfo >&
+      infos() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerAccountInfo >*
+      mutable_infos();
+
   // @@protoc_insertion_point(class_scope:msg.LoginAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+
+  ::google::protobuf::RepeatedPtrField< ::msg::PlayerAccountInfo > infos_;
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static LoginAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class ExitGameNtf : public ::google::protobuf::MessageLite {
+ public:
+  ExitGameNtf();
+  virtual ~ExitGameNtf();
+
+  ExitGameNtf(const ExitGameNtf& from);
+
+  inline ExitGameNtf& operator=(const ExitGameNtf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ExitGameNtf& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const ExitGameNtf* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(ExitGameNtf* other);
+
+  // implements Message ----------------------------------------------
+
+  ExitGameNtf* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const ExitGameNtf& from);
+  void MergeFrom(const ExitGameNtf& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.ExitGameNtf)
  private:
   inline void set_has_code();
   inline void clear_has_code();
@@ -321,7 +681,553 @@ class LoginAck : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
 
   void InitAsDefaultInstance();
-  static LoginAck* default_instance_;
+  static ExitGameNtf* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PVEFightPlayerInfo : public ::google::protobuf::MessageLite {
+ public:
+  PVEFightPlayerInfo();
+  virtual ~PVEFightPlayerInfo();
+
+  PVEFightPlayerInfo(const PVEFightPlayerInfo& from);
+
+  inline PVEFightPlayerInfo& operator=(const PVEFightPlayerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PVEFightPlayerInfo& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PVEFightPlayerInfo* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PVEFightPlayerInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  PVEFightPlayerInfo* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PVEFightPlayerInfo& from);
+  void MergeFrom(const PVEFightPlayerInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int64 pid = 1;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 1;
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:msg.PVEFightPlayerInfo)
+ private:
+  inline void set_has_pid();
+  inline void clear_has_pid();
+
+  ::google::protobuf::int64 pid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PVEFightPlayerInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class StartPVEFightReq : public ::google::protobuf::MessageLite {
+ public:
+  StartPVEFightReq();
+  virtual ~StartPVEFightReq();
+
+  StartPVEFightReq(const StartPVEFightReq& from);
+
+  inline StartPVEFightReq& operator=(const StartPVEFightReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const StartPVEFightReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const StartPVEFightReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(StartPVEFightReq* other);
+
+  // implements Message ----------------------------------------------
+
+  StartPVEFightReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const StartPVEFightReq& from);
+  void MergeFrom(const StartPVEFightReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 carbonId = 1;
+  inline bool has_carbonid() const;
+  inline void clear_carbonid();
+  static const int kCarbonIdFieldNumber = 1;
+  inline ::google::protobuf::int32 carbonid() const;
+  inline void set_carbonid(::google::protobuf::int32 value);
+
+  // repeated .msg.PVEFightPlayerInfo infos = 2;
+  inline int infos_size() const;
+  inline void clear_infos();
+  static const int kInfosFieldNumber = 2;
+  inline const ::msg::PVEFightPlayerInfo& infos(int index) const;
+  inline ::msg::PVEFightPlayerInfo* mutable_infos(int index);
+  inline ::msg::PVEFightPlayerInfo* add_infos();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >&
+      infos() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >*
+      mutable_infos();
+
+  // @@protoc_insertion_point(class_scope:msg.StartPVEFightReq)
+ private:
+  inline void set_has_carbonid();
+  inline void clear_has_carbonid();
+
+  ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo > infos_;
+  ::google::protobuf::int32 carbonid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static StartPVEFightReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class StartPVEFightAck : public ::google::protobuf::MessageLite {
+ public:
+  StartPVEFightAck();
+  virtual ~StartPVEFightAck();
+
+  StartPVEFightAck(const StartPVEFightAck& from);
+
+  inline StartPVEFightAck& operator=(const StartPVEFightAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const StartPVEFightAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const StartPVEFightAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(StartPVEFightAck* other);
+
+  // implements Message ----------------------------------------------
+
+  StartPVEFightAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const StartPVEFightAck& from);
+  void MergeFrom(const StartPVEFightAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.StartPVEFightAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static StartPVEFightAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class StartPVPFightReq : public ::google::protobuf::MessageLite {
+ public:
+  StartPVPFightReq();
+  virtual ~StartPVPFightReq();
+
+  StartPVPFightReq(const StartPVPFightReq& from);
+
+  inline StartPVPFightReq& operator=(const StartPVPFightReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const StartPVPFightReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const StartPVPFightReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(StartPVPFightReq* other);
+
+  // implements Message ----------------------------------------------
+
+  StartPVPFightReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const StartPVPFightReq& from);
+  void MergeFrom(const StartPVPFightReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int64 foeId = 1;
+  inline bool has_foeid() const;
+  inline void clear_foeid();
+  static const int kFoeIdFieldNumber = 1;
+  inline ::google::protobuf::int64 foeid() const;
+  inline void set_foeid(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:msg.StartPVPFightReq)
+ private:
+  inline void set_has_foeid();
+  inline void clear_has_foeid();
+
+  ::google::protobuf::int64 foeid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static StartPVPFightReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class StartPVPFightAck : public ::google::protobuf::MessageLite {
+ public:
+  StartPVPFightAck();
+  virtual ~StartPVPFightAck();
+
+  StartPVPFightAck(const StartPVPFightAck& from);
+
+  inline StartPVPFightAck& operator=(const StartPVPFightAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const StartPVPFightAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const StartPVPFightAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(StartPVPFightAck* other);
+
+  // implements Message ----------------------------------------------
+
+  StartPVPFightAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const StartPVPFightAck& from);
+  void MergeFrom(const StartPVPFightAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.StartPVPFightAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static StartPVPFightAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class StartFightNTF : public ::google::protobuf::MessageLite {
+ public:
+  StartFightNTF();
+  virtual ~StartFightNTF();
+
+  StartFightNTF(const StartFightNTF& from);
+
+  inline StartFightNTF& operator=(const StartFightNTF& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const StartFightNTF& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const StartFightNTF* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(StartFightNTF* other);
+
+  // implements Message ----------------------------------------------
+
+  StartFightNTF* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const StartFightNTF& from);
+  void MergeFrom(const StartFightNTF& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // optional int32 fightUUID = 2;
+  inline bool has_fightuuid() const;
+  inline void clear_fightuuid();
+  static const int kFightUUIDFieldNumber = 2;
+  inline ::google::protobuf::int32 fightuuid() const;
+  inline void set_fightuuid(::google::protobuf::int32 value);
+
+  // optional string fightIP = 3;
+  inline bool has_fightip() const;
+  inline void clear_fightip();
+  static const int kFightIPFieldNumber = 3;
+  inline const ::std::string& fightip() const;
+  inline void set_fightip(const ::std::string& value);
+  inline void set_fightip(const char* value);
+  inline void set_fightip(const char* value, size_t size);
+  inline ::std::string* mutable_fightip();
+  inline ::std::string* release_fightip();
+  inline void set_allocated_fightip(::std::string* fightip);
+
+  // optional int32 fightPort = 4;
+  inline bool has_fightport() const;
+  inline void clear_fightport();
+  static const int kFightPortFieldNumber = 4;
+  inline ::google::protobuf::int32 fightport() const;
+  inline void set_fightport(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.StartFightNTF)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+  inline void set_has_fightuuid();
+  inline void clear_has_fightuuid();
+  inline void set_has_fightip();
+  inline void clear_has_fightip();
+  inline void set_has_fightport();
+  inline void clear_has_fightport();
+
+  ::google::protobuf::int32 code_;
+  ::google::protobuf::int32 fightuuid_;
+  ::std::string* fightip_;
+  ::google::protobuf::int32 fightport_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static StartFightNTF* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -385,17 +1291,12 @@ class JoinFightReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 fightuuid() const;
   inline void set_fightuuid(::google::protobuf::int32 value);
 
-  // required string playerID = 2;
+  // required int64 playerID = 2;
   inline bool has_playerid() const;
   inline void clear_playerid();
   static const int kPlayerIDFieldNumber = 2;
-  inline const ::std::string& playerid() const;
-  inline void set_playerid(const ::std::string& value);
-  inline void set_playerid(const char* value);
-  inline void set_playerid(const char* value, size_t size);
-  inline ::std::string* mutable_playerid();
-  inline ::std::string* release_playerid();
-  inline void set_allocated_playerid(::std::string* playerid);
+  inline ::google::protobuf::int64 playerid() const;
+  inline void set_playerid(::google::protobuf::int64 value);
 
   // required int32 frame = 3;
   inline bool has_frame() const;
@@ -413,7 +1314,7 @@ class JoinFightReq : public ::google::protobuf::MessageLite {
   inline void set_has_frame();
   inline void clear_has_frame();
 
-  ::std::string* playerid_;
+  ::google::protobuf::int64 playerid_;
   ::google::protobuf::int32 fightuuid_;
   ::google::protobuf::int32 frame_;
 
@@ -493,15 +1394,45 @@ class JoinFightAck : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 code() const;
   inline void set_code(::google::protobuf::int32 value);
 
+  // optional int32 mapId = 2;
+  inline bool has_mapid() const;
+  inline void clear_mapid();
+  static const int kMapIdFieldNumber = 2;
+  inline ::google::protobuf::int32 mapid() const;
+  inline void set_mapid(::google::protobuf::int32 value);
+
+  // optional uint32 randomSeed = 3;
+  inline bool has_randomseed() const;
+  inline void clear_randomseed();
+  static const int kRandomSeedFieldNumber = 3;
+  inline ::google::protobuf::uint32 randomseed() const;
+  inline void set_randomseed(::google::protobuf::uint32 value);
+
+  // optional uint32 uuidSeed = 4;
+  inline bool has_uuidseed() const;
+  inline void clear_uuidseed();
+  static const int kUuidSeedFieldNumber = 4;
+  inline ::google::protobuf::uint32 uuidseed() const;
+  inline void set_uuidseed(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:msg.JoinFightAck)
  private:
   inline void set_has_code();
   inline void clear_has_code();
+  inline void set_has_mapid();
+  inline void clear_has_mapid();
+  inline void set_has_randomseed();
+  inline void clear_has_randomseed();
+  inline void set_has_uuidseed();
+  inline void clear_has_uuidseed();
 
   ::google::protobuf::int32 code_;
+  ::google::protobuf::int32 mapid_;
+  ::google::protobuf::uint32 randomseed_;
+  ::google::protobuf::uint32 uuidseed_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
@@ -569,24 +1500,19 @@ class PlayerReadyNotify : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required string pid = 1;
+  // required int64 pid = 1;
   inline bool has_pid() const;
   inline void clear_pid();
   static const int kPidFieldNumber = 1;
-  inline const ::std::string& pid() const;
-  inline void set_pid(const ::std::string& value);
-  inline void set_pid(const char* value);
-  inline void set_pid(const char* value, size_t size);
-  inline ::std::string* mutable_pid();
-  inline ::std::string* release_pid();
-  inline void set_allocated_pid(::std::string* pid);
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
 
   // @@protoc_insertion_point(class_scope:msg.PlayerReadyNotify)
  private:
   inline void set_has_pid();
   inline void clear_has_pid();
 
-  ::std::string* pid_;
+  ::google::protobuf::int64 pid_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
@@ -657,24 +1583,19 @@ class PlayerExitFightNotify : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required string pid = 1;
+  // required int64 pid = 1;
   inline bool has_pid() const;
   inline void clear_pid();
   static const int kPidFieldNumber = 1;
-  inline const ::std::string& pid() const;
-  inline void set_pid(const ::std::string& value);
-  inline void set_pid(const char* value);
-  inline void set_pid(const char* value, size_t size);
-  inline ::std::string* mutable_pid();
-  inline ::std::string* release_pid();
-  inline void set_allocated_pid(::std::string* pid);
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
 
   // @@protoc_insertion_point(class_scope:msg.PlayerExitFightNotify)
  private:
   inline void set_has_pid();
   inline void clear_has_pid();
 
-  ::std::string* pid_;
+  ::google::protobuf::int64 pid_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
@@ -1061,6 +1982,36 @@ class ExitFightAck : public ::google::protobuf::MessageLite {
 
 // ===================================================================
 
+// Null
+
+// -------------------------------------------------------------------
+
+// CodeAck
+
+// required int32 code = 1;
+inline bool CodeAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CodeAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CodeAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CodeAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 CodeAck::code() const {
+  return code_;
+}
+inline void CodeAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // LoginGateAck
 
 // required int32 code = 1;
@@ -1089,15 +2040,85 @@ inline void LoginGateAck::set_code(::google::protobuf::int32 value) {
 
 // LoginReq
 
-// required string account = 1;
-inline bool LoginReq::has_account() const {
+// required string token = 1;
+inline bool LoginReq::has_token() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void LoginReq::set_has_account() {
+inline void LoginReq::set_has_token() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void LoginReq::clear_has_account() {
+inline void LoginReq::clear_has_token() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void LoginReq::clear_token() {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    token_->clear();
+  }
+  clear_has_token();
+}
+inline const ::std::string& LoginReq::token() const {
+  return *token_;
+}
+inline void LoginReq::set_token(const ::std::string& value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void LoginReq::set_token(const char* value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void LoginReq::set_token(const char* value, size_t size) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* LoginReq::mutable_token() {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  return token_;
+}
+inline ::std::string* LoginReq::release_token() {
+  clear_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = token_;
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void LoginReq::set_allocated_token(::std::string* token) {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  if (token) {
+    set_has_token();
+    token_ = token;
+  } else {
+    clear_has_token();
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required string account = 2;
+inline bool LoginReq::has_account() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void LoginReq::set_has_account() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void LoginReq::clear_has_account() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void LoginReq::clear_account() {
   if (account_ != &::google::protobuf::internal::kEmptyString) {
@@ -1159,96 +2180,122 @@ inline void LoginReq::set_allocated_account(::std::string* account) {
   }
 }
 
-// required string password = 2;
-inline bool LoginReq::has_password() const {
+// required int64 playerID = 3;
+inline bool LoginReq::has_playerid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void LoginReq::set_has_playerid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void LoginReq::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void LoginReq::clear_playerid() {
+  playerid_ = GOOGLE_LONGLONG(0);
+  clear_has_playerid();
+}
+inline ::google::protobuf::int64 LoginReq::playerid() const {
+  return playerid_;
+}
+inline void LoginReq::set_playerid(::google::protobuf::int64 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PlayerAccountInfo
+
+// required int64 playerID = 1;
+inline bool PlayerAccountInfo::has_playerid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PlayerAccountInfo::set_has_playerid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PlayerAccountInfo::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PlayerAccountInfo::clear_playerid() {
+  playerid_ = GOOGLE_LONGLONG(0);
+  clear_has_playerid();
+}
+inline ::google::protobuf::int64 PlayerAccountInfo::playerid() const {
+  return playerid_;
+}
+inline void PlayerAccountInfo::set_playerid(::google::protobuf::int64 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// required string name = 2;
+inline bool PlayerAccountInfo::has_name() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void LoginReq::set_has_password() {
+inline void PlayerAccountInfo::set_has_name() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void LoginReq::clear_has_password() {
+inline void PlayerAccountInfo::clear_has_name() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void LoginReq::clear_password() {
-  if (password_ != &::google::protobuf::internal::kEmptyString) {
-    password_->clear();
+inline void PlayerAccountInfo::clear_name() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    name_->clear();
   }
-  clear_has_password();
+  clear_has_name();
 }
-inline const ::std::string& LoginReq::password() const {
-  return *password_;
+inline const ::std::string& PlayerAccountInfo::name() const {
+  return *name_;
 }
-inline void LoginReq::set_password(const ::std::string& value) {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
+inline void PlayerAccountInfo::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
   }
-  password_->assign(value);
+  name_->assign(value);
 }
-inline void LoginReq::set_password(const char* value) {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
+inline void PlayerAccountInfo::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
   }
-  password_->assign(value);
+  name_->assign(value);
 }
-inline void LoginReq::set_password(const char* value, size_t size) {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
+inline void PlayerAccountInfo::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
   }
-  password_->assign(reinterpret_cast<const char*>(value), size);
+  name_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* LoginReq::mutable_password() {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
+inline ::std::string* PlayerAccountInfo::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
   }
-  return password_;
+  return name_;
 }
-inline ::std::string* LoginReq::release_password() {
-  clear_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
+inline ::std::string* PlayerAccountInfo::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
   } else {
-    ::std::string* temp = password_;
-    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
     return temp;
   }
 }
-inline void LoginReq::set_allocated_password(::std::string* password) {
-  if (password_ != &::google::protobuf::internal::kEmptyString) {
-    delete password_;
+inline void PlayerAccountInfo::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    delete name_;
   }
-  if (password) {
-    set_has_password();
-    password_ = password;
+  if (name) {
+    set_has_name();
+    name_ = name;
   } else {
-    clear_has_password();
-    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   }
-}
-
-// required int32 platform = 3;
-inline bool LoginReq::has_platform() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void LoginReq::set_has_platform() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void LoginReq::clear_has_platform() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void LoginReq::clear_platform() {
-  platform_ = 0;
-  clear_has_platform();
-}
-inline ::google::protobuf::int32 LoginReq::platform() const {
-  return platform_;
-}
-inline void LoginReq::set_platform(::google::protobuf::int32 value) {
-  set_has_platform();
-  platform_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -1277,6 +2324,352 @@ inline void LoginAck::set_code(::google::protobuf::int32 value) {
   code_ = value;
 }
 
+// repeated .msg.PlayerAccountInfo infos = 2;
+inline int LoginAck::infos_size() const {
+  return infos_.size();
+}
+inline void LoginAck::clear_infos() {
+  infos_.Clear();
+}
+inline const ::msg::PlayerAccountInfo& LoginAck::infos(int index) const {
+  return infos_.Get(index);
+}
+inline ::msg::PlayerAccountInfo* LoginAck::mutable_infos(int index) {
+  return infos_.Mutable(index);
+}
+inline ::msg::PlayerAccountInfo* LoginAck::add_infos() {
+  return infos_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerAccountInfo >&
+LoginAck::infos() const {
+  return infos_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerAccountInfo >*
+LoginAck::mutable_infos() {
+  return &infos_;
+}
+
+// -------------------------------------------------------------------
+
+// ExitGameNtf
+
+// required int32 code = 1;
+inline bool ExitGameNtf::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ExitGameNtf::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ExitGameNtf::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ExitGameNtf::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 ExitGameNtf::code() const {
+  return code_;
+}
+inline void ExitGameNtf::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PVEFightPlayerInfo
+
+// required int64 pid = 1;
+inline bool PVEFightPlayerInfo::has_pid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PVEFightPlayerInfo::set_has_pid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PVEFightPlayerInfo::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PVEFightPlayerInfo::clear_pid() {
+  pid_ = GOOGLE_LONGLONG(0);
+  clear_has_pid();
+}
+inline ::google::protobuf::int64 PVEFightPlayerInfo::pid() const {
+  return pid_;
+}
+inline void PVEFightPlayerInfo::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StartPVEFightReq
+
+// required int32 carbonId = 1;
+inline bool StartPVEFightReq::has_carbonid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void StartPVEFightReq::set_has_carbonid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void StartPVEFightReq::clear_has_carbonid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void StartPVEFightReq::clear_carbonid() {
+  carbonid_ = 0;
+  clear_has_carbonid();
+}
+inline ::google::protobuf::int32 StartPVEFightReq::carbonid() const {
+  return carbonid_;
+}
+inline void StartPVEFightReq::set_carbonid(::google::protobuf::int32 value) {
+  set_has_carbonid();
+  carbonid_ = value;
+}
+
+// repeated .msg.PVEFightPlayerInfo infos = 2;
+inline int StartPVEFightReq::infos_size() const {
+  return infos_.size();
+}
+inline void StartPVEFightReq::clear_infos() {
+  infos_.Clear();
+}
+inline const ::msg::PVEFightPlayerInfo& StartPVEFightReq::infos(int index) const {
+  return infos_.Get(index);
+}
+inline ::msg::PVEFightPlayerInfo* StartPVEFightReq::mutable_infos(int index) {
+  return infos_.Mutable(index);
+}
+inline ::msg::PVEFightPlayerInfo* StartPVEFightReq::add_infos() {
+  return infos_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >&
+StartPVEFightReq::infos() const {
+  return infos_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >*
+StartPVEFightReq::mutable_infos() {
+  return &infos_;
+}
+
+// -------------------------------------------------------------------
+
+// StartPVEFightAck
+
+// required int32 code = 1;
+inline bool StartPVEFightAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void StartPVEFightAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void StartPVEFightAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void StartPVEFightAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 StartPVEFightAck::code() const {
+  return code_;
+}
+inline void StartPVEFightAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StartPVPFightReq
+
+// required int64 foeId = 1;
+inline bool StartPVPFightReq::has_foeid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void StartPVPFightReq::set_has_foeid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void StartPVPFightReq::clear_has_foeid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void StartPVPFightReq::clear_foeid() {
+  foeid_ = GOOGLE_LONGLONG(0);
+  clear_has_foeid();
+}
+inline ::google::protobuf::int64 StartPVPFightReq::foeid() const {
+  return foeid_;
+}
+inline void StartPVPFightReq::set_foeid(::google::protobuf::int64 value) {
+  set_has_foeid();
+  foeid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StartPVPFightAck
+
+// required int32 code = 1;
+inline bool StartPVPFightAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void StartPVPFightAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void StartPVPFightAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void StartPVPFightAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 StartPVPFightAck::code() const {
+  return code_;
+}
+inline void StartPVPFightAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StartFightNTF
+
+// required int32 code = 1;
+inline bool StartFightNTF::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void StartFightNTF::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void StartFightNTF::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void StartFightNTF::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 StartFightNTF::code() const {
+  return code_;
+}
+inline void StartFightNTF::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// optional int32 fightUUID = 2;
+inline bool StartFightNTF::has_fightuuid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void StartFightNTF::set_has_fightuuid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void StartFightNTF::clear_has_fightuuid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void StartFightNTF::clear_fightuuid() {
+  fightuuid_ = 0;
+  clear_has_fightuuid();
+}
+inline ::google::protobuf::int32 StartFightNTF::fightuuid() const {
+  return fightuuid_;
+}
+inline void StartFightNTF::set_fightuuid(::google::protobuf::int32 value) {
+  set_has_fightuuid();
+  fightuuid_ = value;
+}
+
+// optional string fightIP = 3;
+inline bool StartFightNTF::has_fightip() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void StartFightNTF::set_has_fightip() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void StartFightNTF::clear_has_fightip() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void StartFightNTF::clear_fightip() {
+  if (fightip_ != &::google::protobuf::internal::kEmptyString) {
+    fightip_->clear();
+  }
+  clear_has_fightip();
+}
+inline const ::std::string& StartFightNTF::fightip() const {
+  return *fightip_;
+}
+inline void StartFightNTF::set_fightip(const ::std::string& value) {
+  set_has_fightip();
+  if (fightip_ == &::google::protobuf::internal::kEmptyString) {
+    fightip_ = new ::std::string;
+  }
+  fightip_->assign(value);
+}
+inline void StartFightNTF::set_fightip(const char* value) {
+  set_has_fightip();
+  if (fightip_ == &::google::protobuf::internal::kEmptyString) {
+    fightip_ = new ::std::string;
+  }
+  fightip_->assign(value);
+}
+inline void StartFightNTF::set_fightip(const char* value, size_t size) {
+  set_has_fightip();
+  if (fightip_ == &::google::protobuf::internal::kEmptyString) {
+    fightip_ = new ::std::string;
+  }
+  fightip_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* StartFightNTF::mutable_fightip() {
+  set_has_fightip();
+  if (fightip_ == &::google::protobuf::internal::kEmptyString) {
+    fightip_ = new ::std::string;
+  }
+  return fightip_;
+}
+inline ::std::string* StartFightNTF::release_fightip() {
+  clear_has_fightip();
+  if (fightip_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = fightip_;
+    fightip_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void StartFightNTF::set_allocated_fightip(::std::string* fightip) {
+  if (fightip_ != &::google::protobuf::internal::kEmptyString) {
+    delete fightip_;
+  }
+  if (fightip) {
+    set_has_fightip();
+    fightip_ = fightip;
+  } else {
+    clear_has_fightip();
+    fightip_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// optional int32 fightPort = 4;
+inline bool StartFightNTF::has_fightport() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void StartFightNTF::set_has_fightport() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void StartFightNTF::clear_has_fightport() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void StartFightNTF::clear_fightport() {
+  fightport_ = 0;
+  clear_has_fightport();
+}
+inline ::google::protobuf::int32 StartFightNTF::fightport() const {
+  return fightport_;
+}
+inline void StartFightNTF::set_fightport(::google::protobuf::int32 value) {
+  set_has_fightport();
+  fightport_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // JoinFightReq
@@ -1303,7 +2696,7 @@ inline void JoinFightReq::set_fightuuid(::google::protobuf::int32 value) {
   fightuuid_ = value;
 }
 
-// required string playerID = 2;
+// required int64 playerID = 2;
 inline bool JoinFightReq::has_playerid() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1314,63 +2707,15 @@ inline void JoinFightReq::clear_has_playerid() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void JoinFightReq::clear_playerid() {
-  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
-    playerid_->clear();
-  }
+  playerid_ = GOOGLE_LONGLONG(0);
   clear_has_playerid();
 }
-inline const ::std::string& JoinFightReq::playerid() const {
-  return *playerid_;
-}
-inline void JoinFightReq::set_playerid(const ::std::string& value) {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
-  playerid_->assign(value);
-}
-inline void JoinFightReq::set_playerid(const char* value) {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
-  playerid_->assign(value);
-}
-inline void JoinFightReq::set_playerid(const char* value, size_t size) {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
-  playerid_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* JoinFightReq::mutable_playerid() {
-  set_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    playerid_ = new ::std::string;
-  }
+inline ::google::protobuf::int64 JoinFightReq::playerid() const {
   return playerid_;
 }
-inline ::std::string* JoinFightReq::release_playerid() {
-  clear_has_playerid();
-  if (playerid_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = playerid_;
-    playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void JoinFightReq::set_allocated_playerid(::std::string* playerid) {
-  if (playerid_ != &::google::protobuf::internal::kEmptyString) {
-    delete playerid_;
-  }
-  if (playerid) {
-    set_has_playerid();
-    playerid_ = playerid;
-  } else {
-    clear_has_playerid();
-    playerid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
+inline void JoinFightReq::set_playerid(::google::protobuf::int64 value) {
+  set_has_playerid();
+  playerid_ = value;
 }
 
 // required int32 frame = 3;
@@ -1421,11 +2766,77 @@ inline void JoinFightAck::set_code(::google::protobuf::int32 value) {
   code_ = value;
 }
 
+// optional int32 mapId = 2;
+inline bool JoinFightAck::has_mapid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void JoinFightAck::set_has_mapid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void JoinFightAck::clear_has_mapid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void JoinFightAck::clear_mapid() {
+  mapid_ = 0;
+  clear_has_mapid();
+}
+inline ::google::protobuf::int32 JoinFightAck::mapid() const {
+  return mapid_;
+}
+inline void JoinFightAck::set_mapid(::google::protobuf::int32 value) {
+  set_has_mapid();
+  mapid_ = value;
+}
+
+// optional uint32 randomSeed = 3;
+inline bool JoinFightAck::has_randomseed() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void JoinFightAck::set_has_randomseed() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void JoinFightAck::clear_has_randomseed() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void JoinFightAck::clear_randomseed() {
+  randomseed_ = 0u;
+  clear_has_randomseed();
+}
+inline ::google::protobuf::uint32 JoinFightAck::randomseed() const {
+  return randomseed_;
+}
+inline void JoinFightAck::set_randomseed(::google::protobuf::uint32 value) {
+  set_has_randomseed();
+  randomseed_ = value;
+}
+
+// optional uint32 uuidSeed = 4;
+inline bool JoinFightAck::has_uuidseed() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void JoinFightAck::set_has_uuidseed() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void JoinFightAck::clear_has_uuidseed() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void JoinFightAck::clear_uuidseed() {
+  uuidseed_ = 0u;
+  clear_has_uuidseed();
+}
+inline ::google::protobuf::uint32 JoinFightAck::uuidseed() const {
+  return uuidseed_;
+}
+inline void JoinFightAck::set_uuidseed(::google::protobuf::uint32 value) {
+  set_has_uuidseed();
+  uuidseed_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // PlayerReadyNotify
 
-// required string pid = 1;
+// required int64 pid = 1;
 inline bool PlayerReadyNotify::has_pid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1436,70 +2847,22 @@ inline void PlayerReadyNotify::clear_has_pid() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void PlayerReadyNotify::clear_pid() {
-  if (pid_ != &::google::protobuf::internal::kEmptyString) {
-    pid_->clear();
-  }
+  pid_ = GOOGLE_LONGLONG(0);
   clear_has_pid();
 }
-inline const ::std::string& PlayerReadyNotify::pid() const {
-  return *pid_;
-}
-inline void PlayerReadyNotify::set_pid(const ::std::string& value) {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
-  pid_->assign(value);
-}
-inline void PlayerReadyNotify::set_pid(const char* value) {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
-  pid_->assign(value);
-}
-inline void PlayerReadyNotify::set_pid(const char* value, size_t size) {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
-  pid_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* PlayerReadyNotify::mutable_pid() {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
+inline ::google::protobuf::int64 PlayerReadyNotify::pid() const {
   return pid_;
 }
-inline ::std::string* PlayerReadyNotify::release_pid() {
-  clear_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = pid_;
-    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void PlayerReadyNotify::set_allocated_pid(::std::string* pid) {
-  if (pid_ != &::google::protobuf::internal::kEmptyString) {
-    delete pid_;
-  }
-  if (pid) {
-    set_has_pid();
-    pid_ = pid;
-  } else {
-    clear_has_pid();
-    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
+inline void PlayerReadyNotify::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // PlayerExitFightNotify
 
-// required string pid = 1;
+// required int64 pid = 1;
 inline bool PlayerExitFightNotify::has_pid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1510,63 +2873,15 @@ inline void PlayerExitFightNotify::clear_has_pid() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void PlayerExitFightNotify::clear_pid() {
-  if (pid_ != &::google::protobuf::internal::kEmptyString) {
-    pid_->clear();
-  }
+  pid_ = GOOGLE_LONGLONG(0);
   clear_has_pid();
 }
-inline const ::std::string& PlayerExitFightNotify::pid() const {
-  return *pid_;
-}
-inline void PlayerExitFightNotify::set_pid(const ::std::string& value) {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
-  pid_->assign(value);
-}
-inline void PlayerExitFightNotify::set_pid(const char* value) {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
-  pid_->assign(value);
-}
-inline void PlayerExitFightNotify::set_pid(const char* value, size_t size) {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
-  pid_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* PlayerExitFightNotify::mutable_pid() {
-  set_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    pid_ = new ::std::string;
-  }
+inline ::google::protobuf::int64 PlayerExitFightNotify::pid() const {
   return pid_;
 }
-inline ::std::string* PlayerExitFightNotify::release_pid() {
-  clear_has_pid();
-  if (pid_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = pid_;
-    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void PlayerExitFightNotify::set_allocated_pid(::std::string* pid) {
-  if (pid_ != &::google::protobuf::internal::kEmptyString) {
-    delete pid_;
-  }
-  if (pid) {
-    set_has_pid();
-    pid_ = pid;
-  } else {
-    clear_has_pid();
-    pid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
+inline void PlayerExitFightNotify::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
 }
 
 // -------------------------------------------------------------------

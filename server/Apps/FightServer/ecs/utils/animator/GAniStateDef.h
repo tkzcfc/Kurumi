@@ -14,14 +14,6 @@ namespace anim
 		ATTACK4,
 		BLOCK,
 		COLLAPSE,
-		COMMON_BRAKE,
-		COMMON_GLIDE,
-		COMMON_JUMPDOWN,
-		COMMON_JUMPUP,
-		COMMON_RUN,
-		COMMON_SQUAT,
-		COMMON_STAND,
-		COMMON_TURN,
 		CUT_DOWN,
 		CUT_STORE,
 		CUT_UP,
@@ -86,14 +78,6 @@ namespace anim
 		"ATTACK4",
 		"BLOCK",
 		"COLLAPSE",
-		"COMMON_BRAKE",
-		"COMMON_GLIDE",
-		"COMMON_JUMPDOWN",
-		"COMMON_JUMPUP",
-		"COMMON_RUN",
-		"COMMON_SQUAT",
-		"COMMON_STAND",
-		"COMMON_TURN",
 		"CUT_DOWN",
 		"CUT_STORE",
 		"CUT_UP",
@@ -146,9 +130,6 @@ namespace anim
 		"UKE",
 		"COUNT",
 		// NAME_END
-
-
-
 	};
 
 	static GANI_STATE_TYPE getStateType(const char* name)
@@ -160,5 +141,41 @@ namespace anim
 		}
 		assert(0);
 		return GANI_STATE_TYPE::COUNT;
+	}
+
+	static const char* getAniName(const char* name, bool fight)
+	{
+		if (!fight)
+		{
+			if (strcmp(name, "ANI_NAME_FIGHT_BRAKE") == 0)
+				return "ANI_NAME_COMMON_BRAKE";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_GLIDE") == 0)
+				return "ANI_NAME_COMMON_GLIDE";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_JUMPDOWN") == 0)
+				return "ANI_NAME_COMMON_JUMPDOWN";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_JUMPUP") == 0)
+				return "ANI_NAME_COMMON_JUMPUP";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_STAND") == 0)
+				return "ANI_NAME_COMMON_STAND";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_RUN") == 0)
+				return "ANI_NAME_COMMON_RUN";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_SQUAT") == 0)
+				return "ANI_NAME_COMMON_SQUAT";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_STAND") == 0)
+				return "ANI_NAME_COMMON_STAND";
+
+			if (strcmp(name, "ANI_NAME_FIGHT_TURN") == 0)
+				return "ANI_NAME_COMMON_TURN";
+
+			return name;
+		}
+		return name;
 	}
 }

@@ -15,17 +15,16 @@ GNetService::~GNetService()
 
 uint32_t GNetService::onInit()
 {
+	G_CHECK_SERVICE(GConfigService);
+
 	m_recvCall = NULL;
 
 	auto cfgService = m_serviceMgr->getService<GConfigService>();
-	if (cfgService == NULL)
-		return SCODE_START_FAIL_EXIT_APP;
-
 	auto& ini = cfgService->iniReader();
 	auto appName = GApplication::getInstance()->getAppName();
 
 	//! 不需要此服务
-	if (ini.GetBoolean(appName, "NetServiceEnable", false) == true)
+	if (ini.GetBoolean(appName, "NetServiceEnable", false) == false)
 	{
 		return SCODE_START_FAIL_NO_ERR;
 	}
@@ -95,7 +94,9 @@ void GNetService::onUpdate(float)
 	case GServiceStatus::STOP_ING:
 	{
 		if (m_svr->isCloseFinish())
-			m_status = GServiceStatus::STOP;
+		{
+			this->stopServiceFinish();
+		}
 	}break;
 	default:
 		break;

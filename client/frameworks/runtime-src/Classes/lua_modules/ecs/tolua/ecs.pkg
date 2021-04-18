@@ -1,5 +1,0 @@
-$#include "lua_function/tolua_ext.h"
-$pfile "anaxHelper.pkg"
-$pfile "anax.pkg"
-$pfile "systems.pkg"
-$pfile "components.pkg"

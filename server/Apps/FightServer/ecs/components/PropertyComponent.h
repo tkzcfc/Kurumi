@@ -31,7 +31,10 @@ public:
 		stateMachine = NULL;
 		jumpCount = 0;
 		jumpMaxCount = 2;
+		modeDefaultScale = 1.0f;
 		scale = 1.0f;
+
+		moveMaxVelocityX = 10.0f;
 
 		attack = 10;
 		armor = 10;
@@ -51,6 +54,8 @@ public:
 	GUUID uuid;
 	// 移动力
 	GVec2 moveForce;
+	// X最大移动速度
+	float32 moveMaxVelocityX;
 	// 跳跃冲力
 	GVec2 jumpIm;
 
@@ -68,6 +73,9 @@ public:
 	// 跳跃最大次数
 	int32_t jumpMaxCount;
 
+	// 动画模型当前缩放值
 	float32 scale;
+	// 动画模型默认缩放值
+	float32 modeDefaultScale;
 };
 

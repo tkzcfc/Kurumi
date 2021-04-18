@@ -1,129 +1,45 @@
 #include "GLibBase.h"
-#include "ServiceFight.h"
-#include "foundation/fsm/GAnimatorStateMachine.h"
-
-static bool isChange = false;
-class TestStateMachine : public GAnimatorStateMachine
-{
-public:
-	// 状态进入
-	void onStateEnter(GAnimatorState* state)
-	{
-		GAnimatorStateMachine::onStateEnter(state);
-	}
-
-	void onStateStay(GAnimatorState* state)
-	{
-		if (state->getStateName() == "StateC")
-		{
-			params().setFloat("fValue", params().getFloat("fValue") + fsm().getFrameTime());
-			params().setInteger("iValue", params().getInteger("iValue") + 1);
-			//printf("fvalue %f\n", params().getFloat("fValue"));
-		}
-
-		if (state->getFSM()->getCurStateStayTime() > 2.0f)
-		{
-			if (state->getStateName() == "StateB")
-			{
-				if (!isChange)
-				{
-					params().setTrigger("trigger", 1);
-					isChange = true;
-				}
-			}
-			this->onAnimFinished();
-		}
-	}
-
-	// 状态退出
-	void onStateExit(GAnimatorState* state)
-	{
-		GAnimatorStateMachine::onStateExit(state);
-	}
-
-	// 播放动画接口
-	void playAnimation(const std::string& animName, bool loop) 
-	{
-		LOG(INFO) << "playAnimation : " << animName << ", loop" << loop;
-	}
-
-	// 缩放动画播放速率
-	void scaleTime(float scale) 
-	{
-
-	}
-};
-
-
-class GAnimatorStateB : public GAnimatorState
-{
-public:
-
-	GAnimatorStateB(GAnimatorStateMachine* machine, const FStateKeyType& name)
-		: GAnimatorState(machine, name)
-	{}
-
-	virtual void onEnter()
-	{
-		GAnimatorState::onEnter();
-
-		G_LOG_I("log info test %s %d %f", "aa", 100000, 3.141592f);
-		G_LOG_W("log wa test %s %d %f", "aa", 100000, 3.141592f);
-		G_LOG_E("log err test %s %d %f", "aa", 100000, 3.141592f);
-		G_LOG_F("log fatal test %s %d %f", "aa", 100000, 3.141592f);
-		LOG(INFO) << "GAnimatorStateB --------------- > onEnter";
-	}
-};
-
-
+#include "GFightService.h"
 
 INITIALIZE_EASYLOGGINGPP;
 
-extern void initLog();
-
-const char* tobool(bool value)
-{
-	return value ? "true" : "false";
-}
+extern void initLog(const char* logName);
 
 int main(int argc, char** argv)
 {
-	initLog();
+	auto params = cmd::get_cmd_params(argc, argv);
+	auto argName = cmd::try_get(params, "name", "FightServer");
+
+	// init log
+	initLog(argName.c_str());
 
 	LOG(INFO) << "-----------application run-----------";
-	GApplication app("FightServer");
+
+	GApplication app(argName);
 	app.getServiceMgr()->addService<GConfigService>();
 	app.getServiceMgr()->addService<GSlaveNodeService>();
 	app.getServiceMgr()->addService<GMasterNodeService>();
 	app.getServiceMgr()->addService<GNetService>();
-
-	//TestStateMachine* machine = new TestStateMachine();
-	//machine->registerStateGenLogic("StateB", [](GAnimatorStateMachine* machine, const FStateKeyType& name) -> GAnimatorState*
-	//{
-	//	return new GAnimatorStateB(machine, name);
-	//});
-	//machine->initWithJson(GFileSystem::readStringFromFile("runtimeData.json"));
-
-	//app.getScheduler()->scheduleSelector([=](float dt) 
-	//{
-	//	machine->update(dt);
-	//}, 0.0f, false, "update");
-
-	//app.getServiceMgr()->addService<ServiceFight>();
-
+	app.getServiceMgr()->addService<GFightService>();
 	app.run();
+
+
 	LOG(INFO) << "-----------application exit-----------";
+
+	system("pause");
 
 	return EXIT_SUCCESS;
 }
 
-void initLog()
+void initLog(const char* logName)
 {
+	auto logDir = StringUtils::format("log\\%s\\", logName);
+
 	el::Configurations conf;
 	conf.setGlobally(el::ConfigurationType::Format, "%datetime{%M-%d %H:%m:%s} [%level] %msg");
 	conf.setGlobally(el::ConfigurationType::Enabled, "true");
 	conf.setGlobally(el::ConfigurationType::ToFile, "true");
-	conf.setGlobally(el::ConfigurationType::Filename, "log_fight\\log_%datetime{%Y%M%d}.log");
+	conf.setGlobally(el::ConfigurationType::Filename, logDir + "log_%datetime{%Y%M%d}.log");
 	conf.setGlobally(el::ConfigurationType::MillisecondsWidth, "3");
 	// 10MB
 	conf.setGlobally(el::ConfigurationType::MaxLogFileSize, "10485760");
