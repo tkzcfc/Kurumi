@@ -7,6 +7,8 @@
 require("commonlib.init")
 
 G_LangManager:initWithTextRoot("XXConfig.Lang", G_LangManager.LANGUAGE.CH)
+G_NetEventEmitter:clear()
+G_SysEventEmitter:clear()
 
 ----------------------------------  end  ----------------------------------
 local function unload(path)
@@ -100,6 +102,9 @@ function Loader:init()
 		ccui.Button = MyButton
 		-- _MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
 		-- _MyG.StartSceneID = _MyG.SCENE_ID_MAIN
+
+		_MyG.NetManager:setGameInfo(_MyG.startSvrTcpIP, _MyG.startSvrTcpPort)
+
 		_MyG.StartSceneID = _MyG.SCENE_ID_TEST
 	end)
 

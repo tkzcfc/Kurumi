@@ -12,7 +12,7 @@ function TestScene:onCreate()
  --    self:addChild(self.ui.root)
 
      self:test_http()
-     self:test_client()
+     -- self:test_client()
 end
 
 function TestScene:test_client()

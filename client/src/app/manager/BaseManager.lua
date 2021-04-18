@@ -18,7 +18,13 @@ function BaseManager:override_onDestroy()
 end
 
 function BaseManager:log(...)
-	-- print(self.__cname .. " :", ...)
+	if self.disenableLog then return end
+	print(self.__cname .. " :", ...)
+end
+
+-- @brief 关闭日志输出
+function BaseManager:closeLog()
+	self.disenableLog = true
 end
 
 return BaseManager

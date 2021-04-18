@@ -21,35 +21,71 @@ end
 -- @brief 订阅事件
 -- @param event 事件key
 -- @param listener 监听者
+-- @param tag 标记
 -- @param priority 派发优先级 默认3
-function EventEmitter:on(event, listener, priority)
-	return self:addListener(event, listener, -1, priority)
+function EventEmitter:on(event, listener, tag, priority)
+	return self:addListener(event, listener, -1, tag, priority)
 end
 
 -- 订阅一次事件
-function EventEmitter:once(event, listener, priority)
-	return self:addListener(event, listener, 1, priority)
+function EventEmitter:once(event, listener, tag, priority)
+	return self:addListener(event, listener, 1, tag, priority)
 end
 
 -- @brief 取消订阅事件
-function EventEmitter:off(arg1, arg2)
-	if type(arg2) == "function" then
-		self:removeListener(event, listener)
-	else
-		if arg1 == nil then
-			return
+-- @param uniqueID 事件订阅时返回的唯一Id
+function EventEmitter:off(uniqueID)
+	if uniqueID == nil then return end
+
+	assert(type(uniqueID) == "number")
+
+	local find = false
+	for event, listenerTabArr in pairs(self.event_listenerMap) do
+		for _, listenerTab in pairs(listenerTabArr) do
+			for k, v in pairs(listenerTab) do
+				if v.uniqueID == uniqueID then
+					find = true
+					v.count = 0
+				end
+			end
+
+			if not self.doEmit_Map[event] then
+				repeat
+				until(not EventEmitter.removeOnce(listenerTab))
+			end
+			if find then break end
 		end
-		assert(type(arg1) == "number")
-		self:removeListenerByUniqueID(arg1)
-	end	
+		if find then break end
+	end
+end
+
+-- @brief 通过tag取消订阅事件
+function EventEmitter:offByTag(tag)
+	for event, listenerTabArr in pairs(self.event_listenerMap) do
+		for _, listenerTab in pairs(listenerTabArr) do
+			for k, v in pairs(listenerTab) do
+				if v.tag == tag then
+					v.count = 0
+				end
+			end
+
+			if not self.doEmit_Map[event] then
+				repeat
+				until(not EventEmitter.removeOnce(listenerTab))
+			end
+		end
+	end
 end
 
 -- @brief 订阅事件
 -- @param event 事件key
--- @param _listener 监听者
--- @param _count 订阅次数
--- @param priority 派发优先级 默认3
-function EventEmitter:addListener(event, _listener, _count, priority)
+-- @param listener 监听者
+-- @param count 订阅次数
+-- @param tag 标记
+-- @param priority 派发优先级 默认 PRIORITY_LEVEL_DEFAULT
+function EventEmitter:addListener(event, listener, count, tag, priority)
+	-- 不允许tag为空
+	assert(tag ~= nil)
 	priority = priority or PRIORITY_LEVEL_DEFAULT
 	
 	if priority < 1 or priority > PRIORITY_LEVEL_MAX then
@@ -70,55 +106,11 @@ function EventEmitter:addListener(event, _listener, _count, priority)
 	self.uniqueSeed = self.uniqueSeed + 1
 
 	local listenerTab = listenerTabArr[priority]
-	listenerTab[#listenerTab + 1] = {listener = _listener, count = _count, uniqueID = self.uniqueSeed}
+	listenerTab[#listenerTab + 1] = {listener = listener, count = count, uniqueID = self.uniqueSeed, tag = tag}
 
 	self:clearInvalid()
 
 	return self.uniqueSeed
-end
-
--- @brief 取消订阅事件
--- @param event 事件key
--- @param listener 监听者
-function EventEmitter:removeListener(event, listener)
-	local listenerTabArr = self.event_listenerMap[event]
-
-	if listenerTabArr then
-		for _, listenerTab in pairs(listenerTabArr) do
-			for k, v in pairs(listenerTab) do
-				if v.listener == listener then
-					v.count = 0
-				end
-			end
-
-			if not self.doEmit_Map[event] then
-				repeat
-				until(not EventEmitter.removeOnce(listenerTab))
-			end
-		end
-	end
-end
-
--- @brief 取消订阅事件
-function EventEmitter:removeListenerByUniqueID(uniqueID)
-	if uniqueID == nil then
-		return
-	end
-	
-	for event, listenerTabArr in pairs(self.event_listenerMap) do
-		for _, listenerTab in pairs(listenerTabArr) do
-			for k, v in pairs(listenerTab) do
-				if v.uniqueID == uniqueID then
-					v.count = 0
-				end
-			end
-
-			if not self.doEmit_Map[event] then
-				repeat
-				until(not EventEmitter.removeOnce(listenerTab))
-			end
-		end
-	end
 end
 
 -- @brief 取消订阅事件

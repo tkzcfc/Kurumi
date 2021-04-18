@@ -17,7 +17,6 @@ local class = {}
 class.alignment 		= require("commonlib.class.alignment")
 class.EventEmitter 		= require("commonlib.class.EventEmitter")
 class.LoadAsync 		= require("commonlib.class.LoadAsync")
-class.Recipient 		= require("commonlib.class.Recipient")
 class.Task 				= require("commonlib.class.Task")
 class.TaskFlowPipe 		= require("commonlib.class.TaskFlowPipe")
 class.Vector 			= require("commonlib.class.Vector")

@@ -1,10 +1,12 @@
 -- @Author : fangcheng
--- @Date   : 2020-07-15 10:59:38
+-- @Date   : 2020-07-18 10:59:38
 -- @remark : 循环滚动列表
 
 local PanZoomLayer = import(".PanZoomLayer")
 
 local CycleListView = class("CycleListView", PanZoomLayer)
+
+local VirtualNode = class("VirtualNode")
 
 -- 水平方向定义
 local HORIZONTAL = 0
@@ -21,13 +23,20 @@ local emptyLoadCellCall = function()
 	return cc.Node:create()
 end
 
+
 function CycleListView:ctor(size)
 	CycleListView.super.ctor(self, size)
+
+	self.queFreeCell = {}
+	self.arrAllCell = {}
+	self.arrLogicNode = {}
+	
+	-- 滚动方向
+	self:setDirection(HORIZONTAL)
 
 	self.pageMode = false
 	self:setZoomEnabled(false)
 	self:setBoundCollisionEnabled(false)
-	self:setDirection(0)
 	self:setDefaultScrollSpeed(kDefaultScrollSpeed)
 	self:setDefaultScrollMaxTime(0.3)
 	self:setTurnPageThreshold(kDefaultTurnPageThreshold)
@@ -38,9 +47,27 @@ end
 ---------------------------------------------------- public ----------------------------------------------------
 
 --@brief cell创建函数
---@brief 循环列表元素不会很多，所以这儿没有做cell复用，只做了异步加载
 function CycleListView:setOnLoadCellCallback(call)
 	self.onLoadCellCallback = call
+end
+
+-- @brief cell复用函数
+--		  当虚拟列表未开启时,此回调不会调用
+function CycleListView:setOnReloadCellCallback(call)
+	self.onReloadCellCallback = call
+end
+
+-- @brief 设置为虚拟列表(不可逆操作)
+--		  默认不开启,即不使用cell复用,只做异步加载,当该选项开启后不能关闭
+--		  元素不是很多时没必要使用cell复用
+function CycleListView:setVirtualList()
+	self.isVirtualList = true
+end
+
+-- @brief 设置为普通列表模式(不可逆操作),只能在 loadList 调用之前调用
+function CycleListView:setNormalList()
+	if self.loadListTag then error("只能在'loadList'调用之前调用") end
+	self.isNormalList = true
 end
 
 -- @brief 设置cell数量
@@ -106,41 +133,54 @@ function CycleListView:scrollToPageDistance(index)
 	local offsetValue = 0
 	local curPageIndex = self:getCurrentPageIndex()
 
-	-- 如果摇滚动到的页面不是当前页，则计算最小滚动方式
 	if curPageIndex ~= index then
-		local stepCount = 0
-		local curIndex = curPageIndex
-		repeat
-			stepCount = stepCount + 1
-			curIndex = self:step(curIndex)
-			if curIndex == index then
-				break
+		-- 普通列表
+		if self.isNormalList then
+			local diffCount = curPageIndex - index
+
+			offsetValue = self:getCellOffsetInView(curPageIndex)
+			if self.direction == HORIZONTAL then
+				offsetValue = offsetValue - diffCount * self.cellSize.width
+			else
+				offsetValue = offsetValue - diffCount * self.cellSize.height			
 			end
-		until(false)
-
-		local diffCount = 0
-		curIndex = curPageIndex
-		repeat
-			diffCount = diffCount + 1
-			curIndex = self:diff(curIndex)
-			if curIndex == index then
-				break
-			end
-		until(false)
-
-		offsetValue = self:getCellOffsetInView(curPageIndex)
-
-		local cellValue = self.cellSize.height
-		if self.direction == HORIZONTAL then
-			cellValue = self.cellSize.width
-		end
-
-		-- 正向滚动移动距离最小
-		if stepCount < diffCount then
-			offsetValue = offsetValue + stepCount * cellValue		
-		-- 逆向滚动移动距离最小
+		-- 虚拟列表
 		else
-			offsetValue = offsetValue - diffCount * cellValue
+			-- 计算滚动到目标界面最小距离
+			local stepCount = 0
+			local curIndex = curPageIndex
+			repeat
+				stepCount = stepCount + 1
+				curIndex = self:step(curIndex)
+				if curIndex == index then
+					break
+				end
+			until(false)
+
+			local diffCount = 0
+			curIndex = curPageIndex
+			repeat
+				diffCount = diffCount + 1
+				curIndex = self:diff(curIndex)
+				if curIndex == index then
+					break
+				end
+			until(false)
+
+			offsetValue = self:getCellOffsetInView(curPageIndex)
+
+			local cellValue = self.cellSize.height
+			if self.direction == HORIZONTAL then
+				cellValue = self.cellSize.width
+			end
+
+			-- 正向滚动移动距离最小
+			if stepCount < diffCount then
+				offsetValue = offsetValue + stepCount * cellValue		
+			-- 逆向滚动移动距离最小
+			else
+				offsetValue = offsetValue - diffCount * cellValue
+			end
 		end
 	else
 		offsetValue = self:getCellOffsetInView(index)
@@ -170,21 +210,21 @@ function CycleListView:getCurrentPageIndex()
 	-- 偏移量
 	local offsetx, offsety = self.container:getPosition()
 
-	-- 计算视口当前显示的cell
-	local viewCellIndex, cellPosValue = -1, 0
-	for k, cell in pairs(self.cells) do
+	-- 计算视口当前显示的node
+	local viewCellIndex, nodePosValue = -1, 0
+	for k, node in pairs(self.arrLogicNode) do
 		if self.direction == HORIZONTAL then
-			local curValue = cell:getPositionX() + offsetx
+			local curValue = node:getPositionX() + offsetx
 			if curValue >= 0 and curValue < lsize.width then
 				viewCellIndex = k
-				cellPosValue = curValue
+				nodePosValue = curValue
 				break
 			end
 		else
-			local curValue = cell:getPositionY() + offsety
+			local curValue = node:getPositionY() + offsety
 			if curValue>= 0 and curValue < lsize.height then
 				viewCellIndex = k
-				cellPosValue = curValue
+				nodePosValue = curValue
 				break
 			end
 		end
@@ -193,7 +233,7 @@ function CycleListView:getCurrentPageIndex()
 	-- 正常逻辑不会出现找不到的情况
 	assert(viewCellIndex > 0)
 
-	return viewCellIndex, cellPosValue
+	return viewCellIndex, nodePosValue
 end
 
 -- @brief 获取某个cell相对于视口的偏移值
@@ -204,71 +244,98 @@ function CycleListView:getCellOffsetInView(index)
 	-- 偏移量
 	local offsetx, offsety = self.container:getPosition()
 
-	local cell = self.cells[index]
+	local node = self.arrLogicNode[index]
 
-	if not cell then
+	if not node then
 		return 0
 	end
 
 	if self.direction == HORIZONTAL then
-		return cell:getPositionX() + offsetx
+		return node:getPositionX() + offsetx
 	else
-		return cell:getPositionY() + offsety
+		return node:getPositionY() + offsety
 	end
 end
 
 -- @brief 加载循环列表，需要外部手动调用才能完成列表的加载,在设置好所有参数之后最后调用
-function CycleListView:loadList()
-	self.cells = {}
-	self.container:removeAllChildren()
+-- @param isFreeze 是否保持当前滑动位置
+function CycleListView:loadList(isFreeze)
+	self:stoppedAnimatedScroll()
 
+	local oldvalue
+	if isFreeze then
+		if self.loadListTag then
+			oldvalue = {}
+			oldvalue.isRunCycle = self.isRunCycle
+			oldvalue.cellCount = self.cellCount
+		end
+	else
+		self:resetTransform()
+	end
+
+	self.loadListTag = true
+
+	-- 移除多余的逻辑节点
+	for k, v in pairs(self.arrLogicNode) do
+		v:onDestroy()
+	end
+	self.arrLogicNode = {}
+	-- for i = 1, #self.arrLogicNode - self.cellCount do
+	-- 	local node = table.remove(self.arrLogicNode)
+	-- 	node:onDestroy()
+	-- end
+	-- 添加缺少的逻辑节点
+	for i = #self.arrLogicNode + 1, self.cellCount do
+		local node = VirtualNode.new(self, i)
+		table.insert(self.arrLogicNode, node)
+	end
+
+	-- 逻辑节点初始化
 	for i = 1, self.cellCount do
-		local cell = cc.Node:create()
-		cell:setContentSize(self.cellSize)
-
+		local node = self.arrLogicNode[i]
+		node:setIndex(i)
 		if self.direction == HORIZONTAL then
-			cell:setPositionX((i - 1) * self.cellSize.width)
+			node:setPositionX((i - 1) * self.cellSize.width)
 		else
-			cell:setPositionY((i - 1) * self.cellSize.height)			
+			node:setPositionY((i - 1) * self.cellSize.height)			
 		end
-		cell:setAnchorPoint(0, 0)
-		self:addUnit(cell)
-		self.cells[i] = cell
 	end
 
-	self.canRunCycle   = true
+	if self.isNormalList then
+		self.isRunCycle = false
+	else
+		-- 标记当前运行循环列表模式
+		self.isRunCycle = self:canRunWithCycle()
+	end
+
+	if self.isRunCycle then
+		self:setBoundCollisionEnabled(false)
+	else
+		self:setBoundCollisionEnabled(true)
+		local viewSize = self:getContentSize()
+		if self.direction == HORIZONTAL then
+			local width = math.max(viewSize.width, self.cellCount * self.cellSize.width)
+			self:setContainerSize(cc.size(width, viewSize.height))
+		else
+			local height = math.max(viewSize.height, self.cellCount * self.cellSize.height)
+			self:setContainerSize(cc.size(viewSize.width, height))
+		end
+
+		if oldvalue and oldvalue.isRunCycle then
+			self:resetTransform()
+		end
+	end
+
 	self:onChangePosition(0, 0)
-
-	if not self.canRunCycle then
-		for k,cell in pairs(self.cells) do
-			if not cell.isLoadCellTag then
-				local tmp = self.onLoadCellCallback(k)
-				if tmp then
-					cell.cellRender = tmp
-					cell.isLoadCellTag = true
-					cell:addChild(tmp)
-	
-					self:dispatchEvent(EventType.EVENT_NEW_CELL_CREATE)
-				else
-					error("返回值不能为空")
-				end
-			end
-		end
-	end
 end
 
--- @brief 设置滚动方向
--- @param value 0水平 1垂直
-function CycleListView:setDirection(value)
-	self.direction = value
-end
 
 -- @brief 获取某个cell渲染节点
 -- @param index cell的下标 从1开始
 function CycleListView:getCellRender(index)
-	local cell = self.cells[index]
-	if cell then
-		return cell.cellRender
+	local node = self.arrLogicNode[index]
+	if node then
+		return node:getRender()
 	end
 end
 
@@ -315,12 +382,31 @@ function CycleListView:onTouchesEnded(point)
 					self:scrollToPage(viewCellIndex)
 				end
 			end
-			
 		end
 	end
 end
 
-function CycleListView:_updateCellPos()
+-- @brief 是否能运行循环滚动列表
+function CycleListView:canRunWithCycle()
+	local viewSize = self:getContentSize()
+	-- 间距
+	local spaceValue = self.cellSize.width
+	-- 边框最大值
+	local boundMaxValue = viewSize.width
+
+	if self.direction ~= HORIZONTAL then 
+		boundMaxValue = viewSize.height
+		spaceValue 	  = self.cellSize.height
+	end
+
+	local total = self.cellCount * spaceValue
+	if total - spaceValue <= boundMaxValue or self.cellCount < 2 then
+		return false
+	end
+	return true
+end
+
+function CycleListView:_updateCellPos_Cycle()
 	local viewSize = self:getContentSize()
 	-- 间距
 	local spaceValue = self.cellSize.width
@@ -336,12 +422,11 @@ function CycleListView:_updateCellPos()
 
 	local total = self.cellCount * spaceValue
 	if total - spaceValue <= boundMaxValue or self.cellCount < 2 then
-		self.canRunCycle = false
 		return
 	end
 
 	-- 隐藏所有cell
-	for k,v in pairs(self.cells) do
+	for k,v in pairs(self.arrLogicNode) do
 		v:setVisible(false)
 	end
 
@@ -408,30 +493,57 @@ function CycleListView:_updateCellPos()
 			break
 		else
 			if self.direction == HORIZONTAL then
-				self.cells[curIndex]:setPositionX(curPosValue)
+				self.arrLogicNode[curIndex]:setPositionX(curPosValue)
 			else
-				self.cells[curIndex]:setPositionY(curPosValue)
+				self.arrLogicNode[curIndex]:setPositionY(curPosValue)
 			end
-			self.cells[curIndex]:setVisible(true)
+			self.arrLogicNode[curIndex]:setVisible(true)
 			curPosValue = curPosValue + spaceValue
 			curIndex = self:step(curIndex)
 		end
 		curMinValue = tmp
 	end
 
-	-- 事件回调
-	for k,cell in pairs(self.cells) do
-		if not cell.isLoadCellTag and cell:isVisible() then
-			local tmp = self.onLoadCellCallback(k)
-			if tmp then
-				cell.cellRender = tmp
-				cell.isLoadCellTag = true
-				cell:addChild(tmp)
 
-				self:dispatchEvent(EventType.EVENT_NEW_CELL_CREATE)
-			else
-				error("返回值不能为空")
-			end
+	-- 事件回调
+	for k,node in pairs(self.arrLogicNode) do
+		if not node:isVisible() then
+			node:onHide()
+		end
+	end
+	for k,node in pairs(self.arrLogicNode) do
+		if node:isVisible() then
+			node:onShow()
+		end
+	end
+end
+
+function CycleListView:_updateCellPos_Normal()
+	local viewSize = self:getContentSize()
+	-- 边框最小值
+	local boundMinValue = -self.offsetValue
+	-- 边框最大值
+	local boundMaxValue
+	if self.direction == HORIZONTAL then
+		boundMinValue = boundMinValue - self.cellSize.width
+		boundMaxValue = boundMinValue + viewSize.width + self.cellSize.width
+	else
+		boundMinValue = boundMinValue - self.cellSize.height
+		boundMaxValue = boundMinValue + viewSize.height + self.cellSize.height
+	end
+
+	local curValue, curNode
+	for i = 1, self.cellCount do
+		curNode = self.arrLogicNode[i]
+		if self.direction == HORIZONTAL then
+			curValue = curNode.x
+		else
+			curValue = curNode.y
+		end
+		if curValue < boundMinValue or curValue > boundMaxValue then
+			curNode:onHide()
+		else
+			curNode:onShow()
 		end
 	end
 end
@@ -453,67 +565,145 @@ function CycleListView:diff(i)
 end
 
 function CycleListView:onChangePosition(curx, cury)
-	if not self.canRunCycle then
-		if self.direction == HORIZONTAL then
-			self.offsetValue = self.container:getPositionX() + curx
-			local minValue = -self.cellCount * self.cellSize.width
-			local viewWidth = self:getContentSize().width
-
-			local breakLoop = false
-			repeat
-				breakLoop = true
-
-				if self.offsetValue > 0 then
-					if self.offsetValue > viewWidth then
-						local tmp = self.offsetValue - viewWidth
-						self.offsetValue = tmp + minValue
-						breakLoop = false
-					end
-				end
-	
-				if self.offsetValue < minValue then
-					local tmp = minValue - self.offsetValue
-					self.offsetValue = viewWidth - tmp
-					breakLoop =false
-				end
-			until(breakLoop)
-			self.container:setPositionX(self.offsetValue)
-		else
-			self.offsetValue = self.container:getPositionY() + cury
-			local minValue = -self.cellCount * self.cellSize.height
-			local viewHeight = self:getContentSize().height
-
-			local breakLoop = false
-			repeat
-				breakLoop = true
-
-				if self.offsetValue > 0 then
-					if self.offsetValue > viewHeight then
-						local tmp = self.offsetValue - viewHeight
-						self.offsetValue = tmp + minValue
-						breakLoop = false
-					end
-				end
-	
-				if self.offsetValue < minValue then
-					local tmp = minValue - self.offsetValue
-					self.offsetValue = viewHeight - tmp
-					breakLoop =false
-				end
-			until(breakLoop)
-			self.container:setPositionY(self.offsetValue)
-		end
-		return
-	end
-
+	CycleListView.super.onChangePosition(self, curx, cury)
 	if self.direction == HORIZONTAL then
-		CycleListView.super.onChangePosition(self, curx, 0)
 		self.offsetValue = self.container:getPositionX()
 	else
-		CycleListView.super.onChangePosition(self, 0, cury)
 		self.offsetValue = self.container:getPositionY()
 	end
-	self:_updateCellPos()
+	if self.isRunCycle then
+		self:_updateCellPos_Cycle()
+	else
+		self:_updateCellPos_Normal()
+	end
 end
+
+function CycleListView:allocCell(index)
+	if #self.queFreeCell <= 0 then
+		local cell = self.onLoadCellCallback(index)
+		if cell then
+			cell:retain()
+			self:addUnit(cell)
+		else
+			error("返回值不能为空")
+		end
+		table.insert(self.arrAllCell, cell)
+		return cell, true
+	end
+
+	local cell = table.remove(self.queFreeCell)
+	self.onReloadCellCallback(cell, index)
+	self:addUnit(cell)
+	return cell, false
+end
+
+function CycleListView:freeCell(cell)
+	cell:removeFromParent()
+	table.insert(self.queFreeCell, cell)
+end
+
+function CycleListView:onCleanup()
+	for k,v in pairs(self.arrLogicNode) do
+		v:onDestroy()
+	end
+
+	for k,v in pairs(self.arrAllCell) do
+		-- print("release", k)
+		v:release()
+	end
+	self.arrAllCell = {}
+	self.queFreeCell = {}
+	self.arrLogicNode = {}
+end
+
+
+
+
+------------------------------- VirtualNode begin -------------------------------
+function VirtualNode:ctor(listView, index)
+	self.x, self.y = 0, 0
+	self.listView = listView
+	self.index = index
+	self.visible = true
+end
+
+-- @brief 设置当前下标,仅用于校验之前的逻辑是否正确
+function VirtualNode:setIndex(index)
+	if self.index ~= index then error("self.index ######") end
+end
+
+-- @brief 逻辑节点位置设置
+function VirtualNode:setPositionX(x)
+	self.x = x
+	if self.render then self.render:setPositionX(x) end
+end
+
+-- @brief 逻辑节点位置设置
+function VirtualNode:setPositionY(y)
+	self.y = y
+	if self.render then self.render:setPositionY(y) end
+end
+
+-- @brief 逻辑节点位置获取
+function VirtualNode:getPositionX(x)
+	return self.x
+end
+
+-- @brief 逻辑节点位置获取
+function VirtualNode:getPositionY(y)
+	return self.y
+end
+
+-- @brief 逻辑节点显示隐藏标记
+function VirtualNode:setVisible(visible)
+	self.visible = visible
+end
+
+-- @brief 逻辑节点显示隐藏标记
+function VirtualNode:isVisible()
+	return self.visible
+end
+
+-- @brief 获取渲染节点
+function VirtualNode:getRender()
+	return self.render
+end
+
+-- @brief 逻辑节点显示
+function VirtualNode:onShow()
+	if self.render == nil then
+		local render, isNew = self.listView:allocCell(self.index)
+		self.render = render
+		self:setPositionX(self.x)
+		self:setPositionY(self.y)
+
+		if isNew then
+			self.listView:dispatchEvent(EventType.EVENT_NEW_CELL_CREATE)
+		end
+	end
+	self.render:setVisible(true)
+end
+
+-- @brief 逻辑节点隐藏
+function VirtualNode:onHide()
+	if self.render and self.listView.isVirtualList then
+		self.listView:freeCell(self.render)
+		self.render = nil
+	end
+	if self.render then self.render:setVisible(false) end
+end
+
+-- @brief 逻辑节点销毁
+function VirtualNode:onDestroy()
+	self:onHide()
+	if self.render then
+		self.render:removeFromParent()
+		self.render = nil
+	end
+	self.listView = nil
+end
+
+------------------------------- VirtualNode end -------------------------------
+
 
 return CycleListView

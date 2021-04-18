@@ -37,20 +37,6 @@ def clearLine(line):
 	line = line.replace('\n', '')
 	return line
 
-def copy_path(fromPath,toPath):
-    if os.path.exists(toPath):
-        try:
-            delDir(toPath)
-            log('delete ' + toPath + ' succeeded')
-        except Exception as e:
-            log('delete ' + toPath + ' failed')
-            return False
-    if os.path.exists(fromPath):
-        try:
-            shutil.copytree(fromPath, toPath)
-        except Exception as e:
-            return False
-    return True
 
 # 获取消息ID映射
 def getMsgIdMap(filePath):
@@ -181,14 +167,24 @@ def publishPbc(path, targetDir):
 
 	manifestFile = manifestFile + "}\n"
 
+	manifestFile = manifestFile + "\n"
+	manifestFile = manifestFile + "if cc then\n"
+	manifestFile = manifestFile + "    cc.exports.MessageID = {}\n"
+	manifestFile = manifestFile + "else\n"
+	manifestFile = manifestFile + "    MessageID = {}\n"
+	manifestFile = manifestFile + "end\n"
+	manifestFile = manifestFile + "for k, v in pairs(M.CMD) do\n"
+	manifestFile = manifestFile + "    MessageID[v.name] = k\n"
+	manifestFile = manifestFile + "end\n"
+	manifestFile = manifestFile + "\n"
 	manifestFile = manifestFile + "return M"
+	
 	# 清单文件写入
 	writeFile(outPath + "manifest.lua", manifestFile)
 
-	if copy_path(outPath, targetDir):
-		print('copy to ' + targetDir + ' succeeded')
-	else:
-		print('copy to ' + targetDir + ' failed')
+	if os.path.exists(targetDir):
+		shutil.rmtree(targetDir)
+	shutil.copytree(outPath, targetDir)
 
 def run():
 	current_path = os.path.abspath(__file__)

@@ -87,6 +87,8 @@ function HttpManager:override_onInit()
 	HttpManager.super.override_onInit(self)
 	url_reqMap = {}
 	url_fetchCalls = {}
+
+	self:closeLog()
 end
 
 -- @brief 销毁时调用

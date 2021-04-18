@@ -72,10 +72,12 @@ uint32_t GGateService::onInit()
 	});
 	m_pNetService->noticeCenter()->addListener(this, GNetService::MSG_KEY_NEW_CONNECT, [=](uint32_t sessionID)
 	{
+		m_msgMgr->onConnect(sessionID);
 		m_client->connect(m_ip.c_str(), m_port, sessionID);
 	});
 	m_pNetService->noticeCenter()->addListener(this, GNetService::MSG_KEY_DISCONNECT, [=](uint32_t sessionID)
 	{
+		m_msgMgr->onDisconnect(sessionID);
 		m_client->disconnect(sessionID);
 	});
 
@@ -83,20 +85,26 @@ uint32_t GGateService::onInit()
 	return SCODE_START_SUCCESS;
 }
 
+void GGateService::onUpdate(float)
+{
+	m_client->updateFrame();
+	m_msgMgr->updateFrame();
+}
+
 void GGateService::onConnectCallback(net_uv::Client* client, net_uv::Session* session, int32_t status)
 {
 	// 0:failed 1:succeeded 2:timed out
 	if (status == 1)
 	{
-		//msg::LoginGateAck ack;
-		//ack.set_code(err::Code::SUCCESS);
-		//SEND_PB_MSG(m_msgMgr, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
+		msg::LoginGateAck ack;
+		ack.set_code(err::Code::SUCCESS);
+		SEND_PB_MSG(m_pNetService, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
 	}
 	else
 	{
-		//msg::LoginGateAck ack;
-		//ack.set_code(err::Code::GATE_CONNECT_FAIL);
-		//SEND_PB_MSG(m_msgMgr, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
+		msg::LoginGateAck ack;
+		ack.set_code(err::Code::GATE_CONNECT_FAIL);
+		SEND_PB_MSG(m_pNetService, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
 
 		m_client->disconnect(session->getSessionID());
 	}

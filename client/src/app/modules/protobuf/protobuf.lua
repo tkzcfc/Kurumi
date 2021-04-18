@@ -561,12 +561,12 @@ function register( buffer)
 end
 
 function register_file(filename)
-	-- local f = assert(io.open(filename , "rb"))
-	-- local buffer = f:read "*a"
-	-- c._env_register(P, buffer)
-	-- f:close()
-	local buffer = ccFileInstance:getStringFromFile(filename)
+	local f = assert(io.open(filename , "rb"))
+	local buffer = f:read "*a"
 	c._env_register(P, buffer)
+	f:close()
+	-- local buffer = ccFileInstance:getStringFromFile(filename)
+	-- c._env_register(P, buffer)
 end
 
 function enum_id(enum_type, enum_name)

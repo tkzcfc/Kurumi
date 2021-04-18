@@ -22,7 +22,7 @@ function KeyBackManager:override_onInit()
 
 		-- 退出游戏弹窗
 		self:showExitGameBox()
-	end)
+	end, _MyG)
 end
 
 -- @brief 显示退出游戏弹窗

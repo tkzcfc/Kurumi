@@ -2,188 +2,178 @@
 -- @Date:   2020-11-07 16:34:33
 -- @remark: 游戏中所以的网络请求管理
 
+local manifest = require("pb.manifest")
 local NetManager = class("NetManager", import(".BaseManager"))
 
+local GAME_SESSION_ID  = 1
+local FIGHT_SESSION_ID = 2
 
 function NetManager:override_onInit()
 	NetManager.super.override_onInit(self)
 
+	self.sessionInfo = {}
+
+	self:initProtobuf()
 	self:initNet()
 	-- self:initUI()
 end
 
 function NetManager:override_onDestroy()
 	NetManager.super.override_onDestroy(self)
+	self.sessionInfo = {}
 	self.client:closeClient()
 end
 
+
+-- @brief 设置游戏服服务器信息
+function NetManager:setGameInfo(ip, port)
+	self:setSessionInfo(GAME_SESSION_ID, ip, port)
+end
+
+-- @brief 设置战斗服服务器信息
+function NetManager:setFightInfo(ip, port)
+	self:setSessionInfo(FIGHT_SESSION_ID, ip, port)
+end
+
+-- @brief 设置会话信息
+-- @param 会话id
+-- @param 会话ip
+-- @param 会话端口
+function NetManager:setSessionInfo(sessionID, ip, port)
+	if ip == nil then
+		self.sessionInfo[sessionID] = nil
+		self.client:disconnect(sessionID)
+		return
+	end
+
+	local t = {}
+	t.ip 		= ip
+	t.port 		= port
+	t.reCount 	= 0
+	self.sessionInfo[sessionID] = t
+
+	self:doConnect(sessionID)
+end
+
+-- @brief protobuf 初始化
+function NetManager:initProtobuf()
+	if cc.exports._protobuf_init then return end
+
+	require "app.modules.protobuf.protobuf"
+
+	for k, v in pairs(manifest.pb) do
+		local filename = cc.FileUtils:getInstance():fullPathForFilename("/pb/" .. v)
+		protobuf.register_file(filename)
+	end
+	cc.exports._protobuf_init = true
+end
+
+-- @brief 网络初始化
 function NetManager:initNet()
 	self.client = NetClient:create(false)
+	self.client:retain()
 	self.client:registerLuaHandle("onConnectCallback", handler(self, self.onConnectCallback))
-	self.client:registerLuaHandle("onMsgCallback", function(sessionID, msgID, data) end)
-	self.client:registerLuaHandle("onRemoveSessionCallback", function(session)
-
-	end)
-	self.client:registerLuaHandle("onDisconnectCallback", function(session)
-
-	end)
+	self.client:registerLuaHandle("onMsgCallback", handler(self, self.onMsgCallback))
+	self.client:registerLuaHandle("onRemoveSessionCallback", handler(self, self.onRemoveSessionCallback))
+	self.client:registerLuaHandle("onDisconnectCallback", handler(self, self.onDisconnectCallback))
 	self.client:registerLuaHandle("onClientCloseCallback", function()
 		oRoutine(o_once(function()
 			self.client:release()
 		end))
 	end)
-
-
-	
-
-	-- local client = Client.new()
-	-- self.dns = client.net:createDnsResolver()
-	-- self.dns:retain()
- --    self.dns:setCallback(function(addr, ip)
- --    	print("dns解析回调", addr, ip)
- --    	self.kcpResolveIp = ip
-	-- 	if self:isConnect_Kcp() then
-	-- 		self.client:kcpDisconnect(SESSIONID_KCP)
-	-- 	else
-	-- 		self:doKcpReconnect()
-	-- 	end
- --    end)
-
-	-- G_SysEventEmitter:on("event_appWillExit", function()
-	-- 	if self.dns then
-	-- 		self.dns:release()
-	-- 		self.dns = nil
-	-- 	end
-	-- end)
-
-	-- client.emitter:on("event_onTcpCconnect", function(sessionID, isConnect)
-	-- 	local sessionData = self:getSessionData(sessionID)
-		
-	-- 	sessionData.isConnect = isConnect
-		
-	-- 	if isConnect then
-	-- 		sessionData.curConnectCount = 0
-	-- 		self:tryHideConnectLoading()
-	-- 	else
-	-- 		sessionData.curConnectCount = sessionData.curConnectCount + 1
-	-- 		if sessionData.curConnectCount > MAX_CONNECT_COUNT_TCP then
-	-- 			self:showConnectFailMsgBox()
-	-- 		else
-	-- 			self:tryShowConnectLoading()
-	-- 			oRoutine(o_once(function()
-	-- 				-- 等待一段时间后再继续连 
-	-- 				o_wait(o_seconds(1))
-	-- 				self:doTcpReconnect()
-	-- 			end))
-	-- 		end
-	-- 	end
-	-- end)
-
-	-- client.emitter:on("event_onTcpMsg", function(sessionID, data)
-	-- 	if string.len(data) <= 0 then
-	-- 		print("收到0个字节消息!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-	-- 		return
-	-- 	end
-	-- 	local msg = json.decode(data)
-	-- 	G_NetEventEmitter:emit(msg.__MsgName__, msg)
-
-	-- 	print("recv-------------------------------------- begin>>>>")
-	-- 	print_lua_value(msg)
-	-- 	print("recv-------------------------------------- end>>>>")
-	-- end)
-
-	-- client.emitter:on("event_onTcpDisconnect", function(sessionID)
-	-- 	self:getSessionData(sessionID).isConnect = false
-	-- 	self:doTcpReconnect()
-	-- end)
-
-	-- client.emitter:on("event_onKcpConnect", function(sessionID, isConnect)
-	-- 	self:getSessionData(sessionID).isConnect = isConnect and true or false
-	-- 	print("kcp连接", isConnect and "成功" or "失败", isConnect)
-	-- 	if not isConnect then
-	-- 		oRoutine(o_once(function()
-	-- 			-- 等待一段时间后再继续连 
-	-- 			o_wait(o_seconds(2))
-	-- 			self:doKcpReconnect()
-	-- 		end))
-	-- 	end
-	-- end)
-
-	-- client.emitter:on("event_onKcpMsg", function(sessionID, data)
-	-- 	if string.len(data) <= 0 then
-	-- 		print("收到0个字节消息!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-	-- 		return
-	-- 	end
-	-- 	local msg = json.decode(data)
-	-- 	G_NetEventEmitter:emit(msg.__MsgName__, msg)
-
-	-- 	print("recv-------------------------------------- begin>>>>")
-	-- 	print_lua_value(msg)
-	-- 	print("recv-------------------------------------- end>>>>")
-	-- end)
-
-	-- client.emitter:on("event_onKcpDisconnect", function(sessionID)
-	-- 	print("kcp断开连接")
-	-- 	self:getSessionData(sessionID).isConnect = false
-	-- 	self:doKcpReconnect()
-	-- end)
-
-	-- self.client = client
-	-- self.sessionMng = {}
 end
 
+-- @brief 连接结果回调
 function NetManager:onConnectCallback(session, status)
+	self:log("onConnectCallback", session:getSessionID(), status)
+
+	local sessionID = session:getSessionID()
+	if self.sessionInfo[sessionID] == nil then
+		session:disconnect()
+		return
+	end
+
 	if status == 1 then
+		self.sessionInfo[sessionID].reCount = 0
 	else
+		-- 等待一段时间后再继续连 
 		oRoutine(o_once(function()
-			-- 等待一段时间后再继续连 
 			o_wait(o_seconds(1))
-			self.client:connect(_MyG.startSvrTcpIP, _MyG.startSvrTcpPort, 0)
+			self:doConnect(sessionID)
 		end))
 	end
-	-- 	if isConnect then
-	-- 		sessionData.curConnectCount = 0
-	-- 		self:tryHideConnectLoading()
-	-- 	else
-	-- 		sessionData.curConnectCount = sessionData.curConnectCount + 1
-	-- 		if sessionData.curConnectCount > MAX_CONNECT_COUNT_TCP then
-	-- 			self:showConnectFailMsgBox()
-	-- 		else
-	-- 			self:tryShowConnectLoading()
-	-- 			oRoutine(o_once(function()
-	-- 				-- 等待一段时间后再继续连 
-	-- 				o_wait(o_seconds(1))
-	-- 				self:doTcpReconnect()
-	-- 			end))
-	-- 		end
-	-- 	end
+end
+
+-- @brief 连接断开回调
+function NetManager:onDisconnectCallback(session)
+	self:log("onDisconnectCallback", session:getSessionID())
+	self:doConnect(session:getSessionID())
+end
+
+-- @brief 连接删除回调
+function NetManager:onRemoveSessionCallback(session)
+	self:log("onRemoveSessionCallback", session:getSessionID())
+end
+
+-- @brief 消息接收回调
+function NetManager:onMsgCallback(sessionID, msgID, data)
+	local info = manifest.CMD[msgID]
+	if not info then
+		self:log("收到非法消息:", msgID)
+		return
+	end
+
+	local msg, err = protobuf.decode(info.msg, data)
+
+	if not msg then
+		logE("decode msg:", msgID, ",error:", err)
+		return
+	end
+
+	G_NetEventEmitter:emit(msgID, msg)
+end
+
+-- @brief 执行连接操作
+function NetManager:doConnect(sessionID)
+	local info = self.sessionInfo[sessionID]
+	if info == nil then
+		return
+	end
+
+	info.reCount = info.reCount + 1
+	if info.reCount > 3 then
+		return false
+	end
+
+	self.client:connect(info.ip, info.port, sessionID)
+	return true
 end
 
 function NetManager:initUI()
-	self.loadingUI = require("app.ui.general.LoadingUI"):new()
-	self.loadingUI:setLocalZOrder(G_Const.WINDOW_Z.NET_LOADING)
-	self.loadingUI:retain()
+	-- self.loadingUI = require("app.ui.general.LoadingUI"):new()
+	-- self.loadingUI:setLocalZOrder(G_Const.WINDOW_Z.NET_LOADING)
+	-- self.loadingUI:retain()
 
-	self.msgBox = require("app.ui.general.NetMessageBoxUI"):new()
-	self.msgBox:retain()
+	-- self.msgBox = require("app.ui.general.NetMessageBoxUI"):new()
+	-- self.msgBox:retain()
 
-	self.showLoadingTag = false
-	self.showMsgBoxTag = false
+	-- self.showLoadingTag = false
+	-- self.showMsgBoxTag = false
 
-	-- 场景切换之前,移除loading或msgBox
-	G_NetEventEmitter:on("event_willEnterScene", function() 
-		self.loadingUI:hideLoding()
-		self.msgBox:hideBox()
-	end)
-	-- 场景切换之后，恢复相应的ui
-	G_NetEventEmitter:on("event_enterSceneFinish", function() 
-		if self.showLoadingTag then
-			self:showConnectLoading()
-		end
-		if self.showMsgBoxTag then
-			self:showConnectFailMsgBox()
-		end
-	end)
+	-- -- 场景切换之前,移除loading或msgBox
+	-- G_NetEventEmitter:on("event_willEnterScene", function() 
+	-- 	self.loadingUI:hideLoding()
+	-- 	self.msgBox:hideBox()
+	-- end)
+	-- -- 场景切换之后，恢复相应的ui
+	-- G_NetEventEmitter:on("event_enterSceneFinish", function() 
+	-- 	if self.showLoadingTag then
+	-- 		self:showConnectLoading()
+	-- 	end
+	-- 	if self.showMsgBoxTag then
+	-- 		self:showConnectFailMsgBox()
+	-- 	end
+	-- end)
 end
 
 return NetManager

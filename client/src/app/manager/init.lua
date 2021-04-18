@@ -14,20 +14,19 @@ _MyG.HttpManager 		= require("app.manager.HttpManager").new()
 _MyG.InputManager 		= require("app.manager.InputManager").new()
 _MyG.NotifiNodeManager	= require("app.manager.NotifiNodeManager").new()
 _MyG.KeyBackManager		= require("app.manager.KeyBackManager").new()
-
--- _MyG.NetManager = import("app.manager.NetManager").new()
+_MyG.NetManager 		= require("app.manager.NetManager").new()
 
 G_SysEventEmitter:on("event_appWillExit", function()
 	for k,v in pairs(_MyG.arrManagers) do
 		v:override_onDestroy()
 	end
 	_MyG.arrManagers = {}
-end)
+end, _MyG)
 
 G_SysEventEmitter:on("event_restartApp", function()
 	for k,v in pairs(_MyG.arrManagers) do
 		v:override_onDestroy()
 	end
 	_MyG.arrManagers = {}
-end)
+end, _MyG)
 

@@ -7,17 +7,27 @@ local ViewBase = cc.load("mvc").ViewBase
 local SceneBase = class("SceneBase", ViewBase)
 
 function SceneBase:onCreate()
-    self.netRecipient = G_Class.Recipient.new(G_NetEventEmitter)
 end
 
 function SceneBase:initWithParameter(args)
 end
 
+-- @brief 监听网络消息
+-- @param msgID 消息ID
+-- @param call 回调
+-- @param priority 监听优先级
+function SceneBase:onNetMsg(msgID, call, priority)
+	G_NetEventEmitter:on(msgID, call, self, priority)
+end
+
 function SceneBase:onEnter()
+	if type(self.initNetEvent) == "function" then
+		self:initNetEvent()
+	end
 end
 
 function SceneBase:onExit()
-    self.netRecipient:clear()
+	G_NetEventEmitter:offByTag(self)
 end
 
 function SceneBase:onKeyBackReleased()

@@ -7,8 +7,8 @@ if not _MyG then
 	cc.exports._MyG = {}
 end
 
-_MyG.startSvrTcpIP = 'zengtao2233f.f3322.net'
-_MyG.startSvrTcpPort = 23001
+_MyG.startSvrTcpIP = '127.0.0.1'
+_MyG.startSvrTcpPort = 7001
 
 print("_MyG.startSvrIP-------------->>", _MyG.startSvrTcpIP)
 print("_MyG.startSvrPort", _MyG.startSvrTcpPort)

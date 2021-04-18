@@ -16,6 +16,8 @@ public:
 
 	virtual uint32_t onInit() override;
 
+	virtual void onUpdate(float) override;
+
 protected:
 
 	void onConnectCallback(net_uv::Client* client, net_uv::Session* session, int32_t status);

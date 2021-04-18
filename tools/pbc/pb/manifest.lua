@@ -10,6 +10,7 @@ M.CMD = {
 	[900001] = {file = 'Msg_Game.pb', name = 'MSG_LOGIN_REQ', msg = 'msg.LoginReq'},
 	[900010] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_GAME_NTF', msg = 'msg.ExitGameNtf'},
 	[900002] = {file = 'Msg_Game.pb', name = 'MSG_LOGIN_ACK', msg = 'msg.LoginAck'},
+	[100001] = {file = 'Msg_Game.pb', name = 'MSG_LOGIN_GATE_ACK', msg = 'msg.LoginGateAck'},
 	[800008] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_FIGHT_ACK', msg = 'msg.ExitFightAck'},
 	[800006] = {file = 'Msg_Game.pb', name = 'MSG_PLAYER_EXIT_FIGHT_NTF', msg = 'msg.PlayerExitFightNotify'},
 	[800007] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_FIGHT_REQ', msg = 'msg.ExitFightReq'},
@@ -24,4 +25,14 @@ M.pb = {
 	'Msg_Game.pb',
 	'Msg_Err.pb',
 }
+
+if cc then
+    cc.exports.MessageID = {}
+else
+    MessageID = {}
+end
+for k, v in pairs(M.CMD) do
+    MessageID[v.name] = k
+end
+
 return M
