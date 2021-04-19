@@ -23,7 +23,7 @@ public:
 	// 通过会话id获取玩家
 	GPlayer* getPlayerBySessionID(uint32_t sessionID);
 
-	bool queryPlayerInfo(const std::string& account, std::vector<GPlayer*> players);
+	bool queryPlayerInfo(const std::string& account, std::vector<GPlayer*>& players);
 
 	uint32_t getSessionID(int64_t playerId);
 

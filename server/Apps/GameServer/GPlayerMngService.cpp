@@ -30,6 +30,7 @@ uint32_t GPlayerMngService::onInit()
 	m_sqliter->setsql("CREATE TABLE IF NOT EXISTS player ("
 		"id INTEGER PRIMARY KEY AUTOINCREMENT, "
 		"playerid INTEGER, "
+		"svrId INTEGER, "
 		"account TEXT, "
 		"name TEXT, "
 		"lastTime INTEGER, "
@@ -50,8 +51,8 @@ uint32_t GPlayerMngService::onInit()
 // 读取玩家数据
 bool GPlayerMngService::readPlayer()
 {
-	m_sqliter->setsql("SELECT playerid, account, name, lastTime, createTime FROM player;");
-	m_sqliter->pushvaltypesout(intdbval, strdbval, strdbval, intdbval, intdbval);
+	m_sqliter->setsql("SELECT playerid, svrId, account, name, lastTime, createTime FROM player;");
+	m_sqliter->pushvaltypesout(intdbval, intdbval, strdbval, strdbval, intdbval, intdbval);
 
 	m_allPlayer.clear();
 	do
@@ -65,17 +66,18 @@ bool GPlayerMngService::readPlayer()
 			LOG(ERROR) << "load player failed";
 			return false;
 		}
-
 		auto playerid	= m_sqliter->rowdata[0].ival;
-		auto account	= m_sqliter->rowdata[1].sval;
-		auto name		= m_sqliter->rowdata[2].sval;
-		auto lastTime	=  m_sqliter->rowdata[3].ival;
-		auto createTime = m_sqliter->rowdata[3].ival;
+		auto svrId		= m_sqliter->rowdata[1].ival;
+		auto account	= m_sqliter->rowdata[2].sval;
+		auto name		= m_sqliter->rowdata[3].sval;
+		auto lastTime	= m_sqliter->rowdata[4].ival;
+		auto createTime = m_sqliter->rowdata[5].ival;
 
 		m_allPlayer.push_back(GPlayer());
 
 		auto& player = m_allPlayer.back();
 		player.setPlayerId(playerid);
+		player.setSvrId(svrId);
 		player.setAccount(account);
 		player.setName(name);
 		player.setLastTime(lastTime);
@@ -102,7 +104,7 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 		if (it.getAccount() == account)
 		{
 			// 该账号在本服已经有玩家数据
-			if (GPlayer::getServerId(it.getPlayerId()) == m_svrId)
+			if (it.getSvrId() == m_svrId)
 			{
 				return NULL;
 			}
@@ -110,14 +112,11 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 	}
 
 	int64_t curTime = ::time(NULL);
-	int64_t playerId = 0;
-	int16_t count = 0;
+	PLAYER_ID playerId = 0;
+	int32_t count = 1;
 	do
 	{
-		int16_t noise = 0xFFFF & curTime;
-		noise += count;
-
-		playerId = GPlayer::genPlayerId(m_svrId, noise, (int32_t)m_allPlayer.size());
+		playerId = (int32_t)m_allPlayer.size() + count;
 		if (getPlayer(playerId) == NULL)
 			break;
 
@@ -125,16 +124,35 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 	} while (true);
 
 	std::string tmp = StringUtils::format("%s-%lld", account.c_str(), playerId);
-	std::string name = StringUtils::format("p_%d", NFrame::CRC32(tmp));
+	std::string name = StringUtils::format("p_%lu", NFrame::CRC32(tmp));
 
 	m_allPlayer.push_back(GPlayer());
 
 	auto& player = m_allPlayer.back();
 	player.setPlayerId(playerId);
+	player.setSvrId(m_svrId);
 	player.setAccount(account);
 	player.setName(name);
 	player.setLastTime(curTime);
 	player.setCreateTime(curTime);
+
+	// playerid, account, name, lastTime, createTime
+	m_sqliter->setsql("INSERT INTO player ("
+		"playerid, svrId, account, name, lastTime, createTime) "
+		"VALUES (:int_playerid, :int_svrId, :str_account, :str_name, :int_lastTime, :int_createTime);");
+
+	m_sqliter->bindint("int_playerid", playerId);
+	m_sqliter->bindint("int_svrId", m_svrId);
+	m_sqliter->bindstr("str_account", account.c_str());
+	m_sqliter->bindstr("str_name", name.c_str());
+	m_sqliter->bindint("int_lastTime", curTime);
+	m_sqliter->bindint("int_createTime", curTime);
+	if (m_sqliter->runsinglestepstatement() != successdb)
+	{
+		LOG(ERROR) << "sql failed: insert player, account:" << account << ", playerId:" << playerId;
+		G_ASSERT(false);
+		return &player;
+	}
 
 	return &player;
 }
@@ -163,7 +181,7 @@ GPlayer* GPlayerMngService::getPlayerBySessionID(uint32_t sessionID)
 	return NULL;
 }
 
-bool GPlayerMngService::queryPlayerInfo(const std::string& account, std::vector<GPlayer*> players)
+bool GPlayerMngService::queryPlayerInfo(const std::string& account, std::vector<GPlayer*>& players)
 {
 	for (auto & it : m_allPlayer)
 	{

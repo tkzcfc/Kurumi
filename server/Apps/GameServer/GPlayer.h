@@ -18,6 +18,7 @@ public:
 	G_SYNTHESIZE(int64_t, m_createTime, CreateTime);
 	G_SYNTHESIZE(int64_t, m_lastTime, LastTime);
 	G_SYNTHESIZE(PLAYER_ID, m_playerId, PlayerId);
+	G_SYNTHESIZE(int32_t, m_svrId, SvrId);
 	G_SYNTHESIZE_PASS_BY_REF(std::string, m_account, Account);
 	G_SYNTHESIZE_PASS_BY_REF(std::string, m_name, Name);
 		
@@ -25,11 +26,5 @@ public:
 	
 	void print();
 
-	/////////////////////////////////////////////////////////////////////
-public:
-
-	static int16_t getServerId(PLAYER_ID playerid);
-
-	static PLAYER_ID genPlayerId(int16_t svrId, int16_t noise, int32_t uniqueId);
 };
 

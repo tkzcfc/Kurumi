@@ -18,11 +18,11 @@ end
 
 function LoginScene:initNetEvent()
 	self:onNetMsg(MessageID.MSG_LOGIN_GATE_ACK, handler(self, self.onLoginGateAck))
+	self:onNetMsg(MessageID.MSG_LOGIN_ACK, handler(self, self.onLoginAck))
 end
 
 -- @brief 登录游戏按钮回调
 function LoginScene:onClickStart(sender)
-	if self.waitLogin then return end
 	if self.httpToken then return end
 
 	local account = self.ui.TextField_Account:getString()
@@ -135,7 +135,6 @@ function LoginScene:request_svrlist()
 
 
 		self:showLoading()
-		self.waitLogin = true
 	end)
 	self:showLoading()
 end
@@ -172,10 +171,28 @@ function LoginScene:onLoginGateAck(msg)
 			playerID = 0
 		})
 	else
+		self:hideLoading()
 		G_UIUtils:showError(1, msg.code)
 	end
 end
 
+-- @brief 登录回复
+function LoginScene:onLoginAck(msg)
+	self:hideLoading()
+	if msg.code == errCode.SUCCESS then
+		-- 登录成功
+		_MyG.AccountInfo.playerID 	= msg.infos[1].playerID
+		_MyG.AccountInfo.name		= msg.infos[1].name
 
+	-- 此账号有多个玩家信息
+	elseif msg.code == errCode.GAME_LOGIN_MUT_PID then
+		G_UIUtils:showError(111)
+	-- 没有找到对应玩家信息
+	elseif msg.code == errCode.GAME_LOGIN_NO_FOUND_PLAYER then
+		G_UIUtils:showError(110)
+	else
+		G_UIUtils:showError(1, msg.code)
+	end
+end
 
 return LoginScene

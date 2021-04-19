@@ -149,6 +149,7 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 		logE("decode msg:", msgID, ",error:", err)
 		return
 	end
+	self:recursiveDecode(msg)
 
 	if G_MAC.IS_PC then
 		print("recv msg:", info.name, msgID)
@@ -157,6 +158,21 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 	end
 
 	G_NetEventEmitter:emit(msgID, msg)
+end
+
+--@brief 递归解析protobuf消息
+function NetManager:recursiveDecode(tab,opcode)
+	for k,v in pairs(tab) do
+		if type(v) == "table" then
+			if type(v[1]) == "string" and string.find(v[1],"msg.") then
+				local ret = protobuf.decode(v[1], v[2])
+				if ret then
+					tab[k] = ret
+				end
+			end
+			self:recursiveDecode(tab[k])
+		end
+	end
 end
 
 -- @brief 执行连接操作

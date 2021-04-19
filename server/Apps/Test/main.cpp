@@ -51,6 +51,26 @@ public:
 };
 
 
+typedef int64_t PLAYER_ID;
+int16_t getServerId(PLAYER_ID playerid)
+{
+	return playerid >> 32;
+}
+
+PLAYER_ID genPlayerId(int16_t svrId, int16_t noise, int32_t uniqueId)
+{
+	/*
+	|   2   |  2  |     4     |
+	| svrId |  0  |  uniqueId |
+	*/
+
+	int64_t i64_svrId = int64_t(svrId) << 32;
+	//int64_t i64_noise = int64_t(noise) << 32;
+	int64_t i64_uniqueId = uniqueId;
+
+	return i64_svrId | i64_uniqueId;
+}
+
 int main(int argc, char** argv)
 {
 	//unsigned int seed = (unsigned int)time(NULL);
@@ -66,12 +86,8 @@ int main(int argc, char** argv)
 
 	//} while (++i != 0);
 
-	char data[] = "12345";
-	uint32_t outlen = 0;
-	auto en_data = net_uv::net_uv_encode(data, 5, 2, outlen);
-
-	uint32_t len = 0;
-	auto raw_data = net_uv::net_uv_decode(en_data, outlen, len);
+	auto playerid = genPlayerId(10, 10, 100);
+	auto svrid = getServerId(0xaabbcc0a00000064UL);
 
 	system("pause");
 	return EXIT_SUCCESS;

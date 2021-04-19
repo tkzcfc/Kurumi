@@ -59,10 +59,12 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 				info->set_playerid(it->getPlayerId());
 			}
 
-			if (players.size() == 1)
-				ack.set_code(err::Code::GAME_LOGIN_MUT_PID);
-			else
+			if (ack.infos_size() == 0)
+				ack.set_code(err::Code::GAME_LOGIN_NO_FOUND_PLAYER);
+			else if (ack.infos_size() == 1)
 				ack.set_code(err::Code::SUCCESS);
+			else
+				ack.set_code(err::Code::GAME_LOGIN_MUT_PID);
 		}
 		else
 		{

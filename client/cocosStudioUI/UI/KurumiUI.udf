@@ -28,5 +28,22 @@
         <LastRunType Value="Windows" />
       </Value>
     </Item>
+    <Item Key="TabsParamsKey">
+      <Value ctype="TabsInfo">
+        <OpenedDocuments>
+          <FilePathData Path="scenes/UI_MainScene.csd" />
+          <FilePathData Path="ui/UI_MessageBox.csd" />
+          <FilePathData Path="scenes/UI_LoginScene.csd" />
+          <FilePathData Path="scenes/UI_UpdateScene.csd" />
+          <FilePathData Path="windows/home/UI_CreateWindow.csd" />
+          <FilePathData Path="windows/home/UI_MapWindow.csd" />
+          <FilePathData Path="windows/general/playerControlUI.csd" />
+          <FilePathData Path="scenes/UI_LoadResource.csd" />
+          <FilePathData Path="scenes/UI_SplashScene.csd" />
+          <FilePathData Path="ui/UI_Loading.csd" />
+        </OpenedDocuments>
+        <ActiveDocument Path="ui/UI_Loading.csd" />
+      </Value>
+    </Item>
   </Properties>
 </UserData>
