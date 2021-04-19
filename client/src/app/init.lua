@@ -39,10 +39,13 @@ function Loader:load(finishCall, errCall, updateCall)
 		end
 	end
 
-	-- 启用协程异步载入
-	async_run(function()
-		self:doload()
-	end, final)
+	self:doload()
+	finishCall()
+
+	-- -- 启用协程异步载入
+	-- async_run(function()
+	-- 	self:doload()
+	-- end, final)
 end
 ---------------------------------- private ----------------------------------
 
@@ -55,7 +58,7 @@ function Loader:init()
 	self:push(function()
 		unload("app.ipConfig")
 		require("app.ipConfig")
-		-- require("cocos.cocos2d.json")
+		cc.exports.json = require("cjson")
 		require("app.config.SceneConfig")
 		require("app.common.HelperExt")
 		require("app.common.Const")
@@ -86,12 +89,12 @@ function Loader:init()
 
 	self:push(function()
 		-- 游戏Excel配置
-		cc.exports.G_XXConfig = require("XXConfig.XXConfig")
+		cc.exports.G_Config = require("XXConfig.XXConfig")
 	end)
 
 	-- -- 锁定游戏配置, read_only会影响性能，只在debug中使用
 	-- if G_MAC.DEBUG then
-	-- 	self:push(function() G_Config = read_only(G_XXConfig) end)
+	-- 	self:push(function() G_Config = read_only(G_Config) end)
 	-- end
 
 	self:push(function()
@@ -103,9 +106,9 @@ function Loader:init()
 		-- _MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
 		-- _MyG.StartSceneID = _MyG.SCENE_ID_MAIN
 
-		_MyG.NetManager:setGameInfo(_MyG.startSvrTcpIP, _MyG.startSvrTcpPort)
+		-- _MyG.NetManager:setGameInfo(_MyG.startSvrTcpIP, _MyG.startSvrTcpPort)
 
-		_MyG.StartSceneID = _MyG.SCENE_ID_TEST
+		_MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
 	end)
 
 	self:push(function()
@@ -124,9 +127,9 @@ function Loader:doload()
 	for i = 1, total do
 		self.tasks[i]()
 		self.updateCall(i / total)
-		async_yield()
+		-- async_yield()
 	end
-	async_yield()
+	-- async_yield()
 	self.updateCall(1)
 end
 

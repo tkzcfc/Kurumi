@@ -5,6 +5,7 @@ enum class LOGIN_PLATFORM
 {
 	Android,
 	Ios,
+	Windows,
 	Unknown
 };
 
@@ -14,6 +15,8 @@ inline LOGIN_PLATFORM getLoginPlatform(const std::string& platform)
 		return LOGIN_PLATFORM::Android;
 	if (strcmpi(platform.c_str(), "Ios") == 0)
 		return LOGIN_PLATFORM::Ios;
+	if (strcmpi(platform.c_str(), "Windows") == 0)
+		return LOGIN_PLATFORM::Windows;
 	return LOGIN_PLATFORM::Unknown;
 }
 
@@ -37,6 +40,8 @@ void GLoginService::init_Http()
 
 	httpSvice->noticeCenter()->addListener(this, "/test", [](const net_uv::HttpRequest& request, net_uv::HttpResponse* response)
 	{
+		response->setStatusCode(net_uv::HttpResponse::k200Ok);
+
 		std::string content;
 
 		content.append(StringUtils::format("query : %s\n", request.query().c_str()));
@@ -59,16 +64,19 @@ void GLoginService::init_Http()
 
 	httpSvice->noticeCenter()->addListener(this, "/api/login", [=](const net_uv::HttpRequest& request, net_uv::HttpResponse* response)
 	{
+		response->setStatusCode(net_uv::HttpResponse::k200Ok);
 		this->onHttpRequest_Login(request, response);
 	});
 
 	httpSvice->noticeCenter()->addListener(this, "/api/register", [=](const net_uv::HttpRequest& request, net_uv::HttpResponse* response)
 	{
+		response->setStatusCode(net_uv::HttpResponse::k200Ok);
 		this->onHttpRequest_Register(request, response);
 	});
 
 	httpSvice->noticeCenter()->addListener(this, "/api/svrlist", [=](const net_uv::HttpRequest& request, net_uv::HttpResponse* response)
 	{
+		response->setStatusCode(net_uv::HttpResponse::k200Ok);
 		this->onHttpRequest_ServerList(request, response);
 	});
 }
@@ -122,7 +130,7 @@ void GLoginService::onHttpRequest_Login(const net_uv::HttpRequest& request, net_
 		}
 
 		std::string playerId;
-		auto code = m_serviceMgr->getService<GAccountMgrService>()->getAccount(user, pwd, playerId);
+		auto code = m_serviceMgr->getService<GAccountMgrService>()->getAccount(user, pwd, (int32_t)ePlatform, playerId);
 			
 		if (code == err::Code::SUCCESS)
 		{
@@ -200,12 +208,7 @@ void GLoginService::onHttpRequest_ServerList(const net_uv::HttpRequest& request,
 	writer.StartArray();
 	for (auto& it : m_serviceMgr->getService<GMasterNodeService>()->arrSlaveNodInfos())
 	{
-		writer.StartObject();
-		writer.Key("id");
-		writer.Int(it.sessionID);
-		writer.Key("desc");
 		writer.String(it.info.c_str());
-		writer.EndObject();
 	}
 	writer.EndArray();
 	

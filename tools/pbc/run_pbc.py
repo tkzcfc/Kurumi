@@ -126,6 +126,8 @@ def publishPbc(path, targetDir):
 		if file.endswith("proto") and filter(file):
 			fileList.insert(0, file)
 
+	# 所有错误Id
+	allErrCodeDict = getMsgIdMap(protoPath + "Msg_Err.proto")
 	# 所有消息
 	allMsgDict = getMsgMap(protoPath, fileList)
 	# 所有消息ID
@@ -158,6 +160,7 @@ def publishPbc(path, targetDir):
 	
 	manifestFile = manifestFile + "}\n"
 
+
 	# pb list
 	manifestFile = manifestFile + "M.pb = {\n"
 
@@ -166,6 +169,18 @@ def publishPbc(path, targetDir):
 		manifestFile = manifestFile + "\t'{0}',\n".format(name)
 
 	manifestFile = manifestFile + "}\n"
+
+	# err code
+	manifestFile = manifestFile + "\n"
+	manifestFile = manifestFile + "if cc then\n"
+	manifestFile = manifestFile + "    cc.exports.errCode = {}\n"
+	manifestFile = manifestFile + "else\n"
+	manifestFile = manifestFile + "    errCode = {}\n"
+	manifestFile = manifestFile + "end\n"
+	for name in allErrCodeDict:
+		manifestFile = manifestFile + "errCode['{0}'] = {1}\n".format(name, allErrCodeDict[name])
+	manifestFile = manifestFile + "\n"
+
 
 	manifestFile = manifestFile + "\n"
 	manifestFile = manifestFile + "if cc then\n"

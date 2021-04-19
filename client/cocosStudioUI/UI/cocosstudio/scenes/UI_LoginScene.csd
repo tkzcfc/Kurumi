@@ -40,7 +40,7 @@
           <AbstractNodeData Name="Image_1_0" ActionTag="943595306" Tag="67" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="266.5361" RightMargin="530.3153" TopMargin="476.2321" BottomMargin="89.7679" Scale9Enable="True" LeftEage="25" RightEage="25" TopEage="25" BottomEage="25" Scale9OriginX="25" Scale9OriginY="25" Scale9Width="24" Scale9Height="24" ctype="ImageViewObjectData">
             <Size X="339.1486" Y="74.0000" />
             <Children>
-              <AbstractNodeData Name="TextField_Password" CanEdit="False" ActionTag="-81592883" Tag="68" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="33.9149" RightMargin="33.9149" TopMargin="26.2034" BottomMargin="18.1966" TouchEnable="True" FontSize="20" IsCustomSize="True" LabelText="" PlaceHolderText="请输入账号密码" MaxLengthEnable="True" MaxLengthText="15" PasswordEnable="True" ctype="TextFieldObjectData">
+              <AbstractNodeData Name="TextField_Password" ActionTag="-81592883" Tag="68" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="33.9149" RightMargin="33.9149" TopMargin="26.2034" BottomMargin="18.1966" TouchEnable="True" FontSize="20" IsCustomSize="True" LabelText="" PlaceHolderText="请输入账号密码" MaxLengthEnable="True" MaxLengthText="15" PasswordEnable="True" ctype="TextFieldObjectData">
                 <Size X="271.3189" Y="29.6000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                 <Position X="169.5743" Y="32.9966" />

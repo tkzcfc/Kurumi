@@ -133,16 +133,17 @@ int32_t GAccountMgrService::createAccount(const std::string& user, const std::st
 	return 0;
 }
 
-err::Code GAccountMgrService::getAccount(const std::string& user, const std::string& pwd, std::string& outAccount)
+err::Code GAccountMgrService::getAccount(const std::string& user, const std::string& pwd, int32_t platform, std::string& outAccount)
 {
+	auto username = StringUtils::format("%s_%d", user.c_str(), platform);
 	for (auto& it : m_allAcountInfo)
 	{
-		if (it.username == user)
+		if (it.username == username)
 		{
 			if (it.password == pwd)
 			{
 				outAccount = it.account;
-				err::Code::SUCCESS;
+				return err::Code::SUCCESS;
 			}
 			return err::Code::WRONG_PASSWORD;
 		}

@@ -6,33 +6,21 @@
 local http = require('http')
 local md5 = require('md5')
 
+local fileUtils = cc.FileUtils:getInstance()
+
 local HttpManager = class("HttpManager", import(".BaseManager"))
 
-local fu = cc.FileUtils:getInstance()
-local prefix = fu:getWritablePath() .. '.cache/'
-fu:createDirectory(prefix)
+-- @brief 初始化调用
+function HttpManager:override_onInit()
+	HttpManager.super.override_onInit(self)
 
-local url_reqMap = {}
-local url_fetchCalls = {}
-local fetchDefaultCall = function() end
-local lockMeta = {
-    __newindex = function(_, name, value)
-        error("error write to a read-only table with key = " .. tostring(name))
-    end
-}
+	self.eventEmitter = G_Class.EventEmitter.new()
+end
 
-local function onFetch(ok, to)
-	-- print("ok, to", ok, to)
-	url_reqMap[to] = false
-
-	local t = url_fetchCalls[to]
-	if t == nil then
-		return
-	end
-	for k,v in pairs(t) do
-		v(ok, to)
-	end
-	url_fetchCalls[to] = nil
+-- @brief 销毁时调用
+function HttpManager:override_onDestroy()
+	HttpManager.super.override_onDestroy(self)
+	self.eventEmitter:clear()
 end
 
 -- @brief 文件下载
@@ -41,63 +29,85 @@ end
 -- @param tofile 下载之后的文件位置,可选.为空则默认储存在.cache目录
 -- @return token
 function HttpManager:fetch(url, func, tofile)
-	self:log('getting '..url)
+	self:initCacheDir()
+
 	local to = tofile
 	if to == nil then
 		local ext = string.match(url, "(%.%w+)$") or ""
-		to = prefix .. md5.sum(url) .. ext
+		to = self.cacheDir .. md5.sum(url) .. ext
 	end
 
-	url_fetchCalls[to] = url_fetchCalls[to] or {}
+	local token = self.eventEmitter:once(url, func, self)
 
-	local key = #url_fetchCalls[to] + 1
-	local token = {to, key}
-	setmetatable(token, lockMeta)
-
-	url_fetchCalls[to][key] = func
+	-- 请求已创建
+	if self.eventEmitter:listeners(url) > 1 then
+		return token
+	end
 
 	-- 本地有缓存
-	if fu:isFileExist(to) then
-	  self:log('already cached as:', to)
-	  oRoutine(o_once(function()
-	  	onFetch(true, to)
-	end))
-	  return token
+	if fileUtils:isFileExist(to) then
+		oRoutine(o_once(function()
+			self.eventEmitter:emit(url, true, to)
+		end))
+		return token
 	end
-	
-	-- 此请求正在进行
-	if url_reqMap[to] then return token end
 
-	url_reqMap[to] = true
-	self:log("http to get", url)
-	http.fetch(url, to, onFetch)
+	http.fetch(url, to, function(ok, to)
+		self.eventEmitter:emit(url, ok, to)
+	end)
+
 	return token
 end
 
--- @brief 取消文件下载
+-- @brief http请求
+-- @param url 为字符串时代表请求地址,为table时具体查看 http_request 源码
+function HttpManager:request(url, func)
+	local request = http.request(url, function(response)
+		self.eventEmitter:emit(url, response)
+	end)
+
+	request:done()
+
+	return self.eventEmitter:once(url, func, self)
+end
+
+
+-- @brief http请求
+-- @param url 为字符串时代表请求地址,为table时具体查看 http_read 源码
+function HttpManager:read(url, func)
+	http.read(url, function(ok, responseData)
+		self.eventEmitter:emit(url, ok, responseData)
+	end)
+
+	return self.eventEmitter:once(url, func, self)
+end
+
+-- @brief 取消回调
 -- @param token fetch返回的token
 function HttpManager:cancel(token)
-	local to = token[1]
-	local key = token[2]
-	url_fetchCalls[to][key] = fetchDefaultCall
+	if token == nil then return end
+	self.eventEmitter:off(token)
 end
 
--- @brief 初始化调用
-function HttpManager:override_onInit()
-	HttpManager.super.override_onInit(self)
-	url_reqMap = {}
-	url_fetchCalls = {}
+-- @brief 缓存目录初始化
+function HttpManager:initCacheDir()
+	if self.isInitDirTag then
+		return
+	end
 
-	self:closeLog()
+	local prefix = fileUtils:getWritablePath() .. '.cache/'
+	if not fileUtils:isDirectoryExist(prefix) then
+		if not fileUtils:createDirectory(prefix) then
+			error("缓存目录创建失败")
+			prefix = fileUtils:getWritablePath()
+		end
+	end
+
+	self.isInitDirTag = true
+	self.cacheDir = prefix
+
+	return
 end
-
--- @brief 销毁时调用
-function HttpManager:override_onDestroy()
-	HttpManager.super.override_onDestroy(self)
-	url_reqMap = {}
-	url_fetchCalls = {}
-end
-
 
 return HttpManager
 

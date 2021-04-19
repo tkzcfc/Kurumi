@@ -21,7 +21,7 @@ public:
 
 	int32_t createAccount(const std::string& user, const std::string& pwd, int32_t platform);
 	
-	err::Code getAccount(const std::string& user, const std::string& pwd, std::string& outAccount);
+	err::Code getAccount(const std::string& user, const std::string& pwd, int32_t platform, std::string& outAccount);
 
 protected:
 

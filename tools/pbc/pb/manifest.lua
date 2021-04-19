@@ -27,6 +27,46 @@ M.pb = {
 }
 
 if cc then
+    cc.exports.errCode = {}
+else
+    errCode = {}
+end
+errCode['EXIT_GAME_PLAYER_REQ'] = 120012
+errCode['UNKNOWN'] = 1
+errCode['FIGHT_PLAYER_TOO_MUCH'] = 110004
+errCode['WRONG_PASSWORD'] = 100001
+errCode['PVP_RIVAL_EXIT'] = 120034
+errCode['FIGHT_SVR_BUSY'] = 110100
+errCode['GAME_LOGIN_MUT_PID'] = 120001
+errCode['PVP_MATCH_SUC'] = 120032
+errCode['FIGHT_PLAYERID_REPEAT'] = 110005
+errCode['NOT_FOUND'] = 2
+errCode['NOT_FOUND_FIGHT'] = 110000
+errCode['EXIT_GAME_CLIENT_DIS'] = 120011
+errCode['GAME_LOGIN_AGAIN'] = 120002
+errCode['OVERLOAD'] = 101
+errCode['PARAM_ERROR'] = 102
+errCode['EXIT_GAME_LOGIN_REPEAT'] = 120010
+errCode['FIGHT_NOE_FOUND_PLAYER'] = 110002
+errCode['FIGHT_INIT_FAIL'] = 110001
+errCode['FIGHT_LEAVE_GAME'] = 110006
+errCode['PVP_MATCH_TIMEOUT'] = 120031
+errCode['SUCCESS'] = 0
+errCode['GAME_LOGIN_NO_FOUND_PLAYER'] = 120003
+errCode['FIGHT_SVR_NOT_FOUND'] = 110102
+errCode['PVP_MATCH_SUC_NO_SVR'] = 120033
+errCode['FIGHT_FRAME_ERR'] = 110007
+errCode['OVERDUE'] = 3
+errCode['FIGHT_PLAYING'] = 110003
+errCode['GATE_CONNECT_FAIL'] = 100100
+errCode['ACCOUNT_NOT_EXIST'] = 100000
+errCode['NO_MEMORY'] = 100
+errCode['FIGHT_SVR_NONE'] = 110101
+errCode['PVP_MATCHING'] = 120030
+errCode['FIGHT_PAST_RECORDS_INC'] = 110008
+
+
+if cc then
     cc.exports.MessageID = {}
 else
     MessageID = {}

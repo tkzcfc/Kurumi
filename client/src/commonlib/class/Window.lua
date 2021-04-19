@@ -230,7 +230,7 @@ function Window:on(...)
 end
 
 -- @brief订阅一次本窗口事件订阅
-function EventEmitter:once(...)
+function Window:once(...)
 	if self.eventEmitter == nil then
 		self.eventEmitter = EventEmitter.new()
 	end

@@ -2029,6 +2029,7 @@
           <Project Name="UI_MainScene.csd" Type="Scene" />
           <Project Name="UI_SplashScene.csd" Type="Scene" />
           <Project Name="UI_UpdateScene.csd" Type="Scene" />
+          <Project Name="UI_LoginScene.csd" Type="Scene" />
         </Folder>
         <Folder Name="ui">
           <Project Name="UI_Loading.csd" Type="Scene" />
@@ -2047,9 +2048,7 @@
             <Project Name="Yun.csd" Type="Node" />
             <Project Name="zhucheng.csd" Type="Scene" />
           </Folder>
-          <Folder Name="login">
-            <Project Name="UI_LoginWindow.csd" Type="Scene" />
-          </Folder>
+          <Folder Name="login" />
           <Folder Name="test" />
         </Folder>
       </RootFolder>

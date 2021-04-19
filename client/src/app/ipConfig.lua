@@ -7,8 +7,4 @@ if not _MyG then
 	cc.exports._MyG = {}
 end
 
-_MyG.startSvrTcpIP = '127.0.0.1'
-_MyG.startSvrTcpPort = 7001
-
-print("_MyG.startSvrIP-------------->>", _MyG.startSvrTcpIP)
-print("_MyG.startSvrPort", _MyG.startSvrTcpPort)
+_MyG.startURL = 'http://127.0.0.1:8501'

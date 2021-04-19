@@ -1,5 +1,7 @@
 #include "GLibBase.h"
 
+#include "msg/NetMsgUtils.h"
+
 class Random
 {
 	unsigned int m_index;
@@ -51,18 +53,25 @@ public:
 
 int main(int argc, char** argv)
 {
-	unsigned int seed = (unsigned int)time(NULL);
-	Random rsu(seed, seed + 1);
-	Random rsu1(seed, seed + 1);
-	unsigned int i = 0;
-	do
-	{
-		assert(rsu.range(1, 0x7fff) == rsu1.range(1, 0x7fff));
+	//unsigned int seed = (unsigned int)time(NULL);
+	//Random rsu(seed, seed + 1);
+	//Random rsu1(seed, seed + 1);
+	//unsigned int i = 0;
+	//do
+	//{
+	//	assert(rsu.range(1, 0x7fff) == rsu1.range(1, 0x7fff));
 
-		if (i > 10000)
-			break;
+	//	if (i > 10000)
+	//		break;
 
-	} while (++i != 0);
+	//} while (++i != 0);
+
+	char data[] = "12345";
+	uint32_t outlen = 0;
+	auto en_data = net_uv::net_uv_encode(data, 5, 2, outlen);
+
+	uint32_t len = 0;
+	auto raw_data = net_uv::net_uv_decode(en_data, outlen, len);
 
 	system("pause");
 	return EXIT_SUCCESS;

@@ -18,6 +18,7 @@ local ttfConfig =
 -- @param rootNode 父节点，可选
 function UIUtils:showRemind(text, rootNode)
     if G_MAC.DEBUG then
+        print("showRemind:", text)
         assert(type(text) == 'string')
     else
         text = tostring(text)
@@ -71,6 +72,21 @@ function UIUtils:showRemind(text, rootNode)
     }))
 
     remindMap[text] = sprite
+end
+
+function UIUtils:showError(err, ...)
+    local cfg = G_Config.Error.getData(err)
+    if not  cfg then
+        print("Error表中找不到错误:", err)
+        return
+    end
+
+    local args = {...}
+    if #args > 0 then
+        UIUtils:showRemind(string.format(STR(cfg.Lang), ...))
+    else
+        UIUtils:showRemind(STR(cfg.Lang))
+    end
 end
 
 -- @brief 显示带有只有一个选项的弹窗

@@ -83,9 +83,29 @@ function NetManager:initNet()
 	end)
 end
 
+-- @brief 向游戏服发送消息
+function NetManager:sendToGame(msgID, msg)
+	local info = manifest.CMD[msgID]
+	if G_MAC.IS_PC then
+		print("send msg:", info.name, msgID)
+		print_lua_value(msg)
+		print("----------------------------")
+	end
+
+	-- local pdata = protobuf.encode(info.msg, msg)
+	-- print("pdata len:", string.len(pdata))
+
+	-- msgID = 2
+	-- local data = "1aaaa1aaaa1aaaa1aaaa1aaaa1aaaa1aaaa1aaaaqwq"--protobuf.encode(info.msg, msg)
+	-- print("data len:", string.len(data))
+
+	local data = protobuf.encode(info.msg, msg)
+	self.client:sendMsg(GAME_SESSION_ID, msgID, data, string.len(data))
+end
+
 -- @brief 连接结果回调
 function NetManager:onConnectCallback(session, status)
-	self:log("onConnectCallback", session:getSessionID(), status)
+	self:log("onConnectCallback", session:getIp(), session:getPort(), session:getSessionID(), status)
 
 	local sessionID = session:getSessionID()
 	if self.sessionInfo[sessionID] == nil then
@@ -98,7 +118,7 @@ function NetManager:onConnectCallback(session, status)
 	else
 		-- 等待一段时间后再继续连 
 		oRoutine(o_once(function()
-			o_wait(o_seconds(1))
+			o_wait(o_seconds(0.5))
 			self:doConnect(sessionID)
 		end))
 	end
@@ -106,7 +126,7 @@ end
 
 -- @brief 连接断开回调
 function NetManager:onDisconnectCallback(session)
-	self:log("onDisconnectCallback", session:getSessionID())
+	self:log("onDisconnectCallback", session:getIp(), session:getPort(), session:getSessionID())
 	self:doConnect(session:getSessionID())
 end
 
@@ -130,6 +150,12 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 		return
 	end
 
+	if G_MAC.IS_PC then
+		print("recv msg:", info.name, msgID)
+		print_lua_value(msg)
+		print("----------------------------")
+	end
+
 	G_NetEventEmitter:emit(msgID, msg)
 end
 
@@ -141,7 +167,16 @@ function NetManager:doConnect(sessionID)
 	end
 
 	info.reCount = info.reCount + 1
-	if info.reCount > 3 then
+	if info.reCount > 5 then
+		info.reCount = 0
+		-- 连接服务器失败,是否重试
+		G_UIUtils:showTwoBtnMsgBox(STR(11004), 
+			function()
+				self:doConnect(sessionID)
+			end, 
+			function()
+				appExit()
+			end)
 		return false
 	end
 
