@@ -47,7 +47,7 @@ char* net_uv_decode(const char* data, uint32_t len, uint32_t &outLen)
 
 	if (hashValue == valueLen)
 	{
-		char* p = (char*)fc_malloc(datalen + 1);
+		char* p = (char*)fc_malloc(datalen);
 		if (p == NULL)
 		{
 			return NULL;
