@@ -1,8 +1,5 @@
 #pragma once
 
-#include "GCommon.h"
-#if G_TARGET_CLIENT
-
 // https://github.com/preshing/RandomSequence
 
 #include <stdint.h>
@@ -31,5 +28,3 @@ private:
 	unsigned int m_index;
 	unsigned int m_intermediateOffset;
 };
-
-#endif

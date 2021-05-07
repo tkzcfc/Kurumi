@@ -2,10 +2,12 @@
 
 #include "ecs/anaxHelper.h"
 #include "opmsg/GOPMsgQue.h"
-#include "foundation/GRandom.h"
 
 #if G_TARGET_CLIENT
+#include "foundation/GRandom.h"
 #include "foundation/render/GMapLayer.h"
+#else
+#include "GRandom.h"
 #endif
 
 class GlobalComponent : public BaseComponent

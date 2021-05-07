@@ -61,7 +61,9 @@ function Loader:init()
 		cc.exports.json = require("cjson")
 		require("app.config.SceneConfig")
 		require("app.common.HelperExt")
-		require("app.common.Const")
+		require("app.const.WindowZ")
+		require("app.const.SysEvent")
+		require("app.const.UIEvent")
 		require("app.utils.UIUtils")
 	end)
 
@@ -84,6 +86,7 @@ function Loader:init()
 	self:push(function()
 		-- 常用class 导出
 		G_Class.UIWindow = require("app.common.UIWindow")
+		G_Class.UIDialog = require("app.common.UIDialog")
 		G_Class.SceneBase = require("app.common.SceneBase")
 	end)
 

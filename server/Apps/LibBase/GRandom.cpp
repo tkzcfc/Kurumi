@@ -1,7 +1,6 @@
 #include "GRandom.h"
 #include <assert.h>
 
-#if G_TARGET_CLIENT
 
 static unsigned int permuteQPR(unsigned int x)
 {
@@ -53,5 +52,3 @@ uint32_t GRandom::random(uint32_t min, uint32_t max)
 	assert(min < max);
 	return range(min, max + 1);
 }
-
-#endif

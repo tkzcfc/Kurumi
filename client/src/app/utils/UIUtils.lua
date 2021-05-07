@@ -167,4 +167,4 @@ function UIUtils:getTableViewDataArrIndex(index, itemCount)
 end
 
 
-cc.exports.G_UIUtils = UIUtils
+cc.exports.UIUtils = UIUtils

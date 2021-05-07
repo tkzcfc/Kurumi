@@ -35,6 +35,12 @@ function NetManager:setFightInfo(ip, port)
 	self:setSessionInfo(FIGHT_SESSION_ID, ip, port)
 end
 
+-- @brief 清除所有会话信息
+function NetManager:clearAllSessionInfo()
+	self:setFightInfo()
+	self:setGameInfo()
+end
+
 -- @brief 设置会话信息
 -- @param 会话id
 -- @param 会话ip
@@ -186,7 +192,7 @@ function NetManager:doConnect(sessionID)
 	if info.reCount > 5 then
 		info.reCount = 0
 		-- 连接服务器失败,是否重试
-		G_UIUtils:showTwoBtnMsgBox(STR(11004), 
+		UIUtils:showTwoBtnMsgBox(STR(11004), 
 			function()
 				self:doConnect(sessionID)
 			end, 
@@ -202,7 +208,7 @@ end
 
 function NetManager:initUI()
 	-- self.loadingUI = require("app.ui.general.LoadingUI"):new()
-	-- self.loadingUI:setLocalZOrder(G_Const.WINDOW_Z.NET_LOADING)
+	-- self.loadingUI:setLocalZOrder(WINDOW_Z.NET_LOADING)
 	-- self.loadingUI:retain()
 
 	-- self.msgBox = require("app.ui.general.NetMessageBoxUI"):new()

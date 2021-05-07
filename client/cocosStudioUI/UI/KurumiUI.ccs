@@ -2026,10 +2026,10 @@
         <Folder Name="scenes">
           <Project Name="UI_HomeSceneUI.csd" Type="Scene" />
           <Project Name="UI_LoadResource.csd" Type="Scene" />
+          <Project Name="UI_LoginScene.csd" Type="Scene" />
           <Project Name="UI_MainScene.csd" Type="Scene" />
           <Project Name="UI_SplashScene.csd" Type="Scene" />
           <Project Name="UI_UpdateScene.csd" Type="Scene" />
-          <Project Name="UI_LoginScene.csd" Type="Scene" />
         </Folder>
         <Folder Name="ui">
           <Project Name="UI_Loading.csd" Type="Scene" />
@@ -2043,13 +2043,10 @@
           <Folder Name="home">
             <Project Name="taohua1.csd" Type="Node" />
             <Project Name="taohua2.csd" Type="Node" />
-            <Project Name="UI_CreateWindow.csd" Type="Scene" />
-            <Project Name="UI_MapWindow.csd" Type="Scene" />
             <Project Name="Yun.csd" Type="Node" />
-            <Project Name="zhucheng.csd" Type="Scene" />
+            <Project Name="UI_MapWindow.csd" Type="Scene" />
+            <Project Name="UI_CreateWindow.csd" Type="Scene" />
           </Folder>
-          <Folder Name="login" />
-          <Folder Name="test" />
         </Folder>
       </RootFolder>
     </Group>

@@ -28,7 +28,7 @@ function NetMessageBoxUI:showBox(content, okcall, cancelcall)
 		self.ui.Button_Cancel:setVisible(true)
 	end
 
-	cc.Director:getInstance():getRunningScene():addChild(self, G_Const.WINDOW_Z.NET_MSGBOX)
+	cc.Director:getInstance():getRunningScene():addChild(self, WINDOW_Z.NET_MSGBOX)
 	return self
 end
 

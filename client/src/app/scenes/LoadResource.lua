@@ -14,8 +14,7 @@ end
 function LoadResource:onCreate()
 	LoadResource.super.onCreate(self)
 
-	self.ui = G_Helper.loadStudioFile("scenes.UI_LoadResource", self)
-    self:addChild(self.ui.root)
+	self:loadUILua("scenes.UI_LoadResource")
 
     self.totalWidth = self.ui.Image_LoadBG:getContentSize().width
     self.panelheight = self.ui.Panel_Load:getContentSize().height

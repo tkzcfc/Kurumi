@@ -2,6 +2,7 @@
 
 #include "GLibBase.h"
 #include "GameProto.h"
+#include "GRandom.h"
 
 // 登录服务
 class GLoginService : public GIService
@@ -24,6 +25,8 @@ private:
 
 	void init_MasterNode();
 
+	void clearInvalidToken();
+
 protected:
 	
 	void onHttpRequest_Login(const net_uv::HttpRequest& request, net_uv::HttpResponse* response);
@@ -44,4 +47,6 @@ private:
 	std::map<std::string, TokenInfo> m_tokenMap;
 
 	GMasterNodeService* m_pMasterNodeService;
+
+	std::unique_ptr<GRandom> m_random;
 };

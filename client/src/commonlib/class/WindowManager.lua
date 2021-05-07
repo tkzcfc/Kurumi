@@ -25,8 +25,8 @@ function WindowManager:curContext()
 	return self.contextStack:back()
 end
 
-function WindowManager:addWindow(window, parentNode, unique)
-	return self:curContext():addWindow(window, parentNode, unique)
+function WindowManager:addWindow(window, parentNode)
+	return self:curContext():addWindow(window, parentNode)
 end
 
 function WindowManager:getTopWindow()
@@ -75,14 +75,6 @@ end
 
 function WindowManager:getWindowFromQueueByName(name)
 	return self:curContext():getWindowFromQueueByName(name)
-end
-
-function WindowManager:setDefaultWindowNode(node)
-	self:curContext():setDefaultWindowNode(node)
-end
-
-function WindowManager:getDefaultWindowNode()
-	return self:curContext():getDefaultWindowNode()
 end
 
 return WindowManager

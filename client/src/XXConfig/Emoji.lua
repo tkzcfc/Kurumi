@@ -1,53 +1,32 @@
 -- Auto Generate by Excel 'Emoji.xlsx', Don't try to modify!
 
-local keyMap = { "Color", "Emoji", "First", "Last", "Time" }
-
-local keyMapIndex = {}
-for k, v in pairs(keyMap) do keyMapIndex[v] = k end
-
-local D = {}
-D[1] = {{255,255,0,100},"bang test\'hahaha\'\n\n",1,4,0.32}
-D[2] = {{255,255,0,100},"cry",1,16,1.28}
-D[3] = {{255,255,0,100},"nu",1,2,0.16}
-D[4] = {{255,255,0,100},"xiao",1,4,0.32}
-D[5] = {{255,255,0,100},"xihuan",1,4,0.32}
-D[6] = {{255,255,0,100},"han",1,9,0.72}
-D[7] = {{255,255,0,100},"yun",1,6,0.48}
-D[8] = {{255,255,0,100},"zzz",1,10,0.8}
-
 local M = {}
-M.Data = D
+
+M.Data = {}
+M.Data[1] = {Emoji = 'bang test\'hahaha\'\n\n', First = 1, Last = 4, Time = 0.32, Color = {255,255,0,100}}
+M.Data[2] = {Emoji = 'cry', First = 1, Last = 16, Time = 1.28, Color = {255,255,0,100}}
+M.Data[3] = {Emoji = 'nu', First = 1, Last = 2, Time = 0.16, Color = {255,255,0,100}}
+M.Data[4] = {Emoji = 'xiao', First = 1, Last = 4, Time = 0.32, Color = {255,255,0,100}}
+M.Data[5] = {Emoji = 'xihuan', First = 1, Last = 4, Time = 0.32, Color = {255,255,0,100}}
+M.Data[6] = {Emoji = 'han', First = 1, Last = 9, Time = 0.72, Color = {255,255,0,100}}
+M.Data[7] = {Emoji = 'yun', First = 1, Last = 6, Time = 0.48, Color = {255,255,0,100}}
+M.Data[8] = {Emoji = 'zzz', First = 1, Last = 10, Time = 0.8, Color = {255,255,0,100}}
 M.length = 8
-M.keyMapIndex = keyMapIndex
-M.keyMap = keyMap
 
-local meta = {
-    __index = function(tab, key) return rawget(tab, keyMapIndex[key]) end
-}
-for k, v in pairs(M.Data) do setmetatable(v, meta) end
-
-function M.getData(Id)
-    local data = M.Data[Id]
-    if not data then return end
-    local t = {}
-    for k, v in pairs(keyMapIndex) do t[k] = data[v] end
-    return t
+function M.getData(key)
+    return M.Data[key]
 end
 
-function M.getItem(Id, Key)
-    local data = M.Data[Id]
-    if data then return data[Key] end
-    return nil
+function M.getItem(key1, key2)
+    if M.Data[key1] == nil then
+        print(string.format("错误: 文件'Emoji.lua'中配置'%s'不存在!!!!!!!!!!!!!!!!!!!!!!!", tostring(key1)))
+        return
+    end
+    return M.Data[key1][key2]
 end
 
 function M.getAllData()
-    local dataList = {}
-    for id, data in pairs(M.Data) do
-        local t = {}
-        for k, v in pairs(keyMapIndex) do t[k] = data[v] end
-        dataList[k] = t
-    end
-    return dataList
+    return M.Data
 end
 
 return M

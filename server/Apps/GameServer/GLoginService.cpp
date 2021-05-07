@@ -30,58 +30,65 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 {
 	msg::LoginAck ack;
 
-	std::vector<GPlayer*> players;
-	if (m_pPlayerMngService->queryPlayerInfo(msg.account(), players) == false)
+	if (msg.code() == err::Code::SUCCESS)
 	{
-		// 没有查找到,创建新玩家
-		auto player = m_pPlayerMngService->createPlayer(msg.account());
-		if (player == NULL)
+		std::vector<GPlayer*> players;
+		if (m_pPlayerMngService->queryPlayerInfo(msg.account(), players) == false)
 		{
-			ack.set_code(err::Code::UNKNOWN);
-		}
-		else
-		{
-			ack.set_code(err::Code::SUCCESS);
-			auto info = ack.add_infos();
-			info->set_name(player->getName());
-			info->set_playerid(player->getPlayerId());
-		}
-	}
-	else
-	{
-		// 自动选择玩家数据
-		if (msg.pid() == 0)
-		{
-			for (auto it : players)
+			// 没有查找到,创建新玩家
+			auto player = m_pPlayerMngService->createPlayer(msg.account());
+			if (player == NULL)
 			{
-				auto info = ack.add_infos();
-				info->set_name(it->getName());
-				info->set_playerid(it->getPlayerId());
+				ack.set_code(err::Code::UNKNOWN);
 			}
-
-			if (ack.infos_size() == 0)
-				ack.set_code(err::Code::GAME_LOGIN_NO_FOUND_PLAYER);
-			else if (ack.infos_size() == 1)
-				ack.set_code(err::Code::SUCCESS);
 			else
-				ack.set_code(err::Code::GAME_LOGIN_MUT_PID);
+			{
+				ack.set_code(err::Code::SUCCESS);
+				auto info = ack.add_infos();
+				info->set_name(player->getName());
+				info->set_playerid(player->getPlayerId());
+			}
 		}
 		else
 		{
-			for (auto it : players)
+			// 自动选择玩家数据
+			if (msg.pid() == 0)
 			{
-				if (it->getPlayerId() == msg.pid())
+				for (auto it : players)
 				{
 					auto info = ack.add_infos();
 					info->set_name(it->getName());
 					info->set_playerid(it->getPlayerId());
 				}
+
+				if (ack.infos_size() == 0)
+					ack.set_code(err::Code::GAME_LOGIN_NO_FOUND_PLAYER);
+				else if (ack.infos_size() == 1)
+					ack.set_code(err::Code::SUCCESS);
+				else
+					ack.set_code(err::Code::GAME_LOGIN_MUT_PID);
 			}
-			if (ack.infos_size() == 1)
-				ack.set_code(err::Code::SUCCESS);
-			else /// 该账号没有对应玩家id
-				ack.set_code(err::Code::GAME_LOGIN_NO_FOUND_PLAYER);
+			else
+			{
+				for (auto it : players)
+				{
+					if (it->getPlayerId() == msg.pid())
+					{
+						auto info = ack.add_infos();
+						info->set_name(it->getName());
+						info->set_playerid(it->getPlayerId());
+					}
+				}
+				if (ack.infos_size() == 1)
+					ack.set_code(err::Code::SUCCESS);
+				else /// 该账号没有对应玩家id
+					ack.set_code(err::Code::GAME_LOGIN_NO_FOUND_PLAYER);
+			}
 		}
+	}
+	else
+	{
+		ack.set_code(msg.code());
 	}
 	
 	SEND_PB_MSG(m_pNetService, msg.session(), MessageID::MSG_LOGIN_ACK, ack);
@@ -89,7 +96,7 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 	if (ack.code() == err::Code::SUCCESS && ack.infos_size() == 1)
 	{
 		const auto& info = ack.infos().Get(0);
-		onPlayerLogin(info.playerid(), sessionID);
+		onPlayerLogin(info.playerid(), msg.session());
 	}
 }
 

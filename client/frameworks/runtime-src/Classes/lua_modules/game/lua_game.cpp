@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 04/17/21 20:58:43.
+** Generated automatically by tolua++-1.0.92 on 04/21/21 18:44:53.
 */
 
 #ifndef __cplusplus
@@ -21,6 +21,7 @@ TOLUA_API int  tolua_game_open (lua_State* tolua_S);
 #include "net_uv_cc/CCNetClient.h"
 #include "foundation/CTools.h"
 #include "ext/MyButton.h"
+#include "foundation/ParticleSystemHelper.h"
 
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)
@@ -1196,6 +1197,36 @@ static int tolua_game_MyButton_getScaleOnPressed00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: changeParticleSystemPositionType */
+#ifndef TOLUA_DISABLE_tolua_game_changeParticleSystemPositionType00
+static int tolua_game_changeParticleSystemPositionType00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"cc.Node",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Node* root = ((Node*)  tolua_tousertype(tolua_S,1,0));
+  int type = ((int)  tolua_tonumber(tolua_S,2,0));
+  {
+   changeParticleSystemPositionType(root,type);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'changeParticleSystemPositionType'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_game_open (lua_State* tolua_S)
 {
@@ -1259,6 +1290,7 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setScaleOnPressed",tolua_game_MyButton_setScaleOnPressed00);
    tolua_function(tolua_S,"getScaleOnPressed",tolua_game_MyButton_getScaleOnPressed00);
   tolua_endmodule(tolua_S);
+  tolua_function(tolua_S,"changeParticleSystemPositionType",tolua_game_changeParticleSystemPositionType00);
  tolua_endmodule(tolua_S);
  return 1;
 }

@@ -26,7 +26,9 @@ function GlobalManager:onExitGameNtf(msg)
 		content = STR(11005)
 	end
 
-	G_UIUtils:showOneBtnMsgBox(content, function()
+	_MyG.NetManager:clearAllSessionInfo()
+
+	UIUtils:showOneBtnMsgBox(content, function()
 		appExit()
 	end)
 end

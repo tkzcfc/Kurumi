@@ -2,7 +2,7 @@
 -- @Date:   2019-06-06 22:08:04
 -- @remark: 
 
-local UIScrollMsgBox = class("UIScrollMsgBox", G_Class.UIWindow)
+local UIScrollMsgBox = class("UIScrollMsgBox", G_Class.UIDialog)
 
 
 function UIScrollMsgBox:ctor()

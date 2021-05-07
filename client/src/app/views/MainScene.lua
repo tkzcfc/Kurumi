@@ -10,6 +10,11 @@ function MainScene:onCreate()
 
     self.ui.ScrollView:jumpToPercentHorizontal(35)
     self.ui.ScrollView:setScrollBarEnabled(false)
+
+    local children = self.ui.Panel_Touch:getChildren()
+    for k, v in pairs(children) do
+        
+    end
 end
 
 function MainScene:onClickEnter()

@@ -28,6 +28,14 @@ uint32_t GLoginService::onInit()
 	G_CHECK_SERVICE(GAccountMgrService);
 	G_CHECK_SERVICE(GMasterNodeService);
 
+	auto scheduler = GApplication::getInstance()->getScheduler();
+	scheduler->schedule([=](float){
+		this->clearInvalidToken();
+	}, this, 60.0f, false, "check_token");
+
+	auto now = ::time(NULL);
+	m_random = std::make_unique<GRandom>(now, now + 1);
+
 	init_Http();
 	init_MasterNode();
 
@@ -96,14 +104,36 @@ void GLoginService::onStopService()
 	m_serviceMgr->getService<GMasterNodeService>()->noticeCenter()->delListener(this);
 }
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+void GLoginService::clearInvalidToken()
+{
+	if (m_tokenMap.empty())
+		return;
+
+	auto now = ::time(NULL);
+	for (auto it = m_tokenMap.begin(); it != m_tokenMap.end(); )
+	{
+		if (now - it->second.time > 60 * 60 * 2)
+		{
+			it = m_tokenMap.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
 
 err::Code GLoginService::checkToken(const std::string& playerId, const std::string token)
 {
 	auto it = m_tokenMap.find(playerId);
 	if (it == m_tokenMap.end())
 		return err::Code::NOT_FOUND;
+
+	it->second.time = ::time(NULL);
 
 	if (it->second.token == token)
 		return err::Code::SUCCESS;
@@ -134,13 +164,12 @@ void GLoginService::onHttpRequest_Login(const net_uv::HttpRequest& request, net_
 			
 		if (code == err::Code::SUCCESS)
 		{
-			std::string token;
+			std::string tmp = StringUtils::format("%s-%s-%d", playerId.c_str(), pwd.c_str(), m_random->random(1, 10000));
+			auto token = StringUtils::format("%08X-%08X", m_random->random(1, 10000) + m_tokenMap.size(), NFrame::CRC32(tmp));
+
 			auto it = m_tokenMap.find(playerId);
 			if (m_tokenMap.end() == it)
 			{
-				std::string tmp = StringUtils::format("%s-%s-%d", playerId.c_str(), pwd.c_str(), m_tokenMap.size());
-				token = StringUtils::format("%08X-%08X", time(NULL), NFrame::CRC32(tmp));
-
 				TokenInfo info;
 				info.token = token;
 				info.time = ::time(NULL);
@@ -148,7 +177,7 @@ void GLoginService::onHttpRequest_Login(const net_uv::HttpRequest& request, net_
 			}
 			else
 			{
-				token = it->second.token;
+				it->second.token = token;
 				it->second.time = ::time(NULL);
 			}
 

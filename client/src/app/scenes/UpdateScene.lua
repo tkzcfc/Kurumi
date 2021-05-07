@@ -25,11 +25,6 @@ function UpdateScene:onCreate()
 
     self:setPercent(0)
 
-    print("------------------------------------")
-    print("------------------------------------")
-    print("------------------------------------")
-    print("------------------------------------")
-
     self:startCheckUpdate()
     -- self:beginGame()
 end
@@ -135,6 +130,7 @@ function UpdateScene:startCheckUpdate()
 end
 
 function UpdateScene:onExit()
+    UpdateScene.super.onExit(self)
     print("exit")
     if self.assetsManager then
         self.assetsManager:release()

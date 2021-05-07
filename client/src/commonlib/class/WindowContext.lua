@@ -7,6 +7,7 @@ local Vector = require("commonlib.class.Vector")
 
 local WindowContext = class("WindowContext")
 
+property(WindowContext, "pDefaultWindowNode")
 
 function WindowContext:ctor()
 	self.arrWindows = Vector:new()
@@ -140,24 +141,14 @@ function WindowContext:getWindowFromQueueByName(name)
 	end
 end
 
--- @brief 设置窗口默认根节点
-function WindowContext:setDefaultWindowNode(node)
-	self.defaultWindowNode = node
-end
-
--- @brief 获取窗口默认根节点
-function WindowContext:getDefaultWindowNode()
-	return self.defaultWindowNode
-end
-
 ------------------------------------------- ------------------  private  ------------------------------------------- ------------------
 -- @brief 添加一个window,Window内部调用
 -- @param window
 -- @param parentNode 父节点,为空则默认取当前场景
--- @param unique 是否独占,为true则在显示本窗口时隐藏其他窗口
-function WindowContext:addWindow(window, parentNode, unique)
+function WindowContext:addWindow(window, parentNode)
+	local unique = window:getIsFullScreen()
 	if parentNode == nil then
-		parentNode = self.defaultWindowNode or cc.Director:getInstance():getRunningScene()
+		parentNode = self.pDefaultWindowNode or cc.Director:getInstance():getRunningScene()
 		if parentNode == nil then
 			com_log("[ERROR]: WindowContext parentNode == nil")
 			return false
@@ -175,7 +166,7 @@ function WindowContext:addWindow(window, parentNode, unique)
 		for i = self.arrWindows:size(), 1, -1 do
 			curWindow = self.arrWindows:at(i)
 			-- 判断该窗口可以被优化并且此窗口的Zorder值小于要独占的窗口
-			if curWindow:canOptimize() and curWindow:getLocalZOrder() <= window:getLocalZOrder() then
+			if curWindow:getCanOptimize() and curWindow:getLocalZOrder() <= window:getLocalZOrder() then
 				curWindow:setVisible(false)
 			end
 		end
@@ -189,8 +180,7 @@ function WindowContext:addWindow(window, parentNode, unique)
 
 	-- 窗口入队
 	self.arrWindows:pushBack(window)
-
-	G_SysEventEmitter:emit("event_WindowShow", window)
+	G_SysEventEmitter:emit("event_WindowShow", window, unique)
 
 	return true
 end
@@ -204,7 +194,7 @@ function WindowContext:removeWindow(window)
 		return
 	end
 
-	G_SysEventEmitter:emit("event_WindowDismiss", window)
+	G_SysEventEmitter:emit("event_WindowDismiss", window, unique)
 
 	window:removeFromParent()
 

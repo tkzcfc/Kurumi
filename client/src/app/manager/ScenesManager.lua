@@ -151,7 +151,7 @@ function ScenesManager:runScene(sceneID, args, isPush)
 		G_WindowManager:clear()
 	end
 
-	G_SysEventEmitter:emit("event_willEnterScene")
+	G_SysEventEmitter:emit(SysEvent.WILL_ENTER_SCENE)
 
 	local runningView, runningScene
 
@@ -168,7 +168,7 @@ function ScenesManager:runScene(sceneID, args, isPush)
 
 	runningView:initWithParameter(args)
 
-	G_SysEventEmitter:emit("event_enterSceneFinish")
+	G_SysEventEmitter:emit(SysEvent.ENTER_SCENE_FINISH)
 
 	return runningView, runningScene
 end

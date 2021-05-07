@@ -1,11 +1,9 @@
 -- @Author: fangcheng
--- @Date:   2020-11-07 16:33:58
--- @remark: 
-
-local Const = {}
+-- @Date:   2021-05-07 21:01:27
+-- @remark: 窗口Zorder
 
 -- 窗口Zorder
-Const.WINDOW_Z = 
+cc.exports.WINDOW_Z = 
 {
 	UI 					= 1000,	-- 普通UI
 	LOADING 			= 1010,	-- 普通loading
@@ -15,4 +13,3 @@ Const.WINDOW_Z =
 	EXIT_MSGBOX 		= 1050,	-- 退出游戏弹窗
 }
 
-cc.exports.G_Const = Const

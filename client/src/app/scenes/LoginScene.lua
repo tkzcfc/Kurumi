@@ -7,8 +7,7 @@ local LoginScene = class("LoginScene", G_Class.SceneBase)
 function LoginScene:onCreate()
 	LoginScene.super.onCreate(self)
 
-	self.ui = G_Helper.loadStudioFile("scenes.UI_LoginScene", self)
-    self:addChild(self.ui.root)
+	self:loadUILua("scenes.UI_LoginScene")
 
 	local account = _MyG.SysSetManager:getLoginAcount()
 	local pasword = _MyG.SysSetManager:getLoginPassword()
@@ -29,17 +28,18 @@ function LoginScene:onClickStart(sender)
 	local pasword = self.ui.TextField_Password:getString()
 
 	if account == "" then
-		G_UIUtils:showError(100)
+		UIUtils:showError(100)
 		return
 	end
 	if pasword == "" then
-		G_UIUtils:showError(101)
+		UIUtils:showError(101)
 		return
 	end
 
 	self:request_login(account, pasword)
 end
 
+-- @brief 登录请求
 function LoginScene:request_login(account, pasword)
 	if self.httpToken then return end
 
@@ -49,7 +49,7 @@ function LoginScene:request_login(account, pasword)
 		self:hideLoading()
 
 		if not ok then
-			G_UIUtils:showError(2)
+			UIUtils:showError(2)
 			return
 		end
 
@@ -67,19 +67,20 @@ function LoginScene:request_login(account, pasword)
 			self:request_svrlist()
 		else
 			if data.code == errCode.ACCOUNT_NOT_EXIST then
-				G_UIUtils:showTwoBtnMsgBox(STR(11001), function()
+				UIUtils:showTwoBtnMsgBox(STR(11001), function()
 					self:request_register(account, pasword)
 				end)
 			elseif data.code == errCode.WRONG_PASSWORD then
-				G_UIUtils:showError(106)
+				UIUtils:showError(106)
 			else
-				G_UIUtils:showError(1, data.code)
+				UIUtils:showError(1, data.code)
 			end
 		end
 	end)
 	self:showLoading()
 end
 
+-- @brief 注册请求
 function LoginScene:request_register(account, pasword)
 	if self.httpToken then return end
 
@@ -89,7 +90,7 @@ function LoginScene:request_register(account, pasword)
 		self:hideLoading()
 
 		if not ok then
-			G_UIUtils:showError(2)
+			UIUtils:showError(2)
 			self:request_login(account, pasword)
 			return
 		end
@@ -97,9 +98,9 @@ function LoginScene:request_register(account, pasword)
 		data = json.decode(data)
 		if data.code == errCode.SUCCESS then
 			-- 注册成功
-			G_UIUtils:showRemind(STR(11002))
+			UIUtils:showRemind(STR(11002))
 		else
-			G_UIUtils:showError(1, data.code)
+			UIUtils:showError(1, data.code)
 		end
 	end)
 	self:showLoading()
@@ -109,6 +110,8 @@ end
 function LoginScene:request_svrlist()
 	if self.httpToken then return end
 
+	_MyG.NetManager:clearAllSessionInfo()
+
 	local url = string.format("%s/api/svrlist", _MyG.startURL)
 	self.httpToken = _MyG.HttpManager:read(url, function(ok, data)
 		self.httpToken = nil
@@ -116,7 +119,7 @@ function LoginScene:request_svrlist()
 
 		-- 服务器列表获取失败
 		if not ok then
-			G_UIUtils:showError(108)
+			UIUtils:showError(108)
 			return
 		end
 
@@ -125,7 +128,7 @@ function LoginScene:request_svrlist()
 
 		-- 服务器列表为空
 		if #list <= 0 then
-			G_UIUtils:showError(109)
+			UIUtils:showError(109)
 			return
 		end
 
@@ -133,13 +136,13 @@ function LoginScene:request_svrlist()
 		local svrInfo = json.decode(list[1])
 		_MyG.NetManager:setGameInfo(svrInfo.ip, svrInfo.port)
 
-
 		self:showLoading()
 	end)
 	self:showLoading()
 end
 
 function LoginScene:onExit()
+	LoginScene.super.onExit(self)
 	_MyG.HttpManager:cancel(self.httpToken)
 	if self.loading then
 		self.loading:release()
@@ -172,7 +175,7 @@ function LoginScene:onLoginGateAck(msg)
 		})
 	else
 		self:hideLoading()
-		G_UIUtils:showError(1, msg.code)
+		UIUtils:showError(1, msg.code)
 	end
 end
 
@@ -184,14 +187,18 @@ function LoginScene:onLoginAck(msg)
 		_MyG.AccountInfo.playerID 	= msg.infos[1].playerID
 		_MyG.AccountInfo.name		= msg.infos[1].name
 
+		_MyG.ScenesManager:switchScene(_MyG.SCENE_ID_MAIN)
+	-- token 找不到
+	elseif msg.code == errCode.NOT_FOUND then
+		UIUtils:showError(112)
 	-- 此账号有多个玩家信息
 	elseif msg.code == errCode.GAME_LOGIN_MUT_PID then
-		G_UIUtils:showError(111)
+		UIUtils:showError(111)
 	-- 没有找到对应玩家信息
 	elseif msg.code == errCode.GAME_LOGIN_NO_FOUND_PLAYER then
-		G_UIUtils:showError(110)
+		UIUtils:showError(110)
 	else
-		G_UIUtils:showError(1, msg.code)
+		UIUtils:showError(1, msg.code)
 	end
 end
 

@@ -5,10 +5,24 @@
 local EventEmitter = import(".EventEmitter")
 local Window = class("Window", function() return ccui.Layout:create() end)
 
+property(Window, "bCanOptimize")
+property(Window, "bPlayOpenAction")
+property(Window, "bPlayCloseAction")
+property(Window, "bAutoDismiss")
+property(Window, "bRunOpeningTag")
+property(Window, "bIsFullScreen")
+property(Window, "pContentView")
+
 function Window:ctor()
 	-- 是否可以对本UI优化显示,即在新的UI以独占模式弹出后是否能隐藏本窗口
 	-- 默认可以对本UI优化
-	self.canOptimizeTag = true
+	self.bCanOptimize = true
+	-- 是否播放进入动画
+	self.bPlayOpenAction = true
+	-- 是否播放退出动画
+	self.bPlayCloseAction = true
+	-- 点击空白处是否自动关闭
+	self.bAutoDismiss = false
 
 	-- 窗口管理器,默认为全局窗口管理器
 	self:setWinManager(G_WindowManager)
@@ -25,8 +39,8 @@ function Window:ctor()
 end
 
 function Window:onTouchBegan(touch, event)
-	if self.autoDismissTag then
-		if self.contentView then
+	if self.bAutoDismiss then
+		if self.pContentView then
 			self.touchContentViewBeginTag = not self:isContainContentView(touch, event)
 		else
 			self.touchContentViewBeginTag = true
@@ -37,7 +51,7 @@ end
 
 -- @brief 触摸结束,窗口自动关闭判定逻辑
 function Window:onTouchEnded(touch, event)
-	if not self.autoDismissTag then
+	if not self.bAutoDismiss then
 		return
 	end
 
@@ -79,18 +93,18 @@ end
 
 -- @brief 是否点击到contentView
 function Window:isContainContentView(touch, event)
-	if self.contentView == nil then
+	if self.pContentView == nil then
 		return false
 	end
 
-	-- local parent = self.contentView:getParent()
+	-- local parent = self.pContentView:getParent()
 	-- if parent == nil then return false end
 	-- local location = parent:convertToNodeSpace(touch:getLocation())
-	-- return cc.rectContainsPoint(self.contentView:getBoundingBox(), location)
+	-- return cc.rectContainsPoint(self.pContentView:getBoundingBox(), location)
 
 	-- 调用C++的区域判断更准确
 	local location = touch:getLocation()
-	return CTools:isInRect(self.contentView, location.x, location.y)
+	return CTools:isInRect(self.pContentView, location.x, location.y)
 end
 
 
@@ -107,7 +121,7 @@ function Window:enableTouchListener(enable)
 
 	-- 事件吞没
 	local function onTouchBegan(touch, event)
-		if self.runOpenActionTag then
+		if self.bRunOpeningTag then
 			return true
 		end
 		return self:onTouchBegan(touch, event)
@@ -138,30 +152,17 @@ function Window:setWinManager(manager)
 	self.winManager = manager
 end
 
--- @brief 设置UI内容显示节点
-function Window:setContentView(contentView)
-	self.contentView = contentView
-end
-
 -- @brief 显示UI
--- @param runAction 是否执行动画
 -- @param parentNode 父节点，为空则父节点为当前场景
--- @param unique 是否为独占模式
-function Window:show(runAction, parentNode, unique)
+function Window:show(parentNode)
 	self:iBeforeOpenedWindow()
-	self:getWinManager():addWindow(self, parentNode, unique)
-	if runAction ~= false then
+	self:getWinManager():addWindow(self, parentNode)
+
+	if self.bPlayOpenAction then
 		self:iRunOpenActionBegin()
 	else
 		self:iAfterOpenedWindow()
 	end
-
-
-end
-
--- @brief 是否启用关闭动画
-function Window:setEnableCloseAnimation(enable)
-	self.enableCloseAnimationTag = enable
 end
 
 -- @brief 使本窗口不接受关闭响应，除非调用dismiss函数时参数force为true
@@ -183,42 +184,22 @@ function Window:doDismiss(force)
 	end
 
 	-- 正在执行打开窗口动画
-	if self.runOpenActionTag then
+	if self.bRunOpeningTag then
 		return
 	end
 
 	-- 保证此函数只执行一次
-	if self.executeDismissTag then
+	if self.bExecuteDismissTag then
 		return
 	end
-	self.executeDismissTag = true
+	self.bExecuteDismissTag = true
 
 	self:iWillCloseWindow()
-	if self.enableCloseAnimationTag then
+	if self.bPlayCloseAction then
 		self:iCloseActionBegin()
 	else
 		self:iAfterClosedWindow()
 	end
-end
-
--- @brief 设置UI点击空白处自动关闭
-function Window:setAutoDismiss()
-	self.autoDismissTag = true
-end
-
--- @brief 取消UI点击空白处自动关闭
-function Window:disEnableAutoDismiss()
-	self.autoDismissTag = false
-end
-
--- @brief 禁止对本UI优化显示
-function Window:keepOutOptimize()
-	self.canOptimizeTag = false
-end
-
--- @brief 是否可以对本UI优化显示
-function Window:canOptimize()
-	return self.canOptimizeTag
 end
 
 -- @brief 本窗口事件订阅
@@ -255,37 +236,34 @@ end
 ----------------------------------------interface----------------------------------------
 -- @brief UI界面打开动画
 function Window:iRunOpenActionBegin()
-	if not self.contentView then
+	if not self.pContentView then
 		self:iAfterOpenedWindow()
 		return
 	end
 
-	self.runOpenActionTag = true
+	self.bRunOpeningTag = true
 	
-    self.contentView:setScale(0.3)
+    self.pContentView:setScale(0.3)
     local actionEnd = function()
 		self:iAfterOpenedWindow()
     end
     local q = cc.Sequence:create(cc.ScaleTo:create(0.25, 1.1), cc.ScaleTo:create(0.1, 1.0), cc.CallFunc:create(actionEnd))
-    self.contentView:runAction(q)
-
-    -- 启用关闭动画
-    self:setEnableCloseAnimation(true)
+    self.pContentView:runAction(q)
 end
 
 -- @brief UI界面关闭动画
 function Window:iCloseActionBegin()
-	if not self.contentView then
+	if not self.pContentView then
 		self:iAfterClosedWindow()
 		return
 	end
 
-    self.contentView:setScale(1.0)
+    self.pContentView:setScale(1.0)
     local actionEnd = function()
         self:iAfterClosedWindow() 
     end
     local q = cc.Sequence:create(cc.ScaleTo:create(0.1, 1.1), cc.ScaleTo:create(0.25, 0.5), cc.CallFunc:create(actionEnd))
-    self.contentView:runAction(q)
+    self.pContentView:runAction(q)
 end
 
 -- @brief UI界面打开之前的回调
@@ -297,7 +275,7 @@ end
 -- @brief UI界面打开后的回调
 function Window:iAfterOpenedWindow()
 	com_log("iAfterOpenedWindow------------>>")
-	self.runOpenActionTag = false
+	self.bRunOpeningTag = false
 	self:emit("onAfterOpenedWindow")
 	G_SysEventEmitter:emit("event_WindowShowFinish", self)
 end

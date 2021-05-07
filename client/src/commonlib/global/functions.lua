@@ -244,9 +244,32 @@ local function fmt(format, ...)
     return format
 end
 
+-- @brief 枚举定义
+local function enum(et)
+    local t = {}
+    local s, i = 0, 0
 
+    for k, v in pairs(et) do
+        if type(v) == 'number' then
+            s = v
+            i = 0
+        else
+            t[v] = s + i
+            i = i + 1
+        end
+    end
+    return t
+end
 
-
+local function property(t, name)
+    local funcName = string.sub(name, 2)
+    t["get" .. funcName] = function(this)
+        return this[name]
+    end
+    t["set" .. funcName] = function(this, value)
+        this[name] = value
+    end
+end
 
 
 
@@ -267,3 +290,7 @@ cc.exports.read_only = read_only
 cc.exports.appExit = appExit
 -- 格式化函数
 cc.exports.fmt = fmt
+-- 枚举定义函数
+cc.exports.enum = enum
+
+cc.exports.property = property

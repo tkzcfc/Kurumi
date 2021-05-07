@@ -29,4 +29,3 @@ G_SysEventEmitter:on("event_restartApp", function()
 	end
 	_MyG.arrManagers = {}
 end, _MyG)
-

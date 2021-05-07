@@ -22,9 +22,9 @@ function NotifiNodeManager:getChildNode(nodeName)
 end
 
 -- @brief 在常驻节点上显示窗口
-function NotifiNodeManager:showWindow(window, ...)
+function NotifiNodeManager:showWindow(window)
 	window:setWinManager(self.winContext)
-	window:show(...)
+	window:show()
 
 	window:enableTouchListener(false)
 	self:changeEventDispatcher(window)

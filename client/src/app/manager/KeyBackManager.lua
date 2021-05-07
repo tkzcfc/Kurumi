@@ -7,7 +7,7 @@ local KeyBackManager = class("KeyBackManager", import(".BaseManager"))
 function KeyBackManager:override_onInit()
 	KeyBackManager.super.override_onInit(self)
 
-	G_SysEventEmitter:on("event_onKeyBackReleased", function()
+	G_SysEventEmitter:on(SysEvent.ON_KEY_BACK_CLICK, function()
 		-- 常驻节点窗口优先截取返回事件
 		if _MyG.NotifiNodeManager:getWinContext():popWindow() then return end
 		
@@ -32,7 +32,7 @@ function KeyBackManager:showExitGameBox()
     	-- restartApp()
     	appExit()
 	end)
-    box:setLocalZOrder(G_Const.WINDOW_Z.EXIT_MSGBOX)
+    box:setLocalZOrder(WINDOW_Z.EXIT_MSGBOX)
     _MyG.NotifiNodeManager:showWindow(box)
 end
 

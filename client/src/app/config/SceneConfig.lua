@@ -49,7 +49,7 @@ _MyG.SceneResourceLoadConfig[_MyG.SCENE_ID_LOGIN] =
 	--资源释放函数，如果不为空则会在本场景退出时调用该函数
 	--参数为：resourceScene，args
 	ReleaseResourceFunc =  function(resourceScene, args)
-		SceneResourceConfig:DefaultReleaseFunc(_MyG.SCENE_ID_LOGIN, resourceScene, args)
+		-- SceneResourceConfig:DefaultReleaseFunc(_MyG.SCENE_ID_LOGIN, resourceScene, args)
 	end,
 }
 

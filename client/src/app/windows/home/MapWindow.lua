@@ -7,8 +7,11 @@ local MapWindow = class("MapWindow", G_Class.UIWindow)
 function MapWindow:ctor()
 	MapWindow.super.ctor(self)
 
-    local ui = G_Helper.loadStudioFile("windows.home.UI_MapWindow", self)
-    self:addChild(ui.root)
+	self:loadUILua("windows.home.UI_MapWindow")
+end
+
+function MapWindow:onClickBack()
+	self:dismiss()
 end
 
 return MapWindow

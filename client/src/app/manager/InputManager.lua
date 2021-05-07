@@ -29,7 +29,7 @@ function InputManager:initialize()
 	-- 返回按键
     local function onKeyReleased(keyCode, event)
         if _MyG.initFinishTag and keyCode == cc.KeyCode.KEY_BACK then
-        	G_SysEventEmitter:emit("event_onKeyBackReleased")
+        	G_SysEventEmitter:emit(SysEvent.ON_KEY_BACK_CLICK)
         end
     end
   

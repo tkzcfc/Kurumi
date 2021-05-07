@@ -2,12 +2,12 @@
 -- @Date:   2020-11-07 21:42:39
 -- @remark: 消息弹窗
 
-local UIMessageBox = class("UIMessageBox", G_Class.UIWindow)
+local UIMessageBox = class("UIMessageBox", G_Class.UIDialog)
 
 function UIMessageBox:ctor()
 	UIMessageBox.super.ctor(self)
 
-	self:setLocalZOrder(G_Const.WINDOW_Z.MSGBOX)
+	self:setLocalZOrder(WINDOW_Z.MSGBOX)
 
     local ui = G_Helper.loadStudioFile("ui.UI_MessageBox", self)
     self:addChild(ui.root)
@@ -54,13 +54,6 @@ function UIMessageBox:showTwoButton(content, okcall, cancelcall)
 	self.ui.Text_show:setVisible(false)
 
 	return self
-end
-
-function UIMessageBox:show(runAction, parentNode, unique)
-	if unique == nil then
-		unique = true
-	end
-	UIMessageBox.super.show(self, runAction, parentNode, unique)
 end
 
 function UIMessageBox:iAfterOpenedWindow()
