@@ -10,51 +10,47 @@ local WindowContext = class("WindowContext")
 property(WindowContext, "pDefaultWindowNode")
 
 function WindowContext:ctor()
-	self.arrWindows = Vector:new()
+	self.tArrWindows = Vector:new()
+	self.tWindowQueue = Vector:new(true)
+	self.pCurQueueWindow = nil
 end
 
 -- @brief 获取当前最顶层窗口
 function WindowContext:getTopWindow()
-	if self.arrWindows:size() > 0 then
-		return self.arrWindows:back()
+	if self.tArrWindows:size() > 0 then
+		return self.tArrWindows:back()
 	end
 end
 
 -- @brief 关闭当前最顶层窗口
 function WindowContext:popWindow()
-	local pop = self:getTopWindow()
-	if pop then
-		pop:dismiss()
+	local top = self:getTopWindow()
+	if top then
+		top:dismiss()
 		return true
 	end
 	return false
 end
 
 -- @brief 移除所有窗口
--- except_cls 除了这个之外
-function WindowContext:removeAllWindow(except_cls)
-	except_cls = except_cls or ""
-	for i = self.arrWindows:size(), 1, -1 do
-		local window = self.arrWindows:at(i)
-		if window.__cname ~= except_cls then
-			window:dismiss()
-		end
+function WindowContext:removeAllWindow()
+	self:clearQueue()
+
+	for i = self.tArrWindows:size(), 1, -1 do
+		local window = self.tArrWindows:at(i)
+		window:setPlayCloseAction(false)
+		window:dismiss(true)
 	end
-
-	self:clearQueue()
+	self.tArrWindows = Vector:new()
 end
 
--- @brief 清除所有数据
-function WindowContext:clear()
-	self.arrWindows:clear()
-	self:clearQueue()
-end
-
--- @brief 通过窗口tag移除窗口
-function WindowContext:removeWindowByTag(tag)
-	for key, window in ipairs(self.arrWindows) do
-		if window:getTag() == tag then
-			window:dismiss()
+-- @brief 通过窗口名称移除窗口
+-- @param winName 窗口名称
+-- @param force 是否强制移除
+function WindowContext:removeWindowByName(winName, force)
+	for key, window in ipairs(self.tArrWindows) do
+		if window.__cname == winName then
+			window:dismiss(force)
 			break
 		end
 	end
@@ -66,8 +62,8 @@ function WindowContext:hasWindow(cls)
 	if type(cls) == type("") then
 		cls = { cls }
 	end
-	for i = self.arrWindows:size(), 1, -1 do
-		local window = self.arrWindows:at(i)
+	for i = self.tArrWindows:size(), 1, -1 do
+		local window = self.tArrWindows:at(i)
 		local classname = window.__cname
 		if classname and G_Helper.findEleInTab(cls, classname) ~= nil then
 			return true
@@ -78,41 +74,30 @@ end
 
 -- @brief 入队窗口缓存,进入此缓存后会自动弹出窗口
 function WindowContext:pushQueueWindow(window)
-	if not self.windowQueue then
-		self.windowQueue = { }
-	end
-
-	window:retain()
-	table.insert(self.windowQueue, window)
-
+	self.tWindowQueue:pushBack(window)
 	self:checkQueueNext()
 end
 
 -- @brief 检查窗口队列
 function WindowContext:checkQueueNext()
-	if not self.curQueueWindow and #self.windowQueue > 0 then
-		self.curQueueWindow = self.windowQueue[1]
-		table.remove(self.windowQueue, 1)
+	if not self.pCurQueueWindow and self.tWindowQueue:size() > 0 then
+		self.pCurQueueWindow = self.tWindowQueue:front()
+		self:addWindow(self.pCurQueueWindow)
 
-		self:addWindow(self.curQueueWindow)
-		self.curQueueWindow:release()
+		self.tWindowQueue:popFront()
 	end
 end
 
 -- @brief 清理窗口队列
 function WindowContext:clearQueue()
-	if self.windowQueue then
-		for key, var in ipairs(self.windowQueue) do
-			var:release()
-		end
-		self.windowQueue = nil
-	end
-	self.curQueueWindow = nil
+	self.tWindowQueue:clear()
+	self.tWindowQueue = Vector:new(true)
+	self.pCurQueueWindow = nil
 end
 
 -- @brief 通过名称获取窗口
 function WindowContext:getWindowByName(name)
-	for i, window in ipairs(self.arrWindows) do
+	for i, window in ipairs(self.tArrWindows) do
 		if window.__cname == name then
 			return window
 		end
@@ -121,7 +106,7 @@ end
 
 -- @brief通过标记获取窗口
 function WindowContext:getWindowByTag(tag)
-	for i, window in ipairs(self.arrWindows) do
+	for i, window in ipairs(self.tArrWindows) do
 		if window:getTag() == tag then
 			return window
 		end
@@ -130,11 +115,11 @@ end
 
 -- @brief 通过名称获取在窗口队列的窗口
 function WindowContext:getWindowFromQueueByName(name)
-	if not self.windowQueue then
+	if not self.tWindowQueue then
 		return
 	end
 
-	for i, window in ipairs(self.windowQueue) do
+	for i, window in ipairs(self.tWindowQueue) do
 		if window.__cname == name then
 			return window
 		end
@@ -163,8 +148,8 @@ function WindowContext:addWindow(window, parentNode)
 	if unique then
 		window.__cache_window_tag = true
 		local curWindow
-		for i = self.arrWindows:size(), 1, -1 do
-			curWindow = self.arrWindows:at(i)
+		for i = self.tArrWindows:size(), 1, -1 do
+			curWindow = self.tArrWindows:at(i)
 			-- 判断该窗口可以被优化并且此窗口的Zorder值小于要独占的窗口
 			if curWindow:getCanOptimize() and curWindow:getLocalZOrder() <= window:getLocalZOrder() then
 				curWindow:setVisible(false)
@@ -179,29 +164,33 @@ function WindowContext:addWindow(window, parentNode)
 	end
 
 	-- 窗口入队
-	self.arrWindows:pushBack(window)
-	G_SysEventEmitter:emit("event_WindowShow", window, unique)
+	self.tArrWindows:pushBack(window)
+	G_SysEventEmitter:emit("event_WindowShowStart", window, unique)
 
 	return true
 end
 
+-- @brief 窗口显示完毕
+function WindowContext:windowShowFinish(window)
+	G_SysEventEmitter:emit("event_WindowShowFinish", window, window.__cache_window_tag)
+end
+
 -- @brief 移除某个窗口,Window内部调用,不要手动调用
-function WindowContext:removeWindow(window)
-	local bIsQueWindow = window == self.curQueueWindow
+function WindowContext:removeWindow_(window)
+	local bIsQueWindow = window == self.pCurQueueWindow
 	local unique = window.__cache_window_tag
 
-	if not self.arrWindows:eraseObject(window) then
+	if not self.tArrWindows:eraseObject(window) then
 		return
 	end
 
 	G_SysEventEmitter:emit("event_WindowDismiss", window, unique)
-
 	window:removeFromParent()
 
 	-- 独占模式
 	if unique then
-		for i = self.arrWindows:size(), 1, -1 do
-			window = self.arrWindows:at(i)
+		for i = self.tArrWindows:size(), 1, -1 do
+			window = self.tArrWindows:at(i)
 			window:setVisible(true)
 			if window.__cache_window_tag then
 				break
@@ -216,7 +205,7 @@ function WindowContext:removeWindow(window)
 	end
 
 	if bIsQueWindow then
-		self.curQueueWindow = nil
+		self.pCurQueueWindow = nil
 		self:checkQueueNext()
 	end
 end

@@ -4,8 +4,61 @@
 
 local UIWindow = class("UIWindow", require("app.common.UIBase"))
 
-local FADE_IN_TIME = 0.5
-local FADE_OUT_TIME = 0.5
+local FADE_IN_TIME_1 = 0.5
+local FADE_IN_TIME_2 = 0.2
+local FADE_OUT_TIME_1 = 0.3
+local FADE_OUT_TIME_2 = 0.4
+
+-- @brief 窗口默认打开动画
+local function UIWindowOpenAction(window, call)
+	if _MyG.NotifiNodeManager == nil then
+		call()
+		return
+	end
+
+	local maskLayer = _MyG.NotifiNodeManager:getMaskLayer()
+
+    window:setVisible(false)
+    maskLayer:setVisible(true)
+    maskLayer:stopAllActions()
+    maskLayer:setOpacity(0)
+
+    local action = cc.Sequence:create(
+    	cc.FadeIn:create(FADE_IN_TIME_1),
+    	cc.CallFunc:create(function()
+    		window:setVisible(true)
+    	end),
+    	cc.FadeOut:create(FADE_IN_TIME_2),
+    	cc.Hide:create(),
+    	cc.CallFunc:create(call)
+    )
+    maskLayer:runAction(action)
+end
+
+-- @brief 窗口默认关闭动画
+local function UIWindowCloseAction(window, call)
+	if _MyG.NotifiNodeManager == nil then
+		call()
+		return
+	end
+
+	local maskLayer = _MyG.NotifiNodeManager:getMaskLayer()
+
+    maskLayer:setVisible(true)
+    maskLayer:stopAllActions()
+    maskLayer:setOpacity(0)
+
+    local action = cc.Sequence:create(
+    	cc.FadeIn:create(FADE_OUT_TIME_1),
+    	cc.CallFunc:create(function()
+    		call()
+    	end),
+    	cc.FadeOut:create(FADE_OUT_TIME_2),
+    	cc.Hide:create()
+    )
+    maskLayer:runAction(action)
+end
+
 
 function UIWindow:ctor()
 	UIWindow.super.ctor(self)
@@ -14,44 +67,10 @@ function UIWindow:ctor()
 	self:setPlayOpenAction(true)
 	self:setPlayCloseAction(true)
 	self:setIsFullScreen(true)
+
+	self:setOpenActionCall(UIWindowOpenAction)
+	self:setCloseActionCall(UIWindowCloseAction)
 end
 
--- @brief UI界面打开动画
-function UIWindow:iRunOpenActionBegin()
-	if not self.pContentView then
-		self:iAfterOpenedWindow()
-		return
-	end
-
-	self.bRunOpeningTag = true
-	
-    self.pContentView:setOpacity(0)
-    local actionEnd = function()
-		self:iAfterOpenedWindow()
-    end
-    local q = cc.Sequence:create(
-    	cc.FadeIn:create(FADE_IN_TIME),
-    	cc.CallFunc:create(actionEnd)
-    )
-    self.pContentView:runAction(q)
-end
-
--- @brief UI界面关闭动画
-function UIWindow:iCloseActionBegin()
-	if not self.pContentView then
-		self:iAfterClosedWindow()
-		return
-	end
-
-    self.pContentView:setOpacity(255)
-    local actionEnd = function()
-        self:iAfterClosedWindow() 
-    end
-    local q = cc.Sequence:create(
-    	cc.FadeOut:create(FADE_OUT_TIME),
-    	cc.CallFunc:create(actionEnd)
-    )
-    self.pContentView:runAction(q)
-end
 
 return UIWindow

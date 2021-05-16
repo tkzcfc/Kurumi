@@ -2,69 +2,74 @@
 -- @Date   : 2020-05-25 22:01:43
 -- @remark : 游戏初始化，更新完毕之后加载
 
----------------------------------- begin ----------------------------------
+---------------------------------- commonlib ----------------------------------
 -- comlib
 require("commonlib.init")
-
-G_LangManager:initWithTextRoot("XXConfig.Lang", G_LangManager.LANGUAGE.CH)
 G_NetEventEmitter:clear()
 G_SysEventEmitter:clear()
 
-----------------------------------  end  ----------------------------------
-local function unload(path)
-	package.loaded[path] = nil
+
+----------------------------------  LoadTask  ----------------------------------
+
+local LoadTask = class("LoadTask", G_Class.Task)
+
+function LoadTask:ctor(func)
+	self.func = func
 end
 
-local function defaultUpdatePercent(percent)
-	print(string.format("loading\t%.02f---------------------------------->", percent))
+function LoadTask:run(taskFlowPipe)
+	self.func()
 end
 
 
-local Loader = {}
+----------------------------------  Loader  ----------------------------------
+local Loader = class("Loader")
 
--- @brief 开始加载
--- @param finishCall 完成回调
--- @param errCall 加载失败回调
--- @param updateCall 进度更新回调
-function Loader:load(finishCall, errCall, updateCall)
-	self.updateCall = updateCall or defaultUpdatePercent
+function Loader:ctor()
+	self.pipe = G_Class.TaskFlowPipe.new()
 
+	cc.exports._MyG = {}
+	package.loaded["app.ipConfig"] = nil
+	require("app.ipConfig")
 	self:init()
-
-	local final = function(err)
-		if err then
-			if errCall then errCall() end
-		else
-			if finishCall then finishCall() end
-		end
-	end
-
-	self:doload()
-	finishCall()
-
-	-- -- 启用协程异步载入
-	-- async_run(function()
-	-- 	self:doload()
-	-- end, final)
 end
----------------------------------- private ----------------------------------
 
 function Loader:init()
-	cc.exports._MyG = {}
-	_MyG.initFinishTag = false
+	-- 配置加载
+	self:push(function()
+		-- 游戏Excel配置
+		cc.exports.G_Config = require("XXConfig.XXConfig")
+		-- -- 锁定游戏配置, read_only会影响性能，只在debug中使用
+		-- if G_MAC.DEBUG then
+		-- 	self:push(function() G_Config = read_only(G_Config) end)
+		-- end
+		
+		require("app.config.SceneConfig")
+	end)
 
-	self.tasks = {}
+	-- 全局变量定义
+	self:push(function()
+		cc.exports.logI = print
+		cc.exports.logW = print
+		cc.exports.logE = print
+		cc.exports.logF = print
+		cc.exports.json = require("cjson")
+		ccui.Button = MyButton
+
+		_MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
+	end)
 
 	self:push(function()
-		unload("app.ipConfig")
-		require("app.ipConfig")
-		cc.exports.json = require("cjson")
-		require("app.config.SceneConfig")
 		require("app.common.HelperExt")
-		require("app.const.WindowZ")
-		require("app.const.SysEvent")
-		require("app.const.UIEvent")
+		require("app.const._init_")
 		require("app.utils.UIUtils")
+	end)
+
+	self:push(function()
+		-- 常用class 导出
+		G_Class.UIWindow = require("app.common.UIWindow")
+		G_Class.UIDialog = require("app.common.UIDialog")
+		G_Class.SceneBase = require("app.common.SceneBase")
 	end)
 
 	-- self:push(function()
@@ -75,65 +80,26 @@ function Loader:init()
 
 	self:push(function()
 		-- manager模块初始化
-		require("app.manager.init")
-	end)
-
-	-- self:push(function()
-	-- 	-- msg模块初始化
-	-- 	require("msg.init")
-	-- end)
-
-	self:push(function()
-		-- 常用class 导出
-		G_Class.UIWindow = require("app.common.UIWindow")
-		G_Class.UIDialog = require("app.common.UIDialog")
-		G_Class.SceneBase = require("app.common.SceneBase")
-	end)
-
-	self:push(function()
-		-- 游戏Excel配置
-		cc.exports.G_Config = require("XXConfig.XXConfig")
-	end)
-
-	-- -- 锁定游戏配置, read_only会影响性能，只在debug中使用
-	-- if G_MAC.DEBUG then
-	-- 	self:push(function() G_Config = read_only(G_Config) end)
-	-- end
-
-	self:push(function()
-		cc.exports.logI = print
-		cc.exports.logW = print
-		cc.exports.logE = print
-		cc.exports.logF = print
-		ccui.Button = MyButton
-		-- _MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
-		-- _MyG.StartSceneID = _MyG.SCENE_ID_MAIN
-
-		-- _MyG.NetManager:setGameInfo(_MyG.startSvrTcpIP, _MyG.startSvrTcpPort)
-
-		_MyG.StartSceneID = _MyG.SCENE_ID_LOGIN
-	end)
-
-	self:push(function()
-		_MyG.initFinishTag = true
-		print("init文件加载完成")
+		require("app.manager._init_")
 	end)
 end
 
 function Loader:push(func)
-	self.tasks[#self.tasks + 1] = func
+	self.pipe:pushTask(LoadTask.new(func))
 end
 
-function Loader:doload()
-	self.updateCall(0)
-	local total = #self.tasks
-	for i = 1, total do
-		self.tasks[i]()
-		self.updateCall(i / total)
-		-- async_yield()
-	end
-	-- async_yield()
-	self.updateCall(1)
+-- @brief 开始执行
+-- @param processCallback 执行进度回调
+-- @param finishCallback 执行完成回调
+-- @param errorCallback 错误回调
+function Loader:start(processCallback, finishCallback, errorCallback)
+	self.pipe:start(processCallback, finishCallback, errorCallback)
+end
+
+function Loader:load(finishCallback)
+	self:start(function(taskPercent, totalPercent)
+		print("init load", totalPercent)
+	end, finishCallback)
 end
 
 return Loader

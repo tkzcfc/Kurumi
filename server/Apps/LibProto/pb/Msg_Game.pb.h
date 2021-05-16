@@ -37,7 +37,12 @@ class CodeAck;
 class LoginGateAck;
 class LoginReq;
 class PlayerAccountInfo;
+class RoleInfo;
 class LoginAck;
+class EnterGameReq;
+class EnterGameAck;
+class CreateRoleReq;
+class CreateRoleAck;
 class ExitGameNtf;
 class PVEFightPlayerInfo;
 class StartPVEFightReq;
@@ -480,6 +485,18 @@ class PlayerAccountInfo : public ::google::protobuf::MessageLite {
   inline ::std::string* release_name();
   inline void set_allocated_name(::std::string* name);
 
+  // repeated int64 arrRoleIds = 3;
+  inline int arrroleids_size() const;
+  inline void clear_arrroleids();
+  static const int kArrRoleIdsFieldNumber = 3;
+  inline ::google::protobuf::int64 arrroleids(int index) const;
+  inline void set_arrroleids(int index, ::google::protobuf::int64 value);
+  inline void add_arrroleids(::google::protobuf::int64 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
+      arrroleids() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
+      mutable_arrroleids();
+
   // @@protoc_insertion_point(class_scope:msg.PlayerAccountInfo)
  private:
   inline void set_has_playerid();
@@ -489,9 +506,10 @@ class PlayerAccountInfo : public ::google::protobuf::MessageLite {
 
   ::google::protobuf::int64 playerid_;
   ::std::string* name_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int64 > arrroleids_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
@@ -503,6 +521,124 @@ class PlayerAccountInfo : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static PlayerAccountInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class RoleInfo : public ::google::protobuf::MessageLite {
+ public:
+  RoleInfo();
+  virtual ~RoleInfo();
+
+  RoleInfo(const RoleInfo& from);
+
+  inline RoleInfo& operator=(const RoleInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const RoleInfo& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const RoleInfo* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(RoleInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  RoleInfo* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const RoleInfo& from);
+  void MergeFrom(const RoleInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int64 roleId = 1;
+  inline bool has_roleid() const;
+  inline void clear_roleid();
+  static const int kRoleIdFieldNumber = 1;
+  inline ::google::protobuf::int64 roleid() const;
+  inline void set_roleid(::google::protobuf::int64 value);
+
+  // required string name = 2;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 2;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
+
+  // required int32 lv = 3;
+  inline bool has_lv() const;
+  inline void clear_lv();
+  static const int kLvFieldNumber = 3;
+  inline ::google::protobuf::int32 lv() const;
+  inline void set_lv(::google::protobuf::int32 value);
+
+  // required int32 occupation = 4;
+  inline bool has_occupation() const;
+  inline void clear_occupation();
+  static const int kOccupationFieldNumber = 4;
+  inline ::google::protobuf::int32 occupation() const;
+  inline void set_occupation(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.RoleInfo)
+ private:
+  inline void set_has_roleid();
+  inline void clear_has_roleid();
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_lv();
+  inline void clear_has_lv();
+  inline void set_has_occupation();
+  inline void clear_has_occupation();
+
+  ::google::protobuf::int64 roleid_;
+  ::std::string* name_;
+  ::google::protobuf::int32 lv_;
+  ::google::protobuf::int32 occupation_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static RoleInfo* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -599,6 +735,400 @@ class LoginAck : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static LoginAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class EnterGameReq : public ::google::protobuf::MessageLite {
+ public:
+  EnterGameReq();
+  virtual ~EnterGameReq();
+
+  EnterGameReq(const EnterGameReq& from);
+
+  inline EnterGameReq& operator=(const EnterGameReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const EnterGameReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const EnterGameReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(EnterGameReq* other);
+
+  // implements Message ----------------------------------------------
+
+  EnterGameReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const EnterGameReq& from);
+  void MergeFrom(const EnterGameReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string token = 1;
+  inline bool has_token() const;
+  inline void clear_token();
+  static const int kTokenFieldNumber = 1;
+  inline const ::std::string& token() const;
+  inline void set_token(const ::std::string& value);
+  inline void set_token(const char* value);
+  inline void set_token(const char* value, size_t size);
+  inline ::std::string* mutable_token();
+  inline ::std::string* release_token();
+  inline void set_allocated_token(::std::string* token);
+
+  // required int64 playerID = 2;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIDFieldNumber = 2;
+  inline ::google::protobuf::int64 playerid() const;
+  inline void set_playerid(::google::protobuf::int64 value);
+
+  // required int64 roleID = 3;
+  inline bool has_roleid() const;
+  inline void clear_roleid();
+  static const int kRoleIDFieldNumber = 3;
+  inline ::google::protobuf::int64 roleid() const;
+  inline void set_roleid(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:msg.EnterGameReq)
+ private:
+  inline void set_has_token();
+  inline void clear_has_token();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  inline void set_has_roleid();
+  inline void clear_has_roleid();
+
+  ::std::string* token_;
+  ::google::protobuf::int64 playerid_;
+  ::google::protobuf::int64 roleid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static EnterGameReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class EnterGameAck : public ::google::protobuf::MessageLite {
+ public:
+  EnterGameAck();
+  virtual ~EnterGameAck();
+
+  EnterGameAck(const EnterGameAck& from);
+
+  inline EnterGameAck& operator=(const EnterGameAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const EnterGameAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const EnterGameAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(EnterGameAck* other);
+
+  // implements Message ----------------------------------------------
+
+  EnterGameAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const EnterGameAck& from);
+  void MergeFrom(const EnterGameAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // optional .msg.RoleInfo roleinfo = 2;
+  inline bool has_roleinfo() const;
+  inline void clear_roleinfo();
+  static const int kRoleinfoFieldNumber = 2;
+  inline const ::msg::RoleInfo& roleinfo() const;
+  inline ::msg::RoleInfo* mutable_roleinfo();
+  inline ::msg::RoleInfo* release_roleinfo();
+  inline void set_allocated_roleinfo(::msg::RoleInfo* roleinfo);
+
+  // @@protoc_insertion_point(class_scope:msg.EnterGameAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+  inline void set_has_roleinfo();
+  inline void clear_has_roleinfo();
+
+  ::msg::RoleInfo* roleinfo_;
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static EnterGameAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CreateRoleReq : public ::google::protobuf::MessageLite {
+ public:
+  CreateRoleReq();
+  virtual ~CreateRoleReq();
+
+  CreateRoleReq(const CreateRoleReq& from);
+
+  inline CreateRoleReq& operator=(const CreateRoleReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CreateRoleReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CreateRoleReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CreateRoleReq* other);
+
+  // implements Message ----------------------------------------------
+
+  CreateRoleReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CreateRoleReq& from);
+  void MergeFrom(const CreateRoleReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 occupation = 1;
+  inline bool has_occupation() const;
+  inline void clear_occupation();
+  static const int kOccupationFieldNumber = 1;
+  inline ::google::protobuf::int32 occupation() const;
+  inline void set_occupation(::google::protobuf::int32 value);
+
+  // required string name = 2;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 2;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
+
+  // @@protoc_insertion_point(class_scope:msg.CreateRoleReq)
+ private:
+  inline void set_has_occupation();
+  inline void clear_has_occupation();
+  inline void set_has_name();
+  inline void clear_has_name();
+
+  ::std::string* name_;
+  ::google::protobuf::int32 occupation_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static CreateRoleReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CreateRoleAck : public ::google::protobuf::MessageLite {
+ public:
+  CreateRoleAck();
+  virtual ~CreateRoleAck();
+
+  CreateRoleAck(const CreateRoleAck& from);
+
+  inline CreateRoleAck& operator=(const CreateRoleAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CreateRoleAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CreateRoleAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CreateRoleAck* other);
+
+  // implements Message ----------------------------------------------
+
+  CreateRoleAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CreateRoleAck& from);
+  void MergeFrom(const CreateRoleAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
+  // required int64 roleID = 2;
+  inline bool has_roleid() const;
+  inline void clear_roleid();
+  static const int kRoleIDFieldNumber = 2;
+  inline ::google::protobuf::int64 roleid() const;
+  inline void set_roleid(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:msg.CreateRoleAck)
+ private:
+  inline void set_has_code();
+  inline void clear_has_code();
+  inline void set_has_roleid();
+  inline void clear_has_roleid();
+
+  ::google::protobuf::int64 roleid_;
+  ::google::protobuf::int32 code_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static CreateRoleAck* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -2298,6 +2828,171 @@ inline void PlayerAccountInfo::set_allocated_name(::std::string* name) {
   }
 }
 
+// repeated int64 arrRoleIds = 3;
+inline int PlayerAccountInfo::arrroleids_size() const {
+  return arrroleids_.size();
+}
+inline void PlayerAccountInfo::clear_arrroleids() {
+  arrroleids_.Clear();
+}
+inline ::google::protobuf::int64 PlayerAccountInfo::arrroleids(int index) const {
+  return arrroleids_.Get(index);
+}
+inline void PlayerAccountInfo::set_arrroleids(int index, ::google::protobuf::int64 value) {
+  arrroleids_.Set(index, value);
+}
+inline void PlayerAccountInfo::add_arrroleids(::google::protobuf::int64 value) {
+  arrroleids_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
+PlayerAccountInfo::arrroleids() const {
+  return arrroleids_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
+PlayerAccountInfo::mutable_arrroleids() {
+  return &arrroleids_;
+}
+
+// -------------------------------------------------------------------
+
+// RoleInfo
+
+// required int64 roleId = 1;
+inline bool RoleInfo::has_roleid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RoleInfo::set_has_roleid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RoleInfo::clear_has_roleid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RoleInfo::clear_roleid() {
+  roleid_ = GOOGLE_LONGLONG(0);
+  clear_has_roleid();
+}
+inline ::google::protobuf::int64 RoleInfo::roleid() const {
+  return roleid_;
+}
+inline void RoleInfo::set_roleid(::google::protobuf::int64 value) {
+  set_has_roleid();
+  roleid_ = value;
+}
+
+// required string name = 2;
+inline bool RoleInfo::has_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void RoleInfo::set_has_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void RoleInfo::clear_has_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void RoleInfo::clear_name() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& RoleInfo::name() const {
+  return *name_;
+}
+inline void RoleInfo::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void RoleInfo::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void RoleInfo::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* RoleInfo::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  return name_;
+}
+inline ::std::string* RoleInfo::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void RoleInfo::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    delete name_;
+  }
+  if (name) {
+    set_has_name();
+    name_ = name;
+  } else {
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int32 lv = 3;
+inline bool RoleInfo::has_lv() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void RoleInfo::set_has_lv() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void RoleInfo::clear_has_lv() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void RoleInfo::clear_lv() {
+  lv_ = 0;
+  clear_has_lv();
+}
+inline ::google::protobuf::int32 RoleInfo::lv() const {
+  return lv_;
+}
+inline void RoleInfo::set_lv(::google::protobuf::int32 value) {
+  set_has_lv();
+  lv_ = value;
+}
+
+// required int32 occupation = 4;
+inline bool RoleInfo::has_occupation() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void RoleInfo::set_has_occupation() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void RoleInfo::clear_has_occupation() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void RoleInfo::clear_occupation() {
+  occupation_ = 0;
+  clear_has_occupation();
+}
+inline ::google::protobuf::int32 RoleInfo::occupation() const {
+  return occupation_;
+}
+inline void RoleInfo::set_occupation(::google::protobuf::int32 value) {
+  set_has_occupation();
+  occupation_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // LoginAck
@@ -2347,6 +3042,336 @@ LoginAck::infos() const {
 inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerAccountInfo >*
 LoginAck::mutable_infos() {
   return &infos_;
+}
+
+// -------------------------------------------------------------------
+
+// EnterGameReq
+
+// required string token = 1;
+inline bool EnterGameReq::has_token() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void EnterGameReq::set_has_token() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void EnterGameReq::clear_has_token() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void EnterGameReq::clear_token() {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    token_->clear();
+  }
+  clear_has_token();
+}
+inline const ::std::string& EnterGameReq::token() const {
+  return *token_;
+}
+inline void EnterGameReq::set_token(const ::std::string& value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void EnterGameReq::set_token(const char* value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void EnterGameReq::set_token(const char* value, size_t size) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* EnterGameReq::mutable_token() {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  return token_;
+}
+inline ::std::string* EnterGameReq::release_token() {
+  clear_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = token_;
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void EnterGameReq::set_allocated_token(::std::string* token) {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  if (token) {
+    set_has_token();
+    token_ = token;
+  } else {
+    clear_has_token();
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int64 playerID = 2;
+inline bool EnterGameReq::has_playerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void EnterGameReq::set_has_playerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void EnterGameReq::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void EnterGameReq::clear_playerid() {
+  playerid_ = GOOGLE_LONGLONG(0);
+  clear_has_playerid();
+}
+inline ::google::protobuf::int64 EnterGameReq::playerid() const {
+  return playerid_;
+}
+inline void EnterGameReq::set_playerid(::google::protobuf::int64 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// required int64 roleID = 3;
+inline bool EnterGameReq::has_roleid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void EnterGameReq::set_has_roleid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void EnterGameReq::clear_has_roleid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void EnterGameReq::clear_roleid() {
+  roleid_ = GOOGLE_LONGLONG(0);
+  clear_has_roleid();
+}
+inline ::google::protobuf::int64 EnterGameReq::roleid() const {
+  return roleid_;
+}
+inline void EnterGameReq::set_roleid(::google::protobuf::int64 value) {
+  set_has_roleid();
+  roleid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// EnterGameAck
+
+// required int32 code = 1;
+inline bool EnterGameAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void EnterGameAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void EnterGameAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void EnterGameAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 EnterGameAck::code() const {
+  return code_;
+}
+inline void EnterGameAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// optional .msg.RoleInfo roleinfo = 2;
+inline bool EnterGameAck::has_roleinfo() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void EnterGameAck::set_has_roleinfo() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void EnterGameAck::clear_has_roleinfo() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void EnterGameAck::clear_roleinfo() {
+  if (roleinfo_ != NULL) roleinfo_->::msg::RoleInfo::Clear();
+  clear_has_roleinfo();
+}
+inline const ::msg::RoleInfo& EnterGameAck::roleinfo() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return roleinfo_ != NULL ? *roleinfo_ : *default_instance().roleinfo_;
+#else
+  return roleinfo_ != NULL ? *roleinfo_ : *default_instance_->roleinfo_;
+#endif
+}
+inline ::msg::RoleInfo* EnterGameAck::mutable_roleinfo() {
+  set_has_roleinfo();
+  if (roleinfo_ == NULL) roleinfo_ = new ::msg::RoleInfo;
+  return roleinfo_;
+}
+inline ::msg::RoleInfo* EnterGameAck::release_roleinfo() {
+  clear_has_roleinfo();
+  ::msg::RoleInfo* temp = roleinfo_;
+  roleinfo_ = NULL;
+  return temp;
+}
+inline void EnterGameAck::set_allocated_roleinfo(::msg::RoleInfo* roleinfo) {
+  delete roleinfo_;
+  roleinfo_ = roleinfo;
+  if (roleinfo) {
+    set_has_roleinfo();
+  } else {
+    clear_has_roleinfo();
+  }
+}
+
+// -------------------------------------------------------------------
+
+// CreateRoleReq
+
+// required int32 occupation = 1;
+inline bool CreateRoleReq::has_occupation() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CreateRoleReq::set_has_occupation() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CreateRoleReq::clear_has_occupation() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CreateRoleReq::clear_occupation() {
+  occupation_ = 0;
+  clear_has_occupation();
+}
+inline ::google::protobuf::int32 CreateRoleReq::occupation() const {
+  return occupation_;
+}
+inline void CreateRoleReq::set_occupation(::google::protobuf::int32 value) {
+  set_has_occupation();
+  occupation_ = value;
+}
+
+// required string name = 2;
+inline bool CreateRoleReq::has_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CreateRoleReq::set_has_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CreateRoleReq::clear_has_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CreateRoleReq::clear_name() {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& CreateRoleReq::name() const {
+  return *name_;
+}
+inline void CreateRoleReq::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void CreateRoleReq::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+}
+inline void CreateRoleReq::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CreateRoleReq::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    name_ = new ::std::string;
+  }
+  return name_;
+}
+inline ::std::string* CreateRoleReq::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CreateRoleReq::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::kEmptyString) {
+    delete name_;
+  }
+  if (name) {
+    set_has_name();
+    name_ = name;
+  } else {
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
+// CreateRoleAck
+
+// required int32 code = 1;
+inline bool CreateRoleAck::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CreateRoleAck::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CreateRoleAck::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CreateRoleAck::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 CreateRoleAck::code() const {
+  return code_;
+}
+inline void CreateRoleAck::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
+
+// required int64 roleID = 2;
+inline bool CreateRoleAck::has_roleid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CreateRoleAck::set_has_roleid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CreateRoleAck::clear_has_roleid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CreateRoleAck::clear_roleid() {
+  roleid_ = GOOGLE_LONGLONG(0);
+  clear_has_roleid();
+}
+inline ::google::protobuf::int64 CreateRoleAck::roleid() const {
+  return roleid_;
+}
+inline void CreateRoleAck::set_roleid(::google::protobuf::int64 value) {
+  set_has_roleid();
+  roleid_ = value;
 }
 
 // -------------------------------------------------------------------

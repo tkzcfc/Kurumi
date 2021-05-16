@@ -1,25 +1,46 @@
 -- Auto Generate by Excel 'System.xlsx', Don't try to modify!
 
+local keyMap = { "Lang" }
+
+local keyMapIndex = {}
+for k, v in pairs(keyMap) do keyMapIndex[v] = k end
+
+local D = {}
+D.MainSys = {100}
+
 local M = {}
-
-M.Data = {}
-M.Data['MainSys'] = {Lang = 100}
+M.Data = D
 M.length = 1
+M.keyMapIndex = keyMapIndex
+M.keyMap = keyMap
 
-function M.getData(key)
-    return M.Data[key]
+local meta = {
+    __index = function(tab, key) return rawget(tab, keyMapIndex[key]) end
+}
+for k, v in pairs(M.Data) do setmetatable(v, meta) end
+
+function M.getData(Id)
+    local data = M.Data[Id]
+    if not data then return end
+    local t = {}
+    for k, v in pairs(keyMapIndex) do t[k] = data[v] end
+    return t
 end
 
-function M.getItem(key1, key2)
-    if M.Data[key1] == nil then
-        print(string.format("错误: 文件'System.lua'中配置'%s'不存在!!!!!!!!!!!!!!!!!!!!!!!", tostring(key1)))
-        return
-    end
-    return M.Data[key1][key2]
+function M.getItem(Id, Key)
+    local data = M.Data[Id]
+    if data then return data[Key] end
+    return nil
 end
 
 function M.getAllData()
-    return M.Data
+    local dataList = {}
+    for id, data in pairs(M.Data) do
+        local t = {}
+        for k, v in pairs(keyMapIndex) do t[k] = data[v] end
+        dataList[k] = t
+    end
+    return dataList
 end
 
 return M

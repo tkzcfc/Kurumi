@@ -30,6 +30,8 @@ enum MessageID {
 	MSG_CKECK_TOKEN_REQ			= 300003;	// token校验
 	MSG_CKECK_TOKEN_ACK			= 300004;
 	
+	MES_CHANGE_TOKEN_NTF		= 300006;	// token变化通知
+	
 	
     //============================================================================================
     //                 Server <==> Server
@@ -68,18 +70,23 @@ enum MessageID {
     //                 Cient <==> GameSVR
     //============================================================================================
 	MSG_LOGIN_REQ				= 900001;	// 登录游戏请求
-	MSG_LOGIN_ACK				= 900002;	
+	MSG_LOGIN_ACK				= 900002;
+	MSG_CREATE_ROLE_REQ			= 900303;	// 创建角色
+	MSG_CREATE_ROLE_ACK			= 900304;
+	MSG_ENTER_GAME_REQ			= 900305;	// 进入游戏
+	MSG_ENTER_GAME_ACK			= 900306;
 	
 	MSG_EXIT_GAME_NTF			= 900010;	// 通知客户端退出游戏
 	
-	MSG_START_PVE_REQ			= 900100;	// 客户端副本战斗请求
-	MSG_START_PVE_ACK			= 900101;
-	MSG_START_PVP_REQ			= 900102;	// 客户端匹配对手请求
-	MSG_START_PVP_ACK			= 900103;
-	MSG_STOP_PVP_REQ			= 900104;	// 客户端请求停止匹配
-	MSG_STOP_PVP_ACK			= 900105;
+	MSG_START_PVE_REQ			= 900101;	// 客户端副本战斗请求
+	MSG_START_PVE_ACK			= 900102;
+	MSG_START_PVP_REQ			= 900103;	// 客户端匹配对手请求
+	MSG_START_PVP_ACK			= 900104;
+	MSG_STOP_PVP_REQ			= 900105;	// 客户端请求停止匹配
+	MSG_STOP_PVP_ACK			= 900106;
 	
 	MSG_START_FIGHT_NTF			= 900200;	// 通知客户端进入战斗
+	
 }
 
 enum FightType

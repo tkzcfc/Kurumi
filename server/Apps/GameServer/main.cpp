@@ -1,6 +1,7 @@
 #include "GLibBase.h"
 #include "GPlayerMngService.h"
 #include "GLoginService.h"
+#include "GRoleMngService.h"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -22,6 +23,7 @@ int main(int argc, char** argv)
 	app.getServiceMgr()->addService<GMasterNodeService>();
 	app.getServiceMgr()->addService<GNetService>();
 	app.getServiceMgr()->addService<GLocalStorageService>();
+	app.getServiceMgr()->addService<GRoleMngService>();
 	app.getServiceMgr()->addService<GPlayerMngService>();
 	app.getServiceMgr()->addService<GLoginService>();
 	app.run();

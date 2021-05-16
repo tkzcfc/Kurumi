@@ -261,7 +261,7 @@ local function enum(et)
     return t
 end
 
-local function property(t, name)
+local function property(t, name, defaultVal)
     local funcName = string.sub(name, 2)
     t["get" .. funcName] = function(this)
         return this[name]
@@ -269,8 +269,22 @@ local function property(t, name)
     t["set" .. funcName] = function(this, value)
         this[name] = value
     end
+
+    if defaultVal ~= nil then
+        t[name] = defaultVal
+    end
 end
 
+local function propertyReadOnly(t, name, defaultVal)
+    local funcName = string.sub(name, 2)
+    t["get" .. funcName] = function(this)
+        return this[name]
+    end
+
+    if defaultVal ~= nil then
+        t[name] = defaultVal
+    end
+end
 
 
 
@@ -294,3 +308,4 @@ cc.exports.fmt = fmt
 cc.exports.enum = enum
 
 cc.exports.property = property
+cc.exports.propertyReadOnly = propertyReadOnly

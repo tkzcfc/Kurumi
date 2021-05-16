@@ -7,36 +7,30 @@ local AudioManager = class("AudioManager", import(".BaseManager"))
 function AudioManager:override_onInit()
     AudioManager.super.override_onInit(self)
 
-    self._backMusicID = nil -- 背景音乐id
-
-    self._backMusicOn = nil -- 音乐开关
-    self._soundOn = nil -- 音效开关
-
-    self._soundIds = nil -- 音效id集合
-
-    self._backMusicVolume = nil--背景音量
-    self._effectVolume = nil--音效音量
-
-    self._background_music_name = nil--背景音乐
-
     ccexp.AudioEngine:lazyInit()
 
-    self._backMusicOn = cc.UserDefault:getInstance():getBoolForKey("IsBackMusicOn", true)
-    self._soundOn = cc.UserDefault:getInstance():getBoolForKey("IsSoundOn", true)
+    -- 音乐开关
+    self.bIsOpenMusic = _MyG.SysSetManager:getProperty("isOpenMusic")
+    -- 音效开关
+    self.bIsOpenEffect = _MyG.SysSetManager:getProperty("isOpenEffects")
+    --背景音量
+    self.fMusicVolume = _MyG.SysSetManager:getProperty("fMusicVolume")
+    --音效音量
+    self.fEffectVolume = _MyG.SysSetManager:getProperty("fEffectVolume")
 
-    self._backMusicVolume = cc.UserDefault:getInstance():getFloatForKey("backMusicVolume", 1.0)
-    self._effectVolume = cc.UserDefault:getInstance():getFloatForKey("effectVolume", 1.0)
-
-    self._soundIds = {}
-
-    return true
+    -- 背景音乐id
+    self.iBackMusicID = nil 
+    --背景音乐名称
+    self.strBackgroundMusicName = nil
+    -- 音效id集合
+    self.tSoundIds = {}
 end
 
 function AudioManager:playBackMusic(file_name, loop, delay)
-    if not self._backMusicOn then return end
+    if not self.bIsOpenMusic then return end
     self:stopBackMusic()
 
-    self._background_music_name = file_name
+    self.strBackgroundMusicName = file_name
 
     loop = loop or false
     delay = delay or 0
@@ -45,130 +39,129 @@ function AudioManager:playBackMusic(file_name, loop, delay)
 
     if delay > 0 then
         delayCall(function ()
-            self._backMusicID = ccexp.AudioEngine:play2d(file_name, loop, self._backMusicVolume)
+            self.iBackMusicID = ccexp.AudioEngine:play2d(file_name, loop, self.fMusicVolume)
         end, delay)
     else
-        self._backMusicID = ccexp.AudioEngine:play2d(file_name, loop, self._backMusicVolume)
+        self.iBackMusicID = ccexp.AudioEngine:play2d(file_name, loop, self.fMusicVolume)
     end
 
     return true
 end
 
 function AudioManager:stopBackMusic()
-    if not self._backMusicOn then return end
+    if not self.bIsOpenMusic then return end
 
-    if self._backMusicID then
-        ccexp.AudioEngine:stop(self._backMusicID)
-        self._backMusicID = nil
+    if self.iBackMusicID then
+        ccexp.AudioEngine:stop(self.iBackMusicID)
+        self.iBackMusicID = nil
     end
-    self._background_music_name = nil
+    self.strBackgroundMusicName = nil
 end
 
 function AudioManager:getBackMusicName()
-    return self._background_music_name
+    return self.strBackgroundMusicName
 end
 
 function AudioManager:pauseBackMusic()
-    if not self._backMusicOn then return end
+    if not self.bIsOpenMusic then return end
 
-    if self._backMusicID then
-        ccexp.AudioEngine:pause(self._backMusicID)
+    if self.iBackMusicID then
+        ccexp.AudioEngine:pause(self.iBackMusicID)
     end
 end
 
 function AudioManager:resumeBackMusic()
-    if not self._backMusicOn then return end
+    if not self.bIsOpenMusic then return end
 
-    if self._backMusicID then
-        ccexp.AudioEngine:resume(self._backMusicID)
+    if self.iBackMusicID then
+        ccexp.AudioEngine:resume(self.iBackMusicID)
     end
 end
 
 function AudioManager:playSound(file, loop)
     loop = loop or false
-    local id = ccexp.AudioEngine:play2d(file, loop, self._effectVolume)
+    local id = ccexp.AudioEngine:play2d(file, loop, self.fEffectVolume)
     ccexp.AudioEngine:setFinishCallback(id, function (c1, c2)
-        self._soundIds[c1] = nil
+        self.tSoundIds[c1] = nil
     end)
-    self._soundIds[id] = file
+    self.tSoundIds[id] = file
     return id
 end
 
 function AudioManager:stopSound(soundId)
-    if not self._soundOn then return end
+    if not self.bIsOpenEffect then return end
 
     ccexp.AudioEngine:stop(soundId)
 
-    self._soundIds[soundId] = nil
+    self.tSoundIds[soundId] = nil
 end
 
 function AudioManager:pauseSound(soundId)
-    if not self._soundOn then return end
+    if not self.bIsOpenEffect then return end
 
     ccexp.AudioEngine:pause(soundId)
 end
 
 function AudioManager:resumeSound(soundId)
-    if not self._soundOn then return end
+    if not self.bIsOpenEffect then return end
 
     ccexp.AudioEngine:resume(soundId)
 end
 
 function AudioManager:stopAllSounds()
-    if not self._soundOn then return end
+    if not self.bIsOpenEffect then return end
 
-    for k, v in pairs(self._soundIds) do
+    for k, v in pairs(self.tSoundIds) do
         self:stopSound(k)
     end
 end
 
 function AudioManager:pauseAllSounds()
-    if not self._soundOn then return end
+    if not self.bIsOpenEffect then return end
 
-    for k, v in pairs(self._soundIds) do
+    for k, v in pairs(self.tSoundIds) do
         self:pauseSound(k)
     end
 end
 
 function AudioManager:resumeAllSounds()
-    if not self._soundOn then return end
+    if not self.bIsOpenEffect then return end
 
-    for k, v in pairs(self._soundIds) do
+    for k, v in pairs(self.tSoundIds) do
         self:resumeSound(k)
     end
 end
 
 function AudioManager:turnOnBackMusic(turnOn)
-    self._backMusicOn = turnOn
-    cc.UserDefault:getInstance():setBoolForKey("back_music_on", turnOn)
-    cc.UserDefault:getInstance():flush()
+    self.bIsOpenMusic = turnOn
+    _MyG.SysSetManager:setProperty("isOpenMusic", self.bIsOpenMusic)
 end
 
 function AudioManager:turnOnSound(turnOn)
-    self._soundOn = turnOn
-    cc.UserDefault:getInstance():setBoolForKey("sound_on", turnOn)
-    cc.UserDefault:getInstance():flush()
+    self.bIsOpenEffect = turnOn
+    _MyG.SysSetManager:setProperty("isOpenEffects", self.bIsOpenEffect)
 end
 
 function AudioManager:setBackgroundVolume(volume)
     if volume > 1.0 then volume = 1.0 end
     if volume < 0.0 then volume = 0.0 end
 
-    if self._backMusicVolume == volume then return end
+    if self.fMusicVolume == volume then return end
 
-    self._backMusicVolume = volume
+    self.fMusicVolume = volume
+    _MyG.SysSetManager:setProperty("fMusicVolume", self.fMusicVolume)
 
-    if self._backMusicID then
-        ccexp.AudioEngine:setVolume(self._backMusicID, volume)
+    if self.iBackMusicID then
+        ccexp.AudioEngine:setVolume(self.iBackMusicID, volume)
     end
 end
 
 function AudioManager:getBackgroundVolume()
-    return self._backMusicVolume
+    return self.fMusicVolume
 end
 
 function AudioManager:getEffectVolume()
-    return self._effectVolume
+    return self.fEffectVolume
 end
 
 function AudioManager:preload(file, func)
@@ -183,21 +176,16 @@ function AudioManager:setEffectVolume(volume)
     if volume > 1.0 then volume = 1.0 end
     if volume < 0.0 then volume = 0.0 end
 
-    if self._effectVolume == volume then return end
+    if self.fEffectVolume == volume then return end
 
-    self._effectVolume = volume
+    self.fEffectVolume = volume
+    _MyG.SysSetManager:setProperty("fEffectVolume", self.fEffectVolume)
 
-    for k, v in pairs(self._soundIds) do
+    for k, v in pairs(self.tSoundIds) do
         if v ~= nil then
             ccexp.AudioEngine:setVolume(k, volume)
         end
     end
-end
-
-function AudioManager:saveVolumeToFile()
-    cc.UserDefault:getInstance():setFloatForKey("backMusicVolume", self._backMusicVolume)
-    cc.UserDefault:getInstance():setFloatForKey("effectVolume", self._effectVolume)
-    cc.UserDefault:getInstance():flush()
 end
 
 return AudioManager

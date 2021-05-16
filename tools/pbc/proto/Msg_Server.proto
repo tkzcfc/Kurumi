@@ -23,6 +23,13 @@ message CheckTokenAck
 	required int64 pid = 2;
 	required int32 session = 3;
 	required string account = 4;
+	required string token = 5;
+}
+
+message TokenChangeNtf
+{
+	required string token = 1;
+	required string account = 2;
 }
 
 

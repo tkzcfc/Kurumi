@@ -6,7 +6,7 @@ local UIBase = class("UIBase", G_Class.Window)
 
 function UIBase:ctor()
 	UIBase.super.ctor(self)
-	self:setLocalZOrder(WINDOW_Z.UI)
+	self:setLocalZOrder(Const.WindowZ.UI)
 end
 
 function UIBase:loadUILua(path)
@@ -35,8 +35,8 @@ function UIBase:onExitCallback_()
 end
 
 -- UI界面关闭前的回调
-function UIBase:iWillCloseWindow()
-	UIBase.super.iWillCloseWindow(self)
+function UIBase:iWillCloseWindow_()
+	UIBase.super.iWillCloseWindow_(self)
 	G_NetEventEmitter:offByTag(self)
 end
 

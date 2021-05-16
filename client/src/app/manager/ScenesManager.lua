@@ -54,36 +54,11 @@ function ScenesManager:switchScene(sceneID, args, isPush)
 	end
 end
 
--- @brief 切换UI场景
--- @param windowName 窗口包路径
--- @param args 要传递给UIScene的参数,具体用处参考UIScene代码
-function ScenesManager:switchUIScene(windowName, args)
-	local t = {}
-	for k,v in pairs(args or {}) do
-		t[k] = v
-	end
-	t.windowName = windowName
-
-	self:switchScene(_MyG.SCENE_ID_UI, t)
-end
-
 -- @brief 推入场景
 -- @param sceneID 场景id
 -- @param args 要传递给新场景的参数
 function ScenesManager:pushScene(sceneID, args)
 	self:switchScene(sceneID, args, true)
-end
-
--- @brief 推入UI场景
--- @param windowName 窗口包路径
--- @param args 要传递给UIScene的参数,具体用处参考UIScene代码
-function ScenesManager:pushUIScene(windowName, args)
-	local t = {}
-	for k,v in pairs(args or {}) do
-		t[k] = v
-	end
-	t.windowName = windowName
-	self:switchScene(_MyG.SCENE_ID_UI, t, true)
 end
 
 -- @brief 弹出场景
@@ -148,7 +123,7 @@ function ScenesManager:runScene(sceneID, args, isPush)
 	if isPush then
 		G_WindowManager:push()
 	else
-		G_WindowManager:clear()
+		G_WindowManager:removeAllWindow()
 	end
 
 	G_SysEventEmitter:emit(SysEvent.WILL_ENTER_SCENE)

@@ -17,6 +17,7 @@ namespace svr_msg {
 void protobuf_ShutdownFile_Msg_5fServer_2eproto() {
   delete CheckTokenReq::default_instance_;
   delete CheckTokenAck::default_instance_;
+  delete TokenChangeNtf::default_instance_;
   delete FightPlayerSpawnInfo::default_instance_;
   delete NewFightReq::default_instance_;
   delete NewFightAck::default_instance_;
@@ -36,11 +37,13 @@ void protobuf_AddDesc_Msg_5fServer_2eproto() {
 #endif
   CheckTokenReq::default_instance_ = new CheckTokenReq();
   CheckTokenAck::default_instance_ = new CheckTokenAck();
+  TokenChangeNtf::default_instance_ = new TokenChangeNtf();
   FightPlayerSpawnInfo::default_instance_ = new FightPlayerSpawnInfo();
   NewFightReq::default_instance_ = new NewFightReq();
   NewFightAck::default_instance_ = new NewFightAck();
   CheckTokenReq::default_instance_->InitAsDefaultInstance();
   CheckTokenAck::default_instance_->InitAsDefaultInstance();
+  TokenChangeNtf::default_instance_->InitAsDefaultInstance();
   FightPlayerSpawnInfo::default_instance_->InitAsDefaultInstance();
   NewFightReq::default_instance_->InitAsDefaultInstance();
   NewFightAck::default_instance_->InitAsDefaultInstance();
@@ -354,6 +357,7 @@ const int CheckTokenAck::kCodeFieldNumber;
 const int CheckTokenAck::kPidFieldNumber;
 const int CheckTokenAck::kSessionFieldNumber;
 const int CheckTokenAck::kAccountFieldNumber;
+const int CheckTokenAck::kTokenFieldNumber;
 #endif  // !_MSC_VER
 
 CheckTokenAck::CheckTokenAck()
@@ -376,6 +380,7 @@ void CheckTokenAck::SharedCtor() {
   pid_ = GOOGLE_LONGLONG(0);
   session_ = 0;
   account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -386,6 +391,9 @@ CheckTokenAck::~CheckTokenAck() {
 void CheckTokenAck::SharedDtor() {
   if (account_ != &::google::protobuf::internal::kEmptyString) {
     delete account_;
+  }
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
@@ -423,6 +431,11 @@ void CheckTokenAck::Clear() {
     if (has_account()) {
       if (account_ != &::google::protobuf::internal::kEmptyString) {
         account_->clear();
+      }
+    }
+    if (has_token()) {
+      if (token_ != &::google::protobuf::internal::kEmptyString) {
+        token_->clear();
       }
     }
   }
@@ -492,6 +505,20 @@ bool CheckTokenAck::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(42)) goto parse_token;
+        break;
+      }
+
+      // required string token = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_token:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_token()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -534,6 +561,12 @@ void CheckTokenAck::SerializeWithCachedSizes(
       4, this->account(), output);
   }
 
+  // required string token = 5;
+  if (has_token()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      5, this->token(), output);
+  }
+
 }
 
 int CheckTokenAck::ByteSize() const {
@@ -568,6 +601,13 @@ int CheckTokenAck::ByteSize() const {
           this->account());
     }
 
+    // required string token = 5;
+    if (has_token()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->token());
+    }
+
   }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
@@ -595,6 +635,9 @@ void CheckTokenAck::MergeFrom(const CheckTokenAck& from) {
     if (from.has_account()) {
       set_account(from.account());
     }
+    if (from.has_token()) {
+      set_token(from.token());
+    }
   }
 }
 
@@ -605,7 +648,7 @@ void CheckTokenAck::CopyFrom(const CheckTokenAck& from) {
 }
 
 bool CheckTokenAck::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
 
   return true;
 }
@@ -616,6 +659,7 @@ void CheckTokenAck::Swap(CheckTokenAck* other) {
     std::swap(pid_, other->pid_);
     std::swap(session_, other->session_);
     std::swap(account_, other->account_);
+    std::swap(token_, other->token_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -623,6 +667,221 @@ void CheckTokenAck::Swap(CheckTokenAck* other) {
 
 ::std::string CheckTokenAck::GetTypeName() const {
   return "svr_msg.CheckTokenAck";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int TokenChangeNtf::kTokenFieldNumber;
+const int TokenChangeNtf::kAccountFieldNumber;
+#endif  // !_MSC_VER
+
+TokenChangeNtf::TokenChangeNtf()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void TokenChangeNtf::InitAsDefaultInstance() {
+}
+
+TokenChangeNtf::TokenChangeNtf(const TokenChangeNtf& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void TokenChangeNtf::SharedCtor() {
+  _cached_size_ = 0;
+  token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+TokenChangeNtf::~TokenChangeNtf() {
+  SharedDtor();
+}
+
+void TokenChangeNtf::SharedDtor() {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    delete account_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void TokenChangeNtf::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const TokenChangeNtf& TokenChangeNtf::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fServer_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fServer_2eproto();
+#endif
+  return *default_instance_;
+}
+
+TokenChangeNtf* TokenChangeNtf::default_instance_ = NULL;
+
+TokenChangeNtf* TokenChangeNtf::New() const {
+  return new TokenChangeNtf;
+}
+
+void TokenChangeNtf::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (has_token()) {
+      if (token_ != &::google::protobuf::internal::kEmptyString) {
+        token_->clear();
+      }
+    }
+    if (has_account()) {
+      if (account_ != &::google::protobuf::internal::kEmptyString) {
+        account_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool TokenChangeNtf::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string token = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_token()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_account;
+        break;
+      }
+
+      // required string account = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_account:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_account()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void TokenChangeNtf::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required string token = 1;
+  if (has_token()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      1, this->token(), output);
+  }
+
+  // required string account = 2;
+  if (has_account()) {
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      2, this->account(), output);
+  }
+
+}
+
+int TokenChangeNtf::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required string token = 1;
+    if (has_token()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->token());
+    }
+
+    // required string account = 2;
+    if (has_account()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->account());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void TokenChangeNtf::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const TokenChangeNtf*>(&from));
+}
+
+void TokenChangeNtf::MergeFrom(const TokenChangeNtf& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_token()) {
+      set_token(from.token());
+    }
+    if (from.has_account()) {
+      set_account(from.account());
+    }
+  }
+}
+
+void TokenChangeNtf::CopyFrom(const TokenChangeNtf& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TokenChangeNtf::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void TokenChangeNtf::Swap(TokenChangeNtf* other) {
+  if (other != this) {
+    std::swap(token_, other->token_);
+    std::swap(account_, other->account_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string TokenChangeNtf::GetTypeName() const {
+  return "svr_msg.TokenChangeNtf";
 }
 
 

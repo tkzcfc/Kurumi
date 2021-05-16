@@ -43,5 +43,3 @@ cc.exports.G_NetEventEmitter 	= G_Class.EventEmitter.new()
 cc.exports.G_SysEventEmitter 	= G_Class.EventEmitter.new()
 -- Helper
 cc.exports.G_Helper 			= require("commonlib.global.Helper")
--- 系统设置
-cc.exports.G_LangManager 		= require("commonlib.global.LangManager").new()

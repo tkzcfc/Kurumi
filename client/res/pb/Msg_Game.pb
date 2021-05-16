@@ -1,5 +1,6 @@
 
-Ú
+š
+
 Msg_Game.protomsg"
 Null"
 CodeAck
@@ -9,13 +10,36 @@
 LoginReq
 token (	
 account (	
-playerID ("3
+playerID ("G
 PlayerAccountInfo
 playerID (
-name (	"?
+name (	
+
+arrRoleIds ("H
+RoleInfo
+roleId (
+name (	
+
+lv (
+
+occupation ("?
 LoginAck
 code (%
-infos (2.msg.PlayerAccountInfo"
+infos (2.msg.PlayerAccountInfo"?
+EnterGameReq
+token (	
+playerID (
+roleID ("=
+EnterGameAck
+code (
+roleinfo (2.msg.RoleInfo"1
+CreateRoleReq
+
+occupation (
+name (	"-
+CreateRoleAck
+code (
+roleID ("
 ExitGameNtf
 code ("!
 PVEFightPlayerInfo

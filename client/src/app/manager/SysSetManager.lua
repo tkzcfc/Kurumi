@@ -53,15 +53,22 @@ end
 
 function SysSetManager:initProperty()
 	-- 是否开启音乐
-	self:initPair("isOpenMusicTag", EValueType.EBool, true)
+	self:initPair("isOpenMusic", EValueType.EBool, true)
 	-- 是否开启音效
-	self:initPair("isOpenEffectsTag", EValueType.EBool, true)
-	-- 是否记住密码
-	self:initPair("isRemPassword", EValueType.EBool, true)
+	self:initPair("isOpenEffects", EValueType.EBool, true)
+	-- 背景音乐音量
+	self:initPair("fMusicVolume", EValueType.EFloat, 1.0)
+	-- 音效音量
+	self:initPair("fEffectVolume", EValueType.EFloat, 1.0)
+
 	-- 登录游戏的账号
 	self:initPair("strLoginAccount", EValueType.EString)
 	-- 登录游戏的密码
 	self:initPair("strLoginPassword", EValueType.EString)
+	-- 当前选择语言
+	self:initPair("strLang", EValueType.EString)
+	-- 地图选择下标
+	self:initPair("iSelectPageIndex", EValueType.EInt)
 end
 
 function SysSetManager:initPair(key, valueType, defaultValue)
@@ -94,33 +101,6 @@ end
 -- @brief 设置值
 function SysSetManager:setProperty(propertyName, value)
 	self.data[propertyName] = value
-end
-
--- 是否记住密码
-function SysSetManager:isRemPassword()
-	return self:getProperty("isRemPassword")
-end
-
-function SysSetManager:setIsRemPassword(inValue)
-	self:setProperty("isRemPassword", inValue)
-end
-
--- 音乐开关
-function SysSetManager:isOpenMusic()
-	return self:getProperty("isOpenMusicTag")
-end
-
-function SysSetManager:setIsOpenMusic(inValue)
-	self:setProperty("isOpenMusicTag", inValue)
-end
-
--- 音效开关
-function SysSetManager:isOpenEffects()
-	return self:getProperty("isOpenEffects")
-end
-
-function SysSetManager:setIsOpenEffects(inValue)
-	self:setProperty("isOpenEffectsTag", inValue)
 end
 
 -- 登录游戏的账号

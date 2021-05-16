@@ -30,9 +30,10 @@ function SplashScene:loading()
 			require("app.ipConfig")
 			G_AppInstance:run("UpdateScene")
 		else
-			require("app.init"):load(function()
-				_MyG.ScenesManager:switchScene(_MyG.StartSceneID)
-			end)
+            local loader = require("app.init").new()
+            loader:load(function()
+                _MyG.ScenesManager:switchScene(_MyG.StartSceneID)
+            end)
 		end
 	end)
 	self:runAction(cc.Sequence:create(cc.DelayTime:create(0.1), call))

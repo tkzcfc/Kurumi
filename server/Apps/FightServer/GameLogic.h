@@ -2,6 +2,7 @@
 
 #include "game/GGameWorld.h"
 #include "GamePlayer.h"
+#include "GameProto.h"
 
 // 服务器游戏同步逻辑
 class GameLogic

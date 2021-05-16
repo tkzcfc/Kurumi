@@ -159,21 +159,21 @@ void GLoginService::onHttpRequest_Login(const net_uv::HttpRequest& request, net_
 			return;
 		}
 
-		std::string playerId;
-		auto code = m_serviceMgr->getService<GAccountMgrService>()->getAccount(user, pwd, (int32_t)ePlatform, playerId);
+		std::string account;
+		auto code = m_serviceMgr->getService<GAccountMgrService>()->getAccount(user, pwd, (int32_t)ePlatform, account);
 			
 		if (code == err::Code::SUCCESS)
 		{
-			std::string tmp = StringUtils::format("%s-%s-%d", playerId.c_str(), pwd.c_str(), m_random->random(1, 10000));
+			std::string tmp = StringUtils::format("%s-%s-%d", account.c_str(), pwd.c_str(), m_random->random(1, 10000));
 			auto token = StringUtils::format("%08X-%08X", m_random->random(1, 10000) + m_tokenMap.size(), NFrame::CRC32(tmp));
 
-			auto it = m_tokenMap.find(playerId);
+			auto it = m_tokenMap.find(account);
 			if (m_tokenMap.end() == it)
 			{
 				TokenInfo info;
 				info.token = token;
 				info.time = ::time(NULL);
-				m_tokenMap[playerId] = info;
+				m_tokenMap[account] = info;
 			}
 			else
 			{
@@ -181,8 +181,21 @@ void GLoginService::onHttpRequest_Login(const net_uv::HttpRequest& request, net_
 				it->second.time = ::time(NULL);
 			}
 
-			std::string body = StringUtils::format("{\"code\":0,\"msg\":\"ok\",\"token\":\"%s\",\"playerid\":\"%s\"}", token.c_str(), playerId.c_str());
+			std::string body = StringUtils::format("{\"code\":0,\"msg\":\"ok\",\"token\":\"%s\",\"playerid\":\"%s\"}", token.c_str(), account.c_str());
 			response->setBody(body);
+
+			const auto& slaveNodes = m_pMasterNodeService->arrSlaveNodInfos();
+			if (slaveNodes.empty() == false)
+			{
+				// 通知游戏服token发生变化
+				svr_msg::TokenChangeNtf ntf;
+				ntf.set_account(account);
+				ntf.set_token(token);
+				for (const auto& it : slaveNodes)
+				{
+					SEND_PB_MSG(m_pMasterNodeService, it.sessionID, MessageID::MES_CHANGE_TOKEN_NTF, ntf);
+				}
+			}
 		}
 		else
 		{
@@ -260,6 +273,7 @@ void GLoginService::onMsg_CheckTokenReq(uint32_t sessionID, const svr_msg::Check
 	ack.set_pid(msg.pid());
 	ack.set_session(msg.session());
 	ack.set_account(msg.account());
+	ack.set_token(msg.token());
 	SEND_PB_MSG(m_pMasterNodeService, sessionID, MessageID::MSG_CKECK_TOKEN_ACK, ack);
 }
 

@@ -7,7 +7,7 @@ local UIMessageBox = class("UIMessageBox", G_Class.UIDialog)
 function UIMessageBox:ctor()
 	UIMessageBox.super.ctor(self)
 
-	self:setLocalZOrder(WINDOW_Z.MSGBOX)
+	self:setLocalZOrder(Const.WindowZ.MSGBOX)
 
     local ui = G_Helper.loadStudioFile("ui.UI_MessageBox", self)
     self:addChild(ui.root)
@@ -57,7 +57,6 @@ function UIMessageBox:showTwoButton(content, okcall, cancelcall)
 end
 
 function UIMessageBox:iAfterOpenedWindow()
-	UIMessageBox.super.iAfterOpenedWindow(self)
 	self.ui.Text_show:setVisible(true)
 	self.ui.Text_Title:setVisible(true)
 end
@@ -65,7 +64,6 @@ end
 function UIMessageBox:iWillCloseWindow()
 	self.ui.Button_OK:setTouchEnabled(false)
 	self.ui.Button_Cancel:setTouchEnabled(false)
-	UIMessageBox.super.iWillCloseWindow(self)
 end
 
 function UIMessageBox:setTitle(title)

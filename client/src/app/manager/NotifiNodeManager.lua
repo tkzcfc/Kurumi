@@ -65,10 +65,24 @@ end
 
 ------------------------------------------------------ private ------------------------------------------------------
 
+propertyReadOnly(NotifiNodeManager, "pMaskLayer")
+
+
 function NotifiNodeManager:override_onInit()
 	NotifiNodeManager.super.override_onInit(self)
 	self:initNotificationNode()
 	self:initWindowManager()
+
+	-- 创建UI mask层
+	local maskLayer = ccui.Layout:create()
+	maskLayer:setContentSize(display.size)
+	maskLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)
+	maskLayer:setBackGroundColor(cc.c3b(0, 0, 0))
+	maskLayer:setBackGroundColorOpacity(255)
+	maskLayer:hide()
+	self:add(maskLayer, Const.WindowZ.UI_MASK)
+	maskLayer:setTouchEnabled(true)
+	self.pMaskLayer = maskLayer
 end
 
 function NotifiNodeManager:initNotificationNode()

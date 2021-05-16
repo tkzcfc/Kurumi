@@ -1,10 +1,12 @@
 #include "GPlayerMngService.h"
+#include "GRoleMngService.h"
 
 uint32_t GPlayerMngService::onInit()
 {
 	G_CHECK_SERVICE(GConfigService);
 	G_CHECK_SERVICE(GLocalStorageService);
 	G_CHECK_SERVICE(GSlaveNodeService);
+	G_CHECK_SERVICE(GRoleMngService);
 
 	/// GSlaveNodeService
 	auto& json = m_serviceMgr->getService<GSlaveNodeService>()->descriptionJson();
@@ -30,11 +32,12 @@ uint32_t GPlayerMngService::onInit()
 	m_sqliter->setsql("CREATE TABLE IF NOT EXISTS player ("
 		"id INTEGER PRIMARY KEY AUTOINCREMENT, "
 		"playerid INTEGER, "
-		"svrId INTEGER, "
+		"svrid INTEGER, "
 		"account TEXT, "
 		"name TEXT, "
-		"lastTime INTEGER, "
-		"createTime INTEGER);");
+		"lasttime INTEGER, "
+		"createtime INTEGER, "
+		"roles TEXT);");
 
 	if (m_sqliter->runsinglestepstatement() != successdb)
 	{
@@ -51,8 +54,8 @@ uint32_t GPlayerMngService::onInit()
 // 读取玩家数据
 bool GPlayerMngService::readPlayer()
 {
-	m_sqliter->setsql("SELECT playerid, svrId, account, name, lastTime, createTime FROM player;");
-	m_sqliter->pushvaltypesout(intdbval, intdbval, strdbval, strdbval, intdbval, intdbval);
+	m_sqliter->setsql("SELECT playerid, svrid, account, name, lasttime, createtime, roles FROM player;");
+	m_sqliter->pushvaltypesout(intdbval, intdbval, strdbval, strdbval, intdbval, intdbval, strdbval);
 
 	m_allPlayer.clear();
 	do
@@ -72,6 +75,7 @@ bool GPlayerMngService::readPlayer()
 		auto name		= m_sqliter->rowdata[3].sval;
 		auto lastTime	= m_sqliter->rowdata[4].ival;
 		auto createTime = m_sqliter->rowdata[5].ival;
+		auto roles		= m_sqliter->rowdata[6].sval;
 
 		m_allPlayer.push_back(GPlayer());
 
@@ -81,7 +85,8 @@ bool GPlayerMngService::readPlayer()
 		player.setAccount(account);
 		player.setName(name);
 		player.setLastTime(lastTime);
-		player.setCreateTime(createTime);		
+		player.setCreateTime(createTime);
+		player.setRoles(roles);
 	} while (true);
 
 #if G_DEBUG
@@ -138,15 +143,16 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 
 	// playerid, account, name, lastTime, createTime
 	m_sqliter->setsql("INSERT INTO player ("
-		"playerid, svrId, account, name, lastTime, createTime) "
-		"VALUES (:int_playerid, :int_svrId, :str_account, :str_name, :int_lastTime, :int_createTime);");
+		"playerid, svrid, account, name, lasttime, createtime, roles) "
+		"VALUES (:int_playerid, :int_svrid, :str_account, :str_name, :int_lasttime, :int_createtime, :str_roles);");
 
 	m_sqliter->bindint("int_playerid", playerId);
-	m_sqliter->bindint("int_svrId", m_svrId);
+	m_sqliter->bindint("int_svrid", m_svrId);
 	m_sqliter->bindstr("str_account", account.c_str());
 	m_sqliter->bindstr("str_name", name.c_str());
-	m_sqliter->bindint("int_lastTime", curTime);
-	m_sqliter->bindint("int_createTime", curTime);
+	m_sqliter->bindint("int_lasttime", curTime);
+	m_sqliter->bindint("int_createtime", curTime);
+	m_sqliter->bindstr("str_roles", player.getRoleString().c_str());
 	if (m_sqliter->runsinglestepstatement() != successdb)
 	{
 		LOG(ERROR) << "sql failed: insert player, account:" << account << ", playerId:" << playerId;

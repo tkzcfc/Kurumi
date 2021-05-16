@@ -9,7 +9,7 @@ local SceneBase = class("SceneBase", ViewBase)
 function SceneBase:onCreate()
 	self.iFullWindowCount = 0
 
-	G_SysEventEmitter:on("event_WindowShow", function(window, unique)
+	G_SysEventEmitter:on("event_WindowShowFinish", function(window, unique)
 		if not unique then return end
 		if self ~= _MyG.ScenesManager:getRuningView() then return end
 

@@ -34,6 +34,7 @@ void protobuf_ShutdownFile_Msg_5fServer_2eproto();
 
 class CheckTokenReq;
 class CheckTokenAck;
+class TokenChangeNtf;
 class FightPlayerSpawnInfo;
 class NewFightReq;
 class NewFightAck;
@@ -249,6 +250,18 @@ class CheckTokenAck : public ::google::protobuf::MessageLite {
   inline ::std::string* release_account();
   inline void set_allocated_account(::std::string* account);
 
+  // required string token = 5;
+  inline bool has_token() const;
+  inline void clear_token();
+  static const int kTokenFieldNumber = 5;
+  inline const ::std::string& token() const;
+  inline void set_token(const ::std::string& value);
+  inline void set_token(const char* value);
+  inline void set_token(const char* value, size_t size);
+  inline ::std::string* mutable_token();
+  inline ::std::string* release_token();
+  inline void set_allocated_token(::std::string* token);
+
   // @@protoc_insertion_point(class_scope:svr_msg.CheckTokenAck)
  private:
   inline void set_has_code();
@@ -259,14 +272,17 @@ class CheckTokenAck : public ::google::protobuf::MessageLite {
   inline void clear_has_session();
   inline void set_has_account();
   inline void clear_has_account();
+  inline void set_has_token();
+  inline void clear_has_token();
 
   ::google::protobuf::int64 pid_;
   ::google::protobuf::int32 code_;
   ::google::protobuf::int32 session_;
   ::std::string* account_;
+  ::std::string* token_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
@@ -278,6 +294,109 @@ class CheckTokenAck : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static CheckTokenAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class TokenChangeNtf : public ::google::protobuf::MessageLite {
+ public:
+  TokenChangeNtf();
+  virtual ~TokenChangeNtf();
+
+  TokenChangeNtf(const TokenChangeNtf& from);
+
+  inline TokenChangeNtf& operator=(const TokenChangeNtf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const TokenChangeNtf& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const TokenChangeNtf* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(TokenChangeNtf* other);
+
+  // implements Message ----------------------------------------------
+
+  TokenChangeNtf* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const TokenChangeNtf& from);
+  void MergeFrom(const TokenChangeNtf& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string token = 1;
+  inline bool has_token() const;
+  inline void clear_token();
+  static const int kTokenFieldNumber = 1;
+  inline const ::std::string& token() const;
+  inline void set_token(const ::std::string& value);
+  inline void set_token(const char* value);
+  inline void set_token(const char* value, size_t size);
+  inline ::std::string* mutable_token();
+  inline ::std::string* release_token();
+  inline void set_allocated_token(::std::string* token);
+
+  // required string account = 2;
+  inline bool has_account() const;
+  inline void clear_account();
+  static const int kAccountFieldNumber = 2;
+  inline const ::std::string& account() const;
+  inline void set_account(const ::std::string& value);
+  inline void set_account(const char* value);
+  inline void set_account(const char* value, size_t size);
+  inline ::std::string* mutable_account();
+  inline ::std::string* release_account();
+  inline void set_allocated_account(::std::string* account);
+
+  // @@protoc_insertion_point(class_scope:svr_msg.TokenChangeNtf)
+ private:
+  inline void set_has_token();
+  inline void clear_has_token();
+  inline void set_has_account();
+  inline void clear_has_account();
+
+  ::std::string* token_;
+  ::std::string* account_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fServer_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fServer_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fServer_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fServer_2eproto();
+
+  void InitAsDefaultInstance();
+  static TokenChangeNtf* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -925,6 +1044,220 @@ inline ::std::string* CheckTokenAck::release_account() {
   }
 }
 inline void CheckTokenAck::set_allocated_account(::std::string* account) {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    delete account_;
+  }
+  if (account) {
+    set_has_account();
+    account_ = account;
+  } else {
+    clear_has_account();
+    account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required string token = 5;
+inline bool CheckTokenAck::has_token() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void CheckTokenAck::set_has_token() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void CheckTokenAck::clear_has_token() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void CheckTokenAck::clear_token() {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    token_->clear();
+  }
+  clear_has_token();
+}
+inline const ::std::string& CheckTokenAck::token() const {
+  return *token_;
+}
+inline void CheckTokenAck::set_token(const ::std::string& value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void CheckTokenAck::set_token(const char* value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void CheckTokenAck::set_token(const char* value, size_t size) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CheckTokenAck::mutable_token() {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  return token_;
+}
+inline ::std::string* CheckTokenAck::release_token() {
+  clear_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = token_;
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CheckTokenAck::set_allocated_token(::std::string* token) {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  if (token) {
+    set_has_token();
+    token_ = token;
+  } else {
+    clear_has_token();
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
+// TokenChangeNtf
+
+// required string token = 1;
+inline bool TokenChangeNtf::has_token() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void TokenChangeNtf::set_has_token() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void TokenChangeNtf::clear_has_token() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void TokenChangeNtf::clear_token() {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    token_->clear();
+  }
+  clear_has_token();
+}
+inline const ::std::string& TokenChangeNtf::token() const {
+  return *token_;
+}
+inline void TokenChangeNtf::set_token(const ::std::string& value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void TokenChangeNtf::set_token(const char* value) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(value);
+}
+inline void TokenChangeNtf::set_token(const char* value, size_t size) {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  token_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* TokenChangeNtf::mutable_token() {
+  set_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    token_ = new ::std::string;
+  }
+  return token_;
+}
+inline ::std::string* TokenChangeNtf::release_token() {
+  clear_has_token();
+  if (token_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = token_;
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void TokenChangeNtf::set_allocated_token(::std::string* token) {
+  if (token_ != &::google::protobuf::internal::kEmptyString) {
+    delete token_;
+  }
+  if (token) {
+    set_has_token();
+    token_ = token;
+  } else {
+    clear_has_token();
+    token_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required string account = 2;
+inline bool TokenChangeNtf::has_account() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void TokenChangeNtf::set_has_account() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void TokenChangeNtf::clear_has_account() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void TokenChangeNtf::clear_account() {
+  if (account_ != &::google::protobuf::internal::kEmptyString) {
+    account_->clear();
+  }
+  clear_has_account();
+}
+inline const ::std::string& TokenChangeNtf::account() const {
+  return *account_;
+}
+inline void TokenChangeNtf::set_account(const ::std::string& value) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(value);
+}
+inline void TokenChangeNtf::set_account(const char* value) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(value);
+}
+inline void TokenChangeNtf::set_account(const char* value, size_t size) {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  account_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* TokenChangeNtf::mutable_account() {
+  set_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    account_ = new ::std::string;
+  }
+  return account_;
+}
+inline ::std::string* TokenChangeNtf::release_account() {
+  clear_has_account();
+  if (account_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = account_;
+    account_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void TokenChangeNtf::set_allocated_account(::std::string* account) {
   if (account_ != &::google::protobuf::internal::kEmptyString) {
     delete account_;
   }

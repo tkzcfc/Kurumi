@@ -15,6 +15,7 @@
 #include "GFileSystem.h"
 #include "GStringUtils.h"
 
+#include "GRandom.h"
 #include "base64.hpp"
 #include "crc32.hpp"
 #include "sha1.hpp"

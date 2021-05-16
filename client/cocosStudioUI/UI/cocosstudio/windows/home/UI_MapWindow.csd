@@ -6,7 +6,7 @@
       <ObjectData Name="Scene" ctype="GameNodeObjectData">
         <Size X="1136.0000" Y="640.0000" />
         <Children>
-          <AbstractNodeData Name="Panel_Content" ActionTag="-1328997617" Tag="145" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" ClipAble="False" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" ctype="PanelObjectData">
+          <AbstractNodeData Name="Panel_Content" ActionTag="-1328997617" Tag="145" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" ClipAble="False" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ctype="PanelObjectData">
             <Size X="1136.0000" Y="640.0000" />
             <Children>
               <AbstractNodeData Name="PageView" ActionTag="-1466911245" Tag="142" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" ClipAble="True" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ScrollDirectionType="0" ctype="PageViewObjectData">
@@ -130,13 +130,63 @@
                 <EndColor A="255" R="255" G="255" B="255" />
                 <ColorVector ScaleY="1.0000" />
               </AbstractNodeData>
-              <AbstractNodeData Name="Node_Yun" ActionTag="-2077407743" Tag="139" IconVisible="True" PositionPercentXEnabled="True" PositionPercentYEnabled="True" RightMargin="1136.0000" TopMargin="640.0000" ctype="SingleNodeObjectData">
+              <AbstractNodeData Name="Node_Yun" ActionTag="-2077407743" Tag="139" IconVisible="True" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="1136.0000" TopMargin="640.0000" ctype="SingleNodeObjectData">
                 <Size X="0.0000" Y="0.0000" />
                 <Children>
-                  <AbstractNodeData Name="ArmatureNode_Yun" ActionTag="660709147" Tag="1" IconVisible="True" LeftMargin="1137.5485" RightMargin="-1137.5485" TopMargin="-529.2249" BottomMargin="529.2249" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbya01" ctype="ArmatureNodeObjectData">
+                  <AbstractNodeData Name="ArmatureNode_Yun" ActionTag="660709147" Tag="1" IconVisible="True" LeftMargin="-95.9999" RightMargin="95.9999" TopMargin="-527.2726" BottomMargin="527.2726" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbyc01" ctype="ArmatureNodeObjectData">
                     <Size X="0.0000" Y="0.0000" />
                     <AnchorPoint />
-                    <Position X="1137.5485" Y="529.2249" />
+                    <Position X="-95.9999" Y="527.2726" />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="plist/uianimation/fbylz.ExportJson" Plist="" />
+                  </AbstractNodeData>
+                  <AbstractNodeData Name="ArmatureNode_Yun_0" ActionTag="-1522261515" Tag="80" IconVisible="True" LeftMargin="-88.1792" RightMargin="88.1792" TopMargin="-134.8570" BottomMargin="134.8570" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbyc02" ctype="ArmatureNodeObjectData">
+                    <Size X="0.0000" Y="0.0000" />
+                    <AnchorPoint />
+                    <Position X="-88.1792" Y="134.8570" />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="plist/uianimation/fbylz.ExportJson" Plist="" />
+                  </AbstractNodeData>
+                  <AbstractNodeData Name="ArmatureNode_Yun_1" ActionTag="-211663691" Tag="81" IconVisible="True" LeftMargin="-121.4190" RightMargin="121.4190" TopMargin="-281.5761" BottomMargin="281.5761" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbya02" ctype="ArmatureNodeObjectData">
+                    <Size X="0.0000" Y="0.0000" />
+                    <AnchorPoint />
+                    <Position X="-121.4190" Y="281.5761" />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="plist/uianimation/fbylz.ExportJson" Plist="" />
+                  </AbstractNodeData>
+                  <AbstractNodeData Name="ArmatureNode_Yun_2" ActionTag="374115027" Tag="82" IconVisible="True" LeftMargin="-94.0950" RightMargin="94.0950" TopMargin="-183.9130" BottomMargin="183.9130" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbyb02" ctype="ArmatureNodeObjectData">
+                    <Size X="0.0000" Y="0.0000" />
+                    <AnchorPoint />
+                    <Position X="-94.0950" Y="183.9130" />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="plist/uianimation/fbylz.ExportJson" Plist="" />
+                  </AbstractNodeData>
+                  <AbstractNodeData Name="ArmatureNode_Yun_3" ActionTag="1300610930" Tag="83" IconVisible="True" LeftMargin="-48.5907" RightMargin="48.5907" TopMargin="-440.1068" BottomMargin="440.1068" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbya03" ctype="ArmatureNodeObjectData">
+                    <Size X="0.0000" Y="0.0000" />
+                    <AnchorPoint />
+                    <Position X="-48.5907" Y="440.1068" />
+                    <Scale ScaleX="1.0000" ScaleY="1.0000" />
+                    <CColor A="255" R="255" G="255" B="255" />
+                    <PrePosition />
+                    <PreSize X="0.0000" Y="0.0000" />
+                    <FileData Type="Normal" Path="plist/uianimation/fbylz.ExportJson" Plist="" />
+                  </AbstractNodeData>
+                  <AbstractNodeData Name="ArmatureNode_Yun_4" ActionTag="2127866511" Tag="84" IconVisible="True" LeftMargin="-32.5121" RightMargin="32.5121" TopMargin="-67.6394" BottomMargin="67.6394" IsLoop="True" IsAutoPlay="True" CurrentAnimationName="fbya01" ctype="ArmatureNodeObjectData">
+                    <Size X="0.0000" Y="0.0000" />
+                    <AnchorPoint />
+                    <Position X="-32.5121" Y="67.6394" />
                     <Scale ScaleX="1.0000" ScaleY="1.0000" />
                     <CColor A="255" R="255" G="255" B="255" />
                     <PrePosition />
@@ -145,10 +195,10 @@
                   </AbstractNodeData>
                 </Children>
                 <AnchorPoint />
-                <Position />
+                <Position X="1136.0000" />
                 <Scale ScaleX="1.0000" ScaleY="1.0000" />
                 <CColor A="255" R="255" G="255" B="255" />
-                <PrePosition />
+                <PrePosition X="1.0000" />
                 <PreSize X="0.0000" Y="0.0000" />
               </AbstractNodeData>
               <AbstractNodeData Name="Button_Left" ActionTag="2087501702" CallBackType="Click" CallBackName="onClickLeft" Tag="153" IconVisible="False" PositionPercentYEnabled="True" LeftMargin="47.3876" RightMargin="1018.6124" TopMargin="270.0000" BottomMargin="270.0000" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="36" Scale9Height="74" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">

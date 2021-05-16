@@ -9,6 +9,10 @@ function BaseManager:ctor()
 	self:override_onInit()
 end
 
+function BaseManager:destroy()
+    self:override_onDestroy()
+end
+
 -- @brief 初始化调用
 function BaseManager:override_onInit()
 end

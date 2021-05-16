@@ -8,15 +8,26 @@ uint32_t GLoginService::onInit()
 	G_CHECK_SERVICE(GSlaveNodeService);
 	G_CHECK_SERVICE(GNetService);
 	G_CHECK_SERVICE(GPlayerMngService);
+	G_CHECK_SERVICE(GRoleMngService);
+	
 
+	// server
 	m_pSlaveNodeService = m_serviceMgr->getService<GSlaveNodeService>();
 	ON_PB_MSG_CLASS_CALL(m_pSlaveNodeService->noticeCenter(), MessageID::MSG_CKECK_TOKEN_ACK, svr_msg::CheckTokenAck, onMsg_CheckTokenAck);
+	ON_PB_MSG_CLASS_CALL(m_pSlaveNodeService->noticeCenter(), MessageID::MES_CHANGE_TOKEN_NTF, svr_msg::TokenChangeNtf, onMsg_TokenChangeNtf);
 
-
+	// client
 	m_pNetService = m_serviceMgr->getService<GNetService>();
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_LOGIN_REQ, msg::LoginReq, onMsg_LoginReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_CREATE_ROLE_REQ, msg::CreateRoleReq, onMsg_CreateRoleReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_ENTER_GAME_REQ, msg::EnterGameReq, onMsg_EnterGameReq);
 
+	
+
+	// 玩家管理服务
 	m_pPlayerMngService = m_serviceMgr->getService<GPlayerMngService>();
+	// 角色管理服务
+	m_pRoleMngService = m_serviceMgr->getService<GRoleMngService>();
 
 	m_pNetService->noticeCenter()->addListener(this, GNetService::MSG_KEY_DISCONNECT, [=](uint32_t sessionID) 
 	{
@@ -25,6 +36,9 @@ uint32_t GLoginService::onInit()
 
 	return SCODE_START_SUCCESS;
 }
+
+//////////////////////////////////////////////////////////////////////////
+// server
 
 void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::CheckTokenAck& msg)
 {
@@ -47,10 +61,16 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 				auto info = ack.add_infos();
 				info->set_name(player->getName());
 				info->set_playerid(player->getPlayerId());
+
+				player->setToken(msg.token());
 			}
 		}
 		else
 		{
+			for (auto it : players)
+			{
+				it->setToken(msg.token());
+			}
 			// 自动选择玩家数据
 			if (msg.pid() == 0)
 			{
@@ -59,6 +79,12 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 					auto info = ack.add_infos();
 					info->set_name(it->getName());
 					info->set_playerid(it->getPlayerId());
+
+					auto& roles = it->getRoles();
+					for (auto role : roles)
+					{
+						info->add_arrroleids(role->getRoleId());
+					}
 				}
 
 				if (ack.infos_size() == 0)
@@ -77,6 +103,11 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 						auto info = ack.add_infos();
 						info->set_name(it->getName());
 						info->set_playerid(it->getPlayerId());
+						auto& roles = it->getRoles();
+						for (auto role : roles)
+						{
+							info->add_arrroleids(role->getRoleId());
+						}
 					}
 				}
 				if (ack.infos_size() == 1)
@@ -100,6 +131,21 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 	}
 }
 
+void GLoginService::onMsg_TokenChangeNtf(uint32_t sessionID, const svr_msg::TokenChangeNtf& msg)
+{
+	std::vector<GPlayer*> players;
+	if (m_pPlayerMngService->queryPlayerInfo(msg.account(), players))
+	{
+		for (auto& it : players)
+		{
+			it->setToken(msg.token());
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// client
+
 void GLoginService::onMsg_LoginReq(uint32_t sessionID, const msg::LoginReq& msg)
 {
 	// 发送至登录服校验账号/token合法性
@@ -109,6 +155,86 @@ void GLoginService::onMsg_LoginReq(uint32_t sessionID, const msg::LoginReq& msg)
 	req.set_pid(msg.playerid());
 	req.set_session(sessionID);
 	SEND_PB_MSG_NO_SESSION(m_pSlaveNodeService, MessageID::MSG_CKECK_TOKEN_REQ, req);
+}
+
+void GLoginService::onMsg_CreateRoleReq(uint32_t sessionID, const msg::CreateRoleReq& msg)
+{
+	auto player = m_pPlayerMngService->getPlayerBySessionID(sessionID);
+	if (player == NULL)
+		return;
+
+	msg::CreateRoleAck ack;
+	ack.set_code(err::SUCCESS);
+	ack.set_roleid(0);
+	do
+	{
+		if (msg.name().size() <= 0)
+		{
+			ack.set_code(err::NAME_STR_TO_SHORT);
+			break;
+		}
+
+		if (m_pRoleMngService->containName(msg.name()))
+		{
+			ack.set_code(err::NAME_TARGET_REPEAT);
+			break;
+		}
+
+		auto pRole = m_pRoleMngService->createRole(msg.name(), msg.occupation());
+		if (pRole == NULL)
+		{
+			ack.set_code(err::SVR_ERROR);
+			break;
+		}
+		ack.set_roleid(pRole->getRoleId());
+
+		player->addRole(pRole);
+
+		auto local = m_serviceMgr->getService<GLocalStorageService>();
+		player->save(local->getsqliter());
+	} while (false);
+	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_CREATE_ROLE_ACK, ack);
+}
+
+void GLoginService::onMsg_EnterGameReq(uint32_t sessionID, const msg::EnterGameReq& msg)
+{
+	msg::EnterGameAck ack;
+	ack.set_code(err::SUCCESS);
+
+	do
+	{
+		auto player = m_pPlayerMngService->getPlayerBySessionID(sessionID);
+		if (player == NULL)
+		{
+			ack.set_code(err::ACCOUNT_NOT_EXIST);
+			break;
+		}
+		if (msg.token() != player->getToken())
+		{
+			ack.set_code(err::TOKEN_ERR);
+			break;
+		}
+		if (msg.playerid() != player->getPlayerId())
+		{
+			ack.set_code(err::SVR_ERROR);
+			break;
+		}
+
+		auto pRole = player->getRole(msg.roleid());
+		if (pRole == NULL)
+		{
+			ack.set_code(err::ROLE_NOT_EXIST);
+			break;
+		}
+
+		auto pInfo = ack.mutable_roleinfo();
+		pInfo->set_roleid(pRole->getRoleId());
+		pInfo->set_name(pRole->getName());
+		pInfo->set_lv(pRole->getLv());
+		pInfo->set_occupation(pRole->getOcc());
+	} while (false);
+
+	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_ENTER_GAME_ACK, ack);
 }
 
 void GLoginService::onPlayerLogin(int64_t playerId, uint32_t sessionID)

@@ -9,12 +9,7 @@ struct GGameWorldInitArgs
 	// 随机数种子
 	uint32_t randomSeed;
 	// uuid种子
-	GUUID uuidSeed;
-
-#if G_TARGET_CLIENT
-	// 渲染根节点
-	Node* rootNode;
-#endif
+	uint32_t uuidSeed;
 };
 
 class GGameWorld

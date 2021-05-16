@@ -65,7 +65,7 @@ end
 function NetManager:initProtobuf()
 	if cc.exports._protobuf_init then return end
 
-	require "app.modules.protobuf.protobuf"
+	require "app.protobuf.protobuf"
 
 	for k, v in pairs(manifest.pb) do
 		local filename = cc.FileUtils:getInstance():fullPathForFilename("/pb/" .. v)
@@ -208,7 +208,7 @@ end
 
 function NetManager:initUI()
 	-- self.loadingUI = require("app.ui.general.LoadingUI"):new()
-	-- self.loadingUI:setLocalZOrder(WINDOW_Z.NET_LOADING)
+	-- self.loadingUI:setLocalZOrder(Const.WindowZ.NET_LOADING)
 	-- self.loadingUI:retain()
 
 	-- self.msgBox = require("app.ui.general.NetMessageBoxUI"):new()

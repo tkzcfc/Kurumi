@@ -29,6 +29,10 @@ function WindowManager:addWindow(window, parentNode)
 	return self:curContext():addWindow(window, parentNode)
 end
 
+function WindowManager:windowShowFinish(window)
+	return self:curContext():windowShowFinish(window, parentNode)
+end
+
 function WindowManager:getTopWindow()
 	return self:curContext():getTopWindow()
 end
@@ -37,20 +41,16 @@ function WindowManager:popWindow()
 	return self:curContext():popWindow()
 end
 
-function WindowManager:removeWindow(window)
-	self:curContext():removeWindow(window)
+function WindowManager:removeWindow_(window)
+	self:curContext():removeWindow_(window)
 end
 
-function WindowManager:removeAllWindow(except_cls)
-	self:curContext():removeAllWindow(except_cls)
+function WindowManager:removeAllWindow()
+	self:curContext():removeAllWindow()
 end
 
-function WindowManager:clear()
-	self:curContext():clear()
-end
-
-function WindowManager:removeWindowByTag(tag)
-	self:curContext():removeWindowByTag(tag)
+function WindowManager:removeWindowByName(...)
+	self:curContext():removeWindowByName(...)
 end
 
 function WindowManager:hasWindow(cls)

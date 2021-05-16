@@ -146,7 +146,8 @@ end
 -- 已经是最新版本，直接进入游戏
 function UpdateScene:beginGame()
     local function callback()
-        require("app.init"):load(function()
+        local loader = require("app.init").new()
+        loader:load(function()
             _MyG.ScenesManager:switchScene(_MyG.StartSceneID)
         end)
     end

@@ -52,6 +52,7 @@ bool MessageID_IsValid(int value) {
     case 200002:
     case 300003:
     case 300004:
+    case 300006:
     case 600001:
     case 600002:
     case 800001:
@@ -65,13 +66,17 @@ bool MessageID_IsValid(int value) {
     case 900001:
     case 900002:
     case 900010:
-    case 900100:
     case 900101:
     case 900102:
     case 900103:
     case 900104:
     case 900105:
+    case 900106:
     case 900200:
+    case 900303:
+    case 900304:
+    case 900305:
+    case 900306:
       return true;
     default:
       return false;

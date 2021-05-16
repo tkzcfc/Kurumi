@@ -2043,9 +2043,9 @@
           <Folder Name="home">
             <Project Name="taohua1.csd" Type="Node" />
             <Project Name="taohua2.csd" Type="Node" />
-            <Project Name="Yun.csd" Type="Node" />
-            <Project Name="UI_MapWindow.csd" Type="Scene" />
             <Project Name="UI_CreateWindow.csd" Type="Scene" />
+            <Project Name="UI_MapWindow.csd" Type="Scene" />
+            <Project Name="Yun.csd" Type="Node" />
           </Folder>
         </Folder>
       </RootFolder>

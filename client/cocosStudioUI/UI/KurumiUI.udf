@@ -32,17 +32,16 @@
       <Value ctype="TabsInfo">
         <OpenedDocuments>
           <FilePathData Path="scenes/UI_MainScene.csd" />
-          <FilePathData Path="ui/UI_MessageBox.csd" />
-          <FilePathData Path="scenes/UI_LoginScene.csd" />
-          <FilePathData Path="scenes/UI_UpdateScene.csd" />
-          <FilePathData Path="windows/home/UI_CreateWindow.csd" />
           <FilePathData Path="windows/home/UI_MapWindow.csd" />
+          <FilePathData Path="windows/home/UI_CreateWindow.csd" />
+          <FilePathData Path="ui/UI_ScrollMessageBox.csd" />
+          <FilePathData Path="ui/UI_MessageBox.csd" />
           <FilePathData Path="windows/general/playerControlUI.csd" />
-          <FilePathData Path="scenes/UI_LoadResource.csd" />
-          <FilePathData Path="scenes/UI_SplashScene.csd" />
           <FilePathData Path="ui/UI_Loading.csd" />
+          <FilePathData Path="windows/home/taohua2.csd" />
+          <FilePathData Path="windows/home/Yun.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="ui/UI_Loading.csd" />
+        <ActiveDocument Path="windows/home/UI_CreateWindow.csd" />
       </Value>
     </Item>
   </Properties>

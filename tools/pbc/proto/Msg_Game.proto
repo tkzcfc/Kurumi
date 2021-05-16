@@ -51,6 +51,15 @@ message PlayerAccountInfo
 {
 	required int64 playerID = 1; // 玩家id
 	required string name = 2;	// 玩家昵称
+	repeated int64 arrRoleIds = 3;// 此玩家含有的角色id集合
+}
+
+message RoleInfo
+{
+	required int64 roleId = 1;	// 角色Id
+	required string name = 2;	// 角色昵称
+	required int32 lv = 3;		// 角色等级
+	required int32 occupation = 4;// 角色职业
 }
 
 
@@ -61,6 +70,40 @@ message LoginAck
 	repeated PlayerAccountInfo infos = 2; // 如果在该服存在多个玩家数据,则登录失败返回所有玩家数据
 }
 
+
+
+// 进入游戏请求
+message EnterGameReq
+{
+	required string token = 1; 		// token
+	required int64 playerID = 2;	// 玩家id
+	required int64 roleID = 3;		// 角色id
+}
+
+// 进入游戏返回
+message EnterGameAck
+{
+	required int32 code = 1;
+	optional RoleInfo roleinfo = 2;
+}
+
+
+
+// 创建角色请求
+message CreateRoleReq
+{
+	required int32 occupation = 1;// 角色职业
+	required string name = 2;	// 角色昵称
+}
+
+message CreateRoleAck
+{
+	required int32 code = 1;
+	required int64 roleID = 2;
+}
+
+
+// 退出游戏通知
 message ExitGameNtf
 {	
 	required int32 code = 1;

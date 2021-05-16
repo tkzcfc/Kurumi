@@ -56,6 +56,13 @@ function Vector:empty()
 	end
 end
 
+function Vector:popFront()
+	if self.needRetain then
+		release(self[1])
+	end
+	table.remove(self, 1)
+end
+
 function Vector:popBack()
 	if self.needRetain then
 		release(self[self:size()])

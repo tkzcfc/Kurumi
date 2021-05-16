@@ -49,38 +49,47 @@ struct StaticDescriptorInitializer_Msg_5fErr_2eproto {
 bool Code_IsValid(int value) {
   switch(value) {
     case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 100:
-    case 101:
-    case 102:
-    case 100000:
     case 100001:
+    case 100002:
+    case 100003:
+    case 100004:
+    case 100005:
+    case 100006:
+    case 100007:
     case 100100:
-    case 110000:
-    case 110001:
-    case 110002:
-    case 110003:
-    case 110004:
-    case 110005:
-    case 110006:
-    case 110007:
-    case 110008:
-    case 110100:
-    case 110101:
-    case 110102:
-    case 120001:
-    case 120002:
-    case 120003:
-    case 120010:
-    case 120011:
-    case 120012:
-    case 120030:
-    case 120031:
-    case 120032:
-    case 120033:
-    case 120034:
+    case 100101:
+    case 100102:
+    case 100200:
+    case 100201:
+    case 100202:
+    case 100203:
+    case 200000:
+    case 200001:
+    case 200002:
+    case 200100:
+    case 210000:
+    case 210001:
+    case 210002:
+    case 210003:
+    case 210004:
+    case 210005:
+    case 210006:
+    case 210007:
+    case 210008:
+    case 210100:
+    case 210101:
+    case 210102:
+    case 220001:
+    case 220002:
+    case 220003:
+    case 220010:
+    case 220011:
+    case 220012:
+    case 220030:
+    case 220031:
+    case 220032:
+    case 220033:
+    case 220034:
       return true;
     default:
       return false;

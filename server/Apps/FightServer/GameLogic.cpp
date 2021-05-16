@@ -169,25 +169,25 @@ void GameLogic::update_Run(float dt)
 		}
 	}
 
-	// 清除比较久的操作记录
-	if (m_pastRecords.empty() == false)
-	{
-		// 最多保留帧数
-		const int32_t maxCount = 350;
-		// 超过最多保留帧数多少之后开始清理
-		const int32_t stepCount = 50;
+	//// 清除比较久的操作记录
+	//if (m_pastRecords.empty() == false)
+	//{
+	//	// 最多保留帧数
+	//	const int32_t maxCount = 350;
+	//	// 超过最多保留帧数多少之后开始清理
+	//	const int32_t stepCount = 50;
 
-		if (m_world->getGameLogicFrame() - m_pastRecords.front().frame > maxCount + stepCount)
-		{
-			while (!m_pastRecords.empty())
-			{
-				if (m_world->getGameLogicFrame() - m_pastRecords.front().frame <= maxCount)
-					break;
+	//	if (m_world->getGameLogicFrame() - m_pastRecords.front().frame > maxCount + stepCount)
+	//	{
+	//		while (!m_pastRecords.empty())
+	//		{
+	//			if (m_world->getGameLogicFrame() - m_pastRecords.front().frame <= maxCount)
+	//				break;
 
-				m_pastRecords.pop_front();
-			}
-		}
-	}
+	//			m_pastRecords.pop_front();
+	//		}
+	//	}
+	//}
 }
 
 void GameLogic::update_Wait(float dt)
@@ -454,8 +454,6 @@ void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFram
 		auto& record = m_pastRecords.back();
 		record.frame = curFrame + 1;
 		record.input = input;
-
-		m_world->input(input);
 	}
 }
 

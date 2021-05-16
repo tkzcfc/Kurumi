@@ -32,7 +32,7 @@ function KeyBackManager:showExitGameBox()
     	-- restartApp()
     	appExit()
 	end)
-    box:setLocalZOrder(WINDOW_Z.EXIT_MSGBOX)
+    box:setLocalZOrder(Const.WindowZ.EXIT_MSGBOX)
     _MyG.NotifiNodeManager:showWindow(box)
 end
 
