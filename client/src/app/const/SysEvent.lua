@@ -6,4 +6,8 @@ return enum {
 	"WILL_ENTER_SCENE",		-- 场景切换开始
 	"ENTER_SCENE_FINISH",	-- 场景切换完毕
 	"ON_KEY_BACK_CLICK",	-- 返回按键按下事件
+
+    "NET_CONNECT_SUC",
+    "NET_CONNECT_FAIL",
+    "NET_DISCONNECT",
 }

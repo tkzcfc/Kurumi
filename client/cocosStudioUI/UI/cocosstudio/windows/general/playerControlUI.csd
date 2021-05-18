@@ -129,7 +129,7 @@
             <PrePosition X="0.7612" Y="0.1057" />
             <PreSize X="0.0000" Y="0.0000" />
           </AbstractNodeData>
-          <AbstractNodeData Name="Node_Skill_2" ActionTag="1698137021" Tag="23" IconVisible="True" LeftMargin="895.5136" RightMargin="240.4864" TopMargin="472.3198" BottomMargin="167.6803" ctype="SingleNodeObjectData">
+          <AbstractNodeData Name="Node_Skill_2" ActionTag="1698137021" Tag="23" IconVisible="True" LeftMargin="895.5136" RightMargin="240.4864" TopMargin="472.3197" BottomMargin="167.6803" ctype="SingleNodeObjectData">
             <Size X="0.0000" Y="0.0000" />
             <Children>
               <AbstractNodeData Name="Image" ActionTag="-1585382867" Tag="24" IconVisible="False" LeftMargin="-35.5000" RightMargin="-35.5000" TopMargin="-35.5000" BottomMargin="-35.5000" LeftEage="27" RightEage="27" TopEage="27" BottomEage="27" Scale9OriginX="27" Scale9OriginY="27" Scale9Width="17" Scale9Height="17" ctype="ImageViewObjectData">

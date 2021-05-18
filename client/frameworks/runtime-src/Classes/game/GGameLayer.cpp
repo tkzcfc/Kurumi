@@ -8,7 +8,12 @@ bool GGameLayer::init()
 
 	m_world = new GGameWorld();
 	// 6 9  14
-	m_world->init(6, this);
+	GGameWorldInitArgs args;
+	args.mapId = 0;
+	args.randomSeed = 0;
+	args.rootNode = this;
+	args.uuidSeed = 0;
+	m_world->init(args);
 
 	this->scheduleUpdate();
 

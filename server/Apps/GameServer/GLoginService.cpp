@@ -226,6 +226,11 @@ void GLoginService::onMsg_EnterGameReq(uint32_t sessionID, const msg::EnterGameR
 			ack.set_code(err::ROLE_NOT_EXIST);
 			break;
 		}
+		if (player->setLoginRole(msg.roleid()) == false)
+		{
+			ack.set_code(err::ROLE_NOT_EXIST);
+			break;
+		}
 
 		auto pInfo = ack.mutable_roleinfo();
 		pInfo->set_roleid(pRole->getRoleId());

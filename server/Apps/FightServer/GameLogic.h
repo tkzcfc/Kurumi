@@ -13,7 +13,7 @@ public:
 
 	~GameLogic();
 
-	err::Code init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >& players);
+	err::Code init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >& roles);
 	
 	void update(float dt);
 			

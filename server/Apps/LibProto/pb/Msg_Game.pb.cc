@@ -27,7 +27,7 @@ void protobuf_ShutdownFile_Msg_5fGame_2eproto() {
   delete CreateRoleReq::default_instance_;
   delete CreateRoleAck::default_instance_;
   delete ExitGameNtf::default_instance_;
-  delete PVEFightPlayerInfo::default_instance_;
+  delete PVEFightInfo::default_instance_;
   delete StartPVEFightReq::default_instance_;
   delete StartPVEFightAck::default_instance_;
   delete StartPVPFightReq::default_instance_;
@@ -67,7 +67,7 @@ void protobuf_AddDesc_Msg_5fGame_2eproto() {
   CreateRoleReq::default_instance_ = new CreateRoleReq();
   CreateRoleAck::default_instance_ = new CreateRoleAck();
   ExitGameNtf::default_instance_ = new ExitGameNtf();
-  PVEFightPlayerInfo::default_instance_ = new PVEFightPlayerInfo();
+  PVEFightInfo::default_instance_ = new PVEFightInfo();
   StartPVEFightReq::default_instance_ = new StartPVEFightReq();
   StartPVEFightAck::default_instance_ = new StartPVEFightAck();
   StartPVPFightReq::default_instance_ = new StartPVPFightReq();
@@ -93,7 +93,7 @@ void protobuf_AddDesc_Msg_5fGame_2eproto() {
   CreateRoleReq::default_instance_->InitAsDefaultInstance();
   CreateRoleAck::default_instance_->InitAsDefaultInstance();
   ExitGameNtf::default_instance_->InitAsDefaultInstance();
-  PVEFightPlayerInfo::default_instance_->InitAsDefaultInstance();
+  PVEFightInfo::default_instance_->InitAsDefaultInstance();
   StartPVEFightReq::default_instance_->InitAsDefaultInstance();
   StartPVEFightAck::default_instance_->InitAsDefaultInstance();
   StartPVPFightReq::default_instance_->InitAsDefaultInstance();
@@ -2606,34 +2606,34 @@ void ExitGameNtf::Swap(ExitGameNtf* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int PVEFightPlayerInfo::kPidFieldNumber;
+const int PVEFightInfo::kRoleIdFieldNumber;
 #endif  // !_MSC_VER
 
-PVEFightPlayerInfo::PVEFightPlayerInfo()
+PVEFightInfo::PVEFightInfo()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
-void PVEFightPlayerInfo::InitAsDefaultInstance() {
+void PVEFightInfo::InitAsDefaultInstance() {
 }
 
-PVEFightPlayerInfo::PVEFightPlayerInfo(const PVEFightPlayerInfo& from)
+PVEFightInfo::PVEFightInfo(const PVEFightInfo& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void PVEFightPlayerInfo::SharedCtor() {
+void PVEFightInfo::SharedCtor() {
   _cached_size_ = 0;
-  pid_ = GOOGLE_LONGLONG(0);
+  roleid_ = GOOGLE_LONGLONG(0);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-PVEFightPlayerInfo::~PVEFightPlayerInfo() {
+PVEFightInfo::~PVEFightInfo() {
   SharedDtor();
 }
 
-void PVEFightPlayerInfo::SharedDtor() {
+void PVEFightInfo::SharedDtor() {
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
   #else
@@ -2642,12 +2642,12 @@ void PVEFightPlayerInfo::SharedDtor() {
   }
 }
 
-void PVEFightPlayerInfo::SetCachedSize(int size) const {
+void PVEFightInfo::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const PVEFightPlayerInfo& PVEFightPlayerInfo::default_instance() {
+const PVEFightInfo& PVEFightInfo::default_instance() {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   protobuf_AddDesc_Msg_5fGame_2eproto();
 #else
@@ -2656,33 +2656,33 @@ const PVEFightPlayerInfo& PVEFightPlayerInfo::default_instance() {
   return *default_instance_;
 }
 
-PVEFightPlayerInfo* PVEFightPlayerInfo::default_instance_ = NULL;
+PVEFightInfo* PVEFightInfo::default_instance_ = NULL;
 
-PVEFightPlayerInfo* PVEFightPlayerInfo::New() const {
-  return new PVEFightPlayerInfo;
+PVEFightInfo* PVEFightInfo::New() const {
+  return new PVEFightInfo;
 }
 
-void PVEFightPlayerInfo::Clear() {
+void PVEFightInfo::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    pid_ = GOOGLE_LONGLONG(0);
+    roleid_ = GOOGLE_LONGLONG(0);
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-bool PVEFightPlayerInfo::MergePartialFromCodedStream(
+bool PVEFightInfo::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int64 pid = 1;
+      // required int64 roleId = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &pid_)));
-          set_has_pid();
+                 input, &roleid_)));
+          set_has_roleid();
         } else {
           goto handle_uninterpreted;
         }
@@ -2705,24 +2705,24 @@ bool PVEFightPlayerInfo::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void PVEFightPlayerInfo::SerializeWithCachedSizes(
+void PVEFightInfo::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required int64 pid = 1;
-  if (has_pid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->pid(), output);
+  // required int64 roleId = 1;
+  if (has_roleid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->roleid(), output);
   }
 
 }
 
-int PVEFightPlayerInfo::ByteSize() const {
+int PVEFightInfo::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int64 pid = 1;
-    if (has_pid()) {
+    // required int64 roleId = 1;
+    if (has_roleid()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int64Size(
-          this->pid());
+          this->roleid());
     }
 
   }
@@ -2732,42 +2732,42 @@ int PVEFightPlayerInfo::ByteSize() const {
   return total_size;
 }
 
-void PVEFightPlayerInfo::CheckTypeAndMergeFrom(
+void PVEFightInfo::CheckTypeAndMergeFrom(
     const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const PVEFightPlayerInfo*>(&from));
+  MergeFrom(*::google::protobuf::down_cast<const PVEFightInfo*>(&from));
 }
 
-void PVEFightPlayerInfo::MergeFrom(const PVEFightPlayerInfo& from) {
+void PVEFightInfo::MergeFrom(const PVEFightInfo& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_pid()) {
-      set_pid(from.pid());
+    if (from.has_roleid()) {
+      set_roleid(from.roleid());
     }
   }
 }
 
-void PVEFightPlayerInfo::CopyFrom(const PVEFightPlayerInfo& from) {
+void PVEFightInfo::CopyFrom(const PVEFightInfo& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool PVEFightPlayerInfo::IsInitialized() const {
+bool PVEFightInfo::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
   return true;
 }
 
-void PVEFightPlayerInfo::Swap(PVEFightPlayerInfo* other) {
+void PVEFightInfo::Swap(PVEFightInfo* other) {
   if (other != this) {
-    std::swap(pid_, other->pid_);
+    std::swap(roleid_, other->roleid_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::std::string PVEFightPlayerInfo::GetTypeName() const {
-  return "msg.PVEFightPlayerInfo";
+::std::string PVEFightInfo::GetTypeName() const {
+  return "msg.PVEFightInfo";
 }
 
 
@@ -2775,7 +2775,7 @@ void PVEFightPlayerInfo::Swap(PVEFightPlayerInfo* other) {
 
 #ifndef _MSC_VER
 const int StartPVEFightReq::kCarbonIdFieldNumber;
-const int StartPVEFightReq::kInfosFieldNumber;
+const int StartPVEFightReq::kRolesFieldNumber;
 #endif  // !_MSC_VER
 
 StartPVEFightReq::StartPVEFightReq()
@@ -2835,7 +2835,7 @@ void StartPVEFightReq::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     carbonid_ = 0;
   }
-  infos_.Clear();
+  roles_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2856,21 +2856,21 @@ bool StartPVEFightReq::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_infos;
+        if (input->ExpectTag(18)) goto parse_roles;
         break;
       }
 
-      // repeated .msg.PVEFightPlayerInfo infos = 2;
+      // repeated .msg.PVEFightInfo roles = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_infos:
+         parse_roles:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_infos()));
+                input, add_roles()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_infos;
+        if (input->ExpectTag(18)) goto parse_roles;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -2897,10 +2897,10 @@ void StartPVEFightReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->carbonid(), output);
   }
 
-  // repeated .msg.PVEFightPlayerInfo infos = 2;
-  for (int i = 0; i < this->infos_size(); i++) {
+  // repeated .msg.PVEFightInfo roles = 2;
+  for (int i = 0; i < this->roles_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      2, this->infos(i), output);
+      2, this->roles(i), output);
   }
 
 }
@@ -2917,12 +2917,12 @@ int StartPVEFightReq::ByteSize() const {
     }
 
   }
-  // repeated .msg.PVEFightPlayerInfo infos = 2;
-  total_size += 1 * this->infos_size();
-  for (int i = 0; i < this->infos_size(); i++) {
+  // repeated .msg.PVEFightInfo roles = 2;
+  total_size += 1 * this->roles_size();
+  for (int i = 0; i < this->roles_size(); i++) {
     total_size +=
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->infos(i));
+        this->roles(i));
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -2938,7 +2938,7 @@ void StartPVEFightReq::CheckTypeAndMergeFrom(
 
 void StartPVEFightReq::MergeFrom(const StartPVEFightReq& from) {
   GOOGLE_CHECK_NE(&from, this);
-  infos_.MergeFrom(from.infos_);
+  roles_.MergeFrom(from.roles_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_carbonid()) {
       set_carbonid(from.carbonid());
@@ -2955,8 +2955,8 @@ void StartPVEFightReq::CopyFrom(const StartPVEFightReq& from) {
 bool StartPVEFightReq::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
-  for (int i = 0; i < infos_size(); i++) {
-    if (!this->infos(i).IsInitialized()) return false;
+  for (int i = 0; i < roles_size(); i++) {
+    if (!this->roles(i).IsInitialized()) return false;
   }
   return true;
 }
@@ -2964,7 +2964,7 @@ bool StartPVEFightReq::IsInitialized() const {
 void StartPVEFightReq::Swap(StartPVEFightReq* other) {
   if (other != this) {
     std::swap(carbonid_, other->carbonid_);
-    infos_.Swap(&other->infos_);
+    roles_.Swap(&other->roles_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

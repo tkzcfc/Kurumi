@@ -39,6 +39,10 @@ public:
 
 	void addRole(GRole* role);
 
+	GRole* getLoginRole();
+
+	bool setLoginRole(ROLE_ID roleId);
+
 public:
 
 	bool save(csqliter* sqliter);
@@ -51,5 +55,6 @@ private:
 
 	std::vector<int64_t> m_roleIds;
 	std::vector<GRole*> m_allRole;
+	GRole* m_loginRole;
 };
 

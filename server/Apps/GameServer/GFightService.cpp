@@ -12,11 +12,13 @@ uint32_t GFightService::onInit()
 
 	G_CHECK_SERVICE(GNetService);
 	G_CHECK_SERVICE(GMasterNodeService);
+	G_CHECK_SERVICE(GRoleMngService);
 	G_CHECK_SERVICE(GPlayerMngService);
 
 	m_pNetService = m_serviceMgr->getService<GNetService>();
 	m_pMasterNodeService = m_serviceMgr->getService<GMasterNodeService>();
 	m_pPlayerMngService = m_serviceMgr->getService<GPlayerMngService>();
+	m_pRoleMngService = m_serviceMgr->getService<GRoleMngService>();
 
 	ON_PB_MSG_CLASS_CALL(m_pMasterNodeService->noticeCenter(), MessageID::MSG_NEW_FIGHT_ACK, svr_msg::NewFightAck, onMsg_NewFightAck);
 
@@ -51,19 +53,19 @@ const SlaveNodeInfo* GFightService::getFightSvr()
 	return NULL;
 }
 
-int32_t GFightService::newFightGroup(PLAYER_ID* arrPlayer, int32_t playerCount, int32_t fightType)
+int32_t GFightService::newFightGroup(ROLE_ID* arrRole, int32_t roleCount, int32_t fightType)
 {
 	m_applyGroupSeed++;
 
 	FightApplyGroup group;
 	memset(&group, 0, sizeof(group));
 	group.time = ::time(NULL);
-	group.count = playerCount;
+	group.count = roleCount;
 	group.fightType = fightType;
 
-	for (auto i = 0; i < playerCount; ++i)
+	for (auto i = 0; i < roleCount; ++i)
 	{
-		group.playerid[i] = arrPlayer[i];
+		group.roleid[i] = arrRole[i];
 	}
 
 	m_applyGroupMap[m_applyGroupSeed] = group;
@@ -71,13 +73,13 @@ int32_t GFightService::newFightGroup(PLAYER_ID* arrPlayer, int32_t playerCount, 
 	return m_applyGroupSeed;
 }
 
-GFightService::FightApplyGroup* GFightService::getPlayerApplyGroup(PLAYER_ID playerId)
+GFightService::FightApplyGroup* GFightService::getRoleApplyGroup(ROLE_ID roleid)
 {
 	for (auto& it : m_applyGroupMap)
 	{
 		for (auto i = 0; i < it.second.count; ++i)
 		{
-			if (it.second.playerid[i] == playerId)
+			if (it.second.roleid[i] == roleid)
 				return &it.second;
 		}
 	}
@@ -114,35 +116,59 @@ void GFightService::onMsg_NewFightAck(uint32_t sessionID, const svr_msg::NewFigh
 
 	for (auto i = 0; i < it->second.count; ++i)
 	{
-		auto player = m_pPlayerMngService->getPlayer(it->second.playerid[i]);
-		if (player)
+		auto role = m_pRoleMngService->getRole(it->second.roleid[i]);
+		if (role)
 		{
-			SEND_PB_MSG(m_pNetService, player->getSessionID(), MessageID::MSG_START_FIGHT_NTF, ntf);
+			SEND_PB_MSG(m_pNetService, role->getSessionID(), MessageID::MSG_START_FIGHT_NTF, ntf);
 		}
 	}
 }
 
 void GFightService::onMsg_StartPVEFightReq(uint32_t sessionID, const msg::StartPVEFightReq& msg)
 {
-	auto player = m_pPlayerMngService->getPlayerBySessionID(sessionID);
-	G_CHECK_NULL_RETURN(player);
+	auto pRole = m_pPlayerMngService->getRoleBySessionID(sessionID);
+	G_CHECK_NULL_RETURN(pRole);
 
 	// 分配战斗服
 	auto fightNode = getFightSvr();
 
 	msg::StartPVEFightAck ack;
-	if (fightNode == NULL)
+	if (msg.roles_size() <= 0)
 	{
-		ack.set_code(err::Code::FIGHT_SVR_NONE);
+		ack.set_code(err::Code::ROLE_NOT_EXIST);
 	}
 	else
 	{
-		ack.set_code(err::Code::SUCCESS);
+		if (fightNode == NULL)
+		{
+			ack.set_code(err::Code::FIGHT_SVR_NONE);
+		}
+		else
+		{
+			ack.set_code(err::Code::SUCCESS);
+		}
+
+		for (auto i = 0; i < msg.roles_size(); ++i)
+		{
+			if (m_pRoleMngService->getRole(msg.roles().Get(i).roleid()) == NULL)
+			{
+				ack.set_code(err::Code::ROLE_NOT_EXIST);
+				break;
+			}
+		}
 	}
 	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_START_PVE_ACK, ack);
 
-	auto playerId = player->getPlayerId();
-	auto groupId = newFightGroup(&playerId, 1, FightType::FIGHT_PVE);
+	if (ack.code() != err::Code::SUCCESS)
+		return;
+
+	ROLE_ID* arrRoles = new ROLE_ID[msg.roles_size()];
+	for (auto i = 0; i < msg.roles_size(); ++i)
+	{
+		arrRoles[i] = msg.roles().Get(i).roleid();
+	}
+
+	auto groupId = newFightGroup(arrRoles, msg.roles_size(), FightType::FIGHT_PVE);
 	
 	// 提交新建战斗请求
 	svr_msg::NewFightReq req;
@@ -150,18 +176,23 @@ void GFightService::onMsg_StartPVEFightReq(uint32_t sessionID, const msg::StartP
 	req.set_mapid(msg.carbonid());
 	req.set_fighttype(FightType::FIGHT_PVE);
 
-	auto reqPlayer = req.add_players();
-	reqPlayer->set_playerid(playerId);
-
+	for (auto i = 0; i < msg.roles_size(); ++i)
+	{
+		auto pRoleInfo = m_pRoleMngService->getRole(msg.roles().Get(i).roleid());
+		
+		auto pRole = req.add_roles();
+		pRole->set_roleid(pRoleInfo->getRoleId());
+		pRole->set_occ(pRoleInfo->getOcc());
+	}
 	SEND_PB_MSG(m_pMasterNodeService, fightNode->sessionID, MessageID::MSG_NEW_FIGHT_REQ, req);
 }
 
 void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartPVPFightReq& msg)
 {
-	auto player = m_pPlayerMngService->getPlayerBySessionID(sessionID);
-	G_CHECK_NULL_RETURN(player);
-
-	if (getPlayerApplyGroup(player->getPlayerId()) != NULL)
+	auto pRole = m_pPlayerMngService->getRoleBySessionID(sessionID);
+	G_CHECK_NULL_RETURN(pRole);
+	
+	if (getRoleApplyGroup(pRole->getRoleId()) != NULL)
 	{
 		// 通知客户端匹配成功
 		msg::StartPVPFightAck ack;
@@ -170,7 +201,7 @@ void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartP
 		return;
 	}
 
-	m_pvpSet.insert(player->getPlayerId());
+	m_pvpSet.insert(pRole->getRoleId());
 
 	// 通知客户端匹配中
 	msg::StartPVPFightAck ack;
@@ -180,10 +211,10 @@ void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartP
 
 void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& msg)
 {
-	auto player = m_pPlayerMngService->getPlayerBySessionID(sessionID);
-	G_CHECK_NULL_RETURN(player);
+	auto pRole = m_pPlayerMngService->getRoleBySessionID(sessionID);
+	G_CHECK_NULL_RETURN(pRole);
 
-	if (m_pvpSet.count(player->getPlayerId()) == 0)
+	if (m_pvpSet.count(pRole->getRoleId()) == 0)
 	{
 		// 已经匹配了
 		bool find = false;
@@ -191,7 +222,7 @@ void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& m
 		{
 			for (auto i = 0; i < it->second.count; ++i)
 			{
-				if (it->second.playerid[i] == player->getPlayerId())
+				if (it->second.roleid[i] == pRole->getRoleId())
 				{
 					find = true;
 					break;
@@ -202,13 +233,16 @@ void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& m
 			{
 				for (auto i = 0; i < it->second.count; ++i)
 				{
-					if (it->second.playerid[i] != player->getPlayerId())
+					if (it->second.roleid[i] != pRole->getRoleId())
 					{
-						auto sid = m_pPlayerMngService->getSessionID(it->second.playerid[i]);
-						// 通知其他玩家对手取消匹配
-						msg::StartPVPFightAck ack;
-						ack.set_code(err::Code::PVP_RIVAL_EXIT);
-						SEND_PB_MSG(m_pNetService, sid, MessageID::MSG_START_PVP_ACK, ack);
+						auto pRoleInfo = m_pRoleMngService->getRole(it->second.roleid[i]);
+						if (pRoleInfo)
+						{
+							// 通知其他玩家对手取消匹配
+							msg::StartPVPFightAck ack;
+							ack.set_code(err::Code::PVP_RIVAL_EXIT);
+							SEND_PB_MSG(m_pNetService, pRoleInfo->getSessionID(), MessageID::MSG_START_PVP_ACK, ack);
+						}
 					}
 				}
 				// 删除该组
@@ -219,7 +253,7 @@ void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& m
 	}
 	else
 	{
-		m_pvpSet.erase(player->getPlayerId());
+		m_pvpSet.erase(pRole->getRoleId());
 	}
 
 	// 通知客户端取消成功
@@ -240,10 +274,10 @@ void GFightService::onUpdate_PVPCheck(float dt)
 
 		for (auto it = m_pvpSet.begin(); it != m_pvpSet.end(); )
 		{
-			auto player = m_pPlayerMngService->getPlayer(*it);
-			if (player == NULL || player->getIsOnline() == false)
+			auto pRole = m_pRoleMngService->getRole(*it);
+			if (pRole == NULL || pRole->getIsOnline() == false)
 			{
-				m_pvpSet.erase(player->getPlayerId());
+				m_pvpSet.erase(pRole->getRoleId());
 				tag = false;
 				break;
 			}
@@ -261,9 +295,9 @@ void GFightService::onUpdate_PVPCheck(float dt)
 		auto p2 = *m_pvpSet.begin();
 		m_pvpSet.erase(p2);
 
-		const auto playerCount = 2;
-		PLAYER_ID arrPlayer[playerCount] = { p1, p2 };
-
+		const auto roleCount = 2;
+		ROLE_ID arrRole[roleCount] = { p1, p2 };
+		
 		// 分配战斗服
 		msg::StartPVPFightAck ack;
 		auto fightNode = getFightSvr();
@@ -275,15 +309,17 @@ void GFightService::onUpdate_PVPCheck(float dt)
 		{
 			ack.set_code(err::Code::PVP_MATCH_SUC);
 		}
-		for (auto i = 0; i < playerCount; ++i)
+
+		for (auto i = 0; i < roleCount; ++i)
 		{
-			SEND_PB_MSG(m_pNetService, m_pPlayerMngService->getSessionID(arrPlayer[i]), MessageID::MSG_START_PVP_ACK, ack);
+			auto pRoleInfo = m_pRoleMngService->getRole(arrRole[i]);
+			SEND_PB_MSG(m_pNetService, pRoleInfo->getSessionID(), MessageID::MSG_START_PVP_ACK, ack);
 		}
 
 		if (fightNode)
 		{
 			// 玩家分组
-			auto groupId = newFightGroup(arrPlayer, playerCount, FightType::FIGHT_PVP);
+			auto groupId = newFightGroup(arrRole, roleCount, FightType::FIGHT_PVP);
 
 			// 提交新建战斗请求
 			svr_msg::NewFightReq req;
@@ -291,10 +327,14 @@ void GFightService::onUpdate_PVPCheck(float dt)
 			req.set_mapid(0);
 			req.set_fighttype(FightType::FIGHT_PVP);
 
-			for (auto i = 0; i < playerCount; ++i)
+			for (auto i = 0; i < roleCount; ++i)
 			{
-				auto player = req.add_players();
-				player->set_playerid(arrPlayer[i]);
+				auto pRole = req.add_roles();
+				auto pRoleInfo = m_pRoleMngService->getRole(arrRole[i]);
+				{
+					pRole->set_roleid(pRoleInfo->getRoleId());
+					pRole->set_occ(pRoleInfo->getOcc());
+				}
 			}
 			SEND_PB_MSG(m_pMasterNodeService, fightNode->sessionID, MessageID::MSG_NEW_FIGHT_REQ, req);
 		}

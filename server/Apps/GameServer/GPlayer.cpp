@@ -4,6 +4,7 @@
 // 玩家信息
 GPlayer::GPlayer()
 {
+	m_loginRole = NULL;
 	setIsOnline(false);
 }
 
@@ -28,8 +29,14 @@ void GPlayer::setIsOnline(bool value)
 {
 	m_isonline = value;
 	
-	if(value == false)
+	if (value == false)
+	{
 		m_sessionID = UINT32_MAX;
+		if (m_loginRole)
+		{
+			m_loginRole->setIsOnline(false);
+		}
+	}
 }
 
 bool GPlayer::getIsOnline() const
@@ -141,3 +148,27 @@ bool GPlayer::save(csqliter* sqliter)
 	return true;
 }
 
+GRole* GPlayer::getLoginRole()
+{
+	return m_loginRole;
+}
+
+bool GPlayer::setLoginRole(ROLE_ID roleId)
+{
+	if (m_loginRole)
+	{
+		m_loginRole->setIsOnline(true);
+		m_loginRole = NULL;
+	}
+	for (auto it : m_allRole)
+	{
+		if (it->getRoleId() == roleId)
+		{
+			m_loginRole = it;
+			m_loginRole->setSessionID(m_sessionID);
+			m_loginRole->setIsOnline(true);
+			return true;
+		}
+	}
+	return false;
+}

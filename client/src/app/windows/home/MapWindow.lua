@@ -75,13 +75,11 @@ function MapWindow:updateButtonState()
 end
 
 function MapWindow:onClickSelectMap(sender)
-    --print(sender.mapIndex, sender.levelIndex)
-    local args = 
-    {
-        mapID = "map"..sender.mapIndex
-    }
-    _MyG.ScenesManager:enterScene(_MyG.SCENE_ID_GAME_MAP, nil, nil, nil, args)
-    --SCENE_ID_GAME_MAP
+    _MyG.FightManager:requestStartPvE(sender.mapIndex, {
+        {
+            roleId = _MyG.AccountInfo.roleinfo.roleId
+        }
+    })
 end
 
 function MapWindow:onClickBack(sender)

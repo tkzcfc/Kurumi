@@ -17,6 +17,7 @@ _MyG.ScenesManager      = require("app.manager.ScenesManager").new()
 _MyG.NotifiNodeManager  = require("app.manager.NotifiNodeManager").new()
 _MyG.KeyBackManager     = require("app.manager.KeyBackManager").new()
 _MyG.LoginManager       = require("app.manager.LoginManager").new()
+_MyG.FightManager       = require("app.manager.FightManager").new()
 
 G_SysEventEmitter:on("event_appWillExit", function()
     for k,v in pairs(_MyG.arrManagers) do

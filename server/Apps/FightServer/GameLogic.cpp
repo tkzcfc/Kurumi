@@ -22,7 +22,7 @@ GameLogic::~GameLogic()
 	}
 }
 
-err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >& players)
+err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >& roles)
 {
 	this->setInitArgs(args);
 
@@ -39,28 +39,28 @@ err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protob
 		return err::Code::FIGHT_INIT_FAIL;
 	}
 
-	if (players.size() > G_FIGHT_MAX_PLAYER_COUNT)
+	if (roles.size() > G_FIGHT_MAX_PLAYER_COUNT)
 		return err::Code::FIGHT_PLAYER_TOO_MUCH;
 
-	for (auto i = 0; i < players.size(); ++i)
+	for (auto i = 0; i < roles.size(); ++i)
 	{
 		m_players[i] = std::make_unique<GamePlayer>();
 		if (m_players[i] == NULL)
 			return err::Code::NO_MEMORY;
 
-		auto code = m_players[i]->init(players.Get(i));
+		auto code = m_players[i]->init(roles.Get(i));
 		if (code != err::Code::SUCCESS)
 			return code;
 
 		m_playerIDSet.insert(m_players[i]->getPlayerID());
 	}
-	if (m_playerIDSet.size() != players.size())
+	if (m_playerIDSet.size() != roles.size())
 	{
 		return err::Code::FIGHT_PLAYERID_REPEAT;
 	}
 
 	m_pApplication = GApplication::getInstance();
-	m_playerCount = players.size();
+	m_playerCount = roles.size();
 	m_lastRunTime = m_pApplication->getRunTime();
 	m_pNetService = m_pApplication->getServiceMgr()->getService<GNetService>();
 
@@ -330,17 +330,16 @@ void GameLogic::exitGame(int64_t playerID)
 	
 	std::unique_ptr<GamePlayer> tmp[G_FIGHT_MAX_PLAYER_COUNT];
 	int32_t index = 0;
-
 	for (auto i = 0; i < G_FIGHT_MAX_PLAYER_COUNT; ++i)
 	{
-		if (m_players[i] && m_players[i]->getPlayerID() == playerID)
+		if (m_players[i] && m_players[i]->getPlayerID() != playerID)
 		{
 			tmp[index].reset(m_players[i].release());
 			index++;
 		}
 		m_players[i] = NULL;
 	}
-	
+
 	for (auto i = 0; i < index; ++i)
 	{
 		m_players[i].reset(tmp[i].release());

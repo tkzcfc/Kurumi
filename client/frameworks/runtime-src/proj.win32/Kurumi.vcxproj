@@ -266,6 +266,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\foundation\fsm\GState.h" />
     <ClInclude Include="..\Classes\foundation\fsm\GTranslation.h" />
     <ClInclude Include="..\Classes\foundation\GameMacro.h" />
+    <ClInclude Include="..\Classes\foundation\GRandom.h" />
     <ClInclude Include="..\Classes\foundation\math\GMat2.h" />
     <ClInclude Include="..\Classes\foundation\math\GMath.h" />
     <ClInclude Include="..\Classes\foundation\math\GMathCommon.h" />
@@ -412,6 +413,7 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\foundation\fsm\GFSM.cpp" />
     <ClCompile Include="..\Classes\foundation\fsm\GState.cpp" />
     <ClCompile Include="..\Classes\foundation\fsm\GTranslation.cpp" />
+    <ClCompile Include="..\Classes\foundation\GRandom.cpp" />
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp" />
     <ClCompile Include="..\Classes\foundation\render\GMapLayer.cpp" />
     <ClCompile Include="..\Classes\foundation\render\GVirtualCamera.cpp" />

@@ -31,17 +31,10 @@
     <Item Key="TabsParamsKey">
       <Value ctype="TabsInfo">
         <OpenedDocuments>
-          <FilePathData Path="scenes/UI_MainScene.csd" />
-          <FilePathData Path="windows/home/UI_MapWindow.csd" />
+          <FilePathData Path="windows/fight/UI_FightLoading.csd" />
           <FilePathData Path="windows/home/UI_CreateWindow.csd" />
-          <FilePathData Path="ui/UI_ScrollMessageBox.csd" />
-          <FilePathData Path="ui/UI_MessageBox.csd" />
-          <FilePathData Path="windows/general/playerControlUI.csd" />
-          <FilePathData Path="ui/UI_Loading.csd" />
-          <FilePathData Path="windows/home/taohua2.csd" />
-          <FilePathData Path="windows/home/Yun.csd" />
         </OpenedDocuments>
-        <ActiveDocument Path="windows/home/UI_CreateWindow.csd" />
+        <ActiveDocument Path="windows/fight/UI_FightLoading.csd" />
       </Value>
     </Item>
   </Properties>

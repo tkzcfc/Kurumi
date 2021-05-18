@@ -8,6 +8,8 @@ local NetManager = class("NetManager", import(".BaseManager"))
 local GAME_SESSION_ID  = 1
 local FIGHT_SESSION_ID = 2
 
+local str_len = string.len
+
 function NetManager:override_onInit()
 	NetManager.super.override_onInit(self)
 
@@ -15,7 +17,6 @@ function NetManager:override_onInit()
 
 	self:initProtobuf()
 	self:initNet()
-	-- self:initUI()
 end
 
 function NetManager:override_onDestroy()
@@ -98,15 +99,21 @@ function NetManager:sendToGame(msgID, msg)
 		print("----------------------------")
 	end
 
-	-- local pdata = protobuf.encode(info.msg, msg)
-	-- print("pdata len:", string.len(pdata))
+	local data = protobuf.encode(info.msg, msg)
+	self.client:sendMsg(GAME_SESSION_ID, msgID, data, str_len(data))
+end
 
-	-- msgID = 2
-	-- local data = "1aaaa1aaaa1aaaa1aaaa1aaaa1aaaa1aaaa1aaaaqwq"--protobuf.encode(info.msg, msg)
-	-- print("data len:", string.len(data))
+-- @brief 向战斗服发送消息
+function NetManager:sendToFight(msgID, msg)
+	local info = manifest.CMD[msgID]
+	if G_MAC.IS_PC then
+		print("send msg:", info.name, msgID)
+		print_lua_value(msg)
+		print("----------------------------")
+	end
 
 	local data = protobuf.encode(info.msg, msg)
-	self.client:sendMsg(GAME_SESSION_ID, msgID, data, string.len(data))
+	self.client:sendMsg(FIGHT_SESSION_ID, msgID, data, str_len(data))
 end
 
 -- @brief 连接结果回调
@@ -121,6 +128,7 @@ function NetManager:onConnectCallback(session, status)
 
 	if status == 1 then
 		self.sessionInfo[sessionID].reCount = 0
+		G_SysEventEmitter:emit(SysEvent.NET_CONNECT_SUC, sessionID == FIGHT_SESSION_ID)
 	else
 		-- 等待一段时间后再继续连 
 		oRoutine(o_once(function()
@@ -133,6 +141,7 @@ end
 -- @brief 连接断开回调
 function NetManager:onDisconnectCallback(session)
 	self:log("onDisconnectCallback", session:getIp(), session:getPort(), session:getSessionID())
+	G_SysEventEmitter:emit(SysEvent.NET_DISCONNECT, sessionID == FIGHT_SESSION_ID, sessionID)
 	self:doConnect(session:getSessionID())
 end
 
@@ -191,46 +200,12 @@ function NetManager:doConnect(sessionID)
 	info.reCount = info.reCount + 1
 	if info.reCount > 5 then
 		info.reCount = 0
-		-- 连接服务器失败,是否重试
-		UIUtils:showTwoBtnMsgBox(STR(11004), 
-			function()
-				self:doConnect(sessionID)
-			end, 
-			function()
-				appExit()
-			end)
+		G_SysEventEmitter:emit(SysEvent.NET_CONNECT_FAIL, sessionID == FIGHT_SESSION_ID, sessionID)
 		return false
 	end
 
 	self.client:connect(info.ip, info.port, sessionID)
 	return true
-end
-
-function NetManager:initUI()
-	-- self.loadingUI = require("app.ui.general.LoadingUI"):new()
-	-- self.loadingUI:setLocalZOrder(Const.WindowZ.NET_LOADING)
-	-- self.loadingUI:retain()
-
-	-- self.msgBox = require("app.ui.general.NetMessageBoxUI"):new()
-	-- self.msgBox:retain()
-
-	-- self.showLoadingTag = false
-	-- self.showMsgBoxTag = false
-
-	-- -- 场景切换之前,移除loading或msgBox
-	-- G_NetEventEmitter:on("event_willEnterScene", function() 
-	-- 	self.loadingUI:hideLoding()
-	-- 	self.msgBox:hideBox()
-	-- end)
-	-- -- 场景切换之后，恢复相应的ui
-	-- G_NetEventEmitter:on("event_enterSceneFinish", function() 
-	-- 	if self.showLoadingTag then
-	-- 		self:showConnectLoading()
-	-- 	end
-	-- 	if self.showMsgBoxTag then
-	-- 		self:showConnectFailMsgBox()
-	-- 	end
-	-- end)
 end
 
 return NetManager

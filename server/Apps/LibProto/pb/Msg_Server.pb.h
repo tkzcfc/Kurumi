@@ -35,7 +35,7 @@ void protobuf_ShutdownFile_Msg_5fServer_2eproto();
 class CheckTokenReq;
 class CheckTokenAck;
 class TokenChangeNtf;
-class FightPlayerSpawnInfo;
+class FightRoleSpawnInfo;
 class NewFightReq;
 class NewFightAck;
 
@@ -400,38 +400,38 @@ class TokenChangeNtf : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
-class FightPlayerSpawnInfo : public ::google::protobuf::MessageLite {
+class FightRoleSpawnInfo : public ::google::protobuf::MessageLite {
  public:
-  FightPlayerSpawnInfo();
-  virtual ~FightPlayerSpawnInfo();
+  FightRoleSpawnInfo();
+  virtual ~FightRoleSpawnInfo();
 
-  FightPlayerSpawnInfo(const FightPlayerSpawnInfo& from);
+  FightRoleSpawnInfo(const FightRoleSpawnInfo& from);
 
-  inline FightPlayerSpawnInfo& operator=(const FightPlayerSpawnInfo& from) {
+  inline FightRoleSpawnInfo& operator=(const FightRoleSpawnInfo& from) {
     CopyFrom(from);
     return *this;
   }
 
-  static const FightPlayerSpawnInfo& default_instance();
+  static const FightRoleSpawnInfo& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const FightPlayerSpawnInfo* internal_default_instance() {
+  static inline const FightRoleSpawnInfo* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(FightPlayerSpawnInfo* other);
+  void Swap(FightRoleSpawnInfo* other);
 
   // implements Message ----------------------------------------------
 
-  FightPlayerSpawnInfo* New() const;
+  FightRoleSpawnInfo* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const FightPlayerSpawnInfo& from);
-  void MergeFrom(const FightPlayerSpawnInfo& from);
+  void CopyFrom(const FightRoleSpawnInfo& from);
+  void MergeFrom(const FightRoleSpawnInfo& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -453,34 +453,29 @@ class FightPlayerSpawnInfo : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required int64 playerID = 1;
-  inline bool has_playerid() const;
-  inline void clear_playerid();
-  static const int kPlayerIDFieldNumber = 1;
-  inline ::google::protobuf::int64 playerid() const;
-  inline void set_playerid(::google::protobuf::int64 value);
+  // required int64 roleId = 1;
+  inline bool has_roleid() const;
+  inline void clear_roleid();
+  static const int kRoleIdFieldNumber = 1;
+  inline ::google::protobuf::int64 roleid() const;
+  inline void set_roleid(::google::protobuf::int64 value);
 
-  // required string role = 2;
-  inline bool has_role() const;
-  inline void clear_role();
-  static const int kRoleFieldNumber = 2;
-  inline const ::std::string& role() const;
-  inline void set_role(const ::std::string& value);
-  inline void set_role(const char* value);
-  inline void set_role(const char* value, size_t size);
-  inline ::std::string* mutable_role();
-  inline ::std::string* release_role();
-  inline void set_allocated_role(::std::string* role);
+  // required int32 occ = 2;
+  inline bool has_occ() const;
+  inline void clear_occ();
+  static const int kOccFieldNumber = 2;
+  inline ::google::protobuf::int32 occ() const;
+  inline void set_occ(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:svr_msg.FightPlayerSpawnInfo)
+  // @@protoc_insertion_point(class_scope:svr_msg.FightRoleSpawnInfo)
  private:
-  inline void set_has_playerid();
-  inline void clear_has_playerid();
-  inline void set_has_role();
-  inline void clear_has_role();
+  inline void set_has_roleid();
+  inline void clear_has_roleid();
+  inline void set_has_occ();
+  inline void clear_has_occ();
 
-  ::google::protobuf::int64 playerid_;
-  ::std::string* role_;
+  ::google::protobuf::int64 roleid_;
+  ::google::protobuf::int32 occ_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
@@ -494,7 +489,7 @@ class FightPlayerSpawnInfo : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_Msg_5fServer_2eproto();
 
   void InitAsDefaultInstance();
-  static FightPlayerSpawnInfo* default_instance_;
+  static FightRoleSpawnInfo* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -558,17 +553,17 @@ class NewFightReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 mapid() const;
   inline void set_mapid(::google::protobuf::int32 value);
 
-  // repeated .svr_msg.FightPlayerSpawnInfo players = 2;
-  inline int players_size() const;
-  inline void clear_players();
-  static const int kPlayersFieldNumber = 2;
-  inline const ::svr_msg::FightPlayerSpawnInfo& players(int index) const;
-  inline ::svr_msg::FightPlayerSpawnInfo* mutable_players(int index);
-  inline ::svr_msg::FightPlayerSpawnInfo* add_players();
-  inline const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >&
-      players() const;
-  inline ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >*
-      mutable_players();
+  // repeated .svr_msg.FightRoleSpawnInfo roles = 2;
+  inline int roles_size() const;
+  inline void clear_roles();
+  static const int kRolesFieldNumber = 2;
+  inline const ::svr_msg::FightRoleSpawnInfo& roles(int index) const;
+  inline ::svr_msg::FightRoleSpawnInfo* mutable_roles(int index);
+  inline ::svr_msg::FightRoleSpawnInfo* add_roles();
+  inline const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >&
+      roles() const;
+  inline ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >*
+      mutable_roles();
 
   // required int32 tag = 3;
   inline bool has_tag() const;
@@ -593,7 +588,7 @@ class NewFightReq : public ::google::protobuf::MessageLite {
   inline void set_has_fighttype();
   inline void clear_has_fighttype();
 
-  ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo > players_;
+  ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo > roles_;
   ::google::protobuf::int32 mapid_;
   ::google::protobuf::int32 tag_;
   ::google::protobuf::int32 fighttype_;
@@ -1272,98 +1267,50 @@ inline void TokenChangeNtf::set_allocated_account(::std::string* account) {
 
 // -------------------------------------------------------------------
 
-// FightPlayerSpawnInfo
+// FightRoleSpawnInfo
 
-// required int64 playerID = 1;
-inline bool FightPlayerSpawnInfo::has_playerid() const {
+// required int64 roleId = 1;
+inline bool FightRoleSpawnInfo::has_roleid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void FightPlayerSpawnInfo::set_has_playerid() {
+inline void FightRoleSpawnInfo::set_has_roleid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void FightPlayerSpawnInfo::clear_has_playerid() {
+inline void FightRoleSpawnInfo::clear_has_roleid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void FightPlayerSpawnInfo::clear_playerid() {
-  playerid_ = GOOGLE_LONGLONG(0);
-  clear_has_playerid();
+inline void FightRoleSpawnInfo::clear_roleid() {
+  roleid_ = GOOGLE_LONGLONG(0);
+  clear_has_roleid();
 }
-inline ::google::protobuf::int64 FightPlayerSpawnInfo::playerid() const {
-  return playerid_;
+inline ::google::protobuf::int64 FightRoleSpawnInfo::roleid() const {
+  return roleid_;
 }
-inline void FightPlayerSpawnInfo::set_playerid(::google::protobuf::int64 value) {
-  set_has_playerid();
-  playerid_ = value;
+inline void FightRoleSpawnInfo::set_roleid(::google::protobuf::int64 value) {
+  set_has_roleid();
+  roleid_ = value;
 }
 
-// required string role = 2;
-inline bool FightPlayerSpawnInfo::has_role() const {
+// required int32 occ = 2;
+inline bool FightRoleSpawnInfo::has_occ() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void FightPlayerSpawnInfo::set_has_role() {
+inline void FightRoleSpawnInfo::set_has_occ() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void FightPlayerSpawnInfo::clear_has_role() {
+inline void FightRoleSpawnInfo::clear_has_occ() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void FightPlayerSpawnInfo::clear_role() {
-  if (role_ != &::google::protobuf::internal::kEmptyString) {
-    role_->clear();
-  }
-  clear_has_role();
+inline void FightRoleSpawnInfo::clear_occ() {
+  occ_ = 0;
+  clear_has_occ();
 }
-inline const ::std::string& FightPlayerSpawnInfo::role() const {
-  return *role_;
+inline ::google::protobuf::int32 FightRoleSpawnInfo::occ() const {
+  return occ_;
 }
-inline void FightPlayerSpawnInfo::set_role(const ::std::string& value) {
-  set_has_role();
-  if (role_ == &::google::protobuf::internal::kEmptyString) {
-    role_ = new ::std::string;
-  }
-  role_->assign(value);
-}
-inline void FightPlayerSpawnInfo::set_role(const char* value) {
-  set_has_role();
-  if (role_ == &::google::protobuf::internal::kEmptyString) {
-    role_ = new ::std::string;
-  }
-  role_->assign(value);
-}
-inline void FightPlayerSpawnInfo::set_role(const char* value, size_t size) {
-  set_has_role();
-  if (role_ == &::google::protobuf::internal::kEmptyString) {
-    role_ = new ::std::string;
-  }
-  role_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* FightPlayerSpawnInfo::mutable_role() {
-  set_has_role();
-  if (role_ == &::google::protobuf::internal::kEmptyString) {
-    role_ = new ::std::string;
-  }
-  return role_;
-}
-inline ::std::string* FightPlayerSpawnInfo::release_role() {
-  clear_has_role();
-  if (role_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = role_;
-    role_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void FightPlayerSpawnInfo::set_allocated_role(::std::string* role) {
-  if (role_ != &::google::protobuf::internal::kEmptyString) {
-    delete role_;
-  }
-  if (role) {
-    set_has_role();
-    role_ = role;
-  } else {
-    clear_has_role();
-    role_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
+inline void FightRoleSpawnInfo::set_occ(::google::protobuf::int32 value) {
+  set_has_occ();
+  occ_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -1392,29 +1339,29 @@ inline void NewFightReq::set_mapid(::google::protobuf::int32 value) {
   mapid_ = value;
 }
 
-// repeated .svr_msg.FightPlayerSpawnInfo players = 2;
-inline int NewFightReq::players_size() const {
-  return players_.size();
+// repeated .svr_msg.FightRoleSpawnInfo roles = 2;
+inline int NewFightReq::roles_size() const {
+  return roles_.size();
 }
-inline void NewFightReq::clear_players() {
-  players_.Clear();
+inline void NewFightReq::clear_roles() {
+  roles_.Clear();
 }
-inline const ::svr_msg::FightPlayerSpawnInfo& NewFightReq::players(int index) const {
-  return players_.Get(index);
+inline const ::svr_msg::FightRoleSpawnInfo& NewFightReq::roles(int index) const {
+  return roles_.Get(index);
 }
-inline ::svr_msg::FightPlayerSpawnInfo* NewFightReq::mutable_players(int index) {
-  return players_.Mutable(index);
+inline ::svr_msg::FightRoleSpawnInfo* NewFightReq::mutable_roles(int index) {
+  return roles_.Mutable(index);
 }
-inline ::svr_msg::FightPlayerSpawnInfo* NewFightReq::add_players() {
-  return players_.Add();
+inline ::svr_msg::FightRoleSpawnInfo* NewFightReq::add_roles() {
+  return roles_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >&
-NewFightReq::players() const {
-  return players_;
+inline const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >&
+NewFightReq::roles() const {
+  return roles_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::svr_msg::FightPlayerSpawnInfo >*
-NewFightReq::mutable_players() {
-  return &players_;
+inline ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >*
+NewFightReq::mutable_roles() {
+  return &roles_;
 }
 
 // required int32 tag = 3;

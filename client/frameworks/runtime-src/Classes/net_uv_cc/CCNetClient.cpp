@@ -27,6 +27,10 @@ CCNetClient::CCNetClient(bool useKcp)
 
 	m_client->setConnectCallback([=](net_uv::Client* client, net_uv::Session* session, int32_t status)
 	{
+		if (status == 1)
+		{
+			m_msgMgr->onConnect(session->getSessionID());
+		}
 		auto pHandle = this->getLuaHandle("onConnectCallback");
 		if (pHandle && pHandle->isvalid())
 		{
@@ -35,14 +39,11 @@ CCNetClient::CCNetClient(bool useKcp)
 			pHandle->pusharg(status);
 			pHandle->pcall();
 		}
-		if (status == 1)
-		{
-			m_msgMgr->onConnect(session->getSessionID());
-		}
 	});
 
 	m_client->setDisconnectCallback([=](net_uv::Client* client, net_uv::Session* session)
 	{
+		m_msgMgr->onDisconnect(session->getSessionID());
 		auto pHandle = this->getLuaHandle("onDisconnectCallback");
 		if (pHandle && pHandle->isvalid())
 		{
@@ -50,7 +51,6 @@ CCNetClient::CCNetClient(bool useKcp)
 			pHandle->pushusertype<net_uv::Session>(session, "net_uv::Session");
 			pHandle->pcall();
 		}
-		m_msgMgr->onDisconnect(session->getSessionID());
 	});
 
 	m_client->setRecvCallback([=](net_uv::Client* client, net_uv::Session* session, char* data, uint32_t len)

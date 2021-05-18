@@ -428,15 +428,6 @@
     <ClInclude Include="..\Classes\ecs\utils\animator\dao\DaoStateMachine.h">
       <Filter>Classes\ecs\utils\animator\dao</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ecs\utils\ArmatureUtils.h">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ecs\utils\GAniName.h">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\opmsg\GOPMsgQue.h">
       <Filter>Classes\opmsg</Filter>
     </ClInclude>
@@ -662,6 +653,18 @@
     <ClInclude Include="..\Classes\net_uv\msg\NetMsgMgr.h">
       <Filter>Classes\net_uv\msg</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\foundation\GRandom.h">
+      <Filter>Classes\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\GAniName.h">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\ArmatureUtils.h">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -881,12 +884,6 @@
     <ClCompile Include="..\Classes\ecs\utils\animator\dao\DaoStateMachine.cpp">
       <Filter>Classes\ecs\utils\animator\dao</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ecs\utils\ArmatureUtils.cpp">
-      <Filter>Classes\ecs\utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\opmsg\GOPMsg.cpp">
       <Filter>Classes\opmsg</Filter>
     </ClCompile>
@@ -1039,6 +1036,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\net_uv\msg\NetMsgMgr.cpp">
       <Filter>Classes\net_uv\msg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\foundation\GRandom.cpp">
+      <Filter>Classes\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\ArmatureUtils.cpp">
+      <Filter>Classes\ecs\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp">
+      <Filter>Classes\ecs\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

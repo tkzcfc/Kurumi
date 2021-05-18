@@ -3,6 +3,7 @@
 #include "GLibBase.h"
 #include "GameProto.h"
 #include "GPlayerMngService.h"
+#include "GRoleMngService.h"
 
 #define FIGHT_MAX_PLAYER_COUNT 4
 
@@ -12,7 +13,7 @@ class GFightService : public GIService
 	// 战斗申请组
 	struct FightApplyGroup
 	{
-		PLAYER_ID playerid[FIGHT_MAX_PLAYER_COUNT];
+		ROLE_ID roleid[FIGHT_MAX_PLAYER_COUNT];
 		int32_t count;
 		time_t time;
 		int32_t fightType;
@@ -43,19 +44,20 @@ private:
 	
 	const SlaveNodeInfo* getFightSvr();
 
-	int32_t newFightGroup(PLAYER_ID* arrPlayer, int32_t playerCount, int32_t fightType);
+	int32_t newFightGroup(ROLE_ID* arrRole, int32_t roleCount, int32_t fightType);
 
-	FightApplyGroup* getPlayerApplyGroup(PLAYER_ID playerId);
+	FightApplyGroup* getRoleApplyGroup(ROLE_ID roleid);
 	
 private:
 
 	GNetService* m_pNetService;
 	GMasterNodeService* m_pMasterNodeService;
 	GPlayerMngService* m_pPlayerMngService;
+	GRoleMngService* m_pRoleMngService;
 
 	std::map<int32_t, FightApplyGroup> m_applyGroupMap;
 	uint32_t m_applyGroupSeed;
 
 	// pvp申请玩家合集
-	std::set<PLAYER_ID> m_pvpSet;
+	std::set<ROLE_ID> m_pvpSet;
 };

@@ -2,6 +2,7 @@
 #include "GPlayerMngService.h"
 #include "GLoginService.h"
 #include "GRoleMngService.h"
+#include "GFightService.h"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -26,6 +27,7 @@ int main(int argc, char** argv)
 	app.getServiceMgr()->addService<GRoleMngService>();
 	app.getServiceMgr()->addService<GPlayerMngService>();
 	app.getServiceMgr()->addService<GLoginService>();
+	app.getServiceMgr()->addService<GFightService>();
 	app.run();
 
 	LOG(INFO) << "-----------application exit-----------";

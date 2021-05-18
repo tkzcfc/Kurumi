@@ -6,7 +6,7 @@ _MyG.SCENE_ID_LOAD_RESOURCE		= 0	-- 资源加载场景
 _MyG.SCENE_ID_LOGIN 			= 1	-- 登录场景
 _MyG.SCENE_ID_UI				= 2 -- UI公用场景
 _MyG.SCENE_ID_MAIN 				= 3	-- 主场景
-_MyG.SCENE_ID_GAME 				= 4	-- 游戏场景
+_MyG.SCENE_ID_FIGHT 			= 4	-- 战斗场景
 _MyG.SCENE_ID_TEST 				= 100	-- 测试场景
 
 _MyG.SCENE_MAP = {}
@@ -14,7 +14,7 @@ _MyG.SCENE_MAP[_MyG.SCENE_ID_LOAD_RESOURCE] = "LoadResource"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_LOGIN] 		= "LoginScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_UI]			= "UIScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_MAIN]			= "MainScene"
-_MyG.SCENE_MAP[_MyG.SCENE_ID_GAME]			= "GameScene"
+_MyG.SCENE_MAP[_MyG.SCENE_ID_FIGHT]			= "FightScene"
 _MyG.SCENE_MAP[_MyG.SCENE_ID_TEST]			= "TestScene"
 
 

@@ -44,7 +44,7 @@ class EnterGameAck;
 class CreateRoleReq;
 class CreateRoleAck;
 class ExitGameNtf;
-class PVEFightPlayerInfo;
+class PVEFightInfo;
 class StartPVEFightReq;
 class StartPVEFightAck;
 class StartPVPFightReq;
@@ -1215,38 +1215,38 @@ class ExitGameNtf : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
-class PVEFightPlayerInfo : public ::google::protobuf::MessageLite {
+class PVEFightInfo : public ::google::protobuf::MessageLite {
  public:
-  PVEFightPlayerInfo();
-  virtual ~PVEFightPlayerInfo();
+  PVEFightInfo();
+  virtual ~PVEFightInfo();
 
-  PVEFightPlayerInfo(const PVEFightPlayerInfo& from);
+  PVEFightInfo(const PVEFightInfo& from);
 
-  inline PVEFightPlayerInfo& operator=(const PVEFightPlayerInfo& from) {
+  inline PVEFightInfo& operator=(const PVEFightInfo& from) {
     CopyFrom(from);
     return *this;
   }
 
-  static const PVEFightPlayerInfo& default_instance();
+  static const PVEFightInfo& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const PVEFightPlayerInfo* internal_default_instance() {
+  static inline const PVEFightInfo* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(PVEFightPlayerInfo* other);
+  void Swap(PVEFightInfo* other);
 
   // implements Message ----------------------------------------------
 
-  PVEFightPlayerInfo* New() const;
+  PVEFightInfo* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const PVEFightPlayerInfo& from);
-  void MergeFrom(const PVEFightPlayerInfo& from);
+  void CopyFrom(const PVEFightInfo& from);
+  void MergeFrom(const PVEFightInfo& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -1268,19 +1268,19 @@ class PVEFightPlayerInfo : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required int64 pid = 1;
-  inline bool has_pid() const;
-  inline void clear_pid();
-  static const int kPidFieldNumber = 1;
-  inline ::google::protobuf::int64 pid() const;
-  inline void set_pid(::google::protobuf::int64 value);
+  // required int64 roleId = 1;
+  inline bool has_roleid() const;
+  inline void clear_roleid();
+  static const int kRoleIdFieldNumber = 1;
+  inline ::google::protobuf::int64 roleid() const;
+  inline void set_roleid(::google::protobuf::int64 value);
 
-  // @@protoc_insertion_point(class_scope:msg.PVEFightPlayerInfo)
+  // @@protoc_insertion_point(class_scope:msg.PVEFightInfo)
  private:
-  inline void set_has_pid();
-  inline void clear_has_pid();
+  inline void set_has_roleid();
+  inline void clear_has_roleid();
 
-  ::google::protobuf::int64 pid_;
+  ::google::protobuf::int64 roleid_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
@@ -1294,7 +1294,7 @@ class PVEFightPlayerInfo : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
 
   void InitAsDefaultInstance();
-  static PVEFightPlayerInfo* default_instance_;
+  static PVEFightInfo* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1358,24 +1358,24 @@ class StartPVEFightReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 carbonid() const;
   inline void set_carbonid(::google::protobuf::int32 value);
 
-  // repeated .msg.PVEFightPlayerInfo infos = 2;
-  inline int infos_size() const;
-  inline void clear_infos();
-  static const int kInfosFieldNumber = 2;
-  inline const ::msg::PVEFightPlayerInfo& infos(int index) const;
-  inline ::msg::PVEFightPlayerInfo* mutable_infos(int index);
-  inline ::msg::PVEFightPlayerInfo* add_infos();
-  inline const ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >&
-      infos() const;
-  inline ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >*
-      mutable_infos();
+  // repeated .msg.PVEFightInfo roles = 2;
+  inline int roles_size() const;
+  inline void clear_roles();
+  static const int kRolesFieldNumber = 2;
+  inline const ::msg::PVEFightInfo& roles(int index) const;
+  inline ::msg::PVEFightInfo* mutable_roles(int index);
+  inline ::msg::PVEFightInfo* add_roles();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PVEFightInfo >&
+      roles() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PVEFightInfo >*
+      mutable_roles();
 
   // @@protoc_insertion_point(class_scope:msg.StartPVEFightReq)
  private:
   inline void set_has_carbonid();
   inline void clear_has_carbonid();
 
-  ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo > infos_;
+  ::google::protobuf::RepeatedPtrField< ::msg::PVEFightInfo > roles_;
   ::google::protobuf::int32 carbonid_;
 
   mutable int _cached_size_;
@@ -3402,28 +3402,28 @@ inline void ExitGameNtf::set_code(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
-// PVEFightPlayerInfo
+// PVEFightInfo
 
-// required int64 pid = 1;
-inline bool PVEFightPlayerInfo::has_pid() const {
+// required int64 roleId = 1;
+inline bool PVEFightInfo::has_roleid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void PVEFightPlayerInfo::set_has_pid() {
+inline void PVEFightInfo::set_has_roleid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void PVEFightPlayerInfo::clear_has_pid() {
+inline void PVEFightInfo::clear_has_roleid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void PVEFightPlayerInfo::clear_pid() {
-  pid_ = GOOGLE_LONGLONG(0);
-  clear_has_pid();
+inline void PVEFightInfo::clear_roleid() {
+  roleid_ = GOOGLE_LONGLONG(0);
+  clear_has_roleid();
 }
-inline ::google::protobuf::int64 PVEFightPlayerInfo::pid() const {
-  return pid_;
+inline ::google::protobuf::int64 PVEFightInfo::roleid() const {
+  return roleid_;
 }
-inline void PVEFightPlayerInfo::set_pid(::google::protobuf::int64 value) {
-  set_has_pid();
-  pid_ = value;
+inline void PVEFightInfo::set_roleid(::google::protobuf::int64 value) {
+  set_has_roleid();
+  roleid_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -3452,29 +3452,29 @@ inline void StartPVEFightReq::set_carbonid(::google::protobuf::int32 value) {
   carbonid_ = value;
 }
 
-// repeated .msg.PVEFightPlayerInfo infos = 2;
-inline int StartPVEFightReq::infos_size() const {
-  return infos_.size();
+// repeated .msg.PVEFightInfo roles = 2;
+inline int StartPVEFightReq::roles_size() const {
+  return roles_.size();
 }
-inline void StartPVEFightReq::clear_infos() {
-  infos_.Clear();
+inline void StartPVEFightReq::clear_roles() {
+  roles_.Clear();
 }
-inline const ::msg::PVEFightPlayerInfo& StartPVEFightReq::infos(int index) const {
-  return infos_.Get(index);
+inline const ::msg::PVEFightInfo& StartPVEFightReq::roles(int index) const {
+  return roles_.Get(index);
 }
-inline ::msg::PVEFightPlayerInfo* StartPVEFightReq::mutable_infos(int index) {
-  return infos_.Mutable(index);
+inline ::msg::PVEFightInfo* StartPVEFightReq::mutable_roles(int index) {
+  return roles_.Mutable(index);
 }
-inline ::msg::PVEFightPlayerInfo* StartPVEFightReq::add_infos() {
-  return infos_.Add();
+inline ::msg::PVEFightInfo* StartPVEFightReq::add_roles() {
+  return roles_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >&
-StartPVEFightReq::infos() const {
-  return infos_;
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PVEFightInfo >&
+StartPVEFightReq::roles() const {
+  return roles_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::msg::PVEFightPlayerInfo >*
-StartPVEFightReq::mutable_infos() {
-  return &infos_;
+inline ::google::protobuf::RepeatedPtrField< ::msg::PVEFightInfo >*
+StartPVEFightReq::mutable_roles() {
+  return &roles_;
 }
 
 // -------------------------------------------------------------------

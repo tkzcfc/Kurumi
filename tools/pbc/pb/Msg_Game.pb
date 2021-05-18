@@ -1,5 +1,5 @@
 
-š
+‘
 
 Msg_Game.protomsg"
 Null"
@@ -41,12 +41,12 @@ occupation (
 code (
 roleID ("
 ExitGameNtf
-code ("!
-PVEFightPlayerInfo
-pid ("L
+code ("
+PVEFightInfo
+roleId ("F
 StartPVEFightReq
-carbonId (&
-infos (2.msg.PVEFightPlayerInfo" 
+carbonId ( 
+roles (2.msg.PVEFightInfo" 
 StartPVEFightAck
 code ("!
 StartPVPFightReq

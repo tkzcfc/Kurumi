@@ -38,17 +38,17 @@ message TokenChangeNtf
 //                 GameSVR <==> FightSVR
 //============================================================================================
 
-message FightPlayerSpawnInfo
+message FightRoleSpawnInfo
 {
-	required int64 playerID = 1;
-	required string role = 2;
+	required int64 roleId = 1;
+	required int32 occ = 2;	// 职业
 }
 
 // 新战斗请求
 message NewFightReq
 {
 	required int32 mapId = 1;					// 地图ID
-	repeated FightPlayerSpawnInfo players = 2; 	// players
+	repeated FightRoleSpawnInfo roles = 2; 	// roles
 	required int32 tag = 3;
 	required int32 fightType = 4; // 战斗类型
 }

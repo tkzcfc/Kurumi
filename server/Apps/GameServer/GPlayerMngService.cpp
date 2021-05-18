@@ -175,6 +175,16 @@ GPlayer* GPlayerMngService::getPlayer(int64_t playerId)
 	return NULL;
 }
 
+// 通过会话id获取对应登录角色
+GRole* GPlayerMngService::getRoleBySessionID(uint32_t sessionID)
+{
+	auto pPlayer = getPlayerBySessionID(sessionID);
+	if (pPlayer == NULL)
+		return NULL;
+
+	return pPlayer->getLoginRole();
+}
+
 GPlayer* GPlayerMngService::getPlayerBySessionID(uint32_t sessionID)
 {
 	for (auto & it : m_allPlayer)

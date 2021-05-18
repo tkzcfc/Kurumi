@@ -2030,6 +2030,7 @@
           <Project Name="UI_MainScene.csd" Type="Scene" />
           <Project Name="UI_SplashScene.csd" Type="Scene" />
           <Project Name="UI_UpdateScene.csd" Type="Scene" />
+          <Project Name="UI_FightScene.csd" Type="Scene" />
         </Folder>
         <Folder Name="ui">
           <Project Name="UI_Loading.csd" Type="Scene" />
@@ -2046,6 +2047,9 @@
             <Project Name="UI_CreateWindow.csd" Type="Scene" />
             <Project Name="UI_MapWindow.csd" Type="Scene" />
             <Project Name="Yun.csd" Type="Node" />
+          </Folder>
+          <Folder Name="fight">
+            <Project Name="UI_FightLoading.csd" Type="Scene" />
           </Folder>
         </Folder>
       </RootFolder>

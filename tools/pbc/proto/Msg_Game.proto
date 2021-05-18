@@ -110,15 +110,15 @@ message ExitGameNtf
 }
 
 // pve
-message PVEFightPlayerInfo
+message PVEFightInfo
 {
-	required int64 pid = 1;	// 玩家id
+	required int64 roleId = 1;	// 玩家id
 }
 
 message StartPVEFightReq
 {
 	required int32 carbonId = 1; // 副本id
-	repeated PVEFightPlayerInfo infos = 2; // 进入副本的玩家Id 
+	repeated PVEFightInfo roles = 2; // 进入副本的玩家Id 
 }
 
 message StartPVEFightAck

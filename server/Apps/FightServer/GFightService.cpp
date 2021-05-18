@@ -12,13 +12,13 @@ uint32_t GFightService::onInit()
 	// 配置服务,读取战斗服务相关配置
 	G_CHECK_SERVICE(GConfigService);
 
-	auto m_pNetService = m_serviceMgr->getService<GNetService>();
-	auto m_pSlaveNode = m_serviceMgr->getService<GSlaveNodeService>();
-	auto m_pConfigService = m_serviceMgr->getService<GConfigService>();
+	m_pNetService = m_serviceMgr->getService<GNetService>();
+	m_pSlaveNode = m_serviceMgr->getService<GSlaveNodeService>();
+	auto pConfigService = m_serviceMgr->getService<GConfigService>();
 
 	// 配置读取
 	auto appName = GApplication::getInstance()->getAppName();
-	MAX_FIGHT_COUNT = m_pConfigService->iniReader().GetInteger(appName, "maxFightCount", 100);
+	MAX_FIGHT_COUNT = pConfigService->iniReader().GetInteger(appName, "maxFightCount", 100);
 	
 	//! 服务器通信
 	ON_PB_MSG_CLASS_CALL(m_pSlaveNode->noticeCenter(), MessageID::MSG_NEW_FIGHT_REQ, svr_msg::NewFightReq, onMsg_NewFightReq);
@@ -124,7 +124,7 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	ack.set_fighttype(msg.fighttype());
 
 	// 参数错误
-	if (msg.players_size() <= 0)
+	if (msg.roles_size() <= 0)
 	{
 		ack.set_code(err::Code::PARAM_ERROR);
 		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, MessageID::MSG_NEW_FIGHT_ACK, ack);
@@ -155,7 +155,7 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	args.uuidSeed = m_random->random(1, 10000);
 
 	// 初始化失败
-	auto code = logic->init(args, msg.players());
+	auto code = logic->init(args, msg.roles());
 	if (code != err::Code::SUCCESS)
 	{
 		delete logic;

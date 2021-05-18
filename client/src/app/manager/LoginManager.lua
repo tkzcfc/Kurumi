@@ -199,6 +199,7 @@ end
 -- @brief 进入游戏
 function LoginManager:onEnterGameAck(msg)
     if msg.code == errCode.SUCCESS then
+        _MyG.AccountInfo.roleinfo = msg.roleinfo
         _MyG.ScenesManager:switchScene(_MyG.SCENE_ID_MAIN)
     else
         UIUtils:showError(msg.code)

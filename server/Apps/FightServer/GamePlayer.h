@@ -12,7 +12,7 @@ public:
 
 	GamePlayer();
 
-	err::Code init(const ::svr_msg::FightPlayerSpawnInfo& info);
+	err::Code init(const ::svr_msg::FightRoleSpawnInfo& info);
 
 	// 离线
 	void offline();

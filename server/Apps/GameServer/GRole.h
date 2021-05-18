@@ -11,7 +11,7 @@ public:
 	
 	GRole();
 
-	//G_PROPERTY(bool, m_isonline, IsOnline);
+	G_PROPERTY(bool, m_isonline, IsOnline);
 	G_SYNTHESIZE(uint32_t, m_sessionID, SessionID);
 
 	/// db

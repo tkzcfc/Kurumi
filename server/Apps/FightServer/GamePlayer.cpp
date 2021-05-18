@@ -9,10 +9,9 @@ GamePlayer::GamePlayer()
 	this->offline();
 }
 
-err::Code GamePlayer::init(const ::svr_msg::FightPlayerSpawnInfo& info)
+err::Code GamePlayer::init(const ::svr_msg::FightRoleSpawnInfo& info)
 {
-	m_playerID = info.playerid();
-	info.role();
+	m_playerID = info.roleid();
 	return err::Code::SUCCESS;
 }
 

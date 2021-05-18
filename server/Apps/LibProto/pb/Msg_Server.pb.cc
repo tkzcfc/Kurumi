@@ -18,7 +18,7 @@ void protobuf_ShutdownFile_Msg_5fServer_2eproto() {
   delete CheckTokenReq::default_instance_;
   delete CheckTokenAck::default_instance_;
   delete TokenChangeNtf::default_instance_;
-  delete FightPlayerSpawnInfo::default_instance_;
+  delete FightRoleSpawnInfo::default_instance_;
   delete NewFightReq::default_instance_;
   delete NewFightAck::default_instance_;
 }
@@ -38,13 +38,13 @@ void protobuf_AddDesc_Msg_5fServer_2eproto() {
   CheckTokenReq::default_instance_ = new CheckTokenReq();
   CheckTokenAck::default_instance_ = new CheckTokenAck();
   TokenChangeNtf::default_instance_ = new TokenChangeNtf();
-  FightPlayerSpawnInfo::default_instance_ = new FightPlayerSpawnInfo();
+  FightRoleSpawnInfo::default_instance_ = new FightRoleSpawnInfo();
   NewFightReq::default_instance_ = new NewFightReq();
   NewFightAck::default_instance_ = new NewFightAck();
   CheckTokenReq::default_instance_->InitAsDefaultInstance();
   CheckTokenAck::default_instance_->InitAsDefaultInstance();
   TokenChangeNtf::default_instance_->InitAsDefaultInstance();
-  FightPlayerSpawnInfo::default_instance_->InitAsDefaultInstance();
+  FightRoleSpawnInfo::default_instance_->InitAsDefaultInstance();
   NewFightReq::default_instance_->InitAsDefaultInstance();
   NewFightAck::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_Msg_5fServer_2eproto);
@@ -888,39 +888,36 @@ void TokenChangeNtf::Swap(TokenChangeNtf* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int FightPlayerSpawnInfo::kPlayerIDFieldNumber;
-const int FightPlayerSpawnInfo::kRoleFieldNumber;
+const int FightRoleSpawnInfo::kRoleIdFieldNumber;
+const int FightRoleSpawnInfo::kOccFieldNumber;
 #endif  // !_MSC_VER
 
-FightPlayerSpawnInfo::FightPlayerSpawnInfo()
+FightRoleSpawnInfo::FightRoleSpawnInfo()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
 }
 
-void FightPlayerSpawnInfo::InitAsDefaultInstance() {
+void FightRoleSpawnInfo::InitAsDefaultInstance() {
 }
 
-FightPlayerSpawnInfo::FightPlayerSpawnInfo(const FightPlayerSpawnInfo& from)
+FightRoleSpawnInfo::FightRoleSpawnInfo(const FightRoleSpawnInfo& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void FightPlayerSpawnInfo::SharedCtor() {
+void FightRoleSpawnInfo::SharedCtor() {
   _cached_size_ = 0;
-  playerid_ = GOOGLE_LONGLONG(0);
-  role_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  roleid_ = GOOGLE_LONGLONG(0);
+  occ_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-FightPlayerSpawnInfo::~FightPlayerSpawnInfo() {
+FightRoleSpawnInfo::~FightRoleSpawnInfo() {
   SharedDtor();
 }
 
-void FightPlayerSpawnInfo::SharedDtor() {
-  if (role_ != &::google::protobuf::internal::kEmptyString) {
-    delete role_;
-  }
+void FightRoleSpawnInfo::SharedDtor() {
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
   #else
@@ -929,12 +926,12 @@ void FightPlayerSpawnInfo::SharedDtor() {
   }
 }
 
-void FightPlayerSpawnInfo::SetCachedSize(int size) const {
+void FightRoleSpawnInfo::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const FightPlayerSpawnInfo& FightPlayerSpawnInfo::default_instance() {
+const FightRoleSpawnInfo& FightRoleSpawnInfo::default_instance() {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   protobuf_AddDesc_Msg_5fServer_2eproto();
 #else
@@ -943,52 +940,50 @@ const FightPlayerSpawnInfo& FightPlayerSpawnInfo::default_instance() {
   return *default_instance_;
 }
 
-FightPlayerSpawnInfo* FightPlayerSpawnInfo::default_instance_ = NULL;
+FightRoleSpawnInfo* FightRoleSpawnInfo::default_instance_ = NULL;
 
-FightPlayerSpawnInfo* FightPlayerSpawnInfo::New() const {
-  return new FightPlayerSpawnInfo;
+FightRoleSpawnInfo* FightRoleSpawnInfo::New() const {
+  return new FightRoleSpawnInfo;
 }
 
-void FightPlayerSpawnInfo::Clear() {
+void FightRoleSpawnInfo::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    playerid_ = GOOGLE_LONGLONG(0);
-    if (has_role()) {
-      if (role_ != &::google::protobuf::internal::kEmptyString) {
-        role_->clear();
-      }
-    }
+    roleid_ = GOOGLE_LONGLONG(0);
+    occ_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-bool FightPlayerSpawnInfo::MergePartialFromCodedStream(
+bool FightRoleSpawnInfo::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int64 playerID = 1;
+      // required int64 roleId = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &playerid_)));
-          set_has_playerid();
+                 input, &roleid_)));
+          set_has_roleid();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_role;
+        if (input->ExpectTag(16)) goto parse_occ;
         break;
       }
 
-      // required string role = 2;
+      // required int32 occ = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_role:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_role()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_occ:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &occ_)));
+          set_has_occ();
         } else {
           goto handle_uninterpreted;
         }
@@ -1011,37 +1006,36 @@ bool FightPlayerSpawnInfo::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void FightPlayerSpawnInfo::SerializeWithCachedSizes(
+void FightRoleSpawnInfo::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required int64 playerID = 1;
-  if (has_playerid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->playerid(), output);
+  // required int64 roleId = 1;
+  if (has_roleid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->roleid(), output);
   }
 
-  // required string role = 2;
-  if (has_role()) {
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      2, this->role(), output);
+  // required int32 occ = 2;
+  if (has_occ()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->occ(), output);
   }
 
 }
 
-int FightPlayerSpawnInfo::ByteSize() const {
+int FightRoleSpawnInfo::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int64 playerID = 1;
-    if (has_playerid()) {
+    // required int64 roleId = 1;
+    if (has_roleid()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int64Size(
-          this->playerid());
+          this->roleid());
     }
 
-    // required string role = 2;
-    if (has_role()) {
+    // required int32 occ = 2;
+    if (has_occ()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->role());
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->occ());
     }
 
   }
@@ -1051,46 +1045,46 @@ int FightPlayerSpawnInfo::ByteSize() const {
   return total_size;
 }
 
-void FightPlayerSpawnInfo::CheckTypeAndMergeFrom(
+void FightRoleSpawnInfo::CheckTypeAndMergeFrom(
     const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const FightPlayerSpawnInfo*>(&from));
+  MergeFrom(*::google::protobuf::down_cast<const FightRoleSpawnInfo*>(&from));
 }
 
-void FightPlayerSpawnInfo::MergeFrom(const FightPlayerSpawnInfo& from) {
+void FightRoleSpawnInfo::MergeFrom(const FightRoleSpawnInfo& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_playerid()) {
-      set_playerid(from.playerid());
+    if (from.has_roleid()) {
+      set_roleid(from.roleid());
     }
-    if (from.has_role()) {
-      set_role(from.role());
+    if (from.has_occ()) {
+      set_occ(from.occ());
     }
   }
 }
 
-void FightPlayerSpawnInfo::CopyFrom(const FightPlayerSpawnInfo& from) {
+void FightRoleSpawnInfo::CopyFrom(const FightRoleSpawnInfo& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool FightPlayerSpawnInfo::IsInitialized() const {
+bool FightRoleSpawnInfo::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
 
-void FightPlayerSpawnInfo::Swap(FightPlayerSpawnInfo* other) {
+void FightRoleSpawnInfo::Swap(FightRoleSpawnInfo* other) {
   if (other != this) {
-    std::swap(playerid_, other->playerid_);
-    std::swap(role_, other->role_);
+    std::swap(roleid_, other->roleid_);
+    std::swap(occ_, other->occ_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::std::string FightPlayerSpawnInfo::GetTypeName() const {
-  return "svr_msg.FightPlayerSpawnInfo";
+::std::string FightRoleSpawnInfo::GetTypeName() const {
+  return "svr_msg.FightRoleSpawnInfo";
 }
 
 
@@ -1098,7 +1092,7 @@ void FightPlayerSpawnInfo::Swap(FightPlayerSpawnInfo* other) {
 
 #ifndef _MSC_VER
 const int NewFightReq::kMapIdFieldNumber;
-const int NewFightReq::kPlayersFieldNumber;
+const int NewFightReq::kRolesFieldNumber;
 const int NewFightReq::kTagFieldNumber;
 const int NewFightReq::kFightTypeFieldNumber;
 #endif  // !_MSC_VER
@@ -1164,7 +1158,7 @@ void NewFightReq::Clear() {
     tag_ = 0;
     fighttype_ = 0;
   }
-  players_.Clear();
+  roles_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1185,21 +1179,21 @@ bool NewFightReq::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_players;
+        if (input->ExpectTag(18)) goto parse_roles;
         break;
       }
 
-      // repeated .svr_msg.FightPlayerSpawnInfo players = 2;
+      // repeated .svr_msg.FightRoleSpawnInfo roles = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_players:
+         parse_roles:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_players()));
+                input, add_roles()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_players;
+        if (input->ExpectTag(18)) goto parse_roles;
         if (input->ExpectTag(24)) goto parse_tag;
         break;
       }
@@ -1258,10 +1252,10 @@ void NewFightReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->mapid(), output);
   }
 
-  // repeated .svr_msg.FightPlayerSpawnInfo players = 2;
-  for (int i = 0; i < this->players_size(); i++) {
+  // repeated .svr_msg.FightRoleSpawnInfo roles = 2;
+  for (int i = 0; i < this->roles_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      2, this->players(i), output);
+      2, this->roles(i), output);
   }
 
   // required int32 tag = 3;
@@ -1302,12 +1296,12 @@ int NewFightReq::ByteSize() const {
     }
 
   }
-  // repeated .svr_msg.FightPlayerSpawnInfo players = 2;
-  total_size += 1 * this->players_size();
-  for (int i = 0; i < this->players_size(); i++) {
+  // repeated .svr_msg.FightRoleSpawnInfo roles = 2;
+  total_size += 1 * this->roles_size();
+  for (int i = 0; i < this->roles_size(); i++) {
     total_size +=
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->players(i));
+        this->roles(i));
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -1323,7 +1317,7 @@ void NewFightReq::CheckTypeAndMergeFrom(
 
 void NewFightReq::MergeFrom(const NewFightReq& from) {
   GOOGLE_CHECK_NE(&from, this);
-  players_.MergeFrom(from.players_);
+  roles_.MergeFrom(from.roles_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_mapid()) {
       set_mapid(from.mapid());
@@ -1346,8 +1340,8 @@ void NewFightReq::CopyFrom(const NewFightReq& from) {
 bool NewFightReq::IsInitialized() const {
   if ((_has_bits_[0] & 0x0000000d) != 0x0000000d) return false;
 
-  for (int i = 0; i < players_size(); i++) {
-    if (!this->players(i).IsInitialized()) return false;
+  for (int i = 0; i < roles_size(); i++) {
+    if (!this->roles(i).IsInitialized()) return false;
   }
   return true;
 }
@@ -1355,7 +1349,7 @@ bool NewFightReq::IsInitialized() const {
 void NewFightReq::Swap(NewFightReq* other) {
   if (other != this) {
     std::swap(mapid_, other->mapid_);
-    players_.Swap(&other->players_);
+    roles_.Swap(&other->roles_);
     std::swap(tag_, other->tag_);
     std::swap(fighttype_, other->fighttype_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);

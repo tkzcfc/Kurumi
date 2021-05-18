@@ -20,6 +20,9 @@ public:
 	// 获取玩家数据
 	GPlayer* getPlayer(int64_t playerId);
 
+	// 通过会话id获取对应登录角色
+	GRole* getRoleBySessionID(uint32_t sessionID);
+
 	// 通过会话id获取玩家
 	GPlayer* getPlayerBySessionID(uint32_t sessionID);
 

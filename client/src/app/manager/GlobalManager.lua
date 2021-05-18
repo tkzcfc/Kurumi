@@ -9,6 +9,8 @@ function GlobalManager:override_onInit()
 	GlobalManager.super.override_onInit(self)
 
 	G_NetEventEmitter:on(MessageID.MSG_EXIT_GAME_NTF, handler(self, self.onExitGameNtf), self)
+
+    G_SysEventEmitter:on(SysEvent.NET_CONNECT_FAIL, handler(self, self.onNetConnectFail), self)
 end
 
 -- @brief 销毁时调用
@@ -31,6 +33,19 @@ function GlobalManager:onExitGameNtf(msg)
 	UIUtils:showOneBtnMsgBox(content, function()
 		appExit()
 	end)
+end
+
+function GlobalManager:onNetConnectFail(isFightSvr, sessionID)
+	if isFightSvr then return end
+
+    -- 连接服务器失败,是否重试
+    UIUtils:showTwoBtnMsgBox(STR(11004), 
+    function()
+        _MyG.NetManager:doConnect(sessionID)
+    end, 
+    function()
+        appExit()
+    end)
 end
 
 return GlobalManager
