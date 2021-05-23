@@ -180,11 +180,20 @@ void GFightService::onMsg_JoinFightReq(uint32_t sessionID, const msg::JoinFightR
 	{
 		if (it->getuuid() == msg.fightuuid() && it->getIsFinish() == false)
 		{
-			ack.set_code(it->join(sessionID, msg));
-			ack.set_mapid(it->getInitArgs().mapId);
-			ack.set_randomseed(it->getInitArgs().randomSeed);
-			ack.set_uuidseed(it->getInitArgs().uuidSeed);
+			auto pWorldinfo = ack.mutable_worldinfo();
+			pWorldinfo->set_svr_status(it->getGameStatus());
+			pWorldinfo->set_frame(it->getGameLogicFrame());
+			pWorldinfo->set_mapid(it->getInitArgs().mapId);
+			pWorldinfo->set_randomseed(it->getInitArgs().randomSeed);
+			pWorldinfo->set_uuidseed(it->getInitArgs().uuidSeed);
+
+			ack.set_code(it->joinCode(sessionID, msg));
 			SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_JOIN_FIGHT_ACK, ack);
+
+			if (ack.code() == err::Code::SUCCESS)
+			{
+				it->doJoin(sessionID, msg);
+			}
 			return;
 		}
 	}

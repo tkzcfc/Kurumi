@@ -1,6 +1,5 @@
 
-‘
-
+‘
 Msg_Game.protomsg"
 Null"
 CodeAck
@@ -61,23 +60,46 @@ occupation (
 JoinFightReq
 	fightUUID (
 playerID (
-frame ("Q
-JoinFightAck
-code (
-mapId (
+frame ("h
+FightWorldInfo
+frame (
 
-randomSeed (
-uuidSeed (" 
+svr_status (
+mapId (
+
+randomSeed (
+uuidSeed ("D
+JoinFightAck
+code (&
+	worldInfo (2.msg.FightWorldInfo"3
+PlayerLoadingReq
+percent (
+finish ("@
+PlayerLoadingAck
+pid (
+percent (
+finish (" 
 PlayerReadyNotify
 pid ("$
 PlayerExitFightNotify
-pid ("/
+pid (""
+FrameInputData
+key_down ("R
+PlayerFrameInput
+pid (
+frame ("
+input (2.msg.FrameInputData"D
 RunNextFrameReq
-frame (
-input (	"0
-RunNextFrameAck
-frame (
-inputs (	"!
+frame ("
+input (2.msg.FrameInputData"K
+RunNextFrameAck
+	nextFrame (%
+frames (2.msg.PlayerFrameInput"J
+PushFrameInput
+	lastFrame (%
+frames (2.msg.PlayerFrameInput"6
+PlayerRecords%
+frames (2.msg.PlayerFrameInput"!
 ExitFightReq
 	fightUUID ("
 ExitFightAck

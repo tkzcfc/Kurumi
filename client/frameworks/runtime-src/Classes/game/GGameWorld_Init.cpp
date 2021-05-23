@@ -15,7 +15,7 @@ static MOVE_DIR static_v_dir = MOVE_DIR::STOP;
 
 /////////////////////////////////////////////////////
 /// init
-bool GGameWorld::init(const GGameWorldInitArgs& args)
+bool GGameWorld::init(int32_t mapId, uint32_t randomSeed, uint32_t uuidSeed, Node* rootNode)
 {
 	do
 	{
@@ -36,13 +36,13 @@ bool GGameWorld::init(const GGameWorldInitArgs& args)
 		m_world.addSystem(m_armatureDebugSystem);
 		m_world.addSystem(m_armatureRenderSystem);
 
-		m_rootNode = args.rootNode;
+		m_rootNode = rootNode;
 #endif
 		m_pGlobal = &m_globalSystem.admin.getComponent<GlobalComponent>();
-		m_pGlobal->random = std::make_unique<GRandom>(args.randomSeed, args.randomSeed + 1);
-		m_pGlobal->uuidSeed = args.uuidSeed;
+		m_pGlobal->random = std::make_unique<GRandom>(randomSeed, randomSeed + 1);
+		m_pGlobal->uuidSeed = uuidSeed;
 		
-		if (!this->initAdmin(args.mapId))
+		if (!this->initAdmin(mapId))
 			break;
 
 		if (!this->initPlayer())

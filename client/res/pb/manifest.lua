@@ -1,6 +1,7 @@
 local M = {}
 M.CMD = {
 	[800008] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_FIGHT_ACK', msg = 'msg.ExitFightAck'},
+	[800009] = {file = 'Msg_Game.pb', name = 'MSG_LOADING_PERCENT_REQ', msg = 'msg.PlayerLoadingReq'},
 	[800006] = {file = 'Msg_Game.pb', name = 'MSG_PLAYER_EXIT_FIGHT_NTF', msg = 'msg.PlayerExitFightNotify'},
 	[800007] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_FIGHT_REQ', msg = 'msg.ExitFightReq'},
 	[800004] = {file = 'Msg_Game.pb', name = 'MSG_RUN_NEXT_FRAME_ACK', msg = 'msg.RunNextFrameAck'},
@@ -9,6 +10,10 @@ M.CMD = {
 	[800003] = {file = 'Msg_Game.pb', name = 'MSG_RUN_NEXT_FRAME_REQ', msg = 'msg.RunNextFrameReq'},
 	[800001] = {file = 'Msg_Game.pb', name = 'MSG_JOIN_FIGHT_REQ', msg = 'msg.JoinFightReq'},
 	[900010] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_GAME_NTF', msg = 'msg.ExitGameNtf'},
+	[800011] = {file = 'Msg_Game.pb', name = 'MSG_PUSH_FRAME_BEGIN', msg = 'msg.Null'},
+	[800010] = {file = 'Msg_Game.pb', name = 'MSG_LOADING_PERCENT_ACK', msg = 'msg.PlayerLoadingAck'},
+	[800013] = {file = 'Msg_Game.pb', name = 'MSG_PUSH_FRAME_END', msg = 'msg.Null'},
+	[800012] = {file = 'Msg_Game.pb', name = 'MSG_PUSH_FRAME_INPUT', msg = 'msg.PushFrameInput'},
 	[900104] = {file = 'Msg_Game.pb', name = 'MSG_START_PVP_ACK', msg = 'msg.StartPVPFightAck'},
 	[900105] = {file = 'Msg_Game.pb', name = 'MSG_STOP_PVP_REQ', msg = 'msg.Null'},
 	[900106] = {file = 'Msg_Game.pb', name = 'MSG_STOP_PVP_ACK', msg = 'msg.Null'},

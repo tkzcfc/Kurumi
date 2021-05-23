@@ -2,28 +2,13 @@
 
 #include "ecs/ECSDefine.h"
 
-struct GGameWorldInitArgs
-{
-	// 地图id
-	int32_t mapId;
-	// 随机数种子
-	uint32_t randomSeed;
-	// uuid种子
-	uint32_t uuidSeed;
-
-#if G_TARGET_CLIENT
-	// 渲染根节点
-	Node* rootNode;
-#endif
-};
-
 class GGameWorld
 {
 public:
 
 	GGameWorld();
 
-	bool init(const GGameWorldInitArgs& args);
+	bool init(int32_t mapId, uint32_t randomSeed, uint32_t uuidSeed, Node* rootNode);
 	
 	void update(float32 dt);
 
@@ -38,7 +23,7 @@ public:
 private:
 
 	// 逻辑更新
-	void updateLogic();
+	void updateLogic(float32 dt);
 	
 	// 初始化世界边界碰撞
 	bool initBorder();
@@ -50,11 +35,6 @@ private:
 	bool initPlayer();
 
 	bool spawnPlayer();
-
-public:
-
-	// 每一帧的时间长度
-	static float32 GGameFrameLen;
 
 private:
 

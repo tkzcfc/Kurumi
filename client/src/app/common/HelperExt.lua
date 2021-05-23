@@ -2,6 +2,9 @@
 -- @Date:   2020-11-07 16:33:58
 -- @remark: 针对commonlib/G_Helper的扩展
 
+cc.exports.socket = {}
+local socket = require("socket")
+
 function G_Helper.loadStudioFileEx(ui)
 	local root = ui.root
 	local name = root:getName()
@@ -18,4 +21,8 @@ function G_Helper.loadStudioFileEx(ui)
 			ccui.Helper:doLayout(root)
 		end
 	end
+end
+
+function G_Helper:gettime()
+	return socket.gettime()
 end

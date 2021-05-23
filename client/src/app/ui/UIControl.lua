@@ -19,12 +19,11 @@ function UIControl:ctor()
     end
     self:registerScriptHandler(onNodeEvent)
 
-    self.ui = _MyG.loadStudioFile("playerUIControl", self)
+    self.ui = G_Helper.loadStudioFile("ui.playerUIControl", self)
     self:addChild(self.ui.root)
 
     self:initTouch()
     self:initKeyboard()
-    self:onClickOpenDebug(nil)
 end
 
 function UIControl:onEnter()
@@ -129,28 +128,24 @@ function UIControl:initTouch()
 	cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, touchLayer)
 end
 
-function UIControl:setWorld(world)
-	self.world = world
-end
-
 function UIControl:left()
-	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_X, -1)
+	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, -1)
 end
 
 function UIControl:right()
-	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_X, 1)
+	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, 1)
 end
 
 function UIControl:up()
-	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_Y, 1)
+	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, 1)
 end
 
 function UIControl:down()
-	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_Y, -1)
+	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, -1)
 end
 
 function UIControl:cancel()
-	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_CANCEL)
+	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_CANCEL)
 end
 
 function UIControl:initKeyboard()
@@ -211,26 +206,20 @@ function UIControl:onClickChangeWeapon(sender)
 end
 
 function UIControl:onClickAttack(sender)
-	_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_ATTACK_NORMAL)
+	-- G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_ATTACK_NORMAL)
 end
 
 function UIControl:onClickSkill(sender)
-	local userData = tonumber(sender.UserData[1])
-	if userData == 1 then
-		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_JUMP)
-	elseif userData == 2 then
-		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_DOWN_CUT)
-	elseif userData == 3 then
-		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_SKILL_1)
-	elseif userData == 4 then
-		_MyG.InputDispatcher:call(_MyG.INPUT_KEY.CONTROL_SKILL_10)
-	end
-end
-
-function UIControl:onClickOpenDebug(sender)
-	if self.world then
-		self.world:setDebugEnable(not self.world:isEnableDebug())
-	end
+	-- local userData = tonumber(sender.UserData[1])
+	-- if userData == 1 then
+	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_JUMP)
+	-- elseif userData == 2 then
+	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_DOWN_CUT)
+	-- elseif userData == 3 then
+	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_SKILL_1)
+	-- elseif userData == 4 then
+	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_SKILL_10)
+	-- end
 end
 
 

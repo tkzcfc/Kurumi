@@ -28,13 +28,15 @@ local Loader = class("Loader")
 function Loader:ctor()
 	self.pipe = G_Class.TaskFlowPipe.new()
 
-	cc.exports._MyG = {}
-	package.loaded["app.ipConfig"] = nil
-	require("app.ipConfig")
 	self:init()
 end
 
 function Loader:init()
+	cc.exports._MyG = {}
+	cc.exports.G_InputEventEmitter = G_Class.EventEmitter.new()
+	package.loaded["app.ipConfig"] = nil
+	require("app.ipConfig")
+
 	-- 配置加载
 	self:push(function()
 		-- 游戏Excel配置

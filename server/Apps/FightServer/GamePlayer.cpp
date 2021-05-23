@@ -6,6 +6,8 @@ uint32_t GamePlayer::INVALID_SESSION_ID = UINT32_MAX;
 
 GamePlayer::GamePlayer()
 {
+	m_loadPercent = 0.0f;
+	m_loadFinish = false;
 	this->offline();
 }
 

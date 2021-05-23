@@ -14,7 +14,6 @@ public:
 	GlobalComponent()
 	{
 		fAccumilatedTime = 0.0f;
-		fNextGameTime = 0.0f;
 		gameLogicFrame = 0U;
 		uuidSeed = 0;
 
@@ -37,8 +36,6 @@ public:
 	///! 帧同步相关
 	// 累计运行时间
 	float32 fAccumilatedTime;
-	// 下一个逻辑帧时间
-	float32 fNextGameTime;
 	// 游戏逻辑帧数
 	uint32_t gameLogicFrame;
 
@@ -54,8 +51,6 @@ public:
 
 	// 输入消息队列
 	GOPMsgQue inputQue;
-	// 输出消息队列
-	GOPMsgQue outputQue;
 
 	// 随机数生成器
 	std::unique_ptr<GRandom> random;

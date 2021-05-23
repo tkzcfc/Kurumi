@@ -158,18 +158,44 @@ message JoinFightReq
 	required int64 playerID = 2;	//
 	required int32 frame = 3;		// 当前逻辑帧
 }
+
+// 世界相关信息
+message FightWorldInfo
+{
+	/////////// 服务器相关参数 ///////////
+	// 服务器当前逻辑帧
+	required int32 frame = 1;
+	// 服务器当前状态
+	required int32 svr_status = 2;
+	
+	/////////// 世界初始化相关参数 ///////////
+	// 地图id
+	required int32 mapId = 3;
+	// 随机数种子
+	required uint32 randomSeed = 4;
+	// uuid种子
+	required uint32 uuidSeed = 5;
+}
+
 // 玩家加入战斗回复
 message JoinFightAck
 {
 	required int32 code = 1;
-	
-	/////////// 世界初始化相关参数 ///////////
-	// 地图id
-	optional int32 mapId = 2;
-	// 随机数种子
-	optional uint32 randomSeed = 3;
-	// uuid种子
-	optional uint32 uuidSeed = 4;
+	optional FightWorldInfo worldInfo = 2;
+}
+
+// 玩家向服务器发送当前加载进度
+message PlayerLoadingReq
+{
+	required float percent = 1; // 百分比
+	required bool finish = 2;// 是否完成
+}
+
+message PlayerLoadingAck
+{
+	repeated int64 pid = 1;
+	repeated float percent = 2;
+	required bool finish = 3;
 }
 
 // 玩家准备完毕通知
@@ -184,19 +210,44 @@ message PlayerExitFightNotify
 	required int64 pid = 1;
 }
 
+message FrameInputData
+{
+	required uint32 key_down = 1;
+}
+
+message PlayerFrameInput
+{
+	required int64 pid = 1;	//
+	required uint32 frame = 2;	//
+	required FrameInputData input = 3;
+}
+
 // 客户端请求进入下一逻辑帧
 message RunNextFrameReq
 {
 	required uint32 frame = 1;	// 输入时客户端逻辑帧
-	repeated string input = 2;
+	required FrameInputData input = 2;
 }
 
-// 服务器回复客户端继续逻辑帧,并发送当前帧玩家所有操作信息
+// 服务器控制客户端执行下一帧
 message RunNextFrameAck
 {
-	required uint32 frame = 1;		// 逻辑帧下一帧帧数
-	repeated string inputs = 2;	// 下一帧的玩家输入
+	required uint32 nextFrame = 1;		// 下一帧帧数
+	repeated PlayerFrameInput frames = 2;		// 本帧输入
 }
+
+// 服务器向客户端推帧数据
+message PushFrameInput
+{
+	required uint32 lastFrame = 1;	// 推帧的最后一帧
+	repeated PlayerFrameInput frames = 2;
+}
+
+message PlayerRecords
+{
+	repeated PlayerFrameInput frames = 1;
+}
+
 
 
 // 退出战斗请求

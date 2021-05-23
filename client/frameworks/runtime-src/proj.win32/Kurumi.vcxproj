@@ -275,7 +275,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\foundation\ParticleSystemHelper.h" />
     <ClInclude Include="..\Classes\foundation\render\GMapLayer.h" />
     <ClInclude Include="..\Classes\foundation\render\GVirtualCamera.h" />
-    <ClInclude Include="..\Classes\game\GGameLayer.h" />
     <ClInclude Include="..\Classes\game\GGameWorld.h" />
     <ClInclude Include="..\Classes\GCommon.h" />
     <ClInclude Include="..\Classes\ide-support\CodeIDESupport.h" />
@@ -417,7 +416,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\foundation\ParticleSystemHelper.cpp" />
     <ClCompile Include="..\Classes\foundation\render\GMapLayer.cpp" />
     <ClCompile Include="..\Classes\foundation\render\GVirtualCamera.cpp" />
-    <ClCompile Include="..\Classes\game\GGameLayer.cpp" />
     <ClCompile Include="..\Classes\game\GGameWorld.cpp" />
     <ClCompile Include="..\Classes\game\GGameWorld_Init.cpp" />
     <ClCompile Include="..\Classes\ide-support\lua_debugger.c" />

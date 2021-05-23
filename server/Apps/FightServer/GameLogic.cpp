@@ -10,7 +10,7 @@ GameLogic::GameLogic()
 	, m_playerCount(0)
 {
 	m_uuid = sg_uuid_seed++;
-	m_state = RUN_STATE::READY;
+	m_state = RUN_STATE::WAIT_CONNECT;
 	m_waitTime = 0.0f;
 }
 
@@ -66,7 +66,8 @@ err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protob
 
 	//! 客户端通信
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_RUN_NEXT_FRAME_REQ, msg::RunNextFrameReq, onMsg_RunNextFrameReq);
-	
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_LOADING_PERCENT_REQ, msg::PlayerLoadingReq, onMsg_PlayerLoadingReq);
+
 	return err::Code::SUCCESS;
 }
 
@@ -82,6 +83,10 @@ void GameLogic::update(float dt)
 
 	switch (m_state)
 	{
+	case GameLogic::WAIT_CONNECT:
+	{
+		this->update_WaitConnect(dt);
+	}break;
 	case GameLogic::READY:
 	{
 		this->update_Ready(dt);
@@ -101,16 +106,16 @@ void GameLogic::update(float dt)
 	}
 }
 
-void GameLogic::update_Ready(float dt)
+void GameLogic::update_WaitConnect(float dt)
 {
 	bool hasOffline = false;
-	// 玩家长时间未准备完毕则将其踢出游戏,避免游戏一直无法进行
+	// 玩家长时间未连接成功则将其踢出游戏,避免游戏一直无法进行
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
 		if (m_players[i]->isOffline())
 		{
 			hasOffline = true;
-			if (m_pApplication->getRunTime() - m_players[i]->getOfflineTime() > 30.0f)
+			if (m_pApplication->getRunTime() - m_players[i]->getOfflineTime() > 5.0f)
 			{
 				this->exitGame(m_players[i]->getPlayerID());
 				// 必须break
@@ -119,13 +124,54 @@ void GameLogic::update_Ready(float dt)
 		}
 	}
 
-	// 全部准备完毕
+	// 全部连接成功
 	if (!hasOffline)
+	{
+		m_state = GameLogic::READY;
+	}
+}
+
+void GameLogic::update_Ready(float dt)
+{
+	// 准备阶段不允许玩家掉线,将离线玩家踢出游戏
+	bool exitGameTag = false;
+	do 
+	{
+		exitGameTag = false;
+		for (auto i = 0; i < m_playerCount; ++i)
+		{
+			if (m_players[i]->isOffline())
+			{
+				exitGameTag = true;
+				this->exitGame(m_players[i]->getPlayerID());
+				// 必须break
+				break;
+			}
+		}
+	} while (exitGameTag);
+
+	if (m_playerCount <= 0)
+		return;
+
+	bool finishAllTag = true;
+	for (auto i = 0; i < m_playerCount; ++i)
+	{
+		if (!m_players[i]->getLoadFinish())
+		{
+			finishAllTag = false;
+			break;
+		}
+	}
+
+	// 全部准备完毕
+	if (finishAllTag)
 	{
 		m_state = GameLogic::RUN;
 
+		G_ASSERT(m_world->getGameLogicFrame() == 0);
+
 		msg::RunNextFrameAck ack;
-		ack.set_frame(m_world->getGameLogicFrame() + 1);
+		ack.set_nextframe(0);
 		this->sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, ack);
 	}
 }
@@ -141,8 +187,27 @@ void GameLogic::update_Run(float dt)
 	}
 
 	// 服务器逻辑以网速最好的客户端逻辑帧步进
-	if (maxFrame > m_world->getGameLogicFrame())
+	if (maxFrame >= m_world->getGameLogicFrame())
 	{
+		m_runNextFrameAckCache.clear_frames();
+		m_runNextFrameAckCache.set_nextframe(m_world->getGameLogicFrame());
+		
+		if (m_curFrameInputs.size() > 0)
+		{
+			for (auto& it : m_curFrameInputs)
+			{
+				G_ASSERT(m_world->getGameLogicFrame() == it->frame());
+				//it->set_frame(m_world->getGameLogicFrame());
+				m_runNextFrameAckCache.add_frames()->CopyFrom(*it);
+				m_pastRecords.add_frames()->CopyFrom(*it);
+
+				freePlayerFrameInput(it);
+			}
+			m_curFrameInputs.clear();
+		}
+
+		sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, m_runNextFrameAckCache);
+
 		m_world->update(dt);
 	}
 
@@ -217,13 +282,31 @@ void GameLogic::update_Wait(float dt)
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+
+uint32_t GameLogic::getGameLogicFrame() const
+{
+	if (m_world)
+		return m_world->getGameLogicFrame();
+	return 0;
+}
+
+int32_t GameLogic::getGameStatus() const
+{
+	return (int32_t)m_state;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-err::Code GameLogic::join(uint32_t sessionID, const msg::JoinFightReq& req)
+err::Code GameLogic::joinCode(uint32_t sessionID, const msg::JoinFightReq& req)
 {
-	err::Code code = err::Code::UNKNOWN;
-	bool playerExit = false;
+	// 玩家已经被踢出游戏
+	if (m_playerIDSet.count(req.playerid()) == 0)
+	{
+		return err::Code::FIGHT_LEAVE_GAME;
+	}
 
+	err::Code code = err::Code::UNKNOWN;
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
 		if (m_players[i] && m_players[i]->getPlayerID() == req.playerid())
@@ -233,90 +316,69 @@ err::Code GameLogic::join(uint32_t sessionID, const msg::JoinFightReq& req)
 				code = err::Code::FIGHT_PLAYING;
 				break;
 			}
-			m_players[i]->setSessionID(sessionID);
-
 			code = err::Code::SUCCESS;
 		}
 	}
 
 	if (code == err::Code::SUCCESS)
 	{
-		msg::PlayerReadyNotify ntf;
-		ntf.set_pid(req.playerid());
-		this->sendToAllPlayer(MessageID::MSG_PLAYER_READY_NTF, ntf);
-
-		if (m_state == GameLogic::READY)
+		if (m_state == GameLogic::READY || m_state == GameLogic::WAIT_CONNECT)
 		{
 			// 不为0有问题
 			if (req.frame() != 0)
 			{
 				code = err::Code::FIGHT_FRAME_ERR;
-				playerExit = true;
 			}
 		}
 		else
 		{
-			// 客户端是断线重连进入的
-			if (req.frame() > 0 && m_pastRecords.empty() == false)
+			if (m_pastRecords.frames_size() <= 0)
 			{
-				if (m_pastRecords.front().frame <= req.frame())
+				if (req.frame() > 0)
 				{
-					msg::RunNextFrameAck ack;
-					bool tag = false;
-					
-					auto frame = m_pastRecords.front().frame;
-					for (auto it = m_pastRecords.begin(); it != m_pastRecords.end(); ++it)
-					{
-						if (it->frame < frame)
-							continue;
-
-						if (it->frame > frame)
-						{
-							ack.set_frame(frame);
-							SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_RUN_NEXT_FRAME_ACK, ack);
-
-							ack.clear_inputs();
-							frame = it->frame;
-						}
-						auto pInput = ack.add_inputs();
-						pInput->assign(it->input.c_str(), it->input.size());
-						tag = true;
-					}
-
-					if (tag)
-					{
-						ack.set_frame(frame);
-						SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_RUN_NEXT_FRAME_ACK, ack);
-					}
+					code = err::Code::FIGHT_FRAME_ERR;
 				}
-				else
+			}
+			else
+			{
+				if (m_pastRecords.frames().Get(0).frame() > req.frame())
 				{
 					// 服务器缓存记录不足以支持客户端断线重连
 					code = err::Code::FIGHT_PAST_RECORDS_INC;
-					playerExit = true;
 				}
 			}
 		}
-	}
-
-	if (playerExit)
-	{
-		m_pApplication->getScheduler()->scheduleOnce([=](float)
-		{
-			this->exitGame(req.playerid());
-		}, this, 0.0f, StringUtils::format("%d_exit", req.playerid()));
 	}
 
 	if (code != err::Code::UNKNOWN)
 		return code;
 
-	// 玩家已经被踢出游戏
-	if (m_playerIDSet.count(req.playerid()) > 0)
+	return err::Code::FIGHT_NOE_FOUND_PLAYER;
+}
+
+void GameLogic::doJoin(uint32_t sessionID, const msg::JoinFightReq& req)
+{
+	// 设置sessionID
+	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		return err::Code::FIGHT_LEAVE_GAME;
+		if (m_players[i] && m_players[i]->getPlayerID() == req.playerid())
+		{
+			m_players[i]->setSessionID(sessionID);
+		}
 	}
 
-	return err::Code::FIGHT_NOE_FOUND_PLAYER;
+	//msg::PlayerReadyNotify ntf;
+	//ntf.set_pid(req.playerid());
+	//this->sendToAllPlayer(MessageID::MSG_PLAYER_READY_NTF, ntf);
+
+	if (m_state == GameLogic::READY || m_state == GameLogic::WAIT_CONNECT)
+	{
+		sendLoadingPercentToAllPlayer();
+	}
+	else
+	{
+		pushFrameInfo(req.frame(), sessionID);
+	}
 }
 
 void GameLogic::exitGame(int64_t playerID)
@@ -408,51 +470,174 @@ GamePlayer* GameLogic::getSlowestPlayer()
 	return player;
 }
 
+void GameLogic::sendLoadingPercentToAllPlayer()
+{
+	msg::PlayerLoadingAck ack;
+
+	bool finish = true;
+	for (auto i = 0; i < m_playerCount; ++i)
+	{
+		ack.add_percent(m_players[i]->getLoadPercent());
+		ack.add_pid(m_players[i]->getPlayerID());
+		finish = finish & m_players[i]->getLoadFinish();
+	}
+	ack.set_finish(finish);
+	sendToAllPlayer(MessageID::MSG_LOADING_PERCENT_ACK, ack);
+}
+
+// 向玩家推帧
+void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
+{
+	// MSG_PUSH_FRAME_BEGIN
+	msg::Null null;
+	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_BEGIN, null);
+
+
+	msg::PushFrameInput ack;
+
+	int32_t curCount = 0;
+	bool sendTag = false;
+	uint32_t frame = 0;
+
+	for (auto i = 0; i < m_pastRecords.frames_size(); ++i)
+	{
+		auto& data = m_pastRecords.frames().Get(i);
+		if (data.frame() >= startFrame)
+		{
+			sendTag = true;
+			curCount++;
+
+			if (frame != data.frame())
+			{
+				frame = data.frame();
+				curCount++;
+				// 大于一定帧数后进行分片推帧
+				if (curCount > 50)
+				{
+					SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_INPUT, ack);
+					ack.clear_frames();
+					sendTag = false;
+				}
+			}
+			ack.set_lastframe(data.frame());
+			ack.add_frames()->CopyFrom(data);
+		}
+	}
+
+	if (sendTag)
+	{
+		SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_INPUT, ack);
+	}
+
+	// MSG_PUSH_FRAME_END
+	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_END, null);
+}
+
+msg::PlayerFrameInput* GameLogic::getFrameInputByPlayerId(int64_t pid)
+{
+	for (auto& it : m_curFrameInputs)
+	{
+		if (it->pid() == pid)
+		{
+			return it;
+		}
+	}
+
+	auto pInput = dequeuePlayerFrameInput();
+	pInput->set_pid(pid);
+	m_curFrameInputs.push_back(pInput);
+	return pInput;
+}
+
+msg::PlayerFrameInput* GameLogic::dequeuePlayerFrameInput()
+{
+	if (m_playerFrameInputCache.empty())
+	{
+		m_playerFrameInputCache.reserve(10);
+		for (auto i = 0; i < 10; ++i)
+		{
+			PlayerFrameInputCache cache;
+			cache.free = true;
+			m_playerFrameInputCache.push_back(cache);
+		}
+	}
+
+	for (auto& it : m_playerFrameInputCache)
+	{
+		if (it.free)
+		{
+			return &it.input;
+		}
+	}
+	G_ASSERT(0);
+
+	PlayerFrameInputCache cache;
+	cache.free = true;
+	m_playerFrameInputCache.push_back(cache);
+	return &m_playerFrameInputCache.back().input;
+}
+
+void GameLogic::freePlayerFrameInput(msg::PlayerFrameInput* pInput)
+{
+	for (auto& it : m_playerFrameInputCache)
+	{
+		if (&it.input == pInput)
+		{
+			it.free = true;
+			return;
+		}
+	}
+	G_ASSERT(0);
+}
+
 void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req)
 {
+	if (m_state != GameLogic::RUN)
+		return;
+
 	auto player = getPlayerBySessionID(sessionID);
 	if (player == NULL) return;
 	
 	auto curFrame = m_world->getGameLogicFrame();
 
-	if (req.frame() > curFrame)
+	if (req.frame() > curFrame + 1)
 	{
-		// 客户端逻辑帧超过服务端逻辑帧太多,客户端作弊了吧
-		if (req.frame() - curFrame > 10)
-		{
-			// 当前消息视为无效消息
-			return;
-		}
-		player->setLastRecvFrame(req.frame());
+		// 客户端逻辑帧超过服务端逻辑帧,客户端作弊了吧
+		// 当前消息视为无效消息
+		LOG(ERROR) << "recv invalid input [1], playerid: " << player->getPlayerID();
+		this->exitGame(player->getPlayerID());
+		return;
 	}
 	else
 	{
 		player->setLastRecvFrame(req.frame());
 		// 客户端发送的操作数据距离当前逻辑帧太久,直接抛弃操作
-		if (m_world->getGameLogicFrame() - req.frame() > 100)
+		if (curFrame - req.frame() > 30)
 			return;
 	}
+
+	if (req.input().key_down() == 0)
+		return;
 	
-	// 记录用户输入
-	for (auto i = 0; i < req.input_size(); ++i)
-	{
-		auto& input = req.input().Get(i);
+	auto pInput = getFrameInputByPlayerId(player->getPlayerID());
+	pInput->set_frame(curFrame);
+	pInput->mutable_input()->CopyFrom(req.input());
+}
 
-		GOPMsg_Base* msgBase = (GOPMsg_Base*)input.c_str();
+void GameLogic::onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoadingReq& req)
+{
+	auto player = getPlayerBySessionID(sessionID);
+	if (player == NULL) return;
 
-		if (input.size() < sizeof(GOPMsg_Base) || msgBase->msgSize != input.size())
-		{
-			G_ASSERT(0);
-			return;
-		}
-		// 更改帧数
-		msgBase->logicFrame = curFrame + 1;
+	if (player->getLoadFinish())
+		return;
 
-		m_pastRecords.push_back(Record());
+	player->setLoadPercent(MIN(req.percent(), 1.0f));
+	player->setLoadFinish(req.finish());
 
-		auto& record = m_pastRecords.back();
-		record.frame = curFrame + 1;
-		record.input = input;
-	}
+	if (player->getLoadFinish())
+		player->setLoadPercent(1.0f);
+
+	this->sendLoadingPercentToAllPlayer();
 }
 

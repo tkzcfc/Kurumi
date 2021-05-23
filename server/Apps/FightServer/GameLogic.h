@@ -16,10 +16,18 @@ public:
 	err::Code init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >& roles);
 	
 	void update(float dt);
+
+	// 获取当前逻辑帧
+	uint32_t getGameLogicFrame() const;
+
+	// 获取当前状态
+	int32_t getGameStatus() const;
 			
 public:
 	
-	err::Code join(uint32_t sessionID, const msg::JoinFightReq& req);
+	err::Code joinCode(uint32_t sessionID, const msg::JoinFightReq& req);
+
+	void doJoin(uint32_t sessionID, const msg::JoinFightReq& req);
 
 	void exitGame(int64_t playerID);
 
@@ -35,6 +43,8 @@ public:
 
 protected:
 
+	void update_WaitConnect(float dt);
+
 	void update_Ready(float dt);
 
 	void update_Run(float dt);
@@ -49,8 +59,31 @@ protected:
 	bool containPlayer(int64_t playerID);
 
 	void sendToAllPlayer(MessageID msgID, const ::google::protobuf::MessageLite& msg);
-	
+
+	// 广播所有玩家加载信息
+	void sendLoadingPercentToAllPlayer();
+
+	// 向玩家推帧
+	void pushFrameInfo(uint32_t startFrame, uint32_t sessionID);
+
+protected:
+
+	struct PlayerFrameInputCache
+	{
+		bool free;
+		msg::PlayerFrameInput input;
+	};
+
+	msg::PlayerFrameInput* getFrameInputByPlayerId(int64_t pid);
+
+	msg::PlayerFrameInput* dequeuePlayerFrameInput();
+
+	void freePlayerFrameInput(msg::PlayerFrameInput* pInput);
+protected:
+
 	void onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req);
+
+	void onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoadingReq& req);
 
 private:
 	std::unique_ptr<GGameWorld> m_world;
@@ -67,19 +100,30 @@ private:
 	
 	enum RUN_STATE
 	{
-		READY = 0,	// 准备状态,等待玩家全部准备完毕
+		WAIT_CONNECT = 0, // 等待客户端连接服务器
+		READY,	// 准备状态,等待玩家全部准备完毕
 		RUN,		// 正常运行状态
 		WAIT		// 等待状态,等待逻辑帧最慢的客户端跟上服务器逻辑帧
 	};
 	RUN_STATE m_state;
 	float m_waitTime;
 
-	// 玩家输入记录
-	struct Record
-	{
-		uint32_t frame;
-		std::string input;
-	};
-	// 已经执行过的历史操作记录
-	std::list<Record> m_pastRecords;
+	//// 玩家输入记录
+	//struct Record
+	//{
+	//	uint32_t frame;
+	//	std::string input;
+	//};
+	//// 已经执行过的历史操作记录
+	//std::vector<Record> m_pastRecords;
+	//// 当前帧输入记录
+	//std::vector<Record> m_curFrameRecords;
+
+
+	msg::PlayerRecords m_pastRecords;
+
+	std::vector<PlayerFrameInputCache> m_playerFrameInputCache;
+	std::vector<msg::PlayerFrameInput*> m_curFrameInputs;
+
+	msg::RunNextFrameAck m_runNextFrameAckCache;
 };

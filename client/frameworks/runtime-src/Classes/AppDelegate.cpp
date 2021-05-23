@@ -73,17 +73,12 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 #if RUN_WITH_DEBUG
 	FileUtils::getInstance()->addSearchPath("res/");
-	//Director::getInstance()->runWithScene(TestArmature::createScene());
-	//Director::getInstance()->runWithScene(TestPhysics::createScene());
-	//Director::getInstance()->runWithScene(TestSIMPhys::createScene());
-
-	//Director::getInstance()->getScheduler()->setTimeScale(0.1f);
-
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("rect_collide.plist");
 
-	auto scene = cocos2d::Scene::create();
-	scene->addChild(GGameLayer::create());
-	Director::getInstance()->runWithScene(scene);
+
+	//Director::getInstance()->runWithScene(TestArmature::createScene());
+	//Director::getInstance()->runWithScene(TestPhysics::createScene());
+	Director::getInstance()->runWithScene(TestSIMPhys::createScene());
 
 	Director::getInstance()->setDisplayStats(true);
 #else

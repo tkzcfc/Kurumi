@@ -1,0 +1,29 @@
+$#include "game/GGameWorld.h"
+
+typedef unsigned int uint32_t;
+typedef int int32_t;
+
+
+class GGameWorld
+{
+public:
+
+	GGameWorld();
+	
+	~GGameWorld();
+
+	bool init(int32_t mapId, uint32_t randomSeed, uint32_t uuidSeed, cc.Node* rootNode);
+	
+	void update(float dt);
+
+	void input(const std::string& data);
+
+	void render();
+
+public:
+
+	uint32_t getGameLogicFrame() const;
+};
+
+
+

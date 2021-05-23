@@ -6,4 +6,4 @@
 cc.exports.Const = require("app.const.Const")
 cc.exports.SysEvent = require("app.const.SysEvent")
 cc.exports.UIEvent = require("app.const.UIEvent")
-
+require("app.const.enum")

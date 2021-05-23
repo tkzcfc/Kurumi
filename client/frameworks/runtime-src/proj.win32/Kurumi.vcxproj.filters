@@ -392,9 +392,6 @@
     <ClInclude Include="..\Classes\foundation\render\GMapLayer.h">
       <Filter>Classes\foundation\render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\game\GGameLayer.h">
-      <Filter>Classes\game</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\game\GGameWorld.h">
       <Filter>Classes\game</Filter>
     </ClInclude>
@@ -847,9 +844,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\foundation\render\GMapLayer.cpp">
       <Filter>Classes\foundation\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\game\GGameLayer.cpp">
-      <Filter>Classes\game</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\game\GGameWorld.cpp">
       <Filter>Classes\game</Filter>

@@ -21,6 +21,12 @@ public:
 	G_FORCEINLINE bool isOffline();
 
 
+
+	// 当前加载进度
+	G_SYNTHESIZE(float, m_loadPercent, LoadPercent);
+	// 是否加载完成
+	G_SYNTHESIZE(bool, m_loadFinish, LoadFinish);
+
 	G_SYNTHESIZE(uint32_t, m_sessionID, SessionID);
 	// 最后一次收到客户端消息时客户端逻辑帧
 	G_SYNTHESIZE(uint32_t, m_lastRecvFrame, LastRecvFrame);

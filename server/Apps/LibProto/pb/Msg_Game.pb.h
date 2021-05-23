@@ -51,11 +51,18 @@ class StartPVPFightReq;
 class StartPVPFightAck;
 class StartFightNTF;
 class JoinFightReq;
+class FightWorldInfo;
 class JoinFightAck;
+class PlayerLoadingReq;
+class PlayerLoadingAck;
 class PlayerReadyNotify;
 class PlayerExitFightNotify;
+class FrameInputData;
+class PlayerFrameInput;
 class RunNextFrameReq;
 class RunNextFrameAck;
+class PushFrameInput;
+class PlayerRecords;
 class ExitFightReq;
 class ExitFightAck;
 
@@ -1864,6 +1871,129 @@ class JoinFightReq : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
+class FightWorldInfo : public ::google::protobuf::MessageLite {
+ public:
+  FightWorldInfo();
+  virtual ~FightWorldInfo();
+
+  FightWorldInfo(const FightWorldInfo& from);
+
+  inline FightWorldInfo& operator=(const FightWorldInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const FightWorldInfo& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const FightWorldInfo* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(FightWorldInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  FightWorldInfo* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const FightWorldInfo& from);
+  void MergeFrom(const FightWorldInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 frame = 1;
+  inline bool has_frame() const;
+  inline void clear_frame();
+  static const int kFrameFieldNumber = 1;
+  inline ::google::protobuf::int32 frame() const;
+  inline void set_frame(::google::protobuf::int32 value);
+
+  // required int32 svr_status = 2;
+  inline bool has_svr_status() const;
+  inline void clear_svr_status();
+  static const int kSvrStatusFieldNumber = 2;
+  inline ::google::protobuf::int32 svr_status() const;
+  inline void set_svr_status(::google::protobuf::int32 value);
+
+  // required int32 mapId = 3;
+  inline bool has_mapid() const;
+  inline void clear_mapid();
+  static const int kMapIdFieldNumber = 3;
+  inline ::google::protobuf::int32 mapid() const;
+  inline void set_mapid(::google::protobuf::int32 value);
+
+  // required uint32 randomSeed = 4;
+  inline bool has_randomseed() const;
+  inline void clear_randomseed();
+  static const int kRandomSeedFieldNumber = 4;
+  inline ::google::protobuf::uint32 randomseed() const;
+  inline void set_randomseed(::google::protobuf::uint32 value);
+
+  // required uint32 uuidSeed = 5;
+  inline bool has_uuidseed() const;
+  inline void clear_uuidseed();
+  static const int kUuidSeedFieldNumber = 5;
+  inline ::google::protobuf::uint32 uuidseed() const;
+  inline void set_uuidseed(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.FightWorldInfo)
+ private:
+  inline void set_has_frame();
+  inline void clear_has_frame();
+  inline void set_has_svr_status();
+  inline void clear_has_svr_status();
+  inline void set_has_mapid();
+  inline void clear_has_mapid();
+  inline void set_has_randomseed();
+  inline void clear_has_randomseed();
+  inline void set_has_uuidseed();
+  inline void clear_has_uuidseed();
+
+  ::google::protobuf::int32 frame_;
+  ::google::protobuf::int32 svr_status_;
+  ::google::protobuf::int32 mapid_;
+  ::google::protobuf::uint32 randomseed_;
+  ::google::protobuf::uint32 uuidseed_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static FightWorldInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class JoinFightAck : public ::google::protobuf::MessageLite {
  public:
   JoinFightAck();
@@ -1924,45 +2054,27 @@ class JoinFightAck : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::int32 code() const;
   inline void set_code(::google::protobuf::int32 value);
 
-  // optional int32 mapId = 2;
-  inline bool has_mapid() const;
-  inline void clear_mapid();
-  static const int kMapIdFieldNumber = 2;
-  inline ::google::protobuf::int32 mapid() const;
-  inline void set_mapid(::google::protobuf::int32 value);
-
-  // optional uint32 randomSeed = 3;
-  inline bool has_randomseed() const;
-  inline void clear_randomseed();
-  static const int kRandomSeedFieldNumber = 3;
-  inline ::google::protobuf::uint32 randomseed() const;
-  inline void set_randomseed(::google::protobuf::uint32 value);
-
-  // optional uint32 uuidSeed = 4;
-  inline bool has_uuidseed() const;
-  inline void clear_uuidseed();
-  static const int kUuidSeedFieldNumber = 4;
-  inline ::google::protobuf::uint32 uuidseed() const;
-  inline void set_uuidseed(::google::protobuf::uint32 value);
+  // optional .msg.FightWorldInfo worldInfo = 2;
+  inline bool has_worldinfo() const;
+  inline void clear_worldinfo();
+  static const int kWorldInfoFieldNumber = 2;
+  inline const ::msg::FightWorldInfo& worldinfo() const;
+  inline ::msg::FightWorldInfo* mutable_worldinfo();
+  inline ::msg::FightWorldInfo* release_worldinfo();
+  inline void set_allocated_worldinfo(::msg::FightWorldInfo* worldinfo);
 
   // @@protoc_insertion_point(class_scope:msg.JoinFightAck)
  private:
   inline void set_has_code();
   inline void clear_has_code();
-  inline void set_has_mapid();
-  inline void clear_has_mapid();
-  inline void set_has_randomseed();
-  inline void clear_has_randomseed();
-  inline void set_has_uuidseed();
-  inline void clear_has_uuidseed();
+  inline void set_has_worldinfo();
+  inline void clear_has_worldinfo();
 
+  ::msg::FightWorldInfo* worldinfo_;
   ::google::protobuf::int32 code_;
-  ::google::protobuf::int32 mapid_;
-  ::google::protobuf::uint32 randomseed_;
-  ::google::protobuf::uint32 uuidseed_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
@@ -1974,6 +2086,208 @@ class JoinFightAck : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static JoinFightAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerLoadingReq : public ::google::protobuf::MessageLite {
+ public:
+  PlayerLoadingReq();
+  virtual ~PlayerLoadingReq();
+
+  PlayerLoadingReq(const PlayerLoadingReq& from);
+
+  inline PlayerLoadingReq& operator=(const PlayerLoadingReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerLoadingReq& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerLoadingReq* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerLoadingReq* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerLoadingReq* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerLoadingReq& from);
+  void MergeFrom(const PlayerLoadingReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required float percent = 1;
+  inline bool has_percent() const;
+  inline void clear_percent();
+  static const int kPercentFieldNumber = 1;
+  inline float percent() const;
+  inline void set_percent(float value);
+
+  // required bool finish = 2;
+  inline bool has_finish() const;
+  inline void clear_finish();
+  static const int kFinishFieldNumber = 2;
+  inline bool finish() const;
+  inline void set_finish(bool value);
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerLoadingReq)
+ private:
+  inline void set_has_percent();
+  inline void clear_has_percent();
+  inline void set_has_finish();
+  inline void clear_has_finish();
+
+  float percent_;
+  bool finish_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerLoadingReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerLoadingAck : public ::google::protobuf::MessageLite {
+ public:
+  PlayerLoadingAck();
+  virtual ~PlayerLoadingAck();
+
+  PlayerLoadingAck(const PlayerLoadingAck& from);
+
+  inline PlayerLoadingAck& operator=(const PlayerLoadingAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerLoadingAck& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerLoadingAck* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerLoadingAck* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerLoadingAck* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerLoadingAck& from);
+  void MergeFrom(const PlayerLoadingAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated int64 pid = 1;
+  inline int pid_size() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 1;
+  inline ::google::protobuf::int64 pid(int index) const;
+  inline void set_pid(int index, ::google::protobuf::int64 value);
+  inline void add_pid(::google::protobuf::int64 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
+      pid() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
+      mutable_pid();
+
+  // repeated float percent = 2;
+  inline int percent_size() const;
+  inline void clear_percent();
+  static const int kPercentFieldNumber = 2;
+  inline float percent(int index) const;
+  inline void set_percent(int index, float value);
+  inline void add_percent(float value);
+  inline const ::google::protobuf::RepeatedField< float >&
+      percent() const;
+  inline ::google::protobuf::RepeatedField< float >*
+      mutable_percent();
+
+  // required bool finish = 3;
+  inline bool has_finish() const;
+  inline void clear_finish();
+  static const int kFinishFieldNumber = 3;
+  inline bool finish() const;
+  inline void set_finish(bool value);
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerLoadingAck)
+ private:
+  inline void set_has_finish();
+  inline void clear_has_finish();
+
+  ::google::protobuf::RepeatedField< ::google::protobuf::int64 > pid_;
+  ::google::protobuf::RepeatedField< float > percent_;
+  bool finish_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerLoadingAck* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -2143,6 +2457,194 @@ class PlayerExitFightNotify : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
+class FrameInputData : public ::google::protobuf::MessageLite {
+ public:
+  FrameInputData();
+  virtual ~FrameInputData();
+
+  FrameInputData(const FrameInputData& from);
+
+  inline FrameInputData& operator=(const FrameInputData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const FrameInputData& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const FrameInputData* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(FrameInputData* other);
+
+  // implements Message ----------------------------------------------
+
+  FrameInputData* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const FrameInputData& from);
+  void MergeFrom(const FrameInputData& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 key_down = 1;
+  inline bool has_key_down() const;
+  inline void clear_key_down();
+  static const int kKeyDownFieldNumber = 1;
+  inline ::google::protobuf::uint32 key_down() const;
+  inline void set_key_down(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.FrameInputData)
+ private:
+  inline void set_has_key_down();
+  inline void clear_has_key_down();
+
+  ::google::protobuf::uint32 key_down_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static FrameInputData* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerFrameInput : public ::google::protobuf::MessageLite {
+ public:
+  PlayerFrameInput();
+  virtual ~PlayerFrameInput();
+
+  PlayerFrameInput(const PlayerFrameInput& from);
+
+  inline PlayerFrameInput& operator=(const PlayerFrameInput& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerFrameInput& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerFrameInput* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerFrameInput* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerFrameInput* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerFrameInput& from);
+  void MergeFrom(const PlayerFrameInput& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int64 pid = 1;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 1;
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
+
+  // required uint32 frame = 2;
+  inline bool has_frame() const;
+  inline void clear_frame();
+  static const int kFrameFieldNumber = 2;
+  inline ::google::protobuf::uint32 frame() const;
+  inline void set_frame(::google::protobuf::uint32 value);
+
+  // required .msg.FrameInputData input = 3;
+  inline bool has_input() const;
+  inline void clear_input();
+  static const int kInputFieldNumber = 3;
+  inline const ::msg::FrameInputData& input() const;
+  inline ::msg::FrameInputData* mutable_input();
+  inline ::msg::FrameInputData* release_input();
+  inline void set_allocated_input(::msg::FrameInputData* input);
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerFrameInput)
+ private:
+  inline void set_has_pid();
+  inline void clear_has_pid();
+  inline void set_has_frame();
+  inline void clear_has_frame();
+  inline void set_has_input();
+  inline void clear_has_input();
+
+  ::google::protobuf::int64 pid_;
+  ::msg::FrameInputData* input_;
+  ::google::protobuf::uint32 frame_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerFrameInput* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class RunNextFrameReq : public ::google::protobuf::MessageLite {
  public:
   RunNextFrameReq();
@@ -2203,28 +2705,23 @@ class RunNextFrameReq : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 frame() const;
   inline void set_frame(::google::protobuf::uint32 value);
 
-  // repeated string input = 2;
-  inline int input_size() const;
+  // required .msg.FrameInputData input = 2;
+  inline bool has_input() const;
   inline void clear_input();
   static const int kInputFieldNumber = 2;
-  inline const ::std::string& input(int index) const;
-  inline ::std::string* mutable_input(int index);
-  inline void set_input(int index, const ::std::string& value);
-  inline void set_input(int index, const char* value);
-  inline void set_input(int index, const char* value, size_t size);
-  inline ::std::string* add_input();
-  inline void add_input(const ::std::string& value);
-  inline void add_input(const char* value);
-  inline void add_input(const char* value, size_t size);
-  inline const ::google::protobuf::RepeatedPtrField< ::std::string>& input() const;
-  inline ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_input();
+  inline const ::msg::FrameInputData& input() const;
+  inline ::msg::FrameInputData* mutable_input();
+  inline ::msg::FrameInputData* release_input();
+  inline void set_allocated_input(::msg::FrameInputData* input);
 
   // @@protoc_insertion_point(class_scope:msg.RunNextFrameReq)
  private:
   inline void set_has_frame();
   inline void clear_has_frame();
+  inline void set_has_input();
+  inline void clear_has_input();
 
-  ::google::protobuf::RepeatedPtrField< ::std::string> input_;
+  ::msg::FrameInputData* input_;
   ::google::protobuf::uint32 frame_;
 
   mutable int _cached_size_;
@@ -2296,36 +2793,32 @@ class RunNextFrameAck : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 frame = 1;
-  inline bool has_frame() const;
-  inline void clear_frame();
-  static const int kFrameFieldNumber = 1;
-  inline ::google::protobuf::uint32 frame() const;
-  inline void set_frame(::google::protobuf::uint32 value);
+  // required uint32 nextFrame = 1;
+  inline bool has_nextframe() const;
+  inline void clear_nextframe();
+  static const int kNextFrameFieldNumber = 1;
+  inline ::google::protobuf::uint32 nextframe() const;
+  inline void set_nextframe(::google::protobuf::uint32 value);
 
-  // repeated string inputs = 2;
-  inline int inputs_size() const;
-  inline void clear_inputs();
-  static const int kInputsFieldNumber = 2;
-  inline const ::std::string& inputs(int index) const;
-  inline ::std::string* mutable_inputs(int index);
-  inline void set_inputs(int index, const ::std::string& value);
-  inline void set_inputs(int index, const char* value);
-  inline void set_inputs(int index, const char* value, size_t size);
-  inline ::std::string* add_inputs();
-  inline void add_inputs(const ::std::string& value);
-  inline void add_inputs(const char* value);
-  inline void add_inputs(const char* value, size_t size);
-  inline const ::google::protobuf::RepeatedPtrField< ::std::string>& inputs() const;
-  inline ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_inputs();
+  // repeated .msg.PlayerFrameInput frames = 2;
+  inline int frames_size() const;
+  inline void clear_frames();
+  static const int kFramesFieldNumber = 2;
+  inline const ::msg::PlayerFrameInput& frames(int index) const;
+  inline ::msg::PlayerFrameInput* mutable_frames(int index);
+  inline ::msg::PlayerFrameInput* add_frames();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >&
+      frames() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >*
+      mutable_frames();
 
   // @@protoc_insertion_point(class_scope:msg.RunNextFrameAck)
  private:
-  inline void set_has_frame();
-  inline void clear_has_frame();
+  inline void set_has_nextframe();
+  inline void clear_has_nextframe();
 
-  ::google::protobuf::RepeatedPtrField< ::std::string> inputs_;
-  ::google::protobuf::uint32 frame_;
+  ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput > frames_;
+  ::google::protobuf::uint32 nextframe_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
@@ -2340,6 +2833,188 @@ class RunNextFrameAck : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static RunNextFrameAck* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PushFrameInput : public ::google::protobuf::MessageLite {
+ public:
+  PushFrameInput();
+  virtual ~PushFrameInput();
+
+  PushFrameInput(const PushFrameInput& from);
+
+  inline PushFrameInput& operator=(const PushFrameInput& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PushFrameInput& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PushFrameInput* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PushFrameInput* other);
+
+  // implements Message ----------------------------------------------
+
+  PushFrameInput* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PushFrameInput& from);
+  void MergeFrom(const PushFrameInput& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 lastFrame = 1;
+  inline bool has_lastframe() const;
+  inline void clear_lastframe();
+  static const int kLastFrameFieldNumber = 1;
+  inline ::google::protobuf::uint32 lastframe() const;
+  inline void set_lastframe(::google::protobuf::uint32 value);
+
+  // repeated .msg.PlayerFrameInput frames = 2;
+  inline int frames_size() const;
+  inline void clear_frames();
+  static const int kFramesFieldNumber = 2;
+  inline const ::msg::PlayerFrameInput& frames(int index) const;
+  inline ::msg::PlayerFrameInput* mutable_frames(int index);
+  inline ::msg::PlayerFrameInput* add_frames();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >&
+      frames() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >*
+      mutable_frames();
+
+  // @@protoc_insertion_point(class_scope:msg.PushFrameInput)
+ private:
+  inline void set_has_lastframe();
+  inline void clear_has_lastframe();
+
+  ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput > frames_;
+  ::google::protobuf::uint32 lastframe_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PushFrameInput* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PlayerRecords : public ::google::protobuf::MessageLite {
+ public:
+  PlayerRecords();
+  virtual ~PlayerRecords();
+
+  PlayerRecords(const PlayerRecords& from);
+
+  inline PlayerRecords& operator=(const PlayerRecords& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PlayerRecords& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PlayerRecords* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PlayerRecords* other);
+
+  // implements Message ----------------------------------------------
+
+  PlayerRecords* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PlayerRecords& from);
+  void MergeFrom(const PlayerRecords& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .msg.PlayerFrameInput frames = 1;
+  inline int frames_size() const;
+  inline void clear_frames();
+  static const int kFramesFieldNumber = 1;
+  inline const ::msg::PlayerFrameInput& frames(int index) const;
+  inline ::msg::PlayerFrameInput* mutable_frames(int index);
+  inline ::msg::PlayerFrameInput* add_frames();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >&
+      frames() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >*
+      mutable_frames();
+
+  // @@protoc_insertion_point(class_scope:msg.PlayerRecords)
+ private:
+
+  ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput > frames_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PlayerRecords* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -3767,6 +4442,120 @@ inline void JoinFightReq::set_frame(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// FightWorldInfo
+
+// required int32 frame = 1;
+inline bool FightWorldInfo::has_frame() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void FightWorldInfo::set_has_frame() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void FightWorldInfo::clear_has_frame() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void FightWorldInfo::clear_frame() {
+  frame_ = 0;
+  clear_has_frame();
+}
+inline ::google::protobuf::int32 FightWorldInfo::frame() const {
+  return frame_;
+}
+inline void FightWorldInfo::set_frame(::google::protobuf::int32 value) {
+  set_has_frame();
+  frame_ = value;
+}
+
+// required int32 svr_status = 2;
+inline bool FightWorldInfo::has_svr_status() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void FightWorldInfo::set_has_svr_status() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void FightWorldInfo::clear_has_svr_status() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void FightWorldInfo::clear_svr_status() {
+  svr_status_ = 0;
+  clear_has_svr_status();
+}
+inline ::google::protobuf::int32 FightWorldInfo::svr_status() const {
+  return svr_status_;
+}
+inline void FightWorldInfo::set_svr_status(::google::protobuf::int32 value) {
+  set_has_svr_status();
+  svr_status_ = value;
+}
+
+// required int32 mapId = 3;
+inline bool FightWorldInfo::has_mapid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void FightWorldInfo::set_has_mapid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void FightWorldInfo::clear_has_mapid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void FightWorldInfo::clear_mapid() {
+  mapid_ = 0;
+  clear_has_mapid();
+}
+inline ::google::protobuf::int32 FightWorldInfo::mapid() const {
+  return mapid_;
+}
+inline void FightWorldInfo::set_mapid(::google::protobuf::int32 value) {
+  set_has_mapid();
+  mapid_ = value;
+}
+
+// required uint32 randomSeed = 4;
+inline bool FightWorldInfo::has_randomseed() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void FightWorldInfo::set_has_randomseed() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void FightWorldInfo::clear_has_randomseed() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void FightWorldInfo::clear_randomseed() {
+  randomseed_ = 0u;
+  clear_has_randomseed();
+}
+inline ::google::protobuf::uint32 FightWorldInfo::randomseed() const {
+  return randomseed_;
+}
+inline void FightWorldInfo::set_randomseed(::google::protobuf::uint32 value) {
+  set_has_randomseed();
+  randomseed_ = value;
+}
+
+// required uint32 uuidSeed = 5;
+inline bool FightWorldInfo::has_uuidseed() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void FightWorldInfo::set_has_uuidseed() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void FightWorldInfo::clear_has_uuidseed() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void FightWorldInfo::clear_uuidseed() {
+  uuidseed_ = 0u;
+  clear_has_uuidseed();
+}
+inline ::google::protobuf::uint32 FightWorldInfo::uuidseed() const {
+  return uuidseed_;
+}
+inline void FightWorldInfo::set_uuidseed(::google::protobuf::uint32 value) {
+  set_has_uuidseed();
+  uuidseed_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // JoinFightAck
 
 // required int32 code = 1;
@@ -3791,70 +4580,170 @@ inline void JoinFightAck::set_code(::google::protobuf::int32 value) {
   code_ = value;
 }
 
-// optional int32 mapId = 2;
-inline bool JoinFightAck::has_mapid() const {
+// optional .msg.FightWorldInfo worldInfo = 2;
+inline bool JoinFightAck::has_worldinfo() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void JoinFightAck::set_has_mapid() {
+inline void JoinFightAck::set_has_worldinfo() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void JoinFightAck::clear_has_mapid() {
+inline void JoinFightAck::clear_has_worldinfo() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void JoinFightAck::clear_mapid() {
-  mapid_ = 0;
-  clear_has_mapid();
+inline void JoinFightAck::clear_worldinfo() {
+  if (worldinfo_ != NULL) worldinfo_->::msg::FightWorldInfo::Clear();
+  clear_has_worldinfo();
 }
-inline ::google::protobuf::int32 JoinFightAck::mapid() const {
-  return mapid_;
+inline const ::msg::FightWorldInfo& JoinFightAck::worldinfo() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return worldinfo_ != NULL ? *worldinfo_ : *default_instance().worldinfo_;
+#else
+  return worldinfo_ != NULL ? *worldinfo_ : *default_instance_->worldinfo_;
+#endif
 }
-inline void JoinFightAck::set_mapid(::google::protobuf::int32 value) {
-  set_has_mapid();
-  mapid_ = value;
+inline ::msg::FightWorldInfo* JoinFightAck::mutable_worldinfo() {
+  set_has_worldinfo();
+  if (worldinfo_ == NULL) worldinfo_ = new ::msg::FightWorldInfo;
+  return worldinfo_;
+}
+inline ::msg::FightWorldInfo* JoinFightAck::release_worldinfo() {
+  clear_has_worldinfo();
+  ::msg::FightWorldInfo* temp = worldinfo_;
+  worldinfo_ = NULL;
+  return temp;
+}
+inline void JoinFightAck::set_allocated_worldinfo(::msg::FightWorldInfo* worldinfo) {
+  delete worldinfo_;
+  worldinfo_ = worldinfo;
+  if (worldinfo) {
+    set_has_worldinfo();
+  } else {
+    clear_has_worldinfo();
+  }
 }
 
-// optional uint32 randomSeed = 3;
-inline bool JoinFightAck::has_randomseed() const {
+// -------------------------------------------------------------------
+
+// PlayerLoadingReq
+
+// required float percent = 1;
+inline bool PlayerLoadingReq::has_percent() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PlayerLoadingReq::set_has_percent() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PlayerLoadingReq::clear_has_percent() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PlayerLoadingReq::clear_percent() {
+  percent_ = 0;
+  clear_has_percent();
+}
+inline float PlayerLoadingReq::percent() const {
+  return percent_;
+}
+inline void PlayerLoadingReq::set_percent(float value) {
+  set_has_percent();
+  percent_ = value;
+}
+
+// required bool finish = 2;
+inline bool PlayerLoadingReq::has_finish() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PlayerLoadingReq::set_has_finish() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PlayerLoadingReq::clear_has_finish() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PlayerLoadingReq::clear_finish() {
+  finish_ = false;
+  clear_has_finish();
+}
+inline bool PlayerLoadingReq::finish() const {
+  return finish_;
+}
+inline void PlayerLoadingReq::set_finish(bool value) {
+  set_has_finish();
+  finish_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PlayerLoadingAck
+
+// repeated int64 pid = 1;
+inline int PlayerLoadingAck::pid_size() const {
+  return pid_.size();
+}
+inline void PlayerLoadingAck::clear_pid() {
+  pid_.Clear();
+}
+inline ::google::protobuf::int64 PlayerLoadingAck::pid(int index) const {
+  return pid_.Get(index);
+}
+inline void PlayerLoadingAck::set_pid(int index, ::google::protobuf::int64 value) {
+  pid_.Set(index, value);
+}
+inline void PlayerLoadingAck::add_pid(::google::protobuf::int64 value) {
+  pid_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
+PlayerLoadingAck::pid() const {
+  return pid_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
+PlayerLoadingAck::mutable_pid() {
+  return &pid_;
+}
+
+// repeated float percent = 2;
+inline int PlayerLoadingAck::percent_size() const {
+  return percent_.size();
+}
+inline void PlayerLoadingAck::clear_percent() {
+  percent_.Clear();
+}
+inline float PlayerLoadingAck::percent(int index) const {
+  return percent_.Get(index);
+}
+inline void PlayerLoadingAck::set_percent(int index, float value) {
+  percent_.Set(index, value);
+}
+inline void PlayerLoadingAck::add_percent(float value) {
+  percent_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< float >&
+PlayerLoadingAck::percent() const {
+  return percent_;
+}
+inline ::google::protobuf::RepeatedField< float >*
+PlayerLoadingAck::mutable_percent() {
+  return &percent_;
+}
+
+// required bool finish = 3;
+inline bool PlayerLoadingAck::has_finish() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void JoinFightAck::set_has_randomseed() {
+inline void PlayerLoadingAck::set_has_finish() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void JoinFightAck::clear_has_randomseed() {
+inline void PlayerLoadingAck::clear_has_finish() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void JoinFightAck::clear_randomseed() {
-  randomseed_ = 0u;
-  clear_has_randomseed();
+inline void PlayerLoadingAck::clear_finish() {
+  finish_ = false;
+  clear_has_finish();
 }
-inline ::google::protobuf::uint32 JoinFightAck::randomseed() const {
-  return randomseed_;
+inline bool PlayerLoadingAck::finish() const {
+  return finish_;
 }
-inline void JoinFightAck::set_randomseed(::google::protobuf::uint32 value) {
-  set_has_randomseed();
-  randomseed_ = value;
-}
-
-// optional uint32 uuidSeed = 4;
-inline bool JoinFightAck::has_uuidseed() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void JoinFightAck::set_has_uuidseed() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void JoinFightAck::clear_has_uuidseed() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void JoinFightAck::clear_uuidseed() {
-  uuidseed_ = 0u;
-  clear_has_uuidseed();
-}
-inline ::google::protobuf::uint32 JoinFightAck::uuidseed() const {
-  return uuidseed_;
-}
-inline void JoinFightAck::set_uuidseed(::google::protobuf::uint32 value) {
-  set_has_uuidseed();
-  uuidseed_ = value;
+inline void PlayerLoadingAck::set_finish(bool value) {
+  set_has_finish();
+  finish_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -3911,6 +4800,122 @@ inline void PlayerExitFightNotify::set_pid(::google::protobuf::int64 value) {
 
 // -------------------------------------------------------------------
 
+// FrameInputData
+
+// required uint32 key_down = 1;
+inline bool FrameInputData::has_key_down() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void FrameInputData::set_has_key_down() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void FrameInputData::clear_has_key_down() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void FrameInputData::clear_key_down() {
+  key_down_ = 0u;
+  clear_has_key_down();
+}
+inline ::google::protobuf::uint32 FrameInputData::key_down() const {
+  return key_down_;
+}
+inline void FrameInputData::set_key_down(::google::protobuf::uint32 value) {
+  set_has_key_down();
+  key_down_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PlayerFrameInput
+
+// required int64 pid = 1;
+inline bool PlayerFrameInput::has_pid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PlayerFrameInput::set_has_pid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PlayerFrameInput::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PlayerFrameInput::clear_pid() {
+  pid_ = GOOGLE_LONGLONG(0);
+  clear_has_pid();
+}
+inline ::google::protobuf::int64 PlayerFrameInput::pid() const {
+  return pid_;
+}
+inline void PlayerFrameInput::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
+}
+
+// required uint32 frame = 2;
+inline bool PlayerFrameInput::has_frame() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PlayerFrameInput::set_has_frame() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PlayerFrameInput::clear_has_frame() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PlayerFrameInput::clear_frame() {
+  frame_ = 0u;
+  clear_has_frame();
+}
+inline ::google::protobuf::uint32 PlayerFrameInput::frame() const {
+  return frame_;
+}
+inline void PlayerFrameInput::set_frame(::google::protobuf::uint32 value) {
+  set_has_frame();
+  frame_ = value;
+}
+
+// required .msg.FrameInputData input = 3;
+inline bool PlayerFrameInput::has_input() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PlayerFrameInput::set_has_input() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PlayerFrameInput::clear_has_input() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PlayerFrameInput::clear_input() {
+  if (input_ != NULL) input_->::msg::FrameInputData::Clear();
+  clear_has_input();
+}
+inline const ::msg::FrameInputData& PlayerFrameInput::input() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return input_ != NULL ? *input_ : *default_instance().input_;
+#else
+  return input_ != NULL ? *input_ : *default_instance_->input_;
+#endif
+}
+inline ::msg::FrameInputData* PlayerFrameInput::mutable_input() {
+  set_has_input();
+  if (input_ == NULL) input_ = new ::msg::FrameInputData;
+  return input_;
+}
+inline ::msg::FrameInputData* PlayerFrameInput::release_input() {
+  clear_has_input();
+  ::msg::FrameInputData* temp = input_;
+  input_ = NULL;
+  return temp;
+}
+inline void PlayerFrameInput::set_allocated_input(::msg::FrameInputData* input) {
+  delete input_;
+  input_ = input;
+  if (input) {
+    set_has_input();
+  } else {
+    clear_has_input();
+  }
+}
+
+// -------------------------------------------------------------------
+
 // RunNextFrameReq
 
 // required uint32 frame = 1;
@@ -3935,118 +4940,177 @@ inline void RunNextFrameReq::set_frame(::google::protobuf::uint32 value) {
   frame_ = value;
 }
 
-// repeated string input = 2;
-inline int RunNextFrameReq::input_size() const {
-  return input_.size();
+// required .msg.FrameInputData input = 2;
+inline bool RunNextFrameReq::has_input() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void RunNextFrameReq::set_has_input() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void RunNextFrameReq::clear_has_input() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void RunNextFrameReq::clear_input() {
-  input_.Clear();
+  if (input_ != NULL) input_->::msg::FrameInputData::Clear();
+  clear_has_input();
 }
-inline const ::std::string& RunNextFrameReq::input(int index) const {
-  return input_.Get(index);
+inline const ::msg::FrameInputData& RunNextFrameReq::input() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return input_ != NULL ? *input_ : *default_instance().input_;
+#else
+  return input_ != NULL ? *input_ : *default_instance_->input_;
+#endif
 }
-inline ::std::string* RunNextFrameReq::mutable_input(int index) {
-  return input_.Mutable(index);
-}
-inline void RunNextFrameReq::set_input(int index, const ::std::string& value) {
-  input_.Mutable(index)->assign(value);
-}
-inline void RunNextFrameReq::set_input(int index, const char* value) {
-  input_.Mutable(index)->assign(value);
-}
-inline void RunNextFrameReq::set_input(int index, const char* value, size_t size) {
-  input_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* RunNextFrameReq::add_input() {
-  return input_.Add();
-}
-inline void RunNextFrameReq::add_input(const ::std::string& value) {
-  input_.Add()->assign(value);
-}
-inline void RunNextFrameReq::add_input(const char* value) {
-  input_.Add()->assign(value);
-}
-inline void RunNextFrameReq::add_input(const char* value, size_t size) {
-  input_.Add()->assign(reinterpret_cast<const char*>(value), size);
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-RunNextFrameReq::input() const {
+inline ::msg::FrameInputData* RunNextFrameReq::mutable_input() {
+  set_has_input();
+  if (input_ == NULL) input_ = new ::msg::FrameInputData;
   return input_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-RunNextFrameReq::mutable_input() {
-  return &input_;
+inline ::msg::FrameInputData* RunNextFrameReq::release_input() {
+  clear_has_input();
+  ::msg::FrameInputData* temp = input_;
+  input_ = NULL;
+  return temp;
+}
+inline void RunNextFrameReq::set_allocated_input(::msg::FrameInputData* input) {
+  delete input_;
+  input_ = input;
+  if (input) {
+    set_has_input();
+  } else {
+    clear_has_input();
+  }
 }
 
 // -------------------------------------------------------------------
 
 // RunNextFrameAck
 
-// required uint32 frame = 1;
-inline bool RunNextFrameAck::has_frame() const {
+// required uint32 nextFrame = 1;
+inline bool RunNextFrameAck::has_nextframe() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void RunNextFrameAck::set_has_frame() {
+inline void RunNextFrameAck::set_has_nextframe() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void RunNextFrameAck::clear_has_frame() {
+inline void RunNextFrameAck::clear_has_nextframe() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void RunNextFrameAck::clear_frame() {
-  frame_ = 0u;
-  clear_has_frame();
+inline void RunNextFrameAck::clear_nextframe() {
+  nextframe_ = 0u;
+  clear_has_nextframe();
 }
-inline ::google::protobuf::uint32 RunNextFrameAck::frame() const {
-  return frame_;
+inline ::google::protobuf::uint32 RunNextFrameAck::nextframe() const {
+  return nextframe_;
 }
-inline void RunNextFrameAck::set_frame(::google::protobuf::uint32 value) {
-  set_has_frame();
-  frame_ = value;
+inline void RunNextFrameAck::set_nextframe(::google::protobuf::uint32 value) {
+  set_has_nextframe();
+  nextframe_ = value;
 }
 
-// repeated string inputs = 2;
-inline int RunNextFrameAck::inputs_size() const {
-  return inputs_.size();
+// repeated .msg.PlayerFrameInput frames = 2;
+inline int RunNextFrameAck::frames_size() const {
+  return frames_.size();
 }
-inline void RunNextFrameAck::clear_inputs() {
-  inputs_.Clear();
+inline void RunNextFrameAck::clear_frames() {
+  frames_.Clear();
 }
-inline const ::std::string& RunNextFrameAck::inputs(int index) const {
-  return inputs_.Get(index);
+inline const ::msg::PlayerFrameInput& RunNextFrameAck::frames(int index) const {
+  return frames_.Get(index);
 }
-inline ::std::string* RunNextFrameAck::mutable_inputs(int index) {
-  return inputs_.Mutable(index);
+inline ::msg::PlayerFrameInput* RunNextFrameAck::mutable_frames(int index) {
+  return frames_.Mutable(index);
 }
-inline void RunNextFrameAck::set_inputs(int index, const ::std::string& value) {
-  inputs_.Mutable(index)->assign(value);
+inline ::msg::PlayerFrameInput* RunNextFrameAck::add_frames() {
+  return frames_.Add();
 }
-inline void RunNextFrameAck::set_inputs(int index, const char* value) {
-  inputs_.Mutable(index)->assign(value);
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >&
+RunNextFrameAck::frames() const {
+  return frames_;
 }
-inline void RunNextFrameAck::set_inputs(int index, const char* value, size_t size) {
-  inputs_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
+inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >*
+RunNextFrameAck::mutable_frames() {
+  return &frames_;
 }
-inline ::std::string* RunNextFrameAck::add_inputs() {
-  return inputs_.Add();
+
+// -------------------------------------------------------------------
+
+// PushFrameInput
+
+// required uint32 lastFrame = 1;
+inline bool PushFrameInput::has_lastframe() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void RunNextFrameAck::add_inputs(const ::std::string& value) {
-  inputs_.Add()->assign(value);
+inline void PushFrameInput::set_has_lastframe() {
+  _has_bits_[0] |= 0x00000001u;
 }
-inline void RunNextFrameAck::add_inputs(const char* value) {
-  inputs_.Add()->assign(value);
+inline void PushFrameInput::clear_has_lastframe() {
+  _has_bits_[0] &= ~0x00000001u;
 }
-inline void RunNextFrameAck::add_inputs(const char* value, size_t size) {
-  inputs_.Add()->assign(reinterpret_cast<const char*>(value), size);
+inline void PushFrameInput::clear_lastframe() {
+  lastframe_ = 0u;
+  clear_has_lastframe();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-RunNextFrameAck::inputs() const {
-  return inputs_;
+inline ::google::protobuf::uint32 PushFrameInput::lastframe() const {
+  return lastframe_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-RunNextFrameAck::mutable_inputs() {
-  return &inputs_;
+inline void PushFrameInput::set_lastframe(::google::protobuf::uint32 value) {
+  set_has_lastframe();
+  lastframe_ = value;
+}
+
+// repeated .msg.PlayerFrameInput frames = 2;
+inline int PushFrameInput::frames_size() const {
+  return frames_.size();
+}
+inline void PushFrameInput::clear_frames() {
+  frames_.Clear();
+}
+inline const ::msg::PlayerFrameInput& PushFrameInput::frames(int index) const {
+  return frames_.Get(index);
+}
+inline ::msg::PlayerFrameInput* PushFrameInput::mutable_frames(int index) {
+  return frames_.Mutable(index);
+}
+inline ::msg::PlayerFrameInput* PushFrameInput::add_frames() {
+  return frames_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >&
+PushFrameInput::frames() const {
+  return frames_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >*
+PushFrameInput::mutable_frames() {
+  return &frames_;
+}
+
+// -------------------------------------------------------------------
+
+// PlayerRecords
+
+// repeated .msg.PlayerFrameInput frames = 1;
+inline int PlayerRecords::frames_size() const {
+  return frames_.size();
+}
+inline void PlayerRecords::clear_frames() {
+  frames_.Clear();
+}
+inline const ::msg::PlayerFrameInput& PlayerRecords::frames(int index) const {
+  return frames_.Get(index);
+}
+inline ::msg::PlayerFrameInput* PlayerRecords::mutable_frames(int index) {
+  return frames_.Mutable(index);
+}
+inline ::msg::PlayerFrameInput* PlayerRecords::add_frames() {
+  return frames_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >&
+PlayerRecords::frames() const {
+  return frames_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::msg::PlayerFrameInput >*
+PlayerRecords::mutable_frames() {
+  return &frames_;
 }
 
 // -------------------------------------------------------------------

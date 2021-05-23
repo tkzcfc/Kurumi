@@ -10,4 +10,6 @@ return enum {
     "NET_CONNECT_SUC",
     "NET_CONNECT_FAIL",
     "NET_DISCONNECT",
+
+    "FIGHT_RE_JOINT",       -- 断线重连重新加入战斗
 }

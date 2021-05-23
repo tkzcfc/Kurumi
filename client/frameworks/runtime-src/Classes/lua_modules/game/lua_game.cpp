@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 04/21/21 18:44:53.
+** Generated automatically by tolua++-1.0.92 on 05/23/21 13:36:38.
 */
 
 #ifndef __cplusplus
@@ -19,16 +19,30 @@ TOLUA_API int  tolua_game_open (lua_State* tolua_S);
 #include "net_uv_cc/CCClient.h"
 #include "net_uv/net_uv.h"
 #include "net_uv_cc/CCNetClient.h"
+#include "game/GGameWorld.h"
 #include "foundation/CTools.h"
 #include "ext/MyButton.h"
 #include "foundation/ParticleSystemHelper.h"
+
+/* function to release collected object via destructor */
+#ifdef __cplusplus
+
+static int tolua_collect_GGameWorld (lua_State* tolua_S)
+{
+ GGameWorld* self = (GGameWorld*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+#endif
+
 
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)
 {
  tolua_usertype(tolua_S,"TCPClient");
- tolua_usertype(tolua_S,"CCNetClient");
+ tolua_usertype(tolua_S,"GGameWorld");
  tolua_usertype(tolua_S,"CTools");
+ tolua_usertype(tolua_S,"CCNetClient");
  tolua_usertype(tolua_S,"cc.Ref");
  tolua_usertype(tolua_S,"KCPClient");
  tolua_usertype(tolua_S,"MyButton");
@@ -975,6 +989,262 @@ static int tolua_game_NetClient_registerLuaHandle00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: new of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_new00
+static int tolua_game_GGameWorld_new00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   GGameWorld* tolua_ret = (GGameWorld*)  Mtolua_new((GGameWorld)());
+    tolua_ext_object_to_luaval<GGameWorld>(tolua_S,(void*)tolua_ret,"GGameWorld");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_new00_local
+static int tolua_game_GGameWorld_new00_local(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   GGameWorld* tolua_ret = (GGameWorld*)  Mtolua_new((GGameWorld)());
+    tolua_ext_object_to_luaval<GGameWorld>(tolua_S,(void*)tolua_ret,"GGameWorld");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: delete of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_delete00
+static int tolua_game_GGameWorld_delete00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'delete'", NULL);
+#endif
+  Mtolua_delete(self);
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'delete'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: init of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_init00
+static int tolua_game_GGameWorld_init00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,5,"cc.Node",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+   int mapId = ((  int)  tolua_tonumber(tolua_S,2,0));
+  unsigned int randomSeed = (( unsigned int)  tolua_tonumber(tolua_S,3,0));
+  unsigned int uuidSeed = (( unsigned int)  tolua_tonumber(tolua_S,4,0));
+  Node* rootNode = ((Node*)  tolua_tousertype(tolua_S,5,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'init'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->init(mapId,randomSeed,uuidSeed,rootNode);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'init'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: update of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_update00
+static int tolua_game_GGameWorld_update00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+  float dt = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'update'", NULL);
+#endif
+  {
+   self->update(dt);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'update'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: input of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_input00
+static int tolua_game_GGameWorld_input00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+  const std::string data = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'input'", NULL);
+#endif
+  {
+   self->input(data);
+   tolua_pushcppstring(tolua_S,(const char*)data);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'input'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: render of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_render00
+static int tolua_game_GGameWorld_render00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'render'", NULL);
+#endif
+  {
+   self->render();
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'render'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getGameLogicFrame of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_getGameLogicFrame00
+static int tolua_game_GGameWorld_getGameLogicFrame00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const GGameWorld* self = (const GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getGameLogicFrame'", NULL);
+#endif
+  {
+   unsigned int tolua_ret = ( unsigned int)  self->getGameLogicFrame();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getGameLogicFrame'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: isInRect of class  CTools */
 #ifndef TOLUA_DISABLE_tolua_game_CTools_isInRect00
 static int tolua_game_CTools_isInRect00(lua_State* tolua_S)
@@ -1276,6 +1546,22 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setHeartBeatLoseMaxCount",tolua_game_NetClient_setHeartBeatLoseMaxCount00);
    tolua_function(tolua_S,"closeClient",tolua_game_NetClient_closeClient00);
    tolua_function(tolua_S,"registerLuaHandle",tolua_game_NetClient_registerLuaHandle00);
+  tolua_endmodule(tolua_S);
+  #ifdef __cplusplus
+  tolua_cclass(tolua_S,"GGameWorld","GGameWorld","",tolua_collect_GGameWorld);
+  #else
+  tolua_cclass(tolua_S,"GGameWorld","GGameWorld","",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"GGameWorld");
+   tolua_function(tolua_S,"new",tolua_game_GGameWorld_new00);
+   tolua_function(tolua_S,"new_local",tolua_game_GGameWorld_new00_local);
+   tolua_function(tolua_S,".call",tolua_game_GGameWorld_new00_local);
+   tolua_function(tolua_S,"delete",tolua_game_GGameWorld_delete00);
+   tolua_function(tolua_S,"init",tolua_game_GGameWorld_init00);
+   tolua_function(tolua_S,"update",tolua_game_GGameWorld_update00);
+   tolua_function(tolua_S,"input",tolua_game_GGameWorld_input00);
+   tolua_function(tolua_S,"render",tolua_game_GGameWorld_render00);
+   tolua_function(tolua_S,"getGameLogicFrame",tolua_game_GGameWorld_getGameLogicFrame00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"CTools","CTools","",NULL);
   tolua_beginmodule(tolua_S,"CTools");

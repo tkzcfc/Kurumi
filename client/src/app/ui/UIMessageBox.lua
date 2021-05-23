@@ -20,7 +20,7 @@ function UIMessageBox:ctor()
 
 	self:setContentView(ui.Image_BG)
 
-	self:setAutoDismiss()
+	self:setAutoDismiss(false)
 end
 
 function UIMessageBox:showOneButton(content, okcall)
@@ -72,17 +72,17 @@ function UIMessageBox:setTitle(title)
 end
 
 function UIMessageBox:onClickOK(sender)
+	self:dismiss()
 	if self.okcall then
 		self.okcall()
 	end
-	self:dismiss()
 end
 
 function UIMessageBox:onClickCancel(sender)
+	self:dismiss()
 	if self.cancelcall then
 		self.cancelcall()
 	end
-	self:dismiss()
 end
 
 return UIMessageBox

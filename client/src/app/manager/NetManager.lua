@@ -106,7 +106,7 @@ end
 -- @brief 向战斗服发送消息
 function NetManager:sendToFight(msgID, msg)
 	local info = manifest.CMD[msgID]
-	if G_MAC.IS_PC then
+	if G_MAC.IS_PC and msgID ~= MessageID.MSG_RUN_NEXT_FRAME_REQ then
 		print("send msg:", info.name, msgID)
 		print_lua_value(msg)
 		print("----------------------------")
@@ -166,7 +166,7 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 	end
 	self:recursiveDecode(msg)
 
-	if G_MAC.IS_PC then
+	if G_MAC.IS_PC and msgID ~= MessageID.MSG_RUN_NEXT_FRAME_ACK then
 		print("recv msg:", info.name, msgID)
 		print_lua_value(msg)
 		print("----------------------------")

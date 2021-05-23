@@ -63,7 +63,13 @@ enum MessageID {
 	
 	MSG_EXIT_FIGHT_REQ			= 800007;	// 退出战斗请求(客户端正常退出逻辑)
 	MSG_EXIT_FIGHT_ACK			= 800008;	// 
+	
+	MSG_LOADING_PERCENT_REQ		= 800009;	// 客户端通知当前加载进度
+	MSG_LOADING_PERCENT_ACK		= 800010;	// 服务器广播所有玩家加载进度
 		
+	MSG_PUSH_FRAME_BEGIN		= 800011;	// 推帧开始
+	MSG_PUSH_FRAME_INPUT		= 800012;	// 推帧数据
+	MSG_PUSH_FRAME_END			= 800013;	// 推帧结束
 	
 	
     //============================================================================================
@@ -75,6 +81,7 @@ enum MessageID {
 	MSG_CREATE_ROLE_ACK			= 900304;
 	MSG_ENTER_GAME_REQ			= 900305;	// 进入游戏
 	MSG_ENTER_GAME_ACK			= 900306;
+	
 	
 	MSG_EXIT_GAME_NTF			= 900010;	// 通知客户端退出游戏
 	
