@@ -74,5 +74,5 @@ inline bool float_equal(float a, float b)
 }
 
 
-typedef uint32_t GUUID;
+typedef int32_t GUUID;
 #define INVALID_UUID 0U

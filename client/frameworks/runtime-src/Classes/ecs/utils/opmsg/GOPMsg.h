@@ -15,9 +15,9 @@ static const uint32_t G_BIT_MAX_COUNT = sizeof(G_BIT_TYPE) * 8 - 1;
 
 
 //! 游戏操作命令定义
-static const G_BIT_TYPE G_CMD_NONE		= 0x0;				  // 空值
-static const G_BIT_TYPE G_CMD_KEY_DOWN	= G_FIXED_VALUE << 1; // 按键按下命令
-static const G_BIT_TYPE G_CMD_KEY_UP	= G_FIXED_VALUE << 2; // 按键抬起命令
+//static const G_BIT_TYPE G_CMD_NONE		= 0x0;				  // 空值
+//static const G_BIT_TYPE G_CMD_KEY_DOWN	= G_FIXED_VALUE << 1; // 按键按下命令
+//static const G_BIT_TYPE G_CMD_KEY_UP	= G_FIXED_VALUE << 2; // 按键抬起命令
 
 
 //! 游戏按键定义
@@ -35,61 +35,21 @@ static const G_BIT_TYPE G_KEY_SKILL_5		= G_FIXED_VALUE << 10; // 技能5
 static const G_BIT_TYPE G_KEY_SKILL_6		= G_FIXED_VALUE << 11; // 技能6
 static const G_BIT_TYPE G_KEY_SKILL_7		= G_FIXED_VALUE << 12; // 技能7
 
+static const uint32_t G_KEY_MAX_COUNT = 12;
+
 static const G_BIT_TYPE G_KEY_MOVE_MUSTER = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
 static const G_BIT_TYPE G_KEY_MOVE_X = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT;
 static const G_BIT_TYPE G_KEY_MOVE_Y = G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
 
 
 //////////////////////////////////////////////////////////////////////////////
-// 判断该键位是否自动复位
-extern bool isAutoResetKey(G_BIT_TYPE key);
-extern G_BIT_TYPE getAutoResetKeys();
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-//// 获取标志位(从右到左的)下标
-//static inline int32_t bitFlagIndex(G_BIT_TYPE bvalue)
-//{
-//#if 1
-//	for (auto i = 0; i < sizeof(G_BIT_TYPE) * 8; ++i)
-//	{
-//		if ((bvalue >> i) & G_BIT_TYPE(0x1))
-//			return i;
-//	}
-//#else
-//	for (auto i = 1; i < sizeof(G_BIT_TYPE) * 8; ++i)
-//	{
-//		if (bvalue & (G_BIT_TYPE(0x1) << i))
-//			return i;
-//	}
-//#endif
-//	G_ASSERT(false);
-//	return 0;
-//}
-
-
-
-//////////////////////////////////////////////////////////////////////////////
 //! 消息定义
-#pragma pack(4)
-
 // 基础消息
-struct GOPMsg_Base
+struct GOPMsg
 {
 	uint32_t logicFrame;
 	// 操作对象
-	int32_t uuid;
-	// cmd
-	G_BIT_TYPE cmd;
+	GUUID uuid;
 
-	int32_t msgSize;
+	G_BIT_TYPE keydown;
 };
-
-// 按键消息
-struct GOPMsg_Key : GOPMsg_Base
-{
-	G_BIT_TYPE key;
-};
-
-#pragma pack()

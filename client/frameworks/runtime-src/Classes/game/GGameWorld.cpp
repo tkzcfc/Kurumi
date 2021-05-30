@@ -18,10 +18,9 @@ void GGameWorld::update(float32 dt)
 	m_pGlobal->gameLogicFrame++;
 }
 
-void GGameWorld::input(const std::string& data)
+void GGameWorld::input(GUUID uuid, uint32_t frame, G_BIT_TYPE keydown)
 {
-	GOPMsg_Base* msgBase = (GOPMsg_Base*)data.c_str();
-	m_pGlobal->inputQue.addMsg(msgBase);
+	m_pGlobal->inputQue.addMsg<GOPMsg>(frame, uuid, keydown);
 }
 
 void GGameWorld::updateLogic(float32 dt)

@@ -4,32 +4,24 @@
 
 local UIControl = class("UIControl", cc.Node)
 
-local UIControl_Left 	= 0
-local UIControl_Right 	= 1
-local UIControl_Up 		= 2
-local UIControl_Down 	= 3
+local InputKey = Const.InputKey
+
+local KEY_CODE_MAP = {
+    [26] = InputKey.G_KEY_MOVE_LEFT,
+    [27] = InputKey.G_KEY_MOVE_RIGHT,
+    [28] = InputKey.G_KEY_MOVE_UP,
+    [29] = InputKey.G_KEY_MOVE_DOWN,
+}
+
 
 function UIControl:ctor()
-    local function onNodeEvent(event)
-        if event == "enter" then
-            self:onEnter()
-        elseif event == "exit" then
-            self:onExit()
-        end
-    end
-    self:registerScriptHandler(onNodeEvent)
-
-    self.ui = G_Helper.loadStudioFile("ui.playerUIControl", self)
+    self.ui = G_Helper.loadStudioFile("ui.UI_PlayerControl", self)
     self:addChild(self.ui.root)
+
+    self.iKey = 0
 
     self:initTouch()
     self:initKeyboard()
-end
-
-function UIControl:onEnter()
-end
-
-function UIControl:onExit()
 end
 
 function UIControl:initTouch()
@@ -43,6 +35,13 @@ function UIControl:initTouch()
 	local centerPos = {x = 0, y = 0}
 
 	local touchLayer = self
+
+    local cancelKey = 0
+    cancelKey = CommonUtils.U32_OR(cancelKey, InputKey.G_KEY_MOVE_LEFT)
+    cancelKey = CommonUtils.U32_OR(cancelKey, InputKey.G_KEY_MOVE_RIGHT)
+    cancelKey = CommonUtils.U32_OR(cancelKey, InputKey.G_KEY_MOVE_UP)
+    cancelKey = CommonUtils.U32_OR(cancelKey, InputKey.G_KEY_MOVE_DOWN)
+
 
 	local function normal()
 		self.ui.sprite_BG:setPosition(beginPos)
@@ -97,10 +96,10 @@ function UIControl:initTouch()
 
 		-- 上
 		if radian < -30 and radian > -150 then
-			self:up()
+            self:onKeyDown(InputKey.G_KEY_MOVE_UP)
 		-- 下
 		elseif radian >= 60 and radian < 120 then
-			self:down()
+            self:onKeyDown(InputKey.G_KEY_MOVE_DOWN)
 		end
 		if math.abs(V_R.x) < 0.001 then
 			return
@@ -108,16 +107,16 @@ function UIControl:initTouch()
 
 		-- 右
 		if V_R.x > 0 then
-			self:right()
+            self:onKeyDown(InputKey.G_KEY_MOVE_RIGHT)
 		-- 左
 		else
-			self:left()
+            self:onKeyDown(InputKey.G_KEY_MOVE_LEFT)
 		end
 	end
 
 	local function onTouchEnd(touch,event)
 		normal()
-		self:cancel()
+		self:onKeyUp(cancelKey)
 	end
 
 	local listener = cc.EventListenerTouchOneByOne:create();
@@ -128,73 +127,52 @@ function UIControl:initTouch()
 	cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, touchLayer)
 end
 
-function UIControl:left()
-	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, -1)
+function UIControl:onKeyDown(key)
+    self.iKey = CommonUtils.U32_BIT_SET(self.iKey, key)
 end
 
-function UIControl:right()
-	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, 1)
+function UIControl:onKeyUp(key)
+    self.iKey = CommonUtils.U32_BIT_REMOVE(self.iKey, key)
 end
 
-function UIControl:up()
-	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, 1)
-end
+-- function UIControl:left()
+-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, -1)
+-- end
 
-function UIControl:down()
-	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, -1)
-end
+-- function UIControl:right()
+-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, 1)
+-- end
 
-function UIControl:cancel()
-	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_CANCEL)
-end
+-- function UIControl:up()
+-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, 1)
+-- end
+
+-- function UIControl:down()
+-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, -1)
+-- end
+
+-- function UIControl:cancel()
+-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_CANCEL)
+-- end
+
 
 function UIControl:initKeyboard()
-	local LEFT = 26
-    local RIGHT = 27
-    local TOP = 28
-    local BOTTOM = 29
-
-    local KEY_Z = 149
-    local KEY_X = 147
-    local KEY_C = 126
-
-    local curOri = 0
-
 	 --键盘事件  
     local function onKeyPressed(keyCode, event)
-
-        if keyCode == LEFT then
-        	curOri = LEFT
-        	self:left()
-        elseif keyCode == RIGHT then
-        	curOri = RIGHT
-        	self:right()
-        elseif keyCode == TOP then
-        	self:up()
-        elseif keyCode == BOTTOM then
-        	self:down()
-        elseif keyCode == KEY_C then
-		elseif keyCode == KEY_X then
+        if KEY_CODE_MAP[keyCode] then
+            self:onKeyDown(KEY_CODE_MAP[keyCode])
         end
-        -- print("code", keyCode)
-
-        if keyCode >= 77 and keyCode <= 85 then
-        	local controlcode = keyCode-76
-        	_MyG.PlayerDispatcher:call("control_"..controlcode)
-        	-- print(controlcode)
-        end
-    end  
+    end
   
     local function onKeyReleased(keyCode, event)
-    	if keyCode == curOri then
-    		self:cancel()
-    	end
+        if KEY_CODE_MAP[keyCode] then
+            self:onKeyUp(KEY_CODE_MAP[keyCode])
+        end
     end  
   
     local listener = cc.EventListenerKeyboard:create()  
     listener:registerScriptHandler(onKeyPressed, cc.Handler.EVENT_KEYBOARD_PRESSED)  
     listener:registerScriptHandler(onKeyReleased, cc.Handler.EVENT_KEYBOARD_RELEASED)  
-  
     cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self) 
 end
 

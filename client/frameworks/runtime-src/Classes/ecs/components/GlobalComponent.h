@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ecs/anaxHelper.h"
-#include "opmsg/GOPMsgQue.h"
+#include "ecs/utils/opmsg/GOPMsgQue.h"
 #include "foundation/GRandom.h"
 
 #if G_TARGET_CLIENT

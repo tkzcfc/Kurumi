@@ -16,7 +16,7 @@ public:
 	
 	void update(float dt);
 
-	void input(const std::string& data);
+	void input(int uuid, uint32_t frame, uint32_t keydown);
 
 	void render();
 

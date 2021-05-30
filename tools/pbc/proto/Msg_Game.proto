@@ -212,7 +212,7 @@ message PlayerExitFightNotify
 
 message FrameInputData
 {
-	required uint32 key_down = 1;
+	required uint32 key_down = 1;// 按键按下
 }
 
 message PlayerFrameInput

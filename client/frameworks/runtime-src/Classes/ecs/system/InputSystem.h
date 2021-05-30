@@ -4,7 +4,7 @@
 #include "ecs/components/InputComponent.h"
 #include "ecs/components/SIMPhysComponent.h"
 #include "ecs/components/PropertyComponent.h"
-#include "opmsg/GOPMsg.h"
+#include "ecs/utils/opmsg/GOPMsg.h"
 
 class InputSystem : public anax::System< anax::Requires<InputComponent, SIMPhysComponent, PropertyComponent> >
 {
@@ -17,10 +17,8 @@ private:
 	// 输入之前
 	void beforeInput();
 
-	void input(GOPMsg_Base* msg);
+	void input(GOPMsg* msg);
 
-	// 输入之后
-	void afterInput();
-
+	void keyUp(const anax::Entity& entity, G_BIT_TYPE key);
 };
 

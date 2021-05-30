@@ -13,15 +13,15 @@ GOPMsgQue::~GOPMsgQue()
 	}
 }
 
-GOPMsg_Base* GOPMsgQue::addMsg(GOPMsg_Base* inMsg)
+GOPMsg* GOPMsgQue::addMsg(GOPMsg* inMsg)
 {
-	auto msg = (GOPMsg_Base*)m_allocator.Allocate(inMsg->msgSize);
-	memcpy(msg, inMsg, inMsg->msgSize);
+	auto msg = (GOPMsg*)m_allocator.Allocate(sizeof(GOPMsg));
+	memcpy(msg, inMsg, sizeof(GOPMsg));
 	m_msgQue.push_back(msg);
 	return msg;
 }
 
-GOPMsg_Base* GOPMsgQue::popMsg()
+GOPMsg* GOPMsgQue::popMsg()
 {
 	auto msg = m_msgQue.front();
 	m_msgQue.pop_front();

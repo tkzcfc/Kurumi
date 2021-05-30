@@ -157,4 +157,46 @@ namespace CommonUtils
 		}
 		return false;
 	}
+
+	uint32_t U32_OR(uint32_t src, uint32_t dst)
+	{
+		return src | dst;
+	}
+
+	uint32_t U32_AND(uint32_t src, uint32_t dst)
+	{
+		return src & dst;
+	}
+
+	uint32_t U32_BIT_SET(uint32_t b, uint32_t flag)
+	{
+		G_BIT_SET(b, flag);
+		return b;
+	}
+
+	uint32_t U32_BIT_GET(uint32_t b, uint32_t flag)
+	{
+		return G_BIT_GET(b, flag);
+	}
+
+	uint32_t U32_BIT_REMOVE(uint32_t b, uint32_t flag)
+	{
+		G_BIT_REMOVE(b, flag);
+		return b;
+	}
+
+	bool U32_BIT_EQUAL(uint32_t b, uint32_t flag)
+	{
+		return G_BIT_EQUAL(b, flag);
+	}
+
+	bool U32_BIT_NO_EQUAL(uint32_t b, uint32_t flag)
+	{
+		return G_BIT_NO_EQUAL(b, flag);
+	}
+
+	uint32_t U32_L_SHIFT(uint32_t src, uint32_t move)
+	{
+		return src << move;
+	}
 }

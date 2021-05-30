@@ -24,5 +24,20 @@ Const.Role = {
     GONG    = 2     -- 弓
 }
 
+-- 战斗输入
+Const.InputKey = {
+    G_KEY_MOVE_LEFT     = CommonUtils.U32_L_SHIFT(1, 1),
+    G_KEY_MOVE_RIGHT    = CommonUtils.U32_L_SHIFT(1, 2),
+    G_KEY_MOVE_UP       = CommonUtils.U32_L_SHIFT(1, 3),
+    G_KEY_MOVE_DOWN     = CommonUtils.U32_L_SHIFT(1, 4),
+    G_KEY_JUMP          = CommonUtils.U32_L_SHIFT(1, 5),
+    G_KEY_SKILL_1       = CommonUtils.U32_L_SHIFT(1, 6),
+    G_KEY_SKILL_2       = CommonUtils.U32_L_SHIFT(1, 7),
+    G_KEY_SKILL_3       = CommonUtils.U32_L_SHIFT(1, 8),
+    G_KEY_SKILL_4       = CommonUtils.U32_L_SHIFT(1, 9),
+    G_KEY_SKILL_5       = CommonUtils.U32_L_SHIFT(1, 10),
+    G_KEY_SKILL_6       = CommonUtils.U32_L_SHIFT(1, 11),
+    G_KEY_SKILL_7       = CommonUtils.U32_L_SHIFT(1, 12),
+}
 
 return Const

@@ -22,8 +22,8 @@ function FightLayer:ctor()
     self.loader:start(handler(self, self.onProcessCallback), handler(self, self.onFinishCallback), handler(self, self.onErrorCallback))
 end
 
-function FightLayer:isInitFinish()
-    return self.initSuc
+function FightLayer:onEnter()
+    self:initEvent()
 end
 
 function FightLayer:initEvent()
@@ -34,10 +34,6 @@ function FightLayer:initEvent()
     G_NetEventEmitter:on(MessageID.MSG_PUSH_FRAME_INPUT, handler(self, self.onPushFrameInput), self)
     G_NetEventEmitter:on(MessageID.MSG_PUSH_FRAME_END, handler(self, self.onPushFrameInputEnd), self)
     G_NetEventEmitter:on(MessageID.MSG_RUN_NEXT_FRAME_ACK, handler(self, self.onRunNextFrameAck), self)
-end
-
-function FightLayer:onEnter()
-    self:initEvent()
 end
 
 function FightLayer:onExit()
@@ -123,7 +119,8 @@ function FightLayer:onRunNextFrameAck(msg)
 
     if msg.frames then
         for k, v in pairs(msg.frames) do
-            -- self.pGameWorld:input(v)
+            local pid = v.pid
+            self.pGameWorld:input(pid, v.frame, v.input.key_down)
         end
     end
 end

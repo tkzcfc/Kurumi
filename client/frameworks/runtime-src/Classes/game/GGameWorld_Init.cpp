@@ -102,69 +102,69 @@ bool GGameWorld::initBorder()
 
 bool GGameWorld::initTest()
 {
-#if G_TARGET_CLIENT
-	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event*)
-	{
-		auto frame = m_pGlobal->gameLogicFrame + 1;
-		if (keyCode == EventKeyboard::KeyCode::KEY_A)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-			msg->key = G_KEY_MOVE_LEFT;
-		}
-		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-			msg->key = G_KEY_MOVE_RIGHT;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_W)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-			msg->key = G_KEY_MOVE_UP;
-		}
-		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-			msg->key = G_KEY_MOVE_DOWN;
-		}
-		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-			msg->key = G_KEY_JUMP;
-		}
-	};
-	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event*)
-	{
-		auto frame = m_pGlobal->gameLogicFrame + 1;
-		if (keyCode == EventKeyboard::KeyCode::KEY_A)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-			msg->key = G_KEY_MOVE_LEFT;
-		}
-		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-			msg->key = G_KEY_MOVE_RIGHT;
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_W)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-			msg->key = G_KEY_MOVE_UP;
-		}
-		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-			msg->key = G_KEY_MOVE_DOWN;
-		}
-		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
-		{
-			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-			msg->key = G_KEY_JUMP;
-		}
-		
-	};
-	m_rootNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, m_rootNode);
-#endif
+//#if G_TARGET_CLIENT
+//	auto listener = EventListenerKeyboard::create();
+//	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event*)
+//	{
+//		auto frame = m_pGlobal->gameLogicFrame + 1;
+//		if (keyCode == EventKeyboard::KeyCode::KEY_A)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+//			msg->key = G_KEY_MOVE_LEFT;
+//		}
+//		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+//			msg->key = G_KEY_MOVE_RIGHT;
+//		}
+//		if (keyCode == EventKeyboard::KeyCode::KEY_W)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+//			msg->key = G_KEY_MOVE_UP;
+//		}
+//		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+//			msg->key = G_KEY_MOVE_DOWN;
+//		}
+//		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
+//			msg->key = G_KEY_JUMP;
+//		}
+//	};
+//	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event*)
+//	{
+//		auto frame = m_pGlobal->gameLogicFrame + 1;
+//		if (keyCode == EventKeyboard::KeyCode::KEY_A)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+//			msg->key = G_KEY_MOVE_LEFT;
+//		}
+//		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+//			msg->key = G_KEY_MOVE_RIGHT;
+//		}
+//		if (keyCode == EventKeyboard::KeyCode::KEY_W)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+//			msg->key = G_KEY_MOVE_UP;
+//		}
+//		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+//			msg->key = G_KEY_MOVE_DOWN;
+//		}
+//		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
+//		{
+//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
+//			msg->key = G_KEY_JUMP;
+//		}
+//		
+//	};
+//	m_rootNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, m_rootNode);
+//#endif
 	return true;
 }
 

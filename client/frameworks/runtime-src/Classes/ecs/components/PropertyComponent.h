@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ecs/anaxHelper.h"
+#include "ecs/utils/opmsg/GOPMsg.h"
 #include "ecs/utils/animator/GActorStateMachine.h"
 
 //! 锁定状态定义

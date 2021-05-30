@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 05/23/21 13:36:38.
+** Generated automatically by tolua++-1.0.92 on 05/30/21 22:09:06.
 */
 
 #ifndef __cplusplus
@@ -19,6 +19,7 @@ TOLUA_API int  tolua_game_open (lua_State* tolua_S);
 #include "net_uv_cc/CCClient.h"
 #include "net_uv/net_uv.h"
 #include "net_uv_cc/CCNetClient.h"
+#include "ecs/utils/CommonUtils.h"
 #include "game/GGameWorld.h"
 #include "foundation/CTools.h"
 #include "ext/MyButton.h"
@@ -989,6 +990,254 @@ static int tolua_game_NetClient_registerLuaHandle00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: CommonUtils::U32_OR */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_OR00
+static int tolua_game_CommonUtils_U32_OR00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int src = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int dst = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   unsigned int tolua_ret = (unsigned int)  CommonUtils::U32_OR(src,dst);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_OR'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_AND */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_AND00
+static int tolua_game_CommonUtils_U32_AND00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int src = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int dst = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   unsigned int tolua_ret = (unsigned int)  CommonUtils::U32_AND(src,dst);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_AND'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_BIT_SET */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_BIT_SET00
+static int tolua_game_CommonUtils_U32_BIT_SET00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int b = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int flag = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   unsigned int tolua_ret = (unsigned int)  CommonUtils::U32_BIT_SET(b,flag);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_BIT_SET'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_BIT_GET */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_BIT_GET00
+static int tolua_game_CommonUtils_U32_BIT_GET00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int b = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int flag = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   unsigned int tolua_ret = (unsigned int)  CommonUtils::U32_BIT_GET(b,flag);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_BIT_GET'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_BIT_REMOVE */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_BIT_REMOVE00
+static int tolua_game_CommonUtils_U32_BIT_REMOVE00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int b = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int flag = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   unsigned int tolua_ret = (unsigned int)  CommonUtils::U32_BIT_REMOVE(b,flag);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_BIT_REMOVE'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_BIT_EQUAL */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_BIT_EQUAL00
+static int tolua_game_CommonUtils_U32_BIT_EQUAL00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int b = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int flag = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   bool tolua_ret = (bool)  CommonUtils::U32_BIT_EQUAL(b,flag);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_BIT_EQUAL'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_BIT_NO_EQUAL */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_BIT_NO_EQUAL00
+static int tolua_game_CommonUtils_U32_BIT_NO_EQUAL00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int b = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int flag = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   bool tolua_ret = (bool)  CommonUtils::U32_BIT_NO_EQUAL(b,flag);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_BIT_NO_EQUAL'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: CommonUtils::U32_L_SHIFT */
+#ifndef TOLUA_DISABLE_tolua_game_CommonUtils_U32_L_SHIFT00
+static int tolua_game_CommonUtils_U32_L_SHIFT00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int src = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  unsigned int move = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   unsigned int tolua_ret = (unsigned int)  CommonUtils::U32_L_SHIFT(src,move);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'U32_L_SHIFT'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: new of class  GGameWorld */
 #ifndef TOLUA_DISABLE_tolua_game_GGameWorld_new00
 static int tolua_game_GGameWorld_new00(lua_State* tolua_S)
@@ -1156,24 +1405,27 @@ static int tolua_game_GGameWorld_input00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
-     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
   GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
-  const std::string data = ((const std::string)  tolua_tocppstring(tolua_S,2,0));
+  int uuid = ((int)  tolua_tonumber(tolua_S,2,0));
+  unsigned int frame = (( unsigned int)  tolua_tonumber(tolua_S,3,0));
+  unsigned int keydown = (( unsigned int)  tolua_tonumber(tolua_S,4,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'input'", NULL);
 #endif
   {
-   self->input(data);
-   tolua_pushcppstring(tolua_S,(const char*)data);
+   self->input(uuid,frame,keydown);
   }
  }
- return 1;
+ return 0;
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'input'.",&tolua_err);
@@ -1546,6 +1798,17 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setHeartBeatLoseMaxCount",tolua_game_NetClient_setHeartBeatLoseMaxCount00);
    tolua_function(tolua_S,"closeClient",tolua_game_NetClient_closeClient00);
    tolua_function(tolua_S,"registerLuaHandle",tolua_game_NetClient_registerLuaHandle00);
+  tolua_endmodule(tolua_S);
+  tolua_module(tolua_S,"CommonUtils",0);
+  tolua_beginmodule(tolua_S,"CommonUtils");
+   tolua_function(tolua_S,"U32_OR",tolua_game_CommonUtils_U32_OR00);
+   tolua_function(tolua_S,"U32_AND",tolua_game_CommonUtils_U32_AND00);
+   tolua_function(tolua_S,"U32_BIT_SET",tolua_game_CommonUtils_U32_BIT_SET00);
+   tolua_function(tolua_S,"U32_BIT_GET",tolua_game_CommonUtils_U32_BIT_GET00);
+   tolua_function(tolua_S,"U32_BIT_REMOVE",tolua_game_CommonUtils_U32_BIT_REMOVE00);
+   tolua_function(tolua_S,"U32_BIT_EQUAL",tolua_game_CommonUtils_U32_BIT_EQUAL00);
+   tolua_function(tolua_S,"U32_BIT_NO_EQUAL",tolua_game_CommonUtils_U32_BIT_NO_EQUAL00);
+   tolua_function(tolua_S,"U32_L_SHIFT",tolua_game_CommonUtils_U32_L_SHIFT00);
   tolua_endmodule(tolua_S);
   #ifdef __cplusplus
   tolua_cclass(tolua_S,"GGameWorld","GGameWorld","",tolua_collect_GGameWorld);

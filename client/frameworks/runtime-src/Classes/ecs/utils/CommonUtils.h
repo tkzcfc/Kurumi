@@ -44,4 +44,20 @@ namespace CommonUtils
 	GUUID genUUID(anax::World& world);
 
 	bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity = NULL);
+
+	uint32_t U32_OR(uint32_t src, uint32_t dst);
+
+	uint32_t U32_AND(uint32_t src, uint32_t dst);
+
+	uint32_t U32_BIT_SET(uint32_t b, uint32_t flag);
+
+	uint32_t U32_BIT_GET(uint32_t b, uint32_t flag);
+
+	uint32_t U32_BIT_REMOVE(uint32_t b, uint32_t flag);
+
+	bool U32_BIT_EQUAL(uint32_t b, uint32_t flag);
+
+	bool U32_BIT_NO_EQUAL(uint32_t b, uint32_t flag);
+
+	uint32_t U32_L_SHIFT(uint32_t src, uint32_t move);
 }

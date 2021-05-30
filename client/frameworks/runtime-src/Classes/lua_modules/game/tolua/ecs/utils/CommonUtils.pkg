@@ -1,0 +1,40 @@
+$#include "ecs/utils/CommonUtils.h"
+
+
+
+namespace CommonUtils
+{
+	//anax::Entity& getAdmin(anax::World& world);
+
+	//GlobalComponent& getGlobalComponent(anax::World& world);
+
+	//bool initMapSize(anax::Entity& admin, int mapId);
+
+//#if G_TARGET_CLIENT
+	//DrawNode* getDebugDraw(anax::World& world);
+//#endif
+
+	// 演员创建
+	//bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);
+
+	//GUUID genUUID(anax::World& world);
+
+	//bool queryUUID(anax::World& world, GUUID uuid, anax::Entity* pEntity = NULL);
+
+	unsigned int U32_OR(unsigned int src, unsigned int dst);
+
+	unsigned int U32_AND(unsigned int src, unsigned int dst);
+	
+	unsigned int U32_BIT_SET(unsigned int b, unsigned int flag);
+
+	unsigned int U32_BIT_GET(unsigned int b, unsigned int flag);
+
+	unsigned int U32_BIT_REMOVE(unsigned int b, unsigned int flag);
+
+	bool U32_BIT_EQUAL(unsigned int b, unsigned int flag);
+
+	bool U32_BIT_NO_EQUAL(unsigned int b, unsigned int flag);
+	
+	unsigned int U32_L_SHIFT(unsigned int src, unsigned int move);
+}
+

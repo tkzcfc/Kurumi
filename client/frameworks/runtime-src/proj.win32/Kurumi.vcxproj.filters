@@ -127,9 +127,6 @@
     <Filter Include="Classes\ecs\utils\animator\dao">
       <UniqueIdentifier>{313f31e0-f754-46d9-8255-5fe604c07343}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\opmsg">
-      <UniqueIdentifier>{57c4aabc-274b-4ad3-90bd-15f641b69970}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\ecs\utils\buffer">
       <UniqueIdentifier>{6fb2908c-b1a8-4d87-a048-05786a7bbebe}</UniqueIdentifier>
     </Filter>
@@ -165,6 +162,9 @@
     </Filter>
     <Filter Include="Classes\lua_modules\game">
       <UniqueIdentifier>{7dc02833-5242-4dbb-b6c2-9d552378778e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\ecs\utils\opmsg">
+      <UniqueIdentifier>{7c4cf3b4-5a64-438a-99c8-46c1c3522885}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -425,12 +425,6 @@
     <ClInclude Include="..\Classes\ecs\utils\animator\dao\DaoStateMachine.h">
       <Filter>Classes\ecs\utils\animator\dao</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\opmsg\GOPMsgQue.h">
-      <Filter>Classes\opmsg</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\opmsg\GOPMsg.h">
-      <Filter>Classes\opmsg</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ecs\components\FilterBitsComponent.h">
       <Filter>Classes\ecs\components</Filter>
     </ClInclude>
@@ -662,6 +656,12 @@
     <ClInclude Include="..\Classes\ecs\utils\ArmatureUtils.h">
       <Filter>Classes\ecs\utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\opmsg\GOPMsg.h">
+      <Filter>Classes\ecs\utils\opmsg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ecs\utils\opmsg\GOPMsgQue.h">
+      <Filter>Classes\ecs\utils\opmsg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -878,12 +878,6 @@
     <ClCompile Include="..\Classes\ecs\utils\animator\dao\DaoStateMachine.cpp">
       <Filter>Classes\ecs\utils\animator\dao</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\opmsg\GOPMsg.cpp">
-      <Filter>Classes\opmsg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\opmsg\GOPMsgQue.cpp">
-      <Filter>Classes\opmsg</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ecs\system\ArmatureSystem.cpp">
       <Filter>Classes\ecs\system</Filter>
     </ClCompile>
@@ -1039,6 +1033,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp">
       <Filter>Classes\ecs\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\opmsg\GOPMsgQue.cpp">
+      <Filter>Classes\ecs\utils\opmsg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ecs\utils\opmsg\GOPMsg.cpp">
+      <Filter>Classes\ecs\utils\opmsg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

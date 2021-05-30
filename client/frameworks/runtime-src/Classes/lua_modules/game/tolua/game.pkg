@@ -1,15 +1,18 @@
 $#include "lua_function/tolua_ext.h"
 
+// net_uv_cc
+$pfile "net_uv_cc/client.pkg"
+$pfile "net_uv_cc/net_uv.pkg"
+$pfile "net_uv_cc/net_client.pkg"
+
 // ecs
 //$pfile "ecs/anaxHelper.pkg"
 //$pfile "ecs/anax.pkg"
 //$pfile "ecs/systems.pkg"
 //$pfile "ecs/components.pkg"
+$pfile "ecs/utils/CommonUtils.pkg"
+//$pfile "ecs/opmsg/GOPMsg.pkg"
 
-// net_uv_cc
-$pfile "net_uv_cc/client.pkg"
-$pfile "net_uv_cc/net_uv.pkg"
-$pfile "net_uv_cc/net_client.pkg"
 
 // game
 $pfile "game/GGameWorld.pkg"

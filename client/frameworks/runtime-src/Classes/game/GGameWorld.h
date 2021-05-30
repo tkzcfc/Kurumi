@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ecs/ECSDefine.h"
+#include "ecs/utils/opmsg/GOPMsg.h"
 
 class GGameWorld
 {
@@ -12,7 +13,7 @@ public:
 	
 	void update(float32 dt);
 
-	void input(const std::string& data);
+	void input(GUUID uuid, uint32_t frame, G_BIT_TYPE keydown);
 
 	void render();
 

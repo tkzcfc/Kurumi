@@ -248,6 +248,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\ecs\utils\buff\Buff.h" />
     <ClInclude Include="..\Classes\ecs\utils\CommonUtils.h" />
     <ClInclude Include="..\Classes\ecs\utils\GAniName.h" />
+    <ClInclude Include="..\Classes\ecs\utils\opmsg\GOPMsg.h" />
+    <ClInclude Include="..\Classes\ecs\utils\opmsg\GOPMsgQue.h" />
     <ClInclude Include="..\Classes\ecs\utils\physics\GCollision.h" />
     <ClInclude Include="..\Classes\ecs\utils\physics\GManifold.h" />
     <ClInclude Include="..\Classes\ecs\utils\physics\GShape.h" />
@@ -352,8 +354,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClInclude Include="..\Classes\net_uv\udp\UDPSocket.h" />
     <ClInclude Include="..\Classes\net_uv_cc\CCClient.h" />
     <ClInclude Include="..\Classes\net_uv_cc\CCNetClient.h" />
-    <ClInclude Include="..\Classes\opmsg\GOPMsg.h" />
-    <ClInclude Include="..\Classes\opmsg\GOPMsgQue.h" />
     <ClInclude Include="..\Classes\test\TestArmature.h" />
     <ClInclude Include="..\Classes\test\TestPhysics.h" />
     <ClInclude Include="..\Classes\test\TestSIMPhys.h" />
@@ -395,6 +395,8 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\ecs\utils\ArmatureUtils.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\buff\Buff.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\CommonUtils.cpp" />
+    <ClCompile Include="..\Classes\ecs\utils\opmsg\GOPMsg.cpp" />
+    <ClCompile Include="..\Classes\ecs\utils\opmsg\GOPMsgQue.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\physics\GCollision.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\physics\GManifold.cpp" />
     <ClCompile Include="..\Classes\ecs\utils\physics\GShape.cpp" />
@@ -482,8 +484,6 @@ xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\src" /D /E /
     <ClCompile Include="..\Classes\net_uv\tcp\TCPSocket.cpp" />
     <ClCompile Include="..\Classes\net_uv\udp\UDPSocket.cpp" />
     <ClCompile Include="..\Classes\net_uv_cc\CCNetClient.cpp" />
-    <ClCompile Include="..\Classes\opmsg\GOPMsg.cpp" />
-    <ClCompile Include="..\Classes\opmsg\GOPMsgQue.cpp" />
     <ClCompile Include="..\Classes\test\TestArmature.cpp" />
     <ClCompile Include="..\Classes\test\TestPhysics.cpp" />
     <ClCompile Include="..\Classes\test\TestSIMPhys.cpp" />

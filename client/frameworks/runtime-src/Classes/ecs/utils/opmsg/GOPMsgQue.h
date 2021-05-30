@@ -15,12 +15,12 @@ public:
 	template<class T>
 	T* addMsg(uint32_t logicFrame, int32_t uuid, G_BIT_TYPE cmd);
 
-	GOPMsg_Base* addMsg(GOPMsg_Base* inMsg);
+	GOPMsg* addMsg(GOPMsg* inMsg);
 	
-	G_FORCEINLINE void freeMsg(GOPMsg_Base* msg);
+	G_FORCEINLINE void freeMsg(GOPMsg* msg);
 
 	// 外部使用完毕之后必须调用 freeMsg
-	GOPMsg_Base* popMsg();
+	GOPMsg* popMsg();
 
 	G_FORCEINLINE bool empty() const;
 
@@ -29,25 +29,23 @@ public:
 private:
 
 	GBlockAllocator m_allocator;
-	std::deque<GOPMsg_Base*> m_msgQue;
+	std::deque<GOPMsg*> m_msgQue;
 };
 
 template<class T>
-T* GOPMsgQue::addMsg(uint32_t logicFrame, int32_t uuid, G_BIT_TYPE cmd)
+T* GOPMsgQue::addMsg(uint32_t logicFrame, int32_t uuid, G_BIT_TYPE keydown)
 {
 	T* msg = (T*)m_allocator.Allocate(sizeof(T));
 	msg->logicFrame = logicFrame;
 	msg->uuid = uuid;
-	msg->cmd = cmd;
-	msg->msgSize = sizeof(T);
+	msg->keydown = keydown;
 	m_msgQue.push_back(msg);
 	return msg;
 }
 
-
-void GOPMsgQue::freeMsg(GOPMsg_Base* msg)
+void GOPMsgQue::freeMsg(GOPMsg* msg)
 {
-	m_allocator.Free(msg, msg->msgSize);
+	m_allocator.Free(msg, sizeof(GOPMsg));
 }
 
 bool GOPMsgQue::empty() const

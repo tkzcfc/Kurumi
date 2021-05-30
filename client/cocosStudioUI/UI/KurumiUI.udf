@@ -28,14 +28,5 @@
         <LastRunType Value="Windows" />
       </Value>
     </Item>
-    <Item Key="TabsParamsKey">
-      <Value ctype="TabsInfo">
-        <OpenedDocuments>
-          <FilePathData Path="windows/fight/UI_FightLoading.csd" />
-          <FilePathData Path="windows/home/UI_CreateWindow.csd" />
-        </OpenedDocuments>
-        <ActiveDocument Path="windows/fight/UI_FightLoading.csd" />
-      </Value>
-    </Item>
   </Properties>
 </UserData>

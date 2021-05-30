@@ -17,7 +17,12 @@ void InputSystem::update()
 		globalCom.inputQue.freeMsg(msg);
 	}
 
-	afterInput();
+	auto& entities = this->getEntities();
+	for (auto& entity : entities)
+	{
+		auto& property = entity.getComponent<PropertyComponent>();
+		property.stateMachine->updateInput();
+	}
 }
 
 void InputSystem::beforeInput()
@@ -48,7 +53,7 @@ void InputSystem::beforeInput()
 	}
 }
 
-void InputSystem::input(GOPMsg_Base* msg)
+void InputSystem::input(GOPMsg* msg)
 {
 	auto& entities = this->getEntities();
 	for (auto& entity : entities)
@@ -56,46 +61,35 @@ void InputSystem::input(GOPMsg_Base* msg)
 		if (msg->uuid == entity.getComponent<PropertyComponent>().uuid)
 		{
 			auto& inputComponent = entity.getComponent<InputComponent>();
-			// 按键抬起
-			if (G_BIT_EQUAL(msg->cmd, G_CMD_KEY_UP))
-			{
-#if 0
-				auto tempValue = inputComponent.keyDown;
-#endif
-				auto msgKey = (GOPMsg_Key*)msg;
-				G_BIT_REMOVE(inputComponent.keyDown, msgKey->key);
 
-#if 0
-				// 验证一下上面的方法是对的不
-				for (auto i = 1; i < G_BIT_MAX_COUNT; ++i)
-				{
-					if (G_BIT_EQUAL(msgKey->key, G_FIXED_VALUE << i))
-						G_BIT_REMOVE(tempValue, G_FIXED_VALUE << i);
-				}
-				G_ASSERT(tempValue == inputComponent.keyDown);
-#endif
-			}
-			// 按键按下
-			else if (G_BIT_EQUAL(msg->cmd, G_CMD_KEY_DOWN))
+			for (auto i = 1; i <= G_KEY_MAX_COUNT; ++i)
 			{
-				auto msgKey = (GOPMsg_Key*)msg;
-				G_BIT_SET(inputComponent.keyDown, msgKey->key);
+				if (G_BIT_EQUAL(inputComponent.lastKeyDown, G_FIXED_VALUE << i))
+				{
+					// 按键抬起
+					if (G_BIT_NO_EQUAL(inputComponent.keyDown, G_FIXED_VALUE << i))
+					{
+						keyUp(entity, G_FIXED_VALUE << i);
+					}
+					// 按键持续按下
+					else
+					{
+					}
+				}
+				else
+				{
+					// 按键按下瞬间
+					if (G_BIT_EQUAL(inputComponent.keyDown, G_FIXED_VALUE << i))
+					{
+					}
+				}
 			}
 		}
 	}
 }
 
-void InputSystem::afterInput()
-{
-	auto keys = getAutoResetKeys();
-	auto& entities = this->getEntities();
-	for (auto& entity : entities)
-	{
-		auto& input = entity.getComponent<InputComponent>();
-		auto& property = entity.getComponent<PropertyComponent>();
-		property.stateMachine->updateInput();
+void InputSystem::keyUp(const anax::Entity& entity, G_BIT_TYPE key)
+{}
 
-		// 自动复原按键
-		G_BIT_REMOVE(input.keyDown, keys);
-	}
-}
+
+

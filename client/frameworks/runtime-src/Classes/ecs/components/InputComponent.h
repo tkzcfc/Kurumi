@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ecs/anaxHelper.h"
-#include "opmsg/GOPMsg.h"
+#include "ecs/utils/opmsg/GOPMsg.h"
 
 class InputComponent : public BaseComponent
 {
