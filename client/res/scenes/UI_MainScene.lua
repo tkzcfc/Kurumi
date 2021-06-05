@@ -37,6 +37,24 @@ setmetatable(result, luaExtend)
 local Scene=cc.Node:create()
 Scene:setName("Scene")
 
+--Create Panel_Content
+local Panel_Content = ccui.Layout:create()
+Panel_Content:ignoreContentAdaptWithSize(false)
+Panel_Content:setClippingEnabled(false)
+Panel_Content:setBackGroundColorOpacity(102)
+Panel_Content:setLayoutComponentEnabled(true)
+Panel_Content:setName("Panel_Content")
+Panel_Content:setTag(141)
+Panel_Content:setCascadeColorEnabled(true)
+Panel_Content:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_Content)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Scene:addChild(Panel_Content)
+
 --Create ArmatureNode_Yun
 local ArmatureNode_Yun = ccs.Armature:create()
 ArmatureNode_Yun:setName("ArmatureNode_Yun")
@@ -56,7 +74,7 @@ layout:setBottomMargin(344.6186)
 ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("plist/zhuc_ldpi/yun.ExportJson")
 ArmatureNode_Yun:init("yun")
 ArmatureNode_Yun:getAnimation():play("Animation1",-1, 1)
-Scene:addChild(ArmatureNode_Yun)
+Panel_Content:addChild(ArmatureNode_Yun)
 
 --Create ScrollView
 local ScrollView = ccui.ScrollView:create()
@@ -76,7 +94,7 @@ layout:setPercentHeightEnabled(true)
 layout:setPercentWidth(1.0000)
 layout:setPercentHeight(1.0000)
 layout:setSize({width = 1136.0000, height = 640.0000})
-Scene:addChild(ScrollView)
+Panel_Content:addChild(ScrollView)
 
 --Create FileNode_3
 innerCSD = require("windows.home.Yun")

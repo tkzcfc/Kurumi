@@ -90,8 +90,6 @@ private:
 
 	GNetService* m_pNetService;
 	GApplication* m_pApplication;
-	
-	float m_lastRunTime;
 
 	// 本局游戏玩家数量
 	int32_t m_playerCount;
@@ -107,6 +105,11 @@ private:
 	};
 	RUN_STATE m_state;
 	float m_waitTime;
+
+	// 游戏最后一次执行逻辑时间
+	float m_lastRunTime;
+	// 游戏累计运行时间
+	float m_accumilatedTime;
 
 	//// 玩家输入记录
 	//struct Record

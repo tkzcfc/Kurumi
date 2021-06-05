@@ -37,6 +37,24 @@ setmetatable(result, luaExtend)
 local Scene=cc.Node:create()
 Scene:setName("Scene")
 
+--Create Panel_Content
+local Panel_Content = ccui.Layout:create()
+Panel_Content:ignoreContentAdaptWithSize(false)
+Panel_Content:setClippingEnabled(false)
+Panel_Content:setBackGroundColorOpacity(102)
+Panel_Content:setLayoutComponentEnabled(true)
+Panel_Content:setName("Panel_Content")
+Panel_Content:setTag(76)
+Panel_Content:setCascadeColorEnabled(true)
+Panel_Content:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_Content)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Scene:addChild(Panel_Content)
+
 --Create Animation
 result['animation'] = ccs.ActionTimeline:create()
   

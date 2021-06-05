@@ -2,7 +2,7 @@
 -- @Date:   2019-06-06 22:08:04
 -- @remark: 
 
-local UIControl = class("UIControl", cc.Node)
+local InputLayer = class("InputLayer", cc.Node)
 
 local InputKey = Const.InputKey
 
@@ -14,17 +14,23 @@ local KEY_CODE_MAP = {
 }
 
 
-function UIControl:ctor()
-    self.ui = G_Helper.loadStudioFile("ui.UI_PlayerControl", self)
+function InputLayer:ctor()
+    self.ui = G_Helper.loadStudioFile("windows.fight.UI_InputLayer", self)
     self:addChild(self.ui.root)
 
     self.iKey = 0
 
     self:initTouch()
     self:initKeyboard()
+
+    G_SysEventEmitter:on(SysEvent.FIGHT_UPLOAD_INPUT, handler(self, self.onUploadInput), self)
 end
 
-function UIControl:initTouch()
+function InputLayer:onUploadInput()
+    _MyG.FightManager:sendRunNextFrameReq(0)
+end
+
+function InputLayer:initTouch()
 
 	local beginPos = {x = self.ui.sprite_BG:getPositionX(), y = self.ui.sprite_BG:getPositionY()}
 	local touchBox = self.ui.sprite_BG:getBoundingBox()
@@ -127,36 +133,36 @@ function UIControl:initTouch()
 	cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, touchLayer)
 end
 
-function UIControl:onKeyDown(key)
+function InputLayer:onKeyDown(key)
     self.iKey = CommonUtils.U32_BIT_SET(self.iKey, key)
 end
 
-function UIControl:onKeyUp(key)
+function InputLayer:onKeyUp(key)
     self.iKey = CommonUtils.U32_BIT_REMOVE(self.iKey, key)
 end
 
--- function UIControl:left()
+-- function InputLayer:left()
 -- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, -1)
 -- end
 
--- function UIControl:right()
+-- function InputLayer:right()
 -- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, 1)
 -- end
 
--- function UIControl:up()
+-- function InputLayer:up()
 -- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, 1)
 -- end
 
--- function UIControl:down()
+-- function InputLayer:down()
 -- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, -1)
 -- end
 
--- function UIControl:cancel()
+-- function InputLayer:cancel()
 -- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_CANCEL)
 -- end
 
 
-function UIControl:initKeyboard()
+function InputLayer:initKeyboard()
 	 --键盘事件  
     local function onKeyPressed(keyCode, event)
         if KEY_CODE_MAP[keyCode] then
@@ -178,16 +184,16 @@ end
 
 
 
-function UIControl:onClickChangeWeapon(sender)
+function InputLayer:onClickChangeWeapon(sender)
 	-- local player = _MyG.PlayerController:getPlayer()
 	-- _MyG.PlayerDispatcher:call("control_changeWeapon", player)
 end
 
-function UIControl:onClickAttack(sender)
+function InputLayer:onClickAttack(sender)
 	-- G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_ATTACK_NORMAL)
 end
 
-function UIControl:onClickSkill(sender)
+function InputLayer:onClickSkill(sender)
 	-- local userData = tonumber(sender.UserData[1])
 	-- if userData == 1 then
 	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_JUMP)
@@ -201,4 +207,4 @@ function UIControl:onClickSkill(sender)
 end
 
 
-return UIControl
+return InputLayer

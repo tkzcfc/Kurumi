@@ -37,6 +37,24 @@ setmetatable(result, luaExtend)
 local Scene=cc.Node:create()
 Scene:setName("Scene")
 
+--Create Panel_Content
+local Panel_Content = ccui.Layout:create()
+Panel_Content:ignoreContentAdaptWithSize(false)
+Panel_Content:setClippingEnabled(false)
+Panel_Content:setBackGroundColorOpacity(102)
+Panel_Content:setLayoutComponentEnabled(true)
+Panel_Content:setName("Panel_Content")
+Panel_Content:setTag(77)
+Panel_Content:setCascadeColorEnabled(true)
+Panel_Content:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_Content)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Scene:addChild(Panel_Content)
+
 --Create ArmatureNode_1
 local ArmatureNode_1 = ccs.Armature:create()
 ArmatureNode_1:setName("ArmatureNode_1")
@@ -57,7 +75,7 @@ layout:setBottomMargin(294.4000)
 ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("plist/uianimation/land_background_2.ExportJson")
 ArmatureNode_1:init("land_background_2")
 ArmatureNode_1:getAnimation():play("land_2",-1, 1)
-Scene:addChild(ArmatureNode_1)
+Panel_Content:addChild(ArmatureNode_1)
 
 --Create Image_1
 local Image_1 = ccui.ImageView:create()
@@ -83,7 +101,7 @@ layout:setLeftMargin(266.5361)
 layout:setRightMargin(530.3153)
 layout:setTopMargin(385.4844)
 layout:setBottomMargin(180.5156)
-Scene:addChild(Image_1)
+Panel_Content:addChild(Image_1)
 
 --Create TextField_Account
 local TextField_Account = ccui.TextField:create()
@@ -140,7 +158,7 @@ layout:setLeftMargin(266.5361)
 layout:setRightMargin(530.3153)
 layout:setTopMargin(476.2321)
 layout:setBottomMargin(89.7679)
-Scene:addChild(Image_1_0)
+Panel_Content:addChild(Image_1_0)
 
 --Create TextField_Password
 local TextField_Password = ccui.TextField:create()
@@ -200,7 +218,7 @@ layout:setLeftMargin(677.6911)
 layout:setRightMargin(323.8839)
 layout:setTopMargin(424.3251)
 layout:setBottomMargin(135.4093)
-Scene:addChild(Button_2)
+Panel_Content:addChild(Button_2)
 
 --Create ArmatureNode_4
 local ArmatureNode_4 = ccs.Armature:create()

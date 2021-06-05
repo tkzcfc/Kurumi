@@ -55,7 +55,6 @@ end
 function LoadResource:updateUI(percent)
 	percent = math.max(percent, 0.0)
 	percent = math.min(percent, 1.0)
-	self.uiPercent = percent
 	self.ui.ldrunning:setPositionX(percent * self.totalWidth)
 	self.ui.Panel_Load:setContentSize({width = percent * self.totalWidth, height = self.panelheight})
 end

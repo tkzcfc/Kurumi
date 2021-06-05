@@ -3,6 +3,9 @@
 // 最大同时战斗数量
 static int32_t MAX_FIGHT_COUNT = 100;
 
+// 游戏逻辑帧率
+static float LOGIC_INTERVAL = 1 / 30.0f;
+
 uint32_t GFightService::onInit()
 {
 	// 依赖网络服务,用于与玩家通信
@@ -41,6 +44,10 @@ void GFightService::onStartService()
 	GApplication::getInstance()->getScheduler()->schedule([=](float) {
 		this->clearInvalid();
 	}, this, 5.0f, false, "check");
+
+	GApplication::getInstance()->getScheduler()->schedule([=](float) {
+		this->logicUpdate(LOGIC_INTERVAL);
+	}, this, LOGIC_INTERVAL, false, "logicUpdate");
 }
 
 void GFightService::onStopService()
@@ -50,7 +57,7 @@ void GFightService::onStopService()
 	m_pNetService->noticeCenter()->delListener(this);
 }
 
-void GFightService::onUpdate(float dt)
+void GFightService::logicUpdate(float dt)
 {
 	for (auto& it : m_arrFightInfo)
 	{
@@ -103,6 +110,7 @@ void GFightService::clearInvalid()
 	{
 		if ((*it)->getIsFinish())
 		{
+			delete *it;
 			it = m_arrFightInfo.erase(it);
 		}
 		else

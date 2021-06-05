@@ -37,6 +37,24 @@ setmetatable(result, luaExtend)
 local Scene=cc.Node:create()
 Scene:setName("Scene")
 
+--Create Panel_Content
+local Panel_Content = ccui.Layout:create()
+Panel_Content:ignoreContentAdaptWithSize(false)
+Panel_Content:setClippingEnabled(false)
+Panel_Content:setBackGroundColorOpacity(102)
+Panel_Content:setLayoutComponentEnabled(true)
+Panel_Content:setName("Panel_Content")
+Panel_Content:setTag(170)
+Panel_Content:setCascadeColorEnabled(true)
+Panel_Content:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_Content)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Scene:addChild(Panel_Content)
+
 --Create sprite_BG
 local sprite_BG = cc.Sprite:create("plist/cont/adui10.png")
 sprite_BG:setName("sprite_BG")
@@ -55,7 +73,7 @@ layout:setRightMargin(673.8824)
 layout:setTopMargin(198.1161)
 layout:setBottomMargin(-118.1161)
 sprite_BG:setBlendFunc({src = 1, dst = 771})
-Scene:addChild(sprite_BG)
+Panel_Content:addChild(sprite_BG)
 
 --Create sprite_Ori
 local sprite_Ori = cc.Sprite:create("plist/cont/adui10_2.png")
@@ -119,7 +137,7 @@ layout:setRightMargin(653.8807)
 layout:setTopMargin(178.1142)
 layout:setBottomMargin(-138.1142)
 sprite_Move:setBlendFunc({src = 1, dst = 771})
-Scene:addChild(sprite_Move)
+Panel_Content:addChild(sprite_Move)
 
 --Create Button_ChangeWeapon
 local Button_ChangeWeapon = ccui.Button:create()
@@ -141,7 +159,7 @@ Button_ChangeWeapon:setCascadeOpacityEnabled(true)
 Button_ChangeWeapon:setVisible(false)
 Button_ChangeWeapon:setPosition(695.8053, 88.5668)
 if callBackProvider~=nil then
-      Button_ChangeWeapon:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_ChangeWeapon, "onClickChangeWeapon"))
+      Button_ChangeWeapon:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_ChangeWeapon, "onClickChangeWeapon"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_ChangeWeapon)
 layout:setPositionPercentX(0.6125)
@@ -153,7 +171,7 @@ layout:setLeftMargin(640.8053)
 layout:setRightMargin(385.1947)
 layout:setTopMargin(496.4332)
 layout:setBottomMargin(33.5668)
-Scene:addChild(Button_ChangeWeapon)
+Panel_Content:addChild(Button_ChangeWeapon)
 
 --Create Button_1
 local Button_1 = ccui.Button:create()
@@ -170,7 +188,7 @@ Button_1:setCascadeColorEnabled(true)
 Button_1:setCascadeOpacityEnabled(true)
 Button_1:setPosition(1013.3350, 105.6456)
 if callBackProvider~=nil then
-      Button_1:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_1, "onClickAttack"))
+      Button_1:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_1, "onClickAttack"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_1)
 layout:setPositionPercentX(0.8920)
@@ -182,7 +200,7 @@ layout:setLeftMargin(948.3350)
 layout:setRightMargin(57.6650)
 layout:setTopMargin(469.3544)
 layout:setBottomMargin(40.6456)
-Scene:addChild(Button_1)
+Panel_Content:addChild(Button_1)
 
 --Create Button_2
 local Button_2 = ccui.Button:create()
@@ -202,7 +220,7 @@ Button_2:setCascadeColorEnabled(true)
 Button_2:setCascadeOpacityEnabled(true)
 Button_2:setPosition(84.3111, 583.7205)
 if callBackProvider~=nil then
-      Button_2:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_2, "onClickOpenDebug"))
+      Button_2:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_2, "onClickOpenDebug"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_2)
 layout:setPositionPercentX(0.0742)
@@ -210,11 +228,11 @@ layout:setPositionPercentY(0.9121)
 layout:setPercentWidth(0.0630)
 layout:setPercentHeight(0.0642)
 layout:setSize({width = 71.5457, height = 41.1091})
-layout:setLeftMargin(48.5382)
+layout:setLeftMargin(48.5383)
 layout:setRightMargin(1015.9160)
 layout:setTopMargin(35.7249)
 layout:setBottomMargin(563.1660)
-Scene:addChild(Button_2)
+Panel_Content:addChild(Button_2)
 
 --Create Node_Skill_1
 local Node_Skill_1=cc.Node:create()
@@ -230,7 +248,7 @@ layout:setLeftMargin(864.7178)
 layout:setRightMargin(271.2822)
 layout:setTopMargin(572.3649)
 layout:setBottomMargin(67.6351)
-Scene:addChild(Node_Skill_1)
+Panel_Content:addChild(Node_Skill_1)
 
 --Create Image
 local Image = ccui.ImageView:create()
@@ -266,7 +284,7 @@ Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
 Button_Skill.UserData[1] = [==========[1]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})
@@ -290,7 +308,7 @@ layout:setLeftMargin(895.5136)
 layout:setRightMargin(240.4864)
 layout:setTopMargin(472.3197)
 layout:setBottomMargin(167.6803)
-Scene:addChild(Node_Skill_2)
+Panel_Content:addChild(Node_Skill_2)
 
 --Create Image
 local Image = ccui.ImageView:create()
@@ -326,7 +344,7 @@ Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
 Button_Skill.UserData[1] = [==========[2]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})
@@ -350,7 +368,7 @@ layout:setLeftMargin(1068.4180)
 layout:setRightMargin(67.5823)
 layout:setTopMargin(365.3433)
 layout:setBottomMargin(274.6567)
-Scene:addChild(Node_Skill_3)
+Panel_Content:addChild(Node_Skill_3)
 
 --Create Image
 local Image = ccui.ImageView:create()
@@ -386,7 +404,7 @@ Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
 Button_Skill.UserData[1] = [==========[4]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})
@@ -410,7 +428,7 @@ layout:setLeftMargin(970.9692)
 layout:setRightMargin(165.0308)
 layout:setTopMargin(401.3378)
 layout:setBottomMargin(238.6622)
-Scene:addChild(Node_Skill_4)
+Panel_Content:addChild(Node_Skill_4)
 
 --Create Image
 local Image = ccui.ImageView:create()
@@ -446,7 +464,7 @@ Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
 Button_Skill.UserData[1] = [==========[3]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_PlayerControl.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})

@@ -17,9 +17,9 @@ public:
 
 	virtual void onStopService() override;
 
-	virtual void onUpdate(float) override;
-
 	virtual void onDestroy() override;
+
+	virtual void logicUpdate(float dt);
 
 protected:
 

@@ -37,6 +37,24 @@ setmetatable(result, luaExtend)
 local Scene=cc.Node:create()
 Scene:setName("Scene")
 
+--Create Panel_Content
+local Panel_Content = ccui.Layout:create()
+Panel_Content:ignoreContentAdaptWithSize(false)
+Panel_Content:setClippingEnabled(false)
+Panel_Content:setBackGroundColorOpacity(102)
+Panel_Content:setLayoutComponentEnabled(true)
+Panel_Content:setName("Panel_Content")
+Panel_Content:setTag(74)
+Panel_Content:setCascadeColorEnabled(true)
+Panel_Content:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_Content)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Scene:addChild(Panel_Content)
+
 --Create Image_5
 local Image_5 = ccui.ImageView:create()
 Image_5:ignoreContentAdaptWithSize(false)
@@ -61,7 +79,7 @@ layout:setLeftMargin(-28.4000)
 layout:setRightMargin(-28.3999)
 layout:setTopMargin(-16.0000)
 layout:setBottomMargin(-16.0000)
-Scene:addChild(Image_5)
+Panel_Content:addChild(Image_5)
 
 --Create bsx_huYao_12
 local bsx_huYao_12 = cc.Sprite:create("plist/ui/fragment/bsx_huYao.png")
@@ -83,7 +101,7 @@ layout:setRightMargin(428.2197)
 layout:setTopMargin(165.3204)
 layout:setBottomMargin(178.6796)
 bsx_huYao_12:setBlendFunc({src = 1, dst = 771})
-Scene:addChild(bsx_huYao_12)
+Panel_Content:addChild(bsx_huYao_12)
 
 --Create Image_LoadBG
 local Image_LoadBG = ccui.ImageView:create()
@@ -106,7 +124,7 @@ layout:setLeftMargin(97.3502)
 layout:setRightMargin(75.6177)
 layout:setTopMargin(549.4879)
 layout:setBottomMargin(60.5121)
-Scene:addChild(Image_LoadBG)
+Panel_Content:addChild(Image_LoadBG)
 
 --Create ArmatureNode_Load
 local ArmatureNode_Load = ccs.Armature:create()
@@ -200,7 +218,7 @@ layout:setLeftMargin(496.5000)
 layout:setRightMargin(496.5000)
 layout:setTopMargin(594.7665)
 layout:setBottomMargin(23.2335)
-Scene:addChild(Text_Tip)
+Panel_Content:addChild(Text_Tip)
 
 --Create Animation
 result['animation'] = ccs.ActionTimeline:create()

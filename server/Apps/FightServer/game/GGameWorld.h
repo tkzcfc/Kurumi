@@ -21,24 +21,14 @@ public:
 
 	bool init(const GGameWorldInitArgs& args);
 	
-	void update(float dt);
+	void updateFrame();
 
 public:
 
 	G_FORCEINLINE uint32_t getGameLogicFrame() const;
 
-public:
-
-	// 每一帧的时间长度
-	static float GGameFrameLen;
-
 private:
 
-	///! 帧同步相关
-	// 累计运行时间
-	float m_fAccumilatedTime;
-	// 下一个逻辑帧时间
-	float m_fNextGameTime;
 	// 游戏逻辑帧数
 	uint32_t m_gameLogicFrame;
 };

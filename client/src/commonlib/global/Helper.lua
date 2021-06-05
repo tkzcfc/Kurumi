@@ -95,27 +95,6 @@ function Helper.lerp(x, y, alpha)
 	return ret
 end
 
-function Helper.loadStudioFile(fileName, target)
-	local root = require(fileName).create(function (path, node, funcName)
-		if target == nil then
-			return
-		end
-        return function(...) 
-            if target[funcName] and type(target[funcName]) == "function" then
-                target[funcName](target, ...)
-            else
-                Helper.log(string.format("[%s -> %s]: %s方法未实现", path, node:getName(), funcName))
-            end
-        end
-    end)
-
-	if root and Helper.loadStudioFileEx then
-		Helper.loadStudioFileEx(root)
-	end
-
-    return root
-end
-
 function Helper.serialMap2Url(tb)
 	if type(tb) == "table" then
 		local s = ""

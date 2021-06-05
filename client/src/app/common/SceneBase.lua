@@ -8,28 +8,7 @@ local SceneBase = class("SceneBase", ViewBase)
 
 function SceneBase:onCreate()
 	self.iFullWindowCount = 0
-
-	G_SysEventEmitter:on("event_WindowShowFinish", function(window, unique)
-		if not unique then return end
-		if self ~= _MyG.ScenesManager:getRuningView() then return end
-
-		self.iFullWindowCount = self.iFullWindowCount + 1
-		if self.iFullWindowCount == 1 then
-			self:onHideNodes()
-		end
-	end, self)
-	
-	G_SysEventEmitter:on("event_WindowDismiss", function(window, unique)
-		if not unique then return end
-		if self ~= _MyG.ScenesManager:getRuningView() then return end
-
-		self.iFullWindowCount = self.iFullWindowCount - 1
-		if self.iFullWindowCount == 0 then
-			self:onShowNodes()
-		end
-	end, self)
 end
-
 
 function SceneBase:loadUILua(path)
 	self.ui = G_Helper.loadStudioFile(path, self)
@@ -47,7 +26,35 @@ function SceneBase:onNetMsg(msgID, call, priority)
 	G_NetEventEmitter:on(msgID, call, self, priority)
 end
 
+-- @brief 监听系统消息
+-- @param msgID 消息ID
+-- @param call 回调
+-- @param priority 监听优先级
+function SceneBase:onSysMsg(msgID, call, priority)
+	G_SysEventEmitter:on(msgID, call, self, priority)
+end
+
 function SceneBase:onEnter()
+	self:onSysMsg("event_WindowShowFinish", function(window, unique)
+		if not unique then return end
+		if self ~= _MyG.ScenesManager:getRuningView() then return end
+
+		self.iFullWindowCount = self.iFullWindowCount + 1
+		if self.iFullWindowCount == 1 then
+			self:onHideNodes()
+		end
+	end)
+
+	self:onSysMsg("event_WindowDismiss", function(window, unique)
+		if not unique then return end
+		if self ~= _MyG.ScenesManager:getRuningView() then return end
+
+		self.iFullWindowCount = self.iFullWindowCount - 1
+		if self.iFullWindowCount == 0 then
+			self:onShowNodes()
+		end
+	end)
+
 	if type(self.initNetEvent) == "function" then
 		self:initNetEvent()
 	end

@@ -1,6 +1,26 @@
 #include "GameLogic.h"
 
-// 服务器游戏同步逻辑
+
+//////////////////////////////////////////////////////////////////////////
+/// 游戏配置相关
+
+// 服务端逻辑帧最多领先最快客户端多少帧
+static const uint32_t MAX_LEAD_FRAME_DIS_MAX_CLIENT = 10U;
+
+// 服务端逻辑帧最多领先最慢客户端多少帧 (超过这个帧数后切换为等待状态)
+static const uint32_t MAX_LEAD_FRAME_DIS_MIN_CLIENT = 100U;
+
+// 服务器处于 WAIT_CONNECT 阶段时最多等待客户端多少秒(超过这个时间客户端还没有连上就会将客户端踢出游戏)
+static const float MAX_WAIT_CONNECT_TIME = 5.0f;
+
+// 单个玩家游戏时,客户端最大离线时间(超过这个时间客户端还没有断线重连就会将客户端踢出游戏)
+static const float MAX_OFF_LINE_TIME_SINGLE_PLAYER = 60.0f;
+
+// 多个玩家游戏时,客户端最大离线时间(应该设置较小,避免其他玩家太长时间处于等待期)
+static const float MAX_OFF_LINE_TIME_MULTIPLE_PLAYER = 10.0f;
+
+//////////////////////////////////////////////////////////////////////////
+
 
 static int32_t sg_uuid_seed = 0;
 
@@ -12,6 +32,8 @@ GameLogic::GameLogic()
 	m_uuid = sg_uuid_seed++;
 	m_state = RUN_STATE::WAIT_CONNECT;
 	m_waitTime = 0.0f;
+	m_lastRunTime = 0.0f;
+	m_accumilatedTime = 0.0f;
 }
 
 GameLogic::~GameLogic()
@@ -61,7 +83,6 @@ err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protob
 
 	m_pApplication = GApplication::getInstance();
 	m_playerCount = roles.size();
-	m_lastRunTime = m_pApplication->getRunTime();
 	m_pNetService = m_pApplication->getServiceMgr()->getService<GNetService>();
 
 	//! 客户端通信
@@ -115,7 +136,7 @@ void GameLogic::update_WaitConnect(float dt)
 		if (m_players[i]->isOffline())
 		{
 			hasOffline = true;
-			if (m_pApplication->getRunTime() - m_players[i]->getOfflineTime() > 5.0f)
+			if (m_pApplication->getRunTime() - m_players[i]->getOfflineTime() > MAX_WAIT_CONNECT_TIME)
 			{
 				this->exitGame(m_players[i]->getPlayerID());
 				// 必须break
@@ -178,6 +199,8 @@ void GameLogic::update_Ready(float dt)
 
 void GameLogic::update_Run(float dt)
 {
+	m_accumilatedTime += dt;
+
 	uint32_t maxFrame = 0U;
 	uint32_t minFrame = UINT_MAX;
 	for (auto i = 0; i < m_playerCount; ++i)
@@ -186,8 +209,10 @@ void GameLogic::update_Run(float dt)
 		minFrame = MIN(minFrame, m_players[i]->getLastRecvFrame());
 	}
 
+	// 目标帧率
+	uint32_t targetFrame = maxFrame + MAX_LEAD_FRAME_DIS_MAX_CLIENT;
 	// 服务器逻辑以网速最好的客户端逻辑帧步进
-	if (maxFrame >= m_world->getGameLogicFrame())
+	if (targetFrame >= m_world->getGameLogicFrame())
 	{
 		m_runNextFrameAckCache.clear_frames();
 		m_runNextFrameAckCache.set_nextframe(m_world->getGameLogicFrame());
@@ -208,31 +233,49 @@ void GameLogic::update_Run(float dt)
 
 		sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, m_runNextFrameAckCache);
 
-		m_world->update(dt);
+		m_world->updateFrame();
+
+		//printf("do frame... %d\n", m_world->getGameLogicFrame());
+		m_lastRunTime = m_accumilatedTime;
 	}
 
-	if (minFrame < m_world->getGameLogicFrame() && m_world->getGameLogicFrame() - minFrame > 100U)
+	// 多个玩家
+	if (m_playerCount > 1)
 	{
 		// 服务逻辑超过了最慢客户端太多,则等待最慢的客户端一段时间
-		if (m_playerCount > 1)
+		if (minFrame < m_world->getGameLogicFrame() && m_world->getGameLogicFrame() - minFrame > MAX_LEAD_FRAME_DIS_MIN_CLIENT)
 		{
 			m_state = RUN_STATE::WAIT;
 			m_waitTime = 0.0f;
 		}
-		else
+	}
+	else
+	{
+		// 只有一个玩家,判断他的离线时间
+		auto player = getSlowestPlayer();
+		if (player && player->isOffline())
 		{
-			// 只有一个玩家,判断他的离线时间
-			auto player = getSlowestPlayer();
-			if (player && player->isOffline())
+			// 离线太久,踢出游戏
+			if (m_pApplication->getRunTime() - player->getOfflineTime() > MAX_OFF_LINE_TIME_SINGLE_PLAYER)
 			{
-				// 离线太久,踢出游戏
-				if (m_pApplication->getRunTime() - player->getOfflineTime() > 60.0f)
-				{
-					this->exitGame(player->getPlayerID());
-				}
+				this->exitGame(player->getPlayerID());
 			}
 		}
 	}
+
+	// 太长时间没有跑过逻辑帧,应该是客户端推帧服务器没有收到,结束游戏
+	// 这个时间应该大于离线等待时间
+	if (m_accumilatedTime - m_lastRunTime > 120.0f)
+	{
+		m_lastRunTime = m_accumilatedTime;
+		// 全部踢出游戏
+		for (auto i = m_playerCount - 1; i >= 0; --i)
+		{
+			this->exitGame(m_players[i]->getPlayerID());
+		}
+	}
+
+	
 
 	//// 清除比较久的操作记录
 	//if (m_pastRecords.empty() == false)
@@ -272,7 +315,7 @@ void GameLogic::update_Wait(float dt)
 		m_waitTime = 0.0f;
 	}
 	// 等待时间太久,将该玩家踢出游戏
-	if (m_waitTime >= 10.0f)
+	if (m_waitTime >= MAX_OFF_LINE_TIME_MULTIPLE_PLAYER)
 	{
 		auto player = getSlowestPlayer();
 		if (player)

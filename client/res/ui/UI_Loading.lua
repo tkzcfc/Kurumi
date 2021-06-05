@@ -37,6 +37,24 @@ setmetatable(result, luaExtend)
 local Scene=cc.Node:create()
 Scene:setName("Scene")
 
+--Create Panel_Content
+local Panel_Content = ccui.Layout:create()
+Panel_Content:ignoreContentAdaptWithSize(false)
+Panel_Content:setClippingEnabled(false)
+Panel_Content:setBackGroundColorOpacity(102)
+Panel_Content:setLayoutComponentEnabled(true)
+Panel_Content:setName("Panel_Content")
+Panel_Content:setTag(157)
+Panel_Content:setCascadeColorEnabled(true)
+Panel_Content:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_Content)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Scene:addChild(Panel_Content)
+
 --Create Panel_1
 local Panel_1 = ccui.Layout:create()
 Panel_1:ignoreContentAdaptWithSize(false)
@@ -62,7 +80,7 @@ layout:setPercentHeightEnabled(true)
 layout:setPercentWidth(1.0000)
 layout:setPercentHeight(1.0000)
 layout:setSize({width = 1136.0000, height = 640.0000})
-Scene:addChild(Panel_1)
+Panel_Content:addChild(Panel_1)
 
 --Create ArmatureNode_2
 local ArmatureNode_2 = ccs.Armature:create()
@@ -83,7 +101,7 @@ layout:setBottomMargin(320.0000)
 ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("plist/uianimation/jiazdh.ExportJson")
 ArmatureNode_2:init("jiazdh")
 ArmatureNode_2:getAnimation():play("jiazdh",-1, 1)
-Scene:addChild(ArmatureNode_2)
+Panel_Content:addChild(ArmatureNode_2)
 
 --Create Animation
 result['animation'] = ccs.ActionTimeline:create()

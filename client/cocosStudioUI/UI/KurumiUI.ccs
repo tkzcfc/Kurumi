@@ -2036,11 +2036,11 @@
           <Project Name="UI_Loading.csd" Type="Scene" />
           <Project Name="UI_MessageBox.csd" Type="Scene" />
           <Project Name="UI_ScrollMessageBox.csd" Type="Node" />
-          <Project Name="UI_PlayerControl.csd" Type="Scene" />
         </Folder>
         <Folder Name="windows">
           <Folder Name="fight">
             <Project Name="UI_FightLoading.csd" Type="Scene" />
+            <Project Name="UI_InputLayer.csd" Type="Scene" />
           </Folder>
           <Folder Name="general" />
           <Folder Name="home">

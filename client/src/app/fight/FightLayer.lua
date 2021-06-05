@@ -10,16 +10,23 @@ function FightLayer:ctor()
     self:enableNodeEvents()
 
     self.fFreeTime = 0
+    self.fightMgr = _MyG.FightManager
 
-    local tWorldInfo = _MyG.FightManager:getWorldInfo()
+    -- 世界信息
+    local tWorldInfo = self.fightMgr:getWorldInfo()
     local MapConfig = require("app.config.MapConfig")
     local cfg = MapConfig["map" .. tWorldInfo.mapId]
 
+    -- 异步加载器创建
     self.loader = G_Class.LoadAsync.new()
     for k, v in pairs(cfg.loadResourceList) do
         self.loader:addLoadResource(v, true)
     end
     self.loader:start(handler(self, self.onProcessCallback), handler(self, self.onFinishCallback), handler(self, self.onErrorCallback))
+
+    -- loading界面
+    self.loadLayer = require("app.fight.FightLoading").new()
+    self:addChild(self.loadLayer, 0xff)
 end
 
 function FightLayer:onEnter()
@@ -55,22 +62,22 @@ end
 
 -- @brief 资源加载进度回调
 function FightLayer:onProcessCallback(taskPercent, totalPercent, pipe)
-    print("totalPercent----------------->>", totalPercent)
+    self.loadLayer:setPercent(totalPercent)
 
     local curTime = G_Helper:gettime()
     if self.fLastSendTime ~= nil and curTime - self.fLastSendTime < 0.5 then
         return
     end
     self.fLastSendTime = curTime
-    _MyG.FightManager:sendPlayerLoadingReq(totalPercent, false)
+    self.fightMgr:sendPlayerLoadingReq(totalPercent, false)
 end
 
 -- @brief 资源加载完成回调
-function FightLayer:onFinishCallback(pipe)
-    _MyG.FightManager:sendPlayerLoadingReq(1, true)
+function FightLayer:onFinishCallback(pipe)    
+    self.fightMgr:sendPlayerLoadingReq(1, true)
 
     -- 游戏已经开始
-    local tWorldInfo = _MyG.FightManager:getWorldInfo()
+    local tWorldInfo = self.fightMgr:getWorldInfo()
     local svr_status = tWorldInfo.svr_status
     if svr_status ~= Const.SVR_FIGHT_STATE.WAIT_CONNECT and svr_status ~= Const.SVR_FIGHT_STATE.READY then
         self:initGameWorld()
@@ -80,7 +87,7 @@ end
 -- @brief 资源加载出错回调
 function FightLayer:onErrorCallback(msg, pipe)
     print("加载失败:", msg)
-    _MyG.FightLayer:exitFight()
+    G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FAIL)
 end
 
 function FightLayer:onReJoinFight()
@@ -131,37 +138,57 @@ function FightLayer:initGameWorld()
     end
 
     self.pGameWorld = GGameWorld:new()
-    local tWorldInfo = _MyG.FightManager:getWorldInfo()
+    local tWorldInfo = self.fightMgr:getWorldInfo()
     if not self.pGameWorld:init(tWorldInfo.mapId, tWorldInfo.randomSeed, tWorldInfo.uuidSeed, self) then
-        _MyG.FightManager:exitFight()
+        G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FAIL)
+        return
     end
 
     local sharedScheduler = cc.Director:getInstance():getScheduler()
-    self.scheduleHandler = sharedScheduler:scheduleScriptFunc(handler(self, self.update), logic_interval, false)
+    self.scheduleHandler = sharedScheduler:scheduleScriptFunc(handler(self, self.fixUpdate), logic_interval, false)
+
+    -- 移除loading界面
+    performWithDelay(self, function()
+        self.loadLayer:removeFromParent()
+        self.loadLayer = nil
+        G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FINISH)
+    end, 0.2)
 end
 
-function FightLayer:update(dt)
+function FightLayer:fixUpdate()
+    if not self.isPushing then
+        G_SysEventEmitter:emit(SysEvent.FIGHT_UPLOAD_INPUT)
+    end
+    self:updateFrame(logic_interval)
+end
+
+function FightLayer:updateFrame(dt)
     if self.svrLogicFrame == nil then
         return
     end
-    if self.pGameWorld:getGameLogicFrame() > self.svrLogicFrame then
-        self.fFreeTime = self.fFreeTime + dt
-        if self.fFreeTime > 1.0 then
-            self.fFreeTime = 0
-            _MyG.FightManager:sendRunNextFrameReq(0)
+
+    local frameDiff = self.svrLogicFrame - self.pGameWorld:getGameLogicFrame()
+    if frameDiff < 0 then return end
+
+    local count = 0
+    repeat
+        if self.pGameWorld:getGameLogicFrame() > self.svrLogicFrame then
+            break
         end
-        return
-    end
-    self.fFreeTime = 0
 
-    self.pGameWorld:update(logic_interval)
+        self.pGameWorld:update(dt)
+        -- print("GameLogicFrame---------->>", self.pGameWorld:getGameLogicFrame())
+
+        count = count + 1
+
+        -- 相差不大,二倍数播放,相差太大则直接播放到最新帧
+        if frameDiff < 10 then
+            if count >= 2 then break end
+        end
+    until(false)
+
+    self.fightMgr:setLogicFrame(self.pGameWorld:getGameLogicFrame())
     self.pGameWorld:render()
-    _MyG.FightManager:setLogicFrame(self.pGameWorld:getGameLogicFrame())
-
-    if not self.isPushing then
-        _MyG.FightManager:sendRunNextFrameReq(0)
-    end
-    -- print("GameLogicFrame---------->>", self.pGameWorld:getGameLogicFrame())
 end
 
 
