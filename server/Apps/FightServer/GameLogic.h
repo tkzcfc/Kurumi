@@ -68,19 +68,6 @@ protected:
 
 protected:
 
-	struct PlayerFrameInputCache
-	{
-		bool free;
-		msg::PlayerFrameInput input;
-	};
-
-	msg::PlayerFrameInput* getFrameInputByPlayerId(int64_t pid);
-
-	msg::PlayerFrameInput* dequeuePlayerFrameInput();
-
-	void freePlayerFrameInput(msg::PlayerFrameInput* pInput);
-protected:
-
 	void onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req);
 
 	void onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoadingReq& req);
@@ -111,22 +98,10 @@ private:
 	// 游戏累计运行时间
 	float m_accumilatedTime;
 
-	//// 玩家输入记录
-	//struct Record
-	//{
-	//	uint32_t frame;
-	//	std::string input;
-	//};
-	//// 已经执行过的历史操作记录
-	//std::vector<Record> m_pastRecords;
-	//// 当前帧输入记录
-	//std::vector<Record> m_curFrameRecords;
-
-
 	msg::PlayerRecords m_pastRecords;
 
-	std::vector<PlayerFrameInputCache> m_playerFrameInputCache;
-	std::vector<msg::PlayerFrameInput*> m_curFrameInputs;
+	//std::vector<msg::PlayerFrameInput*> m_curFrameInputs;
 
 	msg::RunNextFrameAck m_runNextFrameAckCache;
+	msg::PlayerFrameInput* m_pCacheFrameInputs[G_FIGHT_MAX_PLAYER_COUNT];
 };

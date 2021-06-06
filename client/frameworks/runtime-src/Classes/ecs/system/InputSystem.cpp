@@ -88,7 +88,7 @@ void InputSystem::keepPress(const anax::Entity& entity, G_BIT_TYPE key)
 {
 	auto& property = entity.getComponent<PropertyComponent>();
 	property.stateMachine->onKeepPress(key);
-	G_LOG_I("keepPress %d", key);
+	//G_LOG_I("keepPress %d", key);
 }
 
 

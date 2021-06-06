@@ -213,24 +213,44 @@ void GameLogic::update_Run(float dt)
 	uint32_t targetFrame = maxFrame + MAX_LEAD_FRAME_DIS_MAX_CLIENT;
 	// 服务器逻辑以网速最好的客户端逻辑帧步进
 	if (targetFrame >= m_world->getGameLogicFrame())
-	{
-		m_runNextFrameAckCache.clear_frames();
-		m_runNextFrameAckCache.set_nextframe(m_world->getGameLogicFrame());
-		
-		if (m_curFrameInputs.size() > 0)
+	{		
+		//
+		if (m_runNextFrameAckCache.frames_size() != m_playerCount)
 		{
-			for (auto& it : m_curFrameInputs)
+			m_runNextFrameAckCache.clear_frames();
+			for (auto i = 0; i < m_playerCount; ++i)
 			{
-				G_ASSERT(m_world->getGameLogicFrame() == it->frame());
-				//it->set_frame(m_world->getGameLogicFrame());
-				m_runNextFrameAckCache.add_frames()->CopyFrom(*it);
-				m_pastRecords.add_frames()->CopyFrom(*it);
+				auto pFrame = m_runNextFrameAckCache.add_frames();
+				//pFrame->set_pid(m_players[i]->getPlayerID());
+				//pFrame->set_frame(m_world->getGameLogicFrame());
 
-				freePlayerFrameInput(it);
+				auto pInput = pFrame->mutable_input();
+				pInput->set_key_down(0);
+
+				m_pCacheFrameInputs[i] = pFrame;
 			}
-			m_curFrameInputs.clear();
 		}
 
+		// 将每个玩家本帧输入进行广播
+		for (auto i = 0; i < m_playerCount; ++i)
+		{
+			auto input = m_players[i]->getInput(m_world->getGameLogicFrame());
+			if (input)
+			{
+				m_pCacheFrameInputs[i]->CopyFrom(*input);
+			}
+			else
+			{
+				m_pCacheFrameInputs[i]->mutable_input()->set_key_down(0);
+			}
+
+			m_pCacheFrameInputs[i]->set_pid(m_players[i]->getPlayerID());
+			m_pCacheFrameInputs[i]->set_frame(m_world->getGameLogicFrame());
+
+			// 保存输入历史
+			//m_pastRecords.add_frames()->CopyFrom(*m_pCacheFrameInputs[i]);
+		}
+		m_runNextFrameAckCache.set_nextframe(m_world->getGameLogicFrame());
 		sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, m_runNextFrameAckCache);
 
 		m_world->updateFrame();
@@ -576,63 +596,6 @@ void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
 	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_END, null);
 }
 
-msg::PlayerFrameInput* GameLogic::getFrameInputByPlayerId(int64_t pid)
-{
-	for (auto& it : m_curFrameInputs)
-	{
-		if (it->pid() == pid)
-		{
-			return it;
-		}
-	}
-
-	auto pInput = dequeuePlayerFrameInput();
-	pInput->set_pid(pid);
-	m_curFrameInputs.push_back(pInput);
-	return pInput;
-}
-
-msg::PlayerFrameInput* GameLogic::dequeuePlayerFrameInput()
-{
-	if (m_playerFrameInputCache.empty())
-	{
-		m_playerFrameInputCache.reserve(10);
-		for (auto i = 0; i < 10; ++i)
-		{
-			PlayerFrameInputCache cache;
-			cache.free = true;
-			m_playerFrameInputCache.push_back(cache);
-		}
-	}
-
-	for (auto& it : m_playerFrameInputCache)
-	{
-		if (it.free)
-		{
-			return &it.input;
-		}
-	}
-	G_ASSERT(0);
-
-	PlayerFrameInputCache cache;
-	cache.free = true;
-	m_playerFrameInputCache.push_back(cache);
-	return &m_playerFrameInputCache.back().input;
-}
-
-void GameLogic::freePlayerFrameInput(msg::PlayerFrameInput* pInput)
-{
-	for (auto& it : m_playerFrameInputCache)
-	{
-		if (&it.input == pInput)
-		{
-			it.free = true;
-			return;
-		}
-	}
-	G_ASSERT(0);
-}
-
 void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req)
 {
 	if (m_state != GameLogic::RUN)
@@ -655,13 +618,11 @@ void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFram
 	{
 		player->setLastRecvFrame(req.frame());
 		// 客户端发送的操作数据距离当前逻辑帧太久,直接抛弃操作
-		if (curFrame - req.frame() > 30)
+		if (curFrame - req.frame() > 100)
 			return;
 	}
-	
-	auto pInput = getFrameInputByPlayerId(player->getPlayerID());
-	pInput->set_frame(curFrame);
-	pInput->mutable_input()->CopyFrom(req.input());
+
+	player->input(req, curFrame);
 }
 
 void GameLogic::onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoadingReq& req)

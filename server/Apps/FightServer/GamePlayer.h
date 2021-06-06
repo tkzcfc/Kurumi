@@ -12,6 +12,8 @@ public:
 
 	GamePlayer();
 
+	virtual ~GamePlayer();
+
 	err::Code init(const ::svr_msg::FightRoleSpawnInfo& info);
 
 	// 离线
@@ -39,6 +41,22 @@ public:
 
 	// 战斗形象
 	G_SYNTHESIZE_PASS_BY_REF(std::string, m_role, Role);
+
+	//
+	void input(const msg::RunNextFrameReq& data, uint32_t frame);
+
+	msg::PlayerFrameInput* getInput(uint32_t frame);
+
+private:
+
+	msg::PlayerFrameInput* dequeue();
+
+	void enqueue(msg::PlayerFrameInput* input);
+
+private:
+	uint32_t m_lastFrame;
+	std::vector<msg::PlayerFrameInput*> m_inputs;
+	std::list<msg::PlayerFrameInput*> m_inputCache;
 };
 
 bool GamePlayer::isOffline()
