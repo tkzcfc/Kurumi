@@ -31,13 +31,10 @@ bool GGameWorld::init(int32_t mapId, uint32_t randomSeed, uint32_t uuidSeed, Nod
 		m_world.addSystem(m_skillInjurySystem);
 		m_world.addSystem(m_UUIDSystem);
 
-		// 客户端所需渲染系统
-#if G_TARGET_CLIENT
 		m_world.addSystem(m_armatureDebugSystem);
 		m_world.addSystem(m_armatureRenderSystem);
 
 		m_rootNode = rootNode;
-#endif
 		m_pGlobal = &m_globalSystem.admin.getComponent<GlobalComponent>();
 		m_pGlobal->random = std::make_unique<GRandom>(randomSeed, randomSeed + 1);
 		m_pGlobal->uuidSeed = uuidSeed;
@@ -46,9 +43,6 @@ bool GGameWorld::init(int32_t mapId, uint32_t randomSeed, uint32_t uuidSeed, Nod
 			break;
 
 		if (!this->initPlayer())
-			break;
-
-		if (!this->initTest())
 			break;
 
 		return true;
@@ -100,81 +94,12 @@ bool GGameWorld::initBorder()
 	return true;
 }
 
-bool GGameWorld::initTest()
-{
-//#if G_TARGET_CLIENT
-//	auto listener = EventListenerKeyboard::create();
-//	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event*)
-//	{
-//		auto frame = m_pGlobal->gameLogicFrame + 1;
-//		if (keyCode == EventKeyboard::KeyCode::KEY_A)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-//			msg->key = G_KEY_MOVE_LEFT;
-//		}
-//		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-//			msg->key = G_KEY_MOVE_RIGHT;
-//		}
-//		if (keyCode == EventKeyboard::KeyCode::KEY_W)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-//			msg->key = G_KEY_MOVE_UP;
-//		}
-//		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-//			msg->key = G_KEY_MOVE_DOWN;
-//		}
-//		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_DOWN);
-//			msg->key = G_KEY_JUMP;
-//		}
-//	};
-//	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event*)
-//	{
-//		auto frame = m_pGlobal->gameLogicFrame + 1;
-//		if (keyCode == EventKeyboard::KeyCode::KEY_A)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-//			msg->key = G_KEY_MOVE_LEFT;
-//		}
-//		else if (keyCode == EventKeyboard::KeyCode::KEY_D)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-//			msg->key = G_KEY_MOVE_RIGHT;
-//		}
-//		if (keyCode == EventKeyboard::KeyCode::KEY_W)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-//			msg->key = G_KEY_MOVE_UP;
-//		}
-//		else if (keyCode == EventKeyboard::KeyCode::KEY_S)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-//			msg->key = G_KEY_MOVE_DOWN;
-//		}
-//		else if (keyCode == EventKeyboard::KeyCode::KEY_J)
-//		{
-//			auto msg = m_pGlobal->inputQue.addMsg<GOPMsg_Key>(frame, 1, G_CMD_KEY_UP);
-//			msg->key = G_KEY_JUMP;
-//		}
-//		
-//	};
-//	m_rootNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, m_rootNode);
-//#endif
-	return true;
-}
-
 bool GGameWorld::initAdmin(int32_t mapId)
 {
 	/// 初始化地图
 	if (CommonUtils::initMapSize(m_globalSystem.admin, mapId) == false)
 		return false;
 
-#if G_TARGET_CLIENT
 	// 初始化地图渲染
 	auto mapLayer = GMapLayer::create(mapId);
 	m_rootNode->addChild(mapLayer);
@@ -186,7 +111,6 @@ bool GGameWorld::initAdmin(int32_t mapId)
 
 	m_pGlobal->debugDrawNode = mapLayer->getDrawNode();
 	m_pGlobal->mapRender = mapLayer;
-#endif
 
 	if (!initBorder())
 		return false;

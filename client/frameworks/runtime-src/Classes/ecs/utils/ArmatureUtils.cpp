@@ -37,14 +37,12 @@ void ArmatureUtils::initAnimationComponent(anax::Entity& entity)
 	component.playing = false;
 	component.mode = kArmaturePlayMode::ONCE;
 
-#if G_TARGET_SERVER
-#else
+
 	G_ASSERT(!entity.hasComponent<ArmatureRenderComponent>());
 
 	auto& renderComponent = entity.addComponent<ArmatureRenderComponent>();
 	renderComponent.actionType = kArmatureRenderAction::NONE;
 	renderComponent.render = NULL;
-#endif
 }
 
 void ArmatureUtils::changeRole(anax::Entity& entity, const std::string& roleName)
@@ -58,11 +56,8 @@ void ArmatureUtils::changeRole(anax::Entity& entity, const std::string& roleName
 	component.playing = false;
 	component.mode = kArmaturePlayMode::ONCE;
 
-#if G_TARGET_SERVER
-#else
 	auto& renderComponent = entity.getComponent<ArmatureRenderComponent>();
 	renderComponent.actionType = kArmatureRenderAction::NONE;
-#endif
 }
 
 void ArmatureUtils::playAnimationCMD(anax::Entity& entity, const std::string& cmdName, kArmaturePlayMode mode)
@@ -88,11 +83,8 @@ void ArmatureUtils::playAnimationCMD(anax::Entity& entity, const std::string& cm
 	component.playing = true;
 	component.mode = mode;
 
-#if G_TARGET_SERVER
-#else
 	G_ASSERT(entity.hasComponent<ArmatureRenderComponent>());
 	auto& renderComponent = entity.getComponent<ArmatureRenderComponent>();
 	renderComponent.actionType = kArmatureRenderAction::RUN;
-#endif
 }
 

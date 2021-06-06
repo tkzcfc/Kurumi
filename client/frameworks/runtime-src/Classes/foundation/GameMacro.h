@@ -5,36 +5,18 @@
 #include <vector>
 #include <unordered_map>
 
-#ifdef COCOS2D_DEBUG
-#define G_TARGET_SERVER 0
 #define G_DEBUG COCOS2D_DEBUG
 #define G_LOG_I CCLOG
 #define G_LOG_W CCLOG
 #define G_LOG_E CCLOG
 #define G_LOG_F CCLOG
 #define G_ASSERT assert
-#else
-#define G_TARGET_SERVER 1
-#define G_DEBUG _DEBUG
-#define G_LOG_I(format, ...) flog::log_i(format, ##__VA_ARGS__)
-#define G_LOG_W(format, ...) flog::log_w(format, ##__VA_ARGS__)
-#define G_LOG_E(format, ...) flog::log_e(format, ##__VA_ARGS__)
-#define G_LOG_F(format, ...) flog::log_f(format, ##__VA_ARGS__)
-#endif
 
-#if G_TARGET_SERVER
-#define G_TARGET_CLIENT 0
-#include "GLibBase.h"
-#include "GLog.h"
-#else
-#define G_TARGET_CLIENT 1
 #include "cocos2d.h"
-
 #include "json/document.h"
 #include "json/stringbuffer.h"
 
 using namespace cocos2d;
-#endif
 
 #ifndef G_FORCEINLINE
 #define G_FORCEINLINE inline

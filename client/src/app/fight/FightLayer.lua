@@ -111,8 +111,11 @@ end
 function FightLayer:onPushFrameInput(msg)
     self.svrLogicFrame = msg.lastFrame
 
-    -- for k, v in pairs(msg.frames or {}) do
-    -- end
+    for k, v in pairs(msg.frames or {}) do
+        -- local pid = v.pid
+        local pid = 0
+        self.pGameWorld:input(pid, v.frame, v.input.key_down)
+    end
 end
 
 -- @brief 推帧结束
@@ -126,7 +129,8 @@ function FightLayer:onRunNextFrameAck(msg)
 
     if msg.frames then
         for k, v in pairs(msg.frames) do
-            local pid = v.pid
+            -- local pid = v.pid
+            local pid = 0
             self.pGameWorld:input(pid, v.frame, v.input.key_down)
         end
     end

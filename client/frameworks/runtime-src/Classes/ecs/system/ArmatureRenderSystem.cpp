@@ -3,7 +3,6 @@
 #include "foundation/animator/GAnimData.h"
 #include "ecs/utils/CommonUtils.h"
 
-#if  G_TARGET_CLIENT
 
 // 允许误差范围5帧左右
 static const int32_t disparityThreshold = 5;
@@ -172,4 +171,3 @@ void ArmatureRenderSystem::pause(cocostudio::ArmatureAnimation* animation, Armat
 	renderComponent.actionType = kArmatureRenderAction::PAUSE;
 }
 
-#endif

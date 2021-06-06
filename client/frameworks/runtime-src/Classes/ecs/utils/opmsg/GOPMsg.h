@@ -21,7 +21,7 @@ static const uint32_t G_BIT_MAX_COUNT = sizeof(G_BIT_TYPE) * 8 - 1;
 
 
 //! 游戏按键定义
-static const G_BIT_TYPE G_KEY_NONE			= 0x0;				  // 空值
+static const G_BIT_TYPE G_KEY_NONE			= 0x0U;				  // 空值
 static const G_BIT_TYPE G_KEY_MOVE_LEFT		= G_FIXED_VALUE << 1; // 左移
 static const G_BIT_TYPE G_KEY_MOVE_RIGHT	= G_FIXED_VALUE << 2; // 右移
 static const G_BIT_TYPE G_KEY_MOVE_UP		= G_FIXED_VALUE << 3; // 上移

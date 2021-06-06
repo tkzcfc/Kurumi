@@ -18,27 +18,26 @@ void TransformSyncSystem::sync()
 
 		if (G_BIT_EQUAL(property.status, G_PS_IS_FACE_R))
 		{
-			transform.scale = property.scale;
+			transform.scaleX = property.scale;
+			transform.scaleY = property.scale;
 		}
 		else
 		{
-			transform.scale = -property.scale;
+			transform.scaleX = -property.scale;
+			transform.scaleY = property.scale;
 		}
 
-#if G_TARGET_CLIENT
 		auto& renderCom = it.getComponent<ArmatureRenderComponent>();
 		if (renderCom.render)
 		{
-			renderCom.render->setScaleX(transform.scale);
+			renderCom.render->setScaleX(transform.scaleX);
+			renderCom.render->setScaleY(transform.scaleY);
 		}
-#endif
 	}
 }
 
 void TransformSyncSystem::syncRender()
 {
-#if G_TARGET_SERVER
-#else
 	const auto& entities = this->getEntities();
 	for (auto& it : entities)
 	{
@@ -48,5 +47,4 @@ void TransformSyncSystem::syncRender()
 			component.render->setPosition(it.getComponent<TransformComponent>().position);
 		}
 	}
-#endif
 }

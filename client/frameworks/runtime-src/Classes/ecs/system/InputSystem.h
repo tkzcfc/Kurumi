@@ -14,11 +14,10 @@ public:
 	
 private:
 
-	//  ‰»Î÷Æ«∞
-	void beforeInput();
-
-	void input(GOPMsg* msg);
-
 	void keyUp(const anax::Entity& entity, G_BIT_TYPE key);
+
+	void keyDown(const anax::Entity& entity, G_BIT_TYPE key);
+
+	void keepPress(const anax::Entity& entity, G_BIT_TYPE key);
 };
 

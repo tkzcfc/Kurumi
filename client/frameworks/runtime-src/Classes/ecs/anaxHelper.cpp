@@ -20,9 +20,7 @@ void AnaxHelper::implementation()
 	IMPLEMENTATION_COMPONENT(SIMPhysComponent);
 	IMPLEMENTATION_COMPONENT(TransformComponent);
 	IMPLEMENTATION_SYSTEM(ArmatureDebugSystem);
-	#if G_TARGET_CLIENT
 	IMPLEMENTATION_SYSTEM(ArmatureRenderSystem);
-	#endif
 	IMPLEMENTATION_SYSTEM(ArmatureSystem);
 	IMPLEMENTATION_SYSTEM(BuffSystem);
 	IMPLEMENTATION_SYSTEM(CollisionSystem);
@@ -35,6 +33,9 @@ void AnaxHelper::implementation()
 	IMPLEMENTATION_SYSTEM(UpdateSystem);
 	IMPLEMENTATION_SYSTEM(UUIDSystem);
 	// IMPLEMENT_END
+
+
+
 
 
 

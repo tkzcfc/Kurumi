@@ -31,8 +31,6 @@ private:
 
 	bool initAdmin(int32_t mapId);
 
-	bool initTest();
-
 	bool initPlayer();
 
 	bool spawnPlayer();
@@ -58,14 +56,12 @@ private:
 	UUIDSystem m_UUIDSystem;
 
 
-#if G_TARGET_CLIENT
 	ArmatureDebugSystem m_armatureDebugSystem;
 	ArmatureRenderSystem m_armatureRenderSystem;
 
 	Node* m_rootNode;
 	GVirtualCamera* m_camera;
-#endif
-	
+
 	std::vector<anax::Entity> m_players;
 };
 

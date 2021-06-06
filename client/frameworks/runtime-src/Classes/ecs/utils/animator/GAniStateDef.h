@@ -131,6 +131,9 @@ namespace anim
 		"COUNT",
 		// NAME_END
 
+
+
+
 	};
 
 	static GANI_STATE_TYPE getStateType(const char* name)

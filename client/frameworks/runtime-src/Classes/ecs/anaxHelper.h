@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GCommon.h"
+#include "ecs/utils/opmsg/GOPMsg.h"
 #include <unordered_map>
 
 

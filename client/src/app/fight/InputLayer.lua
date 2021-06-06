@@ -7,10 +7,11 @@ local InputLayer = class("InputLayer", cc.Node)
 local InputKey = Const.InputKey
 
 local KEY_CODE_MAP = {
-    [26] = InputKey.G_KEY_MOVE_LEFT,
-    [27] = InputKey.G_KEY_MOVE_RIGHT,
-    [28] = InputKey.G_KEY_MOVE_UP,
-    [29] = InputKey.G_KEY_MOVE_DOWN,
+    [cc.KeyCode.KEY_A] = InputKey.G_KEY_MOVE_LEFT,
+    [cc.KeyCode.KEY_D] = InputKey.G_KEY_MOVE_RIGHT,
+    [cc.KeyCode.KEY_W] = InputKey.G_KEY_MOVE_UP,
+    [cc.KeyCode.KEY_S] = InputKey.G_KEY_MOVE_DOWN,
+    [cc.KeyCode.KEY_SPACE] = InputKey.G_KEY_JUMP,
 }
 
 
@@ -27,7 +28,7 @@ function InputLayer:ctor()
 end
 
 function InputLayer:onUploadInput()
-    _MyG.FightManager:sendRunNextFrameReq(0)
+    _MyG.FightManager:sendRunNextFrameReq(self.iKey)
 end
 
 function InputLayer:initTouch()
@@ -134,6 +135,17 @@ function InputLayer:initTouch()
 end
 
 function InputLayer:onKeyDown(key)
+    
+    if key == InputKey.G_KEY_MOVE_LEFT then
+        self:onKeyUp(InputKey.G_KEY_MOVE_RIGHT)
+    elseif key == InputKey.G_KEY_MOVE_RIGHT then
+        self:onKeyUp(InputKey.G_KEY_MOVE_LEFT)
+    elseif key == InputKey.G_KEY_MOVE_UP then
+        self:onKeyUp(InputKey.G_KEY_MOVE_DOWN)
+    elseif key == InputKey.G_KEY_MOVE_DOWN then
+        self:onKeyUp(InputKey.G_KEY_MOVE_UP)
+    end
+
     self.iKey = CommonUtils.U32_BIT_SET(self.iKey, key)
 end
 
@@ -141,30 +153,10 @@ function InputLayer:onKeyUp(key)
     self.iKey = CommonUtils.U32_BIT_REMOVE(self.iKey, key)
 end
 
--- function InputLayer:left()
--- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, -1)
--- end
-
--- function InputLayer:right()
--- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_X, 1)
--- end
-
--- function InputLayer:up()
--- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, 1)
--- end
-
--- function InputLayer:down()
--- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_Y, -1)
--- end
-
--- function InputLayer:cancel()
--- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_CANCEL)
--- end
-
-
 function InputLayer:initKeyboard()
 	 --键盘事件  
     local function onKeyPressed(keyCode, event)
+        -- print("keyCode", keyCode)
         if KEY_CODE_MAP[keyCode] then
             self:onKeyDown(KEY_CODE_MAP[keyCode])
         end

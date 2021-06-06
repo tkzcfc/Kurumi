@@ -1,9 +1,6 @@
 #pragma once
 
 #include "foundation/GameMacro.h"
-
-#if G_TARGET_CLIENT
-
 #include "cocos2d.h"
 
 
@@ -92,5 +89,3 @@ public:
 	Vec2 m_cameraBoundingBoxMax;
 	Vec2 m_cameraAnchorPoint;
 };
-
-#endif

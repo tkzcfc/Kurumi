@@ -34,9 +34,7 @@ namespace CommonUtils
 
 	bool initMapSize(anax::Entity& admin, int mapId);
 
-#if G_TARGET_CLIENT
 	DrawNode* getDebugDraw(anax::World& world);
-#endif
 
 	// 演员创建
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor);

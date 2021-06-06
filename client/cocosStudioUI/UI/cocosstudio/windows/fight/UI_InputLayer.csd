@@ -1,12 +1,12 @@
 <GameFile>
-  <PropertyGroup Name="UI_PlayerControl" Type="Scene" ID="018d0ec6-6a6d-4c7c-ba8d-409354267e4c" Version="3.10.0.0" />
+  <PropertyGroup Name="UI_InputLayer" Type="Scene" ID="018d0ec6-6a6d-4c7c-ba8d-409354267e4c" Version="3.10.0.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />
       <ObjectData Name="Scene" Tag="232" ctype="GameNodeObjectData">
         <Size X="1136.0000" Y="640.0000" />
         <Children>
-          <AbstractNodeData Name="Panel_Content" ActionTag="620597828" Tag="170" IconVisible="False" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" ClipAble="False" BackColorAlpha="102" ColorAngle="90.0000" ctype="PanelObjectData">
+          <AbstractNodeData Name="Panel_Content" ActionTag="620597828" Tag="170" IconVisible="False" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" ClipAble="False" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ctype="PanelObjectData">
             <Size X="1136.0000" Y="640.0000" />
             <Children>
               <AbstractNodeData Name="sprite_BG" ActionTag="-1793560085" Tag="234" IconVisible="False" LeftMargin="-97.8824" RightMargin="673.8824" TopMargin="198.1161" BottomMargin="-118.1161" ctype="SpriteObjectData">

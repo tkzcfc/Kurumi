@@ -658,9 +658,6 @@ void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFram
 		if (curFrame - req.frame() > 30)
 			return;
 	}
-
-	if (req.input().key_down() == 0)
-		return;
 	
 	auto pInput = getFrameInputByPlayerId(player->getPlayerID());
 	pInput->set_frame(curFrame);

@@ -78,12 +78,10 @@ namespace CommonUtils
 	}
 
 
-#if G_TARGET_CLIENT
 	DrawNode* getDebugDraw(anax::World& world)
 	{
 		return getGlobalComponent(world).debugDrawNode;
 	}
-#endif
 
 	bool spawnActor(anax::World& world, ActorIdentityInfo& info, anax::Entity* outActor)
 	{

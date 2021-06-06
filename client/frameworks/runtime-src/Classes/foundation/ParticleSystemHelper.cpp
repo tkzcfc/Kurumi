@@ -1,7 +1,4 @@
 #include "ParticleSystemHelper.h"
-
-#if G_TARGET_CLIENT
-
 #include "cocostudio/CocoStudio.h"
 
 
@@ -47,5 +44,3 @@ void changeParticleSystemPositionType(Node* root, int type)
 		changeParticleSystemPositionType(it, type);
 	}
 }
-
-#endif

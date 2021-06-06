@@ -3,10 +3,8 @@
 
 GGameWorld::GGameWorld()
 {
-#if G_TARGET_CLIENT
 	m_rootNode = NULL;
 	m_camera = NULL;
-#endif
 	m_pGlobal = NULL;
 }
 
@@ -42,7 +40,6 @@ void GGameWorld::updateLogic(float32 dt)
 
 void GGameWorld::render()
 {
-#if G_TARGET_CLIENT
 	m_armatureRenderSystem.render();
 	m_transformSyncSystem.syncRender();
 
@@ -54,7 +51,6 @@ void GGameWorld::render()
 		m_armatureDebugSystem.debugDraw();
 		m_SIMPhysSystem.debugDraw();
 	}
-#endif
 #endif
 }
 

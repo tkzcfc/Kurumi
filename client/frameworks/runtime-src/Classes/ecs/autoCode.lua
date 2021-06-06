@@ -321,7 +321,7 @@ end
 
 -- -----------------------------------------------------------------------------------
 local clientClass = {
-    "ArmatureRenderSystem",
+    -- "ArmatureRenderSystem",
 }
 local svrClass = {
 }

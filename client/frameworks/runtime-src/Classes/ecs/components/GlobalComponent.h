@@ -3,10 +3,7 @@
 #include "ecs/anaxHelper.h"
 #include "ecs/utils/opmsg/GOPMsgQue.h"
 #include "foundation/GRandom.h"
-
-#if G_TARGET_CLIENT
 #include "foundation/render/GMapLayer.h"
-#endif
 
 class GlobalComponent : public BaseComponent
 {
@@ -17,20 +14,16 @@ public:
 		gameLogicFrame = 0U;
 		uuidSeed = 0;
 
-#if G_TARGET_CLIENT
 		mapRender = NULL;
 		debugDrawNode = NULL;
-#endif
 		mapWidth = 0.0f;
 		mapHeight = 0.0f;
 		minPosy = 0.0f;
 		maxPosy = 0.0f;
 	}
 
-#if G_TARGET_CLIENT
 	GMapLayer*	mapRender;
 	DrawNode* debugDrawNode;
-#endif
 
 
 	///! 帧同步相关

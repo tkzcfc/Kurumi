@@ -5,6 +5,7 @@
 #include "GAniStateDef.h"
 
 
+
 class GActorStateMachine : public GAnimatorStateMachine
 {
 	typedef GAnimatorStateMachine Super;
@@ -13,6 +14,16 @@ public:
 	virtual void setEntity(const anax::Entity& entity);
 
 	virtual void updateInput();
+
+
+	// 按键按下
+	void onKeyDown(G_BIT_TYPE key);
+
+	// 按键抬起
+	void onKeyUp(G_BIT_TYPE key);
+
+	// 按键持续按下
+	void onKeepPress(G_BIT_TYPE key);
 
 public:
 

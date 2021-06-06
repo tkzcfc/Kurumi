@@ -1,11 +1,8 @@
 #pragma once
 
 #include "foundation/math/GMath.h"
-
-#if G_TARGET_CLIENT
 #include "cocos2d.h"
 USING_NS_CC;
-#endif
 
 #define MaxPolyVertexCount 64
 
@@ -27,9 +24,7 @@ public:
 	
 	virtual Type getType(void) const = 0;
 
-#if G_TARGET_CLIENT
 	virtual void debugDraw(DrawNode* drawNode) = 0;
-#endif
 
 	class BodyComponent* body;
 };
@@ -42,9 +37,7 @@ public:
 
 	virtual void setRotation(real radians)override;
 
-#if G_TARGET_CLIENT
 	virtual void debugDraw(DrawNode* drawNode)override;
-#endif
 
 	virtual Type getType(void) const override;
 
@@ -63,9 +56,7 @@ public:
 
 	virtual void setRotation(real radians)override;
 
-#if G_TARGET_CLIENT
 	virtual void debugDraw(DrawNode* drawNode)override;
-#endif
 	
 	virtual Type getType(void) const override;
 

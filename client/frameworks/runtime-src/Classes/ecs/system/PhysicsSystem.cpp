@@ -129,7 +129,6 @@ void PhysicsSystem::update(float32 dt)
 
 void PhysicsSystem::debugDraw()
 {
-#if G_TARGET_CLIENT
 	auto drawNode = CommonUtils::getDebugDraw(this->getWorld());
 	if (drawNode == NULL)
 		return;
@@ -150,7 +149,6 @@ void PhysicsSystem::debugDraw()
 			//drawNode->drawPoint(Vec2(c.x, c.y), 5.0f, Color4F::BLUE);
 		}
 	}
-#endif
 }
 
 

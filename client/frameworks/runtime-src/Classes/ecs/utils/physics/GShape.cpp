@@ -10,7 +10,6 @@ void GCircle::setRotation(real radians)
 {
 }
 
-#if G_TARGET_CLIENT
 void GCircle::debugDraw(DrawNode* drawNode)
 {
 	if(body->bodyType == GBodyType::STATIC_BODY)
@@ -18,7 +17,6 @@ void GCircle::debugDraw(DrawNode* drawNode)
 	else
 		drawNode->drawCircle(Vec2(body->position.x, body->position.y) * PHYSICS_PIXEL_TO_METER, radius * PHYSICS_PIXEL_TO_METER, body->radians, 100, true, Color4F::WHITE);
 }
-#endif
 
 GShape::Type GCircle::getType(void) const
 {
@@ -41,7 +39,6 @@ void GPolygonShape::setRotation(real radians)
 {
 	u.set(radians);
 }
-#if G_TARGET_CLIENT
 void GPolygonShape::debugDraw(DrawNode* drawNode)
 {
 	static Vec2 vertices[MaxPolyVertexCount];
@@ -58,7 +55,6 @@ void GPolygonShape::debugDraw(DrawNode* drawNode)
 	else
 		drawNode->drawPoly(vertices, m_vertexCount, true, Color4F::WHITE);
 }
-#endif
 
 GShape::Type GPolygonShape::getType(void) const
 {

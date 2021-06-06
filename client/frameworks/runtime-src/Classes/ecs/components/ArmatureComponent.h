@@ -64,17 +64,13 @@ class ArmatureRenderComponent : public BaseComponent
 public:
 	ArmatureRenderComponent()
 	{
-#if G_TARGET_CLIENT
 		actionType = kArmatureRenderAction::NONE;
 		render = NULL;
-#endif
 	}
 
-#if G_TARGET_CLIENT
 	cocostudio::Armature* render;
 	kArmatureRenderAction actionType;
 	std::string m_cacheRoleName;
-#endif
 };
 
 

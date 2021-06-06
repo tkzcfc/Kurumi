@@ -98,7 +98,6 @@ bool SIMPhysSystem::collision(SIMPhysComponent* component, float32 dx, float32 d
 
 void SIMPhysSystem::debugDraw()
 {
-#if G_TARGET_CLIENT
 	auto drawNode = CommonUtils::getDebugDraw(this->getWorld());
 	
 	if (drawNode == NULL)
@@ -120,7 +119,6 @@ void SIMPhysSystem::debugDraw()
 		v2 = v2 * PHYSICS_PIXEL_TO_METER;
 		drawNode->drawRect(v1, v2, Color4F::BLUE);
 	}
-#endif
 }
 
 void SIMPhysSystem::createBox(anax::Entity& entity, const GVec2& origin, const GVec2& size, const GVec2& anchor)

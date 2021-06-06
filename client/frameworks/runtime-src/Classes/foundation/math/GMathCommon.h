@@ -6,7 +6,6 @@
 #include <algorithm>    /* max, min */
 
 typedef float	float32;
-typedef double	float64;
 typedef float   real;
 
 const float32	G_PI = 3.141592741f;
