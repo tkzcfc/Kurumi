@@ -79,10 +79,10 @@ bool CollisionSystem::collision(const anax::Entity& entityA, const anax::Entity&
 	auto& transformB = entityB.getComponent<TransformComponent>();
 
 	// 计算缩放位移后的值
-	float x1a = kfAABBA->x * transformA.scaleX + transformA.position.x;
-	float x2a = (kfAABBA->x + kfAABBA->w) * transformA.scaleX + transformA.position.x;
-	float x1b = kfAABBB->x * transformB.scaleX + transformB.position.x;
-	float x2b = (kfAABBB->x + kfAABBB->w) * transformB.scaleX + transformB.position.x;
+	float x1a = kfAABBA->x * transformA.scaleX + transformA.logicRenderPos.x;
+	float x2a = (kfAABBA->x + kfAABBA->w) * transformA.scaleX + transformA.logicRenderPos.x;
+	float x1b = kfAABBB->x * transformB.scaleX + transformB.logicRenderPos.x;
+	float x2b = (kfAABBB->x + kfAABBB->w) * transformB.scaleX + transformB.logicRenderPos.x;
 
 	float minxA = x1a;
 	float maxxA = x2a;
@@ -116,8 +116,8 @@ bool CollisionSystem::collision(const anax::Entity& entityA, const anax::Entity&
 		// 只计算缩放和位移
 		for (auto vi = 0; vi < 4; ++vi)
 		{
-			aniRectA.v[vi].x = rectA->v[vi].x * transformA.scaleX + transformA.position.x;
-			aniRectA.v[vi].y = rectA->v[vi].y * transformA.scaleY + transformA.position.y;
+			aniRectA.v[vi].x = rectA->v[vi].x * transformA.scaleX + transformA.logicRenderPos.x;
+			aniRectA.v[vi].y = rectA->v[vi].y * transformA.scaleY + transformA.logicRenderPos.y;
 		}
 
 		//! 获取B的防御区域
@@ -128,8 +128,8 @@ bool CollisionSystem::collision(const anax::Entity& entityA, const anax::Entity&
 		// 只计算缩放和位移
 		for (auto vi = 0; vi < 4; ++vi)
 		{
-			aniRectB.v[vi].x = rectB->v[vi].x * transformB.scaleX + transformB.position.x;
-			aniRectB.v[vi].y = rectB->v[vi].y * transformB.scaleY + transformB.position.y;
+			aniRectB.v[vi].x = rectB->v[vi].x * transformB.scaleX + transformB.logicRenderPos.x;
+			aniRectB.v[vi].y = rectB->v[vi].y * transformB.scaleY + transformB.logicRenderPos.y;
 		}
 		// 碰撞检测
 		if (GCollision::isRectIntersect(aniRectA.v, aniRectB.v))

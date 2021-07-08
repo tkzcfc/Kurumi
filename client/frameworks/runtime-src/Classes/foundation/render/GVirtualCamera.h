@@ -15,10 +15,8 @@ public:
 
 	static GVirtualCamera * create();
 
-	void setPosition(const Vec2& pos);
-	const Vec2& getPosition();
-
-	const Vec2& getCenter();
+	void setFocalPos(const Vec2& pos);
+	const Vec2& getFocalPos();
 	
 	// 设置视口大小
 	void setViewPortSize(const Size& viewSize);
@@ -51,9 +49,7 @@ public:
 	// 是否启用包围盒碰撞
 	void setEnableCollision(bool enable);
 	bool isEnableCollision();
-
-	Node* getAnimationNode();
-
+	
 	void forceUpdate();
 
 	void setCall(const std::function<void(float, float, float)>& call)
@@ -72,20 +68,29 @@ public:
 	virtual void onRemove()override;
 
 public:
+	// 焦点坐标
+	Vec2 m_focalPos;
+	// 摄像机缩放
+	float m_focusZoom;
 
-	Node* m_animationNode;
-
-	Size m_viewSize;
+	// 视口大小
+	Vec2 m_viewSize;
+	// 世界大小
 	Size m_worldSize;
-
-	Vec2 m_cache_Position;
-	float m_cache_Scale;
-	
+		
+	// 是否开启摄像机边缘碰撞
 	bool m_enableCollision;
 
 	std::function<void(float, float, float)> m_call;
 
+	// 摄像机边界碰撞体
 	Vec2 m_cameraBoundingBoxMin;
 	Vec2 m_cameraBoundingBoxMax;
+
+	// 摄像机焦点位于视口锚点
 	Vec2 m_cameraAnchorPoint;
+
+private:
+	Vec2 m_logicPos;
+	float m_cache_Scale;
 };

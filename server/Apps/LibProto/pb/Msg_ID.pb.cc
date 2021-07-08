@@ -68,6 +68,9 @@ bool MessageID_IsValid(int value) {
     case 800011:
     case 800012:
     case 800013:
+    case 800020:
+    case 800021:
+    case 800023:
     case 900001:
     case 900002:
     case 900010:

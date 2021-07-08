@@ -11,6 +11,7 @@ GApplication::GApplication(const std::string& appName)
 {
 	uniqueInstance = this;
 	m_scheduler = NULL;
+	m_startTime = 0;
 	m_lastTime = 0;
 	m_deltaTimeMilli = 0;
 	m_deltaTime = 0.0f;
@@ -87,10 +88,11 @@ void GApplication::mainLoop()
 	if (m_lastTime <= 0)
 	{
 		m_lastTime = uv_now(m_loop);
+		m_startTime = m_lastTime;
 		m_serviceMgr->start();
 		return;
 	}
-	m_deltaTimeMilli = (uint32_t)(uv_now(m_loop) - m_lastTime);
+	m_deltaTimeMilli = uv_now(m_loop) - m_lastTime;
 	m_deltaTime = m_deltaTimeMilli / 1000.0f;
 	m_lastTime = uv_now(m_loop);
 	m_runTime += m_deltaTime;

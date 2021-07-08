@@ -18,6 +18,7 @@ function FightManager:override_onInit()
     G_NetEventEmitter:on(MessageID.MSG_JOIN_FIGHT_ACK, handler(self, self.onJoinFightAck), self)
     G_NetEventEmitter:on(MessageID.MSG_EXIT_FIGHT_ACK, handler(self, self.onExitFightAck), self)
     G_NetEventEmitter:on(MessageID.MSG_PLAYER_EXIT_FIGHT_NTF, handler(self, self.onPlayerExitFightNotify), self)
+    G_NetEventEmitter:on(MessageID.MSG_PING_REQ, handler(self, self.onPing), self)
 
 
     G_SysEventEmitter:on(SysEvent.NET_CONNECT_SUC, handler(self, self.onNetConnectSuc), self)
@@ -62,10 +63,12 @@ end
 
 -- @brief 发送进入下一逻辑帧请求
 function FightManager:sendRunNextFrameReq(key_down)
+    if key_down == nil then print("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww") end
+    
     _MyG.NetManager:sendToFight(MessageID.MSG_RUN_NEXT_FRAME_REQ, {
         frame = self.iLogicFrame,
         input = {
-            key_down = key_down
+            key_down = key_down or 0
         }
     })
 end
@@ -144,6 +147,12 @@ end
 function FightManager:onPlayerExitFightNotify(msg)
     self:clearFightInfo()
     self:exitFight()
+end
+
+function FightManager:onPing(msg)
+    _MyG.NetManager:sendToFight(MessageID.MSG_PING_ACK, {
+        timestamp = msg.timestamp
+    })
 end
 
 function FightManager:onNetConnectSuc(isFightSvr)

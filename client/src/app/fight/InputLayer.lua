@@ -24,7 +24,15 @@ function InputLayer:ctor()
     self:initTouch()
     self:initKeyboard()
 
+    self:enableNodeEvents()
+end
+
+function InputLayer:onEnter()
     G_SysEventEmitter:on(SysEvent.FIGHT_UPLOAD_INPUT, handler(self, self.onUploadInput), self)
+end
+
+function InputLayer:onExit()
+    G_SysEventEmitter:offByTag(self)
 end
 
 function InputLayer:onUploadInput()

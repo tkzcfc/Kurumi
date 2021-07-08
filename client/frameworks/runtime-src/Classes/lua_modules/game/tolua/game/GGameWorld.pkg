@@ -18,7 +18,7 @@ public:
 
 	void input(int uuid, uint32_t frame, uint32_t keydown);
 
-	void render();
+	void render(float dt);
 
 public:
 

@@ -71,6 +71,11 @@ enum MessageID {
 	MSG_PUSH_FRAME_INPUT		= 800012;	// 推帧数据
 	MSG_PUSH_FRAME_END			= 800013;	// 推帧结束
 	
+	MSG_PING_REQ				= 800020;	// ping
+	MSG_PING_ACK				= 800021;	// pong
+
+	MSG_PUSH_PING_NTF			= 800023;	// ping信息推送
+
 	
     //============================================================================================
     //                 Cient <==> GameSVR

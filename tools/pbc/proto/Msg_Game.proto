@@ -262,4 +262,26 @@ message ExitFightAck
 	required int32 code = 1;
 }
 
+message Ping
+{
+	required uint32 timestamp = 1;
+}
+
+message Pong
+{
+	required uint32 timestamp = 1;
+}
+
+message PingInfo
+{
+	required int64 pid = 1;	//
+	required int32 ping = 2;
+}
+
+// 服务端推送个个玩家的ping值
+message PushPingInfo
+{
+	repeated PingInfo infos = 1;
+}
+
  

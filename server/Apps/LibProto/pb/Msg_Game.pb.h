@@ -65,6 +65,10 @@ class PushFrameInput;
 class PlayerRecords;
 class ExitFightReq;
 class ExitFightAck;
+class Ping;
+class Pong;
+class PingInfo;
+class PushPingInfo;
 
 // ===================================================================
 
@@ -3182,6 +3186,351 @@ class ExitFightAck : public ::google::protobuf::MessageLite {
   void InitAsDefaultInstance();
   static ExitFightAck* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class Ping : public ::google::protobuf::MessageLite {
+ public:
+  Ping();
+  virtual ~Ping();
+
+  Ping(const Ping& from);
+
+  inline Ping& operator=(const Ping& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const Ping& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const Ping* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(Ping* other);
+
+  // implements Message ----------------------------------------------
+
+  Ping* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const Ping& from);
+  void MergeFrom(const Ping& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 timestamp = 1;
+  inline bool has_timestamp() const;
+  inline void clear_timestamp();
+  static const int kTimestampFieldNumber = 1;
+  inline ::google::protobuf::uint32 timestamp() const;
+  inline void set_timestamp(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.Ping)
+ private:
+  inline void set_has_timestamp();
+  inline void clear_has_timestamp();
+
+  ::google::protobuf::uint32 timestamp_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static Ping* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Pong : public ::google::protobuf::MessageLite {
+ public:
+  Pong();
+  virtual ~Pong();
+
+  Pong(const Pong& from);
+
+  inline Pong& operator=(const Pong& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const Pong& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const Pong* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(Pong* other);
+
+  // implements Message ----------------------------------------------
+
+  Pong* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const Pong& from);
+  void MergeFrom(const Pong& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 timestamp = 1;
+  inline bool has_timestamp() const;
+  inline void clear_timestamp();
+  static const int kTimestampFieldNumber = 1;
+  inline ::google::protobuf::uint32 timestamp() const;
+  inline void set_timestamp(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.Pong)
+ private:
+  inline void set_has_timestamp();
+  inline void clear_has_timestamp();
+
+  ::google::protobuf::uint32 timestamp_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static Pong* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PingInfo : public ::google::protobuf::MessageLite {
+ public:
+  PingInfo();
+  virtual ~PingInfo();
+
+  PingInfo(const PingInfo& from);
+
+  inline PingInfo& operator=(const PingInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PingInfo& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PingInfo* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PingInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  PingInfo* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PingInfo& from);
+  void MergeFrom(const PingInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int64 pid = 1;
+  inline bool has_pid() const;
+  inline void clear_pid();
+  static const int kPidFieldNumber = 1;
+  inline ::google::protobuf::int64 pid() const;
+  inline void set_pid(::google::protobuf::int64 value);
+
+  // required int32 ping = 2;
+  inline bool has_ping() const;
+  inline void clear_ping();
+  static const int kPingFieldNumber = 2;
+  inline ::google::protobuf::int32 ping() const;
+  inline void set_ping(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:msg.PingInfo)
+ private:
+  inline void set_has_pid();
+  inline void clear_has_pid();
+  inline void set_has_ping();
+  inline void clear_has_ping();
+
+  ::google::protobuf::int64 pid_;
+  ::google::protobuf::int32 ping_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PingInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PushPingInfo : public ::google::protobuf::MessageLite {
+ public:
+  PushPingInfo();
+  virtual ~PushPingInfo();
+
+  PushPingInfo(const PushPingInfo& from);
+
+  inline PushPingInfo& operator=(const PushPingInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const PushPingInfo& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const PushPingInfo* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(PushPingInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  PushPingInfo* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const PushPingInfo& from);
+  void MergeFrom(const PushPingInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .msg.PingInfo infos = 1;
+  inline int infos_size() const;
+  inline void clear_infos();
+  static const int kInfosFieldNumber = 1;
+  inline const ::msg::PingInfo& infos(int index) const;
+  inline ::msg::PingInfo* mutable_infos(int index);
+  inline ::msg::PingInfo* add_infos();
+  inline const ::google::protobuf::RepeatedPtrField< ::msg::PingInfo >&
+      infos() const;
+  inline ::google::protobuf::RepeatedPtrField< ::msg::PingInfo >*
+      mutable_infos();
+
+  // @@protoc_insertion_point(class_scope:msg.PushPingInfo)
+ private:
+
+  ::google::protobuf::RepeatedPtrField< ::msg::PingInfo > infos_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_Msg_5fGame_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_Msg_5fGame_2eproto();
+  friend void protobuf_ShutdownFile_Msg_5fGame_2eproto();
+
+  void InitAsDefaultInstance();
+  static PushPingInfo* default_instance_;
+};
 // ===================================================================
 
 
@@ -5163,6 +5512,135 @@ inline ::google::protobuf::int32 ExitFightAck::code() const {
 inline void ExitFightAck::set_code(::google::protobuf::int32 value) {
   set_has_code();
   code_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// Ping
+
+// required uint32 timestamp = 1;
+inline bool Ping::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Ping::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Ping::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Ping::clear_timestamp() {
+  timestamp_ = 0u;
+  clear_has_timestamp();
+}
+inline ::google::protobuf::uint32 Ping::timestamp() const {
+  return timestamp_;
+}
+inline void Ping::set_timestamp(::google::protobuf::uint32 value) {
+  set_has_timestamp();
+  timestamp_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// Pong
+
+// required uint32 timestamp = 1;
+inline bool Pong::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Pong::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Pong::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Pong::clear_timestamp() {
+  timestamp_ = 0u;
+  clear_has_timestamp();
+}
+inline ::google::protobuf::uint32 Pong::timestamp() const {
+  return timestamp_;
+}
+inline void Pong::set_timestamp(::google::protobuf::uint32 value) {
+  set_has_timestamp();
+  timestamp_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PingInfo
+
+// required int64 pid = 1;
+inline bool PingInfo::has_pid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PingInfo::set_has_pid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PingInfo::clear_has_pid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PingInfo::clear_pid() {
+  pid_ = GOOGLE_LONGLONG(0);
+  clear_has_pid();
+}
+inline ::google::protobuf::int64 PingInfo::pid() const {
+  return pid_;
+}
+inline void PingInfo::set_pid(::google::protobuf::int64 value) {
+  set_has_pid();
+  pid_ = value;
+}
+
+// required int32 ping = 2;
+inline bool PingInfo::has_ping() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PingInfo::set_has_ping() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PingInfo::clear_has_ping() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PingInfo::clear_ping() {
+  ping_ = 0;
+  clear_has_ping();
+}
+inline ::google::protobuf::int32 PingInfo::ping() const {
+  return ping_;
+}
+inline void PingInfo::set_ping(::google::protobuf::int32 value) {
+  set_has_ping();
+  ping_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// PushPingInfo
+
+// repeated .msg.PingInfo infos = 1;
+inline int PushPingInfo::infos_size() const {
+  return infos_.size();
+}
+inline void PushPingInfo::clear_infos() {
+  infos_.Clear();
+}
+inline const ::msg::PingInfo& PushPingInfo::infos(int index) const {
+  return infos_.Get(index);
+}
+inline ::msg::PingInfo* PushPingInfo::mutable_infos(int index) {
+  return infos_.Mutable(index);
+}
+inline ::msg::PingInfo* PushPingInfo::add_infos() {
+  return infos_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::msg::PingInfo >&
+PushPingInfo::infos() const {
+  return infos_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::msg::PingInfo >*
+PushPingInfo::mutable_infos() {
+  return &infos_;
 }
 
 

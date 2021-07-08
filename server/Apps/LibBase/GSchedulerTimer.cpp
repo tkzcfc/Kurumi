@@ -42,32 +42,40 @@ void SchedulerTimer::update(float dt)
     
     if(m_UseDelay)
     {
-        if(m_Timing >= m_Delay)
-        {
-            m_UseDelay = false;
-            m_Timing = m_Timing - m_Delay;
-        }
+		if (m_Timing < m_Delay)
+		{
+			return;
+		}
+		trigger(m_Delay);
+		m_Timing = m_Timing - m_Delay;
+		m_TimesExecuted += 1;
+		m_UseDelay = false;
+		// after delay, the rest time should compare with interval
+		if (!m_Infinite && m_TimesExecuted > m_Repeat)
+		{    //unschedule timer
+			cancel();
+			return;
+		}
     }
-    else
-    {
-        if(m_Timing >= m_Interval)
-        {
-            if(m_Infinite)
-            {
-                trigger(m_Timing);
-            }
-            else
-            {
-                trigger(m_Timing);
-                m_TimesExecuted++;
-                if(m_TimesExecuted >= m_Repeat)
-                {
-                    cancel();
-                }
-            }
-            m_Timing = 0.0f;
-        }
-    }
+
+	float interval = (m_Interval > 0) ? m_Interval : m_Timing;
+	while (m_Timing >= interval)
+	{
+		trigger(interval);
+		m_Timing -= interval;
+		m_TimesExecuted += 1;
+
+		if (!m_Infinite && m_TimesExecuted > m_Repeat)
+		{
+			cancel();
+			break;
+		}
+
+		if (m_Timing <= 0.f)
+		{
+			break;
+		}
+	}
 }
 
 //******************TimerTargetSelector

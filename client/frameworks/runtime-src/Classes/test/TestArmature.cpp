@@ -75,8 +75,8 @@ void TestArmature::spawnPlayer()
 	pos.y *= 0.5f;
 	transform.logicPos.x = pos.x;
 	transform.logicPos.y = pos.y;
-	transform.position.x = pos.x;
-	transform.position.y = pos.y;
+	transform.logicRenderPos.x = pos.x;
+	transform.logicRenderPos.y = pos.y;
 
 	player.activate();
 	m_world.refresh();

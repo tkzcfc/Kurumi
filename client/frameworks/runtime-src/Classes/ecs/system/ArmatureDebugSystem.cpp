@@ -30,10 +30,10 @@ void ArmatureDebugSystem::debugDraw()
 		GKfAABB* aabb = data->kfaabbs[component.curFrameIndex];
 		if (aabb)
 		{
-			float x1 = aabb->x * transform.scaleX + transform.position.x;
-			float y1 = aabb->y * transform.scaleY + transform.position.y;
-			float x2 = (aabb->x + aabb->w) * transform.scaleX + transform.position.x;
-			float y2 = (aabb->y + aabb->h) * transform.scaleY + transform.position.y;
+			float x1 = aabb->x * transform.scaleX + transform.logicRenderPos.x;
+			float y1 = aabb->y * transform.scaleY + transform.logicRenderPos.y;
+			float x2 = (aabb->x + aabb->w) * transform.scaleX + transform.logicRenderPos.x;
+			float y2 = (aabb->y + aabb->h) * transform.scaleY + transform.logicRenderPos.y;
 
 			lb.x = MIN(x1, x2);
 			lb.y = MIN(y1, y2);
@@ -51,8 +51,8 @@ void ArmatureDebugSystem::debugDraw()
 
 			for (int32_t i = 0; i < 4; ++i)
 			{
-				pVertex[i].x = pRect->v[i].x * transform.scaleX + transform.position.x;
-				pVertex[i].y = pRect->v[i].y * transform.scaleY + transform.position.y;
+				pVertex[i].x = pRect->v[i].x * transform.scaleX + transform.logicRenderPos.x;
+				pVertex[i].y = pRect->v[i].y * transform.scaleY + transform.logicRenderPos.y;
 			}
 			drawNode->drawPoly(pVertex, 4, true, Color4F::GREEN);
 
@@ -66,8 +66,8 @@ void ArmatureDebugSystem::debugDraw()
 
 			for (int32_t i = 0; i < 4; ++i)
 			{
-				pVertex[i].x = pRect->v[i].x * transform.scaleX + transform.position.x;
-				pVertex[i].y = pRect->v[i].y * transform.scaleY + transform.position.y;
+				pVertex[i].x = pRect->v[i].x * transform.scaleX + transform.logicRenderPos.x;
+				pVertex[i].y = pRect->v[i].y * transform.scaleY + transform.logicRenderPos.y;
 			}
 			drawNode->drawPoly(pVertex, 4, true, Color4F::BLUE);
 
@@ -81,8 +81,8 @@ void ArmatureDebugSystem::debugDraw()
 
 			for (int32_t i = 0; i < 4; ++i)
 			{
-				pVertex[i].x = pRect->v[i].x * transform.scaleX + transform.position.x;
-				pVertex[i].y = pRect->v[i].y * transform.scaleY + transform.position.y;
+				pVertex[i].x = pRect->v[i].x * transform.scaleX + transform.logicRenderPos.x;
+				pVertex[i].y = pRect->v[i].y * transform.scaleY + transform.logicRenderPos.y;
 			}
 			drawNode->drawPoly(pVertex, 4, true, Color4F::BLUE);
 

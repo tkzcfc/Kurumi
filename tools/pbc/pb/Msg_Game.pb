@@ -1,5 +1,5 @@
 
-‘
+œ
 Msg_Game.protomsg"
 Null"
 CodeAck
@@ -103,4 +103,13 @@ randomSeed (
 ExitFightReq
 	fightUUID ("
 ExitFightAck
-code (BH
+code ("
+Ping
+	timestamp ("
+Pong
+	timestamp ("%
+PingInfo
+pid (
+ping (",
+PushPingInfo
+infos (2.msg.PingInfoBH

@@ -27,6 +27,12 @@ function FightLayer:ctor()
     -- loading界面
     self.loadLayer = require("app.fight.FightLoading").new()
     self:addChild(self.loadLayer, 0xff)
+
+    self.iLogicCount = 0
+    schedule(self, function()
+        print("logic fps", self.iLogicCount)
+        self.iLogicCount = 0
+    end, 1)
 end
 
 function FightLayer:onEnter()
@@ -53,10 +59,15 @@ function FightLayer:onCleanup()
         self.pGameWorld:delete()
     end
 
-    if self.scheduleHandler then
-        local sharedScheduler = cc.Director:getInstance():getScheduler()
-        sharedScheduler:unscheduleScriptEntry(self.scheduleHandler)
-        self.scheduleHandler = nil
+    local sharedScheduler = cc.Director:getInstance():getScheduler()
+    if self.fixUpdateTimer then
+        sharedScheduler:unscheduleScriptEntry(self.fixUpdateTimer)
+        self.fixUpdateTimer = nil
+    end
+
+    if self.renderUpdateTimer then
+        sharedScheduler:unscheduleScriptEntry(self.renderUpdateTimer)
+        self.renderUpdateTimer = nil
     end
 end
 
@@ -134,6 +145,8 @@ function FightLayer:onRunNextFrameAck(msg)
             self.pGameWorld:input(pid, v.frame, v.input.key_down)
         end
     end
+
+    self.iLogicCount = self.iLogicCount + 1
 end
 
 function FightLayer:initGameWorld()
@@ -149,7 +162,8 @@ function FightLayer:initGameWorld()
     end
 
     local sharedScheduler = cc.Director:getInstance():getScheduler()
-    self.scheduleHandler = sharedScheduler:scheduleScriptFunc(handler(self, self.fixUpdate), logic_interval, false)
+    self.fixUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.fixUpdate), logic_interval, false)
+    self.renderUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.renderUpdate), 0.0, false)
 
     -- 移除loading界面
     performWithDelay(self, function()
@@ -166,36 +180,37 @@ function FightLayer:fixUpdate()
     self:updateFrame(logic_interval)
 end
 
+function FightLayer:renderUpdate(dt)
+    self.pGameWorld:render(dt)
+end
+
 function FightLayer:updateFrame(dt)
     if self.svrLogicFrame == nil then
         return
     end
 
     local frameDiff = self.svrLogicFrame - self.pGameWorld:getGameLogicFrame()
-    if frameDiff < 0 then return end
 
-    local count = 0
-    repeat
-        if self.pGameWorld:getGameLogicFrame() > self.svrLogicFrame then
-            break
-        end
+    if frameDiff >= 0 then
+        local count = 0
+        repeat
+            if self.pGameWorld:getGameLogicFrame() > self.svrLogicFrame then
+                break
+            end
 
-        self.pGameWorld:update(dt)
-        -- print("GameLogicFrame---------->>", self.pGameWorld:getGameLogicFrame())
+            self.pGameWorld:update(dt)
+            -- print("GameLogicFrame---------->>", self.pGameWorld:getGameLogicFrame())
 
-        count = count + 1
+            count = count + 1
 
-        -- 相差不大,二倍数播放,相差太大则直接播放到最新帧
-        if frameDiff < 10 then
-            if count >= 2 then break end
-        end
-    until(false)
+            -- 相差不大,二倍数播放,相差太大则直接播放到最新帧
+            if frameDiff < 10 then
+                if count >= 2 then break end
+            end
+        until(false)
 
-    self.fightMgr:setLogicFrame(self.pGameWorld:getGameLogicFrame())
-    self.pGameWorld:render()
+        self.fightMgr:setLogicFrame(self.pGameWorld:getGameLogicFrame())
+    end
 end
-
-
-
 
 return FightLayer

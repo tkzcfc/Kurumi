@@ -10,8 +10,19 @@ local FIGHT_SESSION_ID = 2
 
 local str_len = string.len
 
+-- 要屏蔽输出的消息
+local SHIELD_PRING_MSGS = {}
+
 function NetManager:override_onInit()
 	NetManager.super.override_onInit(self)
+
+	SHIELD_PRING_MSGS = {
+		[MessageID.MSG_RUN_NEXT_FRAME_REQ] = true,
+		[MessageID.MSG_RUN_NEXT_FRAME_ACK] = true,
+		[MessageID.MSG_PING_REQ] = true,
+		[MessageID.MSG_PING_ACK] = true,
+	}
+
 
 	self.sessionInfo = {}
 
@@ -93,7 +104,7 @@ end
 -- @brief 向游戏服发送消息
 function NetManager:sendToGame(msgID, msg)
 	local info = manifest.CMD[msgID]
-	if G_MAC.IS_PC then
+	if G_MAC.IS_PC and not SHIELD_PRING_MSGS[msgID] then
 		print("send msg:", info.name, msgID)
 		print_lua_value(msg)
 		print("----------------------------")
@@ -106,7 +117,7 @@ end
 -- @brief 向战斗服发送消息
 function NetManager:sendToFight(msgID, msg)
 	local info = manifest.CMD[msgID]
-	if G_MAC.IS_PC and msgID ~= MessageID.MSG_RUN_NEXT_FRAME_REQ then
+	if G_MAC.IS_PC and not SHIELD_PRING_MSGS[msgID] then
 		print("send msg:", info.name, msgID)
 		print_lua_value(msg)
 		print("----------------------------")
@@ -166,7 +177,7 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 	end
 	self:recursiveDecode(msg)
 
-	if G_MAC.IS_PC and msgID ~= MessageID.MSG_RUN_NEXT_FRAME_ACK then
+	if G_MAC.IS_PC and not SHIELD_PRING_MSGS[msgID] then
 		print("recv msg:", info.name, msgID)
 		print_lua_value(msg)
 		print("----------------------------")

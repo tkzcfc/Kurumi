@@ -137,7 +137,7 @@ bool GGameWorld::spawnPlayer()
 	ActorIdentityInfo info;
 	info.bodySize = GVec2(40.0f, 120.0f);
 	info.originPos = GVec2(300.0f + s_index * 200, 200.0f);
-	info.roleName = "R1022";
+	info.roleName = "R1007";
 	info.uuid = CommonUtils::genUUID(m_world);
 	info.anifsm = "json/ani_fsm/dao_runtime.json";
 	info.moveForce = GVec2(20.0f, 10.0f);
@@ -149,6 +149,9 @@ bool GGameWorld::spawnPlayer()
 
 	entity.activate();
 	m_players.push_back(entity);
+
+	m_Player = entity;
+
 	return true;
 }
 

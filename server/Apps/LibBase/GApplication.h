@@ -28,7 +28,9 @@ public:
 
 	G_FORCEINLINE float getRunTime() const;
 
-	G_FORCEINLINE uint32_t getDeltaTimeMillisecond() const;
+	G_FORCEINLINE uint32_t getRunTime32() const;
+
+	G_FORCEINLINE uint64_t getDeltaTimeMillisecond() const;
 
 	G_FORCEINLINE GScheduler* getScheduler() const;
 
@@ -48,8 +50,9 @@ private:
 	GScheduler* m_scheduler;
 	std::unique_ptr<GServiceMgr> m_serviceMgr;
 
+	uint64_t m_startTime;
 	uint64_t m_lastTime;
-	uint32_t m_deltaTimeMilli;
+	uint64_t m_deltaTimeMilli;
 	float m_deltaTime;
 	float m_runTime;
 
@@ -76,7 +79,12 @@ float GApplication::getRunTime() const
 	return m_runTime;
 }
 
-uint32_t GApplication::getDeltaTimeMillisecond() const
+uint32_t GApplication::getRunTime32() const
+{
+	return (uint32_t)(uv_now(m_loop) - m_startTime);
+}
+
+uint64_t GApplication::getDeltaTimeMillisecond() const
 {
 	return m_deltaTimeMilli;
 }

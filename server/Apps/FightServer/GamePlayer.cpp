@@ -6,6 +6,7 @@ uint32_t GamePlayer::INVALID_SESSION_ID = UINT32_MAX;
 
 GamePlayer::GamePlayer()
 {
+	m_ping = 0;
 	m_lastFrame = 0;
 	m_loadPercent = 0.0f;
 	m_loadFinish = false;
@@ -49,6 +50,15 @@ void GamePlayer::input(const msg::RunNextFrameReq& data, uint32_t frame)
 	input->mutable_input()->CopyFrom(data.input());
 	input->set_frame(frame);
 	input->set_pid(this->getPlayerID());
+
+	// 有时候会遇到客户端的key_down值为0,但是 has_key_down 为false的情况,
+	// 这儿特殊处理下 避免GameLogic 推送MSG_RUN_NEXT_FRAME_ACK消息时 序列化时断言()
+	if (input->mutable_input()->has_key_down() == false)
+	{
+		LOG(ERROR) << __FILE__ << __FUNCTION__ << "  input->mutable_input()->has_key_down() == false";
+		//G_ASSERT(0);
+		input->mutable_input()->set_key_down(0);
+	}
 
 	if (m_inputs.empty())
 	{
@@ -142,6 +152,7 @@ msg::PlayerFrameInput* GamePlayer::dequeue()
 		return new msg::PlayerFrameInput();
 	}
 	auto tmp = m_inputCache.back();
+	tmp->Clear();
 	m_inputCache.pop_back();
 	return tmp;
 }

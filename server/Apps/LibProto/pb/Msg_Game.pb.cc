@@ -48,6 +48,10 @@ void protobuf_ShutdownFile_Msg_5fGame_2eproto() {
   delete PlayerRecords::default_instance_;
   delete ExitFightReq::default_instance_;
   delete ExitFightAck::default_instance_;
+  delete Ping::default_instance_;
+  delete Pong::default_instance_;
+  delete PingInfo::default_instance_;
+  delete PushPingInfo::default_instance_;
 }
 
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -95,6 +99,10 @@ void protobuf_AddDesc_Msg_5fGame_2eproto() {
   PlayerRecords::default_instance_ = new PlayerRecords();
   ExitFightReq::default_instance_ = new ExitFightReq();
   ExitFightAck::default_instance_ = new ExitFightAck();
+  Ping::default_instance_ = new Ping();
+  Pong::default_instance_ = new Pong();
+  PingInfo::default_instance_ = new PingInfo();
+  PushPingInfo::default_instance_ = new PushPingInfo();
   Null::default_instance_->InitAsDefaultInstance();
   CodeAck::default_instance_->InitAsDefaultInstance();
   LoginGateAck::default_instance_->InitAsDefaultInstance();
@@ -128,6 +136,10 @@ void protobuf_AddDesc_Msg_5fGame_2eproto() {
   PlayerRecords::default_instance_->InitAsDefaultInstance();
   ExitFightReq::default_instance_->InitAsDefaultInstance();
   ExitFightAck::default_instance_->InitAsDefaultInstance();
+  Ping::default_instance_->InitAsDefaultInstance();
+  Pong::default_instance_->InitAsDefaultInstance();
+  PingInfo::default_instance_->InitAsDefaultInstance();
+  PushPingInfo::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_Msg_5fGame_2eproto);
 }
 
@@ -6857,6 +6869,708 @@ void ExitFightAck::Swap(ExitFightAck* other) {
 
 ::std::string ExitFightAck::GetTypeName() const {
   return "msg.ExitFightAck";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int Ping::kTimestampFieldNumber;
+#endif  // !_MSC_VER
+
+Ping::Ping()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void Ping::InitAsDefaultInstance() {
+}
+
+Ping::Ping(const Ping& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void Ping::SharedCtor() {
+  _cached_size_ = 0;
+  timestamp_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+Ping::~Ping() {
+  SharedDtor();
+}
+
+void Ping::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void Ping::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const Ping& Ping::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fGame_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fGame_2eproto();
+#endif
+  return *default_instance_;
+}
+
+Ping* Ping::default_instance_ = NULL;
+
+Ping* Ping::New() const {
+  return new Ping;
+}
+
+void Ping::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    timestamp_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool Ping::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 timestamp = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &timestamp_)));
+          set_has_timestamp();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void Ping::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 timestamp = 1;
+  if (has_timestamp()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->timestamp(), output);
+  }
+
+}
+
+int Ping::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 timestamp = 1;
+    if (has_timestamp()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->timestamp());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Ping::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Ping*>(&from));
+}
+
+void Ping::MergeFrom(const Ping& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_timestamp()) {
+      set_timestamp(from.timestamp());
+    }
+  }
+}
+
+void Ping::CopyFrom(const Ping& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Ping::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  return true;
+}
+
+void Ping::Swap(Ping* other) {
+  if (other != this) {
+    std::swap(timestamp_, other->timestamp_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string Ping::GetTypeName() const {
+  return "msg.Ping";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int Pong::kTimestampFieldNumber;
+#endif  // !_MSC_VER
+
+Pong::Pong()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void Pong::InitAsDefaultInstance() {
+}
+
+Pong::Pong(const Pong& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void Pong::SharedCtor() {
+  _cached_size_ = 0;
+  timestamp_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+Pong::~Pong() {
+  SharedDtor();
+}
+
+void Pong::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void Pong::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const Pong& Pong::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fGame_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fGame_2eproto();
+#endif
+  return *default_instance_;
+}
+
+Pong* Pong::default_instance_ = NULL;
+
+Pong* Pong::New() const {
+  return new Pong;
+}
+
+void Pong::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    timestamp_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool Pong::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 timestamp = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &timestamp_)));
+          set_has_timestamp();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void Pong::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 timestamp = 1;
+  if (has_timestamp()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->timestamp(), output);
+  }
+
+}
+
+int Pong::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 timestamp = 1;
+    if (has_timestamp()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->timestamp());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Pong::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const Pong*>(&from));
+}
+
+void Pong::MergeFrom(const Pong& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_timestamp()) {
+      set_timestamp(from.timestamp());
+    }
+  }
+}
+
+void Pong::CopyFrom(const Pong& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Pong::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  return true;
+}
+
+void Pong::Swap(Pong* other) {
+  if (other != this) {
+    std::swap(timestamp_, other->timestamp_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string Pong::GetTypeName() const {
+  return "msg.Pong";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int PingInfo::kPidFieldNumber;
+const int PingInfo::kPingFieldNumber;
+#endif  // !_MSC_VER
+
+PingInfo::PingInfo()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void PingInfo::InitAsDefaultInstance() {
+}
+
+PingInfo::PingInfo(const PingInfo& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void PingInfo::SharedCtor() {
+  _cached_size_ = 0;
+  pid_ = GOOGLE_LONGLONG(0);
+  ping_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+PingInfo::~PingInfo() {
+  SharedDtor();
+}
+
+void PingInfo::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void PingInfo::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const PingInfo& PingInfo::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fGame_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fGame_2eproto();
+#endif
+  return *default_instance_;
+}
+
+PingInfo* PingInfo::default_instance_ = NULL;
+
+PingInfo* PingInfo::New() const {
+  return new PingInfo;
+}
+
+void PingInfo::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    pid_ = GOOGLE_LONGLONG(0);
+    ping_ = 0;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool PingInfo::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int64 pid = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &pid_)));
+          set_has_pid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_ping;
+        break;
+      }
+
+      // required int32 ping = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_ping:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &ping_)));
+          set_has_ping();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void PingInfo::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required int64 pid = 1;
+  if (has_pid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->pid(), output);
+  }
+
+  // required int32 ping = 2;
+  if (has_ping()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->ping(), output);
+  }
+
+}
+
+int PingInfo::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required int64 pid = 1;
+    if (has_pid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int64Size(
+          this->pid());
+    }
+
+    // required int32 ping = 2;
+    if (has_ping()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->ping());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PingInfo::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const PingInfo*>(&from));
+}
+
+void PingInfo::MergeFrom(const PingInfo& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_pid()) {
+      set_pid(from.pid());
+    }
+    if (from.has_ping()) {
+      set_ping(from.ping());
+    }
+  }
+}
+
+void PingInfo::CopyFrom(const PingInfo& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PingInfo::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void PingInfo::Swap(PingInfo* other) {
+  if (other != this) {
+    std::swap(pid_, other->pid_);
+    std::swap(ping_, other->ping_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string PingInfo::GetTypeName() const {
+  return "msg.PingInfo";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int PushPingInfo::kInfosFieldNumber;
+#endif  // !_MSC_VER
+
+PushPingInfo::PushPingInfo()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void PushPingInfo::InitAsDefaultInstance() {
+}
+
+PushPingInfo::PushPingInfo(const PushPingInfo& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void PushPingInfo::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+PushPingInfo::~PushPingInfo() {
+  SharedDtor();
+}
+
+void PushPingInfo::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void PushPingInfo::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const PushPingInfo& PushPingInfo::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_Msg_5fGame_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_Msg_5fGame_2eproto();
+#endif
+  return *default_instance_;
+}
+
+PushPingInfo* PushPingInfo::default_instance_ = NULL;
+
+PushPingInfo* PushPingInfo::New() const {
+  return new PushPingInfo;
+}
+
+void PushPingInfo::Clear() {
+  infos_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool PushPingInfo::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated .msg.PingInfo infos = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_infos:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_infos()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(10)) goto parse_infos;
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void PushPingInfo::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // repeated .msg.PingInfo infos = 1;
+  for (int i = 0; i < this->infos_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      1, this->infos(i), output);
+  }
+
+}
+
+int PushPingInfo::ByteSize() const {
+  int total_size = 0;
+
+  // repeated .msg.PingInfo infos = 1;
+  total_size += 1 * this->infos_size();
+  for (int i = 0; i < this->infos_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->infos(i));
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PushPingInfo::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const PushPingInfo*>(&from));
+}
+
+void PushPingInfo::MergeFrom(const PushPingInfo& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  infos_.MergeFrom(from.infos_);
+}
+
+void PushPingInfo::CopyFrom(const PushPingInfo& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PushPingInfo::IsInitialized() const {
+
+  for (int i = 0; i < infos_size(); i++) {
+    if (!this->infos(i).IsInitialized()) return false;
+  }
+  return true;
+}
+
+void PushPingInfo::Swap(PushPingInfo* other) {
+  if (other != this) {
+    infos_.Swap(&other->infos_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string PushPingInfo::GetTypeName() const {
+  return "msg.PushPingInfo";
 }
 
 

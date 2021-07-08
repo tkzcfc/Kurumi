@@ -13,5 +13,5 @@ public:
 
 	void sync();
 
-	void syncRender();
+	void syncRender(float percent);
 };

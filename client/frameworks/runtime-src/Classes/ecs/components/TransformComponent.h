@@ -11,8 +11,12 @@ public:
 	{
 	}
 
-	// 渲染坐标
-	Vec2 position;
+	// 实际渲染坐标
+	Vec2 renderPos;
+	// 逻辑渲染坐标
+	Vec2 logicRenderPos;
+	// 最后一帧逻辑帧实际渲染坐标
+	Vec2 lastRenderPos;
 	// 逻辑坐标
 	GVec3 logicPos;
 	// 缩放

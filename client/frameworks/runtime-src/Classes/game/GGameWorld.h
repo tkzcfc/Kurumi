@@ -9,13 +9,15 @@ public:
 
 	GGameWorld();
 
+	virtual ~GGameWorld();
+
 	bool init(int32_t mapId, uint32_t randomSeed, uint32_t uuidSeed, Node* rootNode);
 	
-	void update(float32 dt);
+	void update(float dt);
 
 	void input(GUUID uuid, uint32_t frame, G_BIT_TYPE keydown);
 
-	void render();
+	void render(float dt);
 
 public:
 
@@ -24,7 +26,7 @@ public:
 private:
 
 	// 逻辑更新
-	void updateLogic(float32 dt);
+	void updateLogic(float dt);
 	
 	// 初始化世界边界碰撞
 	bool initBorder();
@@ -62,7 +64,12 @@ private:
 	Node* m_rootNode;
 	GVirtualCamera* m_camera;
 
+	anax::Entity m_Player;
+
 	std::vector<anax::Entity> m_players;
+
+	float m_lastRenderTime;
+	float m_renderElapsedTime;
 };
 
 uint32_t GGameWorld::getGameLogicFrame() const

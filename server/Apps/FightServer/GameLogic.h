@@ -16,7 +16,7 @@ public:
 	err::Code init(const GGameWorldInitArgs &args, const ::google::protobuf::RepeatedPtrField< ::svr_msg::FightRoleSpawnInfo >& roles);
 	
 	void update(float dt);
-
+	
 	// 获取当前逻辑帧
 	uint32_t getGameLogicFrame() const;
 
@@ -42,6 +42,8 @@ public:
 	G_SYNTHESIZE(int32_t, m_uuid, uuid);
 
 protected:
+
+	void pingUpdate(float dt);
 
 	void update_WaitConnect(float dt);
 
@@ -71,6 +73,8 @@ protected:
 	void onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req);
 
 	void onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoadingReq& req);
+
+	void onMsg_Pong(uint32_t sessionID, const msg::Pong& req);
 
 private:
 	std::unique_ptr<GGameWorld> m_world;
@@ -104,4 +108,7 @@ private:
 
 	msg::RunNextFrameAck m_runNextFrameAckCache;
 	msg::PlayerFrameInput* m_pCacheFrameInputs[G_FIGHT_MAX_PLAYER_COUNT];
+
+	float m_pingTime;
+	float m_pingPushTime;
 };

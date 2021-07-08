@@ -16,8 +16,8 @@ GVirtualCamera * GVirtualCamera::create()
 }
 
 GVirtualCamera::GVirtualCamera()
-	: m_animationNode(NULL)
-	, m_enableCollision(false)
+	: m_enableCollision(false)
+	, m_focusZoom(1.0f)
 	, m_cameraAnchorPoint(Vec2::ANCHOR_MIDDLE)
 {
 }
@@ -29,43 +29,26 @@ bool GVirtualCamera::init()
 		return false;
 	}
 
-	m_viewSize = Director::getInstance()->getVisibleSize();
-	setWorldSize(m_viewSize);
+	auto winSize = Director::getInstance()->getVisibleSize();
+	m_viewSize = Vec2(winSize.width, winSize.height);
+	setWorldSize(winSize);
 
 	return true;
 }
 
-void GVirtualCamera::setPosition(const Vec2& pos)
+void GVirtualCamera::setFocalPos(const Vec2& pos)
 {
-	if (m_animationNode)
-	{
-		m_animationNode->setPosition(pos);
-	}
+	m_focalPos = pos;
 }
 
-const Vec2& GVirtualCamera::getPosition()
+const Vec2& GVirtualCamera::getFocalPos()
 {
-	if (m_animationNode == NULL)
-	{
-		return Vec2::ZERO;
-	}
-	return m_animationNode->getPosition();
-}
-
-const Vec2& GVirtualCamera::getCenter()
-{
-	static Vec2 outCenter;
-
-	outCenter = this->getPosition();
-	outCenter.x = outCenter.x + m_viewSize.width * 0.5f;
-	outCenter.y = outCenter.y + m_viewSize.height * 0.5f;
-
-	return outCenter;
+	return m_focalPos;
 }
 
 void GVirtualCamera::setViewPortSize(const Size& viewSize)
 {
-	m_viewSize = viewSize;
+	m_viewSize = Vec2(viewSize.width, viewSize.height);
 	setCameraBoundingBox(Vec2::ZERO, m_worldSize);
 }
 
@@ -115,11 +98,6 @@ void GVirtualCamera::setCameraAnchorPoint(const Vec2& anchorPoint)
 	m_cameraAnchorPoint = anchorPoint;
 }
 
-Node* GVirtualCamera::getAnimationNode()
-{
-	return m_animationNode;
-}
-
 void GVirtualCamera::forceUpdate()
 {
 	update(0.0f);
@@ -129,54 +107,48 @@ void GVirtualCamera::update(float delta)
 {
 	Component::update(delta);
 
-	if (m_animationNode == NULL)
-	{
+	Vec2 offset = m_viewSize;
+	offset.scale(m_cameraAnchorPoint);
+
+	Vec2 newPos = m_focalPos - offset;
+	validPositionFast(newPos);
+
+	Vec2 diff = newPos - m_logicPos;
+	if (diff.getLengthSq() < 0.001 && m_cache_Scale == m_focusZoom)
 		return;
-	}
 
-	Vec2 pos = m_animationNode->getPosition();
-	float scale = m_animationNode->getScale();
+	float motion = MIN(1.0f, delta * 2.2f);
+	diff.scale(motion);
 
-	validPositionFast(pos);
+	// 防止镜头移动过快
+	if (diff.x < 0)
+		diff.x = MAX(diff.x, -15.0f);
+	else
+		diff.x = MIN(diff.x, 15.0f);
 
-	m_animationNode->setPosition(pos);
+	m_logicPos += diff;
+	newPos = m_logicPos;
 
-	if (m_cache_Position == pos && m_cache_Scale == scale)
-	{
-		return;
-	}
-
-	m_cache_Position = pos;
-	m_cache_Scale = scale;
+	m_cache_Scale = m_focusZoom;
 	
-	pos *= scale;
+	newPos *= m_focusZoom;
 
-	if (scale != 1.0f)
+	if (m_focusZoom != 1.0f)
 	{
-		Vec2 v = (1.0f - scale) * m_viewSize;
-		pos.x = pos.x - v.x * m_cameraAnchorPoint.x;
-		pos.y = pos.y - v.y * m_cameraAnchorPoint.y;
+		Vec2 v = (1.0f - m_focusZoom) * m_viewSize;
+		newPos.x = newPos.x - v.x * m_cameraAnchorPoint.x;
+		newPos.y = newPos.y - v.y * m_cameraAnchorPoint.y;
 	}
 
-	m_call(pos.x, pos.y, scale);
+	m_call(newPos.x, newPos.y, m_focusZoom);
 }
 
 void GVirtualCamera::onAdd()
 {
 	Component::onAdd();
-
-	m_animationNode = Node::create();
-	getOwner()->addChild(m_animationNode);
-	CC_SAFE_RETAIN(m_animationNode);
 }
 
 void GVirtualCamera::onRemove()
 {
-	if (m_animationNode)
-	{
-		m_animationNode->removeFromParent();
-		CC_SAFE_RELEASE_NULL(m_animationNode);
-	}
-
 	Component::onRemove();
 }

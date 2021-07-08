@@ -34,6 +34,8 @@ GameLogic::GameLogic()
 	m_waitTime = 0.0f;
 	m_lastRunTime = 0.0f;
 	m_accumilatedTime = 0.0f;
+	m_pingTime = 0.0f;
+	m_pingPushTime = 0.0f;
 }
 
 GameLogic::~GameLogic()
@@ -88,10 +90,10 @@ err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protob
 	//! 客户端通信
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_RUN_NEXT_FRAME_REQ, msg::RunNextFrameReq, onMsg_RunNextFrameReq);
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_LOADING_PERCENT_REQ, msg::PlayerLoadingReq, onMsg_PlayerLoadingReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_PING_ACK, msg::Pong, onMsg_Pong);
 
 	return err::Code::SUCCESS;
 }
-
 
 void GameLogic::update(float dt)
 {
@@ -101,6 +103,8 @@ void GameLogic::update(float dt)
 		this->setIsFinish(true);
 		return;
 	}
+
+	pingUpdate(dt);
 
 	switch (m_state)
 	{
@@ -194,6 +198,8 @@ void GameLogic::update_Ready(float dt)
 		msg::RunNextFrameAck ack;
 		ack.set_nextframe(0);
 		this->sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, ack);
+		// 让下一逻辑帧更新ping值
+		m_pingTime = 10000.0f;
 	}
 }
 
@@ -213,7 +219,7 @@ void GameLogic::update_Run(float dt)
 	uint32_t targetFrame = maxFrame + MAX_LEAD_FRAME_DIS_MAX_CLIENT;
 	// 服务器逻辑以网速最好的客户端逻辑帧步进
 	if (targetFrame >= m_world->getGameLogicFrame())
-	{		
+	{
 		//
 		if (m_runNextFrameAckCache.frames_size() != m_playerCount)
 		{
@@ -342,6 +348,37 @@ void GameLogic::update_Wait(float dt)
 		{
 			this->exitGame(player->getPlayerID());
 		}
+	}
+}
+
+void GameLogic::pingUpdate(float dt)
+{
+	m_pingTime += dt;
+	m_pingPushTime += dt;
+
+	// 采集ping值
+	if (m_pingTime > 1.0f)
+	{
+		m_pingTime = 0.0f;
+
+		msg::Ping req;
+		req.set_timestamp(GApplication::getInstance()->getRunTime32());
+		sendToAllPlayer(MessageID::MSG_PING_REQ, req);
+	}
+
+	// 推送ping值
+	if (m_pingPushTime > 5.0f)
+	{
+		m_pingPushTime = 0.0f;
+
+		msg::PushPingInfo ntf;
+		for (auto i = 0; i < m_playerCount; ++i)
+		{
+			auto info = ntf.add_infos();
+			info->set_pid(m_players[i]->getPlayerID());
+			info->set_ping(m_players[i]->getPing());
+		}
+		sendToAllPlayer(MessageID::MSG_PUSH_PING_NTF, ntf);
 	}
 }
 
@@ -642,3 +679,18 @@ void GameLogic::onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoad
 	this->sendLoadingPercentToAllPlayer();
 }
 
+void GameLogic::onMsg_Pong(uint32_t sessionID, const msg::Pong& req)
+{
+	auto player = getPlayerBySessionID(sessionID);
+	if (player == NULL) return;
+
+	auto cur = GApplication::getInstance()->getRunTime32();
+	auto diff = cur - req.timestamp();
+
+	if (diff < 0)
+	{
+		LOG(WARNING) << "error ping response, diff:" << diff << "playerid:" << player->getPlayerID();
+		diff = 0;
+	}
+	player->setPing(diff);
+}
