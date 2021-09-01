@@ -8,7 +8,7 @@ class GObject
 public:
     GObject();
     
-    ~GObject();
+    virtual ~GObject();
     
     virtual GObject* retain();
     
