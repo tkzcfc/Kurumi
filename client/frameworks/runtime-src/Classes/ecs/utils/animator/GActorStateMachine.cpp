@@ -81,51 +81,6 @@ void GActorStateMachine::update(float dt)
 	Super::update(dt);
 }
 
-void GActorStateMachine::updateInput()
-{
-	//auto& input = m_entity.getComponent<InputComponent>();
-	//auto& property = m_entity.getComponent<PropertyComponent>();
-
-	////!< 判断是否按下了移动按键
-	//bool isMove = G_BIT_GET(input.keyDown, G_KEY_MOVE_MUSTER);
-	//params().setBool(HASH_IS_RUN, isMove);
-
-	//if (isMove)
-	//{
-	//	///! 更新朝向
-	//	// 左移
-	//	if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_LEFT))
-	//	{
-	//		if (G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_FACE_CAHGNE))
-	//			G_BIT_REMOVE(property.status, G_PS_IS_FACE_R);
-	//	}
-	//	// 右移
-	//	else if (G_BIT_EQUAL(input.keyDown, G_KEY_MOVE_RIGHT))
-	//	{
-	//		if (G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_FACE_CAHGNE))
-	//			G_BIT_SET(property.status, G_PS_IS_FACE_R);
-	//	}
-	//}
-	//else
-	//{
-	//	auto& simPhys = m_entity.getComponent<SIMPhysComponent>();
-	//	simPhys.linearVelocity.x = 0.0f;
-	//	simPhys.force.setzero();
-	//}
-
-	////!< 跳跃
-	//if (G_BIT_EQUAL(input.keyDown, G_KEY_JUMP) &&
-	//	G_BIT_NO_EQUAL(property.lockStatus, G_LOCK_S_JUMP) &&
-	//	property.jumpCount < property.jumpMaxCount)
-	//{
-	//	params().setBool(HASH_KEY_DOWN_JUMP, true);
-	//}
-	//else
-	//{
-	//	params().setBool(HASH_KEY_DOWN_JUMP, false);
-	//}
-}
-
 // 按键按下
 void GActorStateMachine::onKeyDown(G_BIT_TYPE key)
 {

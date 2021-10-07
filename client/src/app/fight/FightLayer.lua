@@ -4,7 +4,7 @@
 
 local FightLayer = class("FightLayer", cc.Node)
 
-local logic_interval = 1 / 30
+local logic_interval = 1 / 40
 
 function FightLayer:ctor()
     self:enableNodeEvents()
@@ -205,7 +205,11 @@ function FightLayer:updateFrame(dt)
 
             -- 相差不大,二倍数播放,相差太大则直接播放到最新帧
             if frameDiff < 10 then
-                if count >= 2 then break end
+                if frameDiff > 5 then
+                    if count >= 5 then break end
+                else
+                    break
+                end
             end
         until(false)
 

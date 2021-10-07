@@ -9,6 +9,7 @@ GGameWorld::GGameWorld()
 
 	m_renderElapsedTime = 0.0f;
 	m_lastRenderTime = 0.0f;
+	m_targetRenderTime = 0.0f;
 }
 
 GGameWorld::~GGameWorld()
@@ -19,7 +20,6 @@ GGameWorld::~GGameWorld()
 // 更新逻辑
 void GGameWorld::update(float dt)
 {
-	m_renderElapsedTime = m_pGlobal->fAccumilatedTime;
 	m_pGlobal->fAccumilatedTime += dt;
 	this->updateLogic(dt);
 	m_pGlobal->gameLogicFrame++;
@@ -47,20 +47,29 @@ void GGameWorld::updateLogic(float dt)
 	m_transformSyncSystem.sync();
 
 	m_lastRenderTime = m_renderElapsedTime;
+	m_targetRenderTime = m_pGlobal->fAccumilatedTime;
 }
 
 void GGameWorld::render(float dt)
 {
-	if (m_renderElapsedTime >= m_pGlobal->fAccumilatedTime)
+	if (m_renderElapsedTime > m_pGlobal->fAccumilatedTime)
 		return;
 	m_renderElapsedTime += dt;
 
 	float percent = 1.0f;
-	float diffVal = m_pGlobal->fAccumilatedTime - m_lastRenderTime;
-	float diffRenderVal = m_renderElapsedTime - m_lastRenderTime;
-	if (diffVal > 0.001f && diffRenderVal > 0.001f)
+
+	if (m_renderElapsedTime < m_targetRenderTime)
 	{
-		percent = MIN(1.0f, diffVal / diffRenderVal);
+		auto diff1 = m_targetRenderTime - m_renderElapsedTime;
+		auto diff2 = m_targetRenderTime - m_lastRenderTime;
+		if (diff2 > 0.0f)
+		{
+			percent = MIN(1.0f, diff1 / diff2);
+		}
+	}
+	else
+	{
+		m_targetRenderTime = m_renderElapsedTime;
 	}
 	m_armatureRenderSystem.render();
 	m_transformSyncSystem.syncRender(percent);
@@ -69,9 +78,9 @@ void GGameWorld::render(float dt)
 	auto debugDrawNode = CommonUtils::getDebugDraw(m_world);
 	if (debugDrawNode)
 	{
-		debugDrawNode->clear();
-		m_armatureDebugSystem.debugDraw();
-		m_SIMPhysSystem.debugDraw();
+		//debugDrawNode->clear();
+		//m_armatureDebugSystem.debugDraw();
+		//m_SIMPhysSystem.debugDraw();
 	}
 #endif
 

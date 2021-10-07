@@ -12,9 +12,7 @@ class GActorStateMachine : public GAnimatorStateMachine
 public:
 	
 	virtual void setEntity(const anax::Entity& entity);
-
-	virtual void updateInput();
-
+	
 
 	// 按键按下
 	void onKeyDown(G_BIT_TYPE key);

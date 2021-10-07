@@ -68,6 +68,7 @@ private:
 
 	std::vector<anax::Entity> m_players;
 
+	float m_targetRenderTime;
 	float m_lastRenderTime;
 	float m_renderElapsedTime;
 };
