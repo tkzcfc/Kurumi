@@ -1,7 +1,0 @@
-syntax = "proto2";
-
-message __msg_base_
-{
-	required string msgName = 1;
-	required string msgData = 2;
-}

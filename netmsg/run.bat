@@ -1,1 +1,0 @@
-start batExc.exe main

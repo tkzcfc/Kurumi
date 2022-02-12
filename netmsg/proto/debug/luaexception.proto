@@ -1,9 +1,0 @@
-syntax = "proto2";
-
-package debug;
-
-// 客户端lua异常消息
-message C2S_luaexception
-{
-	required string exception = 1;
-}

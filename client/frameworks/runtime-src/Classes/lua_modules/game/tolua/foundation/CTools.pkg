@@ -1,9 +1,0 @@
-$#include "foundation/CTools.h"
-
-class CTools
-{
-public:
-	static bool isInRect(cc.Node* InNode, float InX, float InY);
-};
-
-
