@@ -1,0 +1,32 @@
+
+$#include "mugen/act/frame/GScriptFrame.h"
+
+class GFrame
+{
+	int getStartFrame();
+	int getFrameLen();
+	GTimeline* getTimeline();
+	GEntity* getEntity();
+	GComponent* getComponent(std::string name);	
+	GSkill* getSkill();
+};
+
+class GEventFrame : public GFrame
+{
+ int getTriggerMaxCount();
+ void setTriggerMaxCount(int value);
+ 
+ int getTriggerInterval();
+ void setTriggerInterval(int value);
+ 
+ int getCurTriggerCount();
+ int getLastTriggerFrameIndex();
+ 
+ bool canTrigger(int currentFrameIndex);
+};
+
+
+class GScriptFrame : public GEventFrame
+{
+	std::string getArgStr();
+};

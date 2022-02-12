@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+ext {
+    VERSION_NAME = rootProject.ext.burstLinkerVer
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 1
+        versionName VERSION_NAME.toString()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // renderscriptTargetApi 26
+        // renderscriptSupportModeEnabled true
+        // renderscriptNdkModeEnabled true
+
+        externalNativeBuild {
+            cmake {
+//                arguments "-DANDROID_ARM_NEON=TRUE"
+//                arguments "-DANDROID_ABI=armeabi-v7a with NEON"
+                arguments "-DANDROID_STL=c++_static"
+                cppFlags "-std=c++14 -fno-rtti -fno-exceptions"
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug_native {
+            jniDebuggable true
+            renderscriptDebuggable true
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+}
+
+apply from: rootProject.file('upload.gradle')

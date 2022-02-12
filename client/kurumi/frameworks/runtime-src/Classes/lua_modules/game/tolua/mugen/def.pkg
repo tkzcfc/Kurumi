@@ -1,0 +1,29 @@
+$#include "mugen/GGameDef.h"
+
+// https://blog.csdn.net/zgl390963305/article/details/79948879?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=2
+
+
+module slot
+{
+
+//! 游戏按键定义
+tolua_readonly unsigned int G_KEY_NONE;
+tolua_readonly unsigned int G_KEY_MOVE_LEFT;
+tolua_readonly unsigned int G_KEY_MOVE_RIGHT;
+tolua_readonly unsigned int G_KEY_MOVE_UP;
+tolua_readonly unsigned int G_KEY_MOVE_DOWN;
+tolua_readonly unsigned int G_KEY_JUMP;
+tolua_readonly unsigned int G_KEY_SKILL_1;
+tolua_readonly unsigned int G_KEY_SKILL_2;
+tolua_readonly unsigned int G_KEY_SKILL_3;
+tolua_readonly unsigned int G_KEY_SKILL_4;
+tolua_readonly unsigned int G_KEY_SKILL_5;
+tolua_readonly unsigned int G_KEY_SKILL_6;
+tolua_readonly unsigned int G_KEY_SKILL_7;
+
+tolua_readonly uint32_t G_KEY_MAX_COUNT;
+
+tolua_readonly unsigned int G_KEY_MOVE_MUSTER;
+tolua_readonly unsigned int G_KEY_MOVE_X;
+tolua_readonly unsigned int G_KEY_MOVE_Y;
+}

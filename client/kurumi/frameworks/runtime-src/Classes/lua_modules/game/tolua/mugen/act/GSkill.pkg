@@ -1,0 +1,26 @@
+
+
+typedef int int32_t;
+
+class GSkill
+{
+	GTrack* getTrack();
+	std::string getName();
+	int32_t getId();
+
+	int32_t getTotalFrame();
+	int32_t getCurFrame();
+	
+	int32_t getTotalLoopCount();
+	int32_t getCurLoopCount();
+
+	GAction* getCurAction();
+	int32_t getCurActionIdx();
+	std::vector<GAction*> getActions();
+	
+	std::vector<GChannel*> getChannel();
+	
+	GActorComponent* getActorComponent();
+	
+	GEntity* getEntity();
+};

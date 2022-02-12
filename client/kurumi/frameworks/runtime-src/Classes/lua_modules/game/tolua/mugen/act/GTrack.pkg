@@ -1,0 +1,8 @@
+
+
+class GTrack
+{
+	GSkill* getSkill();
+	
+	std::vector<GTimeline*> getTimelines();
+};

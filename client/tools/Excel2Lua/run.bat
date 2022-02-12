@@ -1,0 +1,1 @@
+python Excel2Lua.py "./sheet/" "./tmp/" "./../../game/src/config/"

@@ -1,0 +1,19 @@
+
+$#include "mugen/act/condition/GScriptCondition.h"
+
+class GCondition
+{
+	int getBeginFrame();
+	int getFrameLen();
+	GChannel* getChannel();
+	int getType();
+	GEntity* getEntity();
+};
+
+
+class GScriptCondition : public GCondition
+{
+//GScriptCondition();
+//~GScriptCondition();
+	std::string getArgStr();
+};

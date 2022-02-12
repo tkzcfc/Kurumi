@@ -1,0 +1,14 @@
+$#include "lua_function/tolua_ext.h"
+
+// net_uv_cc
+//$pfile "net_uv_cc/client.pkg"
+$pfile "net_uv_cc/net_uv.pkg"
+$pfile "net_uv_cc/net_client.pkg"
+
+// mugen
+$pfile "mugen/mugen.pkg"
+
+
+$pfile "foundation/GTools.pkg"
+//$pfile "foundation/MyButton.pkg"
+//$pfile "foundation/ParticleSystemHelper.pkg"

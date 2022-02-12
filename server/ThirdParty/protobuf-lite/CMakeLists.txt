@@ -1,0 +1,20 @@
+project(protobuf-lite)
+
+
+file(GLOB_RECURSE PROTOBUF_HPP 
+	*.h)
+	
+file(GLOB_RECURSE PROTOBUF_CPP 
+	*.cc)
+
+
+# STATIC SHARED
+G_add_library(${PROJECT_NAME} STATIC
+    ${PROTOBUF_HPP}
+	${PROTOBUF_CPP}
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS)
+

@@ -1,0 +1,10 @@
+
+
+class GTimeline
+{
+	GSkill* getSkill();
+	GTrack* getTrack();
+	int getFrame();
+	GFrame* getCurFrame();
+	std::vector<GFrame*> getFrames();
+};

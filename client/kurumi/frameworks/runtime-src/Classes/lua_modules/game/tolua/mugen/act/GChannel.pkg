@@ -1,0 +1,13 @@
+
+namespace CheckType {
+	enum {
+		Continuous,	// 持续检测
+		Once // 触发之后不再检测
+	}
+}
+
+class GChannel
+{
+	GSkill* getSkill();
+	int getNextSkillId();
+};

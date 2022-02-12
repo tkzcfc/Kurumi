@@ -1,0 +1,17 @@
+namespace net_uv
+{
+	class Session
+	{
+	public:
+
+		void send(char* data, unsigned int len);
+
+		void disconnect();
+
+		unsigned int getSessionID();
+
+		unsigned int getPort();
+
+		std::string getIp();
+	};
+}

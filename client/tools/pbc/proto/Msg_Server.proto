@@ -1,0 +1,67 @@
+syntax = "proto2";
+
+option optimize_for = LITE_RUNTIME;
+
+package svr_msg;
+
+
+
+//============================================================================================
+//                 LoginSVR  <==> GameSVR
+//============================================================================================
+message CheckTokenReq
+{
+	required string account = 1;
+	required string token = 2;
+	required int64 pid = 3;
+	required uint32 session = 4;
+}
+
+message CheckTokenAck
+{
+	required int32 code = 1;
+	required int64 pid = 2;
+	required int32 session = 3;
+	required string account = 4;
+	required string token = 5;
+}
+
+message TokenChangeNtf
+{
+	required string token = 1;
+	required string account = 2;
+}
+
+
+
+//============================================================================================
+//                 GameSVR <==> FightSVR
+//============================================================================================
+
+message FightRoleSpawnInfo
+{
+	required int64 roleId = 1;
+	required int32 occ = 2;	// 职业
+}
+
+// 新战斗请求
+message NewFightReq
+{
+	required int32 mapId = 1;					// 地图ID
+	repeated FightRoleSpawnInfo roles = 2; 	// roles
+	required int32 tag = 3;
+	required int32 fightType = 4; // 战斗类型
+	required bool isOfflineMode = 5; // 同步方式是否是离线模式(roles == 1时这个值才有效)
+}
+
+// 新战斗回复
+message NewFightAck
+{
+	required int32 code = 1;	// 0:成功
+	required int32 uuid = 2;	// 战斗uuid
+	required int32 tag 	= 3;
+	required int32 fightType = 4; // 战斗类型
+}
+
+
+ 

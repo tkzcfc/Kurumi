@@ -1,0 +1,58 @@
+$#include "mugen/logic/GGameWorld.h"
+$USING_NS_G;
+
+typedef unsigned int uint32_t;
+typedef int int32_t;
+
+
+class GGameWorld
+{
+public:
+
+	//GGameWorld();
+
+	~GGameWorld();
+
+	static GGameWorld* getInstance();
+
+	static GGameWorld* create(int32_t mapId, uint32_t randomSeed, cc.Node* rootNode);
+
+	//bool init(int32_t mapId, uint32_t randomSeed, cc.Node* rootNode);
+
+	void step();
+
+	void render(float dt);
+
+	void input(uint32_t entityId, uint32_t frame, uint32_t keydown);
+	
+	GEntity* spwanActor(std::string filename, GFixedVec3 pos);
+
+	// 设置启用debug draw
+	void enableDebugDraw(bool enable);
+
+	// 设置使用GameWorld的定时器
+	void setScheduler(cc.Node* node, bool recursive = true);
+
+
+
+	void registerLuaHandle(std::string name, LUA_FUNCTION handle);
+
+
+	/************************************************************/
+	// 宏定义相关
+
+	//cc.Scheduler getScheduler();
+
+	uint32_t getGameLogicFrame();
+
+};
+
+
+$pfile "mugen/def.pkg"
+$pfile "mugen/component.pkg"
+$pfile "mugen/act/GChannel.pkg"
+$pfile "mugen/act/GCondition.pkg"
+$pfile "mugen/act/GSkill.pkg"
+$pfile "mugen/act/GTimeline.pkg"
+$pfile "mugen/act/GTrack.pkg"
+$pfile "mugen/act/GFrame.pkg"

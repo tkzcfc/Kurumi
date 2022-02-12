@@ -1,0 +1,84 @@
+$#include "mugen/component/GAvatarComponent.h"
+$#include "mugen/component/GActorComponent.h"
+
+typedef unsigned int uint32_t;
+typedef int int32_t;
+typedef unsigned int G_BIT_TYPE;
+
+
+
+
+
+class GComponent
+{
+public:
+
+	void addComponent(GComponent* component);
+
+	void removeComponent(std::string name);
+
+	GComponent* getComponent(std::string name);
+
+	GEntity* getEntity();
+};
+
+
+class GEntity
+{
+	void addComponent(GComponent* component);
+
+	void removeComponent(std::string name);
+
+	GComponent* getComponent(std::string name);
+
+
+	uint32_t getId();
+};
+
+
+
+
+class GAvatarComponent : public GComponent
+{
+public:
+
+	GAvatarComponent();
+
+public:
+
+	//void playAnimation(std::string name, int32_t frame);
+
+	//ccs_Armature getActorRender();
+
+	cc.Node* getRootNode();
+};
+
+
+
+class GActorComponent : public GComponent
+{
+	GSkill* getSkill(int32_t id);
+	
+	void doSkill(int32_t id);
+	
+	// 判断按键是否按下
+	bool isKeyDown(G_BIT_TYPE key);
+	
+	void setPosition(float posx, float posy);
+};
+
+class GDataComponent : public GComponent
+{
+	// 移动速度
+	GFixedVec2 moveSpeed;
+
+	GFixedVec3 force;
+	
+	// 冲力
+	GFixedVec3 impulse;
+};
+
+
+
+
+

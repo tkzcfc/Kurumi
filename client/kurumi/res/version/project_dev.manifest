@@ -1,0 +1,18 @@
+{
+    "packageUrl": "http://1.14.65.70:8100/game/",
+    "strongUpdateDes": "我是强更新描述",
+    "remoteManifestUrl": "http://1.14.65.70:8100/game/project_dev.manifest",
+    "looseFileMode": false,
+    "version": "0.0.1",
+    "strongUpdateURL": "www.baidu.com",
+    "assets": {
+        "0_0_0_to_0_0_1.zip": {
+            "fileSize": 55115858,
+            "compressed": true,
+            "md5": "676cccae8895d823e877c1c057ce2ede"
+        }
+    },
+    "restartLevel": 1,
+    "strongUpdateVer": 0,
+    "updateDescription": "1:修复bug\n2:增加功能\n"
+}
