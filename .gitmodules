@@ -1,3 +1,0 @@
-[submodule "external"]
-	path = client/kurumi/frameworks/cocos2d-x/external
-	url = https://github.com/tkzcfc/kurumi_cocos_external.git
