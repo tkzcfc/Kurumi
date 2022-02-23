@@ -209,6 +209,7 @@ function LoginManager:onEnterGameAck(msg)
     if msg.code == errCode.SUCCESS then
         -- 进入游戏成功,保存返回的角色信息
         _MyG.AccountInfo.roleinfo = msg.roleinfo
+        _MyG.RoleManager:setSelfRoleData(msg.roleinfo)
         -- 进入主界面
         _MyG.ViewManager:runView(require("app.views.MainView").new())
     else

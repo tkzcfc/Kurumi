@@ -15,6 +15,7 @@ M.CMD = {
 	[800007] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_FIGHT_REQ', msg = 'msg.ExitFightReq'},
 	[800005] = {file = 'Msg_Game.pb', name = 'MSG_PLAYER_READY_NTF', msg = 'msg.PlayerReadyNotify'},
 	[900010] = {file = 'Msg_Game.pb', name = 'MSG_EXIT_GAME_NTF', msg = 'msg.ExitGameNtf'},
+	[900011] = {file = 'Msg_Game.pb', name = 'MSG_PUSH_ROLE_DATA', msg = 'msg.RoleSimpleInfo'},
 	[800011] = {file = 'Msg_Game.pb', name = 'MSG_PUSH_FRAME_BEGIN', msg = 'msg.Null'},
 	[800010] = {file = 'Msg_Game.pb', name = 'MSG_LOADING_PERCENT_ACK', msg = 'msg.PlayerLoadingAck'},
 	[800013] = {file = 'Msg_Game.pb', name = 'MSG_PUSH_FRAME_END', msg = 'msg.Null'},
@@ -28,10 +29,12 @@ M.CMD = {
 	[900001] = {file = 'Msg_Game.pb', name = 'MSG_LOGIN_REQ', msg = 'msg.LoginReq'},
 	[900002] = {file = 'Msg_Game.pb', name = 'MSG_LOGIN_ACK', msg = 'msg.LoginAck'},
 	[900306] = {file = 'Msg_Game.pb', name = 'MSG_ENTER_GAME_ACK', msg = 'msg.EnterGameAck'},
+	[900307] = {file = 'Msg_Game.pb', name = 'MSG_MODIFY_ROLE_DATA_REQ', msg = 'msg.ModifyRoleDataReq'},
 	[900304] = {file = 'Msg_Game.pb', name = 'MSG_CREATE_ROLE_ACK', msg = 'msg.CreateRoleAck'},
 	[900305] = {file = 'Msg_Game.pb', name = 'MSG_ENTER_GAME_REQ', msg = 'msg.EnterGameReq'},
 	[100001] = {file = 'Msg_Game.pb', name = 'MSG_LOGIN_GATE_ACK', msg = 'msg.LoginGateAck'},
 	[900303] = {file = 'Msg_Game.pb', name = 'MSG_CREATE_ROLE_REQ', msg = 'msg.CreateRoleReq'},
+	[900308] = {file = 'Msg_Game.pb', name = 'MSG_MODIFY_ROLE_DATA_ACK', msg = 'msg.ModifyRoleDataAck'},
 	[900200] = {file = 'Msg_Game.pb', name = 'MSG_START_FIGHT_NTF', msg = 'msg.StartFightNTF'},
 }
 M.pb = {
@@ -72,6 +75,7 @@ code['SVR_ERROR'] = 100005
 code['PVP_MATCHING'] = 220030
 code['FIGHT_SVR_NOT_FOUND'] = 210102
 code['PVP_MATCH_SUC_NO_SVR'] = 220033
+code['LOGIN_TIMEOUT'] = 200003
 code['NOT_FOUND'] = 100002
 code['OVERDUE'] = 100003
 code['FIGHT_PLAYING'] = 210003

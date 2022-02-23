@@ -24,7 +24,7 @@ function GlobalManager:onExitGameNtf(msg)
 	_MyG.NetManager:clearAllSessionInfo()
 
 	UIUtils:showOneBtnMsgBox(content, function()
-		appExit()
+		gameExit()
 	end)
 end
 
@@ -37,7 +37,7 @@ function GlobalManager:onNetConnectFail(isFightSvr, sessionID)
         _MyG.NetManager:doConnect(sessionID)
     end, 
     function()
-        appExit()
+        gameExit()
     end)
 end
 

@@ -10,7 +10,7 @@ local RoleConfig = {
 	{
 		file = "plist/uianimation/baijixiuluo.ExportJson",
 		armatureName = "baijixiuluo",
-		isopen = true,
+		isopen = true, -- 是否开放
 		roleId = Const.Role.DAO
 	},
 	-- 弓
@@ -18,7 +18,7 @@ local RoleConfig = {
 	{
 		file = "plist/uianimation/baijiluocha.ExportJson",
 		armatureName = "baijiluocha",
-		isopen = false,
+		isopen = true,
 		roleId = Const.Role.GONG
 	},
 }

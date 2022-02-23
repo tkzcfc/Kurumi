@@ -7,9 +7,9 @@
     "strongUpdateURL": "www.baidu.com",
     "assets": {
         "0_0_0_to_0_0_1.zip": {
-            "fileSize": 55115858,
+            "fileSize": 40790,
             "compressed": true,
-            "md5": "676cccae8895d823e877c1c057ce2ede"
+            "md5": "4066e205c471e64ee536cf9d887c1b2c"
         }
     },
     "restartLevel": 1,

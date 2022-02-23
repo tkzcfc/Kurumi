@@ -1,5 +1,5 @@
 
-Ê
+Æ
 Msg_Game.protomsg"
 Null"
 CodeAck
@@ -14,31 +14,46 @@
 playerID (
 name (	
 
-arrRoleIds ("H
-RoleInfo
+arrRoleIds ("b
+RoleDetailedInfo
 roleId (
 name (	
 
 lv (
 
-occupation ("?
+occupation (
+jsonData (	"`
+RoleSimpleInfo
+roleId (
+name (	
+
+lv (
+
+occupation (
+jsonData (	"?
 LoginAck
 code (%
 infos (2.msg.PlayerAccountInfo"?
 EnterGameReq
 token (	
 playerID (
-roleID ("=
+roleID ("E
 EnterGameAck
-code (
-roleinfo (2.msg.RoleInfo"1
+code ('
+roleinfo (2.msg.RoleDetailedInfo"1
 CreateRoleReq
 
 occupation (
 name (	"-
 CreateRoleAck
 code (
-roleID ("
+roleID ("C
+ModifyRoleDataReq
+roleId (
+jsonData (	
+name (	"!
+ModifyRoleDataAck
+code ("
 ExitGameNtf
 code ("
 PVEFightInfo
@@ -61,7 +76,7 @@ occupation (
 JoinFightReq
 	fightUUID (
 playerID (
-frame ("
+frame ("Ž
 FightWorldInfo
 frame (
 
@@ -70,7 +85,8 @@ svr_status (
 
 randomSeed (
 uuidSeed (
-isOfflineMode ("D
+isOfflineMode (
+roles ("D
 JoinFightAck
 code (&
 	worldInfo (2.msg.FightWorldInfo"3

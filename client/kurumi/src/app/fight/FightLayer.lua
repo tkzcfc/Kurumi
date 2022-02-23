@@ -4,6 +4,8 @@
 
 local FightLayer = class("FightLayer", G_Class.SuperNode)
 
+propertyReadOnly(FightLayer, "iSelfRoleId")
+
 local logic_interval = 1 / 40
 
 function FightLayer:ctor()
@@ -22,6 +24,7 @@ function FightLayer:ctor()
     for k, v in pairs(cfg.loadResourceList) do
         self.loader:addLoadResource(v, true)
     end
+    -- 开始资源加载
     self.loader:start(handler(self, self.onProcessCallback), handler(self, self.onFinishCallback), handler(self, self.onErrorCallback))
 
     -- loading界面
@@ -31,8 +34,12 @@ function FightLayer:ctor()
     -- 是否是离线模式
     self.isOfflineMode = tWorldInfo.isOfflineMode == true
 
+    -- 角色Id, 本地实体id映射关系
+    self.roleId_EntityIdMap = {}
+
     self.iLogicCount = 0
     if not self.isOfflineMode then
+        -- 打印一秒之内执行的逻辑帧数
         self:schedule(function()
             print("logic fps", self.iLogicCount)
             self.iLogicCount = 0
@@ -62,6 +69,7 @@ end
 function FightLayer:onCleanup()
     if self.pGameWorld then
         self.pGameWorld:delete()
+        self.pGameWorld = nil
     end
 
     local sharedScheduler = cc.Director:getInstance():getScheduler()
@@ -131,9 +139,7 @@ function FightLayer:onPushFrameInput(msg)
     self.svrLogicFrame = msg.lastFrame
 
     for k, v in pairs(msg.frames or {}) do
-        -- local pid = v.pid
-        local pid = 0
-        self.pGameWorld:input(pid, v.frame, v.input.key_down)
+        self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.input.key_down)
     end
 end
 
@@ -151,9 +157,7 @@ function FightLayer:onRunNextFrameAck(msg)
 
     if msg.frames then
         for k, v in pairs(msg.frames) do
-            -- local pid = v.pid
-            local pid = 0
-            self.pGameWorld:input(pid, v.frame, v.input.key_down)
+            self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.input.key_down)
         end
     end
 
@@ -167,12 +171,52 @@ function FightLayer:initGameWorld()
 
     local tWorldInfo = self.fightMgr:getWorldInfo()
 
+    -- 查找服务器下发的角色id是否存在
+    self.roleDatas = {}
+    for k, v in pairs(tWorldInfo.roles) do
+        local data = _MyG.RoleManager:getRoleData(v)
+        -- 玩家不存在，战斗初始化失败
+        if data == nil then
+            print("角色id:", v, "数据不存在，战斗初始化失败")
+            G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FAIL)
+            return
+        end
+        table.insert(self.roleDatas, data)
+    end
+
     self.pGameWorld = GGameWorld:create(tWorldInfo.mapId, tWorldInfo.randomSeed, self)
     if not self.pGameWorld then
         G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FAIL)
         return
     end
 
+    -- 将玩家加入游戏世界中
+    for k, v in pairs(self.roleDatas) do
+        -- 角色数据
+        local data = v.jsonData
+        -- 角色形象
+        local spineFile = G_Config.RoleSkin:getItem(data.skin, "SpineFile")
+        
+        -- 创建出来的角色对象
+        local actor = self.pGameWorld:spwanActor(data.roleFile, {x = 100 + 100 * k, y = 0, z = 0}, spineFile or "")
+
+        self.roleId_EntityIdMap[v.roleId] = actor:getId()
+
+        -- 是自己的角色
+        if _MyG.RoleManager:isSelfRole(v.roleId) then
+            assert(self.iSelfRoleId == nil)
+            self.pGameWorld:setLocalPlayer(actor)
+            self.iSelfRoleId = v.roleId
+        end
+    end
+
+    if self.iSelfRoleId == nil then
+        print("战斗初始化失败找不到自己的本地操作对象")
+        G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FAIL)
+        return        
+    end
+
+    -- 定时器开启
     local sharedScheduler = cc.Director:getInstance():getScheduler()
     self.fixUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.fixUpdate), logic_interval, false)
     self.renderUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.renderUpdate), 0.0, false)
@@ -195,7 +239,7 @@ function FightLayer:fixUpdate()
 
         -- 离线模式,输入直接作用到游戏世界
         local inputKey = _MyG.FightContext:getInputLayer():getInputKey()
-        self.pGameWorld:input(0, frame, inputKey)
+        self.pGameWorld:input(self.roleId_EntityIdMap[self.iSelfRoleId], frame, inputKey)
 
         self.svrLogicFrame = frame + 1
     else
@@ -217,7 +261,6 @@ function FightLayer:updateFrame(dt)
     end
 
     local frameDiff = self.svrLogicFrame - self.pGameWorld:getGameLogicFrame()
-
     if frameDiff >= 0 then
         local count = 0
         repeat
