@@ -42,6 +42,8 @@ public:
 
 	bool save(csqliter* sqliter);
 
+	void print();
+
 private:
 	std::string m_jsonData;
 	bool m_dataDirty;

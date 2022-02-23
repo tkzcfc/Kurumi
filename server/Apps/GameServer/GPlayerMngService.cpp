@@ -56,7 +56,7 @@ void GPlayerMngService::onUpdate(float dt)
 {
 	for (auto& it : m_allPlayer)
 	{
-		it.trySave(m_sqliter);
+		it->trySave(m_sqliter);
 	}
 }
 
@@ -86,23 +86,25 @@ bool GPlayerMngService::readPlayer()
 		auto createTime = m_sqliter->rowdata[5].ival;
 		auto roles		= m_sqliter->rowdata[6].sval;
 
-		m_allPlayer.push_back(GPlayer());
+		m_allPlayer.push_back(std::unique_ptr<GPlayer>(new GPlayer()));
 
 		auto& player = m_allPlayer.back();
-		player.setPlayerId(playerid);
-		player.setSvrId(svrId);
-		player.setAccount(account);
-		player.setName(name);
-		player.setLastTime(lastTime);
-		player.setCreateTime(createTime);
-		player.setRoles(roles);
+		player->setPlayerId(playerid);
+		player->setSvrId(svrId);
+		player->setAccount(account);
+		player->setName(name);
+		player->setLastTime(lastTime);
+		player->setCreateTime(createTime);
+		player->setRoles(roles);
 	} while (true);
 
 #if G_DEBUG
+	LOG(INFO) << "---------------------- PLAYERS BEGIN ----------------------";
 	for (auto& it : m_allPlayer)
 	{
-		it.print();
+		it->print();
 	}
+	LOG(INFO) << "---------------------- PLAYERS END ----------------------";
 #endif
 	return true;
 }
@@ -115,10 +117,10 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 
 	for (auto & it : m_allPlayer)
 	{
-		if (it.getAccount() == account)
+		if (it->getAccount() == account)
 		{
 			// 该账号在本服已经有玩家数据
-			if (it.getSvrId() == m_svrId)
+			if (it->getSvrId() == m_svrId)
 			{
 				return NULL;
 			}
@@ -140,15 +142,15 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 	std::string tmp = StringUtils::format("%s-%lld", account.c_str(), playerId);
 	std::string name = StringUtils::format("p_%lu", NFrame::CRC32(tmp));
 
-	m_allPlayer.push_back(GPlayer());
+	m_allPlayer.push_back(std::unique_ptr<GPlayer>(new GPlayer()));
 
 	auto& player = m_allPlayer.back();
-	player.setPlayerId(playerId);
-	player.setSvrId(m_svrId);
-	player.setAccount(account);
-	player.setName(name);
-	player.setLastTime(curTime);
-	player.setCreateTime(curTime);
+	player->setPlayerId(playerId);
+	player->setSvrId(m_svrId);
+	player->setAccount(account);
+	player->setName(name);
+	player->setLastTime(curTime);
+	player->setCreateTime(curTime);
 
 	// playerid, account, name, lastTime, createTime
 	m_sqliter->setsql("INSERT INTO player ("
@@ -161,24 +163,24 @@ GPlayer* GPlayerMngService::createPlayer(const std::string& account)
 	m_sqliter->bindstr("str_name", name.c_str());
 	m_sqliter->bindint("int_lasttime", curTime);
 	m_sqliter->bindint("int_createtime", curTime);
-	m_sqliter->bindstr("str_roles", player.getRoleString().c_str());
+	m_sqliter->bindstr("str_roles", player->getRoleString().c_str());
 	if (m_sqliter->runsinglestepstatement() != successdb)
 	{
 		LOG(ERROR) << "sql failed: insert player, account:" << account << ", playerId:" << playerId;
 		G_ASSERT(false);
-		return &player;
+		return player.get();
 	}
 
-	return &player;
+	return player.get();
 }
 
 GPlayer* GPlayerMngService::getPlayer(int64_t playerId)
 {
 	for (auto & it : m_allPlayer)
 	{
-		if (it.getPlayerId() == playerId)
+		if (it->getPlayerId() == playerId)
 		{
-			return &it;
+			return it.get();
 		}
 	}
 	return NULL;
@@ -198,9 +200,9 @@ GPlayer* GPlayerMngService::getPlayerBySessionID(uint32_t sessionID)
 {
 	for (auto & it : m_allPlayer)
 	{
-		if (it.getSessionID() == sessionID)
+		if (it->getSessionID() == sessionID)
 		{
-			return &it;
+			return it.get();
 		}
 	}
 	return NULL;
@@ -210,9 +212,9 @@ bool GPlayerMngService::queryPlayerInfo(const std::string& account, std::vector<
 {
 	for (auto & it : m_allPlayer)
 	{
-		if (it.getAccount() == account)
+		if (it->getAccount() == account)
 		{
-			players.push_back(&it);
+			players.push_back(it.get());
 		}
 	}
 
@@ -265,6 +267,8 @@ bool GPlayerMngService::sendRoleInfoToPlayer(GPlayer* toPlayer, GRole* roleInfo)
 	info.set_jsondata(roleInfo->getJsonData());
 
 	SEND_PB_MSG(pNetService, toPlayer->getSessionID(), MessageID::MSG_PUSH_ROLE_DATA, info);
+
+	return true;
 }
 
 

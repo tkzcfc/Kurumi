@@ -21,7 +21,7 @@ void GPlayer::print()
 	LOG(INFO) << "name :\t" << m_name;
 	LOG(INFO) << "roles:\t" << getRoleString();
 
-	LOG(INFO) << "-----------------------------------\n";
+	LOG(INFO) << "\n";
 }
 
 

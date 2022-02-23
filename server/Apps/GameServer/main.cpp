@@ -15,6 +15,8 @@ int main(int argc, char** argv)
 
 	// init log
 	initLog(argName.c_str());
+	// crash report
+	SetCrashReport(argName);
 	
 	LOG(INFO) << "-----------application run-----------";
 
@@ -31,6 +33,9 @@ int main(int argc, char** argv)
 	app.run();
 
 	LOG(INFO) << "-----------application exit-----------";
+
+	UnSetCrashReport();
+	system("pause");
 	
 	return EXIT_SUCCESS;
 }

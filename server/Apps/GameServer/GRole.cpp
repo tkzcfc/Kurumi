@@ -10,6 +10,23 @@ GRole::GRole()
 }
 
 
+void GRole::print()
+{
+	LOG(INFO) << "+++++++++" << m_roleId << "+++++++++";
+	LOG(INFO) << "createTime :\t" << m_createTime;
+	LOG(INFO) << "lastTime :\t" << m_lastTime;
+
+	LOG(INFO) << "createTime :\t" << m_createTime;
+	LOG(INFO) << "lastTime :\t" << m_lastTime;
+	LOG(INFO) << "occ :\t" << m_occ;
+	LOG(INFO) << "lv :\t" << m_lv;
+	LOG(INFO) << "name :\t" << m_name;
+	LOG(INFO) << "jsonData:\t" << m_jsonData;
+
+	LOG(INFO) << "\n";
+}
+
+
 /////////////////////////////////////////////////////////////////////
 void GRole::setIsOnline(bool value)
 {

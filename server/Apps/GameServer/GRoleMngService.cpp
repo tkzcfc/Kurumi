@@ -34,7 +34,7 @@ void GRoleMngService::onUpdate(float dt)
 {
 	for (auto& it : m_allRole)
 	{
-		it.trySave(m_sqliter);
+		it->trySave(m_sqliter);
 	}
 }
 
@@ -57,24 +57,35 @@ bool GRoleMngService::readAllRole()
 			return false;
 		}
 		auto roleId		= m_sqliter->rowdata[0].ival;
-		auto occ		= m_sqliter->rowdata[1].ival;
-		auto lv			= m_sqliter->rowdata[2].ival;
-		auto name		= m_sqliter->rowdata[3].sval;
+		auto name		= m_sqliter->rowdata[1].sval;
+		auto occ		= m_sqliter->rowdata[2].ival;
+		auto lv			= m_sqliter->rowdata[3].ival;
 		auto lastTime	= m_sqliter->rowdata[4].ival;
 		auto createTime = m_sqliter->rowdata[5].ival;
 		auto jsonData   = m_sqliter->rowdata[6].sval;
 
-		m_allRole.push_back(GRole());
+		m_allRole.push_back(std::unique_ptr<GRole>(new GRole()));
 
 		auto& role = m_allRole.back();
-		role.setRoleId(roleId);
-		role.setName(name);
-		role.setOcc(occ);
-		role.setLv(lv);
-		role.setLastTime(lastTime);
-		role.setCreateTime(createTime);
-		role.setJsonData(jsonData);
+		role->setRoleId(roleId);
+		role->setName(name);
+		role->setOcc(occ);
+		role->setLv(lv);
+		role->setLastTime(lastTime);
+		role->setCreateTime(createTime);
+		role->setJsonData(jsonData);
 	} while (true);
+
+#if G_DEBUG
+
+	LOG(INFO) << "---------------------- ROLES BEGIN ----------------------";
+	for (auto& it : m_allRole)
+	{
+		it->print();
+	}
+	LOG(INFO) << "---------------------- ROLES END ----------------------";
+#endif
+
 	return true;
 }
 
@@ -97,16 +108,16 @@ GRole* GRoleMngService::createRole(const std::string& name, int32_t occ)
 		count++;
 	} while (true);
 	
-	m_allRole.push_back(GRole());
+	m_allRole.push_back(std::unique_ptr<GRole>(new GRole()));
 
 	auto& role = m_allRole.back();
-	role.setRoleId(roleId);
-	role.setName(name);
-	role.setLastTime(curTime);
-	role.setCreateTime(curTime);
-	role.setLv(1);
-	role.setOcc(occ);
-	role.setJsonData("{}");
+	role->setRoleId(roleId);
+	role->setName(name);
+	role->setLastTime(curTime);
+	role->setCreateTime(curTime);
+	role->setLv(1);
+	role->setOcc(occ);
+	role->setJsonData("{}");
 
 	// roleId, name, lastTime, createTime
 	m_sqliter->setsql("INSERT INTO role ("
@@ -114,12 +125,12 @@ GRole* GRoleMngService::createRole(const std::string& name, int32_t occ)
 		"VALUES (:int_roleId, :int_occ, :int_lv, :str_name, :int_lastTime, :int_createTime, :str_jsonData);");
 
 	m_sqliter->bindint("int_roleId", roleId);
-	m_sqliter->bindint("int_occ", role.getOcc());
-	m_sqliter->bindint("int_lv", role.getLv());
+	m_sqliter->bindint("int_occ", role->getOcc());
+	m_sqliter->bindint("int_lv", role->getLv());
 	m_sqliter->bindstr("str_name", name.c_str());
 	m_sqliter->bindint("int_lastTime", curTime);
 	m_sqliter->bindint("int_createTime", curTime);
-	m_sqliter->bindstr("str_jsonData", role.getJsonData() .c_str());
+	m_sqliter->bindstr("str_jsonData", role->getJsonData() .c_str());
 	if (m_sqliter->runsinglestepstatement() != successdb)
 	{
 		LOG(ERROR) << "sql failed: insert role, roleId:" << roleId << ", name:" << name;
@@ -128,14 +139,14 @@ GRole* GRoleMngService::createRole(const std::string& name, int32_t occ)
 		return NULL;
 	}
 
-	return &role;
+	return role.get();
 }
 
 bool GRoleMngService::containName(const std::string& name)
 {
 	for (auto & it : m_allRole)
 	{
-		if (it.getName() == name)
+		if (it->getName() == name)
 		{
 			return true;
 		}
@@ -148,9 +159,9 @@ GRole* GRoleMngService::getRole(ROLE_ID roleId)
 {
 	for (auto & it : m_allRole)
 	{
-		if (it.getRoleId() == roleId)
+		if (it->getRoleId() == roleId)
 		{
-			return &it;
+			return it.get();
 		}
 	}
 	return NULL;

@@ -21,3 +21,5 @@
 #include "sha1.hpp"
 #include "cmd.h"
 
+#include "CrashReport.h"
+

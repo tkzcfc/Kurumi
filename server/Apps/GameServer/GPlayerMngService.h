@@ -12,7 +12,7 @@ public:
 
 	virtual void onUpdate(float dt) override;
 
-	G_FORCEINLINE std::vector<GPlayer>& getAllPlayer();
+	G_FORCEINLINE std::vector< std::unique_ptr<GPlayer> >& getAllPlayer();
 
 public:
 
@@ -46,11 +46,11 @@ private:
 private:
 
 	csqliter* m_sqliter;
-	std::vector<GPlayer> m_allPlayer;
+	std::vector< std::unique_ptr<GPlayer> > m_allPlayer;
 	int32_t m_svrId;
 };
 
-std::vector<GPlayer>& GPlayerMngService::getAllPlayer()
+std::vector< std::unique_ptr<GPlayer> >& GPlayerMngService::getAllPlayer()
 {
 	return m_allPlayer;
 }

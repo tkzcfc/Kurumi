@@ -30,7 +30,7 @@ private:
 private:
 
 	csqliter* m_sqliter;
-	std::vector<GRole> m_allRole;
+	std::vector<std::unique_ptr<GRole>> m_allRole;
 };
 
 
