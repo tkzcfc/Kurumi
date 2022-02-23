@@ -86,9 +86,12 @@ enum MessageID {
 	MSG_CREATE_ROLE_ACK			= 900304;
 	MSG_ENTER_GAME_REQ			= 900305;	// 进入游戏
 	MSG_ENTER_GAME_ACK			= 900306;
+	MSG_MODIFY_ROLE_DATA_REQ    = 900307;	// 修改角色数据
+	MSG_MODIFY_ROLE_DATA_ACK    = 900308;
 	
 	
 	MSG_EXIT_GAME_NTF			= 900010;	// 通知客户端退出游戏
+	MSG_PUSH_ROLE_DATA			= 900011;   // 向客户端推送角色数据
 	
 	MSG_START_PVE_REQ			= 900101;	// 客户端副本战斗请求
 	MSG_START_PVE_ACK			= 900102;

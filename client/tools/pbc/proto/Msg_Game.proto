@@ -54,12 +54,24 @@ message PlayerAccountInfo
 	repeated int64 arrRoleIds = 3;// 此玩家含有的角色id集合
 }
 
-message RoleInfo
+// 角色详细信息
+message RoleDetailedInfo
 {
 	required int64 roleId = 1;	// 角色Id
 	required string name = 2;	// 角色昵称
 	required int32 lv = 3;		// 角色等级
 	required int32 occupation = 4;// 角色职业
+	required string jsonData = 5;//
+}
+
+// 角色简要信息
+message RoleSimpleInfo
+{
+	required int64 roleId = 1;	// 角色Id
+	required string name = 2;	// 角色昵称
+	required int32 lv = 3;		// 角色等级
+	required int32 occupation = 4;// 角色职业
+	required string jsonData = 5;//
 }
 
 
@@ -84,7 +96,7 @@ message EnterGameReq
 message EnterGameAck
 {
 	required int32 code = 1;
-	optional RoleInfo roleinfo = 2;
+	optional RoleDetailedInfo roleinfo = 2;
 }
 
 
@@ -100,6 +112,20 @@ message CreateRoleAck
 {
 	required int32 code = 1;
 	required int64 roleID = 2;
+}
+
+
+// 修改角色数据
+message ModifyRoleDataReq
+{
+	required int64 roleId = 1;
+	optional string jsonData = 2;
+	optional string name = 3;
+}
+
+message ModifyRoleDataAck
+{
+	required int32 code = 1;
 }
 
 
@@ -180,6 +206,9 @@ message FightWorldInfo
 	
 	// 是否是离线模式
 	required bool isOfflineMode = 6;
+	
+	// 在游戏世界中角色id列表
+	repeated int64 roles = 7;
 }
 
 // 玩家加入战斗回复
