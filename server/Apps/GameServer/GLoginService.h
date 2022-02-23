@@ -26,6 +26,8 @@ protected:
 
 	void onMsg_EnterGameReq(uint32_t sessionID, const msg::EnterGameReq& msg);
 
+	void onMsg_ModifyRoleDataReq(uint32_t sessionID, const msg::ModifyRoleDataReq& msg);
+
 private:
 
 	void onPlayerLogin(int64_t playerId, uint32_t sessionID);

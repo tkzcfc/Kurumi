@@ -13,6 +13,7 @@ public:
 	GPlayer();
 
 	G_PROPERTY(bool, m_isonline, IsOnline);
+	// 玩家当前会话ID
 	G_SYNTHESIZE(uint32_t, m_sessionID, SessionID);
 	G_SYNTHESIZE_PASS_BY_REF(std::string, m_token, Token);
 
@@ -45,6 +46,10 @@ public:
 
 public:
 
+	void setDirty();
+
+	void trySave(csqliter* sqliter);
+
 	bool save(csqliter* sqliter);
 			
 public:
@@ -56,5 +61,7 @@ private:
 	std::vector<int64_t> m_roleIds;
 	std::vector<GRole*> m_allRole;
 	GRole* m_loginRole;
+
+	bool m_dataDirty;
 };
 

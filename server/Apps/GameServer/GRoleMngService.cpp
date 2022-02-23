@@ -15,7 +15,8 @@ uint32_t GRoleMngService::onInit()
 		"occ INTEGER, "
 		"lv INTEGER, "
 		"lastTime INTEGER, "
-		"createTime INTEGER);");
+		"createTime INTEGER, "
+		"jsonData TEXT);");
 
 	if (m_sqliter->runsinglestepstatement() != successdb)
 	{
@@ -29,11 +30,19 @@ uint32_t GRoleMngService::onInit()
 	return SCODE_START_SUCCESS;
 }
 
+void GRoleMngService::onUpdate(float dt)
+{
+	for (auto& it : m_allRole)
+	{
+		it.trySave(m_sqliter);
+	}
+}
+
 // 读取玩家数据
 bool GRoleMngService::readAllRole()
 {
-	m_sqliter->setsql("SELECT roleId, name, occ, lv, lastTime, createTime FROM role;");
-	m_sqliter->pushvaltypesout(intdbval, strdbval, intdbval, intdbval, intdbval, intdbval);
+	m_sqliter->setsql("SELECT roleId, name, occ, lv, lastTime, createTime, jsonData FROM role;");
+	m_sqliter->pushvaltypesout(intdbval, strdbval, intdbval, intdbval, intdbval, intdbval, strdbval);
 
 	m_allRole.clear();
 	do
@@ -53,6 +62,7 @@ bool GRoleMngService::readAllRole()
 		auto name		= m_sqliter->rowdata[3].sval;
 		auto lastTime	= m_sqliter->rowdata[4].ival;
 		auto createTime = m_sqliter->rowdata[5].ival;
+		auto jsonData   = m_sqliter->rowdata[6].sval;
 
 		m_allRole.push_back(GRole());
 
@@ -63,6 +73,7 @@ bool GRoleMngService::readAllRole()
 		role.setLv(lv);
 		role.setLastTime(lastTime);
 		role.setCreateTime(createTime);
+		role.setJsonData(jsonData);
 	} while (true);
 	return true;
 }
@@ -95,11 +106,12 @@ GRole* GRoleMngService::createRole(const std::string& name, int32_t occ)
 	role.setCreateTime(curTime);
 	role.setLv(1);
 	role.setOcc(occ);
+	role.setJsonData("{}");
 
 	// roleId, name, lastTime, createTime
 	m_sqliter->setsql("INSERT INTO role ("
-		"roleId, occ, lv, name, lastTime, createTime) "
-		"VALUES (:int_roleId, :int_occ, :int_lv, :str_name, :int_lastTime, :int_createTime);");
+		"roleId, occ, lv, name, lastTime, createTime, jsonData) "
+		"VALUES (:int_roleId, :int_occ, :int_lv, :str_name, :int_lastTime, :int_createTime, :str_jsonData);");
 
 	m_sqliter->bindint("int_roleId", roleId);
 	m_sqliter->bindint("int_occ", role.getOcc());
@@ -107,6 +119,7 @@ GRole* GRoleMngService::createRole(const std::string& name, int32_t occ)
 	m_sqliter->bindstr("str_name", name.c_str());
 	m_sqliter->bindint("int_lastTime", curTime);
 	m_sqliter->bindint("int_createTime", curTime);
+	m_sqliter->bindstr("str_jsonData", role.getJsonData() .c_str());
 	if (m_sqliter->runsinglestepstatement() != successdb)
 	{
 		LOG(ERROR) << "sql failed: insert role, roleId:" << roleId << ", name:" << name;

@@ -573,6 +573,17 @@ err::Code GameLogic::exitGameWithSessionID(uint32_t sessionID)
 	return err::Code::FIGHT_LEAVE_GAME;
 }
 
+std::vector<int64_t> GameLogic::getPlayerIds()
+{
+	std::vector<int64_t> ids;
+
+	for (auto it = m_playerIDSet.begin(); it != m_playerIDSet.end(); ++it)
+	{
+		ids.push_back(*it);
+	}
+	return ids;
+}
+
 bool GameLogic::containPlayer(int64_t playerID)
 {
 	for (auto i = 0; i < m_playerCount; ++i)

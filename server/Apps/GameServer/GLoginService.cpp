@@ -27,8 +27,8 @@ uint32_t GLoginService::onInit()
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_LOGIN_REQ, msg::LoginReq, onMsg_LoginReq);
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_CREATE_ROLE_REQ, msg::CreateRoleReq, onMsg_CreateRoleReq);
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_ENTER_GAME_REQ, msg::EnterGameReq, onMsg_EnterGameReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_MODIFY_ROLE_DATA_REQ, msg::ModifyRoleDataReq, onMsg_ModifyRoleDataReq);
 
-	
 
 	// 玩家管理服务
 	m_pPlayerMngService = m_serviceMgr->getService<GPlayerMngService>();
@@ -212,9 +212,6 @@ void GLoginService::onMsg_CreateRoleReq(uint32_t sessionID, const msg::CreateRol
 		ack.set_roleid(pRole->getRoleId());
 
 		player->addRole(pRole);
-
-		auto local = m_serviceMgr->getService<GLocalStorageService>();
-		player->save(local->getsqliter());
 	} while (false);
 	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_CREATE_ROLE_ACK, ack);
 }
@@ -260,9 +257,52 @@ void GLoginService::onMsg_EnterGameReq(uint32_t sessionID, const msg::EnterGameR
 		pInfo->set_name(pRole->getName());
 		pInfo->set_lv(pRole->getLv());
 		pInfo->set_occupation(pRole->getOcc());
+		pInfo->set_jsondata(pRole->getJsonData());
 	} while (false);
 
 	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_ENTER_GAME_ACK, ack);
+}
+
+void GLoginService::onMsg_ModifyRoleDataReq(uint32_t sessionID, const msg::ModifyRoleDataReq& msg)
+{
+	msg::ModifyRoleDataAck ack;
+	ack.set_code(err::SUCCESS);
+
+	do
+	{
+		auto player = m_pPlayerMngService->getPlayerBySessionID(sessionID);
+		if (player == NULL)
+		{
+			ack.set_code(err::ACCOUNT_NOT_EXIST);
+			break;
+		}
+
+		auto pRole = player->getRole(msg.roleid());
+		if (pRole == NULL)
+		{
+			ack.set_code(err::ROLE_NOT_EXIST);
+			break;
+		}
+
+		bool modify = false;
+
+		if (msg.has_name())
+		{
+			modify = true;
+			pRole->setName(msg.name());
+		}
+
+		if (msg.has_jsondata())
+		{
+			modify = true;
+			pRole->setJsonData(msg.jsondata());
+		}
+
+		if (modify)
+			pRole->setDirty();
+	} while (false);
+
+	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_MODIFY_ROLE_DATA_ACK, ack);
 }
 
 void GLoginService::onPlayerLogin(int64_t playerId, uint32_t sessionID)

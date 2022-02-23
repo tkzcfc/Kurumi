@@ -1,5 +1,6 @@
 ﻿#include "GPlayerMngService.h"
 #include "GRoleMngService.h"
+#include "GameProto.h"
 
 uint32_t GPlayerMngService::onInit()
 {
@@ -49,6 +50,14 @@ uint32_t GPlayerMngService::onInit()
 		return SCODE_START_FAIL_EXIT_APP;
 
 	return SCODE_START_SUCCESS;
+}
+
+void GPlayerMngService::onUpdate(float dt)
+{
+	for (auto& it : m_allPlayer)
+	{
+		it.trySave(m_sqliter);
+	}
 }
 
 // 读取玩家数据
@@ -217,3 +226,46 @@ uint32_t GPlayerMngService::getSessionID(int64_t playerId)
 		return UINT32_MAX;
 	return player->getSessionID();
 }
+
+
+// 向玩家发送另一个玩家当前登录的角色信息
+bool GPlayerMngService::sendLoginRoleToPlayer(GPlayer* toPlayer, GPlayer* infoPlayer)
+{
+	if (toPlayer == NULL || infoPlayer == NULL)
+		return false;
+
+	return sendRoleInfoToPlayer(toPlayer, infoPlayer->getLoginRole());
+}
+
+// 向玩家发送角色信息
+bool GPlayerMngService::sendRoleInfoToPlayer(GPlayer* toPlayer, GRole* roleInfo)
+{
+	if (toPlayer == NULL || roleInfo == NULL)
+		return false;
+
+	// 此玩家不在线
+	if (toPlayer->getIsOnline() == false)
+	{
+		return false;
+	}
+
+	auto pNetService = GApplication::getInstance()->getServiceMgr()->getService<GNetService>();
+	if (pNetService == NULL)
+	{
+		// 不可能为空
+		G_ASSERT(false);
+		return false;
+	}
+
+	msg::RoleSimpleInfo info;
+	info.set_roleid(roleInfo->getRoleId());
+	info.set_name(roleInfo->getName());
+	info.set_lv(roleInfo->getLv());
+	info.set_occupation(roleInfo->getOcc());
+	info.set_jsondata(roleInfo->getJsonData());
+
+	SEND_PB_MSG(pNetService, toPlayer->getSessionID(), MessageID::MSG_PUSH_ROLE_DATA, info);
+}
+
+
+

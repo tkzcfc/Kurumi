@@ -10,6 +10,8 @@ public:
 
 	virtual uint32_t onInit() override;
 
+	virtual void onUpdate(float dt) override;
+
 	G_FORCEINLINE std::vector<GPlayer>& getAllPlayer();
 
 public:
@@ -29,6 +31,12 @@ public:
 	bool queryPlayerInfo(const std::string& account, std::vector<GPlayer*>& players);
 
 	uint32_t getSessionID(int64_t playerId);
+
+	// 向玩家发送另一个玩家当前登录的角色信息
+	bool sendLoginRoleToPlayer(GPlayer* toPlayer, GPlayer* infoPlayer);
+
+	// 向玩家发送角色信息
+	bool sendRoleInfoToPlayer(GPlayer* toPlayer, GRole* roleInfo);
 
 private:
 

@@ -33,6 +33,8 @@ public:
 
 	err::Code exitGameWithSessionID(uint32_t sessionID);
 
+	std::vector<int64_t> getPlayerIds();
+
 public:
 
 	G_SYNTHESIZE_PASS_BY_REF(GGameWorldInitArgs, m_initArgs, InitArgs);

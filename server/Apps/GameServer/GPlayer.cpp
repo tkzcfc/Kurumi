@@ -4,6 +4,7 @@
 // 玩家信息
 GPlayer::GPlayer()
 {
+	m_dataDirty = false;
 	m_loginRole = NULL;
 	setIsOnline(false);
 }
@@ -82,6 +83,7 @@ void GPlayer::setRoles(const std::string& role)
 		}
 		else
 		{
+			pRole->setPlayer(this);
 			m_allRole.push_back(pRole);
 		}
 	}
@@ -121,7 +123,23 @@ GRole* GPlayer::getRole(ROLE_ID roleId)
 
 void GPlayer::addRole(GRole* role)
 {
+	role->setPlayer(this);
 	m_allRole.push_back(role);
+	this->setDirty();
+}
+
+void GPlayer::setDirty()
+{
+	m_dataDirty = true;
+}
+
+void GPlayer::trySave(csqliter* sqliter)
+{
+	if (m_dataDirty)
+	{
+		m_dataDirty = false;
+		save(sqliter);
+	}
 }
 
 bool GPlayer::save(csqliter* sqliter)

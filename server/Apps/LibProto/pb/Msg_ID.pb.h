@@ -62,7 +62,10 @@ enum MessageID {
   MSG_CREATE_ROLE_ACK = 900304,
   MSG_ENTER_GAME_REQ = 900305,
   MSG_ENTER_GAME_ACK = 900306,
+  MSG_MODIFY_ROLE_DATA_REQ = 900307,
+  MSG_MODIFY_ROLE_DATA_ACK = 900308,
   MSG_EXIT_GAME_NTF = 900010,
+  MSG_PUSH_ROLE_DATA = 900011,
   MSG_START_PVE_REQ = 900101,
   MSG_START_PVE_ACK = 900102,
   MSG_START_PVP_REQ = 900103,
@@ -73,7 +76,7 @@ enum MessageID {
 };
 bool MessageID_IsValid(int value);
 const MessageID MessageID_MIN = MSG_BEGIN;
-const MessageID MessageID_MAX = MSG_ENTER_GAME_ACK;
+const MessageID MessageID_MAX = MSG_MODIFY_ROLE_DATA_ACK;
 const int MessageID_ARRAYSIZE = MessageID_MAX + 1;
 
 enum FightType {

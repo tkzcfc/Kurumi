@@ -4,6 +4,8 @@
 
 typedef int64_t ROLE_ID;
 
+class GPlayer;
+
 // 角色
 class GRole
 {
@@ -23,5 +25,25 @@ public:
 	G_SYNTHESIZE(int32_t, m_occ, Occ);
 	// lv
 	G_SYNTHESIZE(int32_t, m_lv, Lv);
+
+	// 所属player
+	G_SYNTHESIZE(GPlayer*, m_player, Player);
+
+
+
+	// json 数据 难得一个个存了 直接搞个Json存
+	void setJsonData(const std::string& var);
+	std::string& getJsonData();
+
+
+	void setDirty();
+
+	void trySave(csqliter* sqliter);
+
+	bool save(csqliter* sqliter);
+
+private:
+	std::string m_jsonData;
+	bool m_dataDirty;
 };
 

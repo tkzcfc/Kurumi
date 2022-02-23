@@ -203,6 +203,12 @@ void GFightService::onMsg_JoinFightReq(uint32_t sessionID, const msg::JoinFightR
 			pWorldinfo->set_uuidseed(it->getInitArgs().uuidSeed);
 			pWorldinfo->set_isofflinemode(it->getInitArgs().isOfflineMode);
 
+			auto ids = it->getPlayerIds();
+			for (auto& id : ids)
+			{
+				pWorldinfo->add_roles(id);
+			}
+
 			ack.set_code(it->joinCode(sessionID, msg));
 			SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_JOIN_FIGHT_ACK, ack);
 

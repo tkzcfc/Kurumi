@@ -117,6 +117,21 @@ void GFightService::onMsg_NewFightAck(uint32_t sessionID, const svr_msg::NewFigh
 		}
 	}
 
+	// 推送玩家信息到客户端
+	for (auto i = 0; i < it->second.count; ++i)
+	{
+		auto role = m_pRoleMngService->getRole(it->second.roleid[i]);
+		if (role)
+		{
+			for (auto j = 0; j < it->second.count; ++j)
+			{
+				auto curRole = m_pRoleMngService->getRole(it->second.roleid[j]);
+				m_pPlayerMngService->sendRoleInfoToPlayer(role->getPlayer(), curRole);
+			}
+		}
+	}
+
+	// 向客户端发送开始战斗通知
 	for (auto i = 0; i < it->second.count; ++i)
 	{
 		auto role = m_pRoleMngService->getRole(it->second.roleid[i]);

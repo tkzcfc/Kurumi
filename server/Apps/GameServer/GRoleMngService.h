@@ -10,6 +10,8 @@ public:
 
 	virtual uint32_t onInit() override;
 
+	virtual void onUpdate(float dt) override;
+
 public:
 
 	// 角色数据创建
