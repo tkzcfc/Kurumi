@@ -400,7 +400,11 @@ void GameLogic::pingUpdate(float dt)
 
 		msg::Ping req;
 		req.set_timestamp(GApplication::getInstance()->getRunTime32());
-		sendToAllPlayer(MessageID::MSG_PING_REQ, req);
+		for (auto i = 0; i < m_playerCount; ++i)
+		{
+			req.set_ping(m_players[i]->getPing());
+			SEND_PB_MSG(m_pNetService, m_players[i]->getSessionID(), MessageID::MSG_PING_REQ, req);
+		}
 	}
 
 	// 推送ping值
@@ -649,6 +653,7 @@ void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
 {
 	// MSG_PUSH_FRAME_BEGIN
 	msg::Null null;
+	null.set_code(err::Code::SUCCESS);
 	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_BEGIN, null);
 
 

@@ -170,6 +170,7 @@ struct StaticDescriptorInitializer_Msg_5fGame_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int Null::kCodeFieldNumber;
 #endif  // !_MSC_VER
 
 Null::Null()
@@ -188,6 +189,7 @@ Null::Null(const Null& from)
 
 void Null::SharedCtor() {
   _cached_size_ = 0;
+  code_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -225,6 +227,9 @@ Null* Null::New() const {
 }
 
 void Null::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    code_ = 0;
+  }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -233,11 +238,32 @@ bool Null::MergePartialFromCodedStream(
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
-    if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      return true;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 code = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &code_)));
+          set_has_code();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
     }
-    DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
   }
   return true;
 #undef DO_
@@ -245,11 +271,25 @@ bool Null::MergePartialFromCodedStream(
 
 void Null::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // required int32 code = 1;
+  if (has_code()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->code(), output);
+  }
+
 }
 
 int Null::ByteSize() const {
   int total_size = 0;
 
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required int32 code = 1;
+    if (has_code()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->code());
+    }
+
+  }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -263,6 +303,11 @@ void Null::CheckTypeAndMergeFrom(
 
 void Null::MergeFrom(const Null& from) {
   GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_code()) {
+      set_code(from.code());
+    }
+  }
 }
 
 void Null::CopyFrom(const Null& from) {
@@ -272,12 +317,15 @@ void Null::CopyFrom(const Null& from) {
 }
 
 bool Null::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
   return true;
 }
 
 void Null::Swap(Null* other) {
   if (other != this) {
+    std::swap(code_, other->code_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
@@ -7772,6 +7820,7 @@ void ExitFightAck::Swap(ExitFightAck* other) {
 
 #ifndef _MSC_VER
 const int Ping::kTimestampFieldNumber;
+const int Ping::kPingFieldNumber;
 #endif  // !_MSC_VER
 
 Ping::Ping()
@@ -7791,6 +7840,7 @@ Ping::Ping(const Ping& from)
 void Ping::SharedCtor() {
   _cached_size_ = 0;
   timestamp_ = 0u;
+  ping_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -7830,6 +7880,7 @@ Ping* Ping::New() const {
 void Ping::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     timestamp_ = 0u;
+    ping_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -7848,6 +7899,22 @@ bool Ping::MergePartialFromCodedStream(
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &timestamp_)));
           set_has_timestamp();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_ping;
+        break;
+      }
+
+      // required int32 ping = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_ping:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &ping_)));
+          set_has_ping();
         } else {
           goto handle_uninterpreted;
         }
@@ -7877,6 +7944,11 @@ void Ping::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->timestamp(), output);
   }
 
+  // required int32 ping = 2;
+  if (has_ping()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->ping(), output);
+  }
+
 }
 
 int Ping::ByteSize() const {
@@ -7888,6 +7960,13 @@ int Ping::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->timestamp());
+    }
+
+    // required int32 ping = 2;
+    if (has_ping()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->ping());
     }
 
   }
@@ -7908,6 +7987,9 @@ void Ping::MergeFrom(const Ping& from) {
     if (from.has_timestamp()) {
       set_timestamp(from.timestamp());
     }
+    if (from.has_ping()) {
+      set_ping(from.ping());
+    }
   }
 }
 
@@ -7918,7 +8000,7 @@ void Ping::CopyFrom(const Ping& from) {
 }
 
 bool Ping::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
@@ -7926,6 +8008,7 @@ bool Ping::IsInitialized() const {
 void Ping::Swap(Ping* other) {
   if (other != this) {
     std::swap(timestamp_, other->timestamp_);
+    std::swap(ping_, other->ping_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

@@ -124,7 +124,7 @@ void GLogService::onHttpRequest_LUA_TRACKBACK(const net_uv::HttpRequest& request
 		struct tm * lt;
 		time(&t);
 		lt = localtime(&t);
-		auto strTime = StringUtils::format("\n#### %d/%d/%d %d:%d:%d platform:%s\n", lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, platform.c_str());
+		auto strTime = StringUtils::format("\n#### %d/%d/%d %d:%d:%d platform:%s\n", lt->tm_year + 1900, lt->tm_mon + 1, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, platform.c_str());
 
 
 		std::string fileName = dirName + "/" + hash + ".txt";

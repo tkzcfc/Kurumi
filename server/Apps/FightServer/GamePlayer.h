@@ -55,6 +55,8 @@ private:
 
 private:
 	uint32_t m_lastFrame;
+	msg::PlayerFrameInput m_lastInput;
+	bool m_initLastInput;
 	std::vector<msg::PlayerFrameInput*> m_inputs;
 	std::list<msg::PlayerFrameInput*> m_inputCache;
 };

@@ -6,6 +6,7 @@ uint32_t GamePlayer::INVALID_SESSION_ID = UINT32_MAX;
 
 GamePlayer::GamePlayer()
 {
+	m_initLastInput = false;
 	m_ping = 0;
 	m_lastFrame = 0;
 	m_loadPercent = 0.0f;
@@ -107,17 +108,15 @@ msg::PlayerFrameInput* GamePlayer::getInput(uint32_t frame)
 		if (tmp->frame() == frame)
 		{
 			out = tmp;
+			m_lastInput.CopyFrom(*tmp);
+			m_initLastInput = true;
 			break;
 		}
-		else if (tmp->frame() > frame)
-		{
-			if (i > 0)
-			{
-				// 取上一帧的输入
-				out = m_inputs[i - 1];
-			}
-			break;
-		}
+	}
+
+	if (out == NULL && m_initLastInput)
+	{
+		out = &m_lastInput;
 	}
 
 	// 释放无效输入

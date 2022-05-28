@@ -4,7 +4,7 @@
 static int32_t MAX_FIGHT_COUNT = 100;
 
 // 游戏逻辑帧率
-static float LOGIC_INTERVAL = 1 / 40.0f;
+static float LOGIC_INTERVAL = 1 / 30.0f;
 
 uint32_t GFightService::onInit()
 {

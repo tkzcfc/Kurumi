@@ -128,12 +128,22 @@ class Null : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
+  // required int32 code = 1;
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 1;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:msg.Null)
  private:
+  inline void set_has_code();
+  inline void clear_has_code();
 
+  ::google::protobuf::int32 code_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[1];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
@@ -3628,15 +3638,25 @@ class Ping : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 timestamp() const;
   inline void set_timestamp(::google::protobuf::uint32 value);
 
+  // required int32 ping = 2;
+  inline bool has_ping() const;
+  inline void clear_ping();
+  static const int kPingFieldNumber = 2;
+  inline ::google::protobuf::int32 ping() const;
+  inline void set_ping(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:msg.Ping)
  private:
   inline void set_has_timestamp();
   inline void clear_has_timestamp();
+  inline void set_has_ping();
+  inline void clear_has_ping();
 
   ::google::protobuf::uint32 timestamp_;
+  ::google::protobuf::int32 ping_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_Msg_5fGame_2eproto_impl();
@@ -3917,6 +3937,28 @@ class PushPingInfo : public ::google::protobuf::MessageLite {
 // ===================================================================
 
 // Null
+
+// required int32 code = 1;
+inline bool Null::has_code() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Null::set_has_code() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Null::clear_has_code() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Null::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 Null::code() const {
+  return code_;
+}
+inline void Null::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+}
 
 // -------------------------------------------------------------------
 
@@ -6459,6 +6501,28 @@ inline ::google::protobuf::uint32 Ping::timestamp() const {
 inline void Ping::set_timestamp(::google::protobuf::uint32 value) {
   set_has_timestamp();
   timestamp_ = value;
+}
+
+// required int32 ping = 2;
+inline bool Ping::has_ping() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Ping::set_has_ping() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Ping::clear_has_ping() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Ping::clear_ping() {
+  ping_ = 0;
+  clear_has_ping();
+}
+inline ::google::protobuf::int32 Ping::ping() const {
+  return ping_;
+}
+inline void Ping::set_ping(::google::protobuf::int32 value) {
+  set_has_ping();
+  ping_ = value;
 }
 
 // -------------------------------------------------------------------
