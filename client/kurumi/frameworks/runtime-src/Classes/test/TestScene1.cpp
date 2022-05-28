@@ -44,6 +44,7 @@ bool TestScene1::init()
 	}
 
 	this->scheduleUpdate();
+	this->schedule(CC_SCHEDULE_SELECTOR(TestScene1::logicUpdate), LogicInterval.to_float());
 
 	m_pWorld->enableDebugDraw(true);
 	//m_pWorld->spwanActor("binary/R1001.bytes", GFixedVec3(50.0f, 0.0f, 60.0f));
@@ -51,6 +52,8 @@ bool TestScene1::init()
 
 	m_player = m_pWorld->spwanActor("binary/R1001.bytes", GFixedVec3(0.0f, 0.0f, 0.0f));
 	G_GetComponent(m_player, GActorComponent)->setPosition(150.0f, 60.0f);
+
+	m_pWorld->setLocalPlayer(m_player);
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyReleased = [this](EventKeyboard::KeyCode code, Event *e)
@@ -134,17 +137,11 @@ bool TestScene1::init()
 static float movex_force = 300.0f / PHYSICS_PIXEL_TO_METER;
 static float movez_force = 300.0f / PHYSICS_PIXEL_TO_METER;
 
-void TestScene1::update(float dt)
+void TestScene1::logicUpdate(float dt)
 {
 	m_pWorld->input(m_player->getId(), m_pWorld->getGameLogicFrame(), m_input);
 
 	m_pWorld->step();
-	m_pWorld->render(dt);
-
-	auto& pos = G_GetComponent(m_player, GActorComponent)->transform.p;
-
-	auto camera = m_pWorld->getMapLayer()->getVirtualCamera();
-	camera->setPosition(Vec2(pos.x.to_float(), pos.y.to_float()));
 
 	/*auto camera = m_pWorld->getMapLayer()->getVirtualCamera();
 	if (G_BIT_EQUAL(m_input, G_KEY_MOVE_LEFT))
@@ -191,4 +188,10 @@ void TestScene1::update(float dt)
 	//auto size = Director::getInstance()->getWinSize();
 	//m_pMapLayer->getVirtualCamera()->setFocalPos(size * 0.6f);
 }
+
+void TestScene1::update(float delta)
+{
+	m_pWorld->render(delta);
+}
+
 

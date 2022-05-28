@@ -1,6 +1,6 @@
 -- @Author: fangcheng
 -- @Date:   2022-1-16 20:29:09
--- @remark: 匹配界面
+-- @remark: 
 
 local UIVideoPlay = class("UIVideoPlay", G_Class.UIMainFrame)
 

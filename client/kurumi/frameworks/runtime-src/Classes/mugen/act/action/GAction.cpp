@@ -11,7 +11,7 @@ GAction::GAction()
 	, m_id(-1)
 	, m_curLoopCount(0)
 	, m_maxLoopCount(1)
-	, m_interrupt(GInterruptType::NONE)
+	, m_interrupt(GInterruptType::NONE_INTERRUPT)
 {}
 
 GAction::~GAction()
@@ -52,7 +52,7 @@ bool GAction::deserialize(GByteBuffer& byteBuffer)
 void GAction::reset()
 {
 	m_curLoopCount = 0;
-	m_interrupt = GInterruptType::NONE;
+	m_interrupt = GInterruptType::NONE_INTERRUPT;
 	m_curFrame = m_startFrame;
 	if (m_delegate)
 	{

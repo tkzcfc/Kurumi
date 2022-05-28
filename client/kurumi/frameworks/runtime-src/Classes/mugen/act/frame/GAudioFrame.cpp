@@ -1,4 +1,7 @@
 ﻿#include "GAudioFrame.h"
+#if RUNTIME_IN_COOCS
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
+#endif
 
 NS_G_BEGIN
 
@@ -13,6 +16,9 @@ GAudioFrame::~GAudioFrame()
 
 void GAudioFrame::onEmit()
 {
+#if RUNTIME_IN_COOCS
+	cocos2d::LuaEngine::getInstance()->getLuaStack()->executeGlobalFunctionWithString("onMugenAudioPlay", m_audio.c_str());
+#endif
 }
 
 void GAudioFrame::serialize(GByteBuffer& byteBuffer)

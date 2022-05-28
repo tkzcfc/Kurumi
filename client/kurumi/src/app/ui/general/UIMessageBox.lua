@@ -17,8 +17,6 @@ function UIMessageBox:ctor()
 	self.ui.Text_show:setString("")
 
 	self:setContentView(ui.Image_BG)
-
-	self:setAutoDismiss(false)
 end
 
 function UIMessageBox:showOneButton(content, okcall)
@@ -33,6 +31,9 @@ function UIMessageBox:showOneButton(content, okcall)
 
 	self.ui.Text_Title:setVisible(false)
 	self.ui.Text_show:setVisible(false)
+
+	self:setAutoDismiss(false)
+	self:eternal()
 
 	return self
 end
@@ -51,6 +52,9 @@ function UIMessageBox:showTwoButton(content, okcall, cancelcall)
 	self.ui.Text_Title:setVisible(false)
 	self.ui.Text_show:setVisible(false)
 
+	self:setAutoDismiss(true)
+	self:setUICloseCondition()
+
 	return self
 end
 
@@ -64,6 +68,12 @@ function UIMessageBox:iWillClose()
 	UIMessageBox.super.iWillClose(self)
 	self.ui.Button_OK:setTouchEnabled(false)
 	self.ui.Button_Cancel:setTouchEnabled(false)
+
+	if not self.bTriggerCB then
+		if self.cancelcall then
+			self.cancelcall()
+		end
+	end
 end
 
 function UIMessageBox:setTitle(title)
@@ -72,16 +82,26 @@ function UIMessageBox:setTitle(title)
 end
 
 function UIMessageBox:onClickOK(sender)
+	self.bTriggerCB = true
+	local okcall = self.okcall
+
+	self:setUICloseCondition()
 	self:dismiss()
-	if self.okcall then
-		self.okcall()
+
+	if okcall then
+		okcall()
 	end
 end
 
 function UIMessageBox:onClickCancel(sender)
+	self.bTriggerCB = true
+	local cancelcall = self.cancelcall
+
+	self:setUICloseCondition()
 	self:dismiss()
-	if self.cancelcall then
-		self.cancelcall()
+
+	if cancelcall then
+		cancelcall()
 	end
 end
 

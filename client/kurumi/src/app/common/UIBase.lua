@@ -7,6 +7,10 @@ local UIBase = class("UIBase", G_Class.UIPanel)
 function UIBase:ctor()
 	UIBase.super.ctor(self)
 	self:setNodeEventEnabled(true)
+	self:eventOn(SysEvent.UI_BEFORE_OPENED, handler(self, self.iBeforeOpened), self)
+	self:eventOn(SysEvent.UI_AFTER_OPENED, handler(self, self.iAfterOpened), self)
+	self:eventOn(SysEvent.UI_WILL_CLOSE, handler(self, self.iWillClose), self)
+	self:eventOn(SysEvent.UI_AFTER_CLOSED, handler(self, self.iAfterClosed), self)
 end
 
 -- override me for setNodeEventEnabled(true)
@@ -56,18 +60,30 @@ function UIBase:onSysMsg(msgID, call, priority)
 	G_SysEventEmitter:on(msgID, call, self, priority)
 end
 
--- @override UI界面打开之前的回调
-function UIBase:iBeforeOpened()
-	UIBase.super.iBeforeOpened(self)
-	self:initNetEvent()
-end
-
--- @override UI界面关闭前的回调
-function UIBase:iWillClose()
-	UIBase.super.iWillClose(self)
+-- @override UI界面销毁前的回调
+function UIBase:onDestroy()
+	UIBase.super.onDestroy(self)
 	G_NetEventEmitter:offByTag(self)
 	G_SysEventEmitter:offByTag(self)
 end
+
+-- @brief UI界面打开之前的回调
+function UIBase:iBeforeOpened()
+	self:initNetEvent()
+end
+
+-- @brief UI界面打开后的回调
+function UIBase:iAfterOpened()
+end
+
+-- @brief UI界面关闭前的回调
+function UIBase:iWillClose()
+end
+
+-- @brief UI界面关闭后的回调
+function UIBase:iAfterClosed()
+end
+
 
 return UIBase
 

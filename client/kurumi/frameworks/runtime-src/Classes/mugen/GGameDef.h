@@ -6,7 +6,11 @@ NS_G_BEGIN
 
 #define GAME_LOGIC_FPS 30
 
+#define ENABLE_CAMERA_LERP 1
+
 static const fixedPoint LogicInterval = 1.0f / GAME_LOGIC_FPS;
+// 动画间隔时间，不可修改，编辑器按照60帧导出的bytes文件
+static const fixedPoint AnimationInterval = 1.0f / 60.0f;
 
 
 //! 物理引擎对应渲染像素比

@@ -51,6 +51,7 @@ bool GFrame::contain(int32_t frame)
 		return false;
 	return true;
 }
+
 GComponent* GFrame::getComponent(const std::string& name)
 {
 	G_ASSERT(m_pEntity != NULL);

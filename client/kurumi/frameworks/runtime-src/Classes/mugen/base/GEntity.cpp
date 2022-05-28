@@ -93,13 +93,13 @@ void GEntity::update()
 	}
 }
 
-//void GEntity::lastUpdate()
-//{
-	//for (auto& it : m_components)
-	//{
-	//	it->onLastUpdate();
-	//}
-//}
+void GEntity::renderUpdate(float dt)
+{
+	for (auto& it : m_components)
+	{
+		it->renderUpdate(dt);
+	}
+}
 
 NS_G_END
 

@@ -12,6 +12,7 @@ option optimize_for = LITE_RUNTIME;
 //============================================================================================
 message Null
 {
+	required int32 code = 1;
 }
 
 message CodeAck
@@ -299,6 +300,8 @@ message ExitFightAck
 message Ping
 {
 	required uint32 timestamp = 1;
+	// 上次ping值
+	required int32 ping = 2;
 }
 
 message Pong

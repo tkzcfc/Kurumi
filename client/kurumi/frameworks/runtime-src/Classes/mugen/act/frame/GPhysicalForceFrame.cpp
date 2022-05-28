@@ -27,11 +27,6 @@ void GPhysicalForceFrame::onEnter(int32_t currentFrameIndex)
 
 void GPhysicalForceFrame::onEmit()
 {
-	if (false == m_pActorComponent->isKeyDown(G_KEY_MOVE_MUSTER))
-	{
-		return;
-	}
-
 	auto applyValue = m_value;
 	if (m_valueType == GValueType::VALUE_PERCENTAGE)
 	{
@@ -119,8 +114,8 @@ void GPhysicalForceFrame::onEmit()
 		{
 			applyValue.x.setZero();
 		}
-		CCLOG("offset x:%f, y:%f", applyValue.x.to_float(), applyValue.y.to_float());
-		m_pRigidBodyComponent->appendOffset(applyValue.x, applyValue.y);
+		//CCLOG("offset x:%f, y:%f", applyValue.x.to_float(), applyValue.y.to_float());
+		m_pRigidBodyComponent->appendOffset(applyValue.x * AnimationInterval, applyValue.y * AnimationInterval);
 	}
 		break;
 	default:

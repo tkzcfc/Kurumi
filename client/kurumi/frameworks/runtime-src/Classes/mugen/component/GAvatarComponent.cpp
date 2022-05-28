@@ -67,7 +67,7 @@ void GAvatarComponent::playAnimation(const std::string& name, int32_t frame)
 #endif
 }
 
-void GAvatarComponent::onUpdate()
+void GAvatarComponent::renderUpdate(float dt)
 {
 #if RUNTIME_IN_COOCS
 	auto& offset = G_GetComponent(this, GStaticDataComponent)->offset;

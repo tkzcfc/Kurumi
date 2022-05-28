@@ -5,6 +5,38 @@ typedef unsigned int uint32_t;
 typedef int int32_t;
 
 
+
+
+class GVirtualCamera
+{
+	void setPosition(Vec2 pos);
+	void setZoom(float zoom);
+	void setAnchorPoint(Vec2 pos);	
+	
+	Vec2 validPosition(Vec2 pos);	
+	void setCameraBoundingBox(Vec2 min, Vec2 max);
+};
+
+
+
+
+
+
+class GMapLayer: public cc.Node
+{
+	cc.Node* getActorNode();
+	cc.Node* getRootNode();
+	GVirtualCamera* getVirtualCamera();
+	
+	
+};
+
+
+
+
+
+
+
 class GGameWorld
 {
 public:
@@ -25,13 +57,18 @@ public:
 
 	void input(uint32_t entityId, uint32_t frame, uint32_t keydown);
 	
-	GEntity* spwanActor(std::string filename, GFixedVec3 pos);
+	GEntity* spwanActor(std::string filename, GFixedVec3 pos, std::string replaceArmatureFile);
 
 	// 设置启用debug draw
 	void enableDebugDraw(bool enable);
 
 	// 设置使用GameWorld的定时器
 	void setScheduler(cc.Node* node, bool recursive = true);
+	
+	
+	GEntity* getLocalPlayer();
+	void setLocalPlayer(GEntity* entity);
+	
 
 
 
@@ -42,6 +79,8 @@ public:
 	// 宏定义相关
 
 	//cc.Scheduler getScheduler();
+	
+	GMapLayer* getMapLayer();
 
 	uint32_t getGameLogicFrame();
 
@@ -56,3 +95,4 @@ $pfile "mugen/act/GSkill.pkg"
 $pfile "mugen/act/GTimeline.pkg"
 $pfile "mugen/act/GTrack.pkg"
 $pfile "mugen/act/GFrame.pkg"
+$pfile "mugen/act/GAction.pkg"

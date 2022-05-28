@@ -5,13 +5,7 @@
     "looseFileMode": false,
     "version": "0.0.1",
     "strongUpdateURL": "www.baidu.com",
-    "assets": {
-        "0_0_0_to_0_0_1.zip": {
-            "fileSize": 40790,
-            "compressed": true,
-            "md5": "4066e205c471e64ee536cf9d887c1b2c"
-        }
-    },
+    "assets": {},
     "restartLevel": 1,
     "strongUpdateVer": 0,
     "updateDescription": "1:修复bug\n2:增加功能\n"

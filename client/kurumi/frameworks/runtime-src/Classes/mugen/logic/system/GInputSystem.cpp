@@ -33,6 +33,9 @@ void GInputSystem::step()
 	{
 		auto msg = m_inputQue.popMsg();
 
+		// 正常情况只应该有本帧的输入
+		G_ASSERT(msg->logicFrame == logicFrame);
+
 		for (auto& it : m_cacheComponents)
 		{
 			if(it->getEntity()->getId() == msg->uuid)

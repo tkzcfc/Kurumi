@@ -39,6 +39,27 @@ Layer:setName("Layer")
 layout = ccui.LayoutComponent:bindLayoutComponent(Layer)
 layout:setSize({width = 1136.0000, height = 640.0000})
 
+--Create Panel_5
+local Panel_5 = ccui.Layout:create()
+Panel_5:ignoreContentAdaptWithSize(false)
+Panel_5:setClippingEnabled(false)
+Panel_5:setBackGroundColorType(1)
+Panel_5:setBackGroundColor({r = 77, g = 77, b = 77})
+Panel_5:setTouchEnabled(true);
+Panel_5:setLayoutComponentEnabled(true)
+Panel_5:setName("Panel_5")
+Panel_5:setTag(24)
+Panel_5:setCascadeColorEnabled(true)
+Panel_5:setCascadeOpacityEnabled(true)
+layout = ccui.LayoutComponent:bindLayoutComponent(Panel_5)
+layout:setPositionPercentXEnabled(true)
+layout:setPercentWidthEnabled(true)
+layout:setPercentHeightEnabled(true)
+layout:setPercentWidth(1.0000)
+layout:setPercentHeight(1.0000)
+layout:setSize({width = 1136.0000, height = 640.0000})
+Layer:addChild(Panel_5)
+
 --Create Button_2
 local Button_2 = ccui.Button:create()
 Button_2:ignoreContentAdaptWithSize(false)

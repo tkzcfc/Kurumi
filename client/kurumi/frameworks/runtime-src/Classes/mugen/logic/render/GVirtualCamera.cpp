@@ -1,4 +1,5 @@
 ﻿#include "GVirtualCamera.h"
+#include "mugen/GGameDef.h"
 
 NS_G_BEGIN
 
@@ -7,7 +8,7 @@ GVirtualCamera * GVirtualCamera::create()
 	GVirtualCamera * ret = new (std::nothrow) GVirtualCamera();
 	if (ret && ret->init())
 	{
-		ret->autorelease();
+		return ret;
 	}
 	else
 	{
@@ -25,11 +26,6 @@ GVirtualCamera::GVirtualCamera()
 
 bool GVirtualCamera::init()
 {
-	if (!Component::init())
-	{
-		return false;
-	}
-
 	auto winSize = Director::getInstance()->getVisibleSize();
 	m_viewSize = Vec2(winSize.width, winSize.height);
 	setWorldSize(winSize);
@@ -84,37 +80,28 @@ void GVirtualCamera::validPositionFast(Vec2& pos)
 	pos.y = MIN(pos.y, m_cameraBoundingBoxMax.y);
 }
 
-void GVirtualCamera::forceUpdate()
+void GVirtualCamera::doUpdate(float delta)
 {
-	update(0.0f);
-}
-
-void GVirtualCamera::update(float delta)
-{
-	Component::update(delta);
-
 	Vec2 offset = m_viewSize;
 	offset.scale(m_anchorPoint);
 
-	Vec2 newPos = m_position - offset;
-	validPositionFast(newPos);
+	Vec2 validPos = m_position - offset;
+	validPositionFast(validPos);
 
-	Vec2 diff = newPos - m_logicPos;
-	if (diff.getLengthSq() < 0.001 && m_cache_Scale == m_zoom)
+
+#if ENABLE_CAMERA_LERP
+	auto newPos = m_logicPos.lerp(validPos, delta * 5);
+#else
+	// 逻辑帧率和渲染帧率不同时，使用摄像机跟随算法人物会抖动
+	auto newPos = validPos;
+#endif
+
+	if (std::fabs(newPos.x - m_logicPos.x) < 0.001f && std::fabs(newPos.y - m_logicPos.y) < 0.001f && m_cache_Scale == m_zoom) 
+	{
 		return;
-
-	float motion = MIN(1.0f, delta * 5.2f);
-	diff.scale(motion);
-
-	//// 防止镜头移动过快
-	//if (diff.x < 0)
-	//	diff.x = MAX(diff.x, -15.0f);
-	//else
-	//	diff.x = MIN(diff.x, 15.0f);
-
-	m_logicPos += diff;
-	newPos = m_logicPos;
-
+	}
+	
+	m_logicPos = newPos;
 	m_cache_Scale = m_zoom;
 	
 	newPos *= m_zoom;
@@ -127,16 +114,6 @@ void GVirtualCamera::update(float delta)
 	}
 
 	m_call(newPos.x, newPos.y, m_zoom);
-}
-
-void GVirtualCamera::onAdd()
-{
-	Component::onAdd();
-}
-
-void GVirtualCamera::onRemove()
-{
-	Component::onRemove();
 }
 
 NS_G_END

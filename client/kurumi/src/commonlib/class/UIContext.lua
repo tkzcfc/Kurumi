@@ -5,203 +5,353 @@
 
 local Vector = require("commonlib.class.Vector")
 
+
+local UIState = enum {
+	-- 等待打开
+	"WAIT",
+	-- 正在打开
+	"OPENING",
+	-- 正在运行
+	"RUNNING",
+	-- 正在关闭
+	"CLOSING",
+	-- 已关闭
+	"CLOSED",
+	-- 已销毁
+	"DESTROYED"
+}
+
+
+------------------------------------------  UIInfo  ------------------------------------------
+
+local UIInfo  = class("UIInfo")
+
+function UIInfo:ctor(ui, parent, unique, zorder)
+	local node = ccui.Layout:create()
+	node:setContentSize(display.size)
+	node:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)
+	node:setBackGroundColor(cc.c3b(0, 0, 0))
+	node:setAnchorPoint(0.5, 0.5)
+	node:setPosition(display.cx, display.cy)
+	node:setLocalZOrder(zorder)
+	parent:addChild(node)
+
+	node:addChild(ui)
+
+	self.state = UIState.WAIT
+	self.ui = ui
+	self.node = node
+	self.zorder = zorder
+	self.unique = unique
+
+	self:hide()
+end
+
+function UIInfo:equal(ui)
+	if type(ui) == "string" then
+		return self.ui.__cname == ui		
+	end
+	return self.ui == ui
+end
+
+function UIInfo:show()
+	self.node:setVisible(true)
+end
+
+function UIInfo:hide()
+	self.node:setVisible(false)
+end
+
+function UIInfo:showMask(show)
+	if show then
+		self.node:setBackGroundColorOpacity(130)
+	else
+		self.node:setBackGroundColorOpacity(0)
+	end
+end
+
+function UIInfo:doOpen(callback)
+	assert(self.state == UIState.WAIT);
+	self.state = UIState.OPENING
+	self:show()
+	
+	self.ui:_doUIOpen(function()
+		if self.state == UIState.DESTROYED then
+			return
+		end 
+		self.state = UIState.RUNNING
+		callback()
+	end)
+end
+
+function UIInfo:canClose()
+	if self.state == UIState.RUNNING then
+		return self.ui:_canCloseUI()
+	end
+	return false
+end
+
+function UIInfo:doClose(callback)
+	assert(self.state == UIState.RUNNING)
+	self.state = UIState.CLOSING
+	self.ui:_doUIClose(function()
+		if self.state == UIState.DESTROYED then 
+			return
+		end 
+		self.state = UIState.CLOSED
+		callback()
+	end)
+end
+
+function UIInfo:doDestroy()
+	if self.state == UIState.DESTROYED then
+		return
+	end
+	self.ui:onDestroy()
+	self.ui.pUICtx = nil
+	self.node:removeFromParent()
+
+	self.node = nil
+	self.ui = nil
+	self.state = UIState.DESTROYED
+end
+
+
+
+
+
+
+
+------------------------------------------  UIContext  ------------------------------------------
+
 local UIContext = class("UIContext")
 
 property(UIContext, "pDefaultRootNode")
 
 function UIContext:ctor()
+	self.tWaitOpenUIs = Vector:new()
 	self.tCurrentUIs = Vector:new()
-	self.tCacheUIQueue = Vector:new(true)
-	self.pCurQueueUI = nil
 end
 
--- @brief 获取当前最顶层UI
-function UIContext:getTopUI()
-	if self.tCurrentUIs:size() > 0 then
-		return self.tCurrentUIs:back()
+-- @brief pushUI
+-- @param ui
+-- @param unique 是否为独占模式
+-- @param zorder 层级
+function UIContext:pushUI(ui, unique, zorder)
+	local parentNode = self.pDefaultRootNode
+	if parentNode == nil then
+		self.pDefaultRootNode = cc.Director:getInstance():getRunningScene()
+		parentNode = self.pDefaultRootNode
 	end
+	
+	ui.pUICtx = self
+	self.tWaitOpenUIs:pushBack(UIInfo.new(ui, parentNode, unique, zorder or 0))
+	self:_doOpenUI()
 end
 
--- @brief 关闭当前最顶层UI
-function UIContext:popUI()
-	local top = self:getTopUI()
-	if top then
-		top:dismiss()
+-- @brief 弹出顶层UI
+function UIContext:popTopUI()
+	if self.tCurrentUIs:empty() then return end
+
+	return self:popUI(self.tCurrentUIs:back().ui)
+end
+
+-- @brief 弹出UI
+-- @param ui ui实例或ui的名称
+function UIContext:popUI(ui)
+	local info = self:_getUIInfo(ui)
+	if info and info:canClose() then
+		self:_updateUIVisible(info)
+		self:_updateViewVisible(info)
+
+		info:doClose(function()
+			self:_destroyUIByInfo(info)
+		end)
 		return true
-	end
-	return false
-end
-
--- @brief 移除所有UI
-function UIContext:removeAllUI()
-	self:clearQueue()
-
-	for i = self.tCurrentUIs:size(), 1, -1 do
-		local ui = self.tCurrentUIs:at(i)
-		ui:forceRemove()
-	end
-	assert(self.tCurrentUIs:size() == 0)
-	self.tCurrentUIs = Vector:new()
-end
-
--- @brief 通过UI名称移除UI
--- @param name UI名称
--- @param force 是否强制移除
-function UIContext:removeUIByName(name, force)
-	for key, ui in ipairs(self.tCurrentUIs) do
-		if ui.__cname == name then
-			ui:dismiss(force)
-			break
-		end
 	end
 end
 
 -- @brief 判断是否存在
--- @param cls 为字符串时,判断是否存在名称为xxx的UI,为table时则一一判断
-function UIContext:hasUI(cls)
-	if type(cls) == type("") then
-		cls = { cls }
-	end
+-- @param ui
+function UIContext:hasUI(ui)
+	return self:_getUIInfo(ui) ~= nil
+end
+
+-- @brief 销毁UI
+function UIContext:destroyUI(ui)
+	self:_destroyUIByInfo(self:_getUIInfo(ui))
+end
+
+-- @brief 销毁所有UI
+function UIContext:destroyAllUI()
+	local tmpVec = {}
 	for i = self.tCurrentUIs:size(), 1, -1 do
-		local ui = self.tCurrentUIs:at(i)
-		local classname = ui.__cname
-		if classname and G_Helper.findEleInTab(cls, classname) ~= nil then
-			return true
-		end
+		table.insert(tmpVec, self.tCurrentUIs:at(i))
 	end
-	return false
-end
-
--- @brief 入队UI缓存,进入此缓存后会自动弹出UI
-function UIContext:pushQueueUI(ui)
-	self.tCacheUIQueue:pushBack(ui)
-	self:checkQueueNext()
-end
-
--- @brief 检查UI队列
-function UIContext:checkQueueNext()
-	if not self.pCurQueueUI and self.tCacheUIQueue:size() > 0 then
-		self.pCurQueueUI = self.tCacheUIQueue:front()
-		self:pushUI(self.pCurQueueUI)
-
-		self.tCacheUIQueue:popFront()
+	for i = self.tWaitOpenUIs:size(), 1, -1 do
+		table.insert(tmpVec, self.tWaitOpenUIs:at(i))
 	end
-end
 
--- @brief 清理UI队列
-function UIContext:clearQueue()
-	self.tCacheUIQueue:clear()
-	self.tCacheUIQueue = Vector:new(true)
-	self.pCurQueueUI = nil
-end
+	self.tCurrentUIs = Vector:new()
+	self.tWaitOpenUIs = Vector:new()
 
--- @brief 通过名称获取UI
-function UIContext:getUIByName(name)
-	for i, ui in ipairs(self.tCurrentUIs) do
-		if ui.__cname == name then
-			return ui
-		end
+	for k, v in pairs(tmpVec) do
+		v:doDestroy()
 	end
+	self:_updateViewVisible()
 end
 
--- @brief通过标记获取UI
-function UIContext:getUIByTag(tag)
-	for i, ui in ipairs(self.tCurrentUIs) do
-		if ui:getTag() == tag then
-			return ui
-		end
-	end
+function UIContext:getCurUISize()
+	return self.tCurrentUIs:size()
 end
 
--- @brief 通过名称获取在UI队列的UI
-function UIContext:getUIFromQueueByName(name)
-	if not self.tCacheUIQueue then
+-------------------------------------------------------------  private  ------------------------------------------- ------------------
+
+
+function UIContext:_doOpenUI()
+	if self.tWaitOpenUIs:empty() then
 		return
 	end
 
-	for i, ui in ipairs(self.tCacheUIQueue) do
-		if ui.__cname == name then
-			return ui
+	-- 当前有UI正在打开
+	local size = self.tCurrentUIs:size()
+	if size > 0 and self.tCurrentUIs:back().state == UIState.OPENING then
+		return
+	end
+
+	local curInfo = self.tWaitOpenUIs:popFront()
+	local index = size + 1
+	for i = 1, size do
+		if self.tCurrentUIs:at(i).zorder > curInfo.zorder then
+			index = i
+			break
+		end
+	end
+	self.tCurrentUIs:insert(index, curInfo)
+
+	self:_updateUIMask()
+
+	curInfo:doOpen(function()
+		self:_updateUIVisible()
+		self:_updateViewVisible()
+		self:_doOpenUI()
+	end)
+end
+
+function UIContext:_destroyUIByInfo(uiInfo)
+	if uiInfo == nil then return end
+
+	uiInfo:doDestroy()
+
+	if self.tWaitOpenUIs:eraseObject(uiInfo) then
+		return
+	end
+
+	self.tCurrentUIs:eraseObject(uiInfo)
+	
+	self:_updateUIMask()
+	self:_updateUIVisible()
+	self:_updateViewVisible()
+
+	self:_doOpenUI()		
+end
+
+function UIContext:_getUIInfo(ui)
+	for key, info in ipairs(self.tCurrentUIs) do
+		if info:equal(ui) then
+			return info
+		end
+	end
+
+	for key, info in ipairs(self.tWaitOpenUIs) do
+		if info:equal(ui) then
+			return info
 		end
 	end
 end
 
-------------------------------------------- ------------------  private  ------------------------------------------- ------------------
--- @brief 
-function UIContext:pushUI(ui)
-	local unique = ui:getIsFullScreen()
+function UIContext:_ignore(curUIInfo, willCloseUIInfo)
+	return curUIInfo == willCloseUIInfo or curUIInfo.state >= UIState.CLOSING
+end
 
-	local parentNode = self.pDefaultRootNode
-	if parentNode == nil then
-		parentNode = cc.Director:getInstance():getRunningScene()
-	end
-	
-	parentNode:addChild(ui)
-	ui:setAnchorPoint(0.5, 0.5)
-	ui:setPosition(display.cx, display.cy)
-	
-	-- 独占模式
-	if unique then
-		ui.__cache_unique_tag = true
-		local curWindow
-		for i = self.tCurrentUIs:size(), 1, -1 do
-			curWindow = self.tCurrentUIs:at(i)
-			-- 判断该UI可以被优化并且此UI的Zorder值小于要独占的UI
-			if curWindow:getCanOptimize() and curWindow:getLocalZOrder() <= ui:getLocalZOrder() then
-				curWindow:setVisible(false)
+function UIContext:_updateUIMask()
+	local size = self.tCurrentUIs:size()
+	if size <= 0 then return end
+
+	local hasMask = false
+	for i = size, 1, -1 do
+		local uiInfo = self.tCurrentUIs:at(i)
+
+		if uiInfo.state ~= UIState.DESTROYED then
+			if hasMask then
+				uiInfo:showMask(false)
+			else
+				if uiInfo.ui:getHasMask() then
+					uiInfo:showMask(true)
+					hasMask = true
+				else
+					uiInfo:showMask(false)
+				end
 			end
 		end
 	end
-
-	-- 获取当前最顶层的UI并隐藏它的黑色遮罩层
-	local topWindow = self:getTopUI()
-	if topWindow and topWindow:isShowMask() then
-		topWindow:hideMask()
-	end
-
-	-- UI入队
-	self.tCurrentUIs:pushBack(ui)
-	G_SysEventEmitter:emit(SysEvent.UI_SHOW_START, ui, unique)
 end
 
--- @brief UI显示完毕
-function UIContext:uiShowFinish(ui)
-	G_SysEventEmitter:emit(SysEvent.UI_SHOW_FINISH, ui, ui.__cache_unique_tag)
-end
+function UIContext:_updateUIVisible(willCloseUIInfo)
+	local size = self.tCurrentUIs:size()
+	if size <= 0 then return end
 
--- @brief 移除某个UI,Window内部调用,不要手动调用
-function UIContext:removeUI_(ui)
-	local bIsQueWindow = ui == self.pCurQueueUI
-	local unique = ui.__cache_unique_tag
+	for i = size, 1, -1 do
+		local uiInfo = self.tCurrentUIs:at(i)
 
-	if not self.tCurrentUIs:eraseObject(ui) then
-		return
-	end
+		if self:_ignore(uiInfo, willCloseUIInfo) then
+			-- ignore
+		else
+			uiInfo:show()
 
-	G_SysEventEmitter:emit(SysEvent.UI_DISMISS, ui, unique)
-	ui:removeFromParent()
-
-	-- 独占模式
-	if unique then
-		for i = self.tCurrentUIs:size(), 1, -1 do
-			ui = self.tCurrentUIs:at(i)
-			ui:setVisible(true)
-			if ui.__cache_unique_tag then
+			-- 隐藏全屏UI之下的其他UI
+			if uiInfo.ui:getIsFullScreen() then
+				for j = i - 1, 1, -1  do
+					self.tCurrentUIs:at(j):hide()
+				end
+				break
+			elseif uiInfo.unique then
+				for j = i - 1, 1, -1  do
+					uiInfo = self.tCurrentUIs:at(j)
+					if uiInfo.ui:getIsFullScreen() then
+						if self:_ignore(uiInfo, willCloseUIInfo) then
+							-- ignore
+						else
+							for k = j - 1, 1, -1  do
+								self.tCurrentUIs:at(k):hide()
+							end
+							break
+						end
+					else
+						if uiInfo.ui:getCanOptimize() then
+							uiInfo:hide()
+						else					
+							uiInfo:show()
+						end
+					end
+				end
 				break
 			end
 		end
 	end
+end
 
-	-- 恢复之前UI的遮罩显示
-	ui = self:getTopUI()
-	if ui and ui:isShowMask() then
-		ui:showMask()
+function UIContext:_updateViewVisible(willCloseUIInfo)
+	local show = true
+
+	for i = 1, self.tCurrentUIs:size() do
+		local uiInfo = self.tCurrentUIs:at(i)
+		if not self:_ignore(uiInfo, willCloseUIInfo) and uiInfo.ui:getIsFullScreen() then
+			show = false
+		end
 	end
 
-	if bIsQueWindow then
-		self.pCurQueueUI = nil
-		self:checkQueueNext()
-	end
+	G_SysEventEmitter:emit(SysEvent.UPDATE_VIEW_VISIBLE, show)
 end
 
 return UIContext

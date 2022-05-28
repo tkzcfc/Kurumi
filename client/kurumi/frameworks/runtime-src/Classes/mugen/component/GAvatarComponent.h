@@ -17,7 +17,7 @@ public:
 
 	virtual void onAdd() override;
 
-	virtual void onUpdate() override;
+	virtual void renderUpdate(float dt) override;
 
 public:
 

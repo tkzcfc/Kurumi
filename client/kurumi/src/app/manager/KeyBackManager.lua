@@ -9,7 +9,10 @@ function KeyBackManager:override_onInit()
 
 	G_SysEventEmitter:on(SysEvent.ON_KEY_BACK_CLICK, function()
 		-- 弹出窗口截取返回事件
-		if G_UIManager:popUI() then return end
+		if G_UIManager:getCurUISize() > 0 then
+			G_UIManager:popTopUI()
+			return
+		end
 
         if not _MyG.ViewManager:isAsyncLoad() then
     		-- 运行的场景接收返回事件

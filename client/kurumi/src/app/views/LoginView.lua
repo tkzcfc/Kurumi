@@ -35,6 +35,22 @@ function LoginView:onClickStart(sender)
     end
 
     _MyG.LoginManager:requestLogin(account, pasword)
+
+    -- local box = require("app.ui.general.UIMessageBox").new()
+    -- box:setEnableDrag(true)
+    -- box:showOneButton("I an 11111111111111 Box", function()
+    --     local ui = require("app.ui.test.RichTest").new():show()
+        
+    --     local close = require("app.ui.general.UIMessageBox").new()
+    --     close:setEnableDrag(true)
+    --     close:showOneButton("I an 22222222222 Box", function()
+    --         if tolua.isnull(ui) then
+    --             close:dismiss()
+    --         end
+    --     end)
+    --     close:show(true)
+    -- end)
+    -- box:show()
 end
 
 function LoginView:onExit()

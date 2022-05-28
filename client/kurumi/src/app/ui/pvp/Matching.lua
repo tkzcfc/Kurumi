@@ -8,43 +8,45 @@ function Matching:ctor()
 	Matching.super.ctor(self)
 
 	self:loadUILua("ccs.ui.pvp.UI_Matching")
-
     self:initUI()
 
-    self.matchingTag = false
+    self.matchingTag = true
     _MyG.FightManager:requestStartPvP(0)
 end
 
 function Matching:initUI()
     self.ui.Text_Status:setString("匹配中...")
+
+    self:setUICloseCondition(function()
+        if self.matchingTag then
+            UIUtils:showTwoBtnMsgBox("是否结束匹配", function()
+                _MyG.NetManager:sendToGame(MessageID.MSG_STOP_PVP_REQ, {})
+            end)
+            return false
+        end
+
+        return true
+    end)
 end
 
 function Matching:initNetEvent()
     self:onNetMsg(MessageID.MSG_START_PVP_ACK, function(msg)
         if msg.code == errCode.PVP_MATCH_SUC then
             self.ui.Text_Status:setString("匹配成功")
-            self.matchingTag = true
+            self.matchingTag = false
         else
             self.ui.Text_Status:setString("匹配中...")
         end
+    end)
+
+    self:onNetMsg(MessageID.MSG_STOP_PVP_ACK, function(msg)
+        self.matchingTag = false
+        self:dismiss()
     end)
 end
 
 function Matching:onClickBack(sender)
 	self:dismiss()
-end
-
--- @brief 关闭UI
--- @param force 是否强制关闭
-function Matching:dismiss(force)
-    if self.matchingTag then
-        Matching.super.dismiss(self, force)
-        return
-    end
-
-    UIUtils:showTwoBtnMsgBox("是否结束匹配", function()
-        Matching.super.dismiss(self, force)
-    end)
 end
 
 return Matching

@@ -170,7 +170,7 @@ function LoginManager:onLoginGateAck(msg)
             _MyG.ViewManager:clear()
             _MyG.ViewManager:runView(require("app.views.LoginView").new())            
         end
-        G_UIManager:removeAllUI()
+        G_UIManager:destroyAllUI()
     end
 end
 

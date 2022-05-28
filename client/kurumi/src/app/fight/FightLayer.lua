@@ -6,7 +6,7 @@ local FightLayer = class("FightLayer", G_Class.SuperNode)
 
 propertyReadOnly(FightLayer, "iSelfRoleId")
 
-local logic_interval = 1 / 40
+local logic_interval = 1 / 30
 
 function FightLayer:ctor()
     self:enableNodeEvents()
@@ -38,13 +38,13 @@ function FightLayer:ctor()
     self.roleId_EntityIdMap = {}
 
     self.iLogicCount = 0
-    if not self.isOfflineMode then
-        -- 打印一秒之内执行的逻辑帧数
-        self:schedule(function()
-            print("logic fps", self.iLogicCount)
-            self.iLogicCount = 0
-        end, 1)
-    end
+    -- if not self.isOfflineMode then
+    --     -- 打印一秒之内执行的逻辑帧数
+    --     self:schedule(function()
+    --         print("logic fps", self.iLogicCount)
+    --         self.iLogicCount = 0
+    --     end, 1)
+    -- end
 end
 
 function FightLayer:onEnter()
@@ -189,6 +189,8 @@ function FightLayer:initGameWorld()
         G_SysEventEmitter:emit(SysEvent.FIGHT_INIT_FAIL)
         return
     end
+
+    self.pGameWorld:enableDebugDraw(true)
 
     -- 将玩家加入游戏世界中
     for k, v in pairs(self.roleDatas) do

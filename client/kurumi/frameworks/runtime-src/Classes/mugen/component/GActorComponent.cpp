@@ -19,6 +19,7 @@ GActorComponent::GActorComponent()
 	lastKeyDown = curKeyDown = G_KEY_NONE;
 
 	m_jumpHeight = 0.0f;
+	m_logicElapsed = 0.0f;
 }
 
 GActorComponent::~GActorComponent()
@@ -103,6 +104,16 @@ void GActorComponent::addSkill(GSkill* skill)
 
 void GActorComponent::onUpdate()
 {
+	m_logicElapsed += LogicInterval;
+	while (m_logicElapsed >= AnimationInterval)
+	{
+		m_logicElapsed -= AnimationInterval;
+		step();
+	}
+}
+
+void GActorComponent::step()
+{
 	m_flags = 0;
 
 	if (m_curSkill == NULL || m_curSkill->step())
@@ -130,6 +141,7 @@ void GActorComponent::doSkillEx(int32_t id)
 	{
 		m_curSkill = pSkill;
 		m_curSkill->reset();
+		CCLOG("run skill: %s", m_curSkill->getName().c_str());
 	}
 }
 
@@ -158,7 +170,7 @@ void GActorComponent::doSkill(int32_t id)
 // 按键按下
 void GActorComponent::onKeyDown(G_BIT_TYPE key)
 {
-	//G_LOG("onKeyDown:%d", key);
+	G_LOG("onKeyDown:%d", key);
 	switch (key)
 	{
 	case G_KEY_MOVE_LEFT:
@@ -189,7 +201,7 @@ void GActorComponent::onKeepPress(G_BIT_TYPE key)
 // 按键抬起
 void GActorComponent::onKeyUp(G_BIT_TYPE key)
 {
-	//G_LOG("onKeyUp:%d", key);
+	G_LOG("onKeyUp:%d", key);
 }
 
 // 判断按键是否按下
@@ -219,6 +231,17 @@ void GActorComponent::setPosition(const fixedPoint& posx, const fixedPoint& posy
 	m_logicPos.y = posy;
 	this->transform.p.x = m_logicPos.x;
 	this->transform.p.y = m_logicPos.y + m_jumpHeight;
+}
+
+// 是否在空中
+bool GActorComponent::isInAir()
+{
+	return m_jumpHeight > 0.0f;
+}
+
+bool GActorComponent::isLeft() 
+{
+	return m_orientation == GActorOrientation::LEFT;
 }
 
 void GActorComponent::updateTransform()

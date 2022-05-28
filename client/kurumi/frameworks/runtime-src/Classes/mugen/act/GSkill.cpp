@@ -14,7 +14,7 @@ GSkill::GSkill()
 	, m_actorComponent(NULL)
 	, m_id(-1)
 	, m_actionDelegate(NULL)
-	, m_interrupt(GInterruptType::NONE)
+	, m_interrupt(GInterruptType::NONE_INTERRUPT)
 {
 	m_track = new GTrack();
 	m_track->setSkill(this);
@@ -174,7 +174,7 @@ bool GSkill::step()
 		{
 			if (it->check())
 			{
-				this->interrupt(GInterruptType::PROMPTLY);
+				this->interrupt(it->getInterruptType());
 				this->m_actorComponent->setNextSkillId(it->getNextSkillId());
 				break;
 			}
@@ -198,7 +198,7 @@ void GSkill::onEnter()
 {
 	m_curFrame = 0;
 	m_curLoopCount = 0;
-	m_interrupt = GInterruptType::NONE;
+	m_interrupt = GInterruptType::NONE_INTERRUPT;
 
 	m_curAction = NULL;
 	m_curActionIdx = 0;
@@ -210,7 +210,7 @@ void GSkill::onExit()
 {
 	m_curFrame = 0;
 	m_curLoopCount = 0;
-	m_interrupt = GInterruptType::NONE;
+	m_interrupt = GInterruptType::NONE_INTERRUPT;
 
 	m_curAction = NULL;
 	m_curActionIdx = 0;

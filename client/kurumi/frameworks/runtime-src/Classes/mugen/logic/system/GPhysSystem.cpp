@@ -46,20 +46,46 @@ void GPhysSystem::step()
 		// Apply damping
 		b->linearVelocity *= one / (one + dt * b->linearDamping);
 		
-		GFixedVec3 df = b->linearVelocity + b->offsetOneFrame;
+		GFixedVec3 df = b->linearVelocity;
 		df = df * dt;
 
+		df += b->offsetOneFrame;
 		b->offsetOneFrame.setZero();
 		
-		// Penetration correction
-		if (!df.x.isZero() && !collision(b, df.x, 0.0f))
+		//// Penetration correction
+		//if (!df.x.isZero() && !collision(b, df.x, true))
+		//{
+		//	b->position.x += df.x;
+		//}
+		//if (!df.z.isZero() && !collision(b, df.z, false))
+		//{
+		//	b->position.z += df.z;
+		//}
+
+		// 直接使用map 范围来约束
+		b->position.x += df.x;
+		b->position.z += df.z;
+		if (b->position.x < m_mapMin.x)
 		{
-			b->position.x += df.x;
+			b->position.x = m_mapMin.x;
+			b->linearVelocity.x.setZero();
 		}
-		if (!df.z.isZero() && !collision(b, 0.0f, df.z))
+		if (b->position.x > m_mapMax.x - b->size.x)
 		{
-			b->position.z += df.z;
+			b->position.x = m_mapMax.x - b->size.x;
+			b->linearVelocity.x.setZero();
 		}
+		if (b->position.z < m_mapMin.y)
+		{
+			b->position.z = m_mapMin.y;
+			b->linearVelocity.z.setZero();
+		}
+		if (b->position.z > m_mapMax.y - b->size.z)
+		{
+			b->position.z = m_mapMax.y - b->size.z;
+			b->linearVelocity.z.setZero();
+		}
+
 
 		b->position.y += df.y;
 		if (b->position.y < 0.0f)
@@ -73,49 +99,95 @@ void GPhysSystem::step()
 	}
 }
 
-bool GPhysSystem::collision(GRigidBodyComponent* component, const fixedPoint& dx, const fixedPoint& dz)
+
+/*
+ * 另一种方式：分轴测试
+ * 原理：http://noonat.github.io/intersect/    
+ * 代码：https://github.com/noonat/intersect/blob/master/src/intersect.ts intersectAABB方法,这种就不会发生错位现象但计算量更大
+ * 现在实现类似于分轴测试的思想，由外部传入isx判断测试轴，暂时没有出现由于精度问题发生的错位现象
+*/
+
+bool GPhysSystem::collision(GRigidBodyComponent* component, const fixedPoint& offset, bool isx)
 {
-	auto minx = component->position.x + dx;
+	bool negative = offset < 0.0f;
+
+	auto minx = component->position.x;
 	auto maxx = minx + component->size.x;
-	auto minz = component->position.z + dz;
-	auto maxz = minz + dz + component->size.z;
+	auto minz = component->position.z;
+	auto maxz = minz + component->size.z;
+
+	/// 解决快速移动穿透问题 begin ///
+	if (isx)
+	{
+		// offset < 0
+		if (negative)
+			minx += offset;
+		else
+			maxx += offset;
+	}
+	else
+	{
+		// offset < 0
+		if (negative)
+			minz += offset;
+		else
+			maxz += offset;
+	}
+	/// 解决快速移动穿透问题 end ///
 
 	bool mark = false;
 	for (auto& it : m_static_bodies)
 	{
-		if (minx < it->position.x + it->size.x &&  it->position.x < maxx &&
-			minz < it->position.z + it->size.z && it->position.z < maxz)
+		const auto& x = it->position.x;
+		const auto& z = it->position.z;
+
+		bool test = maxx <= x || x + it->size.x <= minx || maxz <= z || z + it->size.z <= minz;
+		if (false == test)
 		{
+			if (isx)
+			{
+				// offset < 0
+				if (negative)
+				{
+					component->position.x = it->position.x + it->size.x;
+					component->linearVelocity.x.setZero();
+				}
+				else
+				{
+					component->position.x = it->position.x - component->size.x;
+					component->linearVelocity.x.setZero();
+				}
+			}
+			else
+			{
+				// offset < 0
+				if (negative)
+				{
+					component->position.z = it->position.z + it->size.z;
+					component->linearVelocity.z.setZero();
+				}
+				else
+				{
+					component->position.z = it->position.z - component->size.z;
+					component->linearVelocity.z.setZero();
+				}
+			}
 			mark = true;
-			if (dz < 0.0f)
-			{
-				component->position.z = it->position.z + it->size.z;
-				component->linearVelocity.z.setZero();
-			}
-			else if (dz > 0.0f)
-			{
-				component->position.z = it->position.z - component->size.z;
-				component->linearVelocity.z.setZero();
-			}
-			else if (dx < 0.0f)
-			{
-				component->position.x = it->position.x + it->size.x;
-				component->linearVelocity.x.setZero();
-			}
-			else if (dx > 0.0f)
-			{
-				component->position.x = it->position.x - component->size.x;
-				component->linearVelocity.x.setZero();
-			}
-			break;
 		}
 	}
+
 	return mark;
 }
 
 void GPhysSystem::debugDraw()
 {	
 	auto drawNode = GGameWorld::getInstance()->getMapLayer()->getDrawNode();
+
+	Vec2 origin(m_mapMin.x.to_float() * PHYSICS_PIXEL_TO_METER, m_mapMin.y.to_float() * PHYSICS_PIXEL_TO_METER);
+	Vec2 destination(m_mapMax.x.to_float() * PHYSICS_PIXEL_TO_METER, m_mapMax.y.to_float() * PHYSICS_PIXEL_TO_METER);
+	Color4F color = Color4F::MAGENTA;
+	color.a = 0.3f;
+	drawNode->drawSolidRect(origin, destination, color);
 
 	for (auto it : m_static_bodies)
 	{
@@ -171,6 +243,12 @@ void GPhysSystem::debugDraw()
 			drawNode->drawRect(origin, destination, Color4F(0.0f, 0.8f, 0.0f, 0.4));
 		}
 	}
+}
+
+void GPhysSystem::setMapBox(const GFixedVec2& min, const GFixedVec2& max)
+{
+	m_mapMin = min;
+	m_mapMax = max;
 }
 
 NS_G_END

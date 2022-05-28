@@ -80,7 +80,7 @@ function MapWindow:onClickSelectMap(sender)
             roleId = _MyG.AccountInfo.roleinfo.roleId
         }
     }
-    _MyG.FightManager:requestStartPvE(sender.mapIndex, roles, true)
+    _MyG.FightManager:requestStartPvE(sender.mapIndex, roles, false)
 end
 
 function MapWindow:onClickBack(sender)

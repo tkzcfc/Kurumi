@@ -112,19 +112,15 @@ end
 
 -- @brief 向游戏服发送消息
 function NetManager:sendToGame(msgID, msg)
-	local info = manifest.CMD[msgID]
-	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgID] then
-		print("send msg:", info.name, msgID)
-		print_lua_value(msg)
-		print("----------------------------")
-	end
-
-	local data = pb.encode(info.msg, msg)
-	self.client:sendMsg(GAME_SESSION_ID, msgID, data, str_len(data))
+	self:sendMessage(GAME_SESSION_ID, msgID, msg)
 end
 
 -- @brief 向战斗服发送消息
 function NetManager:sendToFight(msgID, msg)
+	self:sendMessage(FIGHT_SESSION_ID, msgID, msg)
+end
+
+function NetManager:sendMessage(sessionID, msgID, msg)
 	local info = manifest.CMD[msgID]
 	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgID] then
 		print("send msg:", info.name, msgID)
@@ -132,8 +128,13 @@ function NetManager:sendToFight(msgID, msg)
 		print("----------------------------")
 	end
 
+	-- 特殊处理下Null消息
+	if info.msg == "msg.Null" then
+		msg = { code = 1 }
+	end
+
 	local data = pb.encode(info.msg, msg)
-	self.client:sendMsg(FIGHT_SESSION_ID, msgID, data, str_len(data))
+	self.client:sendMsg(sessionID, msgID, data, str_len(data))
 end
 
 -- @brief 连接结果回调

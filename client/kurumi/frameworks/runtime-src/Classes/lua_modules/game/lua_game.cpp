@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 02/06/22 11:33:21.
+** Generated automatically by tolua++-1.0.92 on 05/28/22 21:14:42.
 */
 
 #ifndef __cplusplus
@@ -22,6 +22,7 @@ USING_NS_G;
 #include "mugen/GGameDef.h"
 #include "mugen/component/GAvatarComponent.h"
 #include "mugen/component/GActorComponent.h"
+#include "mugen/component/GDataComponent.h"
 #include "mugen/act/condition/GScriptCondition.h"
 #include "mugen/act/frame/GScriptFrame.h"
 #include "foundation/GTools.h"
@@ -39,6 +40,13 @@ static int tolua_collect_std__vector_GChannel__ (lua_State* tolua_S)
 static int tolua_collect_GAvatarComponent (lua_State* tolua_S)
 {
  GAvatarComponent* self = (GAvatarComponent*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
+static int tolua_collect_Vec2 (lua_State* tolua_S)
+{
+ Vec2* self = (Vec2*) tolua_tousertype(tolua_S,1,0);
     Mtolua_delete(self);
     return 0;
 }
@@ -76,30 +84,36 @@ static int tolua_collect_std__vector_GTimeline__ (lua_State* tolua_S)
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)
 {
+ tolua_usertype(tolua_S,"GTools");
  tolua_usertype(tolua_S,"GFixedVec3");
  tolua_usertype(tolua_S,"GComponent");
+ tolua_usertype(tolua_S,"Vec2");
+ tolua_usertype(tolua_S,"GAction");
+ tolua_usertype(tolua_S,"GActorComponent");
+ tolua_usertype(tolua_S,"GChannel");
  tolua_usertype(tolua_S,"GSkill");
+ tolua_usertype(tolua_S,"GMapLayer");
  tolua_usertype(tolua_S,"cc.Ref");
  tolua_usertype(tolua_S,"GScriptFrame");
- tolua_usertype(tolua_S,"GTools");
- tolua_usertype(tolua_S,"GActorComponent");
- tolua_usertype(tolua_S,"GEntity");
- tolua_usertype(tolua_S,"GTimeline");
  tolua_usertype(tolua_S,"std::vector<GTimeline*>");
- tolua_usertype(tolua_S,"GAction");
  tolua_usertype(tolua_S,"std::vector<GAction*>");
- tolua_usertype(tolua_S,"GTrack");
- tolua_usertype(tolua_S,"CCNetClient");
  tolua_usertype(tolua_S,"GCondition");
+ tolua_usertype(tolua_S,"GTimeline");
+ tolua_usertype(tolua_S,"GVirtualCamera");
+ tolua_usertype(tolua_S,"GFixedVec2");
+ tolua_usertype(tolua_S,"GRigidBodyComponent");
+ tolua_usertype(tolua_S,"GTrack");
  tolua_usertype(tolua_S,"GGameWorld");
+ tolua_usertype(tolua_S,"GEntity");
+ tolua_usertype(tolua_S,"GScriptCondition");
  tolua_usertype(tolua_S,"std::vector<GFrame*>");
  tolua_usertype(tolua_S,"GEventFrame");
  tolua_usertype(tolua_S,"std::vector<GChannel*>");
  tolua_usertype(tolua_S,"GFrame");
- tolua_usertype(tolua_S,"GChannel");
  tolua_usertype(tolua_S,"GAvatarComponent");
+ tolua_usertype(tolua_S,"CCNetClient");
  tolua_usertype(tolua_S,"LUA_FUNCTION");
- tolua_usertype(tolua_S,"GScriptCondition");
+ tolua_usertype(tolua_S,"GDataComponent");
  tolua_usertype(tolua_S,"cc.Node");
  tolua_usertype(tolua_S,"net_uv::Session");
 }
@@ -571,6 +585,272 @@ static int tolua_game_NetClient_registerLuaHandle00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setPosition of class  GVirtualCamera */
+#ifndef TOLUA_DISABLE_tolua_game_GVirtualCamera_setPosition00
+static int tolua_game_GVirtualCamera_setPosition00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GVirtualCamera",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"Vec2",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GVirtualCamera* self = (GVirtualCamera*)  tolua_tousertype(tolua_S,1,0);
+  Vec2 pos = (  tolua_ext_luaval_to_vec2_value(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setPosition'", NULL);
+#endif
+  {
+   self->setPosition(pos);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setZoom of class  GVirtualCamera */
+#ifndef TOLUA_DISABLE_tolua_game_GVirtualCamera_setZoom00
+static int tolua_game_GVirtualCamera_setZoom00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GVirtualCamera",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GVirtualCamera* self = (GVirtualCamera*)  tolua_tousertype(tolua_S,1,0);
+  float zoom = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setZoom'", NULL);
+#endif
+  {
+   self->setZoom(zoom);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setZoom'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setAnchorPoint of class  GVirtualCamera */
+#ifndef TOLUA_DISABLE_tolua_game_GVirtualCamera_setAnchorPoint00
+static int tolua_game_GVirtualCamera_setAnchorPoint00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GVirtualCamera",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"Vec2",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GVirtualCamera* self = (GVirtualCamera*)  tolua_tousertype(tolua_S,1,0);
+  Vec2 pos = (  tolua_ext_luaval_to_vec2_value(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setAnchorPoint'", NULL);
+#endif
+  {
+   self->setAnchorPoint(pos);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setAnchorPoint'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: validPosition of class  GVirtualCamera */
+#ifndef TOLUA_DISABLE_tolua_game_GVirtualCamera_validPosition00
+static int tolua_game_GVirtualCamera_validPosition00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GVirtualCamera",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"Vec2",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GVirtualCamera* self = (GVirtualCamera*)  tolua_tousertype(tolua_S,1,0);
+  Vec2 pos = (  tolua_ext_luaval_to_vec2_value(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'validPosition'", NULL);
+#endif
+  {
+   Vec2 tolua_ret = (Vec2)  self->validPosition(pos);
+   {
+   tolua_ext_vec2_value_to_luaval(tolua_S, tolua_ret, "Vec2");
+   }
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'validPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setCameraBoundingBox of class  GVirtualCamera */
+#ifndef TOLUA_DISABLE_tolua_game_GVirtualCamera_setCameraBoundingBox00
+static int tolua_game_GVirtualCamera_setCameraBoundingBox00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GVirtualCamera",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"Vec2",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_is_table(tolua_S,3,"Vec2",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GVirtualCamera* self = (GVirtualCamera*)  tolua_tousertype(tolua_S,1,0);
+  Vec2 min = (  tolua_ext_luaval_to_vec2_value(tolua_S,2,0));
+  Vec2 max = (  tolua_ext_luaval_to_vec2_value(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setCameraBoundingBox'", NULL);
+#endif
+  {
+   self->setCameraBoundingBox(min,max);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setCameraBoundingBox'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getActorNode of class  GMapLayer */
+#ifndef TOLUA_DISABLE_tolua_game_GMapLayer_getActorNode00
+static int tolua_game_GMapLayer_getActorNode00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GMapLayer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GMapLayer* self = (GMapLayer*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getActorNode'", NULL);
+#endif
+  {
+   Node* tolua_ret = (Node*)  self->getActorNode();
+    tolua_ext_object_to_luaval<Node>(tolua_S,(void*)tolua_ret,"cc.Node");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getActorNode'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getRootNode of class  GMapLayer */
+#ifndef TOLUA_DISABLE_tolua_game_GMapLayer_getRootNode00
+static int tolua_game_GMapLayer_getRootNode00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GMapLayer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GMapLayer* self = (GMapLayer*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getRootNode'", NULL);
+#endif
+  {
+   Node* tolua_ret = (Node*)  self->getRootNode();
+    tolua_ext_object_to_luaval<Node>(tolua_S,(void*)tolua_ret,"cc.Node");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getRootNode'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getVirtualCamera of class  GMapLayer */
+#ifndef TOLUA_DISABLE_tolua_game_GMapLayer_getVirtualCamera00
+static int tolua_game_GMapLayer_getVirtualCamera00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GMapLayer",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GMapLayer* self = (GMapLayer*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getVirtualCamera'", NULL);
+#endif
+  {
+   GVirtualCamera* tolua_ret = (GVirtualCamera*)  self->getVirtualCamera();
+    tolua_ext_object_to_luaval<GVirtualCamera>(tolua_S,(void*)tolua_ret,"GVirtualCamera");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getVirtualCamera'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: delete of class  GGameWorld */
 #ifndef TOLUA_DISABLE_tolua_game_GGameWorld_delete00
 static int tolua_game_GGameWorld_delete00(lua_State* tolua_S)
@@ -773,7 +1053,8 @@ static int tolua_game_GGameWorld_spwanActor00(lua_State* tolua_S)
      !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
      !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
      (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_ext_check_is_table(tolua_S,3,"GFixedVec3",0,&tolua_err)) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_iscppstring(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -782,11 +1063,12 @@ static int tolua_game_GGameWorld_spwanActor00(lua_State* tolua_S)
   GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
   std::string filename = ((std::string)  tolua_tocppstring(tolua_S,2,0));
   GFixedVec3 pos = (  tolua_ext_luaval_to_fvec3_value(tolua_S,3,0));
+  std::string replaceArmatureFile = ((std::string)  tolua_tocppstring(tolua_S,4,0));
 #if COCOS2D_DEBUG >= 1
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'spwanActor'", NULL);
 #endif
   {
-   GEntity* tolua_ret = (GEntity*)  self->spwanActor(filename,pos);
+   GEntity* tolua_ret = (GEntity*)  self->spwanActor(filename,pos,replaceArmatureFile);
     tolua_ext_object_to_luaval<GEntity>(tolua_S,(void*)tolua_ret,"GEntity");
   }
  }
@@ -867,6 +1149,71 @@ static int tolua_game_GGameWorld_setScheduler00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getLocalPlayer of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_getLocalPlayer00
+static int tolua_game_GGameWorld_getLocalPlayer00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getLocalPlayer'", NULL);
+#endif
+  {
+   GEntity* tolua_ret = (GEntity*)  self->getLocalPlayer();
+    tolua_ext_object_to_luaval<GEntity>(tolua_S,(void*)tolua_ret,"GEntity");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getLocalPlayer'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setLocalPlayer of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_setLocalPlayer00
+static int tolua_game_GGameWorld_setLocalPlayer00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"GEntity",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+  GEntity* entity = ((GEntity*)  tolua_tousertype(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setLocalPlayer'", NULL);
+#endif
+  {
+   self->setLocalPlayer(entity);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setLocalPlayer'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: registerLuaHandle of class  GGameWorld */
 #ifndef TOLUA_DISABLE_tolua_game_GGameWorld_registerLuaHandle00
 static int tolua_game_GGameWorld_registerLuaHandle00(lua_State* tolua_S)
@@ -897,6 +1244,38 @@ static int tolua_game_GGameWorld_registerLuaHandle00(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'registerLuaHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getMapLayer of class  GGameWorld */
+#ifndef TOLUA_DISABLE_tolua_game_GGameWorld_getMapLayer00
+static int tolua_game_GGameWorld_getMapLayer00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GGameWorld",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GGameWorld* self = (GGameWorld*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getMapLayer'", NULL);
+#endif
+  {
+   GMapLayer* tolua_ret = (GMapLayer*)  self->getMapLayer();
+    tolua_ext_object_to_luaval<GMapLayer>(tolua_S,(void*)tolua_ret,"GMapLayer");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getMapLayer'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1474,6 +1853,38 @@ static int tolua_game_GActorComponent_getSkill00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getCurSkill of class  GActorComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GActorComponent_getCurSkill00
+static int tolua_game_GActorComponent_getCurSkill00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GActorComponent",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GActorComponent* self = (GActorComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getCurSkill'", NULL);
+#endif
+  {
+   GSkill* tolua_ret = (GSkill*)  self->getCurSkill();
+    tolua_ext_object_to_luaval<GSkill>(tolua_S,(void*)tolua_ret,"GSkill");
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getCurSkill'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: doSkill of class  GActorComponent */
 #ifndef TOLUA_DISABLE_tolua_game_GActorComponent_doSkill00
 static int tolua_game_GActorComponent_doSkill00(lua_State* tolua_S)
@@ -1571,6 +1982,354 @@ static int tolua_game_GActorComponent_setPosition00(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'setPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isInAir of class  GActorComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GActorComponent_isInAir00
+static int tolua_game_GActorComponent_isInAir00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GActorComponent",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GActorComponent* self = (GActorComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isInAir'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isInAir();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isInAir'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isLeft of class  GActorComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GActorComponent_isLeft00
+static int tolua_game_GActorComponent_isLeft00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GActorComponent",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GActorComponent* self = (GActorComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isLeft'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isLeft();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isLeft'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: moveSpeed of class  GDataComponent */
+#ifndef TOLUA_DISABLE_tolua_get_GDataComponent_moveSpeed
+static int tolua_get_GDataComponent_moveSpeed(lua_State* tolua_S)
+{
+  GDataComponent* self = (GDataComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'moveSpeed'",NULL);
+#endif
+   tolua_ext_fvec2_value_to_luaval(tolua_S,self->moveSpeed,"GFixedVec2");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: moveSpeed of class  GDataComponent */
+#ifndef TOLUA_DISABLE_tolua_set_GDataComponent_moveSpeed
+static int tolua_set_GDataComponent_moveSpeed(lua_State* tolua_S)
+{
+  GDataComponent* self = (GDataComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'moveSpeed'",NULL);
+  if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec2",0,&tolua_err)))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->moveSpeed = (  tolua_ext_luaval_to_fvec2_value(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: force of class  GDataComponent */
+#ifndef TOLUA_DISABLE_tolua_get_GDataComponent_force
+static int tolua_get_GDataComponent_force(lua_State* tolua_S)
+{
+  GDataComponent* self = (GDataComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'force'",NULL);
+#endif
+   tolua_ext_fvec3_value_to_luaval(tolua_S,self->force,"GFixedVec3");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: force of class  GDataComponent */
+#ifndef TOLUA_DISABLE_tolua_set_GDataComponent_force
+static int tolua_set_GDataComponent_force(lua_State* tolua_S)
+{
+  GDataComponent* self = (GDataComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'force'",NULL);
+  if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec3",0,&tolua_err)))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->force = (  tolua_ext_luaval_to_fvec3_value(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: impulse of class  GDataComponent */
+#ifndef TOLUA_DISABLE_tolua_get_GDataComponent_impulse
+static int tolua_get_GDataComponent_impulse(lua_State* tolua_S)
+{
+  GDataComponent* self = (GDataComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'impulse'",NULL);
+#endif
+   tolua_ext_fvec3_value_to_luaval(tolua_S,self->impulse,"GFixedVec3");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: impulse of class  GDataComponent */
+#ifndef TOLUA_DISABLE_tolua_set_GDataComponent_impulse
+static int tolua_set_GDataComponent_impulse(lua_State* tolua_S)
+{
+  GDataComponent* self = (GDataComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'impulse'",NULL);
+  if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec3",0,&tolua_err)))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->impulse = (  tolua_ext_luaval_to_fvec3_value(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: linearVelocity of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_get_GRigidBodyComponent_linearVelocity
+static int tolua_get_GRigidBodyComponent_linearVelocity(lua_State* tolua_S)
+{
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'linearVelocity'",NULL);
+#endif
+   tolua_ext_fvec3_value_to_luaval(tolua_S,self->linearVelocity,"GFixedVec3");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: linearVelocity of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_set_GRigidBodyComponent_linearVelocity
+static int tolua_set_GRigidBodyComponent_linearVelocity(lua_State* tolua_S)
+{
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'linearVelocity'",NULL);
+  if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec3",0,&tolua_err)))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->linearVelocity = (  tolua_ext_luaval_to_fvec3_value(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: force of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_get_GRigidBodyComponent_force
+static int tolua_get_GRigidBodyComponent_force(lua_State* tolua_S)
+{
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'force'",NULL);
+#endif
+   tolua_ext_fvec3_value_to_luaval(tolua_S,self->force,"GFixedVec3");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: force of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_set_GRigidBodyComponent_force
+static int tolua_set_GRigidBodyComponent_force(lua_State* tolua_S)
+{
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'force'",NULL);
+  if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec3",0,&tolua_err)))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->force = (  tolua_ext_luaval_to_fvec3_value(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: setMass of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GRigidBodyComponent_setMass00
+static int tolua_game_GRigidBodyComponent_setMass00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GRigidBodyComponent",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+  float mass = ((float)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setMass'", NULL);
+#endif
+  {
+   self->setMass(mass);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setMass'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: appendOffsetOneSecond of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GRigidBodyComponent_appendOffsetOneSecond00
+static int tolua_game_GRigidBodyComponent_appendOffsetOneSecond00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GRigidBodyComponent",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'appendOffsetOneSecond'", NULL);
+#endif
+  {
+   self->appendOffsetOneSecond(x,y);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'appendOffsetOneSecond'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: applyForce of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GRigidBodyComponent_applyForce00
+static int tolua_game_GRigidBodyComponent_applyForce00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GRigidBodyComponent",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec3",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+  GFixedVec3 f = (  tolua_ext_luaval_to_fvec3_value(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'applyForce'", NULL);
+#endif
+  {
+   self->applyForce(f);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'applyForce'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: applyImpulse of class  GRigidBodyComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GRigidBodyComponent_applyImpulse00
+static int tolua_game_GRigidBodyComponent_applyImpulse00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GRigidBodyComponent",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_ext_check_is_table(tolua_S,2,"GFixedVec3",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GRigidBodyComponent* self = (GRigidBodyComponent*)  tolua_tousertype(tolua_S,1,0);
+  GFixedVec3 impulse = (  tolua_ext_luaval_to_fvec3_value(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'applyImpulse'", NULL);
+#endif
+  {
+   self->applyImpulse(impulse);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'applyImpulse'.",&tolua_err);
  return 0;
 #endif
 }
@@ -2934,6 +3693,199 @@ static int tolua_game_GScriptFrame_getArgStr00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getElapsed of class  GAction */
+#ifndef TOLUA_DISABLE_tolua_game_GAction_getElapsed00
+static int tolua_game_GAction_getElapsed00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GAction",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GAction* self = (GAction*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getElapsed'", NULL);
+#endif
+  {
+    int tolua_ret = (  int)  self->getElapsed();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getElapsed'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getFrameLength of class  GAction */
+#ifndef TOLUA_DISABLE_tolua_game_GAction_getFrameLength00
+static int tolua_game_GAction_getFrameLength00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GAction",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GAction* self = (GAction*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getFrameLength'", NULL);
+#endif
+  {
+    int tolua_ret = (  int)  self->getFrameLength();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getFrameLength'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: interrupt of class  GAction */
+#ifndef TOLUA_DISABLE_tolua_game_GAction_interrupt00
+static int tolua_game_GAction_interrupt00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GAction",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GAction* self = (GAction*)  tolua_tousertype(tolua_S,1,0);
+  int type = ((int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'interrupt'", NULL);
+#endif
+  {
+   self->interrupt((GInterruptType)type);
+  }
+ }
+ return 0;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'interrupt'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getCurLoopCount of class  GAction */
+#ifndef TOLUA_DISABLE_tolua_game_GAction_getCurLoopCount00
+static int tolua_game_GAction_getCurLoopCount00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GAction",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GAction* self = (GAction*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getCurLoopCount'", NULL);
+#endif
+  {
+    int tolua_ret = (  int)  self->getCurLoopCount();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getCurLoopCount'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getName of class  GAction */
+#ifndef TOLUA_DISABLE_tolua_game_GAction_getName00
+static int tolua_game_GAction_getName00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GAction",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GAction* self = (GAction*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getName'", NULL);
+#endif
+  {
+   std::string tolua_ret = (std::string)  self->getName();
+   tolua_pushcppstring(tolua_S,tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getName'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getCurFrame of class  GAction */
+#ifndef TOLUA_DISABLE_tolua_game_GAction_getCurFrame00
+static int tolua_game_GAction_getCurFrame00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GAction",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GAction* self = (GAction*)  tolua_tousertype(tolua_S,1,0);
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getCurFrame'", NULL);
+#endif
+  {
+    int tolua_ret = (  int)  self->getCurFrame();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getCurFrame'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: isInRect of class  GTools */
 #ifndef TOLUA_DISABLE_tolua_game_GTools_isInRect00
 static int tolua_game_GTools_isInRect00(lua_State* tolua_S)
@@ -3286,6 +4238,20 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"closeClient",tolua_game_NetClient_closeClient00);
    tolua_function(tolua_S,"registerLuaHandle",tolua_game_NetClient_registerLuaHandle00);
   tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"GVirtualCamera","GVirtualCamera","",NULL);
+  tolua_beginmodule(tolua_S,"GVirtualCamera");
+   tolua_function(tolua_S,"setPosition",tolua_game_GVirtualCamera_setPosition00);
+   tolua_function(tolua_S,"setZoom",tolua_game_GVirtualCamera_setZoom00);
+   tolua_function(tolua_S,"setAnchorPoint",tolua_game_GVirtualCamera_setAnchorPoint00);
+   tolua_function(tolua_S,"validPosition",tolua_game_GVirtualCamera_validPosition00);
+   tolua_function(tolua_S,"setCameraBoundingBox",tolua_game_GVirtualCamera_setCameraBoundingBox00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"GMapLayer","GMapLayer","cc.Node",NULL);
+  tolua_beginmodule(tolua_S,"GMapLayer");
+   tolua_function(tolua_S,"getActorNode",tolua_game_GMapLayer_getActorNode00);
+   tolua_function(tolua_S,"getRootNode",tolua_game_GMapLayer_getRootNode00);
+   tolua_function(tolua_S,"getVirtualCamera",tolua_game_GMapLayer_getVirtualCamera00);
+  tolua_endmodule(tolua_S);
   #ifdef __cplusplus
   tolua_cclass(tolua_S,"GGameWorld","GGameWorld","",tolua_collect_GGameWorld);
   #else
@@ -3301,7 +4267,10 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"spwanActor",tolua_game_GGameWorld_spwanActor00);
    tolua_function(tolua_S,"enableDebugDraw",tolua_game_GGameWorld_enableDebugDraw00);
    tolua_function(tolua_S,"setScheduler",tolua_game_GGameWorld_setScheduler00);
+   tolua_function(tolua_S,"getLocalPlayer",tolua_game_GGameWorld_getLocalPlayer00);
+   tolua_function(tolua_S,"setLocalPlayer",tolua_game_GGameWorld_setLocalPlayer00);
    tolua_function(tolua_S,"registerLuaHandle",tolua_game_GGameWorld_registerLuaHandle00);
+   tolua_function(tolua_S,"getMapLayer",tolua_game_GGameWorld_getMapLayer00);
    tolua_function(tolua_S,"getGameLogicFrame",tolua_game_GGameWorld_getGameLogicFrame00);
   tolua_endmodule(tolua_S);
   tolua_module(tolua_S,"slot",1);
@@ -3352,9 +4321,27 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
   tolua_cclass(tolua_S,"GActorComponent","GActorComponent","GComponent",NULL);
   tolua_beginmodule(tolua_S,"GActorComponent");
    tolua_function(tolua_S,"getSkill",tolua_game_GActorComponent_getSkill00);
+   tolua_function(tolua_S,"getCurSkill",tolua_game_GActorComponent_getCurSkill00);
    tolua_function(tolua_S,"doSkill",tolua_game_GActorComponent_doSkill00);
    tolua_function(tolua_S,"isKeyDown",tolua_game_GActorComponent_isKeyDown00);
    tolua_function(tolua_S,"setPosition",tolua_game_GActorComponent_setPosition00);
+   tolua_function(tolua_S,"isInAir",tolua_game_GActorComponent_isInAir00);
+   tolua_function(tolua_S,"isLeft",tolua_game_GActorComponent_isLeft00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"GDataComponent","GDataComponent","GComponent",NULL);
+  tolua_beginmodule(tolua_S,"GDataComponent");
+   tolua_variable(tolua_S,"moveSpeed",tolua_get_GDataComponent_moveSpeed,tolua_set_GDataComponent_moveSpeed);
+   tolua_variable(tolua_S,"force",tolua_get_GDataComponent_force,tolua_set_GDataComponent_force);
+   tolua_variable(tolua_S,"impulse",tolua_get_GDataComponent_impulse,tolua_set_GDataComponent_impulse);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"GRigidBodyComponent","GRigidBodyComponent","GComponent",NULL);
+  tolua_beginmodule(tolua_S,"GRigidBodyComponent");
+   tolua_variable(tolua_S,"linearVelocity",tolua_get_GRigidBodyComponent_linearVelocity,tolua_set_GRigidBodyComponent_linearVelocity);
+   tolua_variable(tolua_S,"force",tolua_get_GRigidBodyComponent_force,tolua_set_GRigidBodyComponent_force);
+   tolua_function(tolua_S,"setMass",tolua_game_GRigidBodyComponent_setMass00);
+   tolua_function(tolua_S,"appendOffsetOneSecond",tolua_game_GRigidBodyComponent_appendOffsetOneSecond00);
+   tolua_function(tolua_S,"applyForce",tolua_game_GRigidBodyComponent_applyForce00);
+   tolua_function(tolua_S,"applyImpulse",tolua_game_GRigidBodyComponent_applyImpulse00);
   tolua_endmodule(tolua_S);
   tolua_module(tolua_S,"CheckType",0);
   tolua_beginmodule(tolua_S,"CheckType");
@@ -3429,6 +4416,21 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
   tolua_cclass(tolua_S,"GScriptFrame","GScriptFrame","GEventFrame",NULL);
   tolua_beginmodule(tolua_S,"GScriptFrame");
    tolua_function(tolua_S,"getArgStr",tolua_game_GScriptFrame_getArgStr00);
+  tolua_endmodule(tolua_S);
+  tolua_module(tolua_S,"GInterruptType",0);
+  tolua_beginmodule(tolua_S,"GInterruptType");
+   tolua_constant(tolua_S,"DELAY",GInterruptType::DELAY);
+   tolua_constant(tolua_S,"PROMPTLY",GInterruptType::PROMPTLY);
+   tolua_constant(tolua_S,"NONE_INTERRUPT",GInterruptType::NONE_INTERRUPT);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"GAction","GAction","",NULL);
+  tolua_beginmodule(tolua_S,"GAction");
+   tolua_function(tolua_S,"getElapsed",tolua_game_GAction_getElapsed00);
+   tolua_function(tolua_S,"getFrameLength",tolua_game_GAction_getFrameLength00);
+   tolua_function(tolua_S,"interrupt",tolua_game_GAction_interrupt00);
+   tolua_function(tolua_S,"getCurLoopCount",tolua_game_GAction_getCurLoopCount00);
+   tolua_function(tolua_S,"getName",tolua_game_GAction_getName00);
+   tolua_function(tolua_S,"getCurFrame",tolua_game_GAction_getCurFrame00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"GTools","GTools","",NULL);
   tolua_beginmodule(tolua_S,"GTools");

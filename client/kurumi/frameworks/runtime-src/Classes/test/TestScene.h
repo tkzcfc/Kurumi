@@ -18,7 +18,7 @@ public:
 
 	virtual bool init() override;
 
-	virtual void update(float dt) override;
+	void logicUpdate(float dt);
 
 private:
 

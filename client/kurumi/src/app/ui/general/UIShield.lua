@@ -9,8 +9,8 @@ function UIShield:ctor()
 
     -- 不自动关闭
     self:setAutoDismiss(false)
-    self:setPlayOpenAction(false)
-    self:setPlayCloseAction(false)
+    self:setOpenActionType(UIActionType.NO_ACTION)
+    self:setCloseActionType(UIActionType.NO_ACTION)
     self:eternal()
     self:setCanOptimize(true)
 end

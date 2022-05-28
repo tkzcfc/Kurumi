@@ -10,10 +10,10 @@ local SysEvent = enum {
     "UI_WILL_CLOSE",    -- UI即将关闭通知
     "UI_AFTER_CLOSED",  -- UI关闭完毕通知
 
+    "UI_WILL_DESTROY",  -- UI被销毁
+
     -- UIManager派发的事件
-    "UI_SHOW_START",    -- UI加入UIManager中
-    "UI_SHOW_FINISH",   -- UI显示完成（播放打开动画完毕）
-    "UI_DISMISS",       -- UI被销毁(从UIManager中移除)
+    "UPDATE_VIEW_VISIBLE",-- 更新view的显示/隐藏状态
 
     -- 系统事件
     "ON_GAME_WILL_EXIT", -- 游戏即将退出

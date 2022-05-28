@@ -28,6 +28,11 @@ void GRigidBodyComponent::appendOffset(const fixedPoint& x, const fixedPoint& y)
 	offsetOneFrame.z += y;
 }
 
+void GRigidBodyComponent::appendOffsetOneSecond(const fixedPoint& x, const fixedPoint& y)
+{
+	this->appendOffset(x * LogicInterval, y * LogicInterval);
+}
+
 void GRigidBodyComponent::setBox(const GFixedVec3& origin, const GFixedVec3& size, const GFixedVec3& anchor)
 {
 	G_LOG("size %f - %f - %f", size.x.to_float(), size.y.to_float(), size.z.to_float());

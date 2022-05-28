@@ -108,9 +108,9 @@ function ViewManager:pushBackView(view)
 	self.viewStack:pushBack(view)
 	
 	local loader = G_Class.LoadAsync.new()
-	view:onAsyncLoad(loader)
-
-	if loader:getPipe():getTaskCount() == 0 then
+	
+	-- 没有可加载的资源
+	if not view:onAsyncLoad(loader) then
 		view:onLoadView()
 		return
 	end

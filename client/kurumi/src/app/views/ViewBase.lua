@@ -8,8 +8,6 @@ local ViewBase = class("ViewBase", G_Class.SuperNode)
 property(ViewBase, "pUIRoot")
 
 function ViewBase:ctor()
-    self.iFullWindowCount = 0
-
     -- UI根节点
     self.pUIRoot = cc.Node:create()
     self:addChild(self.pUIRoot, 0xFFFFFF)
@@ -51,22 +49,16 @@ function ViewBase:onSysMsg(msgID, call, priority)
 end
 
 function ViewBase:onEnter()
-    self:onSysMsg(SysEvent.UI_SHOW_FINISH, function(window, unique)
-        if not unique then return end
-        if self ~= _MyG.ViewManager:getCurView() then return end
+    self:onSysMsg(SysEvent.UPDATE_VIEW_VISIBLE, function(show)
+        local hide = not show
 
-        self.iFullWindowCount = self.iFullWindowCount + 1
-        if self.iFullWindowCount == 1 then
-            self:onHideNodes()
+        if self.bCurIsHide == hide then
+            return
         end
-    end)
-
-    self:onSysMsg(SysEvent.UI_DISMISS, function(window, unique)
-        if not unique then return end
-        if self ~= _MyG.ViewManager:getCurView() then return end
-
-        self.iFullWindowCount = self.iFullWindowCount - 1
-        if self.iFullWindowCount == 0 then
+        self.bCurIsHide = hide
+        if hide then
+            self:onHideNodes()
+        else
             self:onShowNodes()
         end
     end)
@@ -87,12 +79,16 @@ end
 
 -- @brief 优化操作,隐藏场景子节点
 function ViewBase:onHideNodes()
+    if self.ui == nil then return end
     self.ui.root:setVisible(false)
+    -- print("hide me------------>>>")
 end
 
 -- @brief 优化操作,显示场景子节点
 function ViewBase:onShowNodes()
+    if self.ui == nil then return end
     self.ui.root:setVisible(true)
+    -- print("show me------------>>>")
 end
 
 return ViewBase

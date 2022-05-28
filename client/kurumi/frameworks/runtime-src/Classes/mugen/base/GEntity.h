@@ -22,7 +22,7 @@ public:
 
 	void update();
 
-	//void lastUpdate();
+	void renderUpdate(float dt);
 
 private:
 

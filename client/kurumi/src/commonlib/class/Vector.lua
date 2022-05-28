@@ -60,14 +60,16 @@ function Vector:popFront()
 	if self.needRetain then
 		release(self[1])
 	end
-	table.remove(self, 1)
+	return table.remove(self, 1)
 end
 
 function Vector:popBack()
 	if self.needRetain then
 		release(self[self:size()])
 	end
+	local tmp = self[self:size()]
 	self[self:size()] = nil
+	return tmp
 end
 
 function Vector:clear()
@@ -124,3 +126,4 @@ function Vector:eraseObject(obj)
 end
 
 return Vector
+

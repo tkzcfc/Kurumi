@@ -1,0 +1,36 @@
+
+
+// 中断类型
+namespace GInterruptType {
+ enum {
+		DELAY, // 延迟中断等待本次循环执行完毕
+		PROMPTLY, // 立即中断
+
+		NONE_INTERRUPT,	// 不中断
+	}
+}
+
+
+typedef int int32_t;
+
+class GAction
+{
+public:
+
+
+	int32_t getElapsed();
+
+	int32_t getFrameLength();
+
+	// @brief 中断
+	void interrupt(int type);
+
+private:
+
+	int32_t getCurLoopCount();
+		
+	
+	std::string getName();
+	
+	int32_t getCurFrame();
+};

@@ -179,6 +179,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	FileUtils::getInstance()->addSearchPath("res/");
 	FileUtils::getInstance()->addSearchPath("src/");
 
+
 	//Director::getInstance()->runWithScene(TestScene::createScene());
 	Director::getInstance()->runWithScene(TestScene1::createScene());
 	Director::getInstance()->setDisplayStats(true);

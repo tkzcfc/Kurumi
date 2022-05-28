@@ -8,6 +8,8 @@ local FightManager = class("FightManager", import(".BaseManager"))
 property(FightManager, "tWorldInfo")
 -- 当前运行到第几帧
 property(FightManager, "iLogicFrame", 0)
+-- ping值
+propertyReadOnly(FightManager, "iPing", 0)
 
 -- @brief 初始化调用
 function FightManager:override_onInit()
@@ -33,6 +35,7 @@ end
 -- @param 进入副本的玩家信息
 -- @param offlineMode 是否离线模式
 function FightManager:requestStartPvE(carbonId, roles, offlineMode)
+    -- offlineMode = false
     self:clearFightInfo()
     self:showShieldLayer()
     _MyG.NetManager:sendToGame(MessageID.MSG_START_PVE_REQ, {
@@ -177,6 +180,8 @@ function FightManager:onPing(msg)
     _MyG.NetManager:sendToFight(MessageID.MSG_PING_ACK, {
         timestamp = msg.timestamp
     })
+
+    self.iPing = msg.ping
 end
 
 -- @brief 战斗服连接成功
@@ -235,7 +240,7 @@ end
 
 -- @brief 隐藏屏蔽层
 function FightManager:hideShieldLayer()
-    G_UIManager:removeUIByName("UIShield", true)
+    G_UIManager:destroyUI("UIShield")
 end
 
 -- @brief 当前在战斗界面?

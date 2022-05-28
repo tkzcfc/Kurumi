@@ -71,30 +71,40 @@ void GEntityManager::update()
 
 	if (!m_deadEntities.empty())
 	{
-		for (auto ptr : m_deadEntities)
-		{
-			for (auto it = m_entities.begin(); it != m_entities.end(); ++it)
-			{
-				if (*it == ptr)
-				{
-					m_entities.erase(it);
-					break;
-				}
-			}
-
-			delete ptr;
-		}
-		m_deadEntities.clear();
+		removeDeath();
 	}
 }
 
-//void GEntityManager::lastUpdate()
-//{
-//	for (auto& it : m_entities)
-//	{
-//		it->lastUpdate();
-//	}
-//}
+void GEntityManager::renderUpdate(float dt)
+{
+	for (auto& it : m_entities)
+	{
+		it->renderUpdate(dt);
+	}
+
+	if (!m_deadEntities.empty())
+	{
+		removeDeath();
+	}
+}
+
+void GEntityManager::removeDeath()
+{
+	for (auto ptr : m_deadEntities)
+	{
+		for (auto it = m_entities.begin(); it != m_entities.end(); ++it)
+		{
+			if (*it == ptr)
+			{
+				m_entities.erase(it);
+				break;
+			}
+		}
+
+		delete ptr;
+	}
+	m_deadEntities.clear();
+}
 
 void GEntityManager::getAllComponent(const std::string& name, std::vector<GComponent*>& components)
 {

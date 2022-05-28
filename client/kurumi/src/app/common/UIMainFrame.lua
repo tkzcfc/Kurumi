@@ -18,6 +18,11 @@ local function UIMainFrameOpenAction(window, call)
 
 	local maskLayer = _MyG.GameScene:getMaskLayer()
 
+	window:eventOn(SysEvent.UI_WILL_DESTROY, function()
+		maskLayer:stopAllActions()
+		maskLayer:setVisible(false)
+	end, window)
+
     window:setVisible(false)
     maskLayer:setVisible(true)
     maskLayer:stopAllActions()
@@ -44,15 +49,18 @@ local function UIMainFrameCloseAction(window, call)
 
 	local maskLayer = _MyG.GameScene:getMaskLayer()
 
+	window:eventOn(SysEvent.UI_WILL_DESTROY, function()
+		maskLayer:stopAllActions()
+		maskLayer:setVisible(false)
+	end, window)
+
     maskLayer:setVisible(true)
     maskLayer:stopAllActions()
     maskLayer:setOpacity(0)
 
     local action = cc.Sequence:create(
     	cc.FadeIn:create(FADE_OUT_TIME_1),
-    	cc.CallFunc:create(function()
-    		call()
-    	end),
+    	cc.CallFunc:create(call),
     	cc.FadeOut:create(FADE_OUT_TIME_2),
     	cc.Hide:create()
     )
@@ -64,9 +72,8 @@ function UIMainFrame:ctor()
 	UIMainFrame.super.ctor(self)
 
 	self:setAutoDismiss(false)
-	self:setPlayOpenAction(true)
-	self:setPlayCloseAction(true)
 	self:setIsFullScreen(true)
+	self:setHasMask(false)
 
 	self:setOpenActionCall(UIMainFrameOpenAction)
 	self:setCloseActionCall(UIMainFrameCloseAction)

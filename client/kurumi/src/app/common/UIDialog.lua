@@ -8,8 +8,6 @@ function UIDialog:ctor()
 	UIDialog.super.ctor(self)
 
 	self:setAutoDismiss(true)
-	self:setPlayOpenAction(true)
-	self:setPlayCloseAction(true)
 end
 
 return UIDialog

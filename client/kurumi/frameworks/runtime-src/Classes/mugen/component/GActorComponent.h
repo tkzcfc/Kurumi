@@ -52,7 +52,15 @@ public:
 	// 设置坐标
 	void setPosition(const fixedPoint& posx, const fixedPoint& posy);
 
+	// 是否在空中
+	bool isInAir();
+
+	// 是否朝向坐标
+	bool isLeft();
+
 private:
+
+	void step();
 
 	void doSkillEx(int32_t id);
 
@@ -68,6 +76,8 @@ private:
 	G_SYNTHESIZE(GActorOrientation, m_orientation, Orientation);
 	G_SYNTHESIZE_READONLY_BY_REF(GFixedVec2, m_logicPos, LogicPos);
 	G_SYNTHESIZE_READONLY_BY_REF(fixedPoint, m_jumpHeight, JumpHeight);
+
+	fixedPoint m_logicElapsed;
 
 public:
 

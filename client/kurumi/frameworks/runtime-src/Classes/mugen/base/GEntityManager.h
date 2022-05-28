@@ -34,7 +34,7 @@ public:
 
 	void update();
 
-	//void lastUpdate();
+	void renderUpdate(float dt);
 
 	void getAllComponent(const std::string& name, std::vector<GComponent*>& components);
 
@@ -43,6 +43,8 @@ public:
 private:
 
 	void push(GEntity* pEntity);
+
+	void removeDeath();
 
 private:
 		

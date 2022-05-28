@@ -21,7 +21,7 @@ public:
 
 	virtual void onUpdate() {}
 
-	//virtual void onLastUpdate() {}
+	virtual void renderUpdate(float dt) {};
 
 	virtual const char* name() = 0;
 

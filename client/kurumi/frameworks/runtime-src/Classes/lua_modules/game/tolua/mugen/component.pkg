@@ -1,5 +1,6 @@
 $#include "mugen/component/GAvatarComponent.h"
 $#include "mugen/component/GActorComponent.h"
+$#include "mugen/component/GDataComponent.h"
 
 typedef unsigned int uint32_t;
 typedef int int32_t;
@@ -59,12 +60,18 @@ class GActorComponent : public GComponent
 {
 	GSkill* getSkill(int32_t id);
 	
+	GSkill* getCurSkill();
+	
 	void doSkill(int32_t id);
 	
 	// 判断按键是否按下
 	bool isKeyDown(G_BIT_TYPE key);
 	
 	void setPosition(float posx, float posy);
+	
+	bool isInAir();
+	
+	bool isLeft();
 };
 
 class GDataComponent : public GComponent
@@ -78,6 +85,31 @@ class GDataComponent : public GComponent
 	GFixedVec3 impulse;
 };
 
+
+
+class GRigidBodyComponent : public GComponent
+{
+	// 线性速度
+	GFixedVec3 linearVelocity;
+	
+	// 当前力
+	GFixedVec3 force;
+	
+
+	// 质量设置
+	void setMass(float mass);
+
+	// 增加偏移量
+	//void appendOffset(float x, float y);
+
+	void appendOffsetOneSecond(float x, float y);
+
+	// 力施加
+	void applyForce(GFixedVec3 f);
+
+	// 冲力施加
+	void applyImpulse(GFixedVec3 impulse);
+};
 
 
 

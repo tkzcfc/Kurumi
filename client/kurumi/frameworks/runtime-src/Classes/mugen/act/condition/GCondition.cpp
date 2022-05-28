@@ -19,7 +19,7 @@ bool GCondition::doCheck()
 	if (curFrame < m_beginFrame)
 		return false;
 
-	if (m_frameLen >= 0 && curFrame > m_beginFrame + m_frameLen)
+	if (m_frameLen > 0 && curFrame > m_beginFrame + m_frameLen)
 		return false;
 
 	return check();

@@ -23,6 +23,7 @@ function InputLayer:ctor()
 
     self:initTouch()
     self:initKeyboard()
+    self:initPing()
 
     self:enableNodeEvents()
 end
@@ -182,6 +183,12 @@ function InputLayer:initKeyboard()
     cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self) 
 end
 
+function InputLayer:initPing()
+	self:schedule(function()
+		local ping = _MyG.FightManager:getPing()
+		self.ui.Text_Ping:setString(string.format("Ping:%d", ping))
+	end, 0.5)
+end
 
 
 function InputLayer:onClickChangeWeapon(sender)

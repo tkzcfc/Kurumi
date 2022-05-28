@@ -33,7 +33,7 @@ public:
 
 	void input(uint32_t entityId, uint32_t frame, G_BIT_TYPE keydown);
 	
-	GEntity* spwanActor(const std::string& filename, const GFixedVec3& pos);
+	GEntity* spwanActor(const std::string& filename, const GFixedVec3& pos, const std::string& replaceArmatureFile = "");
 
 	// 设置启用debug draw
 	void enableDebugDraw(bool enable);
@@ -71,6 +71,9 @@ private:
 	G_SYNTHESIZE_READONLY(fixedPoint, m_fAccumilatedTime, AccumilatedTime);
 	// 游戏逻辑帧数
 	G_SYNTHESIZE_READONLY(uint32_t, m_gameLogicFrame, GameLogicFrame);
+
+	// 本地玩家对象
+	G_SYNTHESIZE(GEntity*, m_localPlayer, LocalPlayer);
 
 	bool m_enableDebugDraw;
 	

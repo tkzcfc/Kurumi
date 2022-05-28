@@ -12,12 +12,12 @@ public:
 };
 
 // 中断类型
-enum class GInterruptType
+enum GInterruptType
 {
 	DELAY, // 延迟中断等待本次循环执行完毕
 	PROMPTLY, // 立即中断
 
-	NONE,	// 不中断
+	NONE_INTERRUPT,	// 不中断
 };
 
 class GAction : public GObject

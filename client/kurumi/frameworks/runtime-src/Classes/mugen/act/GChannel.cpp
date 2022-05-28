@@ -27,7 +27,7 @@ bool GChannel::check()
 
 	for (auto it : m_conditions)
 	{
-		if (!it->check())
+		if (!it->doCheck())
 			return false;
 	}
 

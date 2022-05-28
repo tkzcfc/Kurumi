@@ -6,7 +6,7 @@ USING_NS_CC;
 
 NS_G_BEGIN
 
-class GVirtualCamera : public cocos2d::Component
+class GVirtualCamera
 {
 public:
 
@@ -42,8 +42,6 @@ public:
 	void setEnableCollision(bool enable);
 	bool isEnableCollision();
 	
-	void forceUpdate();
-
 	void setCall(const std::function<void(float, float, float)>& call)
 	{
 		m_call = call;
@@ -51,13 +49,9 @@ public:
 
 public:
 
-	virtual bool init()override;
+	virtual bool init();
 
-	virtual void update(float delta)override;
-
-	virtual void onAdd()override;
-
-	virtual void onRemove()override;
+	virtual void doUpdate(float delta);
 
 public:
 	// 摄像机坐标

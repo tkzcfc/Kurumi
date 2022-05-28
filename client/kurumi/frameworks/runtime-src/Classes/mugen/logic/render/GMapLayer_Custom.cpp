@@ -17,6 +17,7 @@ GMapLayer_Custom::GMapLayer_Custom()
 
 GMapLayer_Custom::~GMapLayer_Custom()
 {
+	CC_SAFE_DELETE(m_camera);
 }
 
 GMapLayer_Custom * GMapLayer_Custom::create(int mapId)
@@ -182,7 +183,6 @@ bool GMapLayer_Custom::initWithMapID(int mapId)
 	});
 	m_camera->setWorldSize(m_mapSize);
 	m_camera->setEnableCollision(true);
-	this->addComponent(m_camera);
 
 	this->setViewSize(Director::getInstance()->getVisibleSize());
 

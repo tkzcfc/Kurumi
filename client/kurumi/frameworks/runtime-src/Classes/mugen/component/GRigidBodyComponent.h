@@ -21,6 +21,8 @@ public:
 	// 增加偏移量
 	void appendOffset(const fixedPoint& x, const fixedPoint& y);
 
+	void appendOffsetOneSecond(const fixedPoint& x, const fixedPoint& y);
+
 	// 力施加
 	void applyForce(const GFixedVec3& f);
 

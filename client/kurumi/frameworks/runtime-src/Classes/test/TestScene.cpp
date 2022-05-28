@@ -46,7 +46,7 @@ bool TestScene::init()
 		return false;
 	}
 
-	this->scheduleUpdate();
+	this->schedule(CC_SCHEDULE_SELECTOR(TestScene::logicUpdate), LogicInterval.to_float());
 
 	m_player = m_pWorld->getEntityManager()->newEntity();
 
@@ -187,7 +187,7 @@ bool TestScene::init()
 static float movex_force = 300.0f / PHYSICS_PIXEL_TO_METER;
 static float movez_force = 300.0f / PHYSICS_PIXEL_TO_METER;
 
-void TestScene::update(float dt)
+void TestScene::logicUpdate(float dt)
 {
 	m_pWorld->step();
 

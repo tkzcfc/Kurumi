@@ -10,7 +10,6 @@ local M = {}
 
 -- @brief 触发函数
 function M:emit()
-	return false
 end
 
 return M

@@ -9,11 +9,6 @@
 #include "mugen/component/GCollisionComponent.h"
 #include "mugen/component/GDataComponent.h"
 
-
-//// json
-//#include "json/document.h"
-//#include "json/stringbuffer.h"
-
 NS_G_BEGIN
 
 GGameWorld* GGameWorld::sGameWorldInstance = NULL;
@@ -38,8 +33,12 @@ GGameWorld::GGameWorld()
 	: m_pRootNode(NULL)
 	, m_pMapLayer(NULL)
 	, m_pRandom(NULL)
+	, m_localPlayer(NULL)
 	, m_enableDebugDraw(false)
 {
+	m_gameLogicFrame = 0;
+	m_fAccumilatedTime = 0.0f;
+
 	m_pEntityManager = GEntityManager::getInstance();
 	m_pEntityManager->clear();
 
@@ -48,6 +47,7 @@ GGameWorld::GGameWorld()
 	m_pScheduler = new Scheduler();
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("rect_collide.plist");
+	Director::getInstance()->setAnimationInterval(LogicInterval.to_float());
 }
 
 GGameWorld::~GGameWorld()
@@ -90,36 +90,39 @@ bool GGameWorld::initMapInfo(int32_t mapId)
 	fixedPoint mapWidth = m_pMapLayer->getMapWidth();
 	fixedPoint mapHeight = m_pMapLayer->getMapHeight();
 
-	fixedPoint space = 0.0f;
-	fixedPoint h_height = mapHeight - space * 2.0f;
-	fixedPoint v_width = mapWidth - space * 2.0f;
-	
-	//  left
-	{
-		auto pComponent = new GRigidBodyComponent();
-		pComponent->setStaticBox(GFixedVec2(space, 0.0f), GFixedVec2(10.0f, h_height), GFixedVec2(1.0f, 0.0f));
-		m_pEntityManager->newEntity()->addComponent(pComponent);
-	}
-	// right
-	{
-		auto pComponent = new GRigidBodyComponent();
-		pComponent->setStaticBox(GFixedVec2(mapWidth - space, 0.0f), GFixedVec2(10.0f, h_height), GFixedVec2(0.0f, 0.0f));
-		m_pEntityManager->newEntity()->addComponent(pComponent);
-	}
+	m_physSystem.setMapBox(GFixedVec2(0.0f, m_pMapLayer->getMinPosY() / PHYSICS_PIXEL_TO_METER), GFixedVec2(mapWidth / PHYSICS_PIXEL_TO_METER, m_pMapLayer->getMaxPosY() / PHYSICS_PIXEL_TO_METER));
 
-	// top
-	{
-		
-		auto pComponent = new GRigidBodyComponent();
-		pComponent->setStaticBox(GFixedVec2(space, m_pMapLayer->getMaxPosY()), GFixedVec2(v_width, 10.0f), GFixedVec2(0.0f, 0.0f));
-		m_pEntityManager->newEntity()->addComponent(pComponent);
-	}
-	// bottom
-	{
-		auto pComponent = new GRigidBodyComponent();
-		pComponent->setStaticBox(GFixedVec2(space, m_pMapLayer->getMinPosY()), GFixedVec2(v_width, 10.0f), GFixedVec2(0.0f, 1.0f));
-		m_pEntityManager->newEntity()->addComponent(pComponent);
-	}
+
+	//fixedPoint space = 0.0f;
+	//fixedPoint h_height = mapHeight - space * 2.0f;
+	//fixedPoint v_width = mapWidth - space * 2.0f;
+	//
+	////  left
+	//{
+	//	auto pComponent = new GRigidBodyComponent();
+	//	pComponent->setStaticBox(GFixedVec2(space, 0.0f), GFixedVec2(10.0f, h_height), GFixedVec2(1.0f, 0.0f));
+	//	m_pEntityManager->newEntity()->addComponent(pComponent);
+	//}
+	//// right
+	//{
+	//	auto pComponent = new GRigidBodyComponent();
+	//	pComponent->setStaticBox(GFixedVec2(mapWidth - space, 0.0f), GFixedVec2(10.0f, h_height), GFixedVec2(0.0f, 0.0f));
+	//	m_pEntityManager->newEntity()->addComponent(pComponent);
+	//}
+
+	//// top
+	//{
+	//	
+	//	auto pComponent = new GRigidBodyComponent();
+	//	pComponent->setStaticBox(GFixedVec2(space, m_pMapLayer->getMaxPosY()), GFixedVec2(v_width, 10.0f), GFixedVec2(0.0f, 0.0f));
+	//	m_pEntityManager->newEntity()->addComponent(pComponent);
+	//}
+	//// bottom
+	//{
+	//	auto pComponent = new GRigidBodyComponent();
+	//	pComponent->setStaticBox(GFixedVec2(space, m_pMapLayer->getMinPosY()), GFixedVec2(v_width, 10.0f), GFixedVec2(0.0f, 1.0f));
+	//	m_pEntityManager->newEntity()->addComponent(pComponent);
+	//}
 
 
 	return true;
@@ -127,37 +130,45 @@ bool GGameWorld::initMapInfo(int32_t mapId)
 
 void GGameWorld::step()
 {
-#if G_DEBUG
-	m_pMapLayer->getDrawNode()->clear();
-#endif
-
-	m_fAccumilatedTime += LogicInterval;
-	m_gameLogicFrame++;
+	// 输入更新
+	m_inputSystem.step();
 
 	// 物理更新
 	m_physSystem.step();
-#if G_DEBUG
-	if (m_enableDebugDraw)
-		m_physSystem.debugDraw();
-#endif
 
 	// 碰撞更新
 	m_collisionSystem.step();
-
-	// 输入更新
-	m_inputSystem.step();
 
 	// 逻辑更新 update
 	m_pEntityManager->update();
 
 
-	// 逻辑更新 lastUpdate
-	//m_pEntityManager->lastUpdate();
+	m_fAccumilatedTime += LogicInterval;
+	// 必须放在最后，不然Input系统更新的逻辑帧数对不上输入消息的帧数
+	m_gameLogicFrame++;
+
+
+	if (m_localPlayer)
+	{
+		auto& pos = G_GetComponent(m_localPlayer, GActorComponent)->transform.p;
+		auto camera = getMapLayer()->getVirtualCamera();
+		camera->setPosition(Vec2(pos.x.to_float(), pos.y.to_float()));
+	}
 }
 
 void GGameWorld::render(float dt)
 {
+#if G_DEBUG
+	m_pMapLayer->getDrawNode()->clear();
+
+	if (m_enableDebugDraw)
+		m_physSystem.debugDraw();
+#endif
+
 	m_pScheduler->update(dt);
+	m_pEntityManager->renderUpdate(dt);
+
+	m_pMapLayer->getVirtualCamera()->doUpdate(dt);
 }
 
 void GGameWorld::input(uint32_t entityId, uint32_t frame, G_BIT_TYPE keydown)
@@ -165,7 +176,7 @@ void GGameWorld::input(uint32_t entityId, uint32_t frame, G_BIT_TYPE keydown)
 	m_inputSystem.getOPMsgQue()->addMsg<GOPMsg>(frame, entityId, keydown);
 }
 
-GEntity* GGameWorld::spwanActor(const std::string& filename, const GFixedVec3& pos)
+GEntity* GGameWorld::spwanActor(const std::string& filename, const GFixedVec3& pos, const std::string& replaceArmatureFile)
 {
 	auto data = cocos2d::FileUtils::getInstance()->getDataFromFile(filename);
 	if (data.getSize() <= 0)
@@ -185,6 +196,11 @@ GEntity* GGameWorld::spwanActor(const std::string& filename, const GFixedVec3& p
 	{
 		G_BREAK_IF(!pActorComponent->deserialize(buffer));
 		G_BREAK_IF(!pStaticDataComponent->deserialize(buffer));
+
+		if (replaceArmatureFile.empty() == false)
+		{
+			pStaticDataComponent->armatureFile = replaceArmatureFile;
+		}
 		
 		pRigidBodyComponent->setMass(pStaticDataComponent->mass);
 		pRigidBodyComponent->setBox(pos, pStaticDataComponent->size, GFixedVec3(0.5f, 0.0f, 0.5f));

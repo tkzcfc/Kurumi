@@ -17,6 +17,7 @@ GMapLayer_Parallax::GMapLayer_Parallax()
 
 GMapLayer_Parallax::~GMapLayer_Parallax()
 {
+	CC_SAFE_DELETE(m_camera);
 }
 
 GMapLayer_Parallax * GMapLayer_Parallax::create(int mapId)
@@ -204,7 +205,6 @@ bool GMapLayer_Parallax::initWithMapID(int mapId)
 	m_camera->setWorldSize(m_mapSize);
 	m_camera->setEnableCollision(true);
 	m_camera->setViewPortSize(viewSize);
-	this->addComponent(m_camera);
 
 	return true;
 }
