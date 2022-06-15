@@ -29,7 +29,7 @@
 #include "external/xxtea/xxtea.h"
 #include "lua_modules/custom_lua_modules.h"
 
-#define RUN_TEST_SCENE 1
+#define RUN_TEST_SCENE 0
 
 #if RUN_TEST_SCENE
 #include "test/TestScene.h"

@@ -20,7 +20,7 @@ function Matching:initUI()
     self:setUICloseCondition(function()
         if self.matchingTag then
             UIUtils:showTwoBtnMsgBox("是否结束匹配", function()
-                _MyG.NetManager:sendToGame(MessageID.MSG_STOP_PVP_REQ, {})
+                _MyG.NetManager:sendToGame("msg.StopPVPMatchReq", {})
             end)
             return false
         end
@@ -30,7 +30,7 @@ function Matching:initUI()
 end
 
 function Matching:initNetEvent()
-    self:onNetMsg(MessageID.MSG_START_PVP_ACK, function(msg)
+    self:onNetMsg("msg.StartPVPFightAck", function(msg)
         if msg.code == errCode.PVP_MATCH_SUC then
             self.ui.Text_Status:setString("匹配成功")
             self.matchingTag = false
@@ -39,7 +39,7 @@ function Matching:initNetEvent()
         end
     end)
 
-    self:onNetMsg(MessageID.MSG_STOP_PVP_ACK, function(msg)
+    self:onNetMsg("msg.StopPVPMatchAck", function(msg)
         self.matchingTag = false
         self:dismiss()
     end)

@@ -16,14 +16,14 @@ function FightManager:override_onInit()
     FightManager.super.override_onInit(self)
 
     -- 游戏服回复的消息相关
-    G_NetEventEmitter:on(MessageID.MSG_START_PVE_ACK, handler(self, self.onStartPVEFightAck), self)
-    G_NetEventEmitter:on(MessageID.MSG_START_FIGHT_NTF, handler(self, self.onStartFightNTF), self)
+    G_NetEventEmitter:on("msg.StartPVEFightAck", handler(self, self.onStartPVEFightAck), self)
+    G_NetEventEmitter:on("msg.StartFightNTF", handler(self, self.onStartFightNTF), self)
 
     -- 战斗服回复的消息相关
-    G_NetEventEmitter:on(MessageID.MSG_JOIN_FIGHT_ACK, handler(self, self.onJoinFightAck), self)
-    G_NetEventEmitter:on(MessageID.MSG_EXIT_FIGHT_ACK, handler(self, self.onExitFightAck), self)
-    G_NetEventEmitter:on(MessageID.MSG_PLAYER_EXIT_FIGHT_NTF, handler(self, self.onPlayerExitFightNotify), self)
-    G_NetEventEmitter:on(MessageID.MSG_PING_REQ, handler(self, self.onPing), self)
+    G_NetEventEmitter:on("msg.JoinFightAck", handler(self, self.onJoinFightAck), self)
+    G_NetEventEmitter:on("msg.ExitFightAck", handler(self, self.onExitFightAck), self)
+    G_NetEventEmitter:on("msg.PlayerExitFightNotify", handler(self, self.onPlayerExitFightNotify), self)
+    G_NetEventEmitter:on("msg.Ping", handler(self, self.onPing), self)
 
     -- 系统事件
     G_SysEventEmitter:on(SysEvent.NET_CONNECT_SUC, handler(self, self.onNetConnectSuc), self)
@@ -38,7 +38,7 @@ function FightManager:requestStartPvE(carbonId, roles, offlineMode)
     -- offlineMode = false
     self:clearFightInfo()
     self:showShieldLayer()
-    _MyG.NetManager:sendToGame(MessageID.MSG_START_PVE_REQ, {
+    _MyG.NetManager:sendToGame("msg.StartPVEFightReq", {
         carbonId = carbonId,
         roles = roles,
         isOfflineMode = offlineMode == true,
@@ -49,14 +49,14 @@ end
 -- @param foeId 对手id,为0则表示等待服务器匹配 为其他则表示挑战他人
 function FightManager:requestStartPvP(foeId)
     self:clearFightInfo()
-    _MyG.NetManager:sendToGame(MessageID.MSG_START_PVP_REQ, {
+    _MyG.NetManager:sendToGame("msg.StartPVPFightReq", {
         foeId = foeId or 0,
     })
 end
 
 -- @brief 发送加入战斗请求(目标：战斗服)
 function FightManager:joinFight()
-    _MyG.NetManager:sendToFight(MessageID.MSG_JOIN_FIGHT_REQ, {
+    _MyG.NetManager:sendToFight("msg.JoinFightReq", {
         fightUUID = self.tFightInfo.fightUUID,
         playerID = _MyG.AccountInfo.playerID,
         frame = self.iLogicFrame,
@@ -67,7 +67,7 @@ end
 -- @param fPercent 进度值
 -- @param isFinish 是否加载完成
 function FightManager:sendPlayerLoadingReq(fPercent, isFinish)
-    _MyG.NetManager:sendToFight(MessageID.MSG_LOADING_PERCENT_REQ, {
+    _MyG.NetManager:sendToFight("msg.PlayerLoadingReq", {
         percent = fPercent,
         finish = isFinish,
     })
@@ -78,7 +78,7 @@ end
 function FightManager:sendRunNextFrameReq(key_down)
     if key_down == nil then print("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww") end
     
-    _MyG.NetManager:sendToFight(MessageID.MSG_RUN_NEXT_FRAME_REQ, {
+    _MyG.NetManager:sendToFight("msg.RunNextFrameReq", {
         frame = self.iLogicFrame,
         input = {
             key_down = key_down or 0
@@ -111,7 +111,7 @@ function FightManager:exitFight()
     end
 
     -- 发送退出战斗请求
-    _MyG.NetManager:sendToFight(MessageID.MSG_EXIT_FIGHT_REQ, {
+    _MyG.NetManager:sendToFight("msg.ExitFightReq", {
         fightUUID = self.tFightInfo.fightUUID
     })
     -- 清理战斗管理上的战斗信息
@@ -177,7 +177,7 @@ end
 
 -- @brief ping消息
 function FightManager:onPing(msg)
-    _MyG.NetManager:sendToFight(MessageID.MSG_PING_ACK, {
+    _MyG.NetManager:sendToFight("msg.Pong", {
         timestamp = msg.timestamp
     })
 

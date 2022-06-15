@@ -8,7 +8,7 @@ local GlobalManager = class("GlobalManager", import(".BaseManager"))
 function GlobalManager:override_onInit()
 	GlobalManager.super.override_onInit(self)
 
-	G_NetEventEmitter:on(MessageID.MSG_EXIT_GAME_NTF, handler(self, self.onExitGameNtf), self)
+	G_NetEventEmitter:on("msg.ExitGameNtf", handler(self, self.onExitGameNtf), self)
 
     G_SysEventEmitter:on(SysEvent.NET_CONNECT_FAIL, handler(self, self.onNetConnectFail), self)
 end

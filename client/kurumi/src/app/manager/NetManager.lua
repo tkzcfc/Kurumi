@@ -103,12 +103,12 @@ function NetManager:sendMessage(sessionID, msgName, msg)
 	assert(msgId)
 
 	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgName] then
-		print("send msg:", msgName, )
+		print("send msg:", msgName, msgId)
 		print_lua_value(msg)
 		print("----------------------------")
 	end
 
-	local data = pb.encode(info.msg, msg)
+	local data = pb.encode(msgName, msg)
 	self.client:sendMsg(sessionID, msgId, data, str_len(data))
 end
 

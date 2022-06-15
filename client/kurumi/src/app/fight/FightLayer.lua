@@ -54,11 +54,11 @@ end
 function FightLayer:initEvent()
     G_SysEventEmitter:on(SysEvent.FIGHT_RE_JOINT, handler(self, self.onReJoinFight), self)
 
-    G_NetEventEmitter:on(MessageID.MSG_LOADING_PERCENT_ACK, handler(self, self.onPlayerLoadingAck), self)
-    G_NetEventEmitter:on(MessageID.MSG_PUSH_FRAME_BEGIN, handler(self, self.onPushFrameInputBegin), self)
-    G_NetEventEmitter:on(MessageID.MSG_PUSH_FRAME_INPUT, handler(self, self.onPushFrameInput), self)
-    G_NetEventEmitter:on(MessageID.MSG_PUSH_FRAME_END, handler(self, self.onPushFrameInputEnd), self)
-    G_NetEventEmitter:on(MessageID.MSG_RUN_NEXT_FRAME_ACK, handler(self, self.onRunNextFrameAck), self)
+    G_NetEventEmitter:on("msg.PlayerLoadingAck", handler(self, self.onPlayerLoadingAck), self)
+    G_NetEventEmitter:on("msg.PushFrameInputBegin", handler(self, self.onPushFrameInputBegin), self)
+    G_NetEventEmitter:on("msg.PushFrameInput", handler(self, self.onPushFrameInput), self)
+    G_NetEventEmitter:on("msg.PushFrameInputEnd", handler(self, self.onPushFrameInputEnd), self)
+    G_NetEventEmitter:on("msg.RunNextFrameAck", handler(self, self.onRunNextFrameAck), self)
 end
 
 function FightLayer:onExit()

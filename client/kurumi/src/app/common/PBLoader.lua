@@ -1,3 +1,8 @@
+-- @Author : fc
+-- @Date   : 2022-06-15 20:47:51
+-- @remark : 
+-- @URL    : https://github.com/starwing/lua-protobuf
+
 local pb = require "luapb"
 
 local PBLoader = class("PBLoader")
@@ -28,9 +33,19 @@ function PBLoader:initialize()
             	self.idMsgMap[id] = msgName
             end
         end
+
+        -- if name == ".err.Code" then
+        --     print(name, basename, type)
+        -- end
     end
 
-    self:test()
+
+    local meta = {
+        __index = function(_, key)
+            return pb.enum(".err.Code", key)
+        end
+    }
+    cc.exports.errCode = setmetatable({}, meta)
 end
 
 -- @brief 通过消息名称获取消息ID
@@ -41,32 +56,6 @@ end
 -- @brief 通过id获取消息名称
 function PBLoader:getMsgId(name)
 	return self.msgIdMap[name]
-end
-
-
-function PBLoader:test()
-
-    -- 消息编码
-    local binary = pb.encode("PB.Other_Support.LobbyConn", {
-        serviceId = 123456789,
-    })
-    print(pb.tohex(binary))
-
-
-    -- 消息解码
-    local msg, err = pb.decode("PB.Other_Support.LobbyConn", binary)
-
-    if not msg then
-        logE("decode msg error:", err)
-        return
-    end
-
-    dump(msg)
-
-
-    local msgName = self:getMsgName(2000000)
-    print("msg name:", msgName)
-    print("msg id:", self:getMsgId(msgName))
 end
 
 return PBLoader

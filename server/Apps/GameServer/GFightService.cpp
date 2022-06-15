@@ -24,7 +24,7 @@ uint32_t GFightService::onInit()
 
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StartPVEFightReq, onMsg_StartPVEFightReq);
 	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StartPVPFightReq, onMsg_StartPVPFightReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StopPVPFightReq, onMsg_StopPVPFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StopPVPMatchReq, onMsg_StopPVPMatchReq);
 
 	GApplication::getInstance()->getScheduler()->schedule(std::bind(&GFightService::onUpdate_PVPCheck, this, std::placeholders::_1), this, 0.5f, false, "pvp_check");
 
@@ -230,7 +230,7 @@ void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartP
 	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
-void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::StopPVPFightReq& msg)
+void GFightService::onMsg_StopPVPMatchReq(uint32_t sessionID, const msg::StopPVPMatchReq& msg)
 {
 	auto pRole = m_pPlayerMngService->getRoleBySessionID(sessionID);
 	G_CHECK_NULL_RETURN(pRole);
@@ -278,7 +278,7 @@ void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::StopPVP
 	}
 
 	// 通知客户端取消成功
-	msg::StopPVPFightAck ack;
+	msg::StopPVPMatchAck ack;
 	ack.set_code(err::Code::SUCCESS);
 	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }

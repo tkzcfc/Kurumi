@@ -9,7 +9,7 @@ function RoleManager:override_onInit()
 	self.roleDatas = {}
 
     -- 游戏服回复的消息相关
-    G_NetEventEmitter:on(MessageID.MSG_PUSH_ROLE_DATA, handler(self, self.onPushRoleSimpleInfo), self)
+    G_NetEventEmitter:on("msg.RoleSimpleInfo", handler(self, self.onPushRoleSimpleInfo), self)
 end
 
 -- @brief 设置自己当前登录角色的详细信息

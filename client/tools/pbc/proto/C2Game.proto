@@ -151,14 +151,14 @@ message StartPVPFightAck
 	int32 code = 1;
 }
 
-// 停止pvp请求
-message StopPVPFightReq
+// 停止pvp匹配请求
+message StopPVPMatchReq
 {
 	enum MsgId { None=0; Id = 200015; }
 }
 
 // 
-message StopPVPFightAck
+message StopPVPMatchAck
 {
 	enum MsgId { None=0; Id = 200016; }
 	int32 code = 1;

@@ -35,7 +35,7 @@ end
 
 
 function CreateWindow:initNetEvent()
-	self:onNetMsg(MessageID.MSG_CREATE_ROLE_ACK, handler(self, self.onCreateRoleAck))
+	self:onNetMsg("msg.CreateRoleAck", handler(self, self.onCreateRoleAck))
 end
 
 function CreateWindow:onCreateRoleAck(msg)
@@ -92,7 +92,7 @@ function CreateWindow:onClickCreate(sender)
 		return
 	end
 
-	_MyG.NetManager:sendToGame(MessageID.MSG_CREATE_ROLE_REQ, {
+	_MyG.NetManager:sendToGame("msg.CreateRoleReq", {
 		occupation = RoleConfig[self.selectIndex].roleId,
 		name = nickName,
 	})

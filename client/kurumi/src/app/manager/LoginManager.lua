@@ -8,9 +8,9 @@ local LoginManager = class("LoginManager", import(".BaseManager"))
 function LoginManager:override_onInit()
     LoginManager.super.override_onInit(self)
 
-    G_NetEventEmitter:on(MessageID.MSG_LOGIN_GATE_ACK, handler(self, self.onLoginGateAck), self)
-    G_NetEventEmitter:on(MessageID.MSG_LOGIN_ACK, handler(self, self.onLoginAck), self)
-    G_NetEventEmitter:on(MessageID.MSG_ENTER_GAME_ACK, handler(self, self.onEnterGameAck), self)
+    G_NetEventEmitter:on("msg.LoginGateAck", handler(self, self.onLoginGateAck), self)
+    G_NetEventEmitter:on("msg.LoginAck", handler(self, self.onLoginAck), self)
+    G_NetEventEmitter:on("msg.EnterGameAck", handler(self, self.onEnterGameAck), self)
 end
 
 -- @brief 销毁时调用
@@ -135,7 +135,7 @@ end
 -- @brief 请求进入游戏
 -- @param 角色id
 function LoginManager:requestEnterGame(roleID)
-    _MyG.NetManager:sendToGame(MessageID.MSG_ENTER_GAME_REQ, {
+    _MyG.NetManager:sendToGame("msg.EnterGameReq", {
         token = _MyG.AccountInfo.token,
         playerID = _MyG.AccountInfo.playerID,
         roleID = roleID
@@ -148,7 +148,7 @@ function LoginManager:onLoginGateAck(msg)
 
     if msg.code == errCode.SUCCESS then
         -- 请求登录游戏服
-        _MyG.NetManager:sendToGame(MessageID.MSG_LOGIN_REQ, {
+        _MyG.NetManager:sendToGame("msg.LoginReq", {
             token = _MyG.AccountInfo.token,
             account = _MyG.AccountInfo.account,
             playerID = 0

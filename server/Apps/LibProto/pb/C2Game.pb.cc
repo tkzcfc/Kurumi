@@ -84,14 +84,14 @@ class StartPVPFightAckDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StartPVPFightAck> _instance;
 } _StartPVPFightAck_default_instance_;
-class StopPVPFightReqDefaultTypeInternal {
+class StopPVPMatchReqDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StopPVPFightReq> _instance;
-} _StopPVPFightReq_default_instance_;
-class StopPVPFightAckDefaultTypeInternal {
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StopPVPMatchReq> _instance;
+} _StopPVPMatchReq_default_instance_;
+class StopPVPMatchAckDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StopPVPFightAck> _instance;
-} _StopPVPFightAck_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StopPVPMatchAck> _instance;
+} _StopPVPMatchAck_default_instance_;
 class StartFightNTFDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StartFightNTF> _instance;
@@ -371,33 +371,33 @@ static void InitDefaultsscc_info_StartPVPFightReq_C2Game_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StartPVPFightReq_C2Game_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StartPVPFightReq_C2Game_2eproto}, {}};
 
-static void InitDefaultsscc_info_StopPVPFightAck_C2Game_2eproto() {
+static void InitDefaultsscc_info_StopPVPMatchAck_C2Game_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::msg::_StopPVPFightAck_default_instance_;
-    new (ptr) ::msg::StopPVPFightAck();
+    void* ptr = &::msg::_StopPVPMatchAck_default_instance_;
+    new (ptr) ::msg::StopPVPMatchAck();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::msg::StopPVPFightAck::InitAsDefaultInstance();
+  ::msg::StopPVPMatchAck::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StopPVPFightAck_C2Game_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StopPVPFightAck_C2Game_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StopPVPMatchAck_C2Game_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StopPVPMatchAck_C2Game_2eproto}, {}};
 
-static void InitDefaultsscc_info_StopPVPFightReq_C2Game_2eproto() {
+static void InitDefaultsscc_info_StopPVPMatchReq_C2Game_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::msg::_StopPVPFightReq_default_instance_;
-    new (ptr) ::msg::StopPVPFightReq();
+    void* ptr = &::msg::_StopPVPMatchReq_default_instance_;
+    new (ptr) ::msg::StopPVPMatchReq();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::msg::StopPVPFightReq::InitAsDefaultInstance();
+  ::msg::StopPVPMatchReq::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StopPVPFightReq_C2Game_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StopPVPFightReq_C2Game_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StopPVPMatchReq_C2Game_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StopPVPMatchReq_C2Game_2eproto}, {}};
 
 namespace msg {
 bool LoginReq_MsgId_IsValid(int value) {
@@ -1154,7 +1154,7 @@ constexpr StartPVPFightAck_MsgId StartPVPFightAck::MsgId_MIN;
 constexpr StartPVPFightAck_MsgId StartPVPFightAck::MsgId_MAX;
 constexpr int StartPVPFightAck::MsgId_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-bool StopPVPFightReq_MsgId_IsValid(int value) {
+bool StopPVPMatchReq_MsgId_IsValid(int value) {
   switch (value) {
     case 0:
     case 200015:
@@ -1164,55 +1164,55 @@ bool StopPVPFightReq_MsgId_IsValid(int value) {
   }
 }
 
-static ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<std::string> StopPVPFightReq_MsgId_strings[2] = {};
+static ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<std::string> StopPVPMatchReq_MsgId_strings[2] = {};
 
-static const char StopPVPFightReq_MsgId_names[] =
+static const char StopPVPMatchReq_MsgId_names[] =
   "Id"
   "None";
 
-static const ::PROTOBUF_NAMESPACE_ID::internal::EnumEntry StopPVPFightReq_MsgId_entries[] = {
-  { {StopPVPFightReq_MsgId_names + 0, 2}, 200015 },
-  { {StopPVPFightReq_MsgId_names + 2, 4}, 0 },
+static const ::PROTOBUF_NAMESPACE_ID::internal::EnumEntry StopPVPMatchReq_MsgId_entries[] = {
+  { {StopPVPMatchReq_MsgId_names + 0, 2}, 200015 },
+  { {StopPVPMatchReq_MsgId_names + 2, 4}, 0 },
 };
 
-static const int StopPVPFightReq_MsgId_entries_by_number[] = {
+static const int StopPVPMatchReq_MsgId_entries_by_number[] = {
   1, // 0 -> None
   0, // 200015 -> Id
 };
 
-const std::string& StopPVPFightReq_MsgId_Name(
-    StopPVPFightReq_MsgId value) {
+const std::string& StopPVPMatchReq_MsgId_Name(
+    StopPVPMatchReq_MsgId value) {
   static const bool dummy =
       ::PROTOBUF_NAMESPACE_ID::internal::InitializeEnumStrings(
-          StopPVPFightReq_MsgId_entries,
-          StopPVPFightReq_MsgId_entries_by_number,
-          2, StopPVPFightReq_MsgId_strings);
+          StopPVPMatchReq_MsgId_entries,
+          StopPVPMatchReq_MsgId_entries_by_number,
+          2, StopPVPMatchReq_MsgId_strings);
   (void) dummy;
   int idx = ::PROTOBUF_NAMESPACE_ID::internal::LookUpEnumName(
-      StopPVPFightReq_MsgId_entries,
-      StopPVPFightReq_MsgId_entries_by_number,
+      StopPVPMatchReq_MsgId_entries,
+      StopPVPMatchReq_MsgId_entries_by_number,
       2, value);
   return idx == -1 ? ::PROTOBUF_NAMESPACE_ID::internal::GetEmptyString() :
-                     StopPVPFightReq_MsgId_strings[idx].get();
+                     StopPVPMatchReq_MsgId_strings[idx].get();
 }
-bool StopPVPFightReq_MsgId_Parse(
-    const std::string& name, StopPVPFightReq_MsgId* value) {
+bool StopPVPMatchReq_MsgId_Parse(
+    const std::string& name, StopPVPMatchReq_MsgId* value) {
   int int_value;
   bool success = ::PROTOBUF_NAMESPACE_ID::internal::LookUpEnumValue(
-      StopPVPFightReq_MsgId_entries, 2, name, &int_value);
+      StopPVPMatchReq_MsgId_entries, 2, name, &int_value);
   if (success) {
-    *value = static_cast<StopPVPFightReq_MsgId>(int_value);
+    *value = static_cast<StopPVPMatchReq_MsgId>(int_value);
   }
   return success;
 }
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr StopPVPFightReq_MsgId StopPVPFightReq::None;
-constexpr StopPVPFightReq_MsgId StopPVPFightReq::Id;
-constexpr StopPVPFightReq_MsgId StopPVPFightReq::MsgId_MIN;
-constexpr StopPVPFightReq_MsgId StopPVPFightReq::MsgId_MAX;
-constexpr int StopPVPFightReq::MsgId_ARRAYSIZE;
+constexpr StopPVPMatchReq_MsgId StopPVPMatchReq::None;
+constexpr StopPVPMatchReq_MsgId StopPVPMatchReq::Id;
+constexpr StopPVPMatchReq_MsgId StopPVPMatchReq::MsgId_MIN;
+constexpr StopPVPMatchReq_MsgId StopPVPMatchReq::MsgId_MAX;
+constexpr int StopPVPMatchReq::MsgId_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-bool StopPVPFightAck_MsgId_IsValid(int value) {
+bool StopPVPMatchAck_MsgId_IsValid(int value) {
   switch (value) {
     case 0:
     case 200016:
@@ -1222,53 +1222,53 @@ bool StopPVPFightAck_MsgId_IsValid(int value) {
   }
 }
 
-static ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<std::string> StopPVPFightAck_MsgId_strings[2] = {};
+static ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<std::string> StopPVPMatchAck_MsgId_strings[2] = {};
 
-static const char StopPVPFightAck_MsgId_names[] =
+static const char StopPVPMatchAck_MsgId_names[] =
   "Id"
   "None";
 
-static const ::PROTOBUF_NAMESPACE_ID::internal::EnumEntry StopPVPFightAck_MsgId_entries[] = {
-  { {StopPVPFightAck_MsgId_names + 0, 2}, 200016 },
-  { {StopPVPFightAck_MsgId_names + 2, 4}, 0 },
+static const ::PROTOBUF_NAMESPACE_ID::internal::EnumEntry StopPVPMatchAck_MsgId_entries[] = {
+  { {StopPVPMatchAck_MsgId_names + 0, 2}, 200016 },
+  { {StopPVPMatchAck_MsgId_names + 2, 4}, 0 },
 };
 
-static const int StopPVPFightAck_MsgId_entries_by_number[] = {
+static const int StopPVPMatchAck_MsgId_entries_by_number[] = {
   1, // 0 -> None
   0, // 200016 -> Id
 };
 
-const std::string& StopPVPFightAck_MsgId_Name(
-    StopPVPFightAck_MsgId value) {
+const std::string& StopPVPMatchAck_MsgId_Name(
+    StopPVPMatchAck_MsgId value) {
   static const bool dummy =
       ::PROTOBUF_NAMESPACE_ID::internal::InitializeEnumStrings(
-          StopPVPFightAck_MsgId_entries,
-          StopPVPFightAck_MsgId_entries_by_number,
-          2, StopPVPFightAck_MsgId_strings);
+          StopPVPMatchAck_MsgId_entries,
+          StopPVPMatchAck_MsgId_entries_by_number,
+          2, StopPVPMatchAck_MsgId_strings);
   (void) dummy;
   int idx = ::PROTOBUF_NAMESPACE_ID::internal::LookUpEnumName(
-      StopPVPFightAck_MsgId_entries,
-      StopPVPFightAck_MsgId_entries_by_number,
+      StopPVPMatchAck_MsgId_entries,
+      StopPVPMatchAck_MsgId_entries_by_number,
       2, value);
   return idx == -1 ? ::PROTOBUF_NAMESPACE_ID::internal::GetEmptyString() :
-                     StopPVPFightAck_MsgId_strings[idx].get();
+                     StopPVPMatchAck_MsgId_strings[idx].get();
 }
-bool StopPVPFightAck_MsgId_Parse(
-    const std::string& name, StopPVPFightAck_MsgId* value) {
+bool StopPVPMatchAck_MsgId_Parse(
+    const std::string& name, StopPVPMatchAck_MsgId* value) {
   int int_value;
   bool success = ::PROTOBUF_NAMESPACE_ID::internal::LookUpEnumValue(
-      StopPVPFightAck_MsgId_entries, 2, name, &int_value);
+      StopPVPMatchAck_MsgId_entries, 2, name, &int_value);
   if (success) {
-    *value = static_cast<StopPVPFightAck_MsgId>(int_value);
+    *value = static_cast<StopPVPMatchAck_MsgId>(int_value);
   }
   return success;
 }
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr StopPVPFightAck_MsgId StopPVPFightAck::None;
-constexpr StopPVPFightAck_MsgId StopPVPFightAck::Id;
-constexpr StopPVPFightAck_MsgId StopPVPFightAck::MsgId_MIN;
-constexpr StopPVPFightAck_MsgId StopPVPFightAck::MsgId_MAX;
-constexpr int StopPVPFightAck::MsgId_ARRAYSIZE;
+constexpr StopPVPMatchAck_MsgId StopPVPMatchAck::None;
+constexpr StopPVPMatchAck_MsgId StopPVPMatchAck::Id;
+constexpr StopPVPMatchAck_MsgId StopPVPMatchAck::MsgId_MIN;
+constexpr StopPVPMatchAck_MsgId StopPVPMatchAck::MsgId_MAX;
+constexpr int StopPVPMatchAck::MsgId_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 bool StartFightNTF_MsgId_IsValid(int value) {
   switch (value) {
@@ -5042,46 +5042,46 @@ std::string StartPVPFightAck::GetTypeName() const {
 
 // ===================================================================
 
-void StopPVPFightReq::InitAsDefaultInstance() {
+void StopPVPMatchReq::InitAsDefaultInstance() {
 }
-class StopPVPFightReq::_Internal {
+class StopPVPMatchReq::_Internal {
  public:
 };
 
-StopPVPFightReq::StopPVPFightReq()
+StopPVPMatchReq::StopPVPMatchReq()
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(), _internal_metadata_(nullptr) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:msg.StopPVPFightReq)
+  // @@protoc_insertion_point(constructor:msg.StopPVPMatchReq)
 }
-StopPVPFightReq::StopPVPFightReq(const StopPVPFightReq& from)
+StopPVPMatchReq::StopPVPMatchReq(const StopPVPMatchReq& from)
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:msg.StopPVPFightReq)
+  // @@protoc_insertion_point(copy_constructor:msg.StopPVPMatchReq)
 }
 
-void StopPVPFightReq::SharedCtor() {
+void StopPVPMatchReq::SharedCtor() {
 }
 
-StopPVPFightReq::~StopPVPFightReq() {
-  // @@protoc_insertion_point(destructor:msg.StopPVPFightReq)
+StopPVPMatchReq::~StopPVPMatchReq() {
+  // @@protoc_insertion_point(destructor:msg.StopPVPMatchReq)
   SharedDtor();
 }
 
-void StopPVPFightReq::SharedDtor() {
+void StopPVPMatchReq::SharedDtor() {
 }
 
-void StopPVPFightReq::SetCachedSize(int size) const {
+void StopPVPMatchReq::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const StopPVPFightReq& StopPVPFightReq::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_StopPVPFightReq_C2Game_2eproto.base);
+const StopPVPMatchReq& StopPVPMatchReq::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_StopPVPMatchReq_C2Game_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void StopPVPFightReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:msg.StopPVPFightReq)
+void StopPVPMatchReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:msg.StopPVPMatchReq)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -5089,7 +5089,7 @@ void StopPVPFightReq::Clear() {
   _internal_metadata_.Clear();
 }
 
-const char* StopPVPFightReq::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* StopPVPMatchReq::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -5111,9 +5111,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* StopPVPFightReq::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* StopPVPMatchReq::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:msg.StopPVPFightReq)
+  // @@protoc_insertion_point(serialize_to_array_start:msg.StopPVPMatchReq)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -5121,12 +5121,12 @@ failure:
     target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
         static_cast<int>(_internal_metadata_.unknown_fields().size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:msg.StopPVPFightReq)
+  // @@protoc_insertion_point(serialize_to_array_end:msg.StopPVPMatchReq)
   return target;
 }
 
-size_t StopPVPFightReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:msg.StopPVPFightReq)
+size_t StopPVPMatchReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:msg.StopPVPMatchReq)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -5141,14 +5141,14 @@ size_t StopPVPFightReq::ByteSizeLong() const {
   return total_size;
 }
 
-void StopPVPFightReq::CheckTypeAndMergeFrom(
+void StopPVPMatchReq::CheckTypeAndMergeFrom(
     const ::PROTOBUF_NAMESPACE_ID::MessageLite& from) {
-  MergeFrom(*::PROTOBUF_NAMESPACE_ID::internal::DownCast<const StopPVPFightReq*>(
+  MergeFrom(*::PROTOBUF_NAMESPACE_ID::internal::DownCast<const StopPVPMatchReq*>(
       &from));
 }
 
-void StopPVPFightReq::MergeFrom(const StopPVPFightReq& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:msg.StopPVPFightReq)
+void StopPVPMatchReq::MergeFrom(const StopPVPMatchReq& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:msg.StopPVPMatchReq)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -5156,71 +5156,71 @@ void StopPVPFightReq::MergeFrom(const StopPVPFightReq& from) {
 
 }
 
-void StopPVPFightReq::CopyFrom(const StopPVPFightReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msg.StopPVPFightReq)
+void StopPVPMatchReq::CopyFrom(const StopPVPMatchReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msg.StopPVPMatchReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool StopPVPFightReq::IsInitialized() const {
+bool StopPVPMatchReq::IsInitialized() const {
   return true;
 }
 
-void StopPVPFightReq::InternalSwap(StopPVPFightReq* other) {
+void StopPVPMatchReq::InternalSwap(StopPVPMatchReq* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-std::string StopPVPFightReq::GetTypeName() const {
-  return "msg.StopPVPFightReq";
+std::string StopPVPMatchReq::GetTypeName() const {
+  return "msg.StopPVPMatchReq";
 }
 
 
 // ===================================================================
 
-void StopPVPFightAck::InitAsDefaultInstance() {
+void StopPVPMatchAck::InitAsDefaultInstance() {
 }
-class StopPVPFightAck::_Internal {
+class StopPVPMatchAck::_Internal {
  public:
 };
 
-StopPVPFightAck::StopPVPFightAck()
+StopPVPMatchAck::StopPVPMatchAck()
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(), _internal_metadata_(nullptr) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:msg.StopPVPFightAck)
+  // @@protoc_insertion_point(constructor:msg.StopPVPMatchAck)
 }
-StopPVPFightAck::StopPVPFightAck(const StopPVPFightAck& from)
+StopPVPMatchAck::StopPVPMatchAck(const StopPVPMatchAck& from)
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   code_ = from.code_;
-  // @@protoc_insertion_point(copy_constructor:msg.StopPVPFightAck)
+  // @@protoc_insertion_point(copy_constructor:msg.StopPVPMatchAck)
 }
 
-void StopPVPFightAck::SharedCtor() {
+void StopPVPMatchAck::SharedCtor() {
   code_ = 0;
 }
 
-StopPVPFightAck::~StopPVPFightAck() {
-  // @@protoc_insertion_point(destructor:msg.StopPVPFightAck)
+StopPVPMatchAck::~StopPVPMatchAck() {
+  // @@protoc_insertion_point(destructor:msg.StopPVPMatchAck)
   SharedDtor();
 }
 
-void StopPVPFightAck::SharedDtor() {
+void StopPVPMatchAck::SharedDtor() {
 }
 
-void StopPVPFightAck::SetCachedSize(int size) const {
+void StopPVPMatchAck::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const StopPVPFightAck& StopPVPFightAck::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_StopPVPFightAck_C2Game_2eproto.base);
+const StopPVPMatchAck& StopPVPMatchAck::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_StopPVPMatchAck_C2Game_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void StopPVPFightAck::Clear() {
-// @@protoc_insertion_point(message_clear_start:msg.StopPVPFightAck)
+void StopPVPMatchAck::Clear() {
+// @@protoc_insertion_point(message_clear_start:msg.StopPVPMatchAck)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -5229,7 +5229,7 @@ void StopPVPFightAck::Clear() {
   _internal_metadata_.Clear();
 }
 
-const char* StopPVPFightAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* StopPVPMatchAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -5263,9 +5263,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* StopPVPFightAck::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* StopPVPMatchAck::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:msg.StopPVPFightAck)
+  // @@protoc_insertion_point(serialize_to_array_start:msg.StopPVPMatchAck)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -5279,12 +5279,12 @@ failure:
     target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
         static_cast<int>(_internal_metadata_.unknown_fields().size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:msg.StopPVPFightAck)
+  // @@protoc_insertion_point(serialize_to_array_end:msg.StopPVPMatchAck)
   return target;
 }
 
-size_t StopPVPFightAck::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:msg.StopPVPFightAck)
+size_t StopPVPMatchAck::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:msg.StopPVPMatchAck)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -5306,14 +5306,14 @@ size_t StopPVPFightAck::ByteSizeLong() const {
   return total_size;
 }
 
-void StopPVPFightAck::CheckTypeAndMergeFrom(
+void StopPVPMatchAck::CheckTypeAndMergeFrom(
     const ::PROTOBUF_NAMESPACE_ID::MessageLite& from) {
-  MergeFrom(*::PROTOBUF_NAMESPACE_ID::internal::DownCast<const StopPVPFightAck*>(
+  MergeFrom(*::PROTOBUF_NAMESPACE_ID::internal::DownCast<const StopPVPMatchAck*>(
       &from));
 }
 
-void StopPVPFightAck::MergeFrom(const StopPVPFightAck& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:msg.StopPVPFightAck)
+void StopPVPMatchAck::MergeFrom(const StopPVPMatchAck& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:msg.StopPVPMatchAck)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -5324,25 +5324,25 @@ void StopPVPFightAck::MergeFrom(const StopPVPFightAck& from) {
   }
 }
 
-void StopPVPFightAck::CopyFrom(const StopPVPFightAck& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msg.StopPVPFightAck)
+void StopPVPMatchAck::CopyFrom(const StopPVPMatchAck& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:msg.StopPVPMatchAck)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool StopPVPFightAck::IsInitialized() const {
+bool StopPVPMatchAck::IsInitialized() const {
   return true;
 }
 
-void StopPVPFightAck::InternalSwap(StopPVPFightAck* other) {
+void StopPVPMatchAck::InternalSwap(StopPVPMatchAck* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(code_, other->code_);
 }
 
-std::string StopPVPFightAck::GetTypeName() const {
-  return "msg.StopPVPFightAck";
+std::string StopPVPMatchAck::GetTypeName() const {
+  return "msg.StopPVPMatchAck";
 }
 
 
@@ -5850,11 +5850,11 @@ template<> PROTOBUF_NOINLINE ::msg::StartPVPFightReq* Arena::CreateMaybeMessage<
 template<> PROTOBUF_NOINLINE ::msg::StartPVPFightAck* Arena::CreateMaybeMessage< ::msg::StartPVPFightAck >(Arena* arena) {
   return Arena::CreateInternal< ::msg::StartPVPFightAck >(arena);
 }
-template<> PROTOBUF_NOINLINE ::msg::StopPVPFightReq* Arena::CreateMaybeMessage< ::msg::StopPVPFightReq >(Arena* arena) {
-  return Arena::CreateInternal< ::msg::StopPVPFightReq >(arena);
+template<> PROTOBUF_NOINLINE ::msg::StopPVPMatchReq* Arena::CreateMaybeMessage< ::msg::StopPVPMatchReq >(Arena* arena) {
+  return Arena::CreateInternal< ::msg::StopPVPMatchReq >(arena);
 }
-template<> PROTOBUF_NOINLINE ::msg::StopPVPFightAck* Arena::CreateMaybeMessage< ::msg::StopPVPFightAck >(Arena* arena) {
-  return Arena::CreateInternal< ::msg::StopPVPFightAck >(arena);
+template<> PROTOBUF_NOINLINE ::msg::StopPVPMatchAck* Arena::CreateMaybeMessage< ::msg::StopPVPMatchAck >(Arena* arena) {
+  return Arena::CreateInternal< ::msg::StopPVPMatchAck >(arena);
 }
 template<> PROTOBUF_NOINLINE ::msg::StartFightNTF* Arena::CreateMaybeMessage< ::msg::StartFightNTF >(Arena* arena) {
   return Arena::CreateInternal< ::msg::StartFightNTF >(arena);
