@@ -16,7 +16,7 @@ GActorComponent::GActorComponent()
 	m_defaultSkillId = INVALID_SKILL_ID;
 	m_orientation = GActorOrientation::RIGHT;
 
-	lastKeyDown = curKeyDown = G_KEY_NONE;
+	lastKeyDown = curKeyDown = keyDownInThisFrame = keyUpInThisFrame = G_KEY_NONE;
 
 	m_jumpHeight = 0.0f;
 	m_logicElapsed = 0.0f;
@@ -170,6 +170,7 @@ void GActorComponent::doSkill(int32_t id)
 // 按键按下
 void GActorComponent::onKeyDown(G_BIT_TYPE key)
 {
+	G_BIT_SET(keyDownInThisFrame, key);
 	G_LOG("onKeyDown:%d", key);
 	switch (key)
 	{
@@ -201,13 +202,26 @@ void GActorComponent::onKeepPress(G_BIT_TYPE key)
 // 按键抬起
 void GActorComponent::onKeyUp(G_BIT_TYPE key)
 {
+	G_BIT_SET(keyUpInThisFrame, key);
 	G_LOG("onKeyUp:%d", key);
 }
 
 // 判断按键是否按下
-bool GActorComponent::isKeyDown(G_BIT_TYPE key)
+bool GActorComponent::isKeepPress(G_BIT_TYPE key)
 {
 	return G_BIT_GET(curKeyDown, key) != 0;
+}
+
+// 判断按键是否在本帧按下（上一帧是抬起状态）
+bool GActorComponent::isKeyDown(G_BIT_TYPE key)
+{
+	return G_BIT_GET(keyDownInThisFrame, key) != 0;
+}
+
+// 判断按键是否在本帧抬起（上一帧是按下状态）
+bool GActorComponent::isKeyUp(G_BIT_TYPE key)
+{
+	return G_BIT_GET(keyUpInThisFrame, key) != 0;
 }
 
 void GActorComponent::setPosition(const fixedPoint& posx, const fixedPoint& posy)

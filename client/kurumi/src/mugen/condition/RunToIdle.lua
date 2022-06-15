@@ -12,12 +12,12 @@ function M:ctor()
 end
 
 -- @brief 重置函数
--- function M:rest()
+-- function M:reset()
 -- end
 
 -- @brief 检测函数
 function M:check()
-	return not self.pActorComponent:isKeyDown(slot.G_KEY_MOVE_MUSTER)
+	return not self.pActorComponent:isKeepPress(slot.G_KEY_MOVE_MUSTER)
 end
 
 -- @brief 销毁函数

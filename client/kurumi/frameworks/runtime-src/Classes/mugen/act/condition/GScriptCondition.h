@@ -30,7 +30,7 @@ public:
 
 #if RUNTIME_IN_COOCS
 	
-	virtual void rest() override;
+	virtual void reset() override;
 
 	void* getScriptObject() const;
 

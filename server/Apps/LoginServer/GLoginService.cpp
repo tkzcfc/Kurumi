@@ -94,7 +94,8 @@ void GLoginService::init_MasterNode()
 {
 	m_pMasterNodeService = m_serviceMgr->getService<GMasterNodeService>();
 
-	ON_PB_MSG_CLASS_CALL(m_pMasterNodeService->noticeCenter(), MessageID::MSG_CKECK_TOKEN_REQ, svr_msg::CheckTokenReq, onMsg_CheckTokenReq);
+	
+	ON_PB_MSG_CLASS_CALL(m_pMasterNodeService->noticeCenter(), svr_msg::CheckTokenReq, onMsg_CheckTokenReq);
 }
 
 void GLoginService::onStopService()
@@ -194,7 +195,7 @@ void GLoginService::onHttpRequest_Login(const net_uv::HttpRequest& request, net_
 				ntf.set_token(token);
 				for (const auto& it : slaveNodes)
 				{
-					SEND_PB_MSG(m_pMasterNodeService, it.sessionID, MessageID::MES_CHANGE_TOKEN_NTF, ntf);
+					SEND_PB_MSG(m_pMasterNodeService, it.sessionID, ntf);
 				}
 			}
 		}
@@ -275,6 +276,6 @@ void GLoginService::onMsg_CheckTokenReq(uint32_t sessionID, const svr_msg::Check
 	ack.set_session(msg.session());
 	ack.set_account(msg.account());
 	ack.set_token(msg.token());
-	SEND_PB_MSG(m_pMasterNodeService, sessionID, MessageID::MSG_CKECK_TOKEN_ACK, ack);
+	SEND_PB_MSG(m_pMasterNodeService, sessionID, ack);
 }
 

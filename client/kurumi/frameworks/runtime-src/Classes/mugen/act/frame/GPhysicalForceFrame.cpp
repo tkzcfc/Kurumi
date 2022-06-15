@@ -100,9 +100,9 @@ void GPhysicalForceFrame::onEmit()
 		break;
 	case ng::GPhysicalForceType::MOVEMENT:
 	{
-		if (m_pActorComponent->isKeyDown(G_KEY_MOVE_Y))
+		if (m_pActorComponent->isKeepPress(G_KEY_MOVE_Y))
 		{
-			if (m_pActorComponent->isKeyDown(G_KEY_MOVE_DOWN))
+			if (m_pActorComponent->isKeepPress(G_KEY_MOVE_DOWN))
 				applyValue.y = -applyValue.y;
 		}
 		else
@@ -110,7 +110,7 @@ void GPhysicalForceFrame::onEmit()
 			applyValue.y.setZero();
 		}
 
-		if (false == m_pActorComponent->isKeyDown(G_KEY_MOVE_X))
+		if (false == m_pActorComponent->isKeepPress(G_KEY_MOVE_X))
 		{
 			applyValue.x.setZero();
 		}

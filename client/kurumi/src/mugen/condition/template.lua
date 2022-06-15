@@ -9,7 +9,7 @@ local M = {}
 -- end
 
 -- @brief 重置函数
--- function M:rest()
+-- function M:reset()
 -- end
 
 -- @brief 检测函数

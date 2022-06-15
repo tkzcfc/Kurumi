@@ -100,13 +100,13 @@ void GGateService::onConnectCallback(net_uv::Client* client, net_uv::Session* se
 	{
 		msg::LoginGateAck ack;
 		ack.set_code(err::Code::SUCCESS);
-		SEND_PB_MSG(m_pNetService, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
+		SEND_PB_MSG(m_pNetService, session->getSessionID(), ack);
 	}
 	else
 	{
 		msg::LoginGateAck ack;
 		ack.set_code(err::Code::GATE_CONNECT_FAIL);
-		SEND_PB_MSG(m_pNetService, session->getSessionID(), MessageID::MSG_LOGIN_GATE_ACK, ack);
+		SEND_PB_MSG(m_pNetService, session->getSessionID(), ack);
 
 		m_client->disconnect(session->getSessionID());
 	}

@@ -45,8 +45,12 @@ public:
 	// 按键抬起
 	void onKeyUp(G_BIT_TYPE key);
 
-	// 判断按键是否按下
+	// 判断按键是否持续按下
+	bool isKeepPress(G_BIT_TYPE key);
+	// 判断按键是否在本帧按下（上一帧是抬起状态）
 	bool isKeyDown(G_BIT_TYPE key);
+	// 判断按键是否在本帧抬起（上一帧是按下状态）
+	bool isKeyUp(G_BIT_TYPE key);
 
 
 	// 设置坐标
@@ -86,6 +90,12 @@ public:
 	G_BIT_TYPE lastKeyDown;
 	// 当前按下的键
 	G_BIT_TYPE curKeyDown;
+
+
+	// 本帧按下的键
+	G_BIT_TYPE keyDownInThisFrame;
+	// 本帧松开的键
+	G_BIT_TYPE keyUpInThisFrame;
 };
 
 NS_G_END

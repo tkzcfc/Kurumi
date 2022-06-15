@@ -259,14 +259,14 @@ bool GPlayerMngService::sendRoleInfoToPlayer(GPlayer* toPlayer, GRole* roleInfo)
 		return false;
 	}
 
-	msg::RoleSimpleInfo info;
-	info.set_roleid(roleInfo->getRoleId());
-	info.set_name(roleInfo->getName());
-	info.set_lv(roleInfo->getLv());
-	info.set_occupation(roleInfo->getOcc());
-	info.set_jsondata(roleInfo->getJsonData());
+	msg::PushRoleData data;
+	data.mutable_info()->set_roleid(roleInfo->getRoleId());
+	data.mutable_info()->set_name(roleInfo->getName());
+	data.mutable_info()->set_lv(roleInfo->getLv());
+	data.mutable_info()->set_occupation(roleInfo->getOcc());
+	data.mutable_info()->set_jsondata(roleInfo->getJsonData());
 
-	SEND_PB_MSG(pNetService, toPlayer->getSessionID(), MessageID::MSG_PUSH_ROLE_DATA, info);
+	SEND_PB_MSG(pNetService, toPlayer->getSessionID(), data);
 
 	return true;
 }

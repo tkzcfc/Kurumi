@@ -3,7 +3,6 @@
 -- @remark: 游戏中所有的网络请求管理
 
 local pb = require "luapb"
-local manifest = require("pb.manifest")
 local NetManager = class("NetManager", import(".BaseManager"))
 
 local GAME_SESSION_ID  = 1
@@ -12,23 +11,22 @@ local FIGHT_SESSION_ID = 2
 local str_len = string.len
 
 -- 要屏蔽输出的消息
-local SHIELD_PRING_MSGS = {}
+local SHIELD_PRING_MSGS = {
+	["msg.RunNextFrameReq"] = true,
+	["msg.RunNextFrameAck"] = true,
+	["msg.Ping"] = true,
+	["msg.Pong"] = true,
+	["msg.PushPingInfo"] = true,
+}
 
 function NetManager:override_onInit()
 	NetManager.super.override_onInit(self)
 
-	SHIELD_PRING_MSGS = {
-		[MessageID.MSG_RUN_NEXT_FRAME_REQ] = true,
-		[MessageID.MSG_RUN_NEXT_FRAME_ACK] = true,
-		[MessageID.MSG_PING_REQ] = true,
-		[MessageID.MSG_PING_ACK] = true,
-		[MessageID.MSG_PUSH_PING_NTF] = true,
-	}
-
-
 	self.sessionInfo = {}
 
-	self:initProtobuf()
+	self.pbLoader = require("app.common.PBLoader").new()
+	self.pbLoader:initialize()
+
 	self:initNet()
 end
 
@@ -75,26 +73,6 @@ function NetManager:setSessionInfo(sessionID, ip, port)
 	self:doConnect(sessionID)
 end
 
--- @brief protobuf 初始化
-function NetManager:initProtobuf()
-	if cc.exports._protobuf_init then return end
-	cc.exports._protobuf_init = true
-
-	local errmsg = ""
-	for k, v in pairs(manifest.pb) do
-		local filename = "pb/" .. v
-		local data = cc.FileUtils:getInstance():getDataFromFile(filename)
-		local ok, err = pb.load(data)
-		if not ok then
-			errmsg = errmsg .. string.format("load pb(%s), error: %s\n", filename, tostring(err))
-		end
-	end
-
-	if errmsg ~= "" then
-		errlog:send(errmsg)
-	end
-end
-
 -- @brief 网络初始化
 function NetManager:initNet()
 	self.client = NetClient:create(false)
@@ -111,30 +89,27 @@ function NetManager:initNet()
 end
 
 -- @brief 向游戏服发送消息
-function NetManager:sendToGame(msgID, msg)
-	self:sendMessage(GAME_SESSION_ID, msgID, msg)
+function NetManager:sendToGame(msgName, msg)
+	self:sendMessage(GAME_SESSION_ID, msgName, msg)
 end
 
 -- @brief 向战斗服发送消息
-function NetManager:sendToFight(msgID, msg)
-	self:sendMessage(FIGHT_SESSION_ID, msgID, msg)
+function NetManager:sendToFight(msgName, msg)
+	self:sendMessage(FIGHT_SESSION_ID, msgName, msg)
 end
 
-function NetManager:sendMessage(sessionID, msgID, msg)
-	local info = manifest.CMD[msgID]
-	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgID] then
-		print("send msg:", info.name, msgID)
+function NetManager:sendMessage(sessionID, msgName, msg)
+	local msgId = self.pbLoader:getMsgId(msgName)
+	assert(msgId)
+
+	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgName] then
+		print("send msg:", msgName, )
 		print_lua_value(msg)
 		print("----------------------------")
 	end
 
-	-- 特殊处理下Null消息
-	if info.msg == "msg.Null" then
-		msg = { code = 1 }
-	end
-
 	local data = pb.encode(info.msg, msg)
-	self.client:sendMsg(sessionID, msgID, data, str_len(data))
+	self.client:sendMsg(sessionID, msgId, data, str_len(data))
 end
 
 -- @brief 连接结果回调
@@ -173,13 +148,14 @@ end
 
 -- @brief 消息接收回调
 function NetManager:onMsgCallback(sessionID, msgID, data)
-	local info = manifest.CMD[msgID]
-	if not info then
+	local msgName = self.pbLoader:getMsgName(msgID)
+
+	if not msgName then
 		self:log("收到非法消息:", msgID)
 		return
 	end
 
-	local msg, err = pb.decode(info.msg, data)
+	local msg, err = pb.decode(msgName, data)
 
 	if not msg then
 		logE("decode msg:", msgID, ",error:", err)
@@ -190,12 +166,12 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 	-- self:recursiveDecode(msg)
 
 	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgID] then
-		print("recv msg:", info.name, msgID)
+		print("recv msg:", msgName, msgID)
 		print_lua_value(msg)
 		print("----------------------------")
 	end
 
-	G_NetEventEmitter:emit(msgID, msg)
+	G_NetEventEmitter:emit(msgName, msg)
 end
 
 --@brief 递归解析protobuf消息

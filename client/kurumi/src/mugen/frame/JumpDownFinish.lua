@@ -14,6 +14,7 @@ end
 -- @brief 触发函数
 function M:emit()
 	if not self.pActorComponent:isInAir() then
+		self.pActorComponent.jumpCount = 0
 		self.pActorComponent:getCurSkill():getCurAction():interrupt(GInterruptType.PROMPTLY)
 	end
 end

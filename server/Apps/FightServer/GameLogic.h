@@ -62,7 +62,7 @@ protected:
 
 	bool containPlayer(int64_t playerID);
 
-	void sendToAllPlayer(MessageID msgID, const ::google::protobuf::MessageLite& msg);
+	void sendToAllPlayer(int32_t msgID, const ::google::protobuf::MessageLite& msg);
 
 	// 广播所有玩家加载信息
 	void sendLoadingPercentToAllPlayer();

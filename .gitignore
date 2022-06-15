@@ -39,3 +39,19 @@ server/vs/
 
 
 server.zip
+.svn/
+client/game.zip
+client/kurumi/frameworks/runtime-src/proj.android/app/assets/
+client/kurumi/frameworks/runtime-src/proj.android/app/build/
+client/tools/olua_test/
+server/build/
+client/tools/lua_mod/
+client/tools/convert2Role/
+client/tools/Excel2Lua/tmp/
+client/tools/AssetsPack/archives/
+client/kurumi/frameworks/runtime-src/proj.android/app/.cxx/
+client/kurumi/build/
+client/cocostudio/
+client/kurumi/bin/
+client/kurumi/frameworks/runtime-src/proj.android/.gradle/
+client/kurumi/frameworks/runtime-src/proj.android/.idea/

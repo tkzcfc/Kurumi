@@ -24,11 +24,11 @@ function IdleToRun:ctor()
 	-- print("slot.G_KEY_SKILL_7", slot.G_KEY_SKILL_7)
 end
 
--- function IdleToRun:rest()
+-- function IdleToRun:reset()
 -- end
 
 function IdleToRun:check()
-	return self.pActorComponent:isKeyDown(slot.G_KEY_MOVE_MUSTER)
+	return self.pActorComponent:isKeepPress(slot.G_KEY_MOVE_MUSTER)
 end
 
 -- function IdleToRun:destroy()

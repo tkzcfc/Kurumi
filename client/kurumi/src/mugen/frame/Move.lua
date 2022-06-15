@@ -17,7 +17,7 @@ end
 
 -- @brief 触发函数
 function M:emit()
-	if not self.pActorComponent:isKeyDown(slot.G_KEY_MOVE_MUSTER) then
+	if not self.pActorComponent:isKeepPress(slot.G_KEY_MOVE_MUSTER) then
 		return
 	end
 
@@ -27,8 +27,8 @@ function M:emit()
 	if self.pActorComponent:isInAir() then
 		moveSpeed.y = 0
 	else
-		if self.pActorComponent:isKeyDown(slot.G_KEY_MOVE_Y) then
-			if self.pActorComponent:isKeyDown(slot.G_KEY_MOVE_DOWN) then
+		if self.pActorComponent:isKeepPress(slot.G_KEY_MOVE_Y) then
+			if self.pActorComponent:isKeepPress(slot.G_KEY_MOVE_DOWN) then
 				moveSpeed.y = -moveSpeed.y
 			end
 		else
@@ -38,7 +38,7 @@ function M:emit()
 
 
 
-	if self.pActorComponent:isKeyDown(slot.G_KEY_MOVE_X) then
+	if self.pActorComponent:isKeepPress(slot.G_KEY_MOVE_X) then
 		-- X移动根据朝向计算正负
 		if self.pActorComponent:isLeft() then
 			moveSpeed.x = -moveSpeed.x

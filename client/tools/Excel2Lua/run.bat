@@ -1,1 +1,1 @@
-python Excel2Lua.py "./sheet/" "./tmp/" "./../../game/src/config/"
+python Excel2Lua.py "./sheet/" "./tmp/" "./../../kurumi/src/config/"

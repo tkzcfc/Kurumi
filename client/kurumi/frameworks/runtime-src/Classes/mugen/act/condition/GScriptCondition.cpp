@@ -114,9 +114,9 @@ bool GScriptCondition::check()
 
 #if RUNTIME_IN_COOCS
 
-void GScriptCondition::rest()
+void GScriptCondition::reset()
 {
-	if (m_succeedLoadingScript && getLuaFunction("rest"))
+	if (m_succeedLoadingScript && getLuaFunction("reset"))
 	{
 		getUserData();
 		LuaEngine::getInstance()->getLuaStack()->executeFunction(1);

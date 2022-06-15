@@ -170,6 +170,8 @@ void NetMsgMgr::sendMsg(uint32_t sessionID, uint32_t msgID, char* data, uint32_t
 		return;
 	}
 
+	assert(len > 0);
+
 	if (len > NET_UV_MAX_MSG_LEN)
 	{
 #if defined (WIN32) || defined(_WIN32)

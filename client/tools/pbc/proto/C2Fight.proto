@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package msg;
+
+option optimize_for = LITE_RUNTIME;
+
+
+//============================================================================================
+//                 Client <==> FightSVR
+//============================================================================================
+// 玩家加入战斗请求
+message JoinFightReq
+{
+	enum MsgId { None=0; Id = 300001; }
+	int32 fightUUID = 1;	//
+	int64 playerID = 2;	//
+	int32 frame = 3;		// 当前逻辑帧
+}
+
+// 世界相关信息
+message FightWorldInfo
+{
+	/////////// 服务器相关参数 ///////////
+	// 服务器当前逻辑帧
+	int32 frame = 1;
+	// 服务器当前状态
+	int32 svr_status = 2;
+	
+	/////////// 世界初始化相关参数 ///////////
+	// 地图id
+	int32 mapId = 3;
+	// 随机数种子
+	uint32 randomSeed = 4;
+	// uuid种子
+	uint32 uuidSeed = 5;
+	
+	
+	// 是否是离线模式
+	bool isOfflineMode = 6;
+	
+	// 在游戏世界中角色id列表
+	repeated int64 roles = 7;
+}
+
+// 玩家加入战斗回复
+message JoinFightAck
+{
+	enum MsgId { None=0; Id = 300002; }
+	int32 code = 1;
+	FightWorldInfo worldInfo = 2;
+}
+
+// 玩家向服务器发送当前加载进度
+message PlayerLoadingReq
+{
+	enum MsgId { None=0; Id = 300003; }
+	float percent = 1; // 百分比
+	bool finish = 2;// 是否完成
+}
+
+message PlayerLoadingAck
+{
+	enum MsgId { None=0; Id = 300004; }
+	repeated int64 pid = 1;
+	repeated float percent = 2;
+	bool finish = 3;
+}
+
+// 玩家准备完毕通知
+message PlayerReadyNotify
+{
+	enum MsgId { None=0; Id = 300006; }
+	int64 pid = 1;	//
+}
+
+// 玩家退出战斗通知
+message PlayerExitFightNotify
+{
+	enum MsgId { None=0; Id = 300008; }
+	int64 pid = 1;
+}
+
+message FrameInputData
+{
+	uint32 key_down = 1;// 按键按下
+}
+
+message PlayerFrameInput
+{
+	int64 pid = 1;	//
+	uint32 frame = 2;	//
+	FrameInputData input = 3;
+}
+
+// 客户端请求进入下一逻辑帧
+message RunNextFrameReq
+{
+	enum MsgId { None=0; Id = 300009; }
+	uint32 frame = 1;	// 输入时客户端逻辑帧
+	FrameInputData input = 2;
+}
+
+// 服务器控制客户端执行下一帧
+message RunNextFrameAck
+{
+	enum MsgId { None=0; Id = 300010; }
+	uint32 nextFrame = 1;		// 下一帧帧数
+	repeated PlayerFrameInput frames = 2;		// 本帧输入
+}
+
+
+message PushFrameInputBegin
+{
+	enum MsgId { None=0; Id = 300012; }	
+}
+ 
+message PushFrameInputEnd
+{
+	enum MsgId { None=0; Id = 300014; }
+}
+
+// 服务器向客户端推帧数据
+message PushFrameInput
+{
+	enum MsgId { None=0; Id = 300016; }
+	uint32 lastFrame = 1;	// 推帧的最后一帧
+	repeated PlayerFrameInput frames = 2;
+}
+
+message PlayerRecords
+{
+	repeated PlayerFrameInput frames = 1;
+}
+
+
+
+// 退出战斗请求
+message ExitFightReq
+{
+	enum MsgId { None=0; Id = 300017; }
+	int32 fightUUID = 1;
+}
+
+// 退出战斗回复
+message ExitFightAck
+{
+	enum MsgId { None=0; Id = 300018; }
+	int32 code = 1;
+}
+
+message Ping
+{
+	enum MsgId { None=0; Id = 300019; }
+	uint32 timestamp = 1;
+	// 上次ping值
+	int32 ping = 2;
+}
+
+message Pong
+{
+	enum MsgId { None=0; Id = 300020; }
+	uint32 timestamp = 1;
+}
+
+message PingInfo
+{
+	int64 pid = 1;	//
+	int32 ping = 2;
+}
+
+// 服务端推送个个玩家的ping值
+message PushPingInfo
+{
+	enum MsgId { None=0; Id = 300022; }
+	repeated PingInfo infos = 1;
+}
+
+ 

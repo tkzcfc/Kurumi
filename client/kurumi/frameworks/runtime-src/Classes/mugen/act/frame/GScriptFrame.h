@@ -26,12 +26,20 @@ public:
 	virtual bool deserialize(GByteBuffer& byteBuffer) override;
 
 	virtual void onEmit() override;
-#if RUNTIME_IN_COOCS
 
+
+	virtual void onEnter(int32_t currentFrameIndex) override;
+
+	virtual void onExit(int32_t currentFrameIndex) override;
+
+
+#if RUNTIME_IN_COOCS
 
 	void* getScriptObject() const;
 
 private:
+
+	void initLuaTable();
 
 	void getScriptObjectInternal() const;
 

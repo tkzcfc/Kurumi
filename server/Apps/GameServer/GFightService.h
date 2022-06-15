@@ -35,7 +35,7 @@ protected:
 
 	void onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartPVPFightReq& msg);
 
-	void onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& msg);
+	void onMsg_StopPVPFightReq(uint32_t sessionID, const msg::StopPVPFightReq& msg);
 
 
 private:

@@ -19,15 +19,15 @@ uint32_t GLoginService::onInit()
 
 	// server
 	m_pSlaveNodeService = m_serviceMgr->getService<GSlaveNodeService>();
-	ON_PB_MSG_CLASS_CALL(m_pSlaveNodeService->noticeCenter(), MessageID::MSG_CKECK_TOKEN_ACK, svr_msg::CheckTokenAck, onMsg_CheckTokenAck);
-	ON_PB_MSG_CLASS_CALL(m_pSlaveNodeService->noticeCenter(), MessageID::MES_CHANGE_TOKEN_NTF, svr_msg::TokenChangeNtf, onMsg_TokenChangeNtf);
+	ON_PB_MSG_CLASS_CALL(m_pSlaveNodeService->noticeCenter(), svr_msg::CheckTokenAck, onMsg_CheckTokenAck);
+	ON_PB_MSG_CLASS_CALL(m_pSlaveNodeService->noticeCenter(), svr_msg::TokenChangeNtf, onMsg_TokenChangeNtf);
 
 	// client
 	m_pNetService = m_serviceMgr->getService<GNetService>();
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_LOGIN_REQ, msg::LoginReq, onMsg_LoginReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_CREATE_ROLE_REQ, msg::CreateRoleReq, onMsg_CreateRoleReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_ENTER_GAME_REQ, msg::EnterGameReq, onMsg_EnterGameReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_MODIFY_ROLE_DATA_REQ, msg::ModifyRoleDataReq, onMsg_ModifyRoleDataReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::LoginReq, onMsg_LoginReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::CreateRoleReq, onMsg_CreateRoleReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::EnterGameReq, onMsg_EnterGameReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::ModifyRoleDataReq, onMsg_ModifyRoleDataReq);
 
 
 	// 玩家管理服务
@@ -130,7 +130,7 @@ void GLoginService::onMsg_CheckTokenAck(uint32_t sessionID, const svr_msg::Check
 		ack.set_code(msg.code());
 	}
 	
-	SEND_PB_MSG(m_pNetService, msg.session(), MessageID::MSG_LOGIN_ACK, ack);
+	SEND_PB_MSG(m_pNetService, msg.session(), ack);
 
 	if (ack.code() == err::Code::SUCCESS && ack.infos_size() == 1)
 	{
@@ -160,7 +160,7 @@ void GLoginService::onMsg_LoginReq(uint32_t sessionID, const msg::LoginReq& msg)
 	{
 		msg::LoginAck ack;
 		ack.set_code(err::SVR_ERROR);
-		SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_LOGIN_ACK, ack);
+		SEND_PB_MSG(m_pNetService, sessionID, ack);
 		return;
 	}
 
@@ -170,13 +170,13 @@ void GLoginService::onMsg_LoginReq(uint32_t sessionID, const msg::LoginReq& msg)
 	req.set_token(msg.token());
 	req.set_pid(msg.playerid());
 	req.set_session(sessionID);
-	SEND_PB_MSG_NO_SESSION(m_pSlaveNodeService, MessageID::MSG_CKECK_TOKEN_REQ, req);
+	SEND_PB_MSG_NO_SESSION(m_pSlaveNodeService, req);
 
 	GApplication::getInstance()->getScheduler()->scheduleOnce([=](float dt) 
 	{
 		msg::LoginAck ack;
 		ack.set_code(err::LOGIN_TIMEOUT);
-		SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_LOGIN_ACK, ack);
+		SEND_PB_MSG(m_pNetService, sessionID, ack);
 	}, this, 2.0f, loginTimeoutKey(sessionID));
 }
 
@@ -213,7 +213,7 @@ void GLoginService::onMsg_CreateRoleReq(uint32_t sessionID, const msg::CreateRol
 
 		player->addRole(pRole);
 	} while (false);
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_CREATE_ROLE_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
 void GLoginService::onMsg_EnterGameReq(uint32_t sessionID, const msg::EnterGameReq& msg)
@@ -260,7 +260,7 @@ void GLoginService::onMsg_EnterGameReq(uint32_t sessionID, const msg::EnterGameR
 		pInfo->set_jsondata(pRole->getJsonData());
 	} while (false);
 
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_ENTER_GAME_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
 void GLoginService::onMsg_ModifyRoleDataReq(uint32_t sessionID, const msg::ModifyRoleDataReq& msg)
@@ -286,13 +286,13 @@ void GLoginService::onMsg_ModifyRoleDataReq(uint32_t sessionID, const msg::Modif
 
 		bool modify = false;
 
-		if (msg.has_name())
+		if (!msg.name().empty())
 		{
 			modify = true;
 			pRole->setName(msg.name());
 		}
 
-		if (msg.has_jsondata())
+		if (!msg.jsondata().empty())
 		{
 			modify = true;
 			pRole->setJsonData(msg.jsondata());
@@ -302,7 +302,7 @@ void GLoginService::onMsg_ModifyRoleDataReq(uint32_t sessionID, const msg::Modif
 			pRole->setDirty();
 	} while (false);
 
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_MODIFY_ROLE_DATA_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
 void GLoginService::onPlayerLogin(int64_t playerId, uint32_t sessionID)
@@ -335,7 +335,7 @@ void GLoginService::playerOffline(GPlayer* player, err::Code code)
 	{
 		msg::ExitGameNtf ntf;
 		ntf.set_code(code);
-		SEND_PB_MSG(m_pNetService, player->getSessionID(), MessageID::MSG_EXIT_GAME_NTF, ntf);
+		SEND_PB_MSG(m_pNetService, player->getSessionID(), ntf);
 	}
 
 	/// 玩家退出游戏清理逻辑

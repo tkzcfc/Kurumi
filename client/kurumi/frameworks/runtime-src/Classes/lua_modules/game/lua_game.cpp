@@ -1,6 +1,6 @@
 /*
 ** Lua binding: game
-** Generated automatically by tolua++-1.0.92 on 05/28/22 21:14:42.
+** Generated automatically by tolua++-1.0.92 on 05/29/22 22:06:44.
 */
 
 #ifndef __cplusplus
@@ -1918,6 +1918,40 @@ static int tolua_game_GActorComponent_doSkill00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: isKeepPress of class  GActorComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GActorComponent_isKeepPress00
+static int tolua_game_GActorComponent_isKeepPress00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GActorComponent",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GActorComponent* self = (GActorComponent*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int key = (( unsigned int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isKeepPress'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isKeepPress(key);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isKeepPress'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: isKeyDown of class  GActorComponent */
 #ifndef TOLUA_DISABLE_tolua_game_GActorComponent_isKeyDown00
 static int tolua_game_GActorComponent_isKeyDown00(lua_State* tolua_S)
@@ -1947,6 +1981,40 @@ static int tolua_game_GActorComponent_isKeyDown00(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'isKeyDown'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isKeyUp of class  GActorComponent */
+#ifndef TOLUA_DISABLE_tolua_game_GActorComponent_isKeyUp00
+static int tolua_game_GActorComponent_isKeyUp00(lua_State* tolua_S)
+{
+#if COCOS2D_DEBUG >= 1
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"GActorComponent",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  GActorComponent* self = (GActorComponent*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int key = (( unsigned int)  tolua_tonumber(tolua_S,2,0));
+#if COCOS2D_DEBUG >= 1
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isKeyUp'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->isKeyUp(key);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#if COCOS2D_DEBUG >= 1
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isKeyUp'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4323,7 +4391,9 @@ TOLUA_API int tolua_game_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getSkill",tolua_game_GActorComponent_getSkill00);
    tolua_function(tolua_S,"getCurSkill",tolua_game_GActorComponent_getCurSkill00);
    tolua_function(tolua_S,"doSkill",tolua_game_GActorComponent_doSkill00);
+   tolua_function(tolua_S,"isKeepPress",tolua_game_GActorComponent_isKeepPress00);
    tolua_function(tolua_S,"isKeyDown",tolua_game_GActorComponent_isKeyDown00);
+   tolua_function(tolua_S,"isKeyUp",tolua_game_GActorComponent_isKeyUp00);
    tolua_function(tolua_S,"setPosition",tolua_game_GActorComponent_setPosition00);
    tolua_function(tolua_S,"isInAir",tolua_game_GActorComponent_isInAir00);
    tolua_function(tolua_S,"isLeft",tolua_game_GActorComponent_isLeft00);

@@ -53,6 +53,11 @@ void GChannel::clear()
 void GChannel::reset()
 {
 	m_triggerTag = false;
+
+	for (auto it : m_conditions)
+	{
+		it->reset();
+	}
 }
 
 int32_t GChannel::getConditionIndex(GCondition* condition)

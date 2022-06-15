@@ -27,7 +27,7 @@ public:
 
 	virtual bool check() = 0;
 
-	virtual void rest() {}
+	virtual void reset() {}
 
 	virtual void serialize(GByteBuffer& byteBuffer);
 

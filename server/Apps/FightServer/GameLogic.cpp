@@ -88,9 +88,9 @@ err::Code GameLogic::init(const GGameWorldInitArgs &args, const ::google::protob
 	m_pNetService = m_pApplication->getServiceMgr()->getService<GNetService>();
 
 	//! 客户端通信
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_RUN_NEXT_FRAME_REQ, msg::RunNextFrameReq, onMsg_RunNextFrameReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_LOADING_PERCENT_REQ, msg::PlayerLoadingReq, onMsg_PlayerLoadingReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_PING_ACK, msg::Pong, onMsg_Pong);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::RunNextFrameReq, onMsg_RunNextFrameReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::PlayerLoadingReq, onMsg_PlayerLoadingReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::Pong, onMsg_Pong);
 
 	return err::Code::SUCCESS;
 }
@@ -223,7 +223,7 @@ void GameLogic::update_Ready(float dt)
 
 		msg::RunNextFrameAck ack;
 		ack.set_nextframe(0);
-		this->sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, ack);
+		this->sendToAllPlayer(ack.Id, ack);
 		// 让下一逻辑帧更新ping值
 		m_pingTime = 10000.0f;
 	}
@@ -283,7 +283,7 @@ void GameLogic::update_Run(float dt)
 			m_pastRecords.add_frames()->CopyFrom(*m_pCacheFrameInputs[i]);
 		}
 		m_runNextFrameAckCache.set_nextframe(m_world->getGameLogicFrame());
-		sendToAllPlayer(MessageID::MSG_RUN_NEXT_FRAME_ACK, m_runNextFrameAckCache);
+		sendToAllPlayer(m_runNextFrameAckCache.Id, m_runNextFrameAckCache);
 
 		m_world->updateFrame();
 
@@ -403,7 +403,7 @@ void GameLogic::pingUpdate(float dt)
 		for (auto i = 0; i < m_playerCount; ++i)
 		{
 			req.set_ping(m_players[i]->getPing());
-			SEND_PB_MSG(m_pNetService, m_players[i]->getSessionID(), MessageID::MSG_PING_REQ, req);
+			SEND_PB_MSG(m_pNetService, m_players[i]->getSessionID(), req);
 		}
 	}
 
@@ -419,7 +419,7 @@ void GameLogic::pingUpdate(float dt)
 			info->set_pid(m_players[i]->getPlayerID());
 			info->set_ping(m_players[i]->getPing());
 		}
-		sendToAllPlayer(MessageID::MSG_PUSH_PING_NTF, ntf);
+		sendToAllPlayer(ntf.Id, ntf);
 	}
 }
 
@@ -521,7 +521,7 @@ void GameLogic::doJoin(uint32_t sessionID, const msg::JoinFightReq& req)
 
 	//msg::PlayerReadyNotify ntf;
 	//ntf.set_pid(req.playerid());
-	//this->sendToAllPlayer(MessageID::MSG_PLAYER_READY_NTF, ntf);
+	//this->sendToAllPlayer(ntf.Id, ntf);
 
 	if (m_state == GameLogic::READY || m_state == GameLogic::WAIT_CONNECT)
 	{
@@ -540,7 +540,7 @@ void GameLogic::exitGame(int64_t playerID)
 
 	msg::PlayerExitFightNotify ntf;
 	ntf.set_pid(playerID);
-	this->sendToAllPlayer(MessageID::MSG_PLAYER_EXIT_FIGHT_NTF, ntf);
+	this->sendToAllPlayer(ntf.Id, ntf);
 	
 	std::unique_ptr<GamePlayer> tmp[G_FIGHT_MAX_PLAYER_COUNT];
 	int32_t index = 0;
@@ -599,11 +599,11 @@ bool GameLogic::containPlayer(int64_t playerID)
 }
 
 
-void GameLogic::sendToAllPlayer(MessageID msgID, const ::google::protobuf::MessageLite& msg)
+void GameLogic::sendToAllPlayer(int32_t msgID, const ::google::protobuf::MessageLite& msg)
 {
 	for (auto i = 0; i < m_playerCount; ++i)
 	{
-		SEND_PB_MSG(m_pNetService, m_players[i]->getSessionID(), msgID, msg);
+		SEND_PB_MSG_EX(m_pNetService, m_players[i]->getSessionID(), msgID, msg);
 	}
 }
 
@@ -645,16 +645,15 @@ void GameLogic::sendLoadingPercentToAllPlayer()
 		finish = finish & m_players[i]->getLoadFinish();
 	}
 	ack.set_finish(finish);
-	sendToAllPlayer(MessageID::MSG_LOADING_PERCENT_ACK, ack);
+	sendToAllPlayer(ack.Id, ack);
 }
 
 // 向玩家推帧
 void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
 {
 	// MSG_PUSH_FRAME_BEGIN
-	msg::Null null;
-	null.set_code(err::Code::SUCCESS);
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_BEGIN, null);
+	msg::PushFrameInputBegin begin;
+	SEND_PB_MSG(m_pNetService, sessionID, begin);
 
 
 	msg::PushFrameInput ack;
@@ -678,7 +677,7 @@ void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
 				// 大于一定帧数后进行分片推帧
 				if (curCount > 50)
 				{
-					SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_INPUT, ack);
+					SEND_PB_MSG(m_pNetService, sessionID, ack);
 					ack.clear_frames();
 					sendTag = false;
 				}
@@ -690,11 +689,12 @@ void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
 
 	if (sendTag)
 	{
-		SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_INPUT, ack);
+		SEND_PB_MSG(m_pNetService, sessionID, ack);
 	}
 
 	// MSG_PUSH_FRAME_END
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_PUSH_FRAME_END, null);
+	msg::PushFrameInputEnd end;
+	SEND_PB_MSG(m_pNetService, sessionID, end);
 }
 
 void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req)

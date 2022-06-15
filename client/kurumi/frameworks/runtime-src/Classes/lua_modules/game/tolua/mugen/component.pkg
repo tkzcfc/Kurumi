@@ -64,8 +64,12 @@ class GActorComponent : public GComponent
 	
 	void doSkill(int32_t id);
 	
-	// 判断按键是否按下
+	// 判断按键是否持续按下
+	bool isKeepPress(G_BIT_TYPE key);
+	// 判断按键是否在本帧按下（上一帧是抬起状态）
 	bool isKeyDown(G_BIT_TYPE key);
+	// 判断按键是否在本帧抬起（上一帧是按下状态）
+	bool isKeyUp(G_BIT_TYPE key);
 	
 	void setPosition(float posx, float posy);
 	

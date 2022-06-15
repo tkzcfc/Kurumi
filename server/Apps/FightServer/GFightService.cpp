@@ -24,11 +24,11 @@ uint32_t GFightService::onInit()
 	MAX_FIGHT_COUNT = pConfigService->iniReader().GetInteger(appName, "maxFightCount", 100);
 	
 	//! 服务器通信
-	ON_PB_MSG_CLASS_CALL(m_pSlaveNode->noticeCenter(), MessageID::MSG_NEW_FIGHT_REQ, svr_msg::NewFightReq, onMsg_NewFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pSlaveNode->noticeCenter(), svr_msg::NewFightReq, onMsg_NewFightReq);
 
 	//! 客户端通信
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_JOIN_FIGHT_REQ, msg::JoinFightReq, onMsg_JoinFightReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_EXIT_FIGHT_REQ, msg::ExitFightReq, onMsg_ExitFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::JoinFightReq, onMsg_JoinFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::ExitFightReq, onMsg_ExitFightReq);
 
 	// 随机数生成器
 	uint32_t seed = time(NULL);
@@ -135,7 +135,7 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	if (msg.roles_size() <= 0)
 	{
 		ack.set_code(err::Code::PARAM_ERROR);
-		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, MessageID::MSG_NEW_FIGHT_ACK, ack);
+		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, ack);
 		return;
 	}
 
@@ -143,7 +143,7 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	if (this->curFightCount() >= MAX_FIGHT_COUNT)
 	{
 		ack.set_code(err::Code::OVERLOAD);
-		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, MessageID::MSG_NEW_FIGHT_ACK, ack);
+		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, ack);
 		return;
 	}
 
@@ -152,7 +152,7 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	if (logic == NULL)
 	{
 		ack.set_code(err::Code::NO_MEMORY);
-		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, MessageID::MSG_NEW_FIGHT_ACK, ack);
+		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, ack);
 		return;
 	}
 
@@ -175,14 +175,14 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	{
 		delete logic;
 		ack.set_code(code);
-		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, MessageID::MSG_NEW_FIGHT_ACK, ack);
+		SEND_PB_MSG_NO_SESSION(m_pSlaveNode, ack);
 		return;
 	}
 	m_arrFightInfo.push_back(logic);
 
 	ack.set_code(err::Code::SUCCESS);
 	ack.set_uuid(logic->getuuid());
-	SEND_PB_MSG_NO_SESSION(m_pSlaveNode, MessageID::MSG_NEW_FIGHT_ACK, ack);
+	SEND_PB_MSG_NO_SESSION(m_pSlaveNode, ack);
 }
 
 
@@ -210,7 +210,7 @@ void GFightService::onMsg_JoinFightReq(uint32_t sessionID, const msg::JoinFightR
 			}
 
 			ack.set_code(it->joinCode(sessionID, msg));
-			SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_JOIN_FIGHT_ACK, ack);
+			SEND_PB_MSG(m_pNetService, sessionID, ack);
 
 			if (ack.code() == err::Code::SUCCESS)
 			{
@@ -222,7 +222,7 @@ void GFightService::onMsg_JoinFightReq(uint32_t sessionID, const msg::JoinFightR
 
 	// 找不到对应ID
 	ack.set_code(err::Code::NOT_FOUND_FIGHT);
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_JOIN_FIGHT_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
 void GFightService::onMsg_ExitFightReq(uint32_t sessionID, const msg::ExitFightReq& msg)
@@ -239,5 +239,5 @@ void GFightService::onMsg_ExitFightReq(uint32_t sessionID, const msg::ExitFightR
 		}
 	}
 
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_EXIT_FIGHT_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }

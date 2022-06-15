@@ -26,6 +26,9 @@ void GInputSystem::step()
 		pActorComponent->lastKeyDown = pActorComponent->curKeyDown;
 		// 清空当前输入
 		pActorComponent->curKeyDown = G_KEY_NONE;
+
+		pActorComponent->keyDownInThisFrame = G_KEY_NONE;
+		pActorComponent->keyUpInThisFrame = G_KEY_NONE;
 	}
 
 	// 按键状态更新

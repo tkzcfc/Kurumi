@@ -20,11 +20,11 @@ uint32_t GFightService::onInit()
 	m_pPlayerMngService = m_serviceMgr->getService<GPlayerMngService>();
 	m_pRoleMngService = m_serviceMgr->getService<GRoleMngService>();
 
-	ON_PB_MSG_CLASS_CALL(m_pMasterNodeService->noticeCenter(), MessageID::MSG_NEW_FIGHT_ACK, svr_msg::NewFightAck, onMsg_NewFightAck);
+	ON_PB_MSG_CLASS_CALL(m_pMasterNodeService->noticeCenter(), svr_msg::NewFightAck, onMsg_NewFightAck);
 
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_START_PVE_REQ, msg::StartPVEFightReq, onMsg_StartPVEFightReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_START_PVP_REQ, msg::StartPVPFightReq, onMsg_StartPVPFightReq);
-	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), MessageID::MSG_STOP_PVP_REQ, msg::Null, onMsg_StopPVPFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StartPVEFightReq, onMsg_StartPVEFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StartPVPFightReq, onMsg_StartPVPFightReq);
+	ON_PB_MSG_CLASS_CALL(m_pNetService->noticeCenter(), msg::StopPVPFightReq, onMsg_StopPVPFightReq);
 
 	GApplication::getInstance()->getScheduler()->schedule(std::bind(&GFightService::onUpdate_PVPCheck, this, std::placeholders::_1), this, 0.5f, false, "pvp_check");
 
@@ -137,7 +137,7 @@ void GFightService::onMsg_NewFightAck(uint32_t sessionID, const svr_msg::NewFigh
 		auto role = m_pRoleMngService->getRole(it->second.roleid[i]);
 		if (role)
 		{
-			SEND_PB_MSG(m_pNetService, role->getSessionID(), MessageID::MSG_START_FIGHT_NTF, ntf);
+			SEND_PB_MSG(m_pNetService, role->getSessionID(), ntf);
 		}
 	}
 
@@ -177,7 +177,7 @@ void GFightService::onMsg_StartPVEFightReq(uint32_t sessionID, const msg::StartP
 			}
 		}
 	}
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_START_PVE_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 
 	if (ack.code() != err::Code::SUCCESS)
 		return;
@@ -205,7 +205,7 @@ void GFightService::onMsg_StartPVEFightReq(uint32_t sessionID, const msg::StartP
 		pRole->set_roleid(pRoleInfo->getRoleId());
 		pRole->set_occ(pRoleInfo->getOcc());
 	}
-	SEND_PB_MSG(m_pMasterNodeService, fightNode->sessionID, MessageID::MSG_NEW_FIGHT_REQ, req);
+	SEND_PB_MSG(m_pMasterNodeService, fightNode->sessionID, req);
 }
 
 void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartPVPFightReq& msg)
@@ -218,7 +218,7 @@ void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartP
 		// 通知客户端匹配成功
 		msg::StartPVPFightAck ack;
 		ack.set_code(err::Code::PVP_MATCH_SUC);
-		SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_START_PVP_ACK, ack);
+		SEND_PB_MSG(m_pNetService, sessionID, ack);
 		return;
 	}
 
@@ -227,10 +227,10 @@ void GFightService::onMsg_StartPVPFightReq(uint32_t sessionID, const msg::StartP
 	// 通知客户端匹配中
 	msg::StartPVPFightAck ack;
 	ack.set_code(err::Code::PVP_MATCHING);
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_START_PVP_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
-void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& msg)
+void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::StopPVPFightReq& msg)
 {
 	auto pRole = m_pPlayerMngService->getRoleBySessionID(sessionID);
 	G_CHECK_NULL_RETURN(pRole);
@@ -262,7 +262,7 @@ void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& m
 							// 通知其他玩家对手取消匹配
 							msg::StartPVPFightAck ack;
 							ack.set_code(err::Code::PVP_RIVAL_EXIT);
-							SEND_PB_MSG(m_pNetService, pRoleInfo->getSessionID(), MessageID::MSG_START_PVP_ACK, ack);
+							SEND_PB_MSG(m_pNetService, pRoleInfo->getSessionID(), ack);
 						}
 					}
 				}
@@ -278,9 +278,9 @@ void GFightService::onMsg_StopPVPFightReq(uint32_t sessionID, const msg::Null& m
 	}
 
 	// 通知客户端取消成功
-	msg::CodeAck ack;
+	msg::StopPVPFightAck ack;
 	ack.set_code(err::Code::SUCCESS);
-	SEND_PB_MSG(m_pNetService, sessionID, MessageID::MSG_STOP_PVP_ACK, ack);
+	SEND_PB_MSG(m_pNetService, sessionID, ack);
 }
 
 void GFightService::onUpdate_PVPCheck(float dt)
@@ -338,7 +338,7 @@ void GFightService::onUpdate_PVPCheck(float dt)
 		for (auto i = 0; i < roleCount; ++i)
 		{
 			auto pRoleInfo = m_pRoleMngService->getRole(arrRole[i]);
-			SEND_PB_MSG(m_pNetService, pRoleInfo->getSessionID(), MessageID::MSG_START_PVP_ACK, ack);
+			SEND_PB_MSG(m_pNetService, pRoleInfo->getSessionID(), ack);
 		}
 
 		if (fightNode)
@@ -362,7 +362,7 @@ void GFightService::onUpdate_PVPCheck(float dt)
 					pRole->set_occ(pRoleInfo->getOcc());
 				}
 			}
-			SEND_PB_MSG(m_pMasterNodeService, fightNode->sessionID, MessageID::MSG_NEW_FIGHT_REQ, req);
+			SEND_PB_MSG(m_pMasterNodeService, fightNode->sessionID, req);
 		}
 	}
 }

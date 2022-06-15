@@ -80,8 +80,51 @@ bool GScriptFrame::deserialize(GByteBuffer& byteBuffer)
 
 void GScriptFrame::onEmit()
 {
+#if RUNTIME_IN_COOCS
+	initLuaTable();
+	if (m_succeedLoadingScript && getLuaFunction("emit"))
+	{
+		getUserData();
+		LuaEngine::getInstance()->getLuaStack()->executeFunction(1);
+	}
+#endif
+}
+
+void GScriptFrame::onEnter(int32_t currentFrameIndex)
+{
+#if RUNTIME_IN_COOCS
+	GEventFrame::onEnter(currentFrameIndex);
+
+	initLuaTable();
+	if (m_succeedLoadingScript && getLuaFunction("onEnter"))
+	{
+		getUserData();
+		LuaEngine::getInstance()->getLuaStack()->pushInt(currentFrameIndex);
+		LuaEngine::getInstance()->getLuaStack()->executeFunction(2);
+	}
+#endif
+}
+
+void GScriptFrame::onExit(int32_t currentFrameIndex)
+{
+#if RUNTIME_IN_COOCS
+	GEventFrame::onExit(currentFrameIndex);
+
+	initLuaTable();
+	if (m_succeedLoadingScript && getLuaFunction("onExit"))
+	{
+		getUserData();
+		LuaEngine::getInstance()->getLuaStack()->pushInt(currentFrameIndex);
+		LuaEngine::getInstance()->getLuaStack()->executeFunction(2);
+	}
+#endif
+}
 
 #if RUNTIME_IN_COOCS
+
+
+void GScriptFrame::initLuaTable()
+{
 	if (false == m_isInitLuaTab)
 	{
 		m_isInitLuaTab = true;
@@ -94,17 +137,7 @@ void GScriptFrame::onEmit()
 			LuaEngine::getInstance()->getLuaStack()->executeFunction(2);
 		}
 	}
-
-	if (m_succeedLoadingScript && getLuaFunction("emit"))
-	{
-		getUserData();
-		LuaEngine::getInstance()->getLuaStack()->executeFunction(1);
-	}
-#endif
 }
-
-#if RUNTIME_IN_COOCS
-
 
 void GScriptFrame::getScriptObjectInternal() const
 {

@@ -1,0 +1,183 @@
+syntax = "proto3";
+
+package msg;
+
+option optimize_for = LITE_RUNTIME;
+
+
+
+//============================================================================================
+//                 Client <==> GameSVR
+//============================================================================================
+
+message PlayerAccountInfo
+{
+	int64 playerID = 1; // 玩家id
+	string name = 2;	// 玩家昵称
+	repeated int64 arrRoleIds = 3;// 此玩家含有的角色id集合
+}
+
+// 角色详细信息
+message RoleDetailedInfo
+{
+	int64 roleId = 1;	// 角色Id
+	string name = 2;	// 角色昵称
+	int32 lv = 3;		// 角色等级
+	int32 occupation = 4;// 角色职业
+	string jsonData = 5;//
+}
+
+// 角色简要信息
+message RoleSimpleInfo
+{
+	int64 roleId = 1;	// 角色Id
+	string name = 2;	// 角色昵称
+	int32 lv = 3;		// 角色等级
+	int32 occupation = 4;// 角色职业
+	string jsonData = 5;//
+}
+
+
+
+// 游戏登录请求
+message LoginReq
+{
+	enum MsgId { None=0; Id = 200001; }
+	string token = 1;	// token
+	string account = 2;	// 账号
+	int64 playerID = 3; 	// 玩家id,默认填0则自动登录或创建玩家
+}
+
+
+// 游戏登录返回
+message LoginAck
+{
+	enum MsgId { None=0; Id = 200002; }
+	int32 code = 1;
+	repeated PlayerAccountInfo infos = 2; // 如果在该服存在多个玩家数据,则登录失败返回所有玩家数据
+}
+
+
+
+// 进入游戏请求
+message EnterGameReq
+{
+	enum MsgId { None=0; Id = 200003; }
+	string token = 1; 		// token
+	int64 playerID = 2;	// 玩家id
+	int64 roleID = 3;		// 角色id
+}
+
+// 进入游戏返回
+message EnterGameAck
+{
+	enum MsgId { None=0; Id = 200004; }
+	int32 code = 1;
+	RoleDetailedInfo roleinfo = 2;
+}
+
+
+
+// 创建角色请求
+message CreateRoleReq
+{
+	enum MsgId { None=0; Id = 200005; }
+	int32 occupation = 1;// 角色职业
+	string name = 2;	// 角色昵称
+}
+
+message CreateRoleAck
+{
+	enum MsgId { None=0; Id = 200006; }
+	int32 code = 1;
+	int64 roleID = 2;
+}
+
+
+// 修改角色数据
+message ModifyRoleDataReq
+{
+	enum MsgId { None=0; Id = 200007; }
+	int64 roleId = 1;
+	string jsonData = 2;
+	string name = 3;
+}
+
+message ModifyRoleDataAck
+{
+	enum MsgId { None=0; Id = 200008; }
+	int32 code = 1;
+}
+
+
+// 退出游戏通知
+message ExitGameNtf
+{
+	enum MsgId { None=0; Id = 200010; }
+	int32 code = 1;
+}
+
+// pve
+message PVEFightInfo
+{
+	int64 roleId = 1;	// 玩家id
+}
+
+message StartPVEFightReq
+{
+	enum MsgId { None=0; Id = 200011; }
+	int32 carbonId = 1; // 副本id
+	bool isOfflineMode = 2; // 同步方式是否是离线模式(roles == 1时这个值才有效)
+	repeated PVEFightInfo roles = 3; // 进入副本的玩家Id 
+}
+
+message StartPVEFightAck
+{
+	enum MsgId { None=0; Id = 200012; }
+	int32 code = 1;
+}
+
+// pvp
+// 开始pvp请求(匹配对手请求)
+message StartPVPFightReq
+{
+	enum MsgId { None=0; Id = 200013; }
+	int64 foeId = 1; // 对手id,为0则表示随机分配 为其他则表示挑战他人
+}
+// pvp请求返回
+message StartPVPFightAck
+{
+	enum MsgId { None=0; Id = 200014; }
+	int32 code = 1;
+}
+
+// 停止pvp请求
+message StopPVPFightReq
+{
+	enum MsgId { None=0; Id = 200015; }
+}
+
+// 
+message StopPVPFightAck
+{
+	enum MsgId { None=0; Id = 200016; }
+	int32 code = 1;
+}
+
+
+// 开始游戏通知
+message StartFightNTF
+{
+	enum MsgId { None=0; Id = 200018; }
+	int32 code = 1;
+	int32 fightUUID = 2; // 战斗id
+	string fightIP = 3;	// 战斗服地址
+	int32 fightPort = 4;	// 战斗服端口
+}
+
+// 向客户端发送角色信息
+message PushRoleData
+{
+	enum MsgId { None=0; Id = 200020; }
+	RoleSimpleInfo info = 1;
+}

@@ -52,15 +52,6 @@ void GamePlayer::input(const msg::RunNextFrameReq& data, uint32_t frame)
 	input->set_frame(frame);
 	input->set_pid(this->getPlayerID());
 
-	// 有时候会遇到客户端的key_down值为0,但是 has_key_down 为false的情况,
-	// 这儿特殊处理下 避免GameLogic 推送MSG_RUN_NEXT_FRAME_ACK消息时 序列化时断言()
-	if (input->mutable_input()->has_key_down() == false)
-	{
-		LOG(ERROR) << __FILE__ << __FUNCTION__ << "  input->mutable_input()->has_key_down() == false";
-		//G_ASSERT(0);
-		input->mutable_input()->set_key_down(0);
-	}
-
 	if (m_inputs.empty())
 	{
 		m_inputs.push_back(input);
