@@ -56,6 +56,35 @@ set(PROTOBUF_HPP
   google/protobuf/stubs/strutil.h
   google/protobuf/stubs/time.h
   google/protobuf/wire_format_lite.h
+
+  google/protobuf/arena_impl.h
+  google/protobuf/any.h
+  google/protobuf/generated_enum_util.h
+  google/protobuf/generated_message_table_driven_lite.h
+  google/protobuf/generated_message_table_driven.h
+  google/protobuf/inlined_string_field.h
+  google/protobuf/metadata_lite.h
+  google/protobuf/port_undef.inc
+  google/protobuf/port.h
+  google/protobuf/port_def.inc
+  google/protobuf/map.h
+  google/protobuf/map_entry_lite.h
+  google/protobuf/map_field_lite.h
+  google/protobuf/stubs/port.h
+  google/protobuf/stubs/logging.h
+  google/protobuf/stubs/platform_macros.h
+  google/protobuf/stubs/macros.h
+  google/protobuf/stubs/fastmem.h
+  google/protobuf/stubs/callback.h
+  google/protobuf/stubs/stl_util.h
+  google/protobuf/stubs/hash.h
+  google/protobuf/stubs/mutex.h
+  google/protobuf/stubs/casts.h
+  google/protobuf/stubs/map_util.h
+  google/protobuf/io/io_win32.h
+  google/protobuf/has_bits.h
+  google/protobuf/map_type_handler.h
+  google/protobuf/extension_set_inl.h
 )
 
 

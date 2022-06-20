@@ -100,6 +100,13 @@ void GGateService::onConnectCallback(net_uv::Client* client, net_uv::Session* se
 	{
 		msg::LoginGateAck ack;
 		ack.set_code(err::Code::SUCCESS);
+
+		std::string data;
+		if (ack.SerializeToString(&data))
+		{
+			printf("%s", data.c_str());
+		}
+
 		SEND_PB_MSG(m_pNetService, session->getSessionID(), ack);
 	}
 	else

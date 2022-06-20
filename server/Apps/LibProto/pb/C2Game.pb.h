@@ -3233,11 +3233,24 @@ class StopPVPMatchReq :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kPlaceholderFieldNumber = 1,
+  };
+  // int32 placeholder = 1;
+  void clear_placeholder();
+  ::PROTOBUF_NAMESPACE_ID::int32 placeholder() const;
+  void set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_placeholder() const;
+  void _internal_set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:msg.StopPVPMatchReq)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::int32 placeholder_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_C2Game_2eproto;
 };
@@ -5107,6 +5120,26 @@ inline void StartPVPFightAck::set_code(::PROTOBUF_NAMESPACE_ID::int32 value) {
 // -------------------------------------------------------------------
 
 // StopPVPMatchReq
+
+// int32 placeholder = 1;
+inline void StopPVPMatchReq::clear_placeholder() {
+  placeholder_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 StopPVPMatchReq::_internal_placeholder() const {
+  return placeholder_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 StopPVPMatchReq::placeholder() const {
+  // @@protoc_insertion_point(field_get:msg.StopPVPMatchReq.placeholder)
+  return _internal_placeholder();
+}
+inline void StopPVPMatchReq::_internal_set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  placeholder_ = value;
+}
+inline void StopPVPMatchReq::set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_placeholder(value);
+  // @@protoc_insertion_point(field_set:msg.StopPVPMatchReq.placeholder)
+}
 
 // -------------------------------------------------------------------
 

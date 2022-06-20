@@ -12,7 +12,7 @@
 	std::string sdata; \
 	if (msg.SerializeToString(&sdata)) \
 	{\
-		sender->sendMsg(sessionID, msg.Id, (char*)sdata.c_str(), sdata.size());\
+		sender->sendMsg(sessionID, decltype(msg)::Id, (char*)sdata.c_str(), sdata.size());\
 	}\
 	else\
 	{\
@@ -36,7 +36,7 @@
 	std::string sdata; \
 	if (msg.SerializeToString(&sdata)) \
 	{\
-		sender->sendMsg(msg.Id, (char*)sdata.c_str(), sdata.size());\
+		sender->sendMsg(decltype(msg)::Id, (char*)sdata.c_str(), sdata.size());\
 	}\
 	else\
 	{\

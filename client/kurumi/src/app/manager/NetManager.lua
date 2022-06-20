@@ -110,6 +110,8 @@ function NetManager:sendMessage(sessionID, msgName, msg)
 
 	local data = pb.encode(msgName, msg)
 	self.client:sendMsg(sessionID, msgId, data, str_len(data))
+	print("send msgId:", msgId)
+	print("send len:", str_len(data))
 end
 
 -- @brief 连接结果回调

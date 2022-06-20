@@ -58,7 +58,7 @@ bool GAccountMgrService::readAccount()
 #if G_DEBUG
 	for (size_t i = 0; i < m_allAcountInfo.size(); i++)
 	{
-		printf("[%d]load db'%s' -> '%s',account: %s\n", i,
+		printf("[%zd]load db'%s' -> '%s',account: %s\n", i,
 			m_allAcountInfo[i].username.c_str(), 
 			m_allAcountInfo[i].password.c_str(),
 			m_allAcountInfo[i].account.c_str());
