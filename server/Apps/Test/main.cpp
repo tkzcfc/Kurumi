@@ -1,7 +1,5 @@
 ﻿#include "GLibBase.h"
 
-#include "msg/NetMsgUtils.h"
-
 class Random
 {
 	unsigned int m_index;

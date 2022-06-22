@@ -63,8 +63,6 @@ uint32_t GNetService::onInit()
 	});
 	m_msgMgr->setOnMsgCallback([](net_uv::NetMsgMgr* mgr, uint32_t sessionID, uint32_t msgID, char* data, uint32_t len)
 	{
-		LOG(ERROR) << "recv id:" << msgID;
-		LOG(ERROR) << "len:" << len;
 		auto ins = reinterpret_cast<GNetService*>(mgr->getUserData());
 		if (ins->m_recvCall)
 			ins->m_recvCall(sessionID, msgID, data, len);

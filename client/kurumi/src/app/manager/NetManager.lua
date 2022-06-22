@@ -110,8 +110,6 @@ function NetManager:sendMessage(sessionID, msgName, msg)
 
 	local data = pb.encode(msgName, msg)
 	self.client:sendMsg(sessionID, msgId, data, str_len(data))
-	print("send msgId:", msgId)
-	print("send len:", str_len(data))
 end
 
 -- @brief 连接结果回调
@@ -167,7 +165,7 @@ function NetManager:onMsgCallback(sessionID, msgID, data)
 	-- 递归解析,quick的pb已经递归解析了,这儿不需要
 	-- self:recursiveDecode(msg)
 
-	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgID] then
+	if G_MACROS.IS_PC and not SHIELD_PRING_MSGS[msgName] then
 		print("recv msg:", msgName, msgID)
 		print_lua_value(msg)
 		print("----------------------------")

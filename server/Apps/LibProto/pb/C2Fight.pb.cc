@@ -3718,12 +3718,10 @@ PushFrameInputBegin::PushFrameInputBegin(const PushFrameInputBegin& from)
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  placeholder_ = from.placeholder_;
   // @@protoc_insertion_point(copy_constructor:msg.PushFrameInputBegin)
 }
 
 void PushFrameInputBegin::SharedCtor() {
-  placeholder_ = 0;
 }
 
 PushFrameInputBegin::~PushFrameInputBegin() {
@@ -3749,7 +3747,6 @@ void PushFrameInputBegin::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  placeholder_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -3759,16 +3756,6 @@ const char* PushFrameInputBegin::_InternalParse(const char* ptr, ::PROTOBUF_NAME
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
-    switch (tag >> 3) {
-      // int32 placeholder = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          placeholder_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
           ctx->SetLastTag(tag);
           goto success;
@@ -3776,8 +3763,6 @@ const char* PushFrameInputBegin::_InternalParse(const char* ptr, ::PROTOBUF_NAME
         ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
-      }
-    }  // switch
   }  // while
 success:
   return ptr;
@@ -3792,12 +3777,6 @@ failure:
   // @@protoc_insertion_point(serialize_to_array_start:msg.PushFrameInputBegin)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
-
-  // int32 placeholder = 1;
-  if (this->placeholder() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_placeholder(), target);
-  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
@@ -3814,13 +3793,6 @@ size_t PushFrameInputBegin::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // int32 placeholder = 1;
-  if (this->placeholder() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_placeholder());
-  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     total_size += _internal_metadata_.unknown_fields().size();
@@ -3843,9 +3815,6 @@ void PushFrameInputBegin::MergeFrom(const PushFrameInputBegin& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.placeholder() != 0) {
-    _internal_set_placeholder(from._internal_placeholder());
-  }
 }
 
 void PushFrameInputBegin::CopyFrom(const PushFrameInputBegin& from) {
@@ -3862,7 +3831,6 @@ bool PushFrameInputBegin::IsInitialized() const {
 void PushFrameInputBegin::InternalSwap(PushFrameInputBegin* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(placeholder_, other->placeholder_);
 }
 
 std::string PushFrameInputBegin::GetTypeName() const {
@@ -3887,12 +3855,10 @@ PushFrameInputEnd::PushFrameInputEnd(const PushFrameInputEnd& from)
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  placeholder_ = from.placeholder_;
   // @@protoc_insertion_point(copy_constructor:msg.PushFrameInputEnd)
 }
 
 void PushFrameInputEnd::SharedCtor() {
-  placeholder_ = 0;
 }
 
 PushFrameInputEnd::~PushFrameInputEnd() {
@@ -3918,7 +3884,6 @@ void PushFrameInputEnd::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  placeholder_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -3928,16 +3893,6 @@ const char* PushFrameInputEnd::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
-    switch (tag >> 3) {
-      // int32 placeholder = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          placeholder_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
           ctx->SetLastTag(tag);
           goto success;
@@ -3945,8 +3900,6 @@ const char* PushFrameInputEnd::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
         ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
-      }
-    }  // switch
   }  // while
 success:
   return ptr;
@@ -3961,12 +3914,6 @@ failure:
   // @@protoc_insertion_point(serialize_to_array_start:msg.PushFrameInputEnd)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
-
-  // int32 placeholder = 1;
-  if (this->placeholder() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_placeholder(), target);
-  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
@@ -3983,13 +3930,6 @@ size_t PushFrameInputEnd::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // int32 placeholder = 1;
-  if (this->placeholder() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_placeholder());
-  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     total_size += _internal_metadata_.unknown_fields().size();
@@ -4012,9 +3952,6 @@ void PushFrameInputEnd::MergeFrom(const PushFrameInputEnd& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.placeholder() != 0) {
-    _internal_set_placeholder(from._internal_placeholder());
-  }
 }
 
 void PushFrameInputEnd::CopyFrom(const PushFrameInputEnd& from) {
@@ -4031,7 +3968,6 @@ bool PushFrameInputEnd::IsInitialized() const {
 void PushFrameInputEnd::InternalSwap(PushFrameInputEnd* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(placeholder_, other->placeholder_);
 }
 
 std::string PushFrameInputEnd::GetTypeName() const {

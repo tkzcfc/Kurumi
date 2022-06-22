@@ -8,8 +8,8 @@ function RoleManager:override_onInit()
 	RoleManager.super.override_onInit(self)
 	self.roleDatas = {}
 
-    -- 游戏服回复的消息相关
-    G_NetEventEmitter:on("msg.RoleSimpleInfo", handler(self, self.onPushRoleSimpleInfo), self)
+    -- 推送角色信息
+    G_NetEventEmitter:on("msg.PushRoleData", handler(self, self.onPushRoleData), self)
 end
 
 -- @brief 设置自己当前登录角色的详细信息
@@ -36,13 +36,15 @@ end
 
 
 ------------------------------------------------- private -------------------------------------------------
-function RoleManager:onPushRoleSimpleInfo(data)
-	local jsonDataStr = data.jsonData
+function RoleManager:onPushRoleData(data)
+	local info = data.info
+	
+	local jsonDataStr = info.jsonData
 	local jsonData = json.decode(jsonDataStr)
 
 	------------------ 初始化jsonData的一些默认值 ------------------
 	-- 角色二进制文件
-	if data.occupation == Const.Role.DAO then
+	if info.occupation == Const.Role.DAO then
 		jsonData.roleFile = "binary/R1001.bytes"
 		jsonData.skin = 1
 	else
@@ -50,10 +52,10 @@ function RoleManager:onPushRoleSimpleInfo(data)
 		jsonData.skin = 2	
 	end
 
-	data.jsonDataStr = jsonDataStr
-	data.jsonData = jsonData
+	info.jsonDataStr = jsonDataStr
+	info.jsonData = jsonData
 
-	self:setRoleData(data.roleId, data)
+	self:setRoleData(info.roleId, info)
 end
 
 return RoleManager

@@ -2292,24 +2292,11 @@ class PushFrameInputBegin :
 
   // accessors -------------------------------------------------------
 
-  enum : int {
-    kPlaceholderFieldNumber = 1,
-  };
-  // int32 placeholder = 1;
-  void clear_placeholder();
-  ::PROTOBUF_NAMESPACE_ID::int32 placeholder() const;
-  void set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_placeholder() const;
-  void _internal_set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:msg.PushFrameInputBegin)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::int32 placeholder_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_C2Fight_2eproto;
 };
@@ -2431,24 +2418,11 @@ class PushFrameInputEnd :
 
   // accessors -------------------------------------------------------
 
-  enum : int {
-    kPlaceholderFieldNumber = 1,
-  };
-  // int32 placeholder = 1;
-  void clear_placeholder();
-  ::PROTOBUF_NAMESPACE_ID::int32 placeholder() const;
-  void set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_placeholder() const;
-  void _internal_set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:msg.PushFrameInputEnd)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::int32 placeholder_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_C2Fight_2eproto;
 };
@@ -4387,49 +4361,9 @@ RunNextFrameAck::frames() const {
 
 // PushFrameInputBegin
 
-// int32 placeholder = 1;
-inline void PushFrameInputBegin::clear_placeholder() {
-  placeholder_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PushFrameInputBegin::_internal_placeholder() const {
-  return placeholder_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PushFrameInputBegin::placeholder() const {
-  // @@protoc_insertion_point(field_get:msg.PushFrameInputBegin.placeholder)
-  return _internal_placeholder();
-}
-inline void PushFrameInputBegin::_internal_set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  placeholder_ = value;
-}
-inline void PushFrameInputBegin::set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_placeholder(value);
-  // @@protoc_insertion_point(field_set:msg.PushFrameInputBegin.placeholder)
-}
-
 // -------------------------------------------------------------------
 
 // PushFrameInputEnd
-
-// int32 placeholder = 1;
-inline void PushFrameInputEnd::clear_placeholder() {
-  placeholder_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PushFrameInputEnd::_internal_placeholder() const {
-  return placeholder_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PushFrameInputEnd::placeholder() const {
-  // @@protoc_insertion_point(field_get:msg.PushFrameInputEnd.placeholder)
-  return _internal_placeholder();
-}
-inline void PushFrameInputEnd::_internal_set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  placeholder_ = value;
-}
-inline void PushFrameInputEnd::set_placeholder(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_placeholder(value);
-  // @@protoc_insertion_point(field_set:msg.PushFrameInputEnd.placeholder)
-}
 
 // -------------------------------------------------------------------
 
