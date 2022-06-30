@@ -88,7 +88,7 @@ end
 ------------------------------------------------------------------------------------------------
 local returnValue = nil
 if G_MACROS.DEBUG then
-    cc.exports.STR = function(key)
+    global.STR = function(key)
         assert(curLanguage)
         returnValue = Lang.getItem(key, curLanguage)
         if returnValue == nil then
@@ -98,7 +98,7 @@ if G_MACROS.DEBUG then
         return returnValue
     end
 else
-    cc.exports.STR = function(key)
+    global.STR = function(key)
         returnValue = Lang.getItem(key, curLanguage)
         if returnValue == nil then
             return tostring(key)

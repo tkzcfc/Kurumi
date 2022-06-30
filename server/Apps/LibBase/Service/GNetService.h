@@ -2,6 +2,7 @@
 
 #include "GIService.h"
 #include "GNoticeCenter.h"
+#include "GTypes.h"
 
 /// 网络服务
 class GNetService final : public GIService
@@ -28,6 +29,10 @@ public:
 	virtual void onUpdate(float) override;
 
 	virtual void onDestroy() override;
+
+public:
+
+	G_SYNTHESIZE_READONLY(GNetType, m_netType, NetType);
 
 public:
 

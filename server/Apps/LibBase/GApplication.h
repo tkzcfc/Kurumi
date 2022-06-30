@@ -50,6 +50,8 @@ private:
 	GScheduler* m_scheduler;
 	std::unique_ptr<GServiceMgr> m_serviceMgr;
 
+	bool m_isStart;
+
 	uint64_t m_startTime;
 	uint64_t m_lastTime;
 	uint64_t m_deltaTimeMilli;

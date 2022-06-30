@@ -3,11 +3,12 @@
 #include "GServiceMgr.h"
 #include "GApplication.h"
 #include "GMasterNodeService.h"
-#include "GStringUtils.h"
+#include "Utils/GStringUtils.h"
 
 GSlaveNodeService::GSlaveNodeService()
 	: m_isOnline(false)
 	, m_stopReconnect(false)
+	, m_netType(GNetType::UNKNOWN)
 {}
 
 GSlaveNodeService::~GSlaveNodeService()
@@ -53,6 +54,7 @@ uint32_t GSlaveNodeService::onInit()
 	m_nodePort = port;
 	m_groupID = group;
 	m_description = description;
+	m_netType = isKcp ? GNetType::KCP : GNetType::TCP;
 
 	if (isKcp)
 		m_client = std::make_unique<net_uv::KCPClient>();

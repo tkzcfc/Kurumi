@@ -16,7 +16,7 @@ UIAction.openActions = openActions
 UIAction.closeActions = closeActions
 
 
-cc.exports.UIActionType = UIActionType
+global.UIActionType = UIActionType
 
 -------------------------------------------- SCALE_TO --------------------------------------------
 

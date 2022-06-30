@@ -2,6 +2,7 @@
 
 #include "GIService.h"
 #include "GNoticeCenter.h"
+#include "GTypes.h"
 
 namespace NSMsg{
 	enum
@@ -40,6 +41,10 @@ class GMasterNodeService final : public GIService
 public:
 	G_DEFINE_SERVICE(GMasterNodeService);
 
+	GMasterNodeService();
+
+	virtual ~GMasterNodeService();
+
 	virtual uint32_t onInit() override;
 
 	virtual void onStartService() override;
@@ -58,6 +63,12 @@ public:
 
 	void sendMsg(uint32_t slaveNodeID, uint32_t msgID, char* data, uint32_t len);
 
+public:
+
+	G_SYNTHESIZE_READONLY(GNetType, m_netType, NetType);
+
+	G_SYNTHESIZE_READONLY(int32_t, m_groupID, GroupID);
+
 protected:
 
 	void onNewConnectCallback(net_uv::Server* svr, net_uv::Session* session);
@@ -73,7 +84,6 @@ private:
 	std::unique_ptr<net_uv::Server> m_svr;
 	std::unique_ptr<net_uv::NetMsgMgr> m_msgMgr;
 	std::unique_ptr<GNoticeCenter>     m_noticeCenter;
-	int32_t m_groupID;
 	std::vector<SlaveNodeInfo>		   m_arrSlaveNodInfos;
 };
 

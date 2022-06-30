@@ -156,6 +156,13 @@ function InputLayer:onKeyDown(key)
     end
 
     self.iInputKey = GTools:U32_BIT_SET(self.iInputKey, key)
+
+    if not cc.CanLogNextFrameRecv and key == InputKey.G_KEY_JUMP then
+    	cc.CanLogNextFrame = true
+    	cc.CanLogNextFrameRecv = true
+    	cc.Last_LOG_Time = G_Helper:gettime()
+    	print("self.iInputKey", self.iInputKey)
+    end
 end
 
 function InputLayer:onKeyUp(key)

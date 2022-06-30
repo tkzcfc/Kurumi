@@ -1,6 +1,6 @@
 ﻿#include "GFileSystem.h"
 #include "3rd/tinydir/tinydir.h"
-#include "GStringUtils.h"
+#include "Utils/GStringUtils.h"
 
 
 void GFileSystem::listFilesRecursively(const std::string& dirPath, std::vector<std::string> *files)

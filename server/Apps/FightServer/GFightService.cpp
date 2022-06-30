@@ -21,7 +21,7 @@ uint32_t GFightService::onInit()
 
 	// 配置读取
 	auto appName = GApplication::getInstance()->getAppName();
-	MAX_FIGHT_COUNT = pConfigService->iniReader().GetInteger(appName, "maxFightCount", 100);
+	MAX_FIGHT_COUNT = pConfigService->iniReader().GetInteger(appName, "MaxFightCount", 100);
 	
 	//! 服务器通信
 	ON_PB_MSG_CLASS_CALL(m_pSlaveNode->noticeCenter(), svr_msg::NewFightReq, onMsg_NewFightReq);
@@ -130,6 +130,7 @@ void GFightService::onMsg_NewFightReq(uint32_t sessionID, const svr_msg::NewFigh
 	ack.set_uuid(0);
 	ack.set_tag(msg.tag());
 	ack.set_fighttype(msg.fighttype());
+	ack.set_nettype((int32_t)m_pNetService->getNetType());
 
 	// 参数错误
 	if (msg.roles_size() <= 0)

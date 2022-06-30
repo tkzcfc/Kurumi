@@ -45,7 +45,7 @@ function PBLoader:initialize()
             return pb.enum(".err.Code", key)
         end
     }
-    cc.exports.errCode = setmetatable({}, meta)
+    global.errCode = setmetatable({}, meta)
 end
 
 -- @brief 通过消息名称获取消息ID

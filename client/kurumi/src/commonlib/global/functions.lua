@@ -287,25 +287,23 @@ local function propertyReadOnly(t, name, defaultVal)
 end
 
 
-
-
 -------------------------------------------------------------------- 导出为全局函数 --------------------------------------------------------------------
 -- 格式化table相关
-cc.exports.print_lua_value = print_lua_value
-cc.exports.format_lua_value = format_lua_value
+global.print_lua_value = print_lua_value
+global.format_lua_value = format_lua_value
 -- 异步任务相关
-cc.exports.async_run = async_run
-cc.exports.async_yield = async_yield
-cc.exports.async_wait = async_wait
-cc.exports.async_cancel = async_cancel
+global.async_run = async_run
+global.async_yield = async_yield
+global.async_wait = async_wait
+global.async_cancel = async_cancel
 -- 设置table只读
-cc.exports.read_only = read_only
+global.read_only = read_only
 -- 退出游戏
-cc.exports.gameExit = gameExit
+global.gameExit = gameExit
 -- 格式化函数
-cc.exports.fmt = fmt
+global.fmt = fmt
 -- 枚举定义函数
-cc.exports.enum = enum
+global.enum = enum
 
-cc.exports.property = property
-cc.exports.propertyReadOnly = propertyReadOnly
+global.property = property
+global.propertyReadOnly = propertyReadOnly

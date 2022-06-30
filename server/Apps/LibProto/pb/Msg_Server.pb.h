@@ -1173,6 +1173,7 @@ class NewFightAck :
     kUuidFieldNumber = 2,
     kTagFieldNumber = 3,
     kFightTypeFieldNumber = 4,
+    kNetTypeFieldNumber = 5,
   };
   // int32 code = 1;
   void clear_code();
@@ -1210,6 +1211,15 @@ class NewFightAck :
   void _internal_set_fighttype(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 netType = 5;
+  void clear_nettype();
+  ::PROTOBUF_NAMESPACE_ID::int32 nettype() const;
+  void set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_nettype() const;
+  void _internal_set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:svr_msg.NewFightAck)
  private:
   class _Internal;
@@ -1219,6 +1229,7 @@ class NewFightAck :
   ::PROTOBUF_NAMESPACE_ID::int32 uuid_;
   ::PROTOBUF_NAMESPACE_ID::int32 tag_;
   ::PROTOBUF_NAMESPACE_ID::int32 fighttype_;
+  ::PROTOBUF_NAMESPACE_ID::int32 nettype_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Msg_5fServer_2eproto;
 };
@@ -1950,6 +1961,26 @@ inline void NewFightAck::_internal_set_fighttype(::PROTOBUF_NAMESPACE_ID::int32 
 inline void NewFightAck::set_fighttype(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_fighttype(value);
   // @@protoc_insertion_point(field_set:svr_msg.NewFightAck.fightType)
+}
+
+// int32 netType = 5;
+inline void NewFightAck::clear_nettype() {
+  nettype_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 NewFightAck::_internal_nettype() const {
+  return nettype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 NewFightAck::nettype() const {
+  // @@protoc_insertion_point(field_get:svr_msg.NewFightAck.netType)
+  return _internal_nettype();
+}
+inline void NewFightAck::_internal_set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  nettype_ = value;
+}
+inline void NewFightAck::set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_nettype(value);
+  // @@protoc_insertion_point(field_set:svr_msg.NewFightAck.netType)
 }
 
 #ifdef __GNUC__

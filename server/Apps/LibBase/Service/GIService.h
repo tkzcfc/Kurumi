@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "GClassTypeId.h"
+#include "Utils/GClassTypeId.h"
 #include "GPlatformMacros.h"
 
 // 服务启动成功

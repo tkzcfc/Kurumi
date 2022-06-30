@@ -173,6 +173,7 @@ message StartFightNTF
 	int32 fightUUID = 2; // 战斗id
 	string fightIP = 3;	// 战斗服地址
 	int32 fightPort = 4;	// 战斗服端口
+	int32 netType = 5;// 1: tcp  2: kcp
 }
 
 // 向客户端发送角色信息

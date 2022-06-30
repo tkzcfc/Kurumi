@@ -20,6 +20,7 @@ GApplication::GApplication(const std::string& appName)
 	m_fpst = 0;
 	m_appName = appName;
 	m_runTime = 0.0f;
+	m_isStart = false;
 
 	init();
 }
@@ -32,10 +33,35 @@ void GApplication::init()
 {
 	m_scheduler = GScheduler::getInstance();
 	m_serviceMgr = std::make_unique<GServiceMgr>();
+
+#if G_TARGET_PLATFORM == G_PLATFORM_WIN32
+	auto menu = ::GetSystemMenu(GetConsoleWindow(), FALSE);
+	::RemoveMenu(menu, SC_CLOSE, 0);
+	::SetConsoleCtrlHandler([](DWORD cEvent)->BOOL {
+		switch (cEvent)
+		{
+		case CTRL_C_EVENT:
+		case CTRL_BREAK_EVENT:
+		{
+			//auto ret = ::MessageBox(GetConsoleWindow(), TEXT("Exit Process ?"), TEXT("Warning"), MB_YESNO);
+			auto ret = ::MessageBox(NULL, TEXT("Exit Process ?"), TEXT("Warning"), MB_YESNO);
+			if (ret == IDYES)
+			{
+				GApplication::getInstance()->end();
+			}
+			return TRUE;
+		}
+		default:
+			break;
+		}
+		return TRUE;
+	}, TRUE);
+#endif
 }
 
 int32_t GApplication::run(uint32_t interval)
 {
+	m_isStart = true;
 	m_lastTime = 0;
 
 	m_loop = uv_loop_new();
@@ -69,6 +95,12 @@ int32_t GApplication::run(uint32_t interval)
 
 void GApplication::end()
 {
+	if (!m_isStart)
+	{
+		return;
+	}
+	m_isStart = false;
+
 	if (m_serviceMgr)
 	{
 		m_serviceMgr->stopAllService([=]() 

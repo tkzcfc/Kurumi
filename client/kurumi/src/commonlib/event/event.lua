@@ -20,4 +20,4 @@ local SysEvent = enum {
     "ON_RESTART_GAME",  -- 即将重启游戏
 }
 
-cc.exports.SysEvent = SysEvent
+global.SysEvent = SysEvent

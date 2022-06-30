@@ -26,7 +26,6 @@ end
 
 function SplashScene:loading()
 	local call = cc.CallFunc:create(function()
-        require("app.ipConfig")
         display.replaceScene(require("scenes.UpdateScene").new())
 	end)
 	self:runAction(cc.Sequence:create(cc.DelayTime:create(0.1), call))

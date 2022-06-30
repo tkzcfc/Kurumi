@@ -3503,6 +3503,7 @@ class StartFightNTF :
     kCodeFieldNumber = 1,
     kFightUUIDFieldNumber = 2,
     kFightPortFieldNumber = 4,
+    kNetTypeFieldNumber = 5,
   };
   // string fightIP = 3;
   void clear_fightip();
@@ -3547,6 +3548,15 @@ class StartFightNTF :
   void _internal_set_fightport(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 netType = 5;
+  void clear_nettype();
+  ::PROTOBUF_NAMESPACE_ID::int32 nettype() const;
+  void set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_nettype() const;
+  void _internal_set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:msg.StartFightNTF)
  private:
   class _Internal;
@@ -3556,6 +3566,7 @@ class StartFightNTF :
   ::PROTOBUF_NAMESPACE_ID::int32 code_;
   ::PROTOBUF_NAMESPACE_ID::int32 fightuuid_;
   ::PROTOBUF_NAMESPACE_ID::int32 fightport_;
+  ::PROTOBUF_NAMESPACE_ID::int32 nettype_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_C2Game_2eproto;
 };
@@ -5254,6 +5265,26 @@ inline void StartFightNTF::_internal_set_fightport(::PROTOBUF_NAMESPACE_ID::int3
 inline void StartFightNTF::set_fightport(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_fightport(value);
   // @@protoc_insertion_point(field_set:msg.StartFightNTF.fightPort)
+}
+
+// int32 netType = 5;
+inline void StartFightNTF::clear_nettype() {
+  nettype_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 StartFightNTF::_internal_nettype() const {
+  return nettype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 StartFightNTF::nettype() const {
+  // @@protoc_insertion_point(field_get:msg.StartFightNTF.netType)
+  return _internal_nettype();
+}
+inline void StartFightNTF::_internal_set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  nettype_ = value;
+}
+inline void StartFightNTF::set_nettype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_nettype(value);
+  // @@protoc_insertion_point(field_set:msg.StartFightNTF.netType)
 }
 
 // -------------------------------------------------------------------

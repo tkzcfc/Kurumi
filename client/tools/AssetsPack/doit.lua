@@ -59,8 +59,16 @@ local function igore(igoreList, fileName)
     return false
 end
 
-
+-- @brief 文件处理
 local function fileHandling(inFile, outPath, fileName)
+    local removeInFile = false
+
+    if config["usePngquant"] and helper.file_extension(inFile) == "png" then
+        local newFile = helper.pngquant(inFile)
+        removeInFile = newFile ~= inFile
+        inFile = newFile
+    end
+
     -- 加密用到的sign
     local encryptsign = config["encryptsign"]
     -- 加密用到的key
@@ -89,6 +97,26 @@ local function fileHandling(inFile, outPath, fileName)
 
     -- 写入文件
     helper.file_write(outPath .. fileName, content)
+
+    if removeInFile then
+        helper.file_remove(inFile)
+    end
+end
+
+-- @brief 存档目录清理
+local function clearArchiveDirectory(directory)
+    local list = {}
+    helper.lookup(directory, list, true)
+
+    for k, v in pairs(list) do
+        if v.directory then
+            helper.rmdir(v.name)
+        else
+            if helper.file_extension(v.name) ~= "manifest" then
+                helper.file_remove(v.name)
+            end
+        end
+    end
 end
 
 
@@ -113,15 +141,9 @@ function doit()
         return
     end
 
-    -- 是否启用xxtea加密
-    local enableXXTea = config["enableXXTea"]
-    -- 加密用到的sign
-    local encryptsign = config["encryptsign"]
-    -- 加密用到的key
-    local encryptkey = config["encryptkey"]
-
     -- 输出目录
     local outDir = getOutDir(config["outputDir"], config["majorVersion"], config["minorVersion"], config["revisionNumber"])
+    local outAssetsDir = outDir .. "assets/"
 
     local suc, err = helper.rmdir(outDir)
     if not suc then
@@ -139,8 +161,8 @@ function doit()
     -- 获取目录所有文件列表
     local rootDir  = config["resourceDir"]
     local files    = {}
-    helper.lookup_files(rootDir .. "/res/", files)
-    helper.lookup_files(rootDir .. "/src/", files)
+    helper.lookup_files(rootDir .. "/res/", files, true)
+    helper.lookup_files(rootDir .. "/src/", files, true)
 
     
     local progressBar = helper.Bar.new("")
@@ -157,13 +179,13 @@ function doit()
             if config["useLuaJit"] and extension == "lua" and helper.startWith(fileName, "src/") then
                 -- 32位
                 helper.compileLua(v, tmpLuaFile, true)
-                fileHandling(tmpLuaFile, outDir .. "assets/", string.gsub(fileName, "^src/", "src32/") .. "c")
+                fileHandling(tmpLuaFile, outAssetsDir, string.gsub(fileName, "^src/", "src32/") .. "c")
 
                 -- 64位
                 helper.compileLua(v, tmpLuaFile, false)
-                fileHandling(tmpLuaFile, outDir .. "assets/", string.gsub(fileName, "^src/", "src64/") .. "c")
+                fileHandling(tmpLuaFile, outAssetsDir, string.gsub(fileName, "^src/", "src64/") .. "c")
             else
-                fileHandling(v, outDir .. "assets/", fileName)
+                fileHandling(v, outAssetsDir, fileName)
             end
         end
 
@@ -180,9 +202,8 @@ function doit()
 
         assets = {}
 
-        -- 差异列表
+        -- 遍历当前主版本下的所有子版本清单文件
         local difference = {}
-        local major = config["majorVersion"]
         local minor = 0
         local revision = 0
         repeat
@@ -190,8 +211,12 @@ function doit()
 
             revision = 0
             repeat
-                if major == config["majorVersion"] and minor == config["minorVersion"] and revision == config["revisionNumber"] then break end
-                local assetsFile = getOutDir(config["outputDir"], major, minor, revision) .. "assets.manifest"
+                if minor == config["minorVersion"] and revision == config["revisionNumber"] then break end
+
+                local curDirName = getOutDir(config["outputDir"], config["majorVersion"], minor, revision)
+                clearArchiveDirectory(curDirName)
+
+                local assetsFile = curDirName .. "assets.manifest"
                 if helper.file_exist(assetsFile) then
                     table.insert(difference, helper.decodeJsonFile(assetsFile))
                 else
@@ -209,14 +234,15 @@ function doit()
             print("\n")
             for k, v in pairs(difference) do
                 local diffFiles = getDifferenceAssets(v.assets, t.assets)
-                local diffDirName = outDir .. getDifferenceDirName(v.version, t.version)
 
                 if #diffFiles == 0 then
                     -- 这两个版本之间没有任何文件差异,仅仅是版本号不同
                     print(string.format("There is no difference between version %q and version %q, skipping [%d/%d]", v.version, t.version, k, #difference))
                 else
+                    local diffDirName = outDir .. getDifferenceDirName(v.version, t.version)
+
                     for _, file in pairs(diffFiles) do
-                        local oldFile = outDir .. "assets/" .. file
+                        local oldFile = outAssetsDir .. file
                         local newFile = diffDirName .. "/" .. file
 
                         if not helper.file_copy(oldFile, newFile) then
@@ -273,15 +299,14 @@ function doit()
 
     -- 清单文件写入
     helper.file_write(outDir .. "project_dev.manifest", projectJson)
+    helper.file_write(rootDir .. "/res/version/project_dev.manifest", projectJson)
+    helper.file_write(outAssetsDir .. "/res/version/project_dev.manifest", projectJson)
 
-    local manifestpath = rootDir .. "/res/version/project_dev.manifest"
-    helper.file_write(manifestpath, projectJson)
 
-
-    -- 不是散文件模式,删除 assets 文件夹
-    if not config["looseFileMode"] then
-        helper.rmdir(outDir .. "assets/")
-    end
+    -- -- 不是散文件模式,删除 assets 文件夹
+    -- if not config["looseFileMode"] then
+    --     helper.rmdir(outAssetsDir)
+    -- end
 
     return true
 end

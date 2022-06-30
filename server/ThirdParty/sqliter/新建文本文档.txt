@@ -1,1 +1,3 @@
 https://github.com/nbossett/sqLITER
+
+https://github.com/little-brother/sqlite-gui

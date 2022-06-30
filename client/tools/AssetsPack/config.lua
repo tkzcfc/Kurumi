@@ -20,6 +20,9 @@ M["encryptsign"] = "XXXXXXXX"
 -- 加密用到的key
 M["encryptkey"] = "xyzabc"
 
+-- 启用pngquant处理png图片
+M["usePngquant"] = false
+
 -- 主版本号（主版本号不同则表示需要强更新）
 M["majorVersion"] = 0
 -- 次版本号
@@ -82,9 +85,9 @@ M["restartLevel"] = 1
 -- 忽略文件列表
 M["ignoreFileList"] = 
 {
-    "res/monster/*",
-    "res/role/*",
-    "res/audio/*",
+    -- "res/monster/*",
+    -- "res/role/*",
+    -- "res/audio/*",
 }
 
 -- 游戏资源文件目录

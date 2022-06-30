@@ -1,5 +1,5 @@
 ﻿#include "GConfigService.h"
-#include "GStringUtils.h"
+#include "Utils/GStringUtils.h"
 #include "GApplication.h"
 
 

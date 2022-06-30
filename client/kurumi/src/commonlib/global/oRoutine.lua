@@ -164,13 +164,13 @@ end
 
 Routine:start()
 
-cc.exports.o_wait 		= wait
-cc.exports.o_once 		= once
-cc.exports.o_loop 		= loop
-cc.exports.o_seconds 	= seconds
-cc.exports.o_cycle 		= cycle
+global.o_wait 		= wait
+global.o_once 		= once
+global.o_loop 		= loop
+global.o_seconds 	= seconds
+global.o_cycle 		= cycle
 
-cc.exports.oRoutine 	= Routine
+global.oRoutine 	= Routine
 
 
 -- example

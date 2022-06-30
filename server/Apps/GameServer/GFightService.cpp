@@ -111,6 +111,7 @@ void GFightService::onMsg_NewFightAck(uint32_t sessionID, const svr_msg::NewFigh
 		ntf.set_code(msg.code());
 		if (msg.code() == err::Code::SUCCESS)
 		{
+			ntf.set_nettype(msg.nettype());
 			ntf.set_fightuuid(msg.uuid());
 			ntf.set_fightip(slaveInfo->infoJson.FindMember(FIGHT_SVR_IP_KEY)->value.GetString());
 			ntf.set_fightport(slaveInfo->infoJson.FindMember(FIGHT_SVR_PORT_KEY)->value.GetInt());

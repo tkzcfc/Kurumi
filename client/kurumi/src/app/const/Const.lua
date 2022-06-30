@@ -38,4 +38,4 @@ Const.SVR_FIGHT_STATE = enum {
 
 
 
-cc.exports.Const = Const
+global.Const = Const

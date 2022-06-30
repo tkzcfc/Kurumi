@@ -3,7 +3,7 @@
     "strongUpdateDes": "我是强更新描述",
     "remoteManifestUrl": "http://1.14.65.70:8100/game/project_dev.manifest",
     "looseFileMode": false,
-    "version": "0.0.1",
+    "version": "0.0.0",
     "strongUpdateURL": "www.baidu.com",
     "assets": {},
     "restartLevel": 1,

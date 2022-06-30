@@ -31,12 +31,12 @@ function Loader:ctor()
 end
 
 function Loader:init()
-	cc.exports.logI = print
-	cc.exports.logW = print
-	cc.exports.logE = print
-	cc.exports.logF = print
-	cc.exports._MyG = {}
-	cc.exports.G_InputEventEmitter = G_Class.EventEmitter.new()
+	global.logI = print
+	global.logW = print
+	global.logE = print
+	global.logF = print
+	global._MyG = {}
+	global.G_InputEventEmitter = G_Class.EventEmitter.new()
 
 	package.loaded["app.ipConfig"] = nil
 	require("app.ipConfig")
@@ -44,7 +44,7 @@ function Loader:init()
 	-- 配置加载
 	self:push(function()
 		-- 游戏Excel配置
-		cc.exports.G_Config = require("config.config")
+		global.G_Config = require("config.config")
 		-- -- 锁定游戏配置, read_only会影响性能，只在debug中使用
 		-- if G_MACROS.DEBUG then
 		-- 	G_Config = read_only(G_Config) 

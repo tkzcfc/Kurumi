@@ -2,7 +2,29 @@
 -- @Date   : 2020-02-28 21:26:16
 -- @remark : commonlib初始化
 
-cc.exports.com_log = function(...)
+
+-- export global variable
+local __g = _G
+global = {}
+setmetatable(global, {
+    __newindex = function(_, name, value)
+        rawset(__g, name, value)
+    end,
+
+    __index = function(_, name)
+        return rawget(__g, name)
+    end
+})
+
+-- disable create unexpected global variable
+setmetatable(__g, {
+    __newindex = function(_, name, value)
+        error(string.format("USE \" global.%s = value \" INSTEAD OF SET GLOBAL VARIABLE", name), 0)
+    end
+})
+
+
+global.com_log = function(...)
 	print("[commonlib]:", ...)
 end
 
@@ -34,15 +56,15 @@ class.PanZoomLayer 		= require("commonlib.ui.PanZoomLayer")
 class.TableViewEx 		= require("commonlib.ui.TableViewEx")
 class.TyperLabel 		= require("commonlib.ui.TyperLabel")
 
-cc.exports.G_Class = class
+global.G_Class = class
 
 -- 宏定义
-cc.exports.G_MACROS 			= require("commonlib.global.GameMacros")
+global.G_MACROS 			= require("commonlib.global.GameMacros")
 -- 全局UI管理
-cc.exports.G_UIManager 		    = G_Class.UIManager.new()
+global.G_UIManager 		    = G_Class.UIManager.new()
 -- 全局网络事件派发器
-cc.exports.G_NetEventEmitter 	= G_Class.EventEmitter.new()
+global.G_NetEventEmitter 	= G_Class.EventEmitter.new()
 -- 全局系统事件派发器
-cc.exports.G_SysEventEmitter 	= G_Class.EventEmitter.new()
+global.G_SysEventEmitter 	= G_Class.EventEmitter.new()
 -- Helper
-cc.exports.G_Helper 			= require("commonlib.global.Helper")
+global.G_Helper 			= require("commonlib.global.Helper")

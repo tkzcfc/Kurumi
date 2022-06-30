@@ -13,13 +13,14 @@
 #include "Service/GLocalStorageService.h"
 #include "GScheduler.h"
 #include "GFileSystem.h"
-#include "GStringUtils.h"
 
-#include "GRandom.h"
-#include "base64.hpp"
-#include "crc32.hpp"
-#include "sha1.hpp"
-#include "cmd.h"
+#include "Algorithm/GRandom.h"
+#include "Algorithm/base64.hpp"
+#include "Algorithm/crc32.hpp"
+#include "Algorithm/sha1.hpp"
 
-#include "CrashReport.h"
+#include "Utils/CrashReport.h"
+#include "Utils/cmd.h"
+#include "Utils/GStringUtils.h"
+#include "Utils/GEnableHighPrecisionTimer.h"
 

@@ -158,6 +158,14 @@ function FightLayer:onRunNextFrameAck(msg)
     if msg.frames then
         for k, v in pairs(msg.frames) do
             self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.input.key_down)
+
+
+    if cc.CanLogNextFrameRecv and v.input.key_down == 32 then
+        cc.CanLogNextFrameRecv = false
+        print("recv time", G_Helper:gettime() - cc.Last_LOG_Time)
+        print("frame", v.frame)
+    end
+
         end
     end
 

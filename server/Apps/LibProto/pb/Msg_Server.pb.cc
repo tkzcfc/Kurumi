@@ -1710,15 +1710,15 @@ NewFightAck::NewFightAck(const NewFightAck& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&code_, &from.code_,
-    static_cast<size_t>(reinterpret_cast<char*>(&fighttype_) -
-    reinterpret_cast<char*>(&code_)) + sizeof(fighttype_));
+    static_cast<size_t>(reinterpret_cast<char*>(&nettype_) -
+    reinterpret_cast<char*>(&code_)) + sizeof(nettype_));
   // @@protoc_insertion_point(copy_constructor:svr_msg.NewFightAck)
 }
 
 void NewFightAck::SharedCtor() {
   ::memset(&code_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fighttype_) -
-      reinterpret_cast<char*>(&code_)) + sizeof(fighttype_));
+      reinterpret_cast<char*>(&nettype_) -
+      reinterpret_cast<char*>(&code_)) + sizeof(nettype_));
 }
 
 NewFightAck::~NewFightAck() {
@@ -1745,8 +1745,8 @@ void NewFightAck::Clear() {
   (void) cached_has_bits;
 
   ::memset(&code_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fighttype_) -
-      reinterpret_cast<char*>(&code_)) + sizeof(fighttype_));
+      reinterpret_cast<char*>(&nettype_) -
+      reinterpret_cast<char*>(&code_)) + sizeof(nettype_));
   _internal_metadata_.Clear();
 }
 
@@ -1782,6 +1782,13 @@ const char* NewFightAck::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           fighttype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 netType = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          nettype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1835,6 +1842,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_fighttype(), target);
   }
 
+  // int32 netType = 5;
+  if (this->nettype() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_nettype(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
         static_cast<int>(_internal_metadata_.unknown_fields().size()), target);
@@ -1879,6 +1892,13 @@ size_t NewFightAck::ByteSizeLong() const {
         this->_internal_fighttype());
   }
 
+  // int32 netType = 5;
+  if (this->nettype() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_nettype());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     total_size += _internal_metadata_.unknown_fields().size();
   }
@@ -1912,6 +1932,9 @@ void NewFightAck::MergeFrom(const NewFightAck& from) {
   if (from.fighttype() != 0) {
     _internal_set_fighttype(from._internal_fighttype());
   }
+  if (from.nettype() != 0) {
+    _internal_set_nettype(from._internal_nettype());
+  }
 }
 
 void NewFightAck::CopyFrom(const NewFightAck& from) {
@@ -1932,6 +1955,7 @@ void NewFightAck::InternalSwap(NewFightAck* other) {
   swap(uuid_, other->uuid_);
   swap(tag_, other->tag_);
   swap(fighttype_, other->fighttype_);
+  swap(nettype_, other->nettype_);
 }
 
 std::string NewFightAck::GetTypeName() const {

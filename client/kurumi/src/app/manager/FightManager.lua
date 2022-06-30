@@ -81,9 +81,16 @@ function FightManager:sendRunNextFrameReq(key_down)
     _MyG.NetManager:sendToFight("msg.RunNextFrameReq", {
         frame = self.iLogicFrame,
         input = {
-            key_down = key_down or 0
+            key_down = key_down or 0,
         }
     })
+
+
+    if cc.CanLogNextFrame and key_down == 32 then
+        cc.CanLogNextFrame = false
+        print("send time", G_Helper:gettime() - cc.Last_LOG_Time)
+        print("frame", self.iLogicFrame)
+    end
 end
 
 -- @brief 清除战斗信息
@@ -141,7 +148,7 @@ function FightManager:onStartFightNTF(msg)
     -- 清理之前的连接
     _MyG.NetManager:setFightInfo()
     -- 连接到战斗服
-    _MyG.NetManager:setFightInfo(msg.fightIP, msg.fightPort)
+    _MyG.NetManager:setFightInfo(msg.fightIP, msg.fightPort, msg.netType)
 end
 
 -- @brief 加入战斗回复
@@ -185,8 +192,8 @@ function FightManager:onPing(msg)
 end
 
 -- @brief 战斗服连接成功
-function FightManager:onNetConnectSuc(isFightSvr)
-    if not isFightSvr then return end
+function FightManager:onNetConnectSuc(sessionID)
+    if sessionID ~= SESSION_ID.FIGHT then return end
 
     -- 隐藏屏蔽层
     self:hideShieldLayer()
@@ -204,8 +211,8 @@ function FightManager:onNetConnectSuc(isFightSvr)
 end
 
 -- @brief 战斗服连接失败
-function FightManager:onNetConnectFail(isFightSvr, sessionID)
-    if not isFightSvr then return end
+function FightManager:onNetConnectFail(sessionID)
+    if sessionID ~= SESSION_ID.FIGHT then return end
     self:hideShieldLayer()
 
     -- 当前处于登录界面

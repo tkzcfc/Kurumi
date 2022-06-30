@@ -17,13 +17,15 @@ int main(int argc, char** argv)
 
 	LOG(INFO) << "-----------application run-----------";
 
+	GEnableHighPrecisionTimer enableHighPrecisionTimer(1);
+
 	GApplication app(argName);
 	app.getServiceMgr()->addService<GConfigService>();
 	app.getServiceMgr()->addService<GSlaveNodeService>();
 	app.getServiceMgr()->addService<GMasterNodeService>();
 	app.getServiceMgr()->addService<GNetService>();
 	app.getServiceMgr()->addService<GFightService>();
-	app.run();
+	app.run(1);
 
 
 	LOG(INFO) << "-----------application exit-----------";

@@ -2,6 +2,7 @@
 
 #include "GIService.h"
 #include "GNoticeCenter.h"
+#include "GTypes.h"
 
 /// 服务器同步-从节点服务
 class GSlaveNodeService final : public GIService
@@ -30,6 +31,16 @@ public:
 	G_FORCEINLINE const rapidjson::Document& descriptionJson();
 
 	void sendMsg(uint32_t msgID, char* data, uint32_t len);
+
+	G_SYNTHESIZE_READONLY(GNetType, m_netType, NetType);
+
+	G_SYNTHESIZE_READONLY(std::string, m_nodeIP, NodeIP);
+
+	G_SYNTHESIZE_READONLY(uint32_t, m_nodePort, NodePort);
+
+	G_SYNTHESIZE_READONLY(int32_t, m_groupID, GroupID);
+
+	G_SYNTHESIZE_READONLY(std::string, m_description, Description);
 	
 protected:
 
@@ -49,11 +60,8 @@ private:
 	std::unique_ptr<net_uv::Client>	   m_client;
 	std::unique_ptr<net_uv::NetMsgMgr> m_msgMgr;
 	std::unique_ptr<GNoticeCenter>     m_noticeCenter;
-	std::string m_nodeIP;
-	std::string m_description;
+
 	rapidjson::Document m_descriptionJson;
-	uint32_t	m_nodePort;
-	int32_t		m_groupID;
 	bool		m_isOnline;
 	bool		m_stopReconnect;
 };

@@ -33,11 +33,17 @@
 #define G_SYNTHESIZE(varType, varName, funName)\
 protected: varType varName; public: virtual inline varType get##funName(void) const { return varName; } virtual inline void set##funName(varType var){ varName = var; }
 
+#define G_SYNTHESIZE_READONLY(varType, varName, funName)\
+protected: varType varName; public: virtual inline varType get##funName(void) const { return varName; }
+
 #define G_SYNTHESIZE_PASS_BY_REF(varType, varName, funName)\
 protected: varType varName; public: virtual inline const varType& get##funName(void) const { return varName; } virtual inline void set##funName(const varType& var){ varName = var; }
 
 #define G_PROPERTY(varType, varName, funName)\
 protected: varType varName; public: virtual varType get##funName(void) const; virtual void set##funName(varType var);
+
+#define G_PROPERTY_READONLY(varType, varName, funName)\
+protected: varType varName; public: virtual varType get##funName(void)
 
 #define G_PROPERTY_PASS_BY_REF(varType, varName, funName)\
 protected: varType varName; public: virtual const varType& get##funName(void) const; virtual void set##funName(const varType& var);

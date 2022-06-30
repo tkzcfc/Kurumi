@@ -91,7 +91,7 @@ helper.md5 = md5.sumhexa
 function helper.rmdir(rootpath)
     if helper.exists(rootpath) then
         local iters = {}
-        helper.lookup(rootpath, iters)
+        helper.lookup(rootpath, iters, true)
 
         for i = #iters, 1, -1 do
             local it = iters[i]
@@ -143,8 +143,12 @@ function helper.mkdir_path(path)
     until(false)
 end
 
--- @brief 
-function helper.lookup(rootpath, list)
+-- @brief 遍历文件夹
+-- @param rootpath 目标路径
+-- @param files 输出文件列表
+-- @param isRecursive 是否递归
+function helper.lookup(rootpath, list, isRecursive)
+    local dirs = {}
     for entry in lfs.dir(rootpath) do
         if entry ~= '.' and entry ~= '..' then  
             local path = rootpath .. '/' .. entry
@@ -158,16 +162,26 @@ function helper.lookup(rootpath, list)
                     directory = true,
                     name = path
                 })
-                helper.lookup(path, list)
+
+                table.insert(dirs, path)
             end
+        end
+    end
+
+    if isRecursive then
+        for k, v in pairs(dirs) do
+            helper.lookup(v, list, isRecursive)
         end
     end
 end
 
--- @brief 递归获取路径下的所有文件
-function helper.lookup_files(rootpath, files)
+-- @brief 获取路径下的所有文件
+-- @param rootpath 目标路径
+-- @param files 输出文件列表
+-- @param isRecursive 是否递归
+function helper.lookup_files(rootpath, files, isRecursive)
     local list = {}
-    helper.lookup(rootpath, list)
+    helper.lookup(rootpath, list, isRecursive)
 
     for k, v in pairs(list) do
         if not v.directory then
@@ -214,6 +228,24 @@ function helper.zipDir(dir, zipName)
     local cmd = string.format("%s a -tzip %s -bso0 -sdel %s", exe, zipName, dir)
 
     os.execute(cmd)
+end
+
+function helper.pngquant(filename)
+    local ext = "_quant.png"
+    local exe = lfs.currentdir() .. "/tools/pngquanti/pngquanti.exe"
+
+    local cmd = string.format("%s %s --ext %s", exe, filename, ext)
+    os.execute(cmd)
+
+    local newFileName = string.sub(filename, 1, -5) .. ext
+
+    -- 压缩之后还比原图大，就不压缩
+    if helper.file_length(newFileName) >= helper.file_length(filename) then
+        helper.file_remove(newFileName)
+        return filename
+    end
+
+    return newFileName
 end
 
 function helper.startWith(str, start)
@@ -266,7 +298,7 @@ function Bar:updatePercent(percent)
     local fmt = "\r%.f%%[%s%s]"
     local str = string.format(fmt, percent * 100, string.rep("#", count), string.rep(" ", self.totalCount - count))
 
-    local diff = (24-8)*60*60
+    local diff = (24 - 8) * 60 * 60
     local timestr = os.date("  %H:%M:%S", os.difftime(os.time(), self.startTime) + diff )
     str = str .. timestr .. self.suffix
 

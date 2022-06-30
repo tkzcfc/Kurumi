@@ -1,7 +1,7 @@
 ﻿#include "GLogService.h"
 
 
-// 模板.cpp 
+// 记录客户端上报的相关日志
 
 uint32_t GLogService::onInit()
 {
@@ -11,7 +11,7 @@ uint32_t GLogService::onInit()
 	auto appName = GApplication::getInstance()->getAppName();
 
 	auto ini = m_serviceMgr->getService<GConfigService>()->iniReader();
-	m_logRoot = ini.Get(appName, "logRoot", "luaLog/");
+	m_logRoot = ini.Get(appName, "LogRoot", "luaLog/");
 
 	m_logRoot = StringUtils::replaceString(m_logRoot, "\\", "/");
 	if (m_logRoot.back() != '/')

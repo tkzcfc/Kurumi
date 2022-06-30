@@ -1,11 +1,19 @@
 ﻿#include "GMasterNodeService.h"
 #include "GApplication.h"
 #include "GConfigService.h"
-#include "GStringUtils.h"
+#include "Utils/GStringUtils.h"
 
 namespace NSMsg {
 	std::string MGS_KEY_REG_SLAVE_NODE = "MGS_KEY_REG_SLAVE_NODE";
 }
+
+GMasterNodeService::GMasterNodeService()
+	: m_netType(GNetType::UNKNOWN)
+	, m_groupID(-1)
+{}
+
+GMasterNodeService::~GMasterNodeService()
+{}
 
 uint32_t GMasterNodeService::onInit()
 {
@@ -30,6 +38,7 @@ uint32_t GMasterNodeService::onInit()
 		return SCODE_START_FAIL_EXIT_APP;
 
 	m_groupID = group;
+	m_netType = isKcp ? GNetType::KCP : GNetType::TCP;
 
 	if(isKcp)
 		m_svr = std::make_unique<net_uv::KCPServer>();

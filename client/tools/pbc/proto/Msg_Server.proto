@@ -66,6 +66,7 @@ message NewFightAck
 	int32 uuid = 2;	// 战斗uuid
 	int32 tag 	= 3;
 	int32 fightType = 4; // 战斗类型
+	int32 netType = 5;// 1: tcp  2: kcp
 }
 
 

@@ -2,12 +2,13 @@
 #include "GServiceMgr.h"
 #include "GConfigService.h"
 #include "GApplication.h"
-#include "GStringUtils.h"
+#include "Utils/GStringUtils.h"
 
 std::string GNetService::MSG_KEY_NEW_CONNECT = "new_connect";
 std::string GNetService::MSG_KEY_DISCONNECT = "disc";
 
 GNetService::GNetService()
+	: m_netType(GNetType::UNKNOWN)
 {}
 
 GNetService::~GNetService()
@@ -32,6 +33,8 @@ uint32_t GNetService::onInit()
 	auto ip		= ini.Get(appName, "NetServiceIP", "");
 	auto port	= ini.GetInteger(appName, "NetServicePort", 0);
 	auto isKcp = ini.GetBoolean(appName, "NetServiceIsKcp", false);
+
+	m_netType = isKcp ? GNetType::KCP : GNetType::TCP;
 
 	if (ip.empty() || port <= 0)
 		return SCODE_START_FAIL_EXIT_APP;

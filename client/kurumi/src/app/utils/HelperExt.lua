@@ -2,7 +2,7 @@
 -- @Date:   2020-11-07 16:33:58
 -- @remark: 针对commonlib/G_Helper的扩展
 
--- cc.exports.socket = {}
+-- global.socket = {}
 local socket = require("socket")
 
 function G_Helper.loadStudioFile(fileName, target, doLayout)

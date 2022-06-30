@@ -5368,8 +5368,8 @@ StartFightNTF::StartFightNTF(const StartFightNTF& from)
     fightip_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.fightip_);
   }
   ::memcpy(&code_, &from.code_,
-    static_cast<size_t>(reinterpret_cast<char*>(&fightport_) -
-    reinterpret_cast<char*>(&code_)) + sizeof(fightport_));
+    static_cast<size_t>(reinterpret_cast<char*>(&nettype_) -
+    reinterpret_cast<char*>(&code_)) + sizeof(nettype_));
   // @@protoc_insertion_point(copy_constructor:msg.StartFightNTF)
 }
 
@@ -5377,8 +5377,8 @@ void StartFightNTF::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_StartFightNTF_C2Game_2eproto.base);
   fightip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&code_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fightport_) -
-      reinterpret_cast<char*>(&code_)) + sizeof(fightport_));
+      reinterpret_cast<char*>(&nettype_) -
+      reinterpret_cast<char*>(&code_)) + sizeof(nettype_));
 }
 
 StartFightNTF::~StartFightNTF() {
@@ -5407,8 +5407,8 @@ void StartFightNTF::Clear() {
 
   fightip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&code_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&fightport_) -
-      reinterpret_cast<char*>(&code_)) + sizeof(fightport_));
+      reinterpret_cast<char*>(&nettype_) -
+      reinterpret_cast<char*>(&code_)) + sizeof(nettype_));
   _internal_metadata_.Clear();
 }
 
@@ -5446,6 +5446,13 @@ const char* StartFightNTF::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           fightport_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 netType = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          nettype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -5503,6 +5510,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_fightport(), target);
   }
 
+  // int32 netType = 5;
+  if (this->nettype() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_nettype(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
         static_cast<int>(_internal_metadata_.unknown_fields().size()), target);
@@ -5547,6 +5560,13 @@ size_t StartFightNTF::ByteSizeLong() const {
         this->_internal_fightport());
   }
 
+  // int32 netType = 5;
+  if (this->nettype() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_nettype());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     total_size += _internal_metadata_.unknown_fields().size();
   }
@@ -5581,6 +5601,9 @@ void StartFightNTF::MergeFrom(const StartFightNTF& from) {
   if (from.fightport() != 0) {
     _internal_set_fightport(from._internal_fightport());
   }
+  if (from.nettype() != 0) {
+    _internal_set_nettype(from._internal_nettype());
+  }
 }
 
 void StartFightNTF::CopyFrom(const StartFightNTF& from) {
@@ -5602,6 +5625,7 @@ void StartFightNTF::InternalSwap(StartFightNTF* other) {
   swap(code_, other->code_);
   swap(fightuuid_, other->fightuuid_);
   swap(fightport_, other->fightport_);
+  swap(nettype_, other->nettype_);
 }
 
 std::string StartFightNTF::GetTypeName() const {

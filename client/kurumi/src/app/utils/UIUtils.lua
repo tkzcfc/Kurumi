@@ -169,4 +169,4 @@ function UIUtils:getTableViewDataArrIndex(index, itemCount)
 end
 
 
-cc.exports.UIUtils = UIUtils
+global.UIUtils = UIUtils

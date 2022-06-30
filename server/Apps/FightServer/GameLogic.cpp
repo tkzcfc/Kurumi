@@ -5,7 +5,7 @@
 /// 游戏配置相关
 
 // 服务端逻辑帧最多领先最快客户端多少帧
-static const uint32_t MAX_LEAD_FRAME_DIS_MAX_CLIENT = 10U;
+static const uint32_t MAX_LEAD_FRAME_DIS_MAX_CLIENT = 2U;
 
 // 服务端逻辑帧最多领先最慢客户端多少帧 (超过这个帧数后切换为等待状态)
 static const uint32_t MAX_LEAD_FRAME_DIS_MIN_CLIENT = 100U;

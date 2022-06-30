@@ -2,7 +2,7 @@
 
 #include "GLibBase.h"
 #include "GameProto.h"
-#include "GRandom.h"
+#include "Algorithm/GRandom.h"
 
 // 登录服务
 class GLoginService : public GIService

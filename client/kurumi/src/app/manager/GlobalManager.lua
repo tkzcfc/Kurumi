@@ -28,8 +28,8 @@ function GlobalManager:onExitGameNtf(msg)
 	end)
 end
 
-function GlobalManager:onNetConnectFail(isFightSvr, sessionID)
-	if isFightSvr then return end
+function GlobalManager:onNetConnectFail(sessionID)
+	if sessionID ~= SESSION_ID.GAME then return end
 
     -- 连接服务器失败,是否重试
     UIUtils:showTwoBtnMsgBox(STR(11004), 
