@@ -58,7 +58,7 @@ def run():
 
 	publishPbc(proto_path, temp_dir)
 
-	out_dir = os.path.abspath(os.path.dirname(current_path) + "../../kurumi/src/pb")
+	out_dir = os.path.abspath(os.path.dirname(current_path) + "../../kurumi/res/pb")
 	if os.path.exists(out_dir):
 		shutil.rmtree(out_dir)
 	shutil.copytree(temp_dir, out_dir)

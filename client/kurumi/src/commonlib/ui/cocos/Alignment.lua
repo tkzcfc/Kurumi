@@ -15,10 +15,13 @@ alignment.horizontal  			= 1	-- 水平
 alignment.verticalHorizontal	= 2 -- 垂直与水平
 
 local table_insert = table.insert
+local table_remove = table.remove
+local absf		   = math.abs
+
 -- @brief 获取真实大小
 local function getRealSize(node)
 	local size = node:getContentSize()
-	return cc.size(math.abs(size.width * node:getScaleX()), math.abs(size.height * node:getScaleY()))
+	return cc.size(absf(size.width * node:getScaleX()), absf(size.height * node:getScaleY()))
 end
 
 -- @brief 设置节点X位置
@@ -77,7 +80,7 @@ end
 function alignment:removeElement(element)
 	for k,v in pairs(self.elements) do
 		if element then
-			table.remove(self.elements, k)
+			table_remove(self.elements, k)
 			break
 		end
 	end

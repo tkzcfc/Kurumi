@@ -36,7 +36,7 @@ function TestMain:initUI()
 		end)
 	end)
 	self.ui.scrollList:setItemsMargin(3, 3)
-	self.ui.scrollList:setItemViewModelAndHideBar(require("ui.ScrollItem"), #self.datas, itemSize, 5, true)
+	self.ui.scrollList:setItemViewModelAndHideBar(G_Class.ScrollItem, #self.datas, itemSize, 5, true)
 end
 
 function TestMain:onClickBack(sender)

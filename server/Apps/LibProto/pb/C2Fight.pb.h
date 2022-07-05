@@ -46,7 +46,7 @@ struct TableStruct_C2Fight_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[21]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[20]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -62,9 +62,6 @@ extern ExitFightReqDefaultTypeInternal _ExitFightReq_default_instance_;
 class FightWorldInfo;
 class FightWorldInfoDefaultTypeInternal;
 extern FightWorldInfoDefaultTypeInternal _FightWorldInfo_default_instance_;
-class FrameInputData;
-class FrameInputDataDefaultTypeInternal;
-extern FrameInputDataDefaultTypeInternal _FrameInputData_default_instance_;
 class JoinFightAck;
 class JoinFightAckDefaultTypeInternal;
 extern JoinFightAckDefaultTypeInternal _JoinFightAck_default_instance_;
@@ -121,7 +118,6 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::msg::ExitFightAck* Arena::CreateMaybeMessage<::msg::ExitFightAck>(Arena*);
 template<> ::msg::ExitFightReq* Arena::CreateMaybeMessage<::msg::ExitFightReq>(Arena*);
 template<> ::msg::FightWorldInfo* Arena::CreateMaybeMessage<::msg::FightWorldInfo>(Arena*);
-template<> ::msg::FrameInputData* Arena::CreateMaybeMessage<::msg::FrameInputData>(Arena*);
 template<> ::msg::JoinFightAck* Arena::CreateMaybeMessage<::msg::JoinFightAck>(Arena*);
 template<> ::msg::JoinFightReq* Arena::CreateMaybeMessage<::msg::JoinFightReq>(Arena*);
 template<> ::msg::Ping* Arena::CreateMaybeMessage<::msg::Ping>(Arena*);
@@ -1607,119 +1603,6 @@ class PlayerExitFightNotify :
 };
 // -------------------------------------------------------------------
 
-class FrameInputData :
-    public ::PROTOBUF_NAMESPACE_ID::MessageLite /* @@protoc_insertion_point(class_definition:msg.FrameInputData) */ {
- public:
-  FrameInputData();
-  virtual ~FrameInputData();
-
-  FrameInputData(const FrameInputData& from);
-  FrameInputData(FrameInputData&& from) noexcept
-    : FrameInputData() {
-    *this = ::std::move(from);
-  }
-
-  inline FrameInputData& operator=(const FrameInputData& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline FrameInputData& operator=(FrameInputData&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const FrameInputData& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const FrameInputData* internal_default_instance() {
-    return reinterpret_cast<const FrameInputData*>(
-               &_FrameInputData_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    7;
-
-  friend void swap(FrameInputData& a, FrameInputData& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(FrameInputData* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline FrameInputData* New() const final {
-    return CreateMaybeMessage<FrameInputData>(nullptr);
-  }
-
-  FrameInputData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<FrameInputData>(arena);
-  }
-  void CheckTypeAndMergeFrom(const ::PROTOBUF_NAMESPACE_ID::MessageLite& from)
-    final;
-  void CopyFrom(const FrameInputData& from);
-  void MergeFrom(const FrameInputData& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  void DiscardUnknownFields();
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(FrameInputData* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "msg.FrameInputData";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  std::string GetTypeName() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kKeyDownFieldNumber = 1,
-  };
-  // uint32 key_down = 1;
-  void clear_key_down();
-  ::PROTOBUF_NAMESPACE_ID::uint32 key_down() const;
-  void set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_key_down() const;
-  void _internal_set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:msg.FrameInputData)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 key_down_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_C2Fight_2eproto;
-};
-// -------------------------------------------------------------------
-
 class PlayerFrameInput :
     public ::PROTOBUF_NAMESPACE_ID::MessageLite /* @@protoc_insertion_point(class_definition:msg.PlayerFrameInput) */ {
  public:
@@ -1753,7 +1636,7 @@ class PlayerFrameInput :
                &_PlayerFrameInput_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    7;
 
   friend void swap(PlayerFrameInput& a, PlayerFrameInput& b) {
     a.Swap(&b);
@@ -1811,25 +1694,10 @@ class PlayerFrameInput :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInputFieldNumber = 3,
     kPidFieldNumber = 1,
     kFrameFieldNumber = 2,
+    kKeyDownFieldNumber = 3,
   };
-  // .msg.FrameInputData input = 3;
-  bool has_input() const;
-  private:
-  bool _internal_has_input() const;
-  public:
-  void clear_input();
-  const ::msg::FrameInputData& input() const;
-  ::msg::FrameInputData* release_input();
-  ::msg::FrameInputData* mutable_input();
-  void set_allocated_input(::msg::FrameInputData* input);
-  private:
-  const ::msg::FrameInputData& _internal_input() const;
-  ::msg::FrameInputData* _internal_mutable_input();
-  public:
-
   // int64 pid = 1;
   void clear_pid();
   ::PROTOBUF_NAMESPACE_ID::int64 pid() const;
@@ -1848,14 +1716,23 @@ class PlayerFrameInput :
   void _internal_set_frame(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 key_down = 3;
+  void clear_key_down();
+  ::PROTOBUF_NAMESPACE_ID::uint32 key_down() const;
+  void set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_key_down() const;
+  void _internal_set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:msg.PlayerFrameInput)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::msg::FrameInputData* input_;
   ::PROTOBUF_NAMESPACE_ID::int64 pid_;
   ::PROTOBUF_NAMESPACE_ID::uint32 frame_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 key_down_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_C2Fight_2eproto;
 };
@@ -1894,7 +1771,7 @@ class RunNextFrameReq :
                &_RunNextFrameReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    8;
 
   friend void swap(RunNextFrameReq& a, RunNextFrameReq& b) {
     a.Swap(&b);
@@ -1978,24 +1855,9 @@ class RunNextFrameReq :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInputFieldNumber = 2,
     kFrameFieldNumber = 1,
+    kKeyDownFieldNumber = 2,
   };
-  // .msg.FrameInputData input = 2;
-  bool has_input() const;
-  private:
-  bool _internal_has_input() const;
-  public:
-  void clear_input();
-  const ::msg::FrameInputData& input() const;
-  ::msg::FrameInputData* release_input();
-  ::msg::FrameInputData* mutable_input();
-  void set_allocated_input(::msg::FrameInputData* input);
-  private:
-  const ::msg::FrameInputData& _internal_input() const;
-  ::msg::FrameInputData* _internal_mutable_input();
-  public:
-
   // uint32 frame = 1;
   void clear_frame();
   ::PROTOBUF_NAMESPACE_ID::uint32 frame() const;
@@ -2005,13 +1867,22 @@ class RunNextFrameReq :
   void _internal_set_frame(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 key_down = 2;
+  void clear_key_down();
+  ::PROTOBUF_NAMESPACE_ID::uint32 key_down() const;
+  void set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_key_down() const;
+  void _internal_set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:msg.RunNextFrameReq)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArenaLite _internal_metadata_;
-  ::msg::FrameInputData* input_;
   ::PROTOBUF_NAMESPACE_ID::uint32 frame_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 key_down_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_C2Fight_2eproto;
 };
@@ -2050,7 +1921,7 @@ class RunNextFrameAck :
                &_RunNextFrameAck_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    9;
 
   friend void swap(RunNextFrameAck& a, RunNextFrameAck& b) {
     a.Swap(&b);
@@ -2209,7 +2080,7 @@ class PushFrameInputBegin :
                &_PushFrameInputBegin_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    10;
 
   friend void swap(PushFrameInputBegin& a, PushFrameInputBegin& b) {
     a.Swap(&b);
@@ -2335,7 +2206,7 @@ class PushFrameInputEnd :
                &_PushFrameInputEnd_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    11;
 
   friend void swap(PushFrameInputEnd& a, PushFrameInputEnd& b) {
     a.Swap(&b);
@@ -2461,7 +2332,7 @@ class PushFrameInput :
                &_PushFrameInput_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    12;
 
   friend void swap(PushFrameInput& a, PushFrameInput& b) {
     a.Swap(&b);
@@ -2620,7 +2491,7 @@ class PlayerRecords :
                &_PlayerRecords_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    13;
 
   friend void swap(PlayerRecords& a, PlayerRecords& b) {
     a.Swap(&b);
@@ -2742,7 +2613,7 @@ class ExitFightReq :
                &_ExitFightReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    14;
 
   friend void swap(ExitFightReq& a, ExitFightReq& b) {
     a.Swap(&b);
@@ -2881,7 +2752,7 @@ class ExitFightAck :
                &_ExitFightAck_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    15;
 
   friend void swap(ExitFightAck& a, ExitFightAck& b) {
     a.Swap(&b);
@@ -3020,7 +2891,7 @@ class Ping :
                &_Ping_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    16;
 
   friend void swap(Ping& a, Ping& b) {
     a.Swap(&b);
@@ -3170,7 +3041,7 @@ class Pong :
                &_Pong_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    17;
 
   friend void swap(Pong& a, Pong& b) {
     a.Swap(&b);
@@ -3309,7 +3180,7 @@ class PingInfo :
                &_PingInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    18;
 
   friend void swap(PingInfo& a, PingInfo& b) {
     a.Swap(&b);
@@ -3433,7 +3304,7 @@ class PushPingInfo :
                &_PushPingInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    19;
 
   friend void swap(PushPingInfo& a, PushPingInfo& b) {
     a.Swap(&b);
@@ -4084,30 +3955,6 @@ inline void PlayerExitFightNotify::set_pid(::PROTOBUF_NAMESPACE_ID::int64 value)
 
 // -------------------------------------------------------------------
 
-// FrameInputData
-
-// uint32 key_down = 1;
-inline void FrameInputData::clear_key_down() {
-  key_down_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 FrameInputData::_internal_key_down() const {
-  return key_down_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 FrameInputData::key_down() const {
-  // @@protoc_insertion_point(field_get:msg.FrameInputData.key_down)
-  return _internal_key_down();
-}
-inline void FrameInputData::_internal_set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  key_down_ = value;
-}
-inline void FrameInputData::set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_key_down(value);
-  // @@protoc_insertion_point(field_set:msg.FrameInputData.key_down)
-}
-
-// -------------------------------------------------------------------
-
 // PlayerFrameInput
 
 // int64 pid = 1;
@@ -4150,64 +3997,24 @@ inline void PlayerFrameInput::set_frame(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:msg.PlayerFrameInput.frame)
 }
 
-// .msg.FrameInputData input = 3;
-inline bool PlayerFrameInput::_internal_has_input() const {
-  return this != internal_default_instance() && input_ != nullptr;
+// uint32 key_down = 3;
+inline void PlayerFrameInput::clear_key_down() {
+  key_down_ = 0u;
 }
-inline bool PlayerFrameInput::has_input() const {
-  return _internal_has_input();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 PlayerFrameInput::_internal_key_down() const {
+  return key_down_;
 }
-inline void PlayerFrameInput::clear_input() {
-  if (GetArenaNoVirtual() == nullptr && input_ != nullptr) {
-    delete input_;
-  }
-  input_ = nullptr;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 PlayerFrameInput::key_down() const {
+  // @@protoc_insertion_point(field_get:msg.PlayerFrameInput.key_down)
+  return _internal_key_down();
 }
-inline const ::msg::FrameInputData& PlayerFrameInput::_internal_input() const {
-  const ::msg::FrameInputData* p = input_;
-  return p != nullptr ? *p : *reinterpret_cast<const ::msg::FrameInputData*>(
-      &::msg::_FrameInputData_default_instance_);
-}
-inline const ::msg::FrameInputData& PlayerFrameInput::input() const {
-  // @@protoc_insertion_point(field_get:msg.PlayerFrameInput.input)
-  return _internal_input();
-}
-inline ::msg::FrameInputData* PlayerFrameInput::release_input() {
-  // @@protoc_insertion_point(field_release:msg.PlayerFrameInput.input)
+inline void PlayerFrameInput::_internal_set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  ::msg::FrameInputData* temp = input_;
-  input_ = nullptr;
-  return temp;
+  key_down_ = value;
 }
-inline ::msg::FrameInputData* PlayerFrameInput::_internal_mutable_input() {
-  
-  if (input_ == nullptr) {
-    auto* p = CreateMaybeMessage<::msg::FrameInputData>(GetArenaNoVirtual());
-    input_ = p;
-  }
-  return input_;
-}
-inline ::msg::FrameInputData* PlayerFrameInput::mutable_input() {
-  // @@protoc_insertion_point(field_mutable:msg.PlayerFrameInput.input)
-  return _internal_mutable_input();
-}
-inline void PlayerFrameInput::set_allocated_input(::msg::FrameInputData* input) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == nullptr) {
-    delete input_;
-  }
-  if (input) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
-    if (message_arena != submessage_arena) {
-      input = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, input, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  input_ = input;
-  // @@protoc_insertion_point(field_set_allocated:msg.PlayerFrameInput.input)
+inline void PlayerFrameInput::set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_key_down(value);
+  // @@protoc_insertion_point(field_set:msg.PlayerFrameInput.key_down)
 }
 
 // -------------------------------------------------------------------
@@ -4234,64 +4041,24 @@ inline void RunNextFrameReq::set_frame(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:msg.RunNextFrameReq.frame)
 }
 
-// .msg.FrameInputData input = 2;
-inline bool RunNextFrameReq::_internal_has_input() const {
-  return this != internal_default_instance() && input_ != nullptr;
+// uint32 key_down = 2;
+inline void RunNextFrameReq::clear_key_down() {
+  key_down_ = 0u;
 }
-inline bool RunNextFrameReq::has_input() const {
-  return _internal_has_input();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 RunNextFrameReq::_internal_key_down() const {
+  return key_down_;
 }
-inline void RunNextFrameReq::clear_input() {
-  if (GetArenaNoVirtual() == nullptr && input_ != nullptr) {
-    delete input_;
-  }
-  input_ = nullptr;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 RunNextFrameReq::key_down() const {
+  // @@protoc_insertion_point(field_get:msg.RunNextFrameReq.key_down)
+  return _internal_key_down();
 }
-inline const ::msg::FrameInputData& RunNextFrameReq::_internal_input() const {
-  const ::msg::FrameInputData* p = input_;
-  return p != nullptr ? *p : *reinterpret_cast<const ::msg::FrameInputData*>(
-      &::msg::_FrameInputData_default_instance_);
-}
-inline const ::msg::FrameInputData& RunNextFrameReq::input() const {
-  // @@protoc_insertion_point(field_get:msg.RunNextFrameReq.input)
-  return _internal_input();
-}
-inline ::msg::FrameInputData* RunNextFrameReq::release_input() {
-  // @@protoc_insertion_point(field_release:msg.RunNextFrameReq.input)
+inline void RunNextFrameReq::_internal_set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  ::msg::FrameInputData* temp = input_;
-  input_ = nullptr;
-  return temp;
+  key_down_ = value;
 }
-inline ::msg::FrameInputData* RunNextFrameReq::_internal_mutable_input() {
-  
-  if (input_ == nullptr) {
-    auto* p = CreateMaybeMessage<::msg::FrameInputData>(GetArenaNoVirtual());
-    input_ = p;
-  }
-  return input_;
-}
-inline ::msg::FrameInputData* RunNextFrameReq::mutable_input() {
-  // @@protoc_insertion_point(field_mutable:msg.RunNextFrameReq.input)
-  return _internal_mutable_input();
-}
-inline void RunNextFrameReq::set_allocated_input(::msg::FrameInputData* input) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == nullptr) {
-    delete input_;
-  }
-  if (input) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
-    if (message_arena != submessage_arena) {
-      input = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, input, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  input_ = input;
-  // @@protoc_insertion_point(field_set_allocated:msg.RunNextFrameReq.input)
+inline void RunNextFrameReq::set_key_down(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_key_down(value);
+  // @@protoc_insertion_point(field_set:msg.RunNextFrameReq.key_down)
 }
 
 // -------------------------------------------------------------------
@@ -4677,8 +4444,6 @@ PushPingInfo::infos() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

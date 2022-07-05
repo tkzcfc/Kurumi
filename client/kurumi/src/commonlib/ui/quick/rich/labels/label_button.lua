@@ -8,7 +8,7 @@ local defaultTexture = "Default/Button_Disable.png"
 return function (self, params, default)
 	local btn = ccui.Button:create()
 	btn:setSwallowTouches(true)
-	btn:loadTextureNormal(params.src or defaultTexture, UI_TEX_TYPE_LOCAL)
+	btn:loadTextureNormal(params.src or defaultTexture)
 
 	if params.scale then
 		btn:setScale(params.scale)

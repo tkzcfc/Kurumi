@@ -80,17 +80,8 @@ function FightManager:sendRunNextFrameReq(key_down)
     
     _MyG.NetManager:sendToFight("msg.RunNextFrameReq", {
         frame = self.iLogicFrame,
-        input = {
-            key_down = key_down or 0,
-        }
+        key_down = key_down or 0
     })
-
-
-    if cc.CanLogNextFrame and key_down == 32 then
-        cc.CanLogNextFrame = false
-        print("send time", G_Helper:gettime() - cc.Last_LOG_Time)
-        print("frame", self.iLogicFrame)
-    end
 end
 
 -- @brief 清除战斗信息

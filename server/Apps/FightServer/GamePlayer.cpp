@@ -48,7 +48,13 @@ void GamePlayer::input(const msg::RunNextFrameReq& data, uint32_t frame)
 	m_lastFrame = data.frame();
 
 	auto input = dequeue();
-	input->mutable_input()->CopyFrom(data.input());
+
+	////////// copy input data //////////
+
+	input->set_key_down(data.key_down());
+
+	/////////////////////////////////////
+
 	input->set_frame(frame);
 	input->set_pid(this->getPlayerID());
 
@@ -72,7 +78,7 @@ void GamePlayer::input(const msg::RunNextFrameReq& data, uint32_t frame)
 	if (oldFrame > 0 && diffFrame == 0)
 	{
 		// 合并输入
-		back->mutable_input()->set_key_down(back->mutable_input()->key_down() | data.input().key_down());
+		back->set_key_down(back->key_down() | data.key_down());
 		//G_ASSERT(0);
 		return;
 	}

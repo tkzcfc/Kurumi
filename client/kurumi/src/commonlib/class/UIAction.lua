@@ -5,6 +5,7 @@
 local UIAction = {}
 
 local UIActionType = enum {
+	1,
 	"SCALE_TO",
 	"NO_ACTION"
 }

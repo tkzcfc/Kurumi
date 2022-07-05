@@ -6,10 +6,6 @@ local ScrollItem = class("ScrollItem", function()
 	return ccui.Widget:create()
 end)
 
--- local ScrollItem = class("ScrollItem", ccui.Widget)
-
--- function ScrollItem:ctor() end
-
 function ScrollItem:setRender(render)
 	render:setPosition(0, 0)
 	render:setVisible(true)

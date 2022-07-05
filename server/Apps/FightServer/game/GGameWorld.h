@@ -5,6 +5,11 @@
 
 struct GGameWorldInitArgs
 {
+	GGameWorldInitArgs() 
+	{
+		::memset(this, 0, sizeof(GGameWorldInitArgs));
+	}
+
 	// 地图id
 	int32_t mapId;
 	// 随机数种子

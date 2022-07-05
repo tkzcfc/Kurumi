@@ -14,11 +14,25 @@ static const uint32_t MAX_LEAD_FRAME_DIS_MIN_CLIENT = 100U;
 static const float MAX_WAIT_CONNECT_TIME = 5.0f;
 
 // 单个玩家游戏时,客户端最大离线时间(超过这个时间客户端还没有断线重连就会将客户端踢出游戏)
-static const float MAX_OFF_LINE_TIME_SINGLE_PLAYER = 60.0f;
+static const float MAX_OFF_LINE_TIME_SINGLE_PLAYER = 20.0f;
 
 // 多个玩家游戏时,客户端最大离线时间(应该设置较小,避免其他玩家太长时间处于等待期)
-static const float MAX_OFF_LINE_TIME_MULTIPLE_PLAYER = 10.0f;
+static const float MAX_OFF_LINE_TIME_MULTIPLE_PLAYER = 5.0f;
 
+
+
+// ping值采集间隔时间
+static const float GET_PING_INTERVAL = 0.5f;
+
+// ping值广播推送间隔时间
+static const float PUSH_PING_INTERVAL = 1.0f;
+
+
+// 操作记录最多保留帧数
+static const int MAX_RECORDS_COUNT = 300;
+
+//////////////////////////////////////////////////////////////////////////
+static const G_BIT_TYPE G_KEY_EXIT_GAME = 1U << 13; // 玩家退出游戏
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -28,7 +42,13 @@ GameLogic::GameLogic()
 	: m_isFinish(false)
 	, m_pNetService(NULL)
 	, m_playerCount(0)
+	, m_pApplication(NULL)
 {
+	for (int i = 0; i < G_FIGHT_MAX_PLAYER_COUNT; ++i)
+	{
+		m_pCacheFrameInputs[i] = NULL;
+	}
+
 	m_uuid = sg_uuid_seed++;
 	m_state = RUN_STATE::WAIT_CONNECT;
 	m_waitTime = 0.0f;
@@ -108,15 +128,15 @@ void GameLogic::update(float dt)
 
 	switch (m_state)
 	{
-	case GameLogic::WAIT_CONNECT:
+	case GameLogic::RUN_STATE::WAIT_CONNECT:
 	{
 		this->update_WaitConnect(dt);
 	}break;
-	case GameLogic::READY:
+	case GameLogic::RUN_STATE::READY:
 	{
 		this->update_Ready(dt);
 	}break;
-	case GameLogic::RUN:
+	case GameLogic::RUN_STATE::RUN:
 	{
 		// 客户端使用离线模式(此模式只有单人才能开启)
 		if (m_initArgs.isOfflineMode)
@@ -147,7 +167,7 @@ void GameLogic::update(float dt)
 		}
 	}
 		break;
-	case GameLogic::WAIT:
+	case GameLogic::RUN_STATE::WAIT:
 	{
 		this->update_Wait(dt);
 	}
@@ -178,7 +198,7 @@ void GameLogic::update_WaitConnect(float dt)
 	// 全部连接成功
 	if (!hasOffline)
 	{
-		m_state = GameLogic::READY;
+		m_state = GameLogic::RUN_STATE::READY;
 	}
 }
 
@@ -217,7 +237,7 @@ void GameLogic::update_Ready(float dt)
 	// 全部准备完毕
 	if (finishAllTag)
 	{
-		m_state = GameLogic::RUN;
+		m_state = GameLogic::RUN_STATE::RUN;
 
 		G_ASSERT(m_world->getGameLogicFrame() == 0);
 
@@ -253,12 +273,6 @@ void GameLogic::update_Run(float dt)
 			for (auto i = 0; i < m_playerCount; ++i)
 			{
 				auto pFrame = m_runNextFrameAckCache.add_frames();
-				//pFrame->set_pid(m_players[i]->getPlayerID());
-				//pFrame->set_frame(m_world->getGameLogicFrame());
-
-				auto pInput = pFrame->mutable_input();
-				pInput->set_key_down(0);
-
 				m_pCacheFrameInputs[i] = pFrame;
 			}
 		}
@@ -273,7 +287,8 @@ void GameLogic::update_Run(float dt)
 			}
 			else
 			{
-				m_pCacheFrameInputs[i]->mutable_input()->set_key_down(0);
+				// 使用默认输入
+				m_pCacheFrameInputs[i]->set_key_down(0);
 			}
 
 			m_pCacheFrameInputs[i]->set_pid(m_players[i]->getPlayerID());
@@ -282,6 +297,33 @@ void GameLogic::update_Run(float dt)
 			// 保存输入历史
 			m_pastRecords.add_frames()->CopyFrom(*m_pCacheFrameInputs[i]);
 		}
+
+		// 添加玩家离开游戏消息
+		if (m_exitPlayers.empty() == false)
+		{
+			for (auto& it : m_exitPlayers)
+			{
+				bool ok = false;
+				for (auto i = 0; i < m_playerCount; ++i)
+				{
+					if (m_pCacheFrameInputs[i]->pid() == it)
+					{
+						ok = true;
+						m_pCacheFrameInputs[i]->set_key_down(m_pCacheFrameInputs[i]->key_down() | G_KEY_EXIT_GAME);
+						break;
+					}
+				}
+
+				if (!ok)
+				{
+					auto pFrame = m_runNextFrameAckCache.add_frames();
+					pFrame->set_pid(it);
+					pFrame->set_key_down(G_KEY_EXIT_GAME);
+				}
+			}
+			m_exitPlayers.clear();
+		}
+
 		m_runNextFrameAckCache.set_nextframe(m_world->getGameLogicFrame());
 		sendToAllPlayer(m_runNextFrameAckCache.Id, m_runNextFrameAckCache);
 
@@ -328,18 +370,14 @@ void GameLogic::update_Run(float dt)
 	}
 
 	
-
 	// 清除比较久的操作记录
-	if (m_pastRecords.frames_size() > 100)
+	if (m_pastRecords.frames_size() > MAX_RECORDS_COUNT * 2)
 	{
-		// 最多保留帧数
-		const int32_t maxCount = 350;
 		// 超过最多保留帧数多少之后开始清理
 		const int32_t stepCount = 50;
 
-
 		auto curFrame = m_pastRecords.frames().begin()->frame();
-		if (m_world->getGameLogicFrame() - curFrame > maxCount + stepCount)
+		if (m_world->getGameLogicFrame() - curFrame > MAX_RECORDS_COUNT + stepCount)
 		{
 			int index = 0;
 			do
@@ -348,7 +386,7 @@ void GameLogic::update_Run(float dt)
 					break;
 
 				curFrame = m_pastRecords.frames().Get(index).frame();
-				if (m_world->getGameLogicFrame() - curFrame <= maxCount)
+				if (m_world->getGameLogicFrame() - curFrame <= MAX_RECORDS_COUNT)
 					break;
 
 				index++;
@@ -394,7 +432,7 @@ void GameLogic::pingUpdate(float dt)
 	m_pingPushTime += dt;
 
 	// 采集ping值
-	if (m_pingTime > 1.0f)
+	if (m_pingTime >= GET_PING_INTERVAL)
 	{
 		m_pingTime = 0.0f;
 
@@ -408,7 +446,7 @@ void GameLogic::pingUpdate(float dt)
 	}
 
 	// 推送ping值
-	if (m_pingPushTime > 5.0f)
+	if (m_pingPushTime >= PUSH_PING_INTERVAL)
 	{
 		m_pingPushTime = 0.0f;
 
@@ -464,7 +502,7 @@ err::Code GameLogic::joinCode(uint32_t sessionID, const msg::JoinFightReq& req)
 
 	if (code == err::Code::SUCCESS)
 	{
-		if (m_state == GameLogic::READY || m_state == GameLogic::WAIT_CONNECT)
+		if (m_state == GameLogic::RUN_STATE::READY || m_state == GameLogic::RUN_STATE::WAIT_CONNECT)
 		{
 			// 不为0有问题
 			if (req.frame() != 0)
@@ -523,7 +561,7 @@ void GameLogic::doJoin(uint32_t sessionID, const msg::JoinFightReq& req)
 	//ntf.set_pid(req.playerid());
 	//this->sendToAllPlayer(ntf.Id, ntf);
 
-	if (m_state == GameLogic::READY || m_state == GameLogic::WAIT_CONNECT)
+	if (m_state == GameLogic::RUN_STATE::READY || m_state == GameLogic::RUN_STATE::WAIT_CONNECT)
 	{
 		sendLoadingPercentToAllPlayer();
 	}
@@ -538,10 +576,8 @@ void GameLogic::exitGame(int64_t playerID)
 	if (!containPlayer(playerID))
 		return;
 
-	msg::PlayerExitFightNotify ntf;
-	ntf.set_pid(playerID);
-	this->sendToAllPlayer(ntf.Id, ntf);
-	
+	m_exitPlayers.push_back(playerID);
+
 	std::unique_ptr<GamePlayer> tmp[G_FIGHT_MAX_PLAYER_COUNT];
 	int32_t index = 0;
 	for (auto i = 0; i < G_FIGHT_MAX_PLAYER_COUNT; ++i)
@@ -642,7 +678,11 @@ void GameLogic::sendLoadingPercentToAllPlayer()
 	{
 		ack.add_percent(m_players[i]->getLoadPercent());
 		ack.add_pid(m_players[i]->getPlayerID());
-		finish = finish & m_players[i]->getLoadFinish();
+
+		if (!m_players[i]->getLoadFinish())
+		{
+			finish = false;
+		}
 	}
 	ack.set_finish(finish);
 	sendToAllPlayer(ack.Id, ack);
@@ -699,37 +739,61 @@ void GameLogic::pushFrameInfo(uint32_t startFrame, uint32_t sessionID)
 
 void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFrameReq& req)
 {
-	if (m_state != GameLogic::RUN)
-		return;
-
 	auto player = getPlayerBySessionID(sessionID);
-	if (player == NULL) return;
-	
-	auto curFrame = m_world->getGameLogicFrame();
+	if (player == NULL)
+	{
+		m_pNetService->disconnect(sessionID);
+		return;
+	}
 
+	// 只有在等待和运行阶段接收玩家输入
+	if (m_state != GameLogic::RUN_STATE::WAIT && m_state != GameLogic::RUN_STATE::RUN)
+	{
+		return;
+	}
+
+	auto lastRecvFrame = player->getLastRecvFrame();
+	// 客户端向服务器发送以往数据？,超过阈值视为作弊，故意拖延游戏节奏
+	if (lastRecvFrame - req.frame() > 3)
+	{
+		this->exitGame(player->getPlayerID());
+		return;
+	}
+
+	auto curFrame = m_world->getGameLogicFrame();
 	if (req.frame() > curFrame + 1)
 	{
-		// 客户端逻辑帧超过服务端逻辑帧,客户端作弊了吧
+		// 客户端逻辑帧超过服务端逻辑帧,视为客户端作弊
 		// 当前消息视为无效消息
 		LOG(ERROR) << "recv invalid input [1], playerid: " << player->getPlayerID();
 		this->exitGame(player->getPlayerID());
 		return;
 	}
-	else
+
+	if (m_state == GameLogic::RUN_STATE::WAIT)
 	{
-		player->setLastRecvFrame(req.frame());
+		// 等待阶段不接收玩家输入
+		player->setLastRecvFrame(MAX(lastRecvFrame, req.frame()));
+	}
+	else // RUN
+	{
+		player->setLastRecvFrame(MAX(lastRecvFrame, req.frame()));
 		// 客户端发送的操作数据距离当前逻辑帧太久,直接抛弃操作
 		if (curFrame - req.frame() > 100)
 			return;
-	}
 
-	player->input(req, curFrame);
+		player->input(req, curFrame);
+	}
 }
 
 void GameLogic::onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoadingReq& req)
 {
 	auto player = getPlayerBySessionID(sessionID);
-	if (player == NULL) return;
+	if (player == NULL)
+	{
+		m_pNetService->disconnect(sessionID);
+		return;
+	}
 
 	if (player->getLoadFinish())
 		return;
@@ -746,7 +810,11 @@ void GameLogic::onMsg_PlayerLoadingReq(uint32_t sessionID, const msg::PlayerLoad
 void GameLogic::onMsg_Pong(uint32_t sessionID, const msg::Pong& req)
 {
 	auto player = getPlayerBySessionID(sessionID);
-	if (player == NULL) return;
+	if (player == NULL)
+	{
+		m_pNetService->disconnect(sessionID);
+		return;
+	}
 
 	auto cur = GApplication::getInstance()->getRunTime32();
 	auto diff = cur - req.timestamp();

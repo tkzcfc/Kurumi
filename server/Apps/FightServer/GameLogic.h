@@ -88,8 +88,11 @@ private:
 	int32_t m_playerCount;
 	std::unique_ptr<GamePlayer> m_players[G_FIGHT_MAX_PLAYER_COUNT];
 	std::set<int64_t> m_playerIDSet;
+
+	// 退出游戏的玩家ID
+	std::vector<int64_t> m_exitPlayers;
 	
-	enum RUN_STATE
+	enum class RUN_STATE
 	{
 		WAIT_CONNECT = 0, // 等待客户端连接服务器
 		READY,	// 准备状态,等待玩家全部准备完毕
@@ -104,10 +107,10 @@ private:
 	// 游戏累计运行时间
 	float m_accumilatedTime;
 
+	// 历史记录
 	msg::PlayerRecords m_pastRecords;
 
-	//std::vector<msg::PlayerFrameInput*> m_curFrameInputs;
-
+	// RunNextFrameAck相关缓存
 	msg::RunNextFrameAck m_runNextFrameAckCache;
 	msg::PlayerFrameInput* m_pCacheFrameInputs[G_FIGHT_MAX_PLAYER_COUNT];
 

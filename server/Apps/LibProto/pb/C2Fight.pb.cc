@@ -12,9 +12,8 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_C2Fight_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FightWorldInfo_C2Fight_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_C2Fight_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FrameInputData_C2Fight_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_C2Fight_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PingInfo_C2Fight_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_C2Fight_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PlayerFrameInput_C2Fight_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_C2Fight_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PlayerFrameInput_C2Fight_2eproto;
 namespace msg {
 class JoinFightReqDefaultTypeInternal {
  public:
@@ -44,10 +43,6 @@ class PlayerExitFightNotifyDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PlayerExitFightNotify> _instance;
 } _PlayerExitFightNotify_default_instance_;
-class FrameInputDataDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<FrameInputData> _instance;
-} _FrameInputData_default_instance_;
 class PlayerFrameInputDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PlayerFrameInput> _instance;
@@ -143,20 +138,6 @@ static void InitDefaultsscc_info_FightWorldInfo_C2Fight_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FightWorldInfo_C2Fight_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_FightWorldInfo_C2Fight_2eproto}, {}};
 
-static void InitDefaultsscc_info_FrameInputData_C2Fight_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::msg::_FrameInputData_default_instance_;
-    new (ptr) ::msg::FrameInputData();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::msg::FrameInputData::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FrameInputData_C2Fight_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_FrameInputData_C2Fight_2eproto}, {}};
-
 static void InitDefaultsscc_info_JoinFightAck_C2Fight_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -239,9 +220,8 @@ static void InitDefaultsscc_info_PlayerFrameInput_C2Fight_2eproto() {
   ::msg::PlayerFrameInput::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PlayerFrameInput_C2Fight_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_PlayerFrameInput_C2Fight_2eproto}, {
-      &scc_info_FrameInputData_C2Fight_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PlayerFrameInput_C2Fight_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PlayerFrameInput_C2Fight_2eproto}, {}};
 
 static void InitDefaultsscc_info_PlayerLoadingAck_C2Fight_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -398,9 +378,8 @@ static void InitDefaultsscc_info_RunNextFrameReq_C2Fight_2eproto() {
   ::msg::RunNextFrameReq::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_RunNextFrameReq_C2Fight_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_RunNextFrameReq_C2Fight_2eproto}, {
-      &scc_info_FrameInputData_C2Fight_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_RunNextFrameReq_C2Fight_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_RunNextFrameReq_C2Fight_2eproto}, {}};
 
 namespace msg {
 bool JoinFightReq_MsgId_IsValid(int value) {
@@ -2875,188 +2854,12 @@ std::string PlayerExitFightNotify::GetTypeName() const {
 
 // ===================================================================
 
-void FrameInputData::InitAsDefaultInstance() {
-}
-class FrameInputData::_Internal {
- public:
-};
-
-FrameInputData::FrameInputData()
-  : ::PROTOBUF_NAMESPACE_ID::MessageLite(), _internal_metadata_(nullptr) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:msg.FrameInputData)
-}
-FrameInputData::FrameInputData(const FrameInputData& from)
-  : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
-      _internal_metadata_(nullptr) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  key_down_ = from.key_down_;
-  // @@protoc_insertion_point(copy_constructor:msg.FrameInputData)
-}
-
-void FrameInputData::SharedCtor() {
-  key_down_ = 0u;
-}
-
-FrameInputData::~FrameInputData() {
-  // @@protoc_insertion_point(destructor:msg.FrameInputData)
-  SharedDtor();
-}
-
-void FrameInputData::SharedDtor() {
-}
-
-void FrameInputData::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const FrameInputData& FrameInputData::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_FrameInputData_C2Fight_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void FrameInputData::Clear() {
-// @@protoc_insertion_point(message_clear_start:msg.FrameInputData)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  key_down_ = 0u;
-  _internal_metadata_.Clear();
-}
-
-const char* FrameInputData::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
-      // uint32 key_down = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          key_down_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* FrameInputData::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:msg.FrameInputData)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 key_down = 1;
-  if (this->key_down() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_key_down(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = stream->WriteRaw(_internal_metadata_.unknown_fields().data(),
-        static_cast<int>(_internal_metadata_.unknown_fields().size()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:msg.FrameInputData)
-  return target;
-}
-
-size_t FrameInputData::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:msg.FrameInputData)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // uint32 key_down = 1;
-  if (this->key_down() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_key_down());
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    total_size += _internal_metadata_.unknown_fields().size();
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void FrameInputData::CheckTypeAndMergeFrom(
-    const ::PROTOBUF_NAMESPACE_ID::MessageLite& from) {
-  MergeFrom(*::PROTOBUF_NAMESPACE_ID::internal::DownCast<const FrameInputData*>(
-      &from));
-}
-
-void FrameInputData::MergeFrom(const FrameInputData& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:msg.FrameInputData)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.key_down() != 0) {
-    _internal_set_key_down(from._internal_key_down());
-  }
-}
-
-void FrameInputData::CopyFrom(const FrameInputData& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:msg.FrameInputData)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool FrameInputData::IsInitialized() const {
-  return true;
-}
-
-void FrameInputData::InternalSwap(FrameInputData* other) {
-  using std::swap;
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(key_down_, other->key_down_);
-}
-
-std::string FrameInputData::GetTypeName() const {
-  return "msg.FrameInputData";
-}
-
-
-// ===================================================================
-
 void PlayerFrameInput::InitAsDefaultInstance() {
-  ::msg::_PlayerFrameInput_default_instance_._instance.get_mutable()->input_ = const_cast< ::msg::FrameInputData*>(
-      ::msg::FrameInputData::internal_default_instance());
 }
 class PlayerFrameInput::_Internal {
  public:
-  static const ::msg::FrameInputData& input(const PlayerFrameInput* msg);
 };
 
-const ::msg::FrameInputData&
-PlayerFrameInput::_Internal::input(const PlayerFrameInput* msg) {
-  return *msg->input_;
-}
 PlayerFrameInput::PlayerFrameInput()
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(), _internal_metadata_(nullptr) {
   SharedCtor();
@@ -3066,22 +2869,16 @@ PlayerFrameInput::PlayerFrameInput(const PlayerFrameInput& from)
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  if (from._internal_has_input()) {
-    input_ = new ::msg::FrameInputData(*from.input_);
-  } else {
-    input_ = nullptr;
-  }
   ::memcpy(&pid_, &from.pid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&frame_) -
-    reinterpret_cast<char*>(&pid_)) + sizeof(frame_));
+    static_cast<size_t>(reinterpret_cast<char*>(&key_down_) -
+    reinterpret_cast<char*>(&pid_)) + sizeof(key_down_));
   // @@protoc_insertion_point(copy_constructor:msg.PlayerFrameInput)
 }
 
 void PlayerFrameInput::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PlayerFrameInput_C2Fight_2eproto.base);
-  ::memset(&input_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&frame_) -
-      reinterpret_cast<char*>(&input_)) + sizeof(frame_));
+  ::memset(&pid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&key_down_) -
+      reinterpret_cast<char*>(&pid_)) + sizeof(key_down_));
 }
 
 PlayerFrameInput::~PlayerFrameInput() {
@@ -3090,7 +2887,6 @@ PlayerFrameInput::~PlayerFrameInput() {
 }
 
 void PlayerFrameInput::SharedDtor() {
-  if (this != internal_default_instance()) delete input_;
 }
 
 void PlayerFrameInput::SetCachedSize(int size) const {
@@ -3108,13 +2904,9 @@ void PlayerFrameInput::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaNoVirtual() == nullptr && input_ != nullptr) {
-    delete input_;
-  }
-  input_ = nullptr;
   ::memset(&pid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&frame_) -
-      reinterpret_cast<char*>(&pid_)) + sizeof(frame_));
+      reinterpret_cast<char*>(&key_down_) -
+      reinterpret_cast<char*>(&pid_)) + sizeof(key_down_));
   _internal_metadata_.Clear();
 }
 
@@ -3139,10 +2931,10 @@ const char* PlayerFrameInput::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .msg.FrameInputData input = 3;
+      // uint32 key_down = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_input(), ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          key_down_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3184,12 +2976,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_frame(), target);
   }
 
-  // .msg.FrameInputData input = 3;
-  if (this->has_input()) {
+  // uint32 key_down = 3;
+  if (this->key_down() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        3, _Internal::input(this), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_key_down(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3208,13 +2998,6 @@ size_t PlayerFrameInput::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .msg.FrameInputData input = 3;
-  if (this->has_input()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *input_);
-  }
-
   // int64 pid = 1;
   if (this->pid() != 0) {
     total_size += 1 +
@@ -3227,6 +3010,13 @@ size_t PlayerFrameInput::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_frame());
+  }
+
+  // uint32 key_down = 3;
+  if (this->key_down() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_key_down());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3250,14 +3040,14 @@ void PlayerFrameInput::MergeFrom(const PlayerFrameInput& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_input()) {
-    _internal_mutable_input()->::msg::FrameInputData::MergeFrom(from._internal_input());
-  }
   if (from.pid() != 0) {
     _internal_set_pid(from._internal_pid());
   }
   if (from.frame() != 0) {
     _internal_set_frame(from._internal_frame());
+  }
+  if (from.key_down() != 0) {
+    _internal_set_key_down(from._internal_key_down());
   }
 }
 
@@ -3275,9 +3065,9 @@ bool PlayerFrameInput::IsInitialized() const {
 void PlayerFrameInput::InternalSwap(PlayerFrameInput* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(input_, other->input_);
   swap(pid_, other->pid_);
   swap(frame_, other->frame_);
+  swap(key_down_, other->key_down_);
 }
 
 std::string PlayerFrameInput::GetTypeName() const {
@@ -3288,18 +3078,11 @@ std::string PlayerFrameInput::GetTypeName() const {
 // ===================================================================
 
 void RunNextFrameReq::InitAsDefaultInstance() {
-  ::msg::_RunNextFrameReq_default_instance_._instance.get_mutable()->input_ = const_cast< ::msg::FrameInputData*>(
-      ::msg::FrameInputData::internal_default_instance());
 }
 class RunNextFrameReq::_Internal {
  public:
-  static const ::msg::FrameInputData& input(const RunNextFrameReq* msg);
 };
 
-const ::msg::FrameInputData&
-RunNextFrameReq::_Internal::input(const RunNextFrameReq* msg) {
-  return *msg->input_;
-}
 RunNextFrameReq::RunNextFrameReq()
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(), _internal_metadata_(nullptr) {
   SharedCtor();
@@ -3309,20 +3092,16 @@ RunNextFrameReq::RunNextFrameReq(const RunNextFrameReq& from)
   : ::PROTOBUF_NAMESPACE_ID::MessageLite(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  if (from._internal_has_input()) {
-    input_ = new ::msg::FrameInputData(*from.input_);
-  } else {
-    input_ = nullptr;
-  }
-  frame_ = from.frame_;
+  ::memcpy(&frame_, &from.frame_,
+    static_cast<size_t>(reinterpret_cast<char*>(&key_down_) -
+    reinterpret_cast<char*>(&frame_)) + sizeof(key_down_));
   // @@protoc_insertion_point(copy_constructor:msg.RunNextFrameReq)
 }
 
 void RunNextFrameReq::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_RunNextFrameReq_C2Fight_2eproto.base);
-  ::memset(&input_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&frame_) -
-      reinterpret_cast<char*>(&input_)) + sizeof(frame_));
+  ::memset(&frame_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&key_down_) -
+      reinterpret_cast<char*>(&frame_)) + sizeof(key_down_));
 }
 
 RunNextFrameReq::~RunNextFrameReq() {
@@ -3331,7 +3110,6 @@ RunNextFrameReq::~RunNextFrameReq() {
 }
 
 void RunNextFrameReq::SharedDtor() {
-  if (this != internal_default_instance()) delete input_;
 }
 
 void RunNextFrameReq::SetCachedSize(int size) const {
@@ -3349,11 +3127,9 @@ void RunNextFrameReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaNoVirtual() == nullptr && input_ != nullptr) {
-    delete input_;
-  }
-  input_ = nullptr;
-  frame_ = 0u;
+  ::memset(&frame_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&key_down_) -
+      reinterpret_cast<char*>(&frame_)) + sizeof(key_down_));
   _internal_metadata_.Clear();
 }
 
@@ -3371,10 +3147,10 @@ const char* RunNextFrameReq::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .msg.FrameInputData input = 2;
+      // uint32 key_down = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_input(), ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          key_down_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3410,12 +3186,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_frame(), target);
   }
 
-  // .msg.FrameInputData input = 2;
-  if (this->has_input()) {
+  // uint32 key_down = 2;
+  if (this->key_down() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        2, _Internal::input(this), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_key_down(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3434,18 +3208,18 @@ size_t RunNextFrameReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .msg.FrameInputData input = 2;
-  if (this->has_input()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *input_);
-  }
-
   // uint32 frame = 1;
   if (this->frame() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_frame());
+  }
+
+  // uint32 key_down = 2;
+  if (this->key_down() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_key_down());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3469,11 +3243,11 @@ void RunNextFrameReq::MergeFrom(const RunNextFrameReq& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_input()) {
-    _internal_mutable_input()->::msg::FrameInputData::MergeFrom(from._internal_input());
-  }
   if (from.frame() != 0) {
     _internal_set_frame(from._internal_frame());
+  }
+  if (from.key_down() != 0) {
+    _internal_set_key_down(from._internal_key_down());
   }
 }
 
@@ -3491,8 +3265,8 @@ bool RunNextFrameReq::IsInitialized() const {
 void RunNextFrameReq::InternalSwap(RunNextFrameReq* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(input_, other->input_);
   swap(frame_, other->frame_);
+  swap(key_down_, other->key_down_);
 }
 
 std::string RunNextFrameReq::GetTypeName() const {
@@ -5452,9 +5226,6 @@ template<> PROTOBUF_NOINLINE ::msg::PlayerReadyNotify* Arena::CreateMaybeMessage
 }
 template<> PROTOBUF_NOINLINE ::msg::PlayerExitFightNotify* Arena::CreateMaybeMessage< ::msg::PlayerExitFightNotify >(Arena* arena) {
   return Arena::CreateInternal< ::msg::PlayerExitFightNotify >(arena);
-}
-template<> PROTOBUF_NOINLINE ::msg::FrameInputData* Arena::CreateMaybeMessage< ::msg::FrameInputData >(Arena* arena) {
-  return Arena::CreateInternal< ::msg::FrameInputData >(arena);
 }
 template<> PROTOBUF_NOINLINE ::msg::PlayerFrameInput* Arena::CreateMaybeMessage< ::msg::PlayerFrameInput >(Arena* arena) {
   return Arena::CreateInternal< ::msg::PlayerFrameInput >(arena);

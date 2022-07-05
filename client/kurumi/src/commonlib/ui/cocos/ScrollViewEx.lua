@@ -10,14 +10,6 @@ local ScrollViewDirection = {
     DIR_BOTH = 3,
 }
 
--- 入场动画 item 飞入方向
-local ScrollViewFlyFrom = {
-    Up = 1,
-    Down = 2,
-    Left = 3,
-    Right = 4,
-}
-
 -- item 对齐方向
 local SCROLLVIEW_ALIGNMENT = {
     FIRST = 1,
@@ -32,19 +24,37 @@ end
 
 local ceil = math.ceil
 local min  = math.min
+local max  = math.max
 local abs  = math.abs
 local floor = math.floor
+local unpack = unpack
 
-ScrollView.ScrollViewFlyFrom = ScrollViewFlyFrom
 ScrollView.SCROLLVIEW_ALIGNMENT = SCROLLVIEW_ALIGNMENT
 
 local ACTION_TAG = 0xfcfc
+
+ScrollView.ACTION_TAG = ACTION_TAG
 
 ------------------------------------------------------------ public ------------------------------------------------------------
 
 -- @brief 设置item被创建时的回调函数
 function ScrollView:setItemCreatedCallback(callback)
     self.onItemCreatedCallback = callback
+end
+
+-- @brief 设置item刷新时的回调函数
+function ScrollView:setItemUpdateCallback(callback)
+    self.onItemUpdateCallback = callback
+end
+
+-- @brief 设置item被回收是的回调函数
+function ScrollView:setItemFreeCallback(callback)
+    self.onItemFreeCallback = callback
+end
+
+-- @brief 设置重新布局后的回调函数
+function ScrollView:setOnUpdateLayoutCallback(callback)
+    self.onUpdateLayoutCallback = callback
 end
 
 -- @brief 设置item之间的间隙
@@ -59,8 +69,12 @@ end
 -- @param hPadding 填充左右
 -- @param vPadding 填充上下
 function ScrollView:setPadding(hPadding, vPadding)
-    self.vPadding = vPadding
+    if self.hPadding == hPadding and self.vPadding == vPadding then
+        return false
+    end
     self.hPadding = hPadding
+    self.vPadding = vPadding
+    return true
 end
 
 -- @brief 设置Item视图模型且禁用滑块
@@ -69,14 +83,20 @@ function ScrollView:setItemViewModelAndHideBar(...)
     self:setItemViewModel(...)
 end
 
+-- @brief 在调用setItemViewModel时保持偏移位置不变
+--        setItemViewModel 函数会调用完毕会自动将该值置位false
+function ScrollView:freezeOffset(value)
+    self.bFreezeOffset = value
+end
+
 -- @brief 设置Item视图模型
 -- @param itemClass item对应的class对象, 此class对象必须实现方法 iItemWillUpdate
 -- @param totalItemNum 总数量
 -- @param itemSize item的尺寸
 -- @param multiNum 一行显示个数
 -- @param adaptationSize 是否适配item，自动缩放item
--- @param data 调用 iItemWillUpdate 函数时传入的数据
-function ScrollView:setItemViewModel(itemClass, totalItemNum, itemSize, multiNum, adaptationSize, data)
+-- @param ... 调用 iItemWillUpdate 函数时传入的参数
+function ScrollView:setItemViewModel(itemClass, totalItemNum, itemSize, multiNum, adaptationSize, ...)
     self:removeAllShowItems()
     self:stopOverallScroll()
 
@@ -89,75 +109,47 @@ function ScrollView:setItemViewModel(itemClass, totalItemNum, itemSize, multiNum
 
     -- 总数量
     self.iTotalItemNum = totalItemNum or 0
-    if self.iTotalItemNum <= 0 then
-        return
-    end
-
-    assert(type(itemClass.iItemWillUpdate) == "function")
+    if self.iTotalItemNum <= 0 then return end
 
     self.tItemClass = itemClass
-    self.tData      = data
-    self.tItemContentSize = itemSize
+    self.tArgs      = {...}
     self.iMultiNum  = multiNum or 1
     self.tShowItems = self.tShowItems or {}
     -- item缩放系数
     self.fItemScale = 1
+    -- 是否适配item，自动缩放item
+    if adaptationSize == nil then adaptationSize = true end
+    self.bAdaptationSize = adaptationSize
 
-    adaptationSize = adaptationSize == nil and true or adaptationSize
+    -- 参数检查
+    assert(type(itemClass.iItemWillUpdate) == "function")
     assert(self.iMultiNum > 0, "multiNum should larger than 0 !!")
 
-    self.tContentSize = self:getContentSize()
-    local viewSize = self:getContentSize()
-    -- 显示的行数
-    local lineCount = cond(self.iTotalItemNum % self.iMultiNum == 0, self.iTotalItemNum / self.iMultiNum, ceil(self.iTotalItemNum / self.iMultiNum))
+    self.bInitTag = true
 
-    -- 计算实际需要大小
-    if ScrollViewDirection.DIR_HORIZONTAL == self:getDirection() then
-        if adaptationSize then
-            local height = self.tContentSize.height - self.hPadding * 2 - self:_getMarginV(self.iMultiNum)
-            local scale = height / self.iMultiNum / self.tItemContentSize.height
-
-            self.fItemScale = scale
-            self.tItemContentSize = {width = self.tItemContentSize.width * scale, height = self.tItemContentSize.height * scale}
-        end
-
-        self.tContentSize.width = self.tItemContentSize.width * lineCount + self:_getMarginH(lineCount) + self.vPadding * 2
-        self.bFullView = self.tContentSize.width > viewSize.width
-        self:setInnerContainerSize(self.tContentSize)
-        self:setInnerContainerPosition(cc.p(0, 0))
-    else
-        if adaptationSize then
-            local width = self.tContentSize.width - self.hPadding * 2 - self:_getMarginH(self.iMultiNum)
-            local scale = width / self.iMultiNum / self.tItemContentSize.width
-
-            self.fItemScale = scale
-            self.tItemContentSize = {width = self.tItemContentSize.width * scale, height = self.tItemContentSize.height * scale}
-        end
-
-        self.tContentSize.height = self.tItemContentSize.height * lineCount + self:_getMarginV(lineCount) + self.vPadding * 2
-        self.bFullView = self.tContentSize.height > viewSize.height
-        self:setInnerContainerSize(self.tContentSize)
-        if self.bFullView then
-            self:setInnerContainerPosition(cc.p(0, viewSize.height - self.tContentSize.height))
-        else
-            self:setInnerContainerPosition(cc.p(0, 0))
-        end
-    end
-    self.tContentSize = self:getInnerContainerSize()
-
-    self:_enableUpdateView()
+    self:_updateContentSize(self.bFreezeOffset, itemSize, adaptationSize)
+    self.bFreezeOffset = false
 end
 
 -- @brief 刷新所有的item
-function ScrollView:updateAllItems(data)
+function ScrollView:updateAllItems(...)
     if self.tShowItems == nil then return end
 
-    if data then
-        self.tData = data
+    local args = {...}
+    if #args > 0 then
+        self.tArgs = args
     end
     
     for _, item in pairs(self.tShowItems) do
-        item:iItemWillUpdate(item.iIndex, self.tData)
+        self:_updateItem(item)
+    end
+end
+
+-- @brief 刷新指定下标item
+function ScrollView:updateItemByIndex(index)
+    local item = self:getItemByIndex(index)
+    if item then
+        self:_updateItem(item)
     end
 end
 
@@ -193,27 +185,28 @@ function ScrollView:getOffsetPercent(offset)
     return percent
 end
 
--- @brief 设置ScrollView内Item是否居中显示
-function ScrollView:setShowCenter(isCenter)
+-- @brief 设置ScrollView内Item居中显示(只会处理内容大小小于视口大小的轴)
+--        原理:将四周留白扩大
+function ScrollView:setShowCenter()
+    if not self.bInitTag then return end
     local viewSize = self:getContentSize()
-    if ScrollViewDirection.DIR_HORIZONTAL == self:getDirection() then
-        local dertaValue = viewSize.width - self.tContentSize.width
-        if isCenter then
-            if dertaValue > 0 then
-                self:getInnerContainer():setPositionX(dertaValue / 2)
-            end
-        else
-            self:getInnerContainer():setPositionX(dertaValue)
-        end
-    elseif ScrollViewDirection.DIR_VERTICAL == self:getDirection() then
-        local dertaValue = viewSize.height - self.tContentSize.height
-        if isCenter then
-            if dertaValue > 0 then
-                self:getInnerContainer():setPositionY(dertaValue / 2)
-            end
-        else
-            self:getInnerContainer():setPositionY(dertaValue)
-        end
+
+    local vPadding = self.vPadding
+    local hPadding = self.hPadding
+    
+    local realWidth = self.tRealContentSize.width - self.hPadding * 2
+    if realWidth < viewSize.width then
+        hPadding = (viewSize.width - realWidth) * 0.5
+    end
+
+    local readHeight = self.tRealContentSize.height - self.vPadding * 2
+    if readHeight < viewSize.height then
+        vPadding = (viewSize.height - readHeight) * 0.5
+    end
+
+    if self:setPadding(hPadding, vPadding) then
+        self:_updateContentSize(false, self.tItemContentSize, false)
+        self:_updateCellPos()
     end
 end
 
@@ -221,7 +214,8 @@ end
 -- @param index item下标
 -- @param alignment 跳转到视图哪个位置
 -- @param 偏移值
-function ScrollView:jumpToItem(index, alignment, offset)
+-- @param timeInSec 滚动时间,为nil则跳转
+function ScrollView:jumpToItem(index, alignment, offset, timeInSec)
     if not self.bFullView then
         return
     end
@@ -258,6 +252,13 @@ function ScrollView:jumpToItem(index, alignment, offset)
         local w = self:getContentSize().width - self:getInnerContainer():getContentSize().width
         local percent = posX / w * 100
         self:jumpToPercentHorizontal(percent)
+
+        if timeInSec then
+            self:scrollToPercentHorizontal(percent, timeInSec, true)
+        else
+            self:jumpToPercentHorizontal(percent)
+            self:_updateView(true)
+        end
     else
         local line = cond(index % self.iMultiNum == 0, index / self.iMultiNum, ceil(index / self.iMultiNum))
 
@@ -282,67 +283,48 @@ function ScrollView:jumpToItem(index, alignment, offset)
         local minY = self:getContentSize().height - self:getInnerContainer():getContentSize().height
         local h = -minY
         local percent = (100 * (posY - minY)) / h
-        self:jumpToPercentVertical(percent)
-    end
 
-    self:_updateView(true)
+        if timeInSec then
+            self:scrollToPercentVertical(percent, timeInSec, true)
+        else
+            self:jumpToPercentVertical(percent)
+            self:_updateView(true)
+        end
+    end
 end
 
 
--- 入场动画配置
-local LISTVIEW_DATA = {
-    LIST_DELAY_TIME = 0.09,      -- 行间隔时间（秒）          1
-    ITEM_DElAY_TIME = 0.05,      -- item间隔时间（秒）
-    ITEM_MOVE_TIME = 0.16,       -- item移动时间（秒）
-    ITEM_BOUNCE_TIME = 0.1,     -- item回弹时间（秒）
-    ITEM_BOUNCE_DIS = 4,       -- item回弹偏移   x >= 0   
-}
-
 -- @brief 播放item入场动画
--- @param flyFrom 飞入方向
+-- @param actionType 动画类型
 -- @param callback 回调
-function ScrollView:playFlyInAction(flyFrom, callback)
-    flyFrom = flyFrom or ScrollViewFlyFrom.Up   
-    
+function ScrollView:playFlyInAction(actionType, callback)
+    if self.bPlayFlyAction then return end
+
     self:getAllShowItems(true)
-    if #self.tShowItems <= 0 then
+    
+    local itemCount = #self.tShowItems
+    if itemCount <= 0 then
         if callback then callback() end
         return
     end
 
-    local initDertaPos = cc.p(0, 0)
-    local bouncePos = cc.p(0, 0)
-    if flyFrom == ScrollViewFlyFrom.Up then
-        initDertaPos = cc.p(0, self:getContentSize().height * 2)
-        bouncePos = cc.p(0, -LISTVIEW_DATA.ITEM_BOUNCE_DIS)
-    elseif flyFrom == ScrollViewFlyFrom.Down then
-        initDertaPos = cc.p(0, -self:getContentSize().height * 2)
-        bouncePos = cc.p(0, LISTVIEW_DATA.ITEM_BOUNCE_DIS)
-    elseif flyFrom == ScrollViewFlyFrom.Left then
-        initDertaPos = cc.p(-self:getContentSize().width * 2, 0)
-        bouncePos = cc.p(LISTVIEW_DATA.ITEM_BOUNCE_DIS, 0)
-    elseif flyFrom == ScrollViewFlyFrom.Right then
-        initDertaPos = cc.p(self:getContentSize().width * 2, 0)
-        bouncePos = cc.p(-LISTVIEW_DATA.ITEM_BOUNCE_DIS, 0)
-    end
+    local MovePos = 40
+    for k, item in ipairs(self.tShowItems) do
+        item:setCascadeOpacityEnabled(true)
+        item:setOpacity(0)
+        item:stopAllActionsByTag(ACTION_TAG)
+        item:setPositionY(item:getPositionY() - MovePos)
 
-    for k, v in pairs(self.tShowItems) do
-        local aimPos = cc.p(v:getPositionX(), v:getPositionY())
+        local move_by = cc.EaseSineIn:create(cc.MoveBy:create(0.1, cc.p(0, MovePos)))
+        local fade_in = cc.FadeIn:create(0.3)
 
-        local delayTime = (k - 1) * LISTVIEW_DATA.ITEM_DElAY_TIME
-        if flyFrom == ScrollViewFlyFrom.Up then
-            delayTime = (#self.tShowItems - k + 1) * LISTVIEW_DATA.ITEM_DElAY_TIME
-        end
-
-        v:setPosition(cc.pAdd(aimPos, initDertaPos))
-
-        local actions = {
-            cc.DelayTime:create(delayTime),
-            cc.MoveTo:create(LISTVIEW_DATA.ITEM_MOVE_TIME, cc.pAdd(aimPos, bouncePos)),
-            cc.MoveTo:create(LISTVIEW_DATA.ITEM_BOUNCE_TIME, aimPos),
+        local actions = 
+        {
+            cc.DelayTime:create((k - 1) * 0.03),
+            cc.Spawn:create(fade_in, move_by)
         }
 
-        if k == 1 then
+        if k == itemCount then
             table.insert(actions, cc.CallFunc:create(function()
                 self:playItemActionFinish()
                 if callback then
@@ -350,20 +332,24 @@ function ScrollView:playFlyInAction(flyFrom, callback)
                 end
             end))
         end
-
-        v:runAction(cc.Sequence:create(actions)):setTag(ACTION_TAG)
+        item:runAction(cc.Sequence:create(actions)):setTag(ACTION_TAG)
     end
+
     self:startPlayItemAction()
 end
 
 -- @brief 开始播放item动画（禁用 _updateView 调用）
 function ScrollView:startPlayItemAction()
     self.bPlayFlyAction = true
+    self.bCacheTouchEnable = self:isTouchEnabled()
+    self:setTouchEnabled(false)
 end
 
 -- @brief 播放item动画结束（开启 _updateView 调用）
 function ScrollView:playItemActionFinish()
     self.bPlayFlyAction = false
+    if self.bCacheTouchEnable == nil then self.bCacheTouchEnable = true end
+    self:setTouchEnabled(self.bCacheTouchEnable)
 end
 
 -- @brief 获取当前正在显示的item
@@ -417,7 +403,7 @@ function ScrollView:isFullView()
 end
 
 ------------------------------------------------------------ private ------------------------------------------------------------
-local UPATE_INTERVAL = 1 / 30
+-- local UPATE_INTERVAL = 1 / 60
 function ScrollView:_enableUpdateView()
     local oldVal = self.bFullView
     self.bFullView = true
@@ -426,26 +412,22 @@ function ScrollView:_enableUpdateView()
 
     if not self.bFullView then return end
 
-    if self.__updateNode == nil then
-        self.__updateNode = cc.Node:create()
-        self.__updateNode:setVisible(false)
-        self:addProtectedChild(self.__updateNode)
+    -- 使用事件刷新
+    self:enableEventListener()
 
-        local totalTime = 0
-        self.__updateNode:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(dt)
-            totalTime = totalTime + dt
-            if totalTime < UPATE_INTERVAL then return end
-            totalTime = 0
-            self:_updateView()
-        end)
-        self.__updateNode:scheduleUpdate()
-        -- self.__updateNode:onUpdate(function(dt)
-        --     totalTime = totalTime + dt
-        --     if totalTime < UPATE_INTERVAL then return end
-        --     totalTime = 0
-        --     self:_updateView()
-        -- end)
-    end
+    -- if self.__updateNode == nil then
+    --     self.__updateNode = cc.Node:create()
+    --     self.__updateNode:setVisible(false)
+    --     self:addProtectedChild(self.__updateNode)
+
+    --     local totalTime = 0
+    --     self.__updateNode:onUpdate(function(dt)
+    --         totalTime = totalTime + dt
+    --         if totalTime < UPATE_INTERVAL then return end
+    --         totalTime = 0
+    --         self:_updateView()
+    --     end)
+    -- end
 end
 
 
@@ -542,9 +524,10 @@ function ScrollView:_updateView(force)
                     item.iIndex = index     -- 索引下标
                     item.iRows = startLine  -- 行数
                     item.iColumns = i       -- 列数
-                    item:iItemWillUpdate(index, self.tData)
                     item:setPosition(x, y)
                     table.insert(self.tShowItems, item)
+
+                    self:_updateItem(item)
                 end
             end
             startLine = startLine + 1
@@ -577,13 +560,132 @@ function ScrollView:_updateView(force)
                     item.iIndex = index     -- 索引下标
                     item.iRows = startLine  -- 行数
                     item.iColumns = i       -- 列数
-                    item:iItemWillUpdate(index, self.tData)
                     item:setPosition(x, y)
                     table.insert(self.tShowItems, item)
+
+                    self:_updateItem(item)
                 end
             end
             startLine = startLine + 1
         until(breakLoop)
+    end
+
+    if self.onUpdateLayoutCallback then
+        self.onUpdateLayoutCallback()
+    end
+end
+
+-- @brief 更新内容大小
+-- @param freezeOffset 是否保持当前偏移量
+function ScrollView:_updateContentSize(freezeOffset, itemSize, adaptationSize)
+    if not self.bInitTag then return end
+
+    local viewSize    = self:getContentSize()
+    local realContentSize = {}
+
+    self.tRealContentSize = realContentSize
+    self.tItemContentSize = clone(itemSize)
+    self.tContentSize = clone(viewSize)
+
+    -- 逻辑偏移值
+    local logicOffset = 0
+    if freezeOffset then logicOffset = self:_getLogicOffset() end
+
+    -- 显示的行数
+    local lineCount = cond(self.iTotalItemNum % self.iMultiNum == 0, self.iTotalItemNum / self.iMultiNum, ceil(self.iTotalItemNum / self.iMultiNum))
+
+    -- 计算实际需要大小
+    if ScrollViewDirection.DIR_HORIZONTAL == self:getDirection() then
+        if adaptationSize then
+            local height = viewSize.height - self.hPadding * 2 - self:_getMarginV(self.iMultiNum)
+            local scale = height / self.iMultiNum / itemSize.height
+            
+            if scale > 0 then
+                self.fItemScale = scale
+                self.tItemContentSize = {width = itemSize.width * scale, height = itemSize.height * scale}
+            else
+                self.fItemScale = 1
+                self.bAdaptationSize = false
+            end
+        end
+
+        local multiNum = min(self.iTotalItemNum, self.iMultiNum)
+
+        realContentSize.width = self.tItemContentSize.width * lineCount + self:_getMarginH(lineCount) + self.hPadding * 2
+        realContentSize.height = self.tItemContentSize.height * multiNum + self:_getMarginV(multiNum) + self.vPadding * 2
+
+        self.bFullView = realContentSize.width > viewSize.width
+        self.tContentSize.width = max(realContentSize.width, viewSize.width)
+        self:setInnerContainerSize(self.tContentSize)
+
+        if freezeOffset then
+            self:_setLogicOffset(logicOffset)
+        else
+            self:setInnerContainerPosition(cc.p(0, 0))
+        end
+    else
+        if adaptationSize then
+            local width = viewSize.width - self.hPadding * 2 - self:_getMarginH(self.iMultiNum)
+            local scale = width / self.iMultiNum / itemSize.width
+
+            if scale > 0 then
+                self.fItemScale = scale
+                self.tItemContentSize = {width = itemSize.width * scale, height = itemSize.height * scale}
+            else
+                self.fItemScale = 1
+                self.bAdaptationSize = false
+            end
+        end
+
+        local multiNum = min(self.iTotalItemNum, self.iMultiNum)
+
+        realContentSize.width = self.tItemContentSize.width * multiNum + self:_getMarginH(multiNum) + self.hPadding * 2
+        realContentSize.height = self.tItemContentSize.height * lineCount + self:_getMarginV(lineCount) + self.vPadding * 2
+
+        self.bFullView = realContentSize.height > viewSize.height
+        self.tContentSize.height = max(realContentSize.height, viewSize.height)
+        self:setInnerContainerSize(self.tContentSize)
+
+        if freezeOffset then
+            self:_setLogicOffset(logicOffset)
+        else
+            if self.bFullView then
+                self:setInnerContainerPosition(cc.p(0, viewSize.height - self.tContentSize.height))
+            else
+                self:setInnerContainerPosition(cc.p(0, 0))
+            end
+        end
+    end
+    -- 刷新一次
+    self:_enableUpdateView()
+end
+
+-- @brief 刷新cell位置
+function ScrollView:_updateCellPos()
+    if self.tShowItems == nil or #self.tShowItems == 0 then return end
+
+    local containerSize = self.tContentSize
+
+    if ScrollViewDirection.DIR_VERTICAL == self:getDirection() then
+        for k,item in pairs(self.tShowItems) do
+            local x = (item.iColumns - 1) * self.tItemContentSize.width + self:_getMarginH(item.iColumns) + self.hPadding
+            local y = containerSize.height - item.iRows * self.tItemContentSize.height - self:_getMarginV(item.iRows) - self.vPadding
+            item:setPosition(x, y)
+        end
+    else
+        for k,item in pairs(self.tShowItems) do
+            local x = (item.iRows - 1) * self.tItemContentSize.width + self:_getMarginH(item.iRows) + self.hPadding
+            local y = containerSize.height - item.iColumns * self.tItemContentSize.height - self:_getMarginV(item.iColumns) - self.vPadding
+            item:setPosition(x, y)
+        end
+    end
+end
+
+-- @brief 更新item
+function ScrollView:_updateItem(item)
+    item:iItemWillUpdate(item.iIndex, unpack(self.tArgs))
+    if self.onItemUpdateCallback then
+        self.onItemUpdateCallback(item, unpack(self.tArgs))
     end
 end
 
@@ -603,17 +705,23 @@ function ScrollView:_dequeueItem()
     local item = table.remove(self.tFreeItems)
     item:setVisible(true)
     item:stopAllActionsByTag(ACTION_TAG)
-    item:setScale(self.fItemScale)
+    item:setOpacity(255)
     return item
 end
 
 -- @brief item入队,放入空闲队列
 function ScrollView:_enqueueItem(item)
+    local index = item.iIndex
+
     self.tFreeItems = self.tFreeItems or {}
     item:setVisible(false)
     item:stopAllActionsByTag(ACTION_TAG)
     item.iIndex = -1
     table.insert(self.tFreeItems, item)
+
+    if self.onItemFreeCallback then
+        self.onItemFreeCallback(item, index)
+    end
 end
 
 -- @brief 下标为index的item是否存在
@@ -633,4 +741,53 @@ end
 function ScrollView:_getMarginV(count)
     if count <= 0 then return 0 end
     return self.vMargin * (count - 1)
+end
+
+-- @brief 获取逻辑偏移量
+function ScrollView:_getLogicOffset()
+    local containerOffset = self:getInnerContainerPosition()
+
+    if ScrollViewDirection.DIR_HORIZONTAL == self:getDirection() then
+        return containerOffset.x
+    end
+
+    local viewSize = self:getContentSize()
+    local containerSize = self:getInnerContainerSize()
+    return viewSize.height - containerSize.height - containerOffset.y
+end
+
+-- @brief 设置逻辑偏移量
+function ScrollView:_setLogicOffset(value)
+    local containerOffset = self:getInnerContainerPosition()
+    local viewSize = self:getContentSize()
+    local containerSize = self:getInnerContainerSize()
+
+    if ScrollViewDirection.DIR_HORIZONTAL == self:getDirection() then
+        local diffValue = viewSize.width - containerSize.width
+        if diffValue < 0 then
+            containerOffset.x = math.max(diffValue, value)
+        end
+    else
+        containerOffset.y = math.min(viewSize.height - containerSize.height - value, 0)
+    end
+    self:setInnerContainerPosition(containerOffset)
+end
+
+function ScrollView:addEventListenerEx(callback)
+    self.onEventCallback = callback
+    self:enableEventListener()
+end
+
+-- @brief 开启事件监听
+function ScrollView:enableEventListener()
+    if self.bEnableEvent then return end
+    self.bEnableEvent = true
+
+    self:addEventListener(function(...)
+        self:_updateView()
+
+        if self.onEventCallback then
+            self.onEventCallback(...)
+        end
+    end)
 end

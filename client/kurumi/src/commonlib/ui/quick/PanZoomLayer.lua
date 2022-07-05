@@ -31,6 +31,8 @@ local EventType =
 	EVENT_AUTOSCROLL_BEGAN = 2,	-- 自动滚动开始
 	EVENT_AUTOSCROLL_ENDED = 3,	-- 自动滚动结束
 	EVENT_NEW_CELL_CREATE  = 4,	-- 循环列表事件-有新的cell被创建
+	EVENT_ON_TOUCH_BEGIN   = 5, -- 事件-触摸开始
+	EVENT_ON_TOUCH_END     = 6, -- 事件-触摸结束
 }
 
 
@@ -72,7 +74,7 @@ function PanZoomLayer:ctor(size)
 	self:setClippingEnabled(true)
 
 	-- touch layer
-	self.container = cc.Layer:create()
+	self.container = cc.Node:create()
 	self.container:setAnchorPoint(cc.p(0, 0))
 	self:addChild(self.container)
 
@@ -101,7 +103,7 @@ function PanZoomLayer:ctor(size)
 		self:setNodeEventEnabled()
 	end
 
-	self:onUpdate(handler(self, self.update))
+	self:scheduleUpdateWithPriorityLua(handler(self, self.update), 0)
 end
 
 function PanZoomLayer:onEnter()
@@ -209,6 +211,16 @@ function PanZoomLayer:setContainerZoom(zoom, viewportAnchor)
 	viewportAnchor.y = viewportAnchor.y * lsize.height
 
 	self:_setContainerZoomPos(zoom, viewportAnchor)
+end
+
+-- @brief 获取容器缩放
+function PanZoomLayer:getContainer()
+	return self.container
+end
+
+-- @brief 获取容器缩放
+function PanZoomLayer:getContainerZoom()
+	return self.container:getScale()
 end
 
 --@brief 设置容器位置
@@ -350,10 +362,10 @@ end
 function PanZoomLayer:_enableTouch()
 	self:_disenableTouch()
 
-	local listener = cc.EventListenerTouchOneByOne:create()
+	local listener = cc.EventListenerTouchAllAtOnce:create()
 	listener:setSwallowTouches(self.swallowTouch)
 
-	listener:registerScriptHandler(function(touch, event)
+	listener:registerScriptHandler(function(touchs, event)
 		if #self.touches == 1 and not self.zoomEnable then
 			return false
 		end
@@ -362,24 +374,31 @@ function PanZoomLayer:_enableTouch()
 			return false
 		end
 
+		local touch = touchs[1]
 		local location = self:getParent():convertToNodeSpace(touch:getLocation())
 		if cc.rectContainsPoint(self:getBoundingBox(), location) then
 			self:onTouchesBegan(self:_convertTouch(touch))
 	    	return true
 		end
-	end, cc.Handler.EVENT_TOUCH_BEGAN)
+	end, cc.Handler.EVENT_TOUCHES_BEGAN)
 
 	listener:registerScriptHandler(function(touch, event)
-		self:onTouchesMoved(self:_convertTouch(touch))
-	end, cc.Handler.EVENT_TOUCH_MOVED)
+		for _, touch in pairs(touchs) do
+			self:onTouchesMoved(self:_convertTouch(touch))
+		end
+	end, cc.Handler.EVENT_TOUCHES_MOVED)
 
 	listener:registerScriptHandler(function(touch, event)
-		self:onTouchesEnded(self:_convertTouch(touch))
-	end, cc.Handler.EVENT_TOUCH_ENDED)
+		for _, touch in pairs(touchs) do
+			self:onTouchesEnded(self:_convertTouch(touch))
+		end
+	end, cc.Handler.EVENT_TOUCHES_ENDED)
 
-	listener:registerScriptHandler(function(touch, event)
-		self:onTouchesEnded(self:_convertTouch(touch))
-	end, cc.Handler.EVENT_TOUCH_CANCELLED)
+	listener:registerScriptHandler(function(touchs, event)
+		for _, touch in pairs(touchs) do
+			self:onTouchesEnded(self:_convertTouch(touch))
+		end
+	end, cc.Handler.EVENT_TOUCHES_CANCELLED)
 
 	self.container:getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self.container)
 	self.touchListener = listener
@@ -438,6 +457,8 @@ function PanZoomLayer:onTouchesBegan(point)
 	self.accelerationFactor = 0
 
 	self:stoppedAnimatedScroll()
+
+	self:dispatchEvent(EventType.EVENT_ON_TOUCH_BEGIN)
 end
 
 function PanZoomLayer:onTouchesMoved(point)
@@ -534,6 +555,8 @@ function PanZoomLayer:onTouchesEnded(point)
 	if #self.touches == 0 then
 		self:doSpringback()
 	end
+	
+	self:dispatchEvent(EventType.EVENT_ON_TOUCH_END)
 end
 
 -- @brief 检测是否需要回弹

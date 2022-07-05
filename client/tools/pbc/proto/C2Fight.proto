@@ -80,16 +80,16 @@ message PlayerExitFightNotify
 	int64 pid = 1;
 }
 
-message FrameInputData
-{
-	uint32 key_down = 1;// 按键按下
-}
-
 message PlayerFrameInput
 {
 	int64 pid = 1;	//
-	uint32 frame = 2;	//
-	FrameInputData input = 3;
+
+	// 这个并不是冗余数据
+	// frame表示输入时的帧数，这儿平时和 RunNextFrameAck 的nextFrame是一样的
+	// 但是在断线重连向客户端发送某个玩家这段时间所有操作时，这个数据不一致了
+	uint32 frame = 2;
+
+	uint32 key_down = 3;// 按下的按键
 }
 
 // 客户端请求进入下一逻辑帧
@@ -97,7 +97,7 @@ message RunNextFrameReq
 {
 	enum MsgId { None=0; Id = 300009; }
 	uint32 frame = 1;	// 输入时客户端逻辑帧
-	FrameInputData input = 2;
+	uint32 key_down = 2;// 按下的按键
 }
 
 // 服务器控制客户端执行下一帧
@@ -175,4 +175,3 @@ message PushPingInfo
 	repeated PingInfo infos = 1;
 }
 
- 

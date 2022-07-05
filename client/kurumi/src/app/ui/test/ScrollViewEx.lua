@@ -32,7 +32,7 @@ function ScrollViewEx:updateList()
 
 	self.ui.scrollList:setPadding(5, 5)
 	self.ui.scrollList:setItemsMargin(3, 3)
-	self.ui.scrollList:setItemViewModelAndHideBar(require("ui.ScrollItem"), 1000, self.itemSize, count, self.ui.CheckBox_1:isSelected())
+	self.ui.scrollList:setItemViewModelAndHideBar(G_Class.ScrollItem, 1000, self.itemSize, count, self.ui.CheckBox_1:isSelected())
 end
 
 function ScrollViewEx:onClickStep(sender)

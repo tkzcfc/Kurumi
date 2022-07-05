@@ -210,19 +210,23 @@ function CycleListView:getCurrentPageIndex()
 	-- 偏移量
 	local offsetx, offsety = self.container:getPosition()
 
+	-- 最小值,正常逻辑应该是0.0，但由于浮点数精度的问题 实际上可能为-0.0001122这种情况,计算出的当前页面下标就有问题
+	-- 此处将范围设大一点
+	local MIN_VAL_FLT = -4
+
 	-- 计算视口当前显示的node
 	local viewCellIndex, nodePosValue = -1, 0
 	for k, node in pairs(self.arrLogicNode) do
 		if self.direction == HORIZONTAL then
 			local curValue = node:getPositionX() + offsetx
-			if curValue >= 0 and curValue < lsize.width then
+			if curValue >= MIN_VAL_FLT and curValue < lsize.width then
 				viewCellIndex = k
 				nodePosValue = curValue
 				break
 			end
 		else
 			local curValue = node:getPositionY() + offsety
-			if curValue>= 0 and curValue < lsize.height then
+			if curValue>= MIN_VAL_FLT and curValue < lsize.height then
 				viewCellIndex = k
 				nodePosValue = curValue
 				break
@@ -645,13 +649,18 @@ function VirtualNode:setPositionY(y)
 end
 
 -- @brief 逻辑节点位置获取
-function VirtualNode:getPositionX(x)
+function VirtualNode:getPositionX()
 	return self.x
 end
 
 -- @brief 逻辑节点位置获取
-function VirtualNode:getPositionY(y)
+function VirtualNode:getPositionY()
 	return self.y
+end
+
+-- @brief 逻辑节点下标获取
+function VirtualNode:getIndex()
+	return self.index
 end
 
 -- @brief 逻辑节点显示隐藏标记

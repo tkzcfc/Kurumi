@@ -38,7 +38,9 @@ require("commonlib.event.event")
 
 -- class导出
 local class = {}
-class.alignment 		= require("commonlib.class.alignment")
+global.G_Class = class
+
+require("commonlib.ui.init")
 class.EventEmitter 		= require("commonlib.class.EventEmitter")
 class.LoadAsync 		= require("commonlib.class.LoadAsync")
 class.Task 				= require("commonlib.class.Task")
@@ -49,14 +51,6 @@ class.UIContext 	    = require("commonlib.class.UIContext")
 class.UIManager 	    = require("commonlib.class.UIManager")
 class.StorageObject     = require("commonlib.class.StorageObject")
 
-
-class.RichLabel 		= require("commonlib.ui.rich.RichLabel")
-class.CycleListView 	= require("commonlib.ui.CycleListView")
-class.PanZoomLayer 		= require("commonlib.ui.PanZoomLayer")
-class.TableViewEx 		= require("commonlib.ui.TableViewEx")
-class.TyperLabel 		= require("commonlib.ui.TyperLabel")
-
-global.G_Class = class
 
 -- 宏定义
 global.G_MACROS 			= require("commonlib.global.GameMacros")

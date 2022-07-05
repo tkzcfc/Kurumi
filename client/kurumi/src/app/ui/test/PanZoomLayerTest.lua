@@ -19,13 +19,11 @@ end
 
 function PanZoomLayerTest:test1()
 
-	local PanZoomLayer = require("ui.PanZoomLayer")
-
 	local sp = cc.Sprite:create("plist/arden.png")
 	sp:setAnchorPoint(0, 0)
 	sp:setPosition(0, 0)
 
-	local layer = PanZoomLayer.new(cc.size(display.width * 0.6, display.height * 0.6))
+	local layer = G_Class.PanZoomLayer.new(cc.size(display.width * 0.6, display.height * 0.6))
 	layer:setAnchorPoint(cc.p(0.5, 0.5))
 	layer:setPosition(display.width * 0.5, display.height * 0.5)
 	layer:addUnit(sp)

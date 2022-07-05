@@ -209,15 +209,14 @@ function UpdateScene:loadGame()
     end
 
     local function finish()
-        display.replaceScene(require("scenes.GameScene").new())
+        local callfunc = cc.CallFunc:create(function()
+            display.replaceScene(require("scenes.GameScene").new())
+        end)
+        self:runAction(callfunc)
     end
 
     local loader = require("app.loader").new()
-    loader:load(progress, function()
-        self:runAction(cc.CallFunc:create(finish))
-    end)
-    
-        -- display.replaceScene(require("scenes.TestScene").new())
+    loader:load(progress, finish)
 end
 
 return UpdateScene

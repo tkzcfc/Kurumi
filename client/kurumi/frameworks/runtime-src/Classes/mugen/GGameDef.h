@@ -49,8 +49,9 @@ static const G_BIT_TYPE G_KEY_SKILL_4 = G_FIXED_VALUE << 9; // 技能4
 static const G_BIT_TYPE G_KEY_SKILL_5 = G_FIXED_VALUE << 10; // 技能5
 static const G_BIT_TYPE G_KEY_SKILL_6 = G_FIXED_VALUE << 11; // 技能6
 static const G_BIT_TYPE G_KEY_SKILL_7 = G_FIXED_VALUE << 12; // 技能7
+static const G_BIT_TYPE G_KEY_EXIT_GAME = G_FIXED_VALUE << 13; // 玩家退出游戏
 
-static const uint32_t G_KEY_MAX_COUNT = 12;
+static const uint32_t G_KEY_MAX_COUNT = 13;
 
 static const G_BIT_TYPE G_KEY_MOVE_MUSTER = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT | G_KEY_MOVE_UP | G_KEY_MOVE_DOWN;
 static const G_BIT_TYPE G_KEY_MOVE_X = G_KEY_MOVE_LEFT | G_KEY_MOVE_RIGHT;

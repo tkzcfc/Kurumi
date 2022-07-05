@@ -15,7 +15,7 @@ function RichTest:ctor()
 end
 
 function RichTest:initUI()
-	local RichLabel = require("ui.rich.RichLabel")
+	local RichLabel = G_Class.RichLabel
 
 	local test_text = {
 	    "<div fontcolor=#ff0000>hello</div><div fontcolor=#00ff00>hello</div><div fontsize=12>你\"{ 一心向学}\"</div><div fontSize=26 fontcolor=#ff00bb>好</div>ok",
@@ -75,7 +75,7 @@ end
 
 
 function RichTest:createPanZoomLayer()
-	local PanZoomLayer = require("ui.PanZoomLayer")
+	local PanZoomLayer = G_Class.PanZoomLayer
 
 	local sp = cc.Sprite:create("plist/arden.png")
 	sp:setAnchorPoint(0, 0)

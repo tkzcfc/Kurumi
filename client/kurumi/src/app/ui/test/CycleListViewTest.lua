@@ -23,7 +23,7 @@ function CycleListViewTest:test1(pos)
 	local cellSize = cc.size(300, 400)
 	local cellCount = 5
 
-	local view = require("ui.CycleListView").new(cellSize)
+	local view = G_Class.CycleListView.new(cellSize)
 	view:setCellCount(cellCount)
 	view:setCellSize(cellSize)
 	view:setOnLoadCellCallback(function(idx)
@@ -61,7 +61,7 @@ function CycleListViewTest:test2(pos)
 	local cellSize = cc.size(300, 400)
 	local cellCount = 5
 
-	local view = require("ui.CycleListView").new(cellSize)
+	local view = G_Class.CycleListView.new(cellSize)
 	view:setCellCount(cellCount)
 	view:setCellSize(cellSize)
 	view:setOnLoadCellCallback(function(idx)
