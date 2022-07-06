@@ -9,7 +9,7 @@ local PBLoader = class("PBLoader")
 
 -- @brief pb初始化
 function PBLoader:initialize()
-    local pblist = require("pb.pblist")
+    local pblist = loadstring(cc.FileUtils:getInstance():getStringFromFile("pb/pblist.lua"))()
 
     -- pb文件加载
     for _, filename in pairs(pblist) do

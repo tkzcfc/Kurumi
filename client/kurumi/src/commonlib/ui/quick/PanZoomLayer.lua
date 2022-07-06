@@ -363,14 +363,16 @@ function PanZoomLayer:_enableTouch()
 	self:_disenableTouch()
 
 	local listener = cc.EventListenerTouchAllAtOnce:create()
-	listener:setSwallowTouches(self.swallowTouch)
+	-- listener:setSwallowTouches(self.swallowTouch)
 
 	listener:registerScriptHandler(function(touchs, event)
+		print("xxxxxxxxxx")
 		if #self.touches == 1 and not self.zoomEnable then
 			return false
 		end
 
 		if not self:selfVisible(self) then
+		print("11111111")
 			return false
 		end
 
@@ -378,8 +380,10 @@ function PanZoomLayer:_enableTouch()
 		local location = self:getParent():convertToNodeSpace(touch:getLocation())
 		if cc.rectContainsPoint(self:getBoundingBox(), location) then
 			self:onTouchesBegan(self:_convertTouch(touch))
+		print("2222")
 	    	return true
 		end
+		print("3333333333")
 	end, cc.Handler.EVENT_TOUCHES_BEGAN)
 
 	listener:registerScriptHandler(function(touch, event)

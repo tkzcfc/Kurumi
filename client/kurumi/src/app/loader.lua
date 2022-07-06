@@ -55,8 +55,6 @@ function Loader:init()
 		require("app.utils.HelperExt")
 		require("app.utils.UIUtils")
 		require("app.const._init_")
-		-- require("mugen.init")
-		require("ui.init")
 	end)
 
 	self:push(function()

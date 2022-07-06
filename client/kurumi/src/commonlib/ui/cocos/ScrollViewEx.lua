@@ -706,6 +706,7 @@ function ScrollView:_dequeueItem()
     item:setVisible(true)
     item:stopAllActionsByTag(ACTION_TAG)
     item:setOpacity(255)
+    item:setScale(self.fItemScale)
     return item
 end
 

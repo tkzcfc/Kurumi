@@ -8,8 +8,8 @@ end)
 
 function TestScene:ctor()
 
-    -- self:init()
-    self:addComponent(cc.ComponentLua:create("mugen/TestComponent.lua"))
+    self:init()
+    -- self:addComponent(cc.ComponentLua:create("mugen/TestComponent.lua"))
 end
 
 function TestScene:init()
@@ -37,6 +37,22 @@ function TestScene:init()
 
 
     self:setGlobalMultiTouchEnabled(false)
+
+    local spr = cc.Sprite:create("role/pvp_role/hero_pk_dao_baiji.png")
+    spr:addTo(self, 0xffff)
+    spr:setPosition(display.cx, display.cy)
+    spr:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+        if event.name == "began" then
+            spr:setColor(cc.c4b(255, 0, 0, 255))
+        elseif event.name == "ended" or event.name == "cancelled" then
+            spr:setColor(cc.c4b(255, 255, 255, 255))
+        end
+        return true
+    end)
+    -- TOUCHES_ALL_AT_ONCE
+    -- TOUCHES_ONE_BY_ONE
+    spr:setTouchMode(cc.TOUCHES_ALL_AT_ONCE)
+    spr:setTouchEnabled(true)
 end
 
 function TestScene:onTouchLeft(sender, type)
@@ -63,6 +79,7 @@ function TestScene:setGlobalMultiTouchEnabled(enabled)
     else
         self.uiPage.text_global:setString("关闭全局范围多点触摸")
     end
+    self.uiPage.text_global:setVisible(false)
 end
 
 return TestScene
