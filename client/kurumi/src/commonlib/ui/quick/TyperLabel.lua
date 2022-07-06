@@ -113,7 +113,7 @@ function TyperLabel.doTyper(label, interval, finishCall)
 	end
 
 	-- timer
-	action = schedule(label, function()
+	action = label:schedule(function()
 		if mode == 0 then
 			units[curIdx]:setOpacity(255)
 		else

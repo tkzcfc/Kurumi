@@ -15,6 +15,8 @@ function TestMain:ctor()
 		{name = "CycleListView", script = "app.ui.test.CycleListViewTest"},
 		{name = "PanZoomLayer", script = "app.ui.test.PanZoomLayerTest"},
 		{name = "RichText", script = "app.ui.test.RichTest"},
+		{name = "TyperLabel", script = "app.ui.test.TyperLabelTest"},
+		{name = "PseudoRichText", script = "app.ui.test.PseudoRichTextTest"}
 	}
 	
 
