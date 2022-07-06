@@ -100,7 +100,7 @@ function PanZoomLayer:ctor(size)
 	if self.enableNodeEvents then
 		self:enableNodeEvents()
 	else
-		self:setNodeEventEnabled()
+		self:setNodeEventEnabled(true)
 	end
 
 	self:scheduleUpdateWithPriorityLua(handler(self, self.update), 0)
@@ -362,47 +362,36 @@ end
 function PanZoomLayer:_enableTouch()
 	self:_disenableTouch()
 
-	local listener = cc.EventListenerTouchAllAtOnce:create()
-	-- listener:setSwallowTouches(self.swallowTouch)
+	local listener = cc.EventListenerTouchOneByOne:create()
+	listener:setSwallowTouches(self.swallowTouch)
 
-	listener:registerScriptHandler(function(touchs, event)
-		print("xxxxxxxxxx")
+	listener:registerScriptHandler(function(touch, event)
 		if #self.touches == 1 and not self.zoomEnable then
 			return false
 		end
 
 		if not self:selfVisible(self) then
-		print("11111111")
 			return false
 		end
 
-		local touch = touchs[1]
 		local location = self:getParent():convertToNodeSpace(touch:getLocation())
 		if cc.rectContainsPoint(self:getBoundingBox(), location) then
 			self:onTouchesBegan(self:_convertTouch(touch))
-		print("2222")
 	    	return true
 		end
-		print("3333333333")
-	end, cc.Handler.EVENT_TOUCHES_BEGAN)
+	end, cc.Handler.EVENT_TOUCH_BEGAN)
 
 	listener:registerScriptHandler(function(touch, event)
-		for _, touch in pairs(touchs) do
-			self:onTouchesMoved(self:_convertTouch(touch))
-		end
-	end, cc.Handler.EVENT_TOUCHES_MOVED)
+		self:onTouchesMoved(self:_convertTouch(touch))
+	end, cc.Handler.EVENT_TOUCH_MOVED)
 
 	listener:registerScriptHandler(function(touch, event)
-		for _, touch in pairs(touchs) do
-			self:onTouchesEnded(self:_convertTouch(touch))
-		end
-	end, cc.Handler.EVENT_TOUCHES_ENDED)
+		self:onTouchesEnded(self:_convertTouch(touch))
+	end, cc.Handler.EVENT_TOUCH_ENDED)
 
-	listener:registerScriptHandler(function(touchs, event)
-		for _, touch in pairs(touchs) do
-			self:onTouchesEnded(self:_convertTouch(touch))
-		end
-	end, cc.Handler.EVENT_TOUCHES_CANCELLED)
+	listener:registerScriptHandler(function(touch, event)
+		self:onTouchesEnded(self:_convertTouch(touch))
+	end, cc.Handler.EVENT_TOUCH_CANCELLED)
 
 	self.container:getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, self.container)
 	self.touchListener = listener

@@ -100,7 +100,7 @@ function PanZoomLayer:ctor(size)
 	if self.enableNodeEvents then
 		self:enableNodeEvents()
 	else
-		self:setNodeEventEnabled()
+		self:setNodeEventEnabled(true)
 	end
 
 	self:scheduleUpdateWithPriorityLua(handler(self, self.update), 0)
