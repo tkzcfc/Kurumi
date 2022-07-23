@@ -306,7 +306,7 @@ function updater:decompressResources(zipFile, resultCall, percentCall)
         else
             -- 资源解压失败,删除对应资源
             self.curStatus = status.CHECK_FINISH
-            fileUtils:removeFile(file)
+            fileUtils:removeFile(zipFile)
             resultCall(code.ERROR_DECOMPRESS)
         end
     end, percentCall)
