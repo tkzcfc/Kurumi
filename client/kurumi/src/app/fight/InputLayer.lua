@@ -12,6 +12,8 @@ local KEY_CODE_MAP = {
     [cc.KeyCode.KEY_W] = InputKey.G_KEY_MOVE_UP,
     [cc.KeyCode.KEY_S] = InputKey.G_KEY_MOVE_DOWN,
     [cc.KeyCode.KEY_SPACE] = InputKey.G_KEY_JUMP,
+    [cc.KeyCode.KEY_J] = InputKey.G_KEY_SKILL_1,
+
 }
 
 -- 按键输入
@@ -156,13 +158,6 @@ function InputLayer:onKeyDown(key)
     end
 
     self.iInputKey = GTools:U32_BIT_SET(self.iInputKey, key)
-
-    if not cc.CanLogNextFrameRecv and key == InputKey.G_KEY_JUMP then
-    	cc.CanLogNextFrame = true
-    	cc.CanLogNextFrameRecv = true
-    	cc.Last_LOG_Time = G_Helper:gettime()
-    	print("self.iInputKey", self.iInputKey)
-    end
 end
 
 function InputLayer:onKeyUp(key)
@@ -203,21 +198,15 @@ function InputLayer:onClickChangeWeapon(sender)
 	-- _MyG.PlayerDispatcher:call("control_changeWeapon", player)
 end
 
-function InputLayer:onClickAttack(sender)
-	-- G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_ATTACK_NORMAL)
-end
+function InputLayer:onTouchSkill(sender, eventType)
+	local userData = tonumber(sender.UserData[1])
 
-function InputLayer:onClickSkill(sender)
-	-- local userData = tonumber(sender.UserData[1])
-	-- if userData == 1 then
-	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_JUMP)
-	-- elseif userData == 2 then
-	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_DOWN_CUT)
-	-- elseif userData == 3 then
-	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_SKILL_1)
-	-- elseif userData == 4 then
-	-- 	G_InputEventEmitter:emit(_MyG.INPUT_KEY.CONTROL_SKILL_10)
-	-- end
+	if eventType == ccui.TouchEventType.began then
+		self:onKeyDown(InputKey["G_KEY_SKILL_" .. userData])
+	elseif eventType == ccui.TouchEventType.moved then
+	else
+		self:onKeyUp(InputKey["G_KEY_SKILL_" .. userData])
+	end
 end
 
 

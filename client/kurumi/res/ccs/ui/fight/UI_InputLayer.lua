@@ -81,7 +81,7 @@ layout:setPositionPercentY(0.9121)
 layout:setPercentWidth(0.0630)
 layout:setPercentHeight(0.0642)
 layout:setSize({width = 71.5457, height = 41.1091})
-layout:setLeftMargin(48.5382)
+layout:setLeftMargin(48.5383)
 layout:setRightMargin(1015.9160)
 layout:setTopMargin(35.7249)
 layout:setBottomMargin(563.1660)
@@ -217,8 +217,10 @@ Button_1:setTag(19)
 Button_1:setCascadeColorEnabled(true)
 Button_1:setCascadeOpacityEnabled(true)
 Button_1:setPosition(1013.3350, 105.6456)
+Button_1.UserData = {}
+Button_1.UserData[1] = [==========[1]==========]
 if callBackProvider~=nil then
-      Button_1:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_1, "onClickAttack"))
+      Button_1:addTouchEventListener(callBackProvider("UI_InputLayer.lua", Button_1, "onTouchSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_1)
 layout:setPositionPercentX(0.8920)
@@ -282,9 +284,9 @@ Button_Skill:setTag(42)
 Button_Skill:setCascadeColorEnabled(true)
 Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
-Button_Skill.UserData[1] = [==========[1]==========]
+Button_Skill.UserData[1] = [==========[2]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addTouchEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onTouchSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})
@@ -342,9 +344,9 @@ Button_Skill:setTag(25)
 Button_Skill:setCascadeColorEnabled(true)
 Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
-Button_Skill.UserData[1] = [==========[2]==========]
+Button_Skill.UserData[1] = [==========[3]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addTouchEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onTouchSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})
@@ -402,9 +404,9 @@ Button_Skill:setTag(28)
 Button_Skill:setCascadeColorEnabled(true)
 Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
-Button_Skill.UserData[1] = [==========[4]==========]
+Button_Skill.UserData[1] = [==========[5]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addTouchEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onTouchSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})
@@ -462,9 +464,9 @@ Button_Skill:setTag(31)
 Button_Skill:setCascadeColorEnabled(true)
 Button_Skill:setCascadeOpacityEnabled(true)
 Button_Skill.UserData = {}
-Button_Skill.UserData[1] = [==========[3]==========]
+Button_Skill.UserData[1] = [==========[4]==========]
 if callBackProvider~=nil then
-      Button_Skill:addClickEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onClickSkill"))
+      Button_Skill:addTouchEventListener(callBackProvider("UI_InputLayer.lua", Button_Skill, "onTouchSkill"))
 end
 layout = ccui.LayoutComponent:bindLayoutComponent(Button_Skill)
 layout:setSize({width = 84.0000, height = 84.0000})

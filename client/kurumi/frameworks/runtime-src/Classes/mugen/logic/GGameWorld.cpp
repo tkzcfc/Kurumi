@@ -47,7 +47,7 @@ GGameWorld::GGameWorld()
 	m_pScheduler = new Scheduler();
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("rect_collide.plist");
-	Director::getInstance()->setAnimationInterval(LogicInterval.to_float());
+	//Director::getInstance()->setAnimationInterval(LogicInterval.to_float());
 }
 
 GGameWorld::~GGameWorld()

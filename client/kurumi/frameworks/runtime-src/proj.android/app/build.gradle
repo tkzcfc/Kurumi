@@ -70,30 +70,30 @@ android {
 }
 
 android.applicationVariants.all { variant ->
-    def project_root_folder = "${projectDir}/../../../.."
-    def dest_assets_folder = "${projectDir}/assets"
-
-    // delete previous files first
-    delete dest_assets_folder
-
-    def targetName = variant.name.capitalize()
-    def copyTaskName = "copy${targetName}ResourcesToAssets"
-   
-    tasks.register(copyTaskName) {
-        copy {
-           from project_root_folder + "/res"
-           into dest_assets_folder + "/res"
-        }
-
-        def isRelease = (variant.name.compareTo('release') == 0)
-        if (!isRelease) {
-            copy {
-                from project_root_folder + "/src"
-                into dest_assets_folder + "/src"
-            }
-        }
-    }
-    tasks.getByName("pre${targetName}Build").dependsOn copyTaskName
+//    def project_root_folder = "${projectDir}/../../../.."
+//    def dest_assets_folder = "${projectDir}/assets"
+//
+//    // delete previous files first
+//    delete dest_assets_folder
+//
+//    def targetName = variant.name.capitalize()
+//    def copyTaskName = "copy${targetName}ResourcesToAssets"
+//
+//    tasks.register(copyTaskName) {
+//        copy {
+//           from project_root_folder + "/res"
+//           into dest_assets_folder + "/res"
+//        }
+//
+//        def isRelease = (variant.name.compareTo('release') == 0)
+//        if (!isRelease) {
+//            copy {
+//                from project_root_folder + "/src"
+//                into dest_assets_folder + "/src"
+//            }
+//        }
+//    }
+//    tasks.getByName("pre${targetName}Build").dependsOn copyTaskName
 }
 
 dependencies {

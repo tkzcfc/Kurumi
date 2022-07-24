@@ -150,6 +150,8 @@ void GameLogic::update(float dt)
 					// 离线太久,踢出游戏
 					if (m_pApplication->getRunTime() - player->getOfflineTime() > MAX_OFF_LINE_TIME_SINGLE_PLAYER)
 					{
+						LOG(INFO) << "Offline too long(1), forced exit, playerid: " << player->getPlayerID();
+						LOG(INFO) << "playercount:" << m_playerCount;
 						this->exitGame(player->getPlayerID());
 					}
 				}
@@ -188,6 +190,8 @@ void GameLogic::update_WaitConnect(float dt)
 			hasOffline = true;
 			if (m_pApplication->getRunTime() - m_players[i]->getOfflineTime() > MAX_WAIT_CONNECT_TIME)
 			{
+				LOG(INFO) << "Not connected to the game for a long time, forced exit, playerid: " << m_players[i]->getPlayerID();
+				LOG(INFO) << "playercount:" << m_playerCount;
 				this->exitGame(m_players[i]->getPlayerID());
 				// 必须break
 				break;
@@ -214,6 +218,8 @@ void GameLogic::update_Ready(float dt)
 			if (m_players[i]->isOffline())
 			{
 				exitGameTag = true;
+				LOG(INFO) << "Offline in preparation stage, forced exit, playerid: " << m_players[i]->getPlayerID();
+				LOG(INFO) << "playercount:" << m_playerCount;
 				this->exitGame(m_players[i]->getPlayerID());
 				// 必须break
 				break;
@@ -241,9 +247,17 @@ void GameLogic::update_Ready(float dt)
 
 		G_ASSERT(m_world->getGameLogicFrame() == 0);
 
-		msg::RunNextFrameAck ack;
-		ack.set_nextframe(0);
-		this->sendToAllPlayer(ack.Id, ack);
+		// 此处不发送 RunNextFrameAck 消息，避免客户端收到两次此消息且nextframe都是0
+		//msg::RunNextFrameAck ack;
+		//ack.set_nextframe(0);
+		//for (auto i = 0; i < m_playerCount; ++i)
+		//{
+		//	auto input = ack.mutable_frames()->Add();
+		//	input->set_pid(m_players[i]->getPlayerID());
+		//	input->set_frame(0);
+		//	input->set_key_down(0);
+		//}
+		//this->sendToAllPlayer(ack.Id, ack);
 		// 让下一逻辑帧更新ping值
 		m_pingTime = 10000.0f;
 	}
@@ -352,6 +366,8 @@ void GameLogic::update_Run(float dt)
 			// 离线太久,踢出游戏
 			if (m_pApplication->getRunTime() - player->getOfflineTime() > MAX_OFF_LINE_TIME_SINGLE_PLAYER)
 			{
+				LOG(INFO) << "Offline too long(2), forced exit, playerid: " << player->getPlayerID();
+				LOG(INFO) << "playercount:" << m_playerCount;
 				this->exitGame(player->getPlayerID());
 			}
 		}
@@ -365,6 +381,7 @@ void GameLogic::update_Run(float dt)
 		// 全部踢出游戏
 		for (auto i = m_playerCount - 1; i >= 0; --i)
 		{
+			LOG(INFO) << "Client push frame server did not receive, end the game ";
 			this->exitGame(m_players[i]->getPlayerID());
 		}
 	}
@@ -421,6 +438,8 @@ void GameLogic::update_Wait(float dt)
 		auto player = getSlowestPlayer();
 		if (player)
 		{
+			LOG(INFO) << "Waiting time is too long, forced exit, playerid: " << player->getPlayerID();
+			LOG(INFO) << "playercount:" << m_playerCount;
 			this->exitGame(player->getPlayerID());
 		}
 	}
@@ -606,6 +625,8 @@ err::Code GameLogic::exitGameWithSessionID(uint32_t sessionID)
 	{
 		if (m_players[i]->getSessionID() == sessionID)
 		{
+			LOG(INFO) << "exitGameWithSessionID, playerid: " << m_players[i]->getPlayerID();
+			LOG(INFO) << "playercount:" << m_playerCount;
 			this->exitGame(m_players[i]->getPlayerID());
 			return err::Code::SUCCESS;
 		}
@@ -754,8 +775,11 @@ void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFram
 
 	auto lastRecvFrame = player->getLastRecvFrame();
 	// 客户端向服务器发送以往数据？,超过阈值视为作弊，故意拖延游戏节奏
-	if (lastRecvFrame - req.frame() > 3)
+	if (lastRecvFrame > req.frame() && lastRecvFrame - req.frame() > (MAX_LEAD_FRAME_DIS_MAX_CLIENT + 3))
 	{
+		LOG(INFO) << "recv frame: " << req.frame() << ", last recv frame: " << lastRecvFrame;
+		LOG(INFO) << "Deceiving the server to slow down the game, forced exit, playerid: " << player->getPlayerID();
+		LOG(INFO) << "playercount:" << m_playerCount;
 		this->exitGame(player->getPlayerID());
 		return;
 	}
@@ -765,7 +789,8 @@ void GameLogic::onMsg_RunNextFrameReq(uint32_t sessionID, const msg::RunNextFram
 	{
 		// 客户端逻辑帧超过服务端逻辑帧,视为客户端作弊
 		// 当前消息视为无效消息
-		LOG(ERROR) << "recv invalid input [1], playerid: " << player->getPlayerID();
+		LOG(INFO) << "recv invalid input, forced exit, playerid: " << player->getPlayerID();
+		LOG(INFO) << "playercount:" << m_playerCount;
 		this->exitGame(player->getPlayerID());
 		return;
 	}

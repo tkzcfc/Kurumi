@@ -8,6 +8,7 @@ propertyReadOnly(FightLayer, "iSelfRoleId")
 
 local logic_interval = 1 / 30
 
+
 function FightLayer:ctor()
     self:enableNodeEvents()
 
@@ -139,7 +140,7 @@ function FightLayer:onPushFrameInput(msg)
     self.svrLogicFrame = msg.lastFrame
 
     for k, v in pairs(msg.frames or {}) do
-        self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.input.key_down)
+        self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.key_down)
     end
 end
 
@@ -157,15 +158,7 @@ function FightLayer:onRunNextFrameAck(msg)
 
     if msg.frames then
         for k, v in pairs(msg.frames) do
-            self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.input.key_down)
-
-
-    if cc.CanLogNextFrameRecv and v.input.key_down == 32 then
-        cc.CanLogNextFrameRecv = false
-        print("recv time", G_Helper:gettime() - cc.Last_LOG_Time)
-        print("frame", v.frame)
-    end
-
+            self.pGameWorld:input(self.roleId_EntityIdMap[v.pid], v.frame, v.key_down)
         end
     end
 
@@ -229,7 +222,7 @@ function FightLayer:initGameWorld()
     -- 定时器开启
     local sharedScheduler = cc.Director:getInstance():getScheduler()
     self.fixUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.fixUpdate), logic_interval, false)
-    self.renderUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.renderUpdate), 0.0, false)
+    -- self.renderUpdateTimer = sharedScheduler:scheduleScriptFunc(handler(self, self.renderUpdate), 0.0, false)
 
     -- 移除loading界面
     self:performWithDelay(function()
@@ -279,6 +272,7 @@ function FightLayer:updateFrame(dt)
             end
 
             self.pGameWorld:step()
+            self:renderUpdate(dt)
             -- print("GameLogicFrame---------->>", self.pGameWorld:getGameLogicFrame())
 
             count = count + 1

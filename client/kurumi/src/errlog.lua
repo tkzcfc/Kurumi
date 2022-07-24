@@ -9,6 +9,15 @@ local logMap = {}
 local headURL = "http://1.14.65.70:8502"
 
 function errlog:send(errMsg)
+    -- windows 不上传
+    local sharedApplication = cc.Application:getInstance()
+    local target = sharedApplication:getTargetPlatform()
+    -- cc.PLATFORM_OS_WINDOWS == 0
+    if target == 0 then
+        return
+    end
+
+
     -- 限制最大请求数量
     if httpCount > 5 then return end
 

@@ -67,6 +67,12 @@ end
 -- @param fPercent 进度值
 -- @param isFinish 是否加载完成
 function FightManager:sendPlayerLoadingReq(fPercent, isFinish)
+    if self.cachePlayerLoadingReq == nil then
+        self.cachePlayerLoadingReq = {}
+    end
+    self.cachePlayerLoadingReq.percent = fPercent
+    self.cachePlayerLoadingReq.isFinish = isFinish
+
     _MyG.NetManager:sendToFight("msg.PlayerLoadingReq", {
         percent = fPercent,
         finish = isFinish,
@@ -76,12 +82,20 @@ end
 -- @brief 发送进入下一逻辑帧请求
 -- @param key_down 本帧玩家的按键状态
 function FightManager:sendRunNextFrameReq(key_down)
-    if key_down == nil then print("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww") end
-    
+    -- 防止一直重复发送同一帧输入
+    if self.iLastSendLogicFrame == self.iLogicFrame then
+        if self.iDelayFrameCount > 0 then
+            return
+        end
+    end
+
     _MyG.NetManager:sendToFight("msg.RunNextFrameReq", {
         frame = self.iLogicFrame,
         key_down = key_down or 0
     })
+
+    self.iLastSendLogicFrame = self.iLogicFrame
+    self.iDelayFrameCount = 5
 end
 
 -- @brief 清除战斗信息
@@ -89,6 +103,11 @@ function FightManager:clearFightInfo()
     self.tFightInfo = nil
     self.iLogicFrame = 0
     self.tWorldInfo = 0
+
+    self.iLastSendLogicFrame = -100
+    self.iDelayFrameCount = 0
+
+    self.cachePlayerLoadingReq = nil
 end
 
 -- @brief 退出战斗
@@ -156,6 +175,11 @@ function FightManager:onJoinFightAck(msg)
     if self:isInFightView() then
         -- 当前在战斗界面,发送事件通知:断线重连重新加入战斗
         G_SysEventEmitter:emit(SysEvent.FIGHT_RE_JOINT)
+
+        -- 重发一次加载进度避免在加载过程断线进不了游戏
+        if self.cachePlayerLoadingReq then
+            self:sendPlayerLoadingReq(self.cachePlayerLoadingReq.percent, self.cachePlayerLoadingReq.isFinish)--     }            
+        end
     else
         -- 进入战斗界面
         self:gotoFightView()
