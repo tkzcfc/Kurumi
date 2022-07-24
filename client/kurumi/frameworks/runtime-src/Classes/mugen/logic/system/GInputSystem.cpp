@@ -37,14 +37,17 @@ void GInputSystem::step()
 		auto msg = m_inputQue.popMsg();
 
 		// 正常情况只应该有本帧的输入
-		G_ASSERT(msg->logicFrame == logicFrame);
+		//G_ASSERT(msg->logicFrame == logicFrame);
 
-		for (auto& it : m_cacheComponents)
+		if (msg->logicFrame == logicFrame)
 		{
-			if(it->getEntity()->getId() == msg->uuid)
+			for (auto& it : m_cacheComponents)
 			{
-				auto pActorComponent = (GActorComponent*)it;
-				G_BIT_SET(pActorComponent->curKeyDown, msg->keydown);
+				if (it->getEntity()->getId() == msg->uuid)
+				{
+					auto pActorComponent = (GActorComponent*)it;
+					G_BIT_SET(pActorComponent->curKeyDown, msg->keydown);
+				}
 			}
 		}
 		m_inputQue.freeMsg(msg);
