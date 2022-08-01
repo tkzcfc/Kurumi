@@ -318,9 +318,6 @@ function updater:copyResource()
     local list = {}
     updater.lookup(self.tempStoragePath, list)
 
-    -- 将远程清单文件写入到本地
-    fileUtils:writeStringToFile(self.remoteContent, self.cacheManifestFile)
-
     local function getNewName(name)
         name = string.sub(name, #self.tempStoragePath + 1)
         return self.storagePath .. name
@@ -339,6 +336,9 @@ function updater:copyResource()
 
     fileUtils:removeDirectory(self.tempStoragePath)
     fileUtils:createDirectory(self.tempStoragePath)
+    
+    -- 将远程清单文件写入到本地
+    fileUtils:writeStringToFile(self.remoteContent, self.cacheManifestFile)
 end
 
 -- @brief 文件夹递归遍历
