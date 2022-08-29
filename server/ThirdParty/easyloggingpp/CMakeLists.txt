@@ -52,6 +52,8 @@ if (HAVE_EXECINFO)
 	add_definitions(-DHAVE_EXECINFO)
 endif()
 
+add_definitions(-DELPP_NO_DEFAULT_LOG_FILE)
+
 if (build_static_lib)
         if (lib_utc_datetime)
                 add_definitions(-DELPP_UTC_DATETIME)

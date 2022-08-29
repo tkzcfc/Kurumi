@@ -8,7 +8,7 @@ class GApplication
 {
 public:
 
-	GApplication(const std::string& appName);
+	GApplication(int argc, char** argv);
 
 	virtual ~GApplication();
 

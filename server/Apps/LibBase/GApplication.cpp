@@ -1,4 +1,10 @@
 ﻿#include "GApplication.h"
+#include "Utils/cmd.h"
+#include "GFileSystem.h"
+#include "Utils/GStringUtils.h"
+#include "Utils/CrashReport.h"
+
+INITIALIZE_EASYLOGGINGPP;
 
 GApplication* GApplication::uniqueInstance = NULL;
 
@@ -7,7 +13,7 @@ GApplication* GApplication::getInstance()
 	return uniqueInstance;
 }
 
-GApplication::GApplication(const std::string& appName)
+GApplication::GApplication(int argc, char** argv)
 {
 	uniqueInstance = this;
 	m_scheduler = NULL;
@@ -18,10 +24,52 @@ GApplication::GApplication(const std::string& appName)
 	m_loop = NULL;
 	m_fps = 0;
 	m_fpst = 0;
-	m_appName = appName;
+	m_appName = "";
 	m_runTime = 0.0f;
 	m_isStart = false;
 
+	cmd::init_cmd_params(argc, argv);
+	m_appName = cmd::try_get("name");
+
+	if (m_appName.empty())
+	{
+		std::string executable = GFileSystem::getExeName();
+		std::string ext = GFileSystem::getFileExtension(executable);
+		m_appName = executable.substr(0, executable.size() - ext.size());
+
+		if (m_appName.size() > 2 && m_appName.substr(m_appName.size() - 2) == "_d")
+		{
+			m_appName = m_appName.substr(0, m_appName.size() - 2);
+		}
+	}
+
+	auto cwd = cmd::try_get("cwd");
+	if (cwd.empty())
+		GFileSystem::setCwd(GFileSystem::getExeDirectory());
+	else
+		GFileSystem::setCwd(cwd);
+
+	///////////////////////////////////// crash report /////////////////////////////////////
+	SetCrashReport(m_appName.c_str());
+
+	///////////////////////////////////// init log /////////////////////////////////////
+	auto logDir = StringUtils::format("log\\%s\\", m_appName.c_str());
+	el::Configurations conf;
+	conf.setGlobally(el::ConfigurationType::Filename, logDir + "log_%datetime{%Y%M%d}.log");
+	conf.setGlobally(el::ConfigurationType::Format, "%datetime{%M-%d %H:%m:%s} [%level] %msg");
+	conf.setGlobally(el::ConfigurationType::Enabled, "true");
+	conf.setGlobally(el::ConfigurationType::ToFile, "true");
+	conf.setGlobally(el::ConfigurationType::MillisecondsWidth, "3");
+	// 10MB
+	conf.setGlobally(el::ConfigurationType::MaxLogFileSize, "10485760");
+	// 重新设置配置  
+	el::Loggers::reconfigureAllLoggers(conf);
+	// 选择划分级别的日志	
+	el::Loggers::addFlag(el::LoggingFlag::HierarchicalLogging);
+	// 设置级别门阀值，修改参数可以控制日志输出
+	el::Loggers::setLoggingLevel(el::Level::Error);
+
+	///////////////////////////////////// init /////////////////////////////////////
 	init();
 }
 
@@ -31,6 +79,7 @@ GApplication::~GApplication()
 
 void GApplication::init()
 {
+	LOG(INFO) << "-----------application init-----------";
 	m_scheduler = GScheduler::getInstance();
 	m_serviceMgr = std::make_unique<GServiceMgr>();
 
@@ -61,6 +110,7 @@ void GApplication::init()
 
 int32_t GApplication::run(uint32_t interval)
 {
+	LOG(INFO) << "-----------application run-----------";
 	m_isStart = true;
 	m_lastTime = 0;
 
@@ -90,6 +140,14 @@ int32_t GApplication::run(uint32_t interval)
 	m_scheduler->unScheduleAll();
 
 	uv_loop_delete(m_loop);
+
+	LOG(INFO) << "-----------application exit-----------";
+
+	UnSetCrashReport();
+
+//#ifdef _WIN32
+//	system("pause");
+//#endif
 	return 0;
 }
 

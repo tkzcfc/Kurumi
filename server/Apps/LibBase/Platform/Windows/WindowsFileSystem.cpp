@@ -142,7 +142,7 @@ bool GFileSystem::createDirectory(const std::string& dirPath)
 	if ((GetFileAttributesW(path.c_str())) == INVALID_FILE_ATTRIBUTES)
 	{
 		subpath = L"";
-		for (unsigned int i = 0, size = dirs.size(); i < size; ++i)
+		for (size_t i = 0, size = dirs.size(); i < size; ++i)
 		{
 			subpath += dirs[i];
 
@@ -361,6 +361,50 @@ bool GFileSystem::writeFile(const std::string& path, uint8_t* buffer, uint32_t s
 bool GFileSystem::writeTextFile(const std::string& path, const std::string& text)
 {
 	return writeFile(path, (uint8_t*)text.c_str(), (uint32_t)text.size());
+}
+
+static std::string s_exeDir;
+static std::string s_exeName;
+static void _checkExePath()
+{
+	if (s_exeDir.empty())
+	{
+		WCHAR utf16Path[MAX_PATH + 1] = { 0 };
+		size_t nNum = GetModuleFileNameW(NULL, utf16Path, MAX_PATH);
+		std::wstring u16pathsv{ utf16Path, nNum };
+		std::string path = StringWideCharToUtf8(u16pathsv);
+
+		std::replace(path.begin(), path.end(), '\\', '/');
+
+		s_exeName = GFileSystem::baseName(path);
+		s_exeDir = path.substr(0, path.size() - s_exeName.size());
+	}
+}
+
+std::string GFileSystem::getExeDirectory()
+{
+	_checkExePath();
+	return s_exeDir;
+}
+
+std::string GFileSystem::getExeName()
+{
+	_checkExePath();
+	return s_exeName;
+}
+
+std::string GFileSystem::getCwd()
+{
+	WCHAR buf[1024];
+	size_t nNum  = GetCurrentDirectoryW(1000, buf);
+	std::wstring u16pathsv{ buf, nNum };
+	return StringWideCharToUtf8(u16pathsv);
+}
+
+void GFileSystem::setCwd(const std::string& cwd)
+{
+	std::wstring u16cwd = StringUtf8ToWideChar(cwd);
+	SetCurrentDirectoryW(u16cwd.c_str());
 }
 
 #endif

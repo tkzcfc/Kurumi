@@ -19,7 +19,6 @@
 #include "Algorithm/crc32.hpp"
 #include "Algorithm/sha1.hpp"
 
-#include "Utils/CrashReport.h"
 #include "Utils/cmd.h"
 #include "Utils/GStringUtils.h"
 #include "Utils/GEnableHighPrecisionTimer.h"

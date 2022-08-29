@@ -1,11 +1,11 @@
 ﻿#include "GConfigService.h"
 #include "Utils/GStringUtils.h"
 #include "GApplication.h"
-
+#include "Utils/cmd.h"
 
 uint32_t GConfigService::onInit()
 {
-	auto cfgFile = StringUtils::format("cfg/%s.ini", "config");
+	auto cfgFile = cmd::try_get("config", "cfg/config.ini");
 
 	m_reader = std::make_unique<GINIReader>(cfgFile);
 	auto err = m_reader->ParseError();

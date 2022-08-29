@@ -239,4 +239,51 @@ bool GFileSystem::writeTextFile(const std::string& path, const std::string& text
 	return writeFile(path, (uint8_t*)text.c_str(), (uint32_t)text.size());
 }
 
+
+static std::string s_exeDir;
+static std::string s_exeName;
+static void _checkExePath()
+{
+	if (s_exeDir.empty())
+	{
+		const int MAX_PATH_LEN = 1024;
+
+		char* p = NULL;
+		int n = 0;
+		char* process_path[MAX_PATH_LEN] = { 0 };
+		memset(process_path, 0x00, MAX_PATH_LEN);
+		n = readlink("/proc/self/exe", process_path, MAX_PATH_LEN);
+		if (NULL != (p = strrchr(process_path, '/'))) {
+			*p = '\0';
+
+			std::string path = process_path;
+			s_exeName = GFileSystem::baseName(path);
+			s_exeDir = path.substr(0, path.size() - s_exeName.size());
+		}
+	}
+}
+std::string GFileSystem::getExeDirectory()
+{
+	_checkExePath();
+	return s_exeDir;
+}
+
+std::string GFileSystem::getExeName()
+{
+	_checkExePath();
+	return s_exeName;
+}
+
+std::string GFileSystem::getCwd()
+{
+	char buf[256] = { 0 };
+	getcwd(buf, sizeof(buf));
+	return std::string(buf);
+}
+
+void GFileSystem::setCwd(const std::string& cwd)
+{
+	setcwd(cwd.c_str());
+}
+
 #endif

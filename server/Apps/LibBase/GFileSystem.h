@@ -27,6 +27,19 @@ public:
 
 	static void listFiles(const std::string& dirPath, std::vector<std::string> *files);
 
+	static std::string baseName(const std::string& filepath);
+	static std::string getFileExtension(std::string filePath);
+
+	static std::string getExeDirectory();
+	static std::string getExeName();
+
+	static std::string getCwd();
+	static void setCwd(const std::string& cwd);
+
+	// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+	static std::string convertPathFormatToUnixStyle(const std::string& path);
+	static std::string convertPathFormatToWinStyle(const std::string& path);
+
 	//static bool isRelativePath(const char* path)
 	//{
 	//	if(!path || path[0] == '/' || path[0] == '\\')

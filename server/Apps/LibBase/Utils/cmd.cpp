@@ -2,8 +2,7 @@
 
 namespace cmd
 {
-
-	std::vector<std::string> get_cmd_params(int argc, char** argv)
+	std::vector<std::string> parse_cmd_params(int argc, char** argv)
 	{
 		std::vector<std::string> out;
 		for (int i = 0; i < argc; ++i)
@@ -13,7 +12,7 @@ namespace cmd
 		return out;
 	}
 
-	std::vector<std::string> get_cmd_params(const std::string& cmd)
+	std::vector<std::string> parse_cmd_params(const std::string& cmd)
 	{
 		std::vector<std::string> out;
 
@@ -57,9 +56,9 @@ namespace cmd
 				return params[i + 1];
 			}
 		}
-
 		return defaultValue;
 	}
+
 
 	bool check_cmd_is_number(const std::string& cmd)
 	{
@@ -69,6 +68,21 @@ namespace cmd
 				return false;
 		}
 		return true;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	static std::vector<std::string> g_cmd_params;
+
+	std::vector<std::string>& init_cmd_params(int argc, char** argv)
+	{
+		g_cmd_params = parse_cmd_params(argc, argv);
+		return g_cmd_params;
+	}
+
+	std::string try_get(const std::string& name, const std::string& defaultValue)
+	{
+		return try_get(g_cmd_params, name, defaultValue);
 	}
 }
 
