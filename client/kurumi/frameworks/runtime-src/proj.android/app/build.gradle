@@ -1,7 +1,21 @@
 apply plugin: 'com.android.application'
+apply from: "./axutils.gradle"
 
 android {
     compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
+
+    // Setup native build tools: ndk & cmake
+    def nbtInfo = axutils.findNativeBuildTools(project, "21.1.6352462", "3.18.1")
+    ndkVersion = nbtInfo[0]
+    if(nbtInfo[1]) {
+        ndkPath = nbtInfo[1]
+    }
+    def cmakeVer = nbtInfo[2]
+
+
+    println("ndkVersion: $ndkVersion")
+    println("ndkPath: $ndkPath")
+    println("cmakeVer: $cmakeVer")
 
     defaultConfig {
         applicationId "com.game.kurumi"
@@ -12,6 +26,7 @@ android {
 
         externalNativeBuild {
             cmake {
+                version "$cmakeVer"
                 arguments "-DCMAKE_FIND_ROOT_PATH=", "-DANDROID_STL=c++_static", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_ARM_NEON=TRUE"
                 cppFlags "-frtti -fexceptions -fsigned-char"
             }
