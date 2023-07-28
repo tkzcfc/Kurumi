@@ -24,7 +24,7 @@
 cmake_minimum_required(VERSION 3.6)
 
 set(APP_NAME kurumi)
-
+  
 project(${APP_NAME})
 
 if(XCODE)
